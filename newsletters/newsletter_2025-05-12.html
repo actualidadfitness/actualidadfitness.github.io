@@ -1,0 +1,869 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 12/05/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">12/05/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Miguel Navarro</strong>: <a href='#video-TSWpqyVxXgM'>¡JOSEMA y WALKER, los GRANDES VENCEDORES del PITTSBURGH PRO! La CRÍTICA los ENSALZA y CBUM ALUCINA</a></li>
+<li><strong>Joan Pradells</strong>: <a href='#video-Ps6VW1YXeX0'>JOAN PRADELLS X JORGE TABET - CLASE POSING COMPLETA</a></li>
+<li><strong>Miguel Navarro</strong>: <a href='#video-ZaIpwbDhkWc'>¡NO VI UN MENOSPRECIO IGUAL! Josema, FUERA del 1º CALL OUT OLYMPIA 25 para el MAYOR YOUTUBER</a></li>
+<li><strong>El Nota</strong>: <a href='#video-KQZArwQVg9U'>¿INJUSTICIA EN EL PITTSBURGH PRO? 💥 Josema DESTROZA a Ruff Diesel?… ¡pero NO GANA! 😡</a></li>
+<li><strong>Victor Valdivia</strong>: <a href='#video-AI8oBoo8kKM'>RAMON DINO IRRECONOCIBLE CAMBIO FISICO CONTRA TODOS EN EL ESCENARIO - Victor valdivia</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-TSWpqyVxXgM">
+            <h2>¡JOSEMA y WALKER, los GRANDES VENCEDORES del PITTSBURGH PRO! La CRÍTICA los ENSALZA y CBUM ALUCINA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 12/05/2025 14:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=TSWpqyVxXgM" target="_blank">
+                    <img src="https://i.ytimg.com/vi/TSWpqyVxXgM/hqdefault.jpg" alt="¡JOSEMA y WALKER, los GRANDES VENCEDORES del PITTSBURGH PRO! La CRÍTICA los ENSALZA y CBUM ALUCINA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza las repercusiones y los "vencedores morales" del Pittsburgh Pro de culturismo, destacando a Josema y Nick Walker.
+Se discuten las opiniones de figuras relevantes como Chris Bumstead y comentaristas brasileños sobre las actuaciones.
+Se enfatiza el impacto generado por Josema a nivel mundial y la inesperada gran forma de Nick Walker, pese a no ganar.
+El presentador adelanta una semana intensa de contenidos sobre culturismo en el canal.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Los Vencedores Morales del Pittsburgh Pro <a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&amp;t=32" target="_blank">[00:32]</a></h3>
+
+<p>El presentador introduce el tema principal: el análisis de los resultados del Pittsburgh Pro y cómo Josema y Nick Walker, pese a no ganar, salen muy reforzados de la competición por el impacto generado.
+Se adelanta que se comentarán reacciones de figuras como Chris Bumsted y opiniones de Brasil.
+La semana se presenta intensa con programas y entrevistas.</p>
+
+<h3>Josema: Impacto Mundial Más Allá del Segundo Puesto <a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&amp;t=222" target="_blank">[03:42]</a></h3>
+
+<p>Se analiza la actuación de Josema en Classic Physique, quedando segundo pero logrando su objetivo de "pegar un puñetazo encima de la mesa".
+Se destaca su excelente condición, densidad y separación, reconocidas incluso en Brasil.
+El impacto generado a nivel mundial se considera superior a su sexto puesto en el Mr. Olympia anterior.</p>
+
+<h3>Reacciones Sorprendidas desde Brasil <a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&amp;t=325" target="_blank">[05:25]</a></h3>
+
+<p>Se reproduce un audio de comentaristas brasileños alabando la condición y detallamiento de Josema tras verlo en la presentación.
+Figuras importantes del culturismo brasileño expresan su asombro y elogian el físico del español.
+Esto subraya el gran impacto internacional que Josema ha conseguido.</p>
+
+<h3>Nick Walker Contra Todo Pronóstico <a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&amp;t=512" target="_blank">[08:32]</a></h3>
+
+<p>El presentador entona el "mea culpa" por no esperar una gran versión de Nick Walker, pero reconoce que superó expectativas y puso en apuros a Derek Lunsford.
+Se discute que, aunque Sunray cree que estaba igual que en el New York Pro, el presentador y otros lo vieron mejor.
+Se adelanta la opinión de Chris Bumstead, que se sintió inspirado por la actuación de Nick.</p>
+
+<h3>La Inspiradora Derrota de Nick Walker según Chris Bumstead <a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&amp;t=580" target="_blank">[09:40]</a></h3>
+
+<p>Se escucha a Chris Bumstead analizar la batalla entre Nick Walker y Derek Lunsford, confesando su indecisión sobre el ganador.
+CBum expresa la profunda inspiración que sintió al ver la decepción de Nick, destacando la vulnerabilidad y la energía que surge de una derrota así.
+Considera que esa energía puede ser un motor poderoso para mejorar y un gran paso hacia el futuro, algo raro y admirable en el deporte.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno, ¿qué tal chicos y chicas? Bienvenidos a un nuevo vídeo del canal. Jornada de lunes en una semana que se prevé intensa dentro del mundo del culturismo. Estamos justo en la semana después del Pittsburgh Pro y arrancando ya esa peak week de cara al New York Pro, donde tendremos a Ángel Calderón y también a Josema, entre otros. Por supuesto, daros las gracias por el apoyo al canal en este fin de semana. Ha sido un fin de semana bestial en cuanto a ese apoyo, así que desde luego daros las gracias. Pero esto no acaba aquí. Esto solamente ha hecho nada más que empezar, porque dejamos el Pittsburgh Pro</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=32" target="_blank" class="timestamp">[00:32]</a> De hecho, vamos a hablar precisamente de eso, de la repercusión que se ha generado y de los grandes vencedores morales, que a lo mejor, evidentemente, a ellos les habría gustado también ser vencedores en tarima, pero desde luego son vencedores morales por cómo salen de reforzados de cara, no solamente al New York Pro, sino de cara a lo que queda de temporada y en ese caso son tanto José Mike Classic como...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=53" target="_blank" class="timestamp">[00:53]</a> Nick Walker en el Open, vamos a hablar de eso, vamos a hablar de la repercusión de lo que se ha generado, ojo porque ha hablado Chris Bamsted que no suele hablar de este tipo de cosas, ha analizado sobre todo la categoría Open, me sorprende que no se haya metido en el Classic y también tenemos ahí obviamente palabras de sonreo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=69" target="_blank" class="timestamp">[01:09]</a> Palabras de Brasil alabando a Josema. Así que todo ello lo vamos a analizar, insisto, en una semana que se prevé súper intensa. Tenemos esta noche el programa de Iron Road a las 11 de la noche. También me habéis dicho, ¿qué pasa con las chicas? No diste las chicas. Tranquilos. Las chicas lo quise dejar para el lunes porque está Alexis y va a comentar, por supuesto, la participación de Sandra Colorado, de Rupetizco, de Ivana Escándar. Bueno, no es española, pero casi, ¿no? Como si fuera...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=93" target="_blank" class="timestamp">[01:33]</a> También española, la aleta bikini de Fran Espín, Maurín Blanquisco. Todo eso lo vamos a analizar, como digo, esta noche a las 11 de la noche. El martes viene Raúl, el jueves viene Fran Espín. Esta semana va a ser, insisto, auténticamente brutal en el canal. Así que ojalá que estéis dando el mismo apoyo que me habéis dado este fin de semana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=114" target="_blank" class="timestamp">[01:54]</a> Vamos a pasar a analizar absolutamente todo lo que tenemos por delante, que no es poco. Por supuesto, recordad los códigos. Código de descuento Iron Road en toda la web de Big. También os tengo que dar las gracias por el apoyo que le estáis dando al código de Big. Y por supuesto, también recordaros que Big está esta semana con este estreno. El estreno de la proteína, de la mejor proteína del mercado en cuanto al valor de la proteína. 91% de proteína ISO.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=140" target="_blank" class="timestamp">[02:20]</a> en un bote de 750 gramos, pequeñito, muy bueno para, por ejemplo, si tenéis que hacer algún tipo de viaje, también lo podéis transportar, es espectacular. Sabor piruleta, el mítico sabor de fiesta. Así que, como digo, aprovechadlo porque está súper rebajado, creo que está en torno a los 30 euros, 750 gramos de proteína y con el código Iron Road tendréis un 10% de descuento. Entonces, como digo, aprovechad que están justo sacando este nuevo sabor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=168" target="_blank" class="timestamp">[02:48]</a> Yo ya lo he pedido, no quiero perdérmelo. Así que como digo, darle para adelante en este caso con Big y con el sabor a piruleta de fiesta porque desde luego que nos va a defraudar. Y por supuesto, como nos va a defraudar, el 10% de descuento código Iron Road en toda la web de Agonjin con ese pack de 3x2 en todo el drop de back in the game. Ojo al drop back in the game porque yo tengo ya varias camisetas que me llegaron la semana pasada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=193" target="_blank" class="timestamp">[03:13]</a> Y son brutales, de hecho la blanca en algún momento en Instagram a lo mejor me habéis visto con ella, la de Agonjin, en fin, como digo, aprovechad porque no os va a dejar a nadie indiferentes. Y como digo, vamos a pasar a analizar todo lo que ha dado de sí, ¿no? Esta repercusión o estas palabras, ¿no? De la gente, en este caso en el Pittsburgh Pro, porque a pesar de que obviamente, y esta fue una de las imágenes de la jornada, Josema quedando segundo por detrás de Ruth Diesel,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=222" target="_blank" class="timestamp">[03:42]</a> Ha salido muy reforzado. Al fin y al cabo, el objetivo principal de este periplo en Estados Unidos, evidentemente, es ganar. Esto está claro. No va precisamente a darse un paseo a Estados Unidos, sino que va con el objetivo de conseguir la victoria. No pudo ser. Es cierto que el atleta que le ha ganado no es precisamente un 2 nadie. Estamos hablando de uno de los mejores Classic Physique de la historia. Probablemente en cuanto a la línea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=246" target="_blank" class="timestamp">[04:06]</a> Quizá el mejor Clásico de la historia en algo en lo que él ya no puede competir, porque la línea es la que tiene, se quiere decir, él ya no puede hacer grandes mejoras en eso. Precisamente donde sí que puede meterle mejoras y ya depende más de él y de su preparador es precisamente en lo que ha sido excelso y en lo que vamos a escuchar que destaca también Brasil. No solamente que lo destaquemos aquí en España, sino también en Brasil, que es esa condición, esa densidad, esa separación...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=270" target="_blank" class="timestamp">[04:30]</a> Entonces, todo eso evidentemente lo ha trabajado y lo ha demostrado en tarima. Yo creo que el objetivo principal, y recuerdo la previa hace unas semanas ya, bastantes semanas, cuando José me anunció el tema del PISUM PRO, el objetivo principal era pegar un puñetazo encima de la mesa y decir aquí estoy yo. Yo creo que ese objetivo se ha conseguido y no es que se haya conseguido para nosotros, se ha conseguido para el mundo. Y eso es precisamente lo que vengo hoy a...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=297" target="_blank" class="timestamp">[04:57]</a> enseñaros esa repercusión precisamente en Brasil que no digo que sea ni mucho menos territorio hostil pero me refiero es un sitio muy importante es un mercado muy importante donde obviamente generar un impacto tiene una trascendencia brutal donde precisamente había un competidor en este caso brasileño que era Kaike que venía con mucha proyección así que como digo vamos a escuchar lo que opinaron los brasileños nada más para Josema porque es cuanto menos sintomático de que el golpe encima de la mesa se ha dado y con crece vamos a escucharlo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=325" target="_blank" class="timestamp">[05:25]</a> Ahora que voy a hablar con ustedes, ¿tá? Está viendo la largura. Ninguém consegue pegar este cara en el detallamiento, en la densidad. Impresionante la edad. Ahora estoy impresionado por el José. ¡Vale a ver! ¡Vale a ver! ¡Vai ver lo que estoy hablando! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver lo que estoy hablando! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale a ver! ¡Vale</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=355" target="_blank" class="timestamp">[05:55]</a> y yo voy a hablar con ustedes, este cara personalmente es asustador</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=371" target="_blank" class="timestamp">[06:11]</a> es asustadona. Y detalle, es un hombre que crece en la pose, porque de ropa parece un niño. Pues esta era la opinión de los brasileños viendo a Josema en la presentación, porque este es el reel de la presentación, de hecho lo tenéis en el canal de Max Titanium, y como digo, me sorprende también bastante ver a Zancanelli, que es un tipo que ha quedado bastante bien en el Olympia del año pasado, evidentemente por detrás de Josema, pero muy bien, en una muy buena clasificación, diciendo estoy muy impresionado con Josema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=399" target="_blank" class="timestamp">[06:39]</a> Tengo que decir, y lo tendremos esta semana porque yo he hablado por privado con Raúl, que no solamente es el público brasileño, que en Estados Unidos gente, por ejemplo, como Neil Hill, como por ejemplo, sin ir más lejos, Stefan, gente que estaba por allí, gente que lleva muchos años dentro del mundo del culturismo,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=416" target="_blank" class="timestamp">[06:56]</a> Y no solamente es que destacara en el nivel de Joseba, es que para muchos en el Preyat King le dijeron que lo veían claro ganador. O sea, por eso digo, no solamente, ya no hablamos de si debió ganar, si no debió ganar, no estoy hablando de eso, estoy hablando del impacto que generó, ¿no? Del impacto y de lo reforzado que sale de cara no solamente al New York Pro, sino a todo el periplo que va a hacer en Estados Unidos, a la importancia en cuanto a imagen de marca que puede tener, no solamente para contratos publicitarios, no me estoy refiriendo a eso, sino sobre todo también en cuanto a ese posicionamiento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=445" target="_blank" class="timestamp">[07:25]</a> de un atleta en Estados Unidos, porque yo voy a decir una cosa, el Classic Physique hay que reconocer que para ellos, y os lo digo de verdad porque me ha costado encontrar muchas opiniones de Classic y no he encontrado prácticamente ninguna repercusión de Estados Unidos, de la gente que suele comentar, de los de Palumbo, etc. Se centran mucho en el Open.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=466" target="_blank" class="timestamp">[07:46]</a> Yo creo que es más lo que ha pasado y el impacto que se ha generado quedando segundo en este Pittsburgh Pro que de lo que generó quedando sexto en el Olympia. Es una opinión personal, es una impresión personal y el martes, es decir, mañana hablaré con Raúl, hablaremos con Raúl de este tema porque yo creo que el impacto de lo que ha ocurrido este fin de semana es superior a haber quedado sexto del Mr. Olympia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=484" target="_blank" class="timestamp">[08:04]</a> Así que, como digo, ya estáis viendo que incluso el público brasileño afirma, reconoce y sin ningún tipo de problema la superioridad en este caso de Josema y sobre todo, como digo, ese impacto. El hecho de que había sido la persona que más le había impactado en cuanto a ese punto de condición y esa separación. Por otro lado, el otro gran reforzado de la jornada</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=512" target="_blank" class="timestamp">[08:32]</a> Nosotros que Nick Walker. Yo tengo que decir que aquí en el caso de Nick Walker, y lo dije en el directo anterior y lo vuelvo a repetir, yo tengo que entonar el mea culpa porque yo no esperaba gran cosa de Nick Walker. Es más, yo esperaba una versión muy similar a la del New York Pro. Y tengo que decir, y también escucharemos a Sunray, que Sunray dice que está más o menos con el New York Pro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=533" target="_blank" class="timestamp">[08:53]</a> Yo no estoy de acuerdo con Sunray. Que la estructura evidentemente da que sea la misma porque no hay otra. No quiere decir que saliera igual que en el New York Pro. Donde para mi gusto salió mal. Incluso para el propio Nick Walker. Y aún así ganó a Martin Fickwater. Pero lo que vimos el fin de semana fue un Nick Walker poniendo contra las cuerdas a Derek Larnford. Vamos a escuchar las palabras de Chris Bamstead.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=552" target="_blank" class="timestamp">[09:12]</a> Porque yo creo que Chris Baxter está, y lo digo sinceramente, al borde de volver. Porque vais a escuchar palabras de me ha inspirado Nick Walker, lo que ha hecho es muy bueno para el deporte. Incluso da la sensación de que para él y para mucha gente del público, y de hecho hay votaciones en páginas web, debería haber ganado Nick Walker con bastante claridad. Esto ya, como digo, es valoración de los jueces.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=578" target="_blank" class="timestamp">[09:38]</a> Vamos a escuchar lo que ha dicho en este caso Chris Babsted, que yo creo que es superinteresante sobre la reflexión que deja de Nick Walker y de lo que ha hecho Nick Walker en el Pittsburgh Pro. No he compartido mi opinión sobre algo así, pero viendo el show de la noche entre Nick y Derek, estaba pensando tan profundamente sobre lo que vi y me sentía que realmente quería compartirlo. Pero estaba viendo el show y no sabía quién iba a ganar, estaba pasando de vuelta y de vuelta. Y luego, al final, cuando llamaban a Derek como ganador, el nivel de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=608" target="_blank" class="timestamp">[10:08]</a> La letdown, la disapointmenta en Nick y lo que podía sentir al principio y lo que podía ver era tan fuerte que fue inspirador. Fue algo que me motivó y me hizo emocionado sobre el sport y la conducción competitiva. No creo que la gente entiende cómo raro es ver algo así y cómo vulnerable es para un atleta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=630" target="_blank" class="timestamp">[10:30]</a> para trabajar tan duro, para ponerse en la posición de perder, para creer en ellos tan duro y para ponerse en algo que no tienen control de competir en cualquier cosa. Es una cosa muy difícil y vulnerable, y no muchas personas en su vida nunca experiencean ese nivel de desigualdad porque nunca trabajan mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=649" target="_blank" class="timestamp">[10:49]</a> to earn that and the amount of stored potential energy that comes from that is absolutely insane and to be able to take that kind of lesson and revert that to your life when shit happens and you know you think you have a plan for something and it falls short or you don't get what you want or worse to be able to look at that not as punishment but as preparation to be able to take that energy and like when I was sitting in the crowd I could literally like seeing Nick's face sitting there I could feel the energy just filling up with</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=676" target="_blank" class="timestamp">[11:16]</a> Y si, si ganas, hay mucha energía que viene de eso. Pero luego, a la vez, a la vez, a la vez.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=683" target="_blank" class="timestamp">[11:23]</a> Pero cuando pierdes algo así, hay mucha energía que puedes poner hacia el buen, hacia el mejor, hacia el mejor, hacia hacia el mejor, hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia hacia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=709" target="_blank" class="timestamp">[11:49]</a> Eso es admirable. Eso es algo que es raro. Tal vez no es saludable o conducir a la vida normal, pero nada es la construcción del cuerpo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=716" target="_blank" class="timestamp">[11:56]</a> Pero para ser capaz de mirar a un competidor así y ver ese nivel de desigualdad, hay una gran lección de entender la cantidad de energía que viene de eso, que tienes que trabajar mucho por tanto tiempo, para tener sucesos y setbacks de vuelta y de vuelta, para poder llegar a ese punto y sentir algo tan profundo. No creo que la gente entiende cómo raro eso es. Y, you know, me sentía goosebumps en el público. No tenía ni una reacción al el show. Estaba estaba ahí pensando sobre todo esto. Yo pensaba, wow.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=744" target="_blank" class="timestamp">[12:24]</a> Hay mucha emoción en eso y la gente nunca va a experimentar en su vida. Y mientras que se siente malo ahora mismo, está leiendo por el gran paso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=754" target="_blank" class="timestamp">[12:34]</a> como la progresión, la mayor vuelta, la mayor sensación de emociones positivas en el futuro, cuando vuelve a esto y usa para lo mejor, para prepararse para ser mejor, y toma esa energía y pone detrás de él, para empujarlo hacia adelante. Creo que eso es increíble y es una lección poderosa para la vida, poder tomar sus cortesiones y sentarse en ellos, y ser pido. Estoy seguro que si estuviera pido, debería estar pido. Espero que si perdiera en Olympia, hubiera sido exactamente lo mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=780" target="_blank" class="timestamp">[13:00]</a> porque te amas y te preocupes con algo que estás trabajando tan duro, deberías ser desappointado. Pero para poder tomar eso, después de que puedas trabajar con los emociones de angustia, triste y triste y triste, y para poder poner eso detrás de ti y volver a trabajar y usarlo para sentirte, para hacer ti mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=795" target="_blank" class="timestamp">[13:15]</a> Fires me up. That gets me excited. Emotions has always driven me in sport more than anything. And that was one of the first things since retiring where I was like, damn, I got goosebumps eating the cat. I am fired up. Not enough to get me back on stage. But it was fun to watch. The battle between the two was fun to watch. You have to have a lot of respect and appreciation for people who work so hard and put so much on the line towards something. So it was really cool to see. And I think important thing to take from that, at least that I took from that. So, yeah.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=825" target="_blank" class="timestamp">[13:45]</a> Yo, al margen de lo que dice Denny Walker, que estoy bastante de acuerdo Yo por las palabras, de verdad, este tío Yo creo que no hay ninguna duda de que en algún momento va a volver O sea, es que si se emociona con esto O se va a emocionar con cualquier cosa Cuando llegue el Olimpia a tres cuartas de lo mismo O sea, antes o después está condenado a querer volver Y por otro lado, estoy bastante de acuerdo Al final, lo que se notó bastante Sobre todo en la final Y esto lo comenté ayer en el vídeo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=853" target="_blank" class="timestamp">[14:13]</a> Fue sobre todo esa imagen de Nick Walker, bueno, pues disgustado por la derrota, o por el segundo puesto, además de la derrota, y sobre todo procesando, rumiando, yo creo que él siempre va con una gran confianza al evento, creo que…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=871" target="_blank" class="timestamp">[14:31]</a> Ayer, o mejor dicho el sábado, pudo ganar. Tuvo sus opciones de ganar, de hecho. Y lo hablaremos en el programa de esta noche de Iron Road. En cuanto a las puntuaciones, acabaron empatadas. Es decir, en el pre-Jadkin ganó, en este caso, Nick Walker. Y en la final ganó de Llanford. Ambos por un punto. Finalizaron los dos con 15. Esto nos lo explicará también bastante...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=893" target="_blank" class="timestamp">[14:53]</a> bastante bien Alex. Y el que también ha querido dar su opinión, ya para cerrar el vídeo, ha sido en este caso Sonray, que ha sido un poquito más contundente contra Nick Walker, aunque lo destaca, pero sabéis que veníamos ya en una previa de bastante beef, Sonray, Pozichelillo, Nick Walker, etc. Así que vamos a escucharlo porque yo creo que es interesante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=911" target="_blank" class="timestamp">[15:11]</a> No, no, no, no, no, no, no, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=928" target="_blank" class="timestamp">[15:28]</a> ¡Suscríbete al canal!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=951" target="_blank" class="timestamp">[15:51]</a> Bueno, listen, Nick picked up where he left off on stage. I mean, he is exactly where I think he left off in New York. But again, I think there's too many things that Derek, we cannot criticize him about. We can start picking Nick apart, most notably, especially in between poses Nick. The waist is wide, stomach is smooth, lots of deep breathing, heavy breathing.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=975" target="_blank" class="timestamp">[16:15]</a> que detrás de su physique, pero es formidable. Creo que tiene Martín. Creo que tiene Martín. Sí, Martín estaba llorando mucho. Sí. Estaba llorando. Estaba llorando bastante. Estaba llorando un poco. Estaba llorando, por supuesto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=991" target="_blank" class="timestamp">[16:31]</a> Pues ahí lo teníamos, ¿no? Un poquito siendo críticos con Nick Walker, que no digo que no. También tiene su punto de crítica a la hora de controlar el abdomen, aunque yo creo que Nick Walker lo hace bastante bien. Y yo desde mi punto de vista sí que es verdad que vi un Derek un puntito por debajo con respecto a la versión del Arnold y creo que eso se podría haber penalizado. Pero insisto, los jueces también lo hicieron y finalizaron, como digo, el cartelín.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=1010" target="_blank" class="timestamp">[16:50]</a> 15 a 15 empatados y eso como digo lo vamos a comentar esta noche en Dairon Road así que como digo chicos y chicas reforzado Josema reforzado Nick Walker acaba de arrancar la temporada esto no ha hecho nada más que comenzar insisto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=1025" target="_blank" class="timestamp">[17:05]</a> Lunes, 11 de la noche. A las 11 de la noche hoy, por supuesto, programa de Iron Road. Martes estará Raúl. Los contenidos irán saliendo a lo largo de la semana, pero bueno, el martes estará con nosotros Raúl. Miércoles, programa de PCA. Jueves estará con nosotros Fran Espin. Sábado, New York Pro. Y domingo, Hércules Cup. O sea, más no se puede hacer en el canal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=TSWpqyVxXgM&t=1042" target="_blank" class="timestamp">[17:22]</a> Así que como digo, gracias por el apoyo que nos estáis dando, gracias por el reconocimiento que nos estáis dando e insisto, se ven una semana de culturismo brutal y esto, insisto, no he hecho nada más que comenzar. Así que como digo, dejadme en la caja de comentarios opinar y todo esto, fuerte like al vídeo, suscribiros al canal y como siempre digo chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-Ps6VW1YXeX0">
+            <h2>JOAN PRADELLS X JORGE TABET - CLASE POSING COMPLETA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 12/05/2025 17:34</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0" target="_blank">
+                    <img src="https://i.ytimg.com/vi/Ps6VW1YXeX0/hqdefault.jpg" alt="JOAN PRADELLS X JORGE TABET - CLASE POSING COMPLETA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video muestra una sesión de coaching de posing de culturismo entre dos personas, una de ellas preparándose para competir ("el jabalí").
+Se analizan y corrigen diversas poses, enfocándose en la conexión muscular, la amplitud en tarima y la técnica específica de cada movimiento.
+Se discuten las fortalezas y debilidades del competidor, como la movilidad y ciertas poses laterales, y se comparan estilos con culturistas profesionales.
+El entrenador enfatiza la importancia de la práctica constante, la estrategia en tarima y encontrar orgullo en el progreso personal más allá del resultado final.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Inicio de la Sesión de Posing <a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&amp;t=136" target="_blank">[02:16]</a></h3>
+
+<p>El presentador introduce a su invitado, apodado "el jabalí", destacando su experiencia para ayudarle a mejorar sus poses. Explica que ha venido a posar después de entrenar y que la sesión se centrará en perfeccionar la técnica.</p>
+
+<h3>Espaldas y Piernas: Ajustes Cruciales <a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&amp;t=379" target="_blank">[06:19]</a></h3>
+
+<p>El entrenador critica la pose de expansión de espalda, sugiriendo proyectarla hacia arriba para maximizar el espacio en tarima en lugar de hacia abajo. También comenta la importancia de la posición de las piernas en las poses clásicas y modernas, enfatizando la forma de X.</p>
+
+<h3>Dominando el Vacuum y Poses Frontales <a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&amp;t=519" target="_blank">[08:39]</a></h3>
+
+<p>Se instruye sobre la técnica correcta para el vacío abdominal (vacuum), enfatizando la importancia de apretar desde medio hacia arriba para proyectar la clavícula. Se corrigen detalles de las poses frontales, como la posición de los pies y la cadera.</p>
+
+<h3>Superando las Poses 'Castaña' <a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&amp;t=714" target="_blank">[11:54]</a></h3>
+
+<p>Se identifica que las poses laterales son las "peores" del competidor, atribuyéndolo a la falta de movilidad en cadera y torso. Se destaca la necesidad de trabajar la movilidad para mejorar la amplitud y rotación en diversas poses.</p>
+
+<h3>Estrategia en Tarima y la Mentalidad del Competidor <a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&amp;t=976" target="_blank">[16:16]</a></h3>
+
+<p>Se discute la estrategia para disimular la fatiga en el escenario, sugiriendo jugar con las piernas o el bombeo mientras se recupera el vacío abdominal. Al final, se reflexiona sobre la importancia de estar orgulloso del propio progreso y el trabajo realizado, independientemente del puesto final en la competición.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=0" target="_blank" class="timestamp">[00:00]</a> Te he traído una cosa. Es una cosa que nunca hemos hecho, la verdad. Una gariseta. Hostia, qué guapo. Es la que yo llevo, pero es una gariseta de White Fitness. Qué chulo, tío. Que no sé lo que lo tienes de activo, pero es tu jabalí. Esta para mí es la peor pose que tienes. Pero, tío, si quiere ganar a esta gente, tío... Yo te soy sincero. El side chest y el side triceps son bastante castellos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=31" target="_blank" class="timestamp">[00:31]</a> ah ah</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=62" target="_blank" class="timestamp">[01:02]</a> ¿Sabes lo que quiero hacer? ¿Una foto? ¿Te acuerdas en el gimnasio ese que estaba haciendo un vacuum? Y ponerle el antes y el después. Yo sé más o menos qué fotos hicimos. Hice un vacuum, un side chest…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=87" target="_blank" class="timestamp">[01:27]</a> Pero hay una foto... No, pero el site check lo hicimos en Las Vegas. En el que nosotros hicimos una foto que estabas haciendo tú el vacuum y yo estaba rollo a tu lado. Así. Yo creo que esa es una normalidad de foto. En TikTok hay un montón de cortes de vídeos antiguos vuestros. Sí, pero eso es de Las Vegas. Que suena un montón. Eso sería bueno. Eso es en el posting de... Donde conocimos a Chris Busted.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=112" target="_blank" class="timestamp">[01:52]</a> Que tiene todo rayado, ¿no? Sí. Conocimos. Lo vimos y lo saludamos. Lo atacamos. Lo atacamos. Y ese año ganó, ¿no? Sí. Muy fuerte. Gracias a vosotros. Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=136" target="_blank" class="timestamp">[02:16]</a> Muy buenas a todos chicos, estamos en un nuevo vídeo. Hoy tengo algo bastante especial y es un jabalí. En serio, estamos aquí, le he pedido que me ayude a posar. Creo que es una persona muy muy indicada para ayudarme a posar. Me ha dicho que él no está de indicado, que me ha ayudado mucha gente muy topo a posar, pero yo realmente lo pienso. También he crecido con él siendo el culturista posando todo, ¿vale? ¿Es cierto? Sí, pero a mí me ha metido... Y siempre le he valorado mucho el posing, entonces... A mí me ha metido en un barrón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=161" target="_blank" class="timestamp">[02:41]</a> Le he dicho, tío, ¿me puedes ayudar a posar? Y literalmente yo he entrenado, ya he venido a posar. Y él se va a quedar ahora entrenando. Así que... Gracias. Vamos a ello, va. Te he traído una cosa. Tengo ganas también de verte, eh. Fuera coñas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=181" target="_blank" class="timestamp">[03:01]</a> Es la que yo llevo, pero es una camiseta de White Fitness. Qué chulo, tío. Que no sé lo que lo tienes activo. Con el jabalí. Pero es tu jabalí. Sí, tío. Pues mira, para este año lo volveré a activar. Ya tengo todo lo que es el tema logística y demás. Sí. Y seguramente lo volveré a activar, tío. Mola. Me hacía ilusión, tío. Qué chulo, tío. Nunca vamos a hacer una colaboración. No, pero nosotros ni me refiero. Nosotros como Marca tampoco. Y he dicho, tío, ojalá me parece... ¿Te pone?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=206" target="_blank" class="timestamp">[03:26]</a> Me apetece tenerla. Hombre, creo que la frase está chula. La verdad que... La verdad que la frase está chula. Me la ha pedido una persona que decía... ¿Qué? Está chula. Te vendrá bien. Está bonito, tío. Está bonito. Está bonito. Y vamos a darle... ¿El qué? Un poco pequeño, ¿no? 2XL. Ah, bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=223" target="_blank" class="timestamp">[03:43]</a> ¿Te bajo un a 5? No, cabrón, aún no llego a eso, soy un puto. No, yo peor que te vendrá si no... Guay, también te digo, ahora en pre-competición. Ah, yo ya he bajado dos tallas. Como van cayendo las tallas, eh. Yo ya he bajado dos tallas. Como van cayendo las tallas. Mira, este pantalón es un espectáculo. Vas apretando el asaco. O sea, si no lo aprieto se me cae literalmente de lo payasmo. Yo lo intentaré quitar después, dentro de 5 años.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=249" target="_blank" class="timestamp">[04:09]</a> Pero es una situación... No, no, es que si no, no me viene, tío. No hace falta ya ni que te hagas en boca. Si no, no me viene, te lo juro. O sea, es una locura. Al menos se va todo a la cintura. Eso también mola. Literalmente. O sea, me lo puedo quitar sin... Está jodido este malo. ¡Ostras, cabrón!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=270" target="_blank" class="timestamp">[04:30]</a> Tío, es lo que hay. Yo he perdido ya... Bueno, dije, no voy a decir debole. He perdido mucho. ¿Cuánto pesas? 120 más o menos. Ah, pero cuando te vives al vas a estar bien eso, ¿no? 125. Pero por lo menos yo peso 135 o así. Pero ¿cuánto llevas en preparación? Te llevas mucho en preparación, ¿no? 167.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=293" target="_blank" class="timestamp">[04:53]</a> Desde enero. Final de enero. El dieciado de enero. Cinco milas libres. Muchísimo. Demasiado oro. Pero porque es muy paulatina... A ver, que yo llevo el de seis de enero, también te voy a decir, pero... Muy paulatino todo al principio, pero... Bueno, va. Y es que haga. O sea, eso siempre es el tipo de crema, tío, y del frío y de... y de todo el río.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=312" target="_blank" class="timestamp">[05:12]</a> Te veo muy bien. Lo que pasa es que hay cosas que mejorar, sobre todo de conexión nerviosa en las poses. La verdad es que te ve increíble, tío. ¿A cuántas semanas estás? Más o menos. ¿Tampa cuánto vida? Yo sé la primera. Trece.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=327" target="_blank" class="timestamp">[05:27]</a> Trece semanas, pero Tampa... ¿Vais a ir a Tampa? ¿Vais a ir a Tampa...? Yo verlo seguro. Tampa es la primera, ¿no? Ah, en Chicago hay Open. Tampa va a haber una buena línea, ¿eh? ¿Tú vas a Tampa? Yo sí, pero yo no soy Open. Tampa va a haber una buena línea, pero Tampa... Texas, por ejemplo, Andrew Jacket ya no está, así que está la gente elaborada. Tampa... ¿Quién estará? No sé. Van todos los canadienses.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=356" target="_blank" class="timestamp">[05:56]</a> Melarosa, Justin Sieff... Ah, te digo que en Open elegir campeonatos no tontería, ¿eh? No, o sea... Porque en todos los campeonatos... Porque es que no hay campeonatos Open. Y es lo que te he dicho antes. Tío, has trabajado con gente muy tocha. Lo que pasa es que las conexiones con... Quieres apretar a veces tanto en unas partes que te olvidas de otras y que es normal. A mí también me pasa, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=379" target="_blank" class="timestamp">[06:19]</a> Pero en general yo te veo súper bien, tío. Ahora, por ejemplo, con Marta sí que me está diciendo muy bien las poses de espaldas. La expansión. ¿Y Marta? Sí. La expansión creo que es la que mejor estoy recogiendo. En plan, la expansión. Sí, pero para mí estás tirando el foco. Mira, tírala. Para mí ese último movimiento yo no lo acabo de ver. ¿Tú lo harías sepado? Yo lo haría proyectándolo para arriba. ¿En plan? Ahí. Ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=403" target="_blank" class="timestamp">[06:43]</a> Porque aumentas más el espacio que tienes en tarima, que es lo que sabes. Muy bien, tío. Un video de cuartillas. Se te ve el autor por atrás. Sí. Sabe muy bien. Que la espalda, al proyectarlo para abajo, te empequeñece. Siempre cuando la proyectas un poquito más en el plano vertical, ocupas más espacio en tarima, que al final eso es lo que se puntúa. Es bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=432" target="_blank" class="timestamp">[07:12]</a> Por ejemplo, está como todo el rato teniendo que pasar con las piernas estiradas. Juntas al antiguo. Y como se lleva ahora es doblando y haciendo la forma de X. Y todo el rato se le digo, tío, tengo una gran confianza y compré este al lado, que es enorme, a nivel de todo. Ella me dice, por ejemplo, en plan, tiene unas piernas que estoy pasando así. Si hoy en día posan aquí, con la cadera aquí. No, la cadera es adecuada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=455" target="_blank" class="timestamp">[07:35]</a> Y aquí, ¿por qué tú posas aquí? Y yo, tío, porque me gusta más el físico. O sea, el físico está ganado en menos X. El físico es mucho más estético. Es más Milos. O sea, tuve las fotos de Milos posando. Ya, pero ¿en qué época está escondiendo? ¿No estás en el 90?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=472" target="_blank" class="timestamp">[07:52]</a> O sea, todos compiten con las piernas abiertas. Yo opino igual. Y encima se ven más grande con las piernas abiertas. Claro, porque tus bajas fuertes en las piernas aductoras. ¿Tú qué dices? Yo quiero goyos, tío. Pues ya está. Estoy clásica. Yo soy classic, pero yo, por ejemplo, el classic de ahora es open. Más pequeños. El doble dice que acabo de hacer así rápido. ¿Os gusta más el primero? El primero. A mí me gustan los dos, pero al final, cuanta más forma en X, más… Me parece una locura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=501" target="_blank" class="timestamp">[08:21]</a> ¿Qué te gusta un fripillo? Sí, pero que cuando te puedas hablar de... Se te llama a la grande. El problema también es que lleva un montón de tiempo para ese como una gente. Entonces, vamos a darnos cuenta... Va, dale caña. Haz una ronda. Sínate, mira. Ahí sí, ahí la tienes. Para eso, tú piensas siempre en rotar las rodillas para...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=519" target="_blank" class="timestamp">[08:39]</a> Las piernas tienen que tener con agarres de dedos y rotar la rodilla para afuera. Ahí saldrá todo el sartorio. Tienes que pensar en que estos dedos estén apretando el suelo y que las rodillas estén giradas para afuera para sacar la cadera y sentarte en ella. Cuando tienes el aire para vaciar realmente el abdomen no se tira de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=543" target="_blank" class="timestamp">[09:03]</a> Ahí vacías el abdomen. Es muy distinto. ¿Vale? Es muy distinto. Y tienes que fijarte de hacer el efecto en medio para arriba. Para que salga toda la clavícula proyectada. A ver si tú cuando hagas así... Y clavícula para afuera. Que todo esto se vea lo más ancho posible. De espaldas. Tira los codos un poquito para atrás. Tira los codos un poquito para atrás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=573" target="_blank" class="timestamp">[09:33]</a> O sea, para que tienes tanto hombro que me cago en Dios, tío. Qué barbaridad. Vale, perfil. Al final no te sigue. Muy buena. Muy buena. Espera Luto, Luto, Luto, Luto. Ahí estás. Sigue, sigue, sigue. Tira, tira, tira, tira, tira. Muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=601" target="_blank" class="timestamp">[10:01]</a> De frente. Primero tendrás que desbloquear. Garras y giras. Y te sientas. Ahí sí que estás perfecto, tío. Va, doble de bíceps. Pierna, pierna, dale, dale. Apretame esa pierna. Ahí estás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=626" target="_blank" class="timestamp">[10:26]</a> Más, se te está yendo, se te está yendo. Espérate, espérate un poquito más. Ahora. Acuérdate. Vale, no te acaba de pasar. Eso te puede pasar en tarima. Que hace mucho que no compites. Cuando te pase, tío, tú... No te tienes que quedar aquí. No, no. Otra vez. Claro, otra vez. Claro, tío, si no te haces ponerle el abdomen. Pum, pum, pum, pum, pum. Vale. ¿Sabes? Porque a lo mejor el juez se pone tonto y te hace hacer 15 segundos de pose.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=658" target="_blank" class="timestamp">[10:58]</a> Los dedos, las rodillas, te sientas y clavas la pose. Aprieta, aprieta, aprieta, aprieta. Espérate, espérate, espérate, espérate. Eso, eso. Es brutal. Pronyétete para arriba. Pronyétete para arriba. Vamos. Eso, eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=684" target="_blank" class="timestamp">[11:24]</a> Qué barbaridad de fisio que tienes. Piernas, piernas. Se te van todas las piernas siempre, tío. Cuando te hacen posar, se te van las piernas. Proyecta para arriba, proyecta para arriba, proyecta para arriba. Finalista. Vale. Dale, o sea, salte. Cuéntame, aquí tienes que meter el glúteo para adentro. Como si estuvieses queriendo ir para adelante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=714" target="_blank" class="timestamp">[11:54]</a> Esta para mí es la peor pose que tienes. Muy bien. Esta para mí es la peor pose que tienes. Los laterales en general. ¿No sabes por qué? Porque estás trabajando en movilidad de cadera y de torso. No. Pues tío, es algo que tienes que hacer. Tienes que trabajar movilidad de las escápulas y movilidad del tronco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=734" target="_blank" class="timestamp">[12:14]</a> Por ejemplo, de este lado, muy bien. Ya, pero el otro es el malo. FATAL. Todo lo que sea movilidad aquí, porque si tú tienes movilidad aquí vas a poder sacar mejor lo que es el dorsal, vas a poder rotar más, ¿sabes? En el doble de espalda. Y en el tronco, tío, con la masa muscular que tienes, tienes que ser capaz de poder rotar tranquilamente, poder moverte tranquilamente a gusto. Si no, no vas a ser capaz nunca de encontrar la amplitud en el pecho, ¿sabes? Sí, sí. En la clavícula.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=758" target="_blank" class="timestamp">[12:38]</a> Es una putada porque te suma trabajo a los defensivos, a los abdominales, al cardio... Pero, tío, si quiere ganar a esta gente, tío... Pero te dedicas a esto, ¿sabes? Exactamente. Y el contrario que compites, no, con poca broma. Vamos, otra vez el de pecho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=784" target="_blank" class="timestamp">[13:04]</a> ¿Por qué no pruebas...? Pruebame a tirar el pie el derecho más para adelante, ¿vale? Al final lo que... Fíjate en el espejo, ¿vale? Lo que el juez va a ver desde atrás, o sea, desde enfrente, va a ver una silueta. Es decir, va a ver esta ballesta, pero ocurre que si la juntas con la segunda de atrás va a ver una silueta. Bueno, yo que soy zurdo. Pero si lo pones más para adelante... Tú al final no te lo vemos muy bien, pero el juez solo va a ver una silueta y va a estar más llena.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=816" target="_blank" class="timestamp">[13:36]</a> ¿Te estás cayendo en este pie? ¿El peso? ¿Qué cuesta? ¿Has probado en este hacer así?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=830" target="_blank" class="timestamp">[13:50]</a> Es que... No, no, con esta atrás. Ya, pero... No te va, ¿no? Nos dijeron que no. Y no les gusta. Es que parece fácil de decir, pero lo sumas a todo el trabajo que tienes que hacer y es, hostia, tengo que hacer ahora abdominales, tengo que hacer hipopresivos, ahora tengo que posarme y ahora...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=851" target="_blank" class="timestamp">[14:11]</a> Claro. Ahora tengo que hacer el cardio. Hostia, que me toca tener pierna. Hostia, que guay. ¿Sabes? Y que te digan, no, ahora media hora más de movilidad. Hostia, ya tienes mucho, ¿sabes? No sé que despierdas con un hombre que flipas y te bendices. Que han tres horas para comer todavía. ¿Sabes? Porque tengo que bajarme al cardio. Bueno, va. Vale. Tríces, tríces otra vez. Tríces, tríces, tríces. Intenta tirar aire caliente. Como si estuvieses tirando bajo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=881" target="_blank" class="timestamp">[14:41]</a> No le faltan exageres la cara, pero... O sea, tú piensa que estás tirando aire caliente, no frío. Para allá, para allá. La pierna tiene que ir para allá. Eso es. Más, más, más. Todo lo que puedas, todo lo que puedas. Y aquí va la movilidad de torso. ¿Ves? ¿Ves cómo te giro aquí y te giro todo? Te debo girar solo aquí y que la pierna se quede allá. En la cámara se va a ver súper bien cómo se empequeñece la pierna cuando te vas girando. Pero bueno, guapo. En espaldas. Femorales, ¿eh? Siéntate, siéntate en los femorales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=912" target="_blank" class="timestamp">[15:12]</a> A mí una de las cosas que me han servido mucho en la de espaldas, tío, es que cuando ya tengas la máxima rotación puesta, pensar que tienes unas pelotas de tenis aquí y que las estás cogiendo. O sea, tú te pones aquí y una vez tengas todo al puesto, como si estuvieses cogiendo una pelota de tenis con él. Ahí estás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=943" target="_blank" class="timestamp">[15:43]</a> Pelita para arriba. Pelita para arriba. Un pelín más para arriba. Un pelín más para arriba. Eso es. Ahí estás. Ahí estás. Ese centímetro dentro de esta amplitud te va a dar la vida, tío. Aguántalo, aguántalo, aguántalo. No tiembres. Aguántalo. Respira. Eso es. Vale. A tu mañana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=976" target="_blank" class="timestamp">[16:16]</a> Vale, en esta. Ahora en el post-ing, la verdad que muy bien y no me lo esperaba, pero cuando salgas de celas de espaldas, si estás muy cansado, tú tienes muy buen cuadro y dices, al juez le puedes jugar. Hasta que te vaya la barriga, juega, que miren las trías, juega, juega, juega. Y cuando ya estés listo,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=996" target="_blank" class="timestamp">[16:36]</a> ¿Sabes? Ahora la verdad pensé muy bien. O sea, no te ha salido barrio ni nada. Pero si en el campeonato lo tenés muy fatigado, tú al final, los cuadros de estudios no lo va a tener mucha gente. La verdad, así rotavetes. Y el bombeo. Claro, pero tú estás aquí en el juez y juegas, le miras, le aprietas, mientras estás... para volver a coger el vacío. Si te fijas ahora, en la primera ronda de posting has hecho el vacío directo y ahora ya lo tenías. En esta has tenido que hacer así</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1023" target="_blank" class="timestamp">[17:03]</a> y el vacío. O sea, cuando te pasa eso, que estés más puteado, tío, juega con tus piernas, tienes unas piernas, le enseñas las dos, le enseñas los bombeos, te apretas para que se haga toda la estriación y una vez ya tengas la barriga tranquila, haces ¡pum! ¿Sabes? Vale, esta me la he jugo entre Milos y Steve. Hijo, Milos, tío, hace esto. Claro, es que me hace mucha gracia porque yo digo esto y luego dice, esto me lo dijo Milos y Steve y yo digo, vale, y aquí no hago caso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1051" target="_blank" class="timestamp">[17:31]</a> Pues me dijo, tío, no hagas solo vacío. Me dijo, no puedes estar de locos. Me dijo, pero no hagas solo vacío. Que abdominales y piernas. Yo soy súper partidario de que en abdomen y pierna nadie haga lo vacío. Claro, claro. No, mi hijo, puedes hacer las dos cosas. Sí, pero no solo es vacío. Tío, abdominales y piernas, ¿qué te está indicando? Sí, sí. No vacío y pierna. Yo soy partidario. Yo también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1072" target="_blank" class="timestamp">[17:52]</a> Pero yo no iba a eso. Yo iba a el que estás puteado y no empiezas a posar si estás puteado. Oye, juega, tío. Esto es culto de show. Enseña a la gente las piernas, ¿sabes? Si quieres hacer esa, ya deberías bajar el brazo posterior. No, el otro. ¿Así? Claro, cuando adelantas una pierna. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1097" target="_blank" class="timestamp">[18:17]</a> ¿Sabes? Como hace Haddy Chobal. Si la quieres hacer, me refiero. O sea, si tú estás aquí arriba y quieres enseñar una pierna y un costado, tienes que bajar para apretar bien todo el costal. No, no, no. El otro, el otro. El otro. Esa es. Ahí sí. Está brutal. Sube el tiempo también muchas veces. Vas a tener tiempo, tío. Vas a tener tiempo. Hostia, la... Pierna, pierna, pierna.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1127" target="_blank" class="timestamp">[18:47]</a> Va, mano muscular, te he quedado. Vamos. Pierna, pierna, pierna. Piernas, piernas, Joan. No, piernas. Está bien, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1155" target="_blank" class="timestamp">[19:15]</a> Muy bien, tío. La espalda, ¿eh? No sé, bro. Gracias. Se te ve muy bien, tío. Se te ve muy bien. Se te ve muy bien. Se te ve muy bien. El bombeo, las poses...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1171" target="_blank" class="timestamp">[19:31]</a> Yo te soy sincero, el side chest y el side tríceps son bastante castaña. Son toda la pierna que me queda, el torso. Hablo castaña en comparación a la gente con quien te vas a pegar. Si te comparas conmigo, no, por ejemplo. No, pero que se le ve muy incómodo también. Sí, eso es. O sea, no se ve una pose que digas, vale, esta pose la tiene dominada. Pero el resto, tío, ¿qué pasa? Que cuando tú haces, por ejemplo, he visto comentarios, ¿no? Cuando haces el doble bíceps de espaldas,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1200" target="_blank" class="timestamp">[20:00]</a> Total. Es que esos grupos musculares son tan dominantes que están borrando el resto. Entonces eso es muy difícil de compensar. Porque al final han nacido de una forma. Pero la pose está muy bien. O sea, es como si dices que tiene tanto hombro que la espalda se queda. Pues tío, chico, hay que que te diga. He nacido con un hombro como su cabeza grande, ¿vale? Pero yo quitando los lados</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1222" target="_blank" class="timestamp">[20:22]</a> Tío, un físico muy raro. Muy bien, yo lo veo muy bien. Obviamente, con tus carencias y tus fortalezas, tío. Pero yo el espejo lo borraría del mapa lo antes posible. Lo antes posible.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1238" target="_blank" class="timestamp">[20:38]</a> Un buen avance. O sea, cuando subas la tarima y veas el cambio que has pegado, pues... Una cosa es que te vayas a poner feliz por haber perdido. Pero estarás orgulloso del cambio, que es muy distinto, tío. ¿Sabes? O sea, si quedas segundo, tercero, cuarto, quinto, sexto, vas a decir, joder, me he quedado primero, no soy feliz. Pero cuando veas el cambio que hay de la última vez a esta, tío, vas a estar muy orgulloso. Al final es lo que importa, tío. Estar orgulloso del trabajo que has hecho. Porque... No, tío, tú y todos van a ganar. Pero sabes lo que pasa, que lo puede ganar una persona. Entonces...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Ps6VW1YXeX0&t=1268" target="_blank" class="timestamp">[21:08]</a> Si ganas, pues de puta madre, serás rey del mundo. Pero si no ganas, tío, cuando veas el trabajo que has hecho y veas la diferencia que hay, pues te irás jodido a la cama, pero al menos orgulloso, tío. Muchas gracias por ver el vídeo, chicos. Os queremos. Suscribíos al canal. Un placer.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-ZaIpwbDhkWc">
+            <h2>¡NO VI UN MENOSPRECIO IGUAL! Josema, FUERA del 1º CALL OUT OLYMPIA 25 para el MAYOR YOUTUBER</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 12/05/2025 18:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc" target="_blank">
+                    <img src="https://i.ytimg.com/vi/ZaIpwbDhkWc/hqdefault.jpg" alt="¡NO VI UN MENOSPRECIO IGUAL! Josema, FUERA del 1º CALL OUT OLYMPIA 25 para el MAYOR YOUTUBER" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza las declaraciones de Nick Strata Power, un gran creador de contenido de culturismo, sobre el culturista español Josema Muñoz.
+El presentador critica que Nick haya obviado el desempeño de Josema en el Pittsburgh Pro, donde casi vence a Ruth Diesel, y sus logros previos en el Olympia.
+Se compara la falta de reconocimiento de Nick con las opiniones positivas de otras figuras importantes como Phil Heath.
+El video expone la indignación del presentador ante lo que considera una falta de respeto o ignorancia hacia los atletas fuera de EE. UU.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Primera Ignorada: Pre-Pittsburgh Pro <a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&amp;t=215" target="_blank">[03:35]</a></h3>
+
+<p>El presentador muestra un video previo al Pittsburgh Pro donde Nick Strata Power afirma que nadie en la lista de competidores Classic, incluyendo a Josema Muñoz, fue top 15 en el Olympia del año anterior. Esta declaración es el inicio de la crítica del presentador hacia Nick.</p>
+
+<h3>Refutando el Olimpia Top 15 <a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&amp;t=343" target="_blank">[05:43]</a></h3>
+
+<p>El presentador desmiente la afirmación previa de Nick mostrando imágenes del primer callout del Classic Physique Olympia, donde se ve claramente a Josema Muñoz, demostrando que sí estuvo entre los mejores. Señala este como un primer error o descuido por parte de Nick.</p>
+
+<h3>El Espectáculo de Pittsburgh Pro <a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&amp;t=385" target="_blank">[06:25]</a></h3>
+
+<p>Se muestra metraje del reciente Pittsburgh Pro, destacando la intensa batalla pose por pose entre Josema Muñoz y Ruth Diesel. El resultado, decidido por un solo punto a favor de Diesel, contradice la idea previa de Nick de que no habría competencia para Ruth Diesel.</p>
+
+<h3>La Segunda Ignorada: Predicciones del Olympia 2025 <a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&amp;t=455" target="_blank">[07:35]</a></h3>
+
+<p>Nick Strata Power predice el primer callout del Mr. Olympia 2025 basándose en un guest posing, incluyendo varios nombres pero omitiendo nuevamente a Josema Muñoz. Esto ocurre a pesar de la reciente actuación de Josema y su clasificación previa, lo que genera la indignación del presentador.</p>
+
+<h3>El Reconocimiento de una Leyenda <a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&amp;t=696" target="_blank">[11:36]</a></h3>
+
+<p>Se presenta un clip de Phil Heath, una leyenda del culturismo, analizando positivamente a Josema Muñoz después del Pittsburgh Pro. Heath elogia su físico, acondicionamiento y posing, contrastando fuertemente con el aparente desconocimiento o desprecio de Nick Strata Power.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno, ¿qué tal chicos y chicas? Bienvenidos a un nuevo vídeo del canal y tenemos que hablar nuevamente de declaraciones de Naked Strata Power o en este caso ya no declaraciones, sino una vez más obviar aquí para Naked Strata Power lo que va a pasar en el Pittsburgh Pro. Oye, como que ha pasado, se corre por aquí un tupido velo, aquí no ha habido nadie que haya competido en categoría Classic contra Root Diesel, estaba Root Diesel solo y a partir de ahí todo lo normal. Voy a intentar no calentarme, ya sabéis que me va a costar, siempre digo lo mismo, pero me va a costar no calentarme con esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=32" target="_blank" class="timestamp">[00:32]</a> Porque aparte el Zaskar no se lo voy a dar yo. Es que el Zaskar a Nick Streatham Power, que yo no tendría por qué dárselo porque ya la tarima y todo lo demás ya se lo puede dar, pero es que va a venir aparte Phil Heath, que no me levanto de la silla porque salgo del plano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=45" target="_blank" class="timestamp">[00:45]</a> Pues a contarle un poquito quién competía con Ruth Diesel. Alguien que ha empezado a tirar nombres. Ha visto el getposing, ahora lo vais a ver. Ha visto el getposing de lo que hubo ayer con Sansón Dauda, con Keone. Y ha dicho, bueno, y el resto eran todos los clássicos de la primera llamada que yo creo que va a haber en el Olimpia. Pero eso sí, me falta aquí Michael Daboul. Me falta Logan Franklin. Empieza a tirar nombres y para decir pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=69" target="_blank" class="timestamp">[01:09]</a> Vamos a ver, ¿tú te has enterado lo que ha pasado un día antes en el Peaceful Pro? ¿Lo que ha ocurrido? ¿De lo que todo el mundo está hablando en categoría Classic? ¿Te has enterado de lo que ha pasado o no te has enterado de lo que ha pasado? O sea, algo realmente surrealista se queda poco. Estamos hablando del creador de contenido de culturismo de competición más grande del mundo. Con más de un millón de seguidores, ahora lo veremos en YouTube el alcance que tiene este tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=93" target="_blank" class="timestamp">[01:33]</a> Entonces, ya me parece que hay algo de aquí personal. O sea, o personal o directamente es en plan de, mira, que yo voy a hablar de lo mío, de mi libro y a mí todo lo demás. Me da exactamente igual. Así que, como digo, vamos a pasar a verlo porque es que no tiene desperdicio. ¿Qué vais a alucinar? Como digo, siempre, por supuesto, los códigos de descuento. Además, voy a ir rápido. Código de descuento en OnRoute, en Biggie y en Agonjin. Ya lo sabéis, código de OnRoute en la dos web.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=117" target="_blank" class="timestamp">[01:57]</a> Porque, insisto, voy a ponerlo de primeras. Es que además vamos a ir rápido porque al final veo que me voy a calentar y voy a tener un descargo al final un poco más grande de lo habitual. Pero bueno, vamos a ver qué es lo que ha dicho en este caso Nick Stress & Power, que es la segunda falta de respeto. La segunda, no la primera. O bueno, si os parece, mira, vamos a hacer una cosa. Vamos a rescatar la primera de todas ellas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=141" target="_blank" class="timestamp">[02:21]</a> que yo creo que interesa. Esta fue lo que hablaba Nick Streatham Power en la previa, que no contaba para nada con Josema. Josema era, bueno, pues eso, uno más que pasaba por allí. Vamos a escucharlo y a partir de ahí vemos la segunda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=152" target="_blank" class="timestamp">[02:32]</a> Let's look at Terrence Ruffin's latest physique update, which I think is absolutely incredible. And let's put that side by side with the classic physique competitor list, because we haven't talked much about who Terrence is going to face here. So let's go ahead and run through this competitor list here. You've got Zay Adonis, Dom Carter, Joe Davis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=174" target="_blank" class="timestamp">[02:54]</a> ¡Suscríbete al canal!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=193" target="_blank" class="timestamp">[03:13]</a> Josema Munoz, quien también también me parece increíble ahora mismo. Richard Nagy, Antoine Ratushni, Damian Ricketts, Terence Ruffin, y James Smith. Así que para mí, mirando a cómo increíble Terence se ve en este update, en todas las updates que hemos visto de Terence acumulando en este show,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=215" target="_blank" class="timestamp">[03:35]</a> y lo veo a esta linea y veo algunas naciones que he visto y he escuchado en las redes sociales, he visto sus updates, como dije, Cake, Josima, Juan Medina es otro uno, pero, honestly, nadie en esta linea fue even top 15 en el año pasado de la semana del Mr. Olympia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=234" target="_blank" class="timestamp">[03:54]</a> Albeit Terrence wasn't even at the Olympia last year, so fair that that's not a good comparison point, but for Terrence to have been one of the guys that was rivaling Chris Bumstead, a top two guy, he was once talked about as the heir to the throne. And to see, like I said, nobody in this lineup was even top 15 at the Classic Physique Olympia last year.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=257" target="_blank" class="timestamp">[04:17]</a> I find it very hard to sit here and act like Terrence is going to have a difficult time winning this show. Looking at how he's looking, looking at this lineup, and no disrespect to the other athletes, but I think Terrence, in this one, is in kind of a league of his own. He looks incredible. So, I personally have Terrence winning Classic Physique. I've got Derek winning Open Bodybuilding. Let me know your predictions for both divisions, for the Pittsburgh Pro and the Con...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=287" target="_blank" class="timestamp">[04:47]</a> Pues esto es lo que argumentaba el señor Nick Stress & Power, insisto, el creador de contenido más grande de culturismo de competición con más de un millón de seguidores hablando de que, bueno, de que Ruth Diesel pues no iba a tener ningún tipo de posición porque total no competía ninguno, que ahí hubiera estado cuatro meses antes o cinco meses antes en el Olympia quedando dentro del top 15. Yo no sé, a Nick Stress & Power igual habría que decirle, bueno Nick, entonces esto que yo tengo aquí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=313" target="_blank" class="timestamp">[05:13]</a> Esto que yo tengo aquí guardado en el disco duro, yo me meto competiciones, internacional, porque además lo tengo todo guardadito y todo bien etiquetado y bien selladito. Me voy aquí, Olimpia del 24, Classic, y yo me meto aquí y digo, bueno, entonces vamos a ver. Este chaval que salió aquí a hacer una coreografía en el Olimpia, bueno, como salieron sesenta y tantos, quizás a lo mejor Nick en eso no se había equivocado o yo no sé qué ha pasado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=343" target="_blank" class="timestamp">[05:43]</a> Luego cuando yo llego aquí, Nick, no sé, sigo viendo y veo que llaman un primer callout. Que es un primer callout que se ve que se te olvida a ti. Casualidades de la vida, yo veo ahí a un tipo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=356" target="_blank" class="timestamp">[05:56]</a> Que tú dices que sigues en redes sociales. Puede ser que lo sigas. Pero desde luego yo veo aquí a un tipo en el primer callout. Que se llama José May. Que estaba en la lista que tú decías que no había ninguno del top 15. Pero bueno. Hasta ahí. Oye Nick. Un fallo lo tenemos cualquiera. Y yo he tenido 50.000 fallos. No voy a venir yo aquí a dar lecciones de los fallos que tengo. Tanto en el canal como fuera del canal. Y en la vida en general. Pero bueno. A partir de ahí. Insisto. Se celebra el Pittsburgh Pro. Tenemos lo que hemos tenido este fin de semana. Que ha sido espectacular. Ha sido espectacular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=385" target="_blank" class="timestamp">[06:25]</a> Y o casualidades de la vida, tenemos esto de aquí, a este señor al que no pertenecía al top 15 este del Olimpia, que decía ni que no había ningún top 15 Olimpia, bueno, pues estaba este señor aquí, batiéndose el cobre con rudissel, pose por pose, peleando, dejando un espectáculo brutal los dos, tanto uno como el otro. Aquí lo tenemos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=406" target="_blank" class="timestamp">[06:46]</a> resulta que, bueno, que llega la cosa tan, tan, tan, tan estrecha que decía que es que, bueno, que es que Ruth Diesel no iba a tener ningún tipo de posición, bueno, tan estrecha ha sido que se ha determinado por un solo punto. Y yo no sé, pero en la entrega de premios, como que me lo encuentro aquí con Ruth Diesel batallando. Bueno, yo creo que Josema está en boca de todo el mundo, ¿no? Está en boca de los protagonistas, Willy Wiesel habló de él, fue a David, vamos a escuchar luego a Phil Heath, en fin, gente que a lo mejor algo ha hecho en el mundo del culturismo, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=436" target="_blank" class="timestamp">[07:16]</a> Bueno, pues vamos a tener las siguientes declaraciones del señor Nick Stress and Power, que insisto, estas sí que van a levantar ampollas, porque estas ya no son, en fin, esto ya no es una tontería lo que va a decir aquí. Esto yo creo que ya es una falta de respeto ya de decir, mira, por aquí voy a ir. Así que vamos a escucharlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=455" target="_blank" class="timestamp">[07:35]</a> Mostly classic physique guest posing with Keon and Sampson representing 212 in open. So from the classic physique standpoint, I think we're almost getting probably an exact first call out for the 2025 Mr. Olympia. The only guys that we're missing are Erz Kalasinski.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=480" target="_blank" class="timestamp">[08:00]</a> y probablemente Logan Franklin. Creo que podría decir Michael DeBullo también. Pero creo que hay una posibilidad que el primer callout de la Classic Physique Olympia de este año incluye Ruff Diesel, Mike, Ramon y probablemente Matt Grego. Wessley está siendo el Olympia de este año.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=498" target="_blank" class="timestamp">[08:18]</a> Pero este es por lo que creo que es smarto para Ruff Diesel a joiner en este guest pose, incluso que se competió en este momento, para mostrar lo que se veía next a los top guys ahora. Desde que se ha sido away por un while, he took that time off. Ahora he won Pittsburgh, he's going to New York, he's going to try to win that show as well. Try to improve for that show, and for that win. Though a most...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=520" target="_blank" class="timestamp">[08:40]</a> Como podéis ver, tenemos ahí ese guest posing, Salson Dau de Keone, bueno, lo despejamos un poquito de la ecuación, nos centramos en todos los clásics que hay. Tenemos a Ruth Diesel, que en principio no estaba para el guest posing, pero bueno, se metió ahí dando espectáculo, cosa que nos encanta. Ramondino...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=534" target="_blank" class="timestamp">[08:54]</a> Estaba también en este caso Wesley Vissers y por el otro lado también estaba Matt Grego. Bueno, pues para Nick Streatham Power, que esto es una opinión muy personal, pero bueno, entiende que el primer callout del próximo Mr. Olympia va a ser lo que tenemos ahí, es decir, Raph, Sommerfeld, Ramondino, Wesley Vissers y Matt Grego. Pero bueno, si hay que meter alguno que otro más, pues metemos en este caso a Logan Franklin, que lo hizo muy bien en el Arnold, por cierto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=564" target="_blank" class="timestamp">[09:24]</a> segundo y metemos a michael dabull es decir siete tipos en los cuales no metemos al top 6 olimpia pero podemos pensar bueno a lo mejor es que el top 6 olimpia se metió ahí de rebote el chaval y pero no ha vuelto a hacer otra competición no no no solamente se clasificó justo después de la olimpia sino que hace dos días o mejor dicho hace un día con respecto a esto o dos si lo queremos decir así</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=586" target="_blank" class="timestamp">[09:46]</a> bueno no uno un día antes estaba en la tarima precisamente dándose dándose de poses con Ruth Diesel y ganándole bueno mejor dicho perdiendo por un punto todo el mundo hablando de él todo el mundo generando esa expectación yo ya os lo juro de verdad o sea falta ya que me nombra a mí que diga no no son estos cuatro y Miguel que también a lo mejor se presenta allí y lo mismo hace algo allí o sea yo de verdad me indigno porque porque no es un creador random</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=615" target="_blank" class="timestamp">[10:15]</a> Yo, que soy un gran afeccionado y un gran apasionado al mundo del culturismo y que me gustan las redes sociales, yo a este tío, vamos, he seguido un montón de veces como un millón trescientas ochenta mil personas. O sea, os quiero decir, que no moco de pavo, que es que este tío tiene una entrevista, y creo que estaba por aquí, no sé si a lo mejor me la va a apistar de su canal, donde este tío tiene una entrevista con Carlos Schwarzenegger. O sea, quiero decir que no es un don nadie, bueno, ya estáis viendo el rango de visitas que tiene.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=646" target="_blank" class="timestamp">[10:46]</a> O sea, y habla de absolutamente todo. De hecho es más. Pero si es que lo tienes aquí, Nick. Con 50.000 visualizaciones. O sea, que tú mismo has estado hablando del tema de Josem aquí. Por eso digo que me sorprende, me indigna y me indigna más. O a lo mejor, no tanto que me indigne más, me alivia más. Que luego aparece una gran leyenda de la historia del mundo del culturismo. Un tipo que tiene, por las olimpias que tiene, en fin, un fenómeno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=674" target="_blank" class="timestamp">[11:14]</a> Y opina esto, vamos a escuchar lo que dice Filgid, porque se ve que es que a lo mejor, ya que los americanos, y esto ya empieza a pensarlo y a lo mejor soy un poco faltón con esto, pero es que parece la realidad. Parece que no miran más allá de sus fronteras y que si a lo mejor le pones un mapa mundi y le dices que señala España, lo mismo, te señala Somalia. Bueno, pues vamos a ver lo que opina Filgid del somalí, a ver qué opina Filgid.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=696" target="_blank" class="timestamp">[11:36]</a> Last but not least, we've got Classic Physique. And I must say, I did not include a Dark Horse last time. And hey, you know, shame on me, right? He goes, Josema, Beast? Oh my goodness, this guy just came out. And he wowed the crowd with his conditioning, with his shape, and his density. Very rarely do I see a person that actually has the development in the back.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=723" target="_blank" class="timestamp">[12:03]</a> Y en los glúes y hamstrings. Ellos estaban... Ellos sabían cómo pose también. La crítica que me hubiera en él es de la frente. De la frente, de la frente. Me siento que hay que tener más quad sweep. Porque hay otros guys que tienen eso. Y cuando no tienen eso, pueden ser exposed. Así que creo que es la una...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=751" target="_blank" class="timestamp">[12:31]</a> un pequeño área que si fuera a trabajar en eso creo que podría mover porque esos son los áreas que hablamos como a Wesley Bissers que él necesita mejorar y hay gente como Ramon, hay gente como Mike Somerfield que tiene muy buen equipo de quads, así que va a tener que trabajar en eso, no sé lo que su entrenamiento es como, voy a researchar esto más, yo solo seguílo en Instagram porque quiero ver este tipo de progress</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=778" target="_blank" class="timestamp">[12:58]</a> came in with great shape great symmetry tan was really good okay and how he posed was like how he posed was very very professional and uh you know what i'm sure he was disappointed but he has to know that there's you know it was a one point decision</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=804" target="_blank" class="timestamp">[13:24]</a> Yo no digo nada, dejadme en la caja de comentarios lo que opinéis de todo esto, porque sale Phil Heath, comenta esto, sale Wally Beeser en el playar y dice se lo lleva a Josema, en Brasil estará hablando de él, en el mundo estará hablando de él, Tyler Manning no está hablando de él, y es que ya a mí hasta me resulta, fijaros lo que os digo, me resulta hasta un poco incómodo tener que venir aquí siempre a sostener, a sostener aquí el peso de este chaval cuando no tiene nadie que sostenerle.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=832" target="_blank" class="timestamp">[13:52]</a> ...porque este chico... ...cuenta sus competiciones profesionales... ...por victorias... ...salvo en este caso la del Pittsburgh Pro... ...y la del Olympia... ...solo faltaba...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=840" target="_blank" class="timestamp">[14:00]</a> y es él el que se defiende en tarima es que nadie tiene que defenderle nadie tiene que venir aquí a defender a Josemar si es que se defiende él solito en la tarima con su físico entonces pongo y recalco lo que no parece justo y desde luego no parece justo y desde luego totalmente desproporcionado empezar a sacar aquí nombres del primer call out decir no bueno van a estar Magrego van a estar Logan Franklin van a estar Daboul bueno pues Magrego Logan Franklin y Michael Daboul en el Olimpia del año pasado junto con Wendy Beecher quedaron por detrás ¿por qué no lo comentas Nick?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=869" target="_blank" class="timestamp">[14:29]</a> Quedaron por detrás, en este caso de Josema. Y si me dijera que Josema es que después se presentó a un campeonato y fue un auténtico desastre, quedó en el segundo callout y no cuentas con él, me parecería fantástico. Pero es que hace un día, del vídeo que has hecho sobre el geposing, un día antes, da la curiosidad o da la sensación de que, claro, tenemos lo que tenemos. Tenemos a un atleta como este que le batalla al que es la epítome de lo que debe de ser un classic.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=895" target="_blank" class="timestamp">[14:55]</a> que es en este caso Ruth Diesel. Y que, insisto, a lo mejor nosotros lo podemos agradar como ganador a Joseba. Bueno, perfecto, los jueces han decidido que seguían más por una cuestión estética. Se acepta Barco, no hay ningún problema. Pero vamos, de ahí al ninguneo que se está pegando en las últimas semanas al Nick Stress & Power con Joseba, me parece ya un poquito personal. De todas maneras, dejadme en la caja de comentarios qué opináis. Por cierto, antes de acabar el vídeo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=920" target="_blank" class="timestamp">[15:20]</a> Quiero también centrarme en el cosita que han pasado en el guest posting y declaraciones rápidas de Nick Walker, ¿vale? Sé que el vídeo se va a ir un poquito largo porque había un poquito de descargo mío, pero quiero también un poco, bueno, que hablemos de lo que ocurrió en el guest posting. Vamos a escuchar lo que dijo Derek, que delante de Sansón hubo un poquito de careo. Vamos a escucharlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=940" target="_blank" class="timestamp">[15:40]</a> Bueno, pues Derek ahí diciéndole a Sansón en el guest posing que va a ir a por el título, en fin, el próximo Mr. Olympia. Sansón, ¿qué contestó? Pues contestó esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=964" target="_blank" class="timestamp">[16:04]</a> Bueno, ya sabes, yo estaba aquí el año pasado, perdonó el año pasado, y todos me dijo que lo que sucedió ahora, va a pasar de nuevo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=975" target="_blank" class="timestamp">[16:15]</a> Por repetir de nuevo un poquito lo que ocurrió el año pasado. Que salió el Arnold perdiéndolo con Javi Chopin. También hizo algún guest posting. Se dijo que no iba a ganar. Y que finalmente ganó. Y de ahí nos vamos a la noticia de última hora de Nick Walker. Vamos a escuchar a Nick Walker que hace recap de lo que pasó en el Pittsburgh Pro en Open. Donde para muchos no fue bien juzgado. Debería haber quedado primero para muchos, insisto. Y habla también del siguiente show que va a hacer que es el New York Pro justo este fin de semana. Vamos a escucharlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=1003" target="_blank" class="timestamp">[16:43]</a> Alright guys, good morning. It is Monday. We are back home. Chilling and relaxing. Just got done doing some cardio. So, first things first. I just want to congratulate Derek on winning the first Pittsburgh Pro. Awesome show. Awesome battle between me and him. You know, we definitely put on a great show for everyone. And honestly...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=1032" target="_blank" class="timestamp">[17:12]</a> No, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=1057" target="_blank" class="timestamp">[17:37]</a> Y también agradeceros a los Mannions por poner en un espectador fantástico, un espectador fantástico. Fue perfecto, todo fue muy organizado, todo fue perfecto. Pistburgo Pro definitivamente va a ser uno de los mejores shows en el futuro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=1080" target="_blank" class="timestamp">[18:00]</a> y estoy muy emocionado y muy feliz y estoy muy feliz de ser parte de la primera vez, también. Así que, en cuanto a los emociones, creo que es algo que voy a hablar en un video más tarde. Pero, la pregunta es, ¿qué es next? ¿Qué es Nick? ¿Cómo va a hacer esto? ¿Cómo va a hacer esto? Es Monday.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=1111" target="_blank" class="timestamp">[18:31]</a> We got the New York Pro And I'm coming to the New York Pro I'm coming to get my Olympia qualification And I'm coming to be the first person To win Three New York Pros And have three rings So if you haven't already Make sure you come Get your tickets for the New York Pro Because the mutant Is now in it And it is going to be another epic battle</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=1140" target="_blank" class="timestamp">[19:00]</a> Can't wait to see everyone there. New York Pro, East Coast, hometown, baby.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=1164" target="_blank" class="timestamp">[19:24]</a> Así que como digo chicos y chicas, estas son las noticias de última hora. Al final hemos metido un batiburrillo, hemos hablado de Classic y hemos terminado con el Open. Todo también relacionado un poquito con el guest posing de Pittsburgh. Así que dejadme la caja de comentarios y opinar de todo esto de Nick. Nick, Nick, que no somos somalíes. Con todo respeto a los somalíes. Estamos en España y estamos sacando muchos atletas. Y en este caso tenemos un 2-6 Olympia que como puedes ver...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZaIpwbDhkWc&t=1186" target="_blank" class="timestamp">[19:46]</a> se las maneja y bastante bien en tarima contra los top, top, top de la historia del Clásic Física. Así que como digo, dejadme la caja de comentario para que pensáis de todo esto, si pensáis que es una faltada, porque ya son dos, ya no es que se haya olvidado un del lead, no, no, ya es que son dos y serán tres, cuatro y las que hagan falta. Dejadme la caja de comentario, opináis, fuerte like al vídeo, suscribiros al canal y como siempre digo chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-KQZArwQVg9U">
+            <h2>¿INJUSTICIA EN EL PITTSBURGH PRO? 💥 Josema DESTROZA a Ruff Diesel?… ¡pero NO GANA! 😡</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: El Nota</span>
+                <span class="date">Publicado: 12/05/2025 19:31</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=KQZArwQVg9U" target="_blank">
+                    <img src="https://i.ytimg.com/vi/KQZArwQVg9U/hqdefault.jpg" alt="¿INJUSTICIA EN EL PITTSBURGH PRO? 💥 Josema DESTROZA a Ruff Diesel?… ¡pero NO GANA! 😡" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la batalla de culturismo Classic Physique entre Ruf Diesel y Josema en el Pitbull Pro.
+El presentador, basándose en su criterio como juez, compara pose a pose los físicos de ambos atletas.
+Explica por qué, a pesar de tener más masa y condición, Josema no logró ganar debido a fallos en el posing y la presentación de sus músculos, especialmente las piernas.
+Concluye que la estética y saber mostrar el físico fueron determinantes para la victoria de Ruf, citando incluso la opinión de Phil Heath.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Criterio Inquebrantable del Juez <a href="https://www.youtube.com/watch?v=KQZArwQVg9U&amp;t=32" target="_blank">[00:32]</a></h3>
+
+<p>El presentador establece que su análisis será honesto y basado en su criterio, sin favoritismos. Explica que expondrá lo que piensa y por qué, aunque no sea la verdad absoluta ni guste a todos.</p>
+
+<h3>Primer Vistazo: Estética vs. Músculo <a href="https://www.youtube.com/watch?v=KQZArwQVg9U&amp;t=58" target="_blank">[00:58]</a></h3>
+
+<p>Comienza el análisis comparando a Ruf Diesel, destacando su estética y proporción, con Josema, resaltando su músculo, densidad y condición superiores. Presenta las fortalezas principales de cada atleta.</p>
+
+<h3>El Mayor Fallo: El Posing de Piernas <a href="https://www.youtube.com/watch?v=KQZArwQVg9U&amp;t=197" target="_blank">[03:17]</a></h3>
+
+<p>Se identifica el principal problema de Josema: su manera de enseñar las piernas en las poses, algo señalado por profesionales y jueces. El presentador subraya que esta ejecución afectó significativamente su puntuación.</p>
+
+<h3>Pose a Pose: Cómo se Pierden Puntos <a href="https://www.youtube.com/watch?v=KQZArwQVg9U&amp;t=670" target="_blank">[11:10]</a></h3>
+
+<p>Analizando poses específicas como "abdominales y piernas", el presentador muestra cómo Ruf, pese a tener peor abdomen, gana la pose al saber enseñar todo el conjunto. Josema, con mejor físico, oculta partes clave por un mal posing.</p>
+
+<h3>Validación de un Campeón: La Visión de Phil Heath <a href="https://www.youtube.com/watch?v=KQZArwQVg9U&amp;t=1280" target="_blank">[21:20]</a></h3>
+
+<p>El presentador comparte y valida los comentarios de Phil Heath, 7 veces Mr. Olimpia, sobre Josema. Coincide en que la falta de desarrollo y la forma de presentar las piernas (de cintura para abajo) son áreas clave de mejora.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=0" target="_blank" class="timestamp">[00:00]</a> bienvenido colega al canal del nota siéntate acoplata y ponte cómodo ya sabes que esta es tu casa tío bueno vamos a ver antes de empezar con el análisis de josema y de roof en esta batalla en el pitbull pro os voy a decir algo y referente a este canal y que sirva de precedente</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=17" target="_blank" class="timestamp">[00:17]</a> Si pensáis que voy a tener algún tipo de preferencia por patriotismo, por contacto, porque haya tenido clases de posting con alguien o porque sea alumno mío y tal y cual, este no es vuestro canal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=32" target="_blank" class="timestamp">[00:32]</a> Yo os voy a decir mi criterio, os voy a comentar lo que pienso y el por qué lo pienso, que no es ni el mejor de los criterios ni tampoco va a ser la verdad absoluta. Y no pretendo ofender a nadie que piense diferente a mí. Pero mi canal trata de muchas cosas, bueno, especialmente de culturismo y de análisis de culturismo. Entonces yo os voy a exponer lo que pienso y mi opinión fundamentada de todas estas cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=58" target="_blank" class="timestamp">[00:58]</a> Así que ahora vamos con el análisis exhaustivo de Ruf Diesel y Josema. Adelante. Ahora vamos a hablar de los puntos positivos y los puntos negativos de cada uno. Comenzando por Ruf Diesel diremos que es el físico pues ahora mismo de los más estéticos que hay en la categoría Classic. Tenemos una proporción muy buena entre el tronco superior y el tronco inferior. No es que tenga unos brazos despamparantes, tampoco es que tenga unos gemelos brutales, pero la forma de ellos y sobre todo como las muestra no desentona para nada en el resto del tronco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=88" target="_blank" class="timestamp">[01:28]</a> tiene también una micro rotura bueno una rotura en el pectoral que no se le nota apenas es en el pectoral derecho y no le afecta tampoco mucho en lo que es la estética aunque es un punto negativo también os diré que la zona alta del glúteo o el glúteo medio lo tiene demasiado prominente menos mal que está tapada por lo demás tiene unas inserciones muy bonitas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=111" target="_blank" class="timestamp">[01:51]</a> ha mejorado mucho desde la última vez porque aunque no haya sido un cambio muy radical los isquiotibiales la parte posterior incluso el pecho está mucho más lleno que antes bueno mucho más o más lleno que antes es una mejora si una mejora drástica no pero aquí no se premia la mejora drástica se premia lo que tú enseñes hayas mejorado o no</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=131" target="_blank" class="timestamp">[02:11]</a> y Ruf hay una cosa que sabe hacer muy bien y es enseñarse porque otra cosa no pero en cuestión de Posing es difícil pillar a Ruf Diesel haciendo una mala transición o una mala pose entonces hay puntos positivos de Ruf Diesel que puede luchar contra Josema pues por supuesto el Posing la estética la proporción son las tres bazas que tiene pero no tanto como los puntos buenos que tiene Josema</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=157" target="_blank" class="timestamp">[02:37]</a> Josema, ¿qué es lo que tiene? Tiene músculo, densidad, corte, profundidad y condición. Y todas estas cosas las tiene superior a Ruff. ¿Cuáles son más puntos buenos de Josema? Que tiene muy buena actitud encima del escenario y ya está posando con cierta seguridad. Pero también todos los físicos no son perfectos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=177" target="_blank" class="timestamp">[02:57]</a> Y a pesar de la gran condición y la gran profundidad y sobre todo el aspecto freak que tiene de esa condición, tiene otros puntos negativos que tienen que hacer frente a lo mejor de Ruth Diesel y viceversa. Por lo tanto, ¿qué es lo que ha fallado Josema? Lo primero, ya sabéis que yo siempre, al ser juez,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=197" target="_blank" class="timestamp">[03:17]</a> He mirado el cómo se enseña a la gente. Y Josema, no dicho solo por mí, sino también por todos los profesionales, incluido un mistero limpia como Phil Heath, y ya me lo habéis escuchado muchas veces, la posición de las piernas no ha sido la correcta. Él todavía tiene mucho...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=214" target="_blank" class="timestamp">[03:34]</a> tiempo por delante tiene 23 años y está encontrando un estilo por lo tanto la manera de enseñar ha sido yo creo uno de los mayores problemas aquí en este campeonato y también dicho por los jueces porque ahora lo veréis en este análisis entonces os me hubiera encantado que ganase josema pero una cosa es lo que a mí me gusta y otra cosa es lo que yo veo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=237" target="_blank" class="timestamp">[03:57]</a> Y yo cuando estaba viendo las comparaciones entre uno y otro, por mi recorrido, por las cosas que veo, por mi criterio, yo, y lo podéis ver en el directo, ya decía que se lo iban a dar a Ruf seguramente. Y si yo estuviera como juez, le pese a quien le pese, yo se lo hubiera dado también a Ruf por el criterio que tengo. Sí, me podéis poner a parir en los comentarios, da igual, pero esto es lo que os puedo comentar y no voy a dejar de ser honesto con las cosas que pienso y por qué las pienso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=265" target="_blank" class="timestamp">[04:25]</a> Ahora en el análisis vamos a ver pose a pose qué es lo que ha hecho mal Josema y sobre todo si seguramente vea el vídeo le podamos ayudar un poco a mejorar de cara al New York Pro. Bueno, comenzando este análisis, este doble bíceps, voy a ir pose por pose y os voy a comentar qué es lo que sucede aquí y quién gana en cada pose. Veamos, aquí tenemos el doble bíceps de Josema y de Ruff.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=292" target="_blank" class="timestamp">[04:52]</a> ¿Qué es lo que sucede aquí? Que le corrigieron a Josema como hacía este doble bíceps porque no lo terminaba de hacer como querían Tyler Mannion o los Mannion o quien sea. Y hay algún problemilla todavía porque vemos como Josema está un poquito inclinado. Está casi bien la pose, le queda poco para terminar bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=312" target="_blank" class="timestamp">[05:12]</a> y la ha mejorado mucho respecto a la última vez pero qué es lo que pasa que apunta aquí y esta pierna al igual que esta no está del todo bien de hecho una cosa que estuvimos hablando en el directo es que debería levantar el tacón como lo hace aquí roof porque así enseña toda la pierna como la está enseñando roof diesel si josema la posada bien os lo digo esta pose es probable probablemente que se la pudiera llevar si la posada bien</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=341" target="_blank" class="timestamp">[05:41]</a> el problema de aquí también es que josema se le olvida cantidad de veces apretar el bíceps o los bíceps y cuando los aprieta los aprieta por muy poco tiempo y es algo que también lo he dicho en numerosos vídeos entonces aquí la estética que tiene root diesel la pose y lo que está enseñando ya aunque tenga menos porque josema y lo voy a decir creo que varias veces en este vídeo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=364" target="_blank" class="timestamp">[06:04]</a> Josema tiene mejor condición, más músculo, más profundidad y más separación. Pero no todo eso es el culturismo, porque hay muchísimos culturistas que también tienen eso y no ganan. Y diréis, ¿por qué? Pues porque al lado de otra persona no se enseñan como la otra persona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=380" target="_blank" class="timestamp">[06:20]</a> No es ya tampoco solo una cuestión de posting porque también hay fallos. ¿Qué fallos? Pues también tenemos desproporciones. El bíceps es mucho más grande que el tríceps. Pero lo que pasa es que de frente no se nota tanto y lo está arreglando ya. El abdomen y el vacuum es mucho mejor de como lo hacía antes. Y el gemelo por delante lo ha mejorado. Un punto muy bueno. ¿Cuál es el punto más negativo de Josema? Pues lo estamos viendo. Dos. Uno. Es la forma de enseñarse y las piernas que tiene...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=409" target="_blank" class="timestamp">[06:49]</a> un cuadriceps pues muy recto y muy bajo porque llega aquí y el basto interno es que se casi tapa la rodilla vale en cambio pues Ruth lo tiene una manera diferente tiene unas inserciones más llamativas y unas formas más ovaladas al tener estas formas más ovaladas pues es como mucho más estético no</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=431" target="_blank" class="timestamp">[07:11]</a> Y ahora me diréis, pero vamos a ver, nota, no nos den la chapa, cuéntame a mí qué es lo que pasa aquí porque se lo han dado a Ruf. Vale, otra cosa os digo, que es que la categoría Classic, si se valora algo referente a la categoría Classic, tiene que ser o bien el posing o bien la estética, porque si no es un culturismo por peso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=448" target="_blank" class="timestamp">[07:28]</a> Con otro bañador y es algo que ya han dicho con anterioridad, pero no nos lo dejan claro, con lo cual no tenemos un criterio al cual agarrarnos. Pero si el criterio entra dentro de lo que han ido puntuando antes, como ha sido Ruf Diesel, que lo han puesto numerosas ocasiones delante de Ramón Dino o de URSS o de otros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=467" target="_blank" class="timestamp">[07:47]</a> Pues hay que seguir con ese patrón, porque así saben a qué agarrarse cada uno. Y aquí esta pose yo se la doy a Ruf por cómo enseña todo y por el conjunto general, a pesar de que Josema tenga más. Pero no me lo enseña. Si no me lo enseña, yo no puedo intuir que tenga más. Porque a lo mejor hay jueces que ni siquiera lo conocen, que lo dudo. Pero ese es, digamos, la objetividad de juzgar un físico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=492" target="_blank" class="timestamp">[08:12]</a> Si pasamos y vamos viendo cómo se va desarrollando, ahí hace un amago de mostrar la pierna, que a mí hubiera estado muy bien si lo hiciera, ya te digo, terminar bien esa pose, porque es muy importante. Una doble bíceps dice muchísimo de un atleta, muchísimo, y tiene que darle todavía más caña para terminar de enseñarse bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=511" target="_blank" class="timestamp">[08:31]</a> a medio hacer esa pose. Ya os lo digo, ha mejorado pero le queda un poco. Tenemos una pose de Ruf Diesel y luego ninguna de Josema. Pero en esta ya cambia la cosa. ¿Por qué? Porque aquí Josema tiene una masa muy grande, se le ve la condición. Si nos fijamos también en lo que son las estriaciones del pectoral, el bombeo del pectoral, el tamaño del pectoral, luego el hombro, la separación del brazo, mejor glúteo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=537" target="_blank" class="timestamp">[08:57]</a> La inserción más del cuádriceps que se separa con el bicefemoral, el gemelo, yo aquí le veo superior. Y eso, y os lo digo, y eso que Root Diesel se está enseñando mejor. ¿Por qué? Porque Root Diesel, a pesar de ser más pequeño, me está enseñando mucha más amplitud manteniendo un bombeo como el que tiene. Por lo tanto, ya estaríamos uno perfecto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=557" target="_blank" class="timestamp">[09:17]</a> a uno y está guay porque está reñida la cosa os lo digo a mí personalmente me gusta que ya empieza así de reñido y las puntuaciones han estado muy reñidas ya os anticipo aquí en el doble bíceps de espalda quiero que os fijéis en una cosa porque esto va a ser interesante analizarlo y más de uno se me va a echar las manos a la cabeza</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=576" target="_blank" class="timestamp">[09:36]</a> A mí personalmente me gusta como la posa sin Josema. Intenta ganar también anchura de isquios. ¿Tiene mejor espalda que Ruf? Por supuesto que tiene mejor espalda que Ruf. Por supuesto. ¿Mejores isquios? Tiene más tamaño. Oye, que también tiene muy buenos isquios Ruf. No se queda atrás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=592" target="_blank" class="timestamp">[09:52]</a> Y el glúteo lo están posando ambos de una manera diferente. Y aquí, por ejemplo, la forma del glúteo de Ruff lo hace una estética muy bonita. ¿Por qué? Porque es más pequeño, como más picudo. Aunque sea subjetivo, os lo digo para mí. Pero Josema tiene esta espectacularidad. Y cuando vemos este hombro, que es muy predominante, y el tríceps.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=612" target="_blank" class="timestamp">[10:12]</a> que va sigue yendo un poquito por detrás del brazo no entonces ya vemos un problema que tenemos aquí el tema del tríceps el cuádriceps que es muy recto al igual que el aductor que no es tan redondo como podemos ver aquí de roof aún así</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=627" target="_blank" class="timestamp">[10:27]</a> yo creo que esta espectacularidad porque esto aunque lo veáis en un vídeo en persona cambia mucho más y aquí se le ve muy bien a Josema es tanto lo que tiene es tanto músculo tan buena espalda y a pesar de esos fallos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=642" target="_blank" class="timestamp">[10:42]</a> que en mi opinión hace que sobresalga por encima de root diesel a pesar de que la pose de root diesel es más estética lo veo con formas más redondas y también con una muy buena condición pero para mí importaría más la calidad y la cantidad de músculo que puede tener en esta pose porque si tienen dosis de estética en classic pero también hay que puntuar lo otro y para mí ver ese espectáculo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=670" target="_blank" class="timestamp">[11:10]</a> Hace que lo ponga por delante. Por lo tanto, ya tendríamos dos poses a una de Ruf Diesel. ¿Todo va a ir cambiando? Pues sí, va a ir cambiando porque, como estáis viendo, es que la parte de abajo de Ruf es muy estética. Este aductor es maravilloso verlo. Por lo tanto, hay que tener un poquito una visión general de cada físico. Si nos vamos a abdominales y piernas, aquí viene lo bueno. Vamos a ver. ¿Qué es lo que está haciendo aquí José Manjo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=696" target="_blank" class="timestamp">[11:36]</a> sema tiene el abdomen mejor tiene más profundidad tiene un six pack que se le ve no tiene tanta diástasis como aquí aunque en el medio si no tiene tampoco ninguna hernia como él y el gran problema que no la posa del todo bien porque porque esta pierna es como si no estuviera no la está posando no veo el corte la veo fina y luego otro detalle es que ya se le ve un poquito más tronco</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=724" target="_blank" class="timestamp">[12:04]</a> A pesar de que tiene mejores oblicuos, mejor serrato. Estamos aquí hablando de los oblicuos. Mejor serrato se le señala más. Y encima, pues bueno, pues un abdomen brutal. Pero aquí estáis viendo a RUB Diesel. Mira esta forma. Y cómo le sale el dorsal desde abajo. ¿Por qué? Porque...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=740" target="_blank" class="timestamp">[12:20]</a> Se está enseñando y me enseña una pierna, me enseña un músculo más mejor. No como está haciendo ahora mismo Josema, que esta pierna de aquí la tiene que mantener más o menos así. Eso no es inmovible. Y esta es la que no coloca bien todavía para poder posar en condiciones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=757" target="_blank" class="timestamp">[12:37]</a> Y aunque tenga mejor abdomen, hay un conjunto de poses en las que dices no, no veo que pueda ganarle a un conjunto general. Porque me está enseñando fallos que aunque Roof Diesel no tenga tantos fallos o mejor dicho, aunque Roof Diesel no tenga tanto músculo o mejor músculo, me está enseñando todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=778" target="_blank" class="timestamp">[12:58]</a> entonces puedo puntuar también las piernas pero aquí lo que está haciendo josé ma es que a pesar que tiene unos músculos muy buenos me está enseñando un fallo y ese es el gran problema por eso yo esta pose si se la daría a roof ahora vamos a la pose clásica</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=794" target="_blank" class="timestamp">[13:14]</a> es más a mí dicen que no le gusta a la gente pero cuando enseña si una pierna se está estriando está separada y encima sigue enseñando el abdomen aquí josema hace una cosa que yo no aconsejaría nunca en clásico porque porque esto se hace mucho en culturismo y es que ahora mismo parte del abdomen no se te ve la pierna sólo se te ve pues ni de perfil ni de frente mitad mitad o sea ni grande ni de perfil ni nada yo no te la veo por lo tanto no te puedo puntuar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=823" target="_blank" class="timestamp">[13:43]</a> Si haces esa variante de abdominales me confirmas más tu fallo y yo insisto en mejorar la puntuación a root diesel en esta pose. Si nos vamos ya a la mejor pose clásica, esto es de estudio. Os lo digo de estudio porque llegamos a lo mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=838" target="_blank" class="timestamp">[13:58]</a> Josema, aquí tiene una pose extraordinaria en la parte de arriba. Fijaos desde dónde sale el dorsal, cómo mete el oblicuo. Que esto es lo que tenía que hacer en abdominales y piernas. Así es como se tenía que colocar en abdominales y piernas. Porque si vamos para atrás, y quiero que me entendáis bien, que esto es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=857" target="_blank" class="timestamp">[14:17]</a> inapelable aquí tenéis otra vez lo que os he dicho lo de Ruff y Josema si Josema llega y me posa como os he dicho que tiene que posar más tipo Ruff o como está haciendo aquí en la mejor pose clásica le hubiera salido un abdominales y piernas increíble porque esta anchura el pectoral y el brazo que otra vez no termina de apretar el bíceps otra vez que es otro fallo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=881" target="_blank" class="timestamp">[14:41]</a> Pues, ¿qué queréis que os diga? Ahí, mira. Y todavía no lo está apretando del todo. Todavía le queda más porque conozco muy bien su físico. Y son otros fallos que lo que me enseña es esto. Esto y el bíceps a veces que no lo aprieta. Si un juez no está mirando justo cuando no aprieta el bíceps, ¿qué puede puntuar? No puede puntuar bien porque no lo ve bien. Y tú sabes que en un momento ves a uno y ves a otro. Ves a uno, ves a otro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=905" target="_blank" class="timestamp">[15:05]</a> Y como lo veas justo cuando no aprieta, dices, coño, pero si es que no está apretando bien el bíceps. Ya le puntúas mal. Por eso es tan importante enseñarse. Y luego aquí lo mismo está pasando con las piernas. La colocación de las piernas para mí no es la idónea. ¿Por qué? Porque no vemos la anchura que tiene. Vemos solo el corte del basto externo, recto femoral, basto interno y un poquito saltorio. Pero es que no veo aquí el diámetro y es más, le hace una forma bastante...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=934" target="_blank" class="timestamp">[15:34]</a> recta y esto es lo que estropea toda la pose por completo todo en cambio Ruth aquí que es lo que sucede que Ruth Diesel ahora mismo está haciendo una pose clásica tremendamente buena está enseñando y eso que tienen menos o sea Ruth Diesel tiene menos pecho que tiene buen pecho tiene muchísimo menos brazo eso desde luego tiene un vacuum que sí es bueno tiene menos cintura el cuádriceps lo tiene más bombeado pero tiene menos tamaño tiene menos condición también pero me está enseñando todo y me lo enseña muy bien</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=964" target="_blank" class="timestamp">[16:04]</a> Pero me lo enseña muy bien no solo por la forma de posar, sino por lo que tiene. Porque tiene una condición sublime y porque tiene también un músculo de mucha calidad. No es solo enseñarse bien, ¿vale? Pero yo esto sí lo puedo puntuar al completo. Entonces yo aquí, ¿a cuál se la doy? A Ruff. Y Ruff ganaría por eso. Ya está. O sea, ahora mismo por esas poses. Un punto es lo que les apara el uno del otro. Y creo que esto es muy importante...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=990" target="_blank" class="timestamp">[16:30]</a> Y le va a venir muy bien a Josema para decir, oye mira, aunque yo me sienta ganador, aunque yo crea que he podido ganar a Root Diesel, yo tengo que mejorar todos los detalles posibles en el posting. Si lo vemos más de cerca, otra vez lo mismo. Las piernas sin apretar, los bíceps sin apretar y si el juez te está mirando, ¿qué pasa colega?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1011" target="_blank" class="timestamp">[16:51]</a> Mira, se ha mirado el abdomen y ahora aprieta. ¿Y cuánto tiempo ha apretado? ¿Cuánto tiempo? Porque aquí todo el mundo dice, no, es que está muy bien todo lo que tú quieras, pero ¿cuánto tiempo ha apretado? Lo pongo otra vez y que quede bastante claro. Ahí casi que coloca la pierna bien. Ya están posando. Ruf Diesel está listo con la pose y José Ma todavía le falta. Se mira el abdomen, se coloca un segundo, dos como mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1035" target="_blank" class="timestamp">[17:15]</a> dos segundos ha mantenido la pose si hay un juez que no lo haya visto bien en esos dos segundos lo siento una puntuación fallida y aquí Ruth no hay tanta diferencia como hemos visto en el otro vídeo cuidado que aquí están muy cerca muy cerca porque yo también por lo que conozco a Josema ahora mismo no está posando con tantas ganas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1057" target="_blank" class="timestamp">[17:37]</a> No lo veo con ese ímpetu, aunque esté apretando, pero no lo veo como en la otra pose y está manteniendo muy bien el tipo. Yo en esta sí le veo superior a Josema. Pero oye, también fijaos en una cosa. Los cortes de aquí de Ruth buenísimos. No aprieta mucho el glúteo, no se le corta tampoco mucho el glúteo y tiene una forma muy bonita. Luego la amplitud que tiene para ser más pequeño. Fijaos qué amplitud me está enseñando incluso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1082" target="_blank" class="timestamp">[18:02]</a> Una amplitud más mayor a la de Josema teniendo menor envergadura. Por eso que está incluso aquí algún juez que se la puede dar a Ruth. Os lo digo. A pesar de que Josema tenga más aquí. Pero bueno, ya llevaríamos pues eso. Una pose a dos. No, perdón. Una y una. Ya empiezo yo con los líos de las puntuaciones. Si nos vamos aquí a espaldas. Ruth Diesel tiene una espalda cojonuda. Pero no tiene esta pedazo de espalda. Y bien que aprieta aquí los bíceps. Fijaos qué bíceps. Qué pedazo de bíceps.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1112" target="_blank" class="timestamp">[18:32]</a> tiene aquí este josema es increíble luego hay otro detalle que tengo que decir que esto a la larga y a la corta le puede venir bien y le puede venir mal cuando él mueve la cadera para posar él lo que intenta es sacar también el aductor porque hace que tenga la pierna más rellena si no hiciera esto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1133" target="_blank" class="timestamp">[18:53]</a> pues se le verían también un poquito los erectores y espinales por eso tenéis una sensación de ver una espalda tan mazagota porque se está acortando longitud debido a la posición de cadera ese es el no te voy a decir el problema es la forma de posar que tiene y a mí me parece bien me parece bien porque así rellena más piernas pero como estáis viendo es muy recta por detrás</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1156" target="_blank" class="timestamp">[19:16]</a> sigue siendo bastante recta aunque tenga esta condición loca y luego veis esta silueta porque es silueta que bonito ya hombre vamos a ver ni la estética gana de por sí ni el posing tampoco pero tampoco la cantidad de músculo ni la definición que tenga cuenta mucho por supuesto pero enséñamelo si no no puedo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1177" target="_blank" class="timestamp">[19:37]</a> aquí volvemos a decir que Josema ganaría y estáis viéndolo ya más de cerca y a Ruth se le ve bastante bastante bien y mejor en este lado y en este vídeo que en el otro lo de abdominales y piernas vuelvo a decir lo mismo no voy a repetir aquí por ejemplo a Josema le falta apretar un poquito el resto abdominal y aquí Ruth Diesel que estáis viendo que tiene peor abdomen tiene peor abdomen Ruth Diesel pero me está enseñando las dos piernas y aquí Josema</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1204" target="_blank" class="timestamp">[20:04]</a> es cuando mete el gran fallo mirad esto todo el buen abdomen que tenía que coños pasa ahora y esto es lo que lo que no puede ser porque no me está enseñando todo el abdomen solo unos oblicuos y encima la pierna en cambio Ruf mantiene la pierna y la mantiene ya es un músculo que me enseña más por eso esta pose a pesar de que José más tenga más músculo y mejor puesto no lo aprovecha y es el gran problema que ha tenido aquí</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1233" target="_blank" class="timestamp">[20:33]</a> Para finiquitar ya las rondas y este análisis, pues lo vuelvo a decir, viene la mejor pose clásica que me coloca otra vez la pierna que yo considero que no es lo ideal. Otra vez no aprieta del todo. Ruth Diesel hace una pose de tristes muy buena donde enseña la pierna. Fijaos la diferencia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1250" target="_blank" class="timestamp">[20:50]</a> Aquí, de una pierna a otra. Aquí, por ejemplo, Roof Diesel me enseña el basto externo, me enseña el basto interno, vemos el gran adductor y toda la envergadura de la pierna, que aunque tenga menos, se le ve mucho más que aquí. ¿Por qué? Porque sabe colocar la cadera y encima hacer una rotación externa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1269" target="_blank" class="timestamp">[21:09]</a> y el tríceps pues se le ve francamente bien ahí con el pecho aunque tenga esa rotura pero como veis no le influye para prácticamente nada y tiene una muy buena pose clásica además que la está manteniendo mucho más tiempo bueno por último pero no menos importante tenemos un físico clásico y debo decir que la última vez no incluía un caballo negro</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1290" target="_blank" class="timestamp">[21:30]</a> Oye, ¿sabes qué vergüenza siento de mí mismo, verdad? Porque Josema es una verdadera bestia. Oh, Dios mío, este hombre acaba de aparecer. Y su constitución, su forma y su densidad asombraron completamente al público.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1306" target="_blank" class="timestamp">[21:46]</a> raramente tengo la ocasión de ver a una persona con un desarrollo tan notable en la espalda los glúteos y los isquiotibiales quiero decir están totalmente destrozados mi crítica a él es desde el frente desde la cintura delantera hacia abajo siento que se necesitan más escaneos de cuatro rondas porque sabes hay otros que lo tienen y cuando no lo tienes puedes quedar expuesto así que</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1332" target="_blank" class="timestamp">[22:12]</a> Creo que estas son como una pequeña área en la que si va a trabajar, creo que puede mejorar. Porque estas áreas son como el visitante Wesley del que hablamos y necesita mejorar. También hay gente como Raymond. Tienes gente como Mike Summerfield que tiene buenas habilidades de barrido. Entonces él tiene que trabajar en eso. No sé, como su estilo de entrenamiento. Yo realmente voy a estudiar más a este tipo. Solo lo seguí en Instagram porque quería ver el progreso de este tipo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1361" target="_blank" class="timestamp">[22:41]</a> Posee un físico envidiable, ya sabes, sumamente simétrico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1365" target="_blank" class="timestamp">[22:45]</a> Es excepcionalmente bueno, está perfectamente bien. Sabes que estoy absolutamente seguro de que se sentía decepcionado, pero tenía que entender que era una decisión completamente premeditada. Y ya habéis escuchado a Phil Heath, un 7 veces Mr. Olimpia, que ya sabéis los rollos estos de traducción y demás. Y sobre todo esto de decisión premeditada, yo creo que es más por el preyaging, ¿no? Y que necesitan más rondas y sobre todo de cintura para abajo. Si ya te lo está diciendo un Mr. Olimpia, es porque hay que cambiar cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1393" target="_blank" class="timestamp">[23:13]</a> de acuerdo entonces lo vuelvo a decir yo si hubiera estado ahí como juez me hubiera encantado darle ganador a josema pero no no se lo hubiera dado y aunque me llevan críticas y todo lo que tú quieras pero ante todo está mi honestidad mi integridad y mis principios y es mostrar las cosas que pienso con total transparencia aunque no gusten</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1417" target="_blank" class="timestamp">[23:37]</a> Y prefiero decir algo que no guste para que todavía tenga margen de maniobra, adorar la píldora a alguien y esperar que te nombren unas historias. Entonces, bueno, espero que os haya molado el vídeo y el análisis y vamos a seguir hablando de muchas cosas que han pasado en este Pittsburgh. Nos vemos en el próximo vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1435" target="_blank" class="timestamp">[23:55]</a> Ya sabéis que os tengo que aconsejar alguna de esas protes molongas y chulas y con sabores golosones. Pues sí, os voy a aconsejar esta que es de Jurassic Choc, que me flipa porque es que me recuerda. Y sí, tiene trocitos, pero pequeños, ¿sabes? O sea, no penséis que esto es nada del otro mundo. Lo que pasa es que le da un toque muy rico a las galletas de dinosaurios. Tiene chocolate y galleta de dinosaurio en una proteína aislada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1460" target="_blank" class="timestamp">[24:20]</a> que te sale a 64,90 y además os digo si le dais aquí al carrito de la compra ponéis en el carrito mi código como no el nota que os va a pasar pues que os va a hacer un descuento de 64,90 a 58,41 o sea me estáis hablando una proteína aislada de kilo 800 por 58,41 tío esto tienes que comprarlo venga pruébala porque está de puta madre</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=KQZArwQVg9U&t=1487" target="_blank" class="timestamp">[24:47]</a> Y si necesitas algo de suplementación deportiva, vete a másmusculo.com, pon mi código EL NOTA, que te hará un descuento. A mí me darán una comisión y me ayudarás, tío, a ganarme la vida. No tengo tropecientos mil seguidores. No tengo un físico de escándalo. No soy un tipo adinerado. No vivo en Estados Unidos. Tampoco soy un Adonis. Solo soy EL NOTA. Y sé muy bien de lo que hablo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-AI8oBoo8kKM">
+            <h2>RAMON DINO IRRECONOCIBLE CAMBIO FISICO CONTRA TODOS EN EL ESCENARIO - Victor valdivia</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Victor Valdivia</span>
+                <span class="date">Publicado: 12/05/2025 19:51</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=AI8oBoo8kKM" target="_blank">
+                    <img src="https://i.ytimg.com/vi/AI8oBoo8kKM/hqdefault.jpg" alt="RAMON DINO IRRECONOCIBLE CAMBIO FISICO CONTRA TODOS EN EL ESCENARIO - Victor valdivia" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza el guest posing del Pittsburgh Pro de culturismo, comentando el estado físico de varios atletas top.
+El orador evalúa a competidores como Ramondino, Somerfield, Kion, Samson Dauda y otros, destacando sus puntos fuertes y mejoras.
+Se comparan sus físicos y se especula sobre sus posibilidades para el próximo Mister Olimpia.
+El video ofrece una mirada detallada a las condiciones de los atletas fuera de temporada competitiva.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Potencial de Ramondino para el Olimpia <a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&amp;t=70" target="_blank">[01:10]</a></h3>
+
+<p>El presentador destaca que, a pesar de no haber tenido su mejor año anterior, Ramondino tiene muchas posibilidades para el próximo Mr. Olimpia. Resalta su estructura y cómo puso en aprietos al campeón anterior.</p>
+
+<h3>La Impresionante Presencia de Somerfield <a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&amp;t=144" target="_blank">[02:24]</a></h3>
+
+<p>Aparece Somerfield en el escenario, siendo descrito como "inmenso". Aunque el presentador critica su abdomen, reconoce la locura de sus poses y el gran tamaño que trae.</p>
+
+<h3>Kion, Un Mutante Restringido <a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&amp;t=245" target="_blank">[04:05]</a></h3>
+
+<p>Kion es presentado y calificado como "otro nivel". Se enfatiza que está restringido por su categoría de peso y que, de no ser así, podría ser un competidor formidable en la categoría Open.</p>
+
+<h3>Samson Dauda: Un Tanque de Músculo <a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&amp;t=330" target="_blank">[05:30]</a></h3>
+
+<p>Hace su aparición Samson Dauda, destacando inmediatamente por su tamaño masivo. El presentador lo describe como un "tanque de músculo" y "menudo bicharraco".</p>
+
+<h3>Josema y Su Alto Potencial de Olimpia <a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&amp;t=1016" target="_blank">[16:56]</a></h3>
+
+<p>El presentador dedica tiempo a analizar el físico de Josema, elogiando su condición "insana" y su estética. Afirma estar "casi convencido" de que Josema ganará un Olimpia, considerando que es "cuestión de tiempo".</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=0" target="_blank" class="timestamp">[00:00]</a> vamos a ver el front double cuidadito cuidadito que esto es lo que venía diciendo cuidadito al dinosaurio que se tanquea toda la lobby cuidadito con el dinosaurio pero Dino porque está tan bien fíjate fíjate los cortes la densidad a ver si va a competir dentro de poco chavales pero ahora mismo yo es lo que os digo veo a Somerfield como el atleta que seguramente se lo lleve pero es que esas imágenes de Dino una vez más</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=26" target="_blank" class="timestamp">[00:26]</a> Bueno amigos, vaya diita de culturismo. Vivimos este sábado pasado con el Pittsburgh Bro, pero es que hay más imágenes, carnal. O sea, quedó el guest posing, que esto es algo que yo no había visto. También os digo, o sea, yo de verdad, el sábado creo que fui Superman, o sea, fui a una boda por la mañana. Después hice el directo de dos horas, me fui a la Champions Burger a comerme la hamburguesa de pablete.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=50" target="_blank" class="timestamp">[00:50]</a> Me vi una peli de miedo y luego casteamos las finales. O sea, tremendo. Que ya lo tenéis por ahí, por el canal. Entonces, vamos allá. Vamos a ver la participación de todos los... Todo parece ser. De momento por aquí tenemos a Ramondino haciendo lo suyo. La verdad es que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=70" target="_blank" class="timestamp">[01:10]</a> Tengo que decirles, ya de entrada algo he visto. Y es que Ramón Dino, macho, tiene muchas posibilidades de poder llevarse el Mister Olimpia. Porque la estructura... Nos estamos olvidando de Dino, chavales. No hizo una buena participación el año pasado. Pero cómo no vas a tener en cuenta a quien puso contra las cuerdas al Bombas. Fíjate.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=104" target="_blank" class="timestamp">[01:44]</a> Los brazos, tío. Quiero verle al lado de Somerfield. Sáquenmelo. Sáquenme a Somerfield. Maldita sea. Y luego he visto por ahí... He visto a Kion haciendo un pequeño destrozo en la lobby, chavales. Ok. From last breath. Ok. Qué bien se le ve, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=133" target="_blank" class="timestamp">[02:13]</a> Daos cuenta que es un añito el que yo creo que va a tener. No creo que salga por lo pronto. Aunque la condición es realmente buena. O sea, se mantiene muy bien el tipo. Se mantiene muy bien. Vamos a ver. Who is next? Ok. Somerfield, señores. Vamos a ver las comparativas. Vamos allá. Cito Mike. Vueltecita. De cortesía. Inmenso, tío. Inmenso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=165" target="_blank" class="timestamp">[02:45]</a> Pero luego es lo que hablamos, ¿eh? Es que el abdomen de este tío como tal no es un abdomen afilado, ¿no? O sea, no es como Dino. Luego sí que es cierto que empiezan las poses y es una auténtica locura. Vaya patacas me trae. No ha salido con los bigotitos de pumba, ¿eh? Vaya tanque, macho. Vaya tanque.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=192" target="_blank" class="timestamp">[03:12]</a> Vamos a ver de espaldas, porque este también llega denso de narices. Híjate. Vaya lomito, niño. Vamos a ver. La expansión. ¿Sabéis quién creo que no salió? Y esto sí que me hubiese gustado verlo. Kalamnikov Kaleski. Pero vamos a esperar. Lo mismo es que ya os digo que esto lo he visto muy por encima. Muy por encima.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=220" target="_blank" class="timestamp">[03:40]</a> No sé vosotros qué pensaréis de la categoría de Classic para este año el Mister Olimpia, si tenéis ya alguien en mente de decir, pero ahora mismo, yo es lo que os digo, veo a Somerfield como el atleta que seguramente se lo lleve, pero es que esas imágenes de Dino una vez más, ahora lo veremos, no te dan que creer, ¿no? Dices, le tengo fe al tipo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=245" target="_blank" class="timestamp">[04:05]</a> Vamos allá. ¿Quién es el siguiente? Bueno, bueno, bueno. Miren quién tenemos en tarima. Kion, che. Vamos a ver. Vamos a ver a Kion. Es que no. Es que esto es otro nivel. O sea, yo de verdad os lo digo. Ahora lo vais a ver en unos instantes. Las comparativas que me hacen. Le pone ahí contra las cuerdas, macho. Y es una categoría inferior.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=276" target="_blank" class="timestamp">[04:36]</a> Le tienen restringido. Le tienen restringido a Kion. Como le den banda suelta a este tipo. Lo que pasa es que no sé cuánto de bajito es, tío. Kion al final daos cuenta que es otro culturista que de subir a Open...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=292" target="_blank" class="timestamp">[04:52]</a> Esto, para quien no lo sepa, lo hablamos con Calderón. O sea, tenéis el vídeo de los entrenos que, para quien no lo sepa, entrené con Ángel Calderón, con Fede, con Kim Angel, Rubel Mosquera, lo tenéis en el canal. Con Calderón lo hablábamos, que es que es un mutante, macho. Esto es otro nivel. Entonces, tendría que irse para Open, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=323" target="_blank" class="timestamp">[05:23]</a> Madre mía, pero cómo le sale el dorsal, macho. Si es que parece de ciencia ficción. No parece ni siquiera real. Dios mío. Bárbaro. Vamos a ver quién tenemos. Who's next? Vamos allá. Vamos allá. La verdad que lo que ha hecho el Pittsburgh Pro es tremendo. Ahí está Samsung Dauda, señores. Saliendo al escenario. ¿En cuántos kilates? No lo sé. Pero más de 140 yo le he hecho. ¿No?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=350" target="_blank" class="timestamp">[05:50]</a> Por lo pronto... Joder, macho, vaya tanque de músculo, tío. Menudo bicharraco. Y luego otra cosa de la que no hemos hablado, que bueno, ya nos meteremos un poquito más a fondo en la semana con el tema de... Bueno, hombre, el nuque es... Ha habido ahí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=381" target="_blank" class="timestamp">[06:21]</a> Pues mucho palabreo de realmente si Derek se lo debió llevar o no. Me lo tienen ahí medio vetado al Nukes. La verdad que lo que es realmente impresionante es cómo se mantiene toda esta gente, macho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=404" target="_blank" class="timestamp">[06:44]</a> Es que es lo bonito, es que estamos entrando en una época del culturismo de la leche. O sea, ver competidores cuidarse fuera del año de esta manera, ¿no? Es que Samson, o sea, tú me dirás. O sea, el tipo llega como si el evento fuese dentro de un par de semanitas. Bueno, ¿y esto? ¿Y esto? ¿Pero qué hace? ¿Qué hace? ¿Qué hace terrorífico Terrence a la derecha? Pero si este tipo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=433" target="_blank" class="timestamp">[07:13]</a> Si este tipo compite. Si este tipo compite. Lo sacaron a tarima. ¿Qué me estás contando? Cuidadito con Tito Wish a la derecha. Cuidadito con Tito Wish. Y está aquí el greco sexte. ¿No me ha salido con una bandana en la cabeza? Pero hombre, denle una raqueta al tipo. Que se ha equivocado. Se ha equivocado con el outfit.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=457" target="_blank" class="timestamp">[07:37]</a> A ver, a ver, a ver, a ver, a ver, Dino. A ver, Dino, esa frontal, esa frontal que no me acaba de gustar, la verdad, mucho. Somerfield, la verdad, que luce mejor, pero las piernas de Dino están muy al nivel, ¿eh? Muy al nivel de las de Somerfield. Sí que es cierto que ahí en cuanto a la amplitud, vamos a ver el front double, cuidadito. Cuidadito, que esto es lo que venía diciendo. Cuidadito al dinosaurio, que se tanquea toda la lobby. Cuidadito con el dinosaurio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=486" target="_blank" class="timestamp">[08:06]</a> Y luego por aquí tienes al más chaparro, pero... ¿Qué dices? ¿Qué criatura es esa? No, hombre, lo que de verdad no tiene sentido es lo de Samsung. Parece el papá de todos, tú.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=503" target="_blank" class="timestamp">[08:23]</a> Por Dino, tío, le veo espectacular. Espérate, espérate un momento. Es que aquí hay cosas que no podemos pasar por alto. Ruf Diesel al lado de Somerfield. Ruf Diesel al lado de Somerfield. Madre mía, la diferencia entre Kion y Ruf. No me la contes. Madre mía. Vamos a ver, nos vamos para el Saicheste. Ok. La pataca de Dino, tío. Madre mía.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=534" target="_blank" class="timestamp">[08:54]</a> Le faltó relinchar. Pero di no por qué está tan bien. O sea, fíjate. Fíjate los cortes. La densidad. A ver si va a competir dentro de poco, chavales. A ver si va a competir dentro de poco. O algo han dicho lo mismo. No me enteré. Necesito telefonazo. A ver...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=558" target="_blank" class="timestamp">[09:18]</a> que me lo desplazas me lo manda para backstage que está ligero y la verdad que Weasley no me gusta nada tío o sea no me no sé en qué momento le tuvimos fe</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=583" target="_blank" class="timestamp">[09:43]</a> No sé en qué momento salió de mi boca que podía ganar al Bombas, aunque en verdad las cosas como son. Podría decirlo hasta de tu primo que podría ganar al Bombas. O sea, eso ya es el meme del canal. Aparecía un tipo de fondo, cuidado, que podría ganar hace boom. Bueno, vamos a ver cómo se desenvuelve el asunto. No ha habido más que Spowsing, no ha habido más. ¿Alguno más por ahí que haya salido? Vamos a ver porque ahora mismo hay unas imágenes un poquito más de cerca. Esto es lo que yo quiero ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=612" target="_blank" class="timestamp">[10:12]</a> Samson es el papá. Ahora iremos a ver en mejor calidad esto, evidentemente. Sobre todo lo que quiero ver es Adino al lado de Sommerfeld y tampoco un poquito de Kiong. Pues fíjate que a Root Diesel le he visto pequeño, aunque también, claro, está en punto de competición respecto al resto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=642" target="_blank" class="timestamp">[10:42]</a> ¡Ojo la carita de Tito Weiss! ¡Ostras! ¡Ostras! De Victory Mills lo llamaba. O sea que... Ha debido de cambiar los gramos porque...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=662" target="_blank" class="timestamp">[11:02]</a> Es que también os digo una cosa, ¿eh? Veo... Veo mucho a Ursh también llegando ahí para el char, ¿eh? El tema es también que José Más ha quedado un punto de Ruud Diesel. O sea, fue bastante close.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=684" target="_blank" class="timestamp">[11:24]</a> Bueno, chavales, pues esto sería. Vamos a ver unas imágenes en mejor calidad. Me ha sorprendido bastante Ramondino. De hecho, creo que hay un revela físico por ahí. Vamos a echarle un ojito. Vamos a empezar por nuestro hombre Jamondino. Señores, yo la verdad es que es quien de momento más me ha impactado. La condición es buenísima. El tamaño está ahí. Lo que no sabemos es cuántos KGs por encima del peso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=712" target="_blank" class="timestamp">[11:52]</a> Fíjate, tío, ¿eh? Fíjate, es que los dorsales han mejorado mucho. Los brazos son enormes. La cintura apretada. Aquí hay algo que no me está cuadrando, ¿eh? Aquí hay algo que no me está cuadrando. ¿Este tipo va a salir en breves o qué está sucediendo? El look es demasiado bueno, ¿eh? El look es demasiado bueno. Estoy casi con... ¿Este tono? ¿Este tono de dónde? ¿Ha dicho que compite? ¿Alguien que me lo puede decir? O sea, porque no lo estoy entendiendo nada. Cuidadito Ramoncín.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=742" target="_blank" class="timestamp">[12:22]</a> La verdad que el desarrollo de los cuádrides es buenísimo. Sí que es cierto que siempre faltó un poquito más de corte en la pierna, pero eso es una cosa que puede ir llegando. Vamos a ver de espaldas. De espaldas mejoró muchísimo. Fíjate también. Qué bien esa pose. Vamos a ver from the spread.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=772" target="_blank" class="timestamp">[12:52]</a> Muy pero que muy bien. Tengo que ver a Sommerfield. Tengo que ver a Sommerfield. Porque ya os digo que de entrada esto es una cosa de tres. O sea... Esto es una cosa yo diría de tres. Urs, Sommerfield, Ramón, Dino... Luego ya... Habría que ir viendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=796" target="_blank" class="timestamp">[13:16]</a> Yo es que lo que sí que veo es que Summerfield es... Es que aparte de tener tan buena estética, es que es un tanque, tío. O sea, tiene una cantidad de músculo que es que no es normal. O sea, mira la espalda. Mira la cantidad de masa muscular que tiene ahí, tío. Y en general, o sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=816" target="_blank" class="timestamp">[13:36]</a> Qué difícil va a ser y darle el puesto a este tío para este año, ¿eh? Pero todo puede pasar. Yo os tengo que decir que si hay alguien que le tengo fe absoluta es a Dino de salir bien, ¿eh? Y con las mejoras que estamos viendo. Bueno, luego por otro lado sí que es cierto que Urs... Está hecho un kiko que flipas. O sea, es que esto es un vídeo que ya...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=839" target="_blank" class="timestamp">[13:59]</a> que ya veremos esta semana, porque tengo que verle. Bueno, no tiene ni sentido, tío. O sea, yo lo he estado viendo y digo, Urs, quítale el plato. O sea, Urs, pero quítale el plato al bicho porque... Bueno, vamos a ver a Kion, porque esto al final sí que son... O sea, Kion ni pincha ni corta un poquito de lo que estamos hablando, pero es que es espectacular ver a este tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=867" target="_blank" class="timestamp">[14:27]</a> las proporciones que tiene, macho. Vamos a ver, de espaldas. Fíjate, tío, el femoral. Es que es... Madre mía, tío. Qué amplitud de espalda. Y pensar que está restringido de peso, ¿sabes? O sea, a este tío le das banda libre y vamos, tienes un open descomunal. Mira qué brazos, tío, y qué hombros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=893" target="_blank" class="timestamp">[14:53]</a> Yo lo que no sé es si hay algo que pueda hacer Kion para juntar un poco más los abdominales. Porque sí que me dijisteis que había como una operación o algo así. Y aquí vamos a ver a Ruf. Es que ahora es lo que os digo, macho. Me parece chiquito, Ruf Diesel. Me parece chiquito. Después de ver a Dino y a... Es que cómo llega, ¿eh? Madre mía, parece chicle.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=922" target="_blank" class="timestamp">[15:22]</a> Qué condición, tío. Qué condición. Y ahora ya para acabar vamos a ver a Josema. Yo tengo que ver en buena calidad. Qué profundidad. Es que la condición... Es que esto es lo que os digo. Es que esto yo no lo vi en el directo, ¿sabes? O sea... Mutiladísimo. Mutiladísimo. Qué barbaridad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=948" target="_blank" class="timestamp">[15:48]</a> Yo la verdad es que pienso que fue justo ganador Rob Diesel. Creo que fue justo ganador porque al final va también trilladísimo y es que se ajusta un poco más a la categoría que Josema. O sea, tiene una estética que es que, vamos, es brutal. Vamos a ver a Josema. Por aquí lo tenemos. Y con esto concluimos brochecito de oro. Final de la película. Vamos a ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=980" target="_blank" class="timestamp">[16:20]</a> Es que es condición insana, tío. Es que no tiene sentido. De espaldas no tiene sentido. Mira eso, tío. Madre mía. Qué barbaridad. Qué barbaridad. Es que parece de mentira, eh. Es que parece de mentira, macho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=1009" target="_blank" class="timestamp">[16:49]</a> Qué bien esa pose. Le queda muy bien, tío. Se ha sabido sacar ahí un partido en esa pose. Brutal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=1016" target="_blank" class="timestamp">[16:56]</a> Yo pienso, o sea, Josema tiene muchísimas posibilidades de poder ganar un Olimpia. O sea, yo considero de que si tiene esa mejora en los tríceps, bueno, el brazo en general un poco más compensado con estos hombros descomunales porque es que esto es una locura, o sea, esto va a su rollo. Y luego lo que hablamos de un poco más de inserción ahí en el quads, ¿no? Que también se lo pedían para que al final esto esté más redondeado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=1046" target="_blank" class="timestamp">[17:26]</a> Estamos hablando de un Olimpia. O sea, de que se lo lleva. O sea, estoy casi convencido. O sea, es cuestión de tiempo. O sea, es cuestión de tiempo de que... Y no de mucho. O sea, vamos a ver de cara al Olimpia qué es lo que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=1069" target="_blank" class="timestamp">[17:49]</a> que es lo que mejora, porque vamos, ya están manos a la obra y mucho cuidadito. Bueno amigos, nada más que decirles. Simplemente para los que compréis suplementación deportiva de España en Nutritienda, código Víctor 10% de descuento. Tenéis ahí todas las suplementaciones, echadle un ojito. Lo que más os recomendaría la creatina de Amazing, ya que son 400 gramos de crea puré.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AI8oBoo8kKM&t=1092" target="_blank" class="timestamp">[18:12]</a> Por apenas 20 pavos. Merece muchísimo la pena. Y luego ya pues echáis un vistazo por la web. Agregáis un poquito más al carrito de lo que os haga falta. Y nada, yo tremendamente agradecido. Virrey, nos despedimos. Nos vemos en el próximo. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 12/05/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
