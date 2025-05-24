@@ -1,0 +1,1094 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 04/05/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">04/05/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-61PEiLoljjU'>MI PRIMER CAMPEONATO INTERNACIONAL</a></li>
+<li><strong>Miguel Navarro</strong>: <a href='#video-y8W3eGa1IXE'>"ES DE MIS FAVORITOS Y LE INFRAVALORAN" Carrasco VALORA la EVOLUCIÓN del EQUIPAZO de PATRICK TUOR</a></li>
+<li><strong>Joan Pradells</strong>: <a href='#video-mdukERUYHII'>FRAN ESPÍN le DICE las VERDADES a JOAN PRADELLS</a></li>
+<li><strong>Miguel Navarro</strong>: <a href='#video-1mMfM244Gms'>"VEO A JOAN SUPERIOR EN TAMPA Y PUEDE DAR UN GOLPE EN LA MESA" Raúl Carrasco CONFÍA en PRADELLS</a></li>
+<li><strong>Joan Pradells</strong>: <a href='#video-tnyj-PiE-QQ'>No Puedo Posar Más | 90 Días Para Mi Competición Profesional</a></li>
+<li><strong>Miguel Navarro</strong>: <a href='#video-Q3yP7Kw6XkQ'>¡YILDIZ APLAZA EL PASE AL OLYMPIA DE GERMAN! El ANÁLISIS del CALIFORNIA PRO en CLASSIC</a></li>
+<li><strong>Victor Valdivia</strong>: <a href='#video-9aOCw9BCy6c'>URS SE RÍE DE LARRY WHEELS POSANDO PIERNAS Y VA RUMBO A PROFESIONAL - Victor Valdivia</a></li>
+<li><strong>alvarobernalalejandre</strong>: <a href='#video-2USFvSSaaH4'>¿Eres entrenador? Necesitas Notebook lm</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-61PEiLoljjU">
+            <h2>MI PRIMER CAMPEONATO INTERNACIONAL</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 04/05/2025 14:10</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=61PEiLoljjU" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=61PEiLoljjU" target="_blank">
+                    <img src="https://i.ytimg.com/vi/61PEiLoljjU/hqdefault.jpg" alt="MI PRIMER CAMPEONATO INTERNACIONAL" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video es un comentario del propio competidor sobre un antiguo campeonato de Strongman entre España y Portugal (año 2000).
+Analiza diversas pruebas como arrastre con arnés, peso muerto, yugo, cilindro y piedra.
+Recuerda a los compañeros de equipo (Roberto Rodríguez, Mario Alberto) y rivales (Fabio Silva).
+Relata momentos clave, destacando grandes levantamientos, percances (rotura de bíceps de un compañero, calambres propios) y cómo perdió la oportunidad de ganar el campeonato.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Inicio del Campeonato España-Portugal <a href="https://www.youtube.com/watch?v=61PEiLoljjU&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El presentador introduce el video, rememorando su participación en su primer o segundo campeonato internacional contra Portugal. Menciona a los competidores clave como Roberto Rodríguez (considerado el más fuerte de la historia de España) y Mario Alberto. Recuerda su aspecto físico de entonces.</p>
+
+<h3>La "Desgracia" de Mario Alberto <a href="https://www.youtube.com/watch?v=61PEiLoljjU&amp;t=211" target="_blank">[03:31]</a></h3>
+
+<p>Se anticipa un momento desafortunado para su compañero Mario Alberto en una de las siguientes pruebas. Mientras tanto, se muestra al "hombre más fuerte de Portugal", Fabio Silva, destacando su habilidad en los press de hombro, una prueba donde el presentador siente que no rindió bien.</p>
+
+<h3>Batalla Intensa en el Peso Muerto <a href="https://www.youtube.com/watch?v=61PEiLoljjU&amp;t=335" target="_blank">[05:35]</a></h3>
+
+<p>La prueba de peso muerto se describe como una "ruleta rusa" con pesos progresivos (hasta 360 kg). Se muestra la potencia de Roberto Rodríguez y la propia, llegando a levantar 360 kg. El presentador decide no intentar más, quedando empatado en puntos con Roberto en esa prueba.</p>
+
+<h3>El Yugo y la Trágica Lesión <a href="https://www.youtube.com/watch?v=61PEiLoljjU&amp;t=525" target="_blank">[08:45]</a></h3>
+
+<p>Comienza la prueba del yugo (455 kg), donde se destaca que algunos competidores anteriores cargaron menos peso. Se muestra el intento de Mario Alberto, quien sufre la rotura del bíceps durante el esfuerzo. El presentador logra completar la prueba rápidamente, aunque se hace daño en una pierna.</p>
+
+<h3>Calambres y la Oportunidad Perdida <a href="https://www.youtube.com/watch?v=61PEiLoljjU&amp;t=844" target="_blank">[14:04]</a></h3>
+
+<p>Durante la prueba del cilindro (log press), tras levantar 155 kg, al intentar un peso mayor, el presentador sufre calambres generalizados que le impiden completar el levantamiento. Reconoce que este fallo fue crucial y le costó la posibilidad de ganar el campeonato, ya que la siguiente prueba (la piedra) favorecía a su rival principal, Roberto.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=0" target="_blank" class="timestamp">[00:00]</a> Ah, mira, voy a hacer un campeonato. Esto fue el España-Portugal, ¿vale? Competimos contra Portugal en este campeonato. Fue mi primer campeonato internacional, si no me acuerdo mal. Si no me acuerdo mal. Estamos hablando de año 2000... No, no, no. No sé si era mi primero o mi segundo, no me acuerdo. Internacional, ¿vale? Competimos los tres más fuertes de España contra los tres más fuertes de Portugal. Mentira, compitieron cuatro. Cuatro portugueses. Roberto Rodríguez, un tío que... Bueno, no sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=24" target="_blank" class="timestamp">[00:24]</a> No puedo decir que nada más que, bueno, que ha sido una leyenda de la fuerza de este país. Tropecientas veces el hombre más fuerte de España. Quizá el hombre más fuerte de la historia de este país. Quizá. Quizá no. Yo pienso que ha sido el hombre más fuerte de la historia de este país. Roberto Rodríguez. Yo creo que ha sido el tío que más competiciones ha hecho internacionales. El tío que ha ganado muchísimas veces en el nacional. Bueno, o sea, una bestia. Bueno, Porrugo fue muy mediático. Fue muy bueno también, pero este hombre yo creo que para mí fue mejor. Vaya cebolla, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=53" target="_blank" class="timestamp">[00:53]</a> Mira qué cebollita, tú. Mira qué cebollita, tío. Vaya Pou, compadre. Míralo. Mario Alberto, mi buen amigo de Valencia. Bueno, Ramón no era de los más fuertes de España, pero nos faltaba una vacante. Pero era muy fuerte para su peso. En aquel momento ya no competía. Vamos a ver las pruebas directamente. Vaya pedazo de cara.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=75" target="_blank" class="timestamp">[01:15]</a> ¡Vaya pelazo! ¡Que me digan a mí! ¡Mira! ¡Mira! ¡Mira! ¡Mira! ¡Mira! ¡Que no tenía entrada! ¡Tenía salida, compadre! ¡Mira qué cabeza! ¡Y ahora estoy calborgota tú! Aquí os voy a contar una cosa, ¿vale? Fijaros en el arnés. Se va a partir. El arnés se parte, tío. Y ahí... Bueno, yo ahora voy a contar una anécdota que no me gustó, pero bueno. El arnés se va a partir cuando tire. Va, se parte. ¿Ves?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=100" target="_blank" class="timestamp">[01:40]</a> Pero ¿qué pasa? Yo sabía que como parase, Porruo no iba a parar el crono, porque lo conocía muy bien. ¿Sabes? Y eso me jodió un montón a mí, que se partiera el arnés. Pero bueno. Aquí no lo hice yo bien en esta prueba. Yo podría haberlo hecho mucho mejor. Tiene que haberme tumbado mucho más. Tiene que haberme tumbado mucho más. Pero bueno. ¡Venga, Antonio! ¡Antonio! ¡Vamos, Cebolla! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=129" target="_blank" class="timestamp">[02:09]</a> Mira qué envidia del bíceps sano. Ya no lo tengo, tío. Ala, tenía una pelota aquí. Mira qué pelotón tenía aquí. Morrillo de costanero le llaman. Vaya pelota tenía ahí tú. Ahí va Roberto Rodríguez. 155 kilos de peso. Tío, muy fuerte. Muy fuerte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=153" target="_blank" class="timestamp">[02:33]</a> Si no me acuerdo mal, creo que ganó la prueba él esta. Mario lo hizo muy bien también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=181" target="_blank" class="timestamp">[03:01]</a> Vamos a adelantarlo un poco. Ahora cuando se acabe Mario. Mario tuvo un percance aquí. Pobrecito, tío. Mi amigo Mario aquí. El hombre la fuerte de Portugal, que es este hombre. Varias veces el hombre la fuerte de Portugal. Fabio Silva.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=211" target="_blank" class="timestamp">[03:31]</a> Ahora, ahora, ahora en el siguiente vídeo... En la siguiente parte vais a ver lo que le pasa a Mario Alberto. Ya lo veréis. Este es el hombre fuerte de Portugal. Tío, muy fuerte en los preses, ¿eh? Muy bueno. En los preses de hombro. Yo lo hice muy mal en esta prueba, tío, de verdad. Pienso que lo hice muy mal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=243" target="_blank" class="timestamp">[04:03]</a> Vale, ahora viene el peso muerto. Peso muerto, ruleta rusa. O sea, esto es sin parar, ¿vale? Vamos a ir tirando todo sin parar. Este es el hombre a fuerte Portugal. Aquí hay 2,70. Aquí voy yo, 2,70. Vaya cebolla. El cebollita. 2,70. Vaya explosión. Vaya explosividad. Mario Alberto, 2,70. Roberto Rodríguez.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=274" target="_blank" class="timestamp">[04:34]</a> Segunda ronda. 310 kilos. El subcampeón de Portugal. Muy bien. Logra fuerte Portugal con 310. Un agarre un poco raro. Pero bueno. Muy bien. 310 kilos. Para el Pou. El niño Cebolla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=308" target="_blank" class="timestamp">[05:08]</a> Roberto Rodríguez. ¡Vamos, vamos! ¡Uh, muy fuerte! Muy fuerte. Tengo que decir que en esta prueba Roberto me sorprendió muchísimo. 330 kilos. ¡No pienses arriba! ¡No pienses arriba! ¡No pienses arriba! ¡No pienses arriba! ¡Mira qué motiva el gordito! ¡Míralo, tío! ¡El motivao! ¡Pedazo de cara, tú! ¡No pesa! ¡Ah! ¡No pesa nada!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=335" target="_blank" class="timestamp">[05:35]</a> ¡Venga, niño Cebolla! ¡3.30! Está haciendo la del camionero. ¡Mira qué motivado! ¡Mira qué motivado el personaje! ¡Mira qué motivado! ¡Roberto! ¡3.30! ¡Muy bien, Roberto! ¡Muy potente! ¡350 kilos! ¡350 kilos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=362" target="_blank" class="timestamp">[06:02]</a> ¡Vamos, campeón! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=392" target="_blank" class="timestamp">[06:32]</a> ¡Muy bien! ¡360! ¡360 kilos! ¡Ahí va el bicho! ¡Sí! ¡Sí! ¡Sí! ¡Antonio! ¡Sí! ¡350 kilos arriba! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Sí! ¡Más! ¡Más!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=420" target="_blank" class="timestamp">[07:00]</a> ¿Cuántas horas? No me acuerdo. Vale, 360 hay ahora. 360 hay ahora. Me he equivocado. 360 hay ahora. 360.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=429" target="_blank" class="timestamp">[07:09]</a> ¡Ojo! ¡Dale! ¡Dale, gordito pilón! No sé dónde tengo la cara. Aquí Roberto me sorprende muchísimo. Aquí Roberto me sorprende una barbaridad. Yo no pensaba que Roberto va a hacer lo que va a hacer aquí. Mismo peso en barra. 360.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=454" target="_blank" class="timestamp">[07:34]</a> Yo aquí dije que yo ya no tiraba más. Él intentó 3.70, creo. Intentó 3.70. Yo dije que ya iba bien ahí. Y sería récord de España en ese momento. Bueno, aquí quedamos empate a puntos. Vale, este yugo pesó... Estamos hablando que pesó... Eran, pues... Un segundo que piense... 450 kilos. Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=481" target="_blank" class="timestamp">[08:01]</a> ¡Esa palma! ¡Liciano! ¡Liciano! ¡Vamos Portugal! ¡Vamos! ¡Vamos! ¡Esa palma! ¡Liciano! ¡Liciano! ¡Liciano! ¡Corre! ¡Vuela! ¡Vamos! ¡Pasa muy bien! ¡Vamos bien! ¡Vamos bien campeón! ¡Aprieta! ¡Palante! ¡Palante! ¡Va muy bien! ¡Tienes tiempo! ¡Va! ¡Arriba! ¡Arriba!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=511" target="_blank" class="timestamp">[08:31]</a> Ya había que hacerlo en frío, además, tío. A mi amigo Mario. Y aquí viene la desgracia, amigos. Aquí viene la desgracia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=525" target="_blank" class="timestamp">[08:45]</a> Vale, ahora, ahora. Es que ya decía yo, digo, hay poco peso. Vale, esto es lo que había. Había 455 kilos. ¿Vale? 75 en cada palo. El yugo pesaba 155 kilos. Eso es. 455 kilos había aquí. Es que a los anteriores les han dejado con menos peso, ¿vale? Si os fijáis. A los anteriores, como eran más flaquitos y tal. Para que miréis el yugo, ¿veis? Hay como 100 kilos menos aquí. Y ahora va Mario. Ahora va Mario. 455 kilos. Una barbaridad, ¿eh? Aquí se partió el bíceps, tío. Mirad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=553" target="_blank" class="timestamp">[09:13]</a> Se lo parte, hermano. Se ha partido el biceo aquí. Se jodió hoy. Aquí va el segundo de Portugal. Esto es una barbaridad de peso, os lo digo. Es una barbaridad de peso. Sí, tío. Yo qué sé. Se le habrá estirado al apoyar el brazo. No sé. Digo que este peso es un peso grande. 4,55 es un peso grande. Pero no, no puede. Si os fijáis, no... Aquí va el hombre más fuerte de Portugal. 450 kilos. ¡Hola, la espirita! ¡Hola ahí! ¡Sacúden en manos! ¡Bravo, bravo!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=583" target="_blank" class="timestamp">[09:43]</a> No puede. Es una barbaridad de peso, tío. Aquí voy yo. ¡4,50! ¡Ahí va el bicho! ¡Ahí va el bicho! ¡Tiqui, tiqui, tiqui, tiqui, tiqui! ¡Vamos! ¡Vamos! ¡Dale! ¡Dale, cebolla! ¡Vamos! ¡Vamos! ¡El primero que acaba la prueba! ¡Dale! ¡Sí, señor! Me hice un poco de daño en la pierna, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=612" target="_blank" class="timestamp">[10:12]</a> Porque pisé mal, tío. Me hice daño en la pierna. Ahí va Roberto. Ahí va Roberto. ¡Sí, señor! ¡Vamos! ¡Vamos! Pensad que esta prueba es muy dura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=642" target="_blank" class="timestamp">[10:42]</a> Si no me acuerdo mal, esta prueba la gané yo. En la prueba anterior empatamos y en la prueba del camión me ganó Roberto. Aquí viene el cilindro, a tres intentos, al mejor de tres intentos. 140 kilos. Cuidado, eh. Qué barbaridad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=673" target="_blank" class="timestamp">[11:13]</a> 140 kilos. Ahí va. No sé qué me estaba pasando, tío. No podía estabilizar nada, tío. No podía estabilizar. Ahora estabilizo y tiro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=698" target="_blank" class="timestamp">[11:38]</a> Pero no me encontraba nada bien. Cuando esta prueba se me estaba dando muy bien siempre. Aquí va el hombre más fuerte de Portugal. El hombre más fuerte de Portugal. ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio! ¡Vamos, Fabio!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=728" target="_blank" class="timestamp">[12:08]</a> ¡Fácil! 155 kilos. Muy bien. ¡Fácil! ¡Uy! Ahí va, bloqueo. Muy bien. 155 kilos. Ahí voy yo. 155 kilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=751" target="_blank" class="timestamp">[12:31]</a> ¡Bien! ¡Público! ¡Público! ¡Por Dios! ¡Dame! ¡Antonio! ¡Antonio! ¡Antonio! ¡Vamos arriba! ¡Ya lo tienes! ¡Bien cargado! ¡Joder, qué potente voy! ¡Vamos, vamos! ¡Arriba! ¡Bien! ¡Bien! ¡Muy bien! ¡Estamos empatados ahora mismo Roberto y yo! Creo que hay 165 kilos, si no me acuerdo malo. 170, es que no me acuerdo. No puede.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=785" target="_blank" class="timestamp">[13:05]</a> ¡Vamos, vamos, público de pie! ¡Vamos, vamos! ¡Qué huevos, eh! Cargándola dos veces, eh</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=802" target="_blank" class="timestamp">[13:22]</a> Yo cometí un error aquí, tío. Cometí un error gigantesco yo, pero bueno. Yo no sé qué me pasó aquí ahora, tío. Ahora aquí… La cago, tío. Era un peso que yo ya había levantado, pero que ahora cuando lo voy a levantar y me la llevo al pecho… Aquí comete un error gigantesco yo, tío. Me la llevo al pecho y me empiezan a dar calambres por todo el cuerpo. Calambres, ¿veis? La cargo… ¡Pam! Y ahí ahora me empiezan a dar calambres. Muchos calambres. Y no puedo, tío. No puedo aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=830" target="_blank" class="timestamp">[13:50]</a> No puedo, no puedo. Calambres. Nada más que calambres. Todo el cuerpo calambres. No puedo, no puedo. No puedo, no puedo. Tengo calambres, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=844" target="_blank" class="timestamp">[14:04]</a> No, no, no, que no, que no. Aquí la cagué, amigos. Os lo digo de corazón. Aquí la cagué. Aquí la giñé, la verdad. Aquí la cagué. No puedo decir otra cosa. ¿Por qué? Porque yo esta prueba tenía que haberla ganado. Si yo quería ganar el campeonato. La verdad. ¿Por qué? Porque ahora venía la piedra. La piedra era una piedra de 150 kilos creo que era o por ahí. Si no me acuerdo mal. Y en la piedra Roberto era mejor que yo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=862" target="_blank" class="timestamp">[14:22]</a> ¿Vale? Entonces ahí... Yo perdí la posibilidad de ganar el campeonato. ¿Vale? Pensad que empaté con él. O sea, Roberto me ganó a mí en el camión. Yo empaté con él en muerto en cilindro. Yo le gano en yugo y queda el desempate como tal. Aquí me... Sin más. Me arrepentí muchísimo, tío. Aquí voy yo. Yo lo hice muy mal, creo, ¿eh? A ver. A ver cómo lo hice, que no me acuerdo. A ver. Una... Ah, mira, bien. Una bien. Ah, ni me acordaba.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=890" target="_blank" class="timestamp">[14:50]</a> ¡Vamos, vamos! Tiene muy poco fondo yo en aquella época, tío. ¡Vamos, Antonio! ¡Vamos! Tiene muy poco fondo. A ver. ¡Dos! ¡Ah, mira! ¡Dos! ¡Vamos, más, más! ¡Uno más, Antonio! ¡Tres! ¡Dame tres, Antonio! ¡Dame uno más! ¡Vamos, vamos! ¡Ritmo, ritmo, Antonio! ¡Ritmo, ritmo! ¡A ver! ¡Uno más! ¡Dame tres! ¡Dame tres! ¡Ojo! ¡No me acordaba yo que hacía tres! ¡Hostia gordito! ¡Uno más, Antonio! ¡Uno más! ¡Os juro por mi vida que no me acordaba! A ver, la última.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=921" target="_blank" class="timestamp">[15:21]</a> Aquí no puedo, ¿no? ¡Ah, sí que puedo! ¡Hice cuatro! ¡Cómo pesaba la piedra! ¡Hice cuatro! Bueno, no está mal, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=941" target="_blank" class="timestamp">[15:41]</a> ¡Mira cómo se le ha pillado la mano! Esto es lo que dije. Fijaros en mis dedos. Aquí le dije yo al juez ¡Mira! Se me ha caído la mano así. Se me ha caído la mano así. Y le digo ¡Ayúdame! ¡Ayúdame! ¡Ábreme los dedos! Y eso fue culpa de…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=960" target="_blank" class="timestamp">[16:00]</a> Pues ¿de qué va a ser? De los bocadillos de pollo, como el Simón. No penséis que es eso, pero sí que es de otro tema. Aquí Roberto me da un parizón. Creo que Roberto aquí... La prueba de las piedras siempre se la ha dado Roberto, criminal. Yo le puse la... Él tenía que hacer cinco para ganar y ya está. Bueno, cinco no, con cuatro ya me ganaba, creo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=978" target="_blank" class="timestamp">[16:18]</a> a ver mucho brasilado siempre extraordinario 15 tiene que hacer para ganar 2 muy rápido roberto muy bueno roberto 3 muy fuerte roberto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=1008" target="_blank" class="timestamp">[16:48]</a> Cuatro. Tiene que hacer una más y me gana. Con una más me gana. ¡Dame ritmo, ritmo! ¡Dame cinco! Y ya está. ¡Ruido de pie! ¡De pie! ¡De pie! ¡Bravo! ¡Guau! ¡Espectáculo! ¡Guau! ¡Es rubio! Una barrida de cámara. Esa...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=61PEiLoljjU&t=1042" target="_blank" class="timestamp">[17:22]</a> Bueno, ahí perdí. Eso fue hace muchos años. Ahí perdí.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-y8W3eGa1IXE">
+            <h2>"ES DE MIS FAVORITOS Y LE INFRAVALORAN" Carrasco VALORA la EVOLUCIÓN del EQUIPAZO de PATRICK TUOR</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 04/05/2025 14:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=y8W3eGa1IXE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/y8W3eGa1IXE/hqdefault.jpg" alt=""ES DE MIS FAVORITOS Y LE INFRAVALORAN" Carrasco VALORA la EVOLUCIÓN del EQUIPAZO de PATRICK TUOR" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Conversación sobre culturismo profesional enfocada en el éxito del preparador Patrick Tour.
+Se analiza su trabajo con diversos atletas, destacando el potencial de jóvenes talentos y su historial consistente.
+El punto central es el atleta Fabián Mayer, su compleja trayectoria y un confuso problema de salud.
+Se debate cómo un preparador serio abordaría este caso, implicando que la salud del atleta estaría controlada.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Cuidado con la Cantera de Patrick Tour <a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&amp;t=99" target="_blank">[01:39]</a></h3>
+
+<p>Se destaca el potencial y la calidad física de los jóvenes atletas entrenados por Patrick Tour. Se menciona la cintura y condición que traen, señalando a Kion como un ejemplo de competidor que empuja fuerte en su categoría.</p>
+
+<h3>Patrick Tour: El Preparador de Éxito Consistente <a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&amp;t=202" target="_blank">[03:22]</a></h3>
+
+<p>Los ponentes elogian a Patrick Tour por su track record, señalando que es difícil encontrar un atleta que salga mal bajo su preparación. Se le considera un preparador muy efectivo, aunque quizás infravalorado.</p>
+
+<h3>El Enigmático Fabián Mayer: Problemas y Personalidad <a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&amp;t=390" target="_blank">[06:30]</a></h3>
+
+<p>Se introduce el caso de Fabián Mayer, mencionando sus problemas pasados con su anterior preparador y su personalidad particular. Se recuerda su peculiar aparición en el último Mr. Olimpia, incluyendo anécdotas como ir vestido de oso.</p>
+
+<h3>La Confusa Situación Médica de Fabián <a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&amp;t=504" target="_blank">[08:24]</a></h3>
+
+<p>Se discute la controversia sobre la salud de Fabián, quien primero mencionó un cáncer de colon y luego, al unirse a Patrick Tour, indicó un problema renal. Se expresa sorpresa por el cambio en el diagnóstico revelado públicamente.</p>
+
+<h3>El Aval de Patrick Tour Implica Control <a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&amp;t=706" target="_blank">[11:46]</a></h3>
+
+<p>Los interlocutores concluyen que si Patrick Tour ha decidido trabajar con Fabián, es porque asume que su condición médica está controlada. La seriedad y reputación del preparador sugieren que no se arriesgaría con una dolencia grave y activa.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=2" target="_blank" class="timestamp">[00:02]</a> se me acaba de ocurrir, porque es que le he visto por ahí danzando y quería preguntarte por este señor porque de hecho, tengo que desvelar que estuve hablando hace unos días con Patrick Tur con su preparador, ojo eh</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=14" target="_blank" class="timestamp">[00:14]</a> ...estuve hablando de aquí del señor... ...que no sé si lo ves pero es... ...que honest Raúl... ...yo sé que va a estar en el Pittsburgh... ...de hecho lo vais a ver allí... ...porque van a hacer un guest posing... ...él, Michael Davul, Ramón Dino... ...en fin, va a haber por ahí... ...atletas que están ahora fuera de competición... ...para dar un poco el espectáculo... ...y el espectáculo este tío... ...lo da solo... ...este como le dé por pasarse... ...dentro de unos añitos a Open...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=42" target="_blank" class="timestamp">[00:42]</a> yo veo complicado meterle mano. Sí, sí, sí, totalmente. Aparte, sorprendente, yo sigo muy de cerca. Bueno, nos seguimos con Patri Tour y ya sabéis que es uno de mis preparadores favoritos, lo sigo de muy cerca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=60" target="_blank" class="timestamp">[01:00]</a> Y es impresionante el trabajo que está haciendo con Kion, ¿vale? De hecho, bueno, antes incluso de que fuese Olimpia, ya veíamos que venía empujando, igual que viene empujando Nija, creo que o Nihash, ¿no? Cuidado con este niño, cuidado que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=81" target="_blank" class="timestamp">[01:21]</a> que si sigue progresando a la velocidad que vienen todos los atletas de patrick tour al final son chavales jóvenes que vienen con carne fresca con su cintura en en su sitio vale que vienen a por todas con separación con condición y para mí</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=99" target="_blank" class="timestamp">[01:39]</a> es uno de fíjate la línea que tiene no tiene una línea perfecta en los perfiles de triste mantiene su abdomen y yo creo que junto a kion pues oye son uno de los de los pocos 212 que pueden venir empujando para luchar con atletas tan consagrados como como obviamente ese es ángel carterón</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=126" target="_blank" class="timestamp">[02:06]</a> y bueno entre otros obviamente pero sin ninguna duda Kion oye no lo veo no lo veo mala idea incluso llegar a subirse a Open y dar guerra en Open o sea que muchas veces hablamos de Open y hablamos muy rápido de Open muchas veces hablamos de Open así muy rápido venga Open y no</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=155" target="_blank" class="timestamp">[02:35]</a> cuidado, que para ser open hay que reunir muchas características y no todo el mundo la tiene, pero sin ninguna duda Kion yo creo que la tiene, tiene la estructura para hacerlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=173" target="_blank" class="timestamp">[02:53]</a> Yo, además, mira, aprovechando que estás tú aquí, que conoces bastante bien el circuito internacional y que conoces también bien a Patrick Tour, que como dices es uno de tus preparadores un poco de cabecera. Sí, sí. Y hablo con él. Sí, sí. Hablo con él también, sí, sí. Yo tengo que decir, Raúl, que ojito a este tío. No porque ahora lo estemos descubriendo, que no es el caso. Este hombre ya lleva preparando tiempo a gente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=202" target="_blank" class="timestamp">[03:22]</a> Pero es que podemos ir repasando la nómina de atletas y que me cuenten a mí cuál sale mal de todos estos. Porque, sin ir mal dejo, este mismo, que este compitió de hecho en el Arnold de Brasil, salió pelado hasta el hueso, o sea, increíble. Tiene a Estefan Matala, que ha tenido el par que hay que tener para decirle, oye, si vas a tener problemas para meterte en el Classic, vete a Open. Y fijaros cómo está luciendo Estefan Matala.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=226" target="_blank" class="timestamp">[03:46]</a> y está con 280 libras sí, sí, sí, ya te digo que oye, hay muy buenos preparadores en el mundo, cada uno esto es como todo, cada uno tiene su favorito igual que tiene su su atleta, pues</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=242" target="_blank" class="timestamp">[04:02]</a> estamos viviendo mucho tiempo a patrick y patrick es un preparador que creo que está un poco infravalorado dentro de todo lo que hay pero hoy es dentro de la normalidad de que un preparador puede fallar no el preparador no sino el contexto en el externo patrick tour es de los preparadores que además en suele encajar y suele dar el 100% con sus atletas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=269" target="_blank" class="timestamp">[04:29]</a> Yo, ya lo digo, por más que lo veo y por más que… Es que, fíjate, Fran Barrios también, que también lo hizo muy bien en la categoría 2-2 este año. Mucho, bueno, por supuesto, que a la gente no se lo olvide. Cuidado aquí, porque esto es todo lo que quería hablar contigo, Fabián Mayer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=287" target="_blank" class="timestamp">[04:47]</a> que es otro de los que vuelve ahora de nuevo a competir y que estoy convencido de que este va a ser uno de los grandes rivales de José Manuel en el Mister Olimpia, seguro. Pero no tengo ninguna duda de eso. No sé a ti qué te parece, Fabián. Pues igual, Miguel, lo que te sigo contando. Atletas con línea, con progreso y que vengan de la mano de Patrick Tour, ya te digo yo que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=312" target="_blank" class="timestamp">[05:12]</a> Que hay que temerle, ¿vale? Hay que temerle porque hace las cosas muy, muy, muy, muy bien. Pero sí, sí, de hecho este atleta, la primera vez que lo vi dije, oye, aguita porque reúne muchas cualidades para luchar dentro del top. Y una de las cosas que también...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=337" target="_blank" class="timestamp">[05:37]</a> Una de las cosas en la que reconocemos a Patriot es por la mejora año tras año que trae con sus atletas. Lo mismo podemos decir a un atleta, bueno, todavía le falta por llegar, pero la verdad que año por año da unos cambios radicales. Uno de los ejemplos que pusimos antes es de Logan. Algo que no nos esperamos y sin ninguna duda...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=366" target="_blank" class="timestamp">[06:06]</a> Bueno, en general es un gran atleta y seguramente va a dar ruido. De hecho, tengo que decir que un poco para cerrar el capítulo de Patrick, yo creo que era bueno tener ese reconocimiento por nuestra parte de un preparador como Patrick Tur, porque es que está por ver cuál es el atleta malo de todos los que lleva. Es increíble la nómina.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=390" target="_blank" class="timestamp">[06:30]</a> Pero quería hablarte precisamente de uno que ha salido hace poquitos días a la palestra. Y este es un caso que a nivel médico, fíjate lo que te digo, Raúl, me interesa hablarlo contigo, que es el caso de Fabián. Fabián el año pasado estuvo con... Estuvo llevando Fran Espín, de hecho consiguió el pase a la Olimpia con Fran en Charlotte. Luego hizo algún otro campeonato más y demás, pero nos desveló. Aparte de que es una letra un poco también peculiar, con una psicología un poco...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=418" target="_blank" class="timestamp">[06:58]</a> Un poco complicado de llevar, un poco complicado de atar, porque, bueno, pues con Fran se las tuvo un poquito tiesas, hay que decirlo así. De hecho, él mismo lo desveló y decidió parar la preparación con Fran, seguirla con otra persona. Luego recuerdo, bueno, tú estabas ayer en el Olimpia, que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=437" target="_blank" class="timestamp">[07:17]</a> Salió a hacer la presentación por dorsal, pero luego no hizo la presentación individual o algo por el estilo pasó. Sí, eso Limpia fue peculiar. Fue al pesaje vestido de oso también, creo. Exacto, exacto. Fue algo anecdótico. Tuvo varias cosas de esas que conforman una personalidad un poquito volcánica, vamos a decirlo así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=461" target="_blank" class="timestamp">[07:41]</a> Pero lo que más me sorprendió a mí fue que el año pasado, él mismo comentó en este programa que tenía un problema, un cáncer de, en fin, un cáncer importante de colon.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=474" target="_blank" class="timestamp">[07:54]</a> Pero ahora resulta claro, él dijo que después del Olimpia, bueno, que incluso en el Olimpia tuvo una experiencia complicada con este cáncer, que fue la que le obligó a no poder seguir compitiendo allí, que iba a dejar el mundo del culturismo para centrarse en esta enfermedad. Dejamos de tener noticias de Fabián y luego lo que nos encontramos es que Patrick Tour sube esta imagen y confirman que están trabajando juntos y después tenemos en este caso a Fabián,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=504" target="_blank" class="timestamp">[08:24]</a> Diciendo que el problema que tenía no era un problema de colon, sino que era un problema renal. Yo no sé si tú a lo mejor estás un poco al tanto de esto que te estoy contando, Raúl, pero desde luego yo no sé tú cómo gestionarías como preparador la preparación de un atleta que tiene una dolencia tan grave como esta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=525" target="_blank" class="timestamp">[08:45]</a> No estoy al tanto de nada, Miguel. No tengo ni idea. De hecho, yo creo que me sorprendí para bien cuando vi la publicación de Fabián que se estaba volviendo a preparar. Primero porque entiendo que si se está volviendo a preparar su enfermedad está totalmente controlada. Y al final, como tú bien dices, cada persona tiene una personalidad, una forma de ser totalmente respetable.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=552" target="_blank" class="timestamp">[09:12]</a> Y claro, sí, un poco extraño, por así decirlo. Al final, cuando hablamos de un cáncer de colon, a ver, si hablamos de un cáncer de colon, estamos hablando de que hay un diagnóstico. Hay un diagnóstico, no es creo que tenga un cáncer de colon. Si después no es un cáncer de colon y es una enfermedad renal o una patología renal, dependiendo de la gravedad,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=577" target="_blank" class="timestamp">[09:37]</a> Pues Miguel, pues me quedo igual que tú, vete a saber el contexto que hay ahí de todo. Lo importante al final, bueno, que él después de la Olimpia habrá hecho sus valoraciones, están totalmente libertad de cambiar de preparador y si tiene la oportunidad de volver a intentarlo, de volver a competir y tiene esa ilusión, pues mira, pues esa es la parte positiva.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=601" target="_blank" class="timestamp">[10:01]</a> Sí, yo lo comento sobre todo porque yo sé que tú, Raúl, tienes una gran cantidad de conocimiento sobre el tema de salud y demás. Y claro, a mí me sorprende que una persona, independientemente de la problemática que tengas, si es en el colon, si es de carácter renal y demás, y que incluso ya ha tomado la decisión de decirle, mira, cierro capítulo y me centro en esto porque no tiene ningún tipo de sentido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=626" target="_blank" class="timestamp">[10:26]</a> El hecho de que vuelva y sobre todo el hecho de que su preparador actual, que es Patrick Tour, del que hemos hablado hace dos minutos, le hemos puesto en la más de las alturas, yo imagino que tiene que tener conocimiento de lo que está pasando y que para acoger a un atleta como Fabián tiene que haberse documentado muy bien de qué es lo que realmente está pasando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=648" target="_blank" class="timestamp">[10:48]</a> Claro, claro, totalmente. A ver, no creo que sea nada grave. Sí es verdad, Miguel, que los atletas profesionales o cualquier atleta que se esté preparando para algo y sufra mucho estrés físicamente a nivel externo e interno, pues obviamente pueden haber patologías e inflamaciones que al final no tienen que desencadenar en una enfermedad crónica.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=674" target="_blank" class="timestamp">[11:14]</a> Por lo tanto, muchas veces un atleta termina y por el estrés que rodea lo que es la preparación de una preparación profesional, pues se determina de que hay una analítica más grave o...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=691" target="_blank" class="timestamp">[11:31]</a> menos graves en el que al final se pone tratamiento todo se soluciona y al final desencadena en el que no es algo crónico y se decide poner de nuevo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=706" target="_blank" class="timestamp">[11:46]</a> entrar en una planificación para prepararse. Pero que al final, yo no sé, Miquel, son hipótesis, cualquiera sabe, pero lo que está claro es que si Patriotour ha decidido adentrarse en esta preparación con Fabián, no tiene que haber nada grave al respecto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=y8W3eGa1IXE&t=722" target="_blank" class="timestamp">[12:02]</a> Totalmente, yo opino exactamente lo mismo, yo creo que para poder coger este toro, yo creo que Patrick Turz ha tenido que informar bastante bien porque es un preparador muy serio, con mucha reputación y bueno, ya hemos visto la nómina de atletas que lleva, que no tiene la necesidad ninguna de tener que coger a un tipo como Fabián, que por otro lado es un tipo que tiene una proyección tremenda, de hecho el año pasado después del charlo de Tahiria Elmanion lo ponía por las nubes, con lo cual más claro que eso, imposible.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-mdukERUYHII">
+            <h2>FRAN ESPÍN le DICE las VERDADES a JOAN PRADELLS</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 04/05/2025 16:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=mdukERUYHII" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=mdukERUYHII" target="_blank">
+                    <img src="https://i.ytimg.com/vi/mdukERUYHII/hqdefault.jpg" alt="FRAN ESPÍN le DICE las VERDADES a JOAN PRADELLS" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video trata sobre un culturista que reflexiona sobre el impacto de un logro importante (clasificar al Olimpia). Expresa dudas sobre si cambiará su vida fundamentalmente, sintiéndose ya estable y tranquilo.
+Sin embargo, sí reconoce que le aportaría gran motivación por ser un nuevo objetivo. Se discute la necesidad de tiempo para desarrollar un físico realmente profesional tras ganar la Pro Card. Estiman que este proceso de desarrollo podría tomar alrededor de dos años en su caso.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>¿Preparado para un cambio de vida? <a href="https://www.youtube.com/watch?v=mdukERUYHII&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El presentador inicia el video relatando que le preguntaron si estaba listo para que su vida cambiara. Cuestiona si un logro deportivo realmente tendría ese impacto.</p>
+
+<h3>La mente tranquila no busca el cambio <a href="https://www.youtube.com/watch?v=mdukERUYHII&amp;t=7" target="_blank">[00:07]</a></h3>
+
+<p>Afirma convencido que el logro no cambiará su vida de forma drástica. Explica que se siente bien como está y ya sabe lo que quiere.</p>
+
+<h3>Motivación por un nuevo objetivo <a href="https://www.youtube.com/watch?v=mdukERUYHII&amp;t=21" target="_blank">[00:21]</a></h3>
+
+<p>Aunque no busca un cambio vital, sí reconoce que le motivaría mucho al ser un objetivo nuevo. Expresa un gran deseo por competir.</p>
+
+<h3>El camino tras ganar la Pro Card <a href="https://www.youtube.com/watch?v=mdukERUYHII&amp;t=41" target="_blank">[00:41]</a></h3>
+
+<p>Fran comenta que ganar la Pro Card rápido implica necesitar más tiempo. Este tiempo es crucial para desarrollar un físico realmente a nivel profesional de competición.</p>
+
+<h3>Estiman dos años para el físico profesional <a href="https://www.youtube.com/watch?v=mdukERUYHII&amp;t=69" target="_blank">[01:09]</a></h3>
+
+<p>Discuten el plazo estimado para lograr ese físico de nivel profesional. Consideran que en su caso particular, el tiempo previsto es de aproximadamente dos años.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=mdukERUYHII&t=0" target="_blank" class="timestamp">[00:00]</a> Me dijeron, ¿estás preparado? Si me clasifico, ¿sabes? ¿Estás preparado para que te cambie la vida? Y dije, creo que no me va a cambiar la vida. Ni de coña. Y más que nada, por mi cabeza ya, de cómo estoy yo ahora mismo. Digo, si es que yo puedo clasificarme a la Olimpia o puedo lo que sea, y creo que no me va a cambiar en nada. O sea, me va a ir muy bien, pero la cabeza fría de un momento pico y tal, ya lo he tenido, ya he pasado por ahí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=mdukERUYHII&t=21" target="_blank" class="timestamp">[00:21]</a> Ya sé lo que quiero y lo que no quiero. Estoy aquí tranquilo. No quiero cambiar mi vida tampoco. Lo único que puedes ser más motivado. Sí. Motivado porque es un objetivo nuevo y es algo que... Al final... Más motivado y quizás ganas más dinero, pero... Bueno, eso ya es por tu parte empresarial. Sí. No sé, me llama la atención. He competido muy poco. Tengo muchas ganas de competir, Fran. Exacto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=mdukERUYHII&t=41" target="_blank" class="timestamp">[00:41]</a> Tengo muchas ganas. Pero es lo que te he dicho yo. Vienes en un momento de tu vida que ganas de la Procar con un poquito de tiempo, dentro de lo que es el culturismo real, en tu dieta para apretar, para entrenar como un culturista, en ganar la Procar tan rápido, pues al final ha hecho que tienes que necesitar más tiempo para tener el físico de un profesional realmente, ¿vale? Para poder subirte a un escenario y decir, pues tengo un físico profesional para poder luchar, ¿entiendes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=mdukERUYHII&t=69" target="_blank" class="timestamp">[01:09]</a> Y ese, que puede ser dos años, tres años o cuatro, pero en tu caso, bueno, ¿has sido lo que teníamos previsto más o menos dos añitos? Sí.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-1mMfM244Gms">
+            <h2>"VEO A JOAN SUPERIOR EN TAMPA Y PUEDE DAR UN GOLPE EN LA MESA" Raúl Carrasco CONFÍA en PRADELLS</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 04/05/2025 18:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=1mMfM244Gms" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=1mMfM244Gms" target="_blank">
+                    <img src="https://i.ytimg.com/vi/1mMfM244Gms/hqdefault.jpg" alt=""VEO A JOAN SUPERIOR EN TAMPA Y PUEDE DAR UN GOLPE EN LA MESA" Raúl Carrasco CONFÍA en PRADELLS" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza el rol crucial de los preparadores en el culturismo, destacando la importancia de la comunicación honesta y las críticas constructivas.
+Se discute la notable mejora del físico del atleta Joan y su potencial para competir en el circuito profesional de Estados Unidos.
+Los interlocutores evalúan las fortalezas y áreas de mejora de Joan, comparándolo con rivales de alto nivel en la categoría Open.
+Finalmente, se expresan altas expectativas sobre las posibilidades del atleta Josema en sus próximas competiciones importantes en EE.UU.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Importancia de la Crítica Directa del Coach <a href="https://www.youtube.com/watch?v=1mMfM244Gms&amp;t=27" target="_blank">[00:27]</a></h3>
+
+<p>Se destaca cómo el preparador Fran fue incisivo al señalar puntos a mejorar a Joan, como el posing. Se subraya que un buen preparador no regala los oídos, sino que ofrece críticas constructivas esenciales. Esto es vital para el progreso del atleta, especialmente bajo el estrés de la preparación.</p>
+
+<h3>Joan: Evolución Notoria y Planes en EE.UU. <a href="https://www.youtube.com/watch?v=1mMfM244Gms&amp;t=326" target="_blank">[05:26]</a></h3>
+
+<p>Se comenta la clara evolución física de Joan respecto al año anterior, evidenciando mejoras significativas. Se confirma su intención de competir en Estados Unidos, con alta probabilidad en el Tampa Pro. Esto marca su regreso al escenario profesional buscando consolidarse.</p>
+
+<h3>Análisis del Físico de Joan: Fortalezas y Debilidades <a href="https://www.youtube.com/watch?v=1mMfM244Gms&amp;t=642" target="_blank">[10:42]</a></h3>
+
+<p>Se realiza un análisis detallado del físico actual de Joan, destacando sus poses frontales como muy ganadoras. Se reconoce que la espalda es un área a seguir trabajando, pero se enfatizan las grandes mejoras en otras zonas como glúteos y femorales, y su gran estructura.</p>
+
+<h3>El Objetivo Realista de Joan: Primer Callout <a href="https://www.youtube.com/watch?v=1mMfM244Gms&amp;t=787" target="_blank">[13:07]</a></h3>
+
+<p>Se discute cuál debería ser el objetivo principal para Joan en sus competiciones profesionales: ser lo suficientemente competitivo para pelear por un puesto en el primer callout. Se considera que este es un paso crucial para establecerse en la categoría Pro, más allá de ganar inmediatamente.</p>
+
+<h3>Josema en la Élite: Potencial para Pittsburgh y Nueva York <a href="https://www.youtube.com/watch?v=1mMfM244Gms&amp;t=928" target="_blank">[15:28]</a></h3>
+
+<p>La conversación gira hacia las próximas competiciones de Josema en Pittsburgh y Nueva York. Se expresa una fuerte convicción en que Josema tiene importantes opciones para conseguir resultados destacados. Se ve como un momento clave para que gane reconocimiento y se consolide en Estados Unidos.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=2" target="_blank" class="timestamp">[00:02]</a> Y es que en este caso, Flarespin estuvo precisamente en Andorra haciendo un check presencial en este caso a Joan. Y fue, evidentemente él comentó lo que veía, las cosas positivas y también comentó alguna cosita negativa en el sentido de, bueno, pues el tema del possing y demás, de que tenía que mejorarlo, etc. Y a mí me llamó la atención</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=27" target="_blank" class="timestamp">[00:27]</a> Porque pocas veces se ha visto a Fran ser quizá tan incisivo o tan... No sé si la palabra es crítico, pero sí marcando bastante bien los puntos a mejorar por parte de Joan. Y en este caso me lo extrapoló también un poco a las palabras de Josema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=47" target="_blank" class="timestamp">[00:47]</a> Cuando dijiste tú lo del che que guardaste en el escritorio y tal, como diciendo para que Raúl me diga eso, es importante, algo muy bueno ha tenido que ver, como dejando entrever una cosa que hasta cierto punto es lo que le debería de ser y es que el preparador no está para regalar los oídos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=64" target="_blank" class="timestamp">[01:04]</a> Tampoco está para ser el más crítico de todos y que esto sea siempre o constantemente una guerra, pero me refiero, la pregunta que yo te hago es, sobre todo a estos atletas o en general a los atletas que tienen un foco mediático importante y en el caso de Josema cada vez lo vamos viendo más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=81" target="_blank" class="timestamp">[01:21]</a> ¿Qué importante es la labor del preparador en el sentido de ponerle un espejo enfrente? Es decir, contarle las cosas buenas y sobre todo incidirle también en las cosas que no van bien. Yo creo que eso es algo muy positivo tanto en ti como en Fran. Claro, claro. Mira, al final, Miguel, yo una cosa que he dado, he practicado y he estudiado es la comunicación. De hecho, bueno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=106" target="_blank" class="timestamp">[01:46]</a> Una de mis facetas como... O sea, compartiendo y dando seminarios, informaciones, es esa, ¿no? Ya muchas veces no es cuando tienes que decir algo o cuando lo tienes que decir, sino es cómo lo dices...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=120" target="_blank" class="timestamp">[02:00]</a> y la forma de comunicar. Al final, eso al final es algo muy importante y que se traduce o es el reflejo de la experiencia, no solo de la capacidad propia de que tiene el preparador. Entonces, en ese aspecto, si Joan ha elegido a un preparador del nivel de Fran, obviamente es para que reúna todos esos requisitos y</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=148" target="_blank" class="timestamp">[02:28]</a> y tampoco le baile el agua y que sume, que todo lo que diga sume lo que es la mejora y el proyecto en el que tiene ambos. Lo que quiero llegar a que se entienda es que no es fácil ser un buen comunicador, sobre todo cuando hablas con atletas que están en una fase.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=173" target="_blank" class="timestamp">[02:53]</a> de estrés extrema, de cardio, de falta de horas de sueño, de depresión, etc. Entonces es algo muy importante y que dice mucho de cualquier profesional que verdaderamente sea un profesional.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=186" target="_blank" class="timestamp">[03:06]</a> Yo creo que es un poco lo que tú comentas. Yo creo que Franco, la experiencia que tiene, como puede ser también evidentemente en tu caso, Raúl, muchas veces sabéis que no conviene el hecho de coger y bailarle el agua al atleta, con independencia de la posición mediática que tenga o de lo acostumbrado o no que esté a esa crítica, que una crítica no necesariamente tiene por qué ser algo malo, puede ser una crítica constructiva.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=212" target="_blank" class="timestamp">[03:32]</a> que despierta al atleta de un problema que a lo mejor él no ve o no sobredimensiona y en este caso yo creo que es muy importante lo que lo que le hizo Verfrán sobre todo porque se muestra bastante bien en el vídeo como le hace ver que si se muestra de determinadas maneras en el posting sobre todo consigue transicionar mejor hacer un poquito</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=234" target="_blank" class="timestamp">[03:54]</a> un ejercicio mayor y sobre todo le hizo ver, oye, estás trabajando muy bien en la sala, pero trabajame el posing, que es fundamental. Yo creo que eso también ayudante, eso lo comentó, me ha puesto en mi sitio en el sentido de despertar y que yo creo que eso es muy importante, porque a lo mejor otro preparador intenta no decirle las cosas, ir con un mal tacto y eso al final no termina de funcionar bien. Con los atletas no se puede ser políticamente correcto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=261" target="_blank" class="timestamp">[04:21]</a> O sea, no. Porque al final no lo estás ayudando. De hecho, me suele pasar mucho en lo último con Josema. Me han dado dos poses para saber mi opinión y él me dice, mira, esta pose es la que más me gusta. Y yo le digo, pues no. Esta forma no es la que más me gusta y yo veo esta y le doy mi explicación o mi forma de verlo. Es decir...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=289" target="_blank" class="timestamp">[04:49]</a> Es muy importante tener esa comunicación real con el atleta y que el atleta también quiera eso y note eso de tu preparador, que está a la par contigo. Totalmente. Para cerrar ya el círculo de Joan, estamos viendo imágenes de fondo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=310" target="_blank" class="timestamp">[05:10]</a> Yo no sé a ti qué valoración coges Raúl porque sí que es verdad que estamos viendo una evolución bastante clara en el caso de Joan. Yo no sé lo que va a pasar en el Tampa, de hecho es más, no está confirmado que vaya a competir en el Tampa, pero bueno, tiene toda la pinta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=326" target="_blank" class="timestamp">[05:26]</a> De que va a competir en Estados Unidos es una evidencia. Si quieres empezamos por lo que está 100% confirmado. Que va a competir está 100% confirmado. Que va a competir en Estados Unidos está prácticamente 100% confirmado. Y que va a competir en Tampa no está confirmado pero podríamos decir que es oficioso más que oficial.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=345" target="_blank" class="timestamp">[05:45]</a> Dicho esto, evidentemente todavía quedan muchas semanas para ello, pero lo que estamos viendo de Joan desde luego es una evolución muy clara con respecto al año pasado, esto es más que evidente. Otra cosa será para lo que vaya a dar de cara a esa competición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=361" target="_blank" class="timestamp">[06:01]</a> Pero yo quería un poco que me lo valorara, porque sí que es verdad que yo veo puntos. Por ejemplo, el glúteo, fíjate la estriación un poquito, el glúteo que tiene, el femoral ha mejorado también mucho. De hecho, Fran incidía bastante en ello. Quizá la zona que se puede quedar un poco más rezagada es el tema de la espalda. Yo me acordé de aquello que me dijiste de tapa los hombros, que no te líen los hombros, tapa los hombros y analiza. Sí que es verdad que ahí, bueno, pues le falta un poquito para seguir trabajando. Pero quería un poco que me hicieras tu valoración de Joan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=388" target="_blank" class="timestamp">[06:28]</a> sí más o menos y si me echo eco de un poco el tema de estampa que no sabía si estaba confirmado o no y un poco del análisis de los atletas que supuestamente si compiten van con él lo que es Justin de la Rosa y demás pues Miguel te digo una cosa</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=411" target="_blank" class="timestamp">[06:51]</a> Yo creo que si Jovan va con la condición que tiene que ir, con la separación que tiene que ir, yo creo que puede pegar un palmetazo en la mesa y bastante fuerte. Yo confío, solo hay que tener ojos para verlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=429" target="_blank" class="timestamp">[07:09]</a> tiene un doble biceo de frente, escúchame, ¿quién me pone delante? O sea, imaginándome a Joan acabado, ¿vale? Obviamente, si hemos visto imágenes de atletas en competición, o al menos las comparaciones que yo he visto, que estamos viendo a un Joan que está a X semanas de competición. Pero imaginándome lo acabado, o sea, ¿qué atleta dentro de ese top que se ha comparado está mejor que Joan?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=453" target="_blank" class="timestamp">[07:33]</a> Sobre todo de frente y de perfil. Dime quién, ¿de la rosa? Yo te digo que como Joan vaya al 100%, oye, cuidado. Oye, que dentro de su, como todo atleta, dentro de su estructura, la espalda es lo que puede ir un poco más atrás. Bueno, vamos a ver que la piel se afine, que coja esa separación que necesita para que la espalda luzca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=475" target="_blank" class="timestamp">[07:55]</a> Vale, pero en principio, oye, solo hay que tener ojos para ver el potencial que tiene en cada pose. Yo si es que he visto por ahí que si De La Rosa, que si Justin, que si no sé quién, pues yo veo a Joan muy superior a todos estos, imaginándomelo ya ha acabado. Y después que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=495" target="_blank" class="timestamp">[08:15]</a> Joan no tiene nada que perder. Si generalmente va al Tampa con estos atletas, no tiene nada que perder. Joan lo único que tiene que ganar, compita donde compita, es que encaje en la categoría pro, en la lucha por ese top y a partir de ahí seguir compitiendo. Es que también he oído por ahí, pero es que no va a ganar con estos atletas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=520" target="_blank" class="timestamp">[08:40]</a> A ver, todo el mundo quiere ganar y podría ganar. De hecho, yo le veo estructura para ganar, pero si no gana, yo creo que el primer objetivo o digamos el segundo objetivo sería tampoco ganar, sino encajar ahí, estar ahí y a partir de ahí seguir trabajando sobre esas mejoras. Yo por lo que veo, tío, el trabajo es increíble.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=542" target="_blank" class="timestamp">[09:02]</a> Yo, de hecho, Raúl, fíjate lo que te digo, porque yo hice ese vídeo de los rivales, de los presumibles rivales de Joan en Tampa. Yo quise ser un poco cauto, es decir, bueno, los rivales son estos, el cartel que tienen es un cartel importante, pero al final Joan de la Rosa fue el que ganó, no sé si fue en Tampa o el año pasado o en...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=563" target="_blank" class="timestamp">[09:23]</a> Pero vamos, ganó un campeonato creo que fue en Tampa de hecho, de hecho es más, sí, sí, sí, es el vigente campeón de Tampa, John de la Rosa, por supuesto Justin Sirk, además de hecho ha sido alguien con el que le han comparado bastante a Joan por estructura, luego había más, creo que no sé si por ahí estaba también Emiro Beragic, bueno en fin.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=581" target="_blank" class="timestamp">[09:41]</a> evidentemente yo no hablo o no meto en la ecuación el tema de ganar no lo sé pero sí que es verdad que yo sí que lo metía en un primer callout o sea digo con lo que sale Tajeban yo creo que puede pelear para estar en un primer callout</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=594" target="_blank" class="timestamp">[09:54]</a> Creo que, fíjate lo que te digo, la principal derrota de Joan es una derrota personal. No es una derrota... O sea, quiero decir, él se toma su debut profesional en el EMPRO como una derrota personal, pero yo no creo que fuera ninguna derrota general. A eso es a lo que voy. Es decir, creo que el público general, el público de culturismo, el público que sigue la dinámica del mundo del culturismo, no lo catalogó un séptimo puesto como un mal puesto necesariamente. Creo que fue un campeonato de gran nivel, además, el EMPRO.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=622" target="_blank" class="timestamp">[10:22]</a> Y yo creo que aquí lo que él quizá considero yo desde fuera que debería de hacer es precisamente lo que tú estás diciendo. Aquí hay que rodar, aquí hay que ver dónde se está, ver dónde se calibra. Yo creo que él ha ganado, sobre todo porque ha ganado mucha densidad y mucha calidad y mucha madurez muscular en este año. Yo creo que él...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=642" target="_blank" class="timestamp">[10:42]</a> de frente como tú dices él tiene dos poses que son muy ganadoras que son el doble bíceps de frente y sobre todo la expansión frontal de frente que yo no sé si me gusta incluso más que el doble bíceps de frente porque esta pose que vamos a ver ahora la de la expansión frontal me parece una barbaridad me parece una barbaridad insisto que esto estamos hablando de competición profesional y nos vamos a encontrar en muchas barbaridades al lado pero insisto creo que es muy buena pose esta también para mí incluso mejor fíjate lo que te digo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=669" target="_blank" class="timestamp">[11:09]</a> Miguel, mira, has nombrado a Emil, que sí es verdad que es un atleta que especialmente, o sea, yo sin ninguna duda, esto mucho le puede sorprender, pero imaginándome a un Joan acabado, te digo yo que me quedo con Joan, ¿vale? Imaginándomelo acabado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=692" target="_blank" class="timestamp">[11:32]</a> Pero claro, ¿qué ocurre? Y qué es lo que te quiero decir. Que si al finalmente compite en Tampa y viendo a Justin, a Emir, son atletas que llevan una... son Opens que llevan una condición brutal. Entonces al final sí es verdad que la línea puede rodar, puede, puede, en base a la categoría Open, pero también a la condición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=714" target="_blank" class="timestamp">[11:54]</a> ¿Vale? Entonces, claro, aquí hay algo que si finalmente compiten en Tampa, pues algo es por lo que van a tener que trabajar, ¿vale? Para estar, oye, o no, ¿vale? O no. O al final Joan lleva una condición óptima junto a ese tamaño y a esas mejoras y le pasas a todo por alto. O sea, yo lo veo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=742" target="_blank" class="timestamp">[12:22]</a> Yo no lo veo. Es una pasada, es una barbaridad. La de poses buenas que tiene para poder luchar en Open y ganar un campeonato y poder ganarle a Emile. Repito, siempre imaginándome lo acabado, que todavía no hemos visto el resultado final de Jovan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=762" target="_blank" class="timestamp">[12:42]</a> No, no, desde luego. Y ya digo que para mí este año, a diferencia de cuando él debutó en categoría profesional en el EMPRO, para mí este año, desde fuera, desde lo que ya estamos viendo, no desde la etapa de volumen, donde evidentemente uno lo veía muy grande y decía, uy, cuidado, no, no, ahora que estamos a unas 10, 12, 15, 16 semanas para competir, donde ya está la preparación entrando en una fase dura, importante,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=787" target="_blank" class="timestamp">[13:07]</a> lo que vemos como producto no final pero casi o cercano a lo que vamos a ver como producto final yo insisto que estamos viendo un Joan de un nivel competitivo perfectamente en una categoría profesional y para poder entrar en un primer callout que insisto yo creo que debe de ser el objetivo yo creo que el objetivo entiendo que los atletas cuando van yo quiero ganar y voy a ganar y lo que tú quieras pero yo insisto que la lectura positiva y yo creo que esto lo hablé también con Fran y de hecho me comentó que era el objetivo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=817" target="_blank" class="timestamp">[13:37]</a> El objetivo al final es ser lo suficientemente competitivo para ir donde se vaya poder pelear por entrar en un primer callout. Yo creo que ese es el objetivo y yo creo que viendo el físico cómo va, tiene una de las estructuras más bonitas del Open Profesional, una estructura muy bonita, o sea, quiero decir…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=833" target="_blank" class="timestamp">[13:53]</a> un bombeo de cuádriceps bestial, la cintura la mantiene bastante bien para la dimensión de la letra que estamos hablando y de que es la categoría open, muy amplio de clavículas, los hombros son casi hasta opaca en el pectoral, pero es que encima el pectoral este año ya se ha puesto casi muy a la altura de esos hombros, o sea, quiero decir, el físico está ahí, que es cierto, porque es cierto y esto no lo vamos a negar ni lo vamos a ocultar, ni tampoco vamos a tapar el sol con un dedo, que es cierto que en las poses de espaldas, un poco lo que tú me comentabas, ¿no?,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=861" target="_blank" class="timestamp">[14:21]</a> Si quitamos los hombros, evidentemente falta ahí todavía por seguir puliendo y seguir trabajando. Totalmente correcto. Pero también digo una cosa. Miremos de lumbar hacia abajo la mejora que ha habido en el glúteo, la mejora que ha habido en el femoral. Quiero decir que ha habido muchas mejoras. De hecho, también se ha criticado bastante. Se criticó en el pasado bastante a Joan el tema de los tríceps. Bueno, yo creo que esa crítica ya ha quedado totalmente superada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=886" target="_blank" class="timestamp">[14:46]</a> Entonces, bueno, vamos a ver. Yo insisto en que están grandes manos, como las de Fran, por supuesto, y el trabajo está siendo espectacular en estos dos años, con lo cual veremos a ver dónde queda. Pues poco más, Raúl. Desde luego que darte las gracias, como siempre, por estar aquí con nosotros. Desearte un feliz vuelo, que estaremos en la medida de lo posible en contacto contigo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=911" target="_blank" class="timestamp">[15:11]</a> ojalá que en este tiempo en el que estéis en Estados Unidos y esté a lo mejor si pillamos algún momentillo a Josema tranquilo pues que pueda hacer un cameo que pueda pasarse ahí por detrás a saludar y nada tío desearos la mayor de las suertes que creo creo lo digo sinceramente creo y hablo a lo mejor hablo quizá un poco desde el corazón también pero creo realmente que vais con opciones importantes lo digo de verdad vais con opciones importantes de hacer algo muy importante muy importante tanto en Pittsburgh como en Nueva York</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=941" target="_blank" class="timestamp">[15:41]</a> y que yo creo que va a ser un momento también de, yo diría que incluso de punto de inflexión para Josema, el hecho de que no solamente le conozcan muy bien en Estados Unidos, sino que incluso puedan dialogar con él, conocerle más, etcétera, etcétera, y yo creo que eso es fundamental, visto lo visto, últimamente en la categoría. Así que, como digo, Raúl, desearte la mayor de las suertes tanto a ti como a Josema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1mMfM244Gms&t=966" target="_blank" class="timestamp">[16:06]</a> Muchas gracias, Miguel. Os tendré actualizado en la medida de lo posible. Y por supuesto, gracias por tu apoyo y el apoyo de todos. Pues ahí habéis tenido a Raúl, chicos, que nos va a dejar un ordiita porque se va evidentemente con José Mapisbur, también estará en Nueva York. Así que, como digo, dejad en la caja de comentarios que opináis de todo esto que hemos comentado. Fuerte like al vídeo, suscribíos al canal y como siempre digo, chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-tnyj-PiE-QQ">
+            <h2>No Puedo Posar Más | 90 Días Para Mi Competición Profesional</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 04/05/2025 18:10</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ" target="_blank">
+                    <img src="https://i.ytimg.com/vi/tnyj-PiE-QQ/hqdefault.jpg" alt="No Puedo Posar Más | 90 Días Para Mi Competición Profesional" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video documenta un día en la vida del creador de contenido durante su preparación física, destacando la llegada de nueva maquinaria de gimnasio muy esperada.
+Reflexiona sobre su buen momento vital y profesional, incluyendo el aniversario de su empresa PBS y próximas competiciones.
+Muestra parte de su rutina diaria, como la alimentación, el entrenamiento intenso y momentos de ocio con su pareja.
+Finaliza compartiendo reflexiones sobre la semana, las dificultades de relajación y próximos proyectos.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Llegada de los "Ferraris" <a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&amp;t=74" target="_blank">[01:14]</a></h3>
+
+<p>El creador expresa gran emoción por la llegada de nueva maquinaria de gimnasio, algo que llevaba preparando meses. Describe este día como uno de los mejores de su vida, llamando a las máquinas sus "Ferraris".</p>
+
+<h3>Probando las Máquinas "Matonas" <a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&amp;t=650" target="_blank">[10:50]</a></h3>
+
+<p>El creador muestra a Marta las máquinas recién llegadas y empiezan a probarlas. Discuten las características de la prensa y la hack squat, destacando su diseño compacto pero efectivo y su potencial para el entrenamiento.</p>
+
+<h3>La Intensidad del Entrenamiento de Brazo <a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&amp;t=1115" target="_blank">[18:35]</a></h3>
+
+<p>Se muestra un fragmento del entrenamiento de brazo del creador. La escena capta la dureza y el esfuerzo de la sesión, con el creador empujando sus límites y siendo apoyado.</p>
+
+<h3>Sábado de Harry Potter sin Sofá <a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&amp;t=1327" target="_blank">[22:07]</a></h3>
+
+<p>El creador y Marta se preparan para una tarde tranquila viendo Harry Potter. Comentan las dificultades de no tener sofá en su nueva casa y la propia dificultad del creador para desconectar y entretenerse.</p>
+
+<h3>Reflexiones de una Semana Monumental <a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&amp;t=1542" target="_blank">[25:42]</a></h3>
+
+<p>El creador cierra el video reflexionando sobre lo intensa y positiva que ha sido la semana. Menciona el impacto de las nuevas máquinas, el quinto aniversario de PBS y noticias recientes sobre competiciones, a pesar del cansancio acumulado.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=8" target="_blank" class="timestamp">[00:08]</a> Ahora voy a probarlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=26" target="_blank" class="timestamp">[00:26]</a> Esto va a ser duro. Es que va dura. ¿Sabes? Porque no es la típica prensa que tiene el huequecito así medio goblado, ¿sabes? Aquí estás totalmente probado. Tan pequeñita pero tan matona. Te soy sincero, las dos mejores máquinas que he probado nunca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=44" target="_blank" class="timestamp">[00:44]</a> Bueno, a todos, chicos, estamos en un nuevo vídeo. Estamos en el día 41, ¿vale? 41 días. En nada llegamos a la mitad. Eso me parece algo muy, muy loco. Y además, la semana que viene apunta muy, muy bien. Ya veremos lo que va saliendo, lo que no va saliendo. Pero quiero decir una cosa antes de empezar el vídeo que me parece especialmente, especialmente guay y es... No sé, ayer estaba con Marta por la tarde. Bastante random todo. En plan, nos quedamos dormidos a mitad tarde como súper bien en el sentido de preparación. Súper, súper bien. Y también por estar con ella y todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=74" target="_blank" class="timestamp">[01:14]</a> Pero le dije, creo que hoy es uno de los mejores días de mi vida. O sea, la maquinaria que llegó para mí era algo muy esperado desde hace mucho tiempo. O sea, pues al final desde hace 7-8 meses que llevaba preparando eso. Y pues hablando, practicando todos los días, todo. Y por fin está aquí. O sea, yo he bajado hasta mañana y lo primero que he hecho, cierto, son las 6 y 24 de la mañana. He hecho hipopresivo ya, o sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=96" target="_blank" class="timestamp">[01:36]</a> Llevo ya un rato aquí, llevo ya un rato despierto. Lo primero que he hecho al bajar aquí ha sido bajar a ver las máquinas que están en la sala de abajo y decir, Dios mío, es real, están aquí, son mías. Además le dije a Marta, yo soy muy de bolazos, ¿vale? Muy, muy de bolazos. O sea, dentro de dos años puedo, yo qué sé, estar en otro país y con otra vida, con Marta, pero hoy con otra vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=115" target="_blank" class="timestamp">[01:55]</a> Le dije, por favor, no me dejes nunca vender toda esta maquinaria que estoy comprando. Para mí estos son Ferraris y me hace mucha ilusión tenerlos para toda la vida. Así que le dije, tío, creo que es uno de los mejores puntos de mi vida. O sea, estamos haciendo cosas increíbles a nivel laboral también. Es el aniversario de PBS, son cinco putos años. Voy a competir, voy a hacer mi cuarta competición profesional, como mi segunda competición profesional.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=136" target="_blank" class="timestamp">[02:16]</a> Mi cuarta competición histórica. Joder, es un buen momento. Es un buen momento. ¿Saben cómo salga? Es un buen momento. Y quiero disfrutar de ello, tío. No he hablado con Fran, por cierto, esta semana. Además, es sábado. El lunes hablaré con él. Estuve con él el fin de pasado. Tampoco quiero saturarle ni agobiarle. Pero bueno, también otra de las cosas justamente, pedir el manduka que me mandaron ayer, ya con ternera bastante más magra. Solomillo y ternera troceado, súper bueno. Pero claro, no es ternera picada que tiene como más grasita. También estaba súper bueno y dije, bueno, y es lo que me toca en este momento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=165" target="_blank" class="timestamp">[02:45]</a> Entonces estoy en un aspecto de positivismo bastante, bastante positivo. No de morirme. Pienso que a veces sí que puedo morirme o me entran bajones. A mí sobre todo es, he encontrado el balance de cómo tienen que ser mis días. Entonces, en Andorra me resulta mucho más fácil de cumplir, pero si se descuadra como tiene que ser mi día, se me va la mierda mucho a la vida. O sea, me noto los ojos muy mal, cansancio muy mal, todo muy mal. Así que ahora mismo mi vida está siendo estable, está estando bien. Estaban las gallinas por ahí. Marta va 12 veces al día de las gallinas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=193" target="_blank" class="timestamp">[03:13]</a> la hace ilusión estamos haciendo cosas estamos haciendo cosas estamos trabajando para ello hoy es sábado pues también habrán cosas de trabajo también habrán cosas de ocio vamos a entrenar pronto que al final es algo que me gusta por así decirlo que el sábado sea un día donde entreno un poco más pronto y me libero un poco más de la parte de entrenamiento bueno diferentes aspectos que van yo creo que también con el tiempo y todo van mejorando las cosas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=216" target="_blank" class="timestamp">[03:36]</a> Y realmente pienso que estar aquí es como estar en un campamento. O sea, lo pienso cada vez más. Y me gusta el formato ese de los campamentos de boxeo que hacen. Y me gusta hacerlo para el culturismo. Incluso hacerlo fuera de temporada. Porque es donde creo que también en el culturismo concreto tienen mucha y gran parte de su gracia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=233" target="_blank" class="timestamp">[03:53]</a> Así que bueno, gimnasio, gimnasio, gimnasio. Esta semana que viene vamos a por la reforma de Valencia. Por lo menos con mi madre voy a empezar a hacer cajas. Bueno, voy a empezar a hacer las de ella, ya por videollamada. Pero quedan cuatro cosas porque la verdad que nos lo trajimos casi todo aquí. Y ver cosas también del gimnasio porque la verdad que bastante, bastante guay porque la semana que viene también pues llega un barco al puerto. ¡Y vienen cosas!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=254" target="_blank" class="timestamp">[04:14]</a> Por fin, por fin. No me gustan algunos trámites que todavía tengo que hacer a nivel de gobierno aquí de Andorra. Tengo que ir allí, firmar algunos papeles y demás. Pero es lo que toca. Ahí sí que no me puedo salvar. No puedo ir nadie que no sea yo. Pero por suerte están a ocho minutos o así. O sea que bastante, bastante guay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=271" target="_blank" class="timestamp">[04:31]</a> Y la semana que viene, además, en los vídeos, mi idea es que hayan apariciones estelares, que le llamo yo, de gente, porque mis vídeos no dejan de ser, si os fijáis, vídeos, blog, normal y corriente. O sea, me da más igual que tenga más o menos visitas. Pero sí que hay algunas apariciones estelares que me apetecen a mí hacer en concreto, porque a veces le digo a todo y, o sea, pues esta semana, ¿qué podría hacer? ¿Qué tal? Me dice, pues con no sé quién. Y le digo, ya, bro, pero es que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=294" target="_blank" class="timestamp">[04:54]</a> con no sé quién no me apetece grabar. Y me dice, pues entonces no grabes, porque estás en un mood que te apetece lo que te apetece. Y te apetece estar a gusto, te apetece estar feliz grabando, no venderte en ese sentido. Así que estoy en ese mood. Y lo que viene esta semana me apetece todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=309" target="_blank" class="timestamp">[05:09]</a> Así que bueno, estamos a sábado. Me encantaría que estés fuera la semana en la que sale el libro de Stitch, pero no sale el 24 de mayo. También hay algunos documentales que quiero ver, que salen. Cositas, chicos. Cositas. Aquí los fitness la verdad que son bastante diferentes. Marta se va a hacer yoga ahora por la mañana. Yo me quedo entrenando. Lo dicho, los fitness son diferentes porque no tienes tantos compromisos. Pero estoy contento. O sea, estoy contento con... Supongo que puedes tener muchos compromisos si quieres tenerlos. O sea, no los tenemos porque no queremos tenerlos. Pero estoy seguro de que aquí ni la opción es de hacer cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=336" target="_blank" class="timestamp">[05:36]</a> Además, justamente, como lo enseñé ayer, Romá me soldó una cosa de la máquina de gemelo y me la hizo más alta que me hacía muchísima ilusión. Le tengo que poner una lija, una máquina de Téon, pero me encanta esa máquina. Entonces, como la he adaptado la lija que le voy a poner, esa máquina se va a comer a la Audi Masters, pero vamos, de cabeza, pero de cabeza. O sea, lo tengo clarísimo. Entonces, bueno, pues vamos a usar esa, básicamente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=358" target="_blank" class="timestamp">[05:58]</a> Así que los jueves van a cambiar mucho el patrón de mis jueves, de cómo lo he estado haciendo antes a cómo lo estoy haciendo ahora, a cómo los haré sobre todo en volumen. ¿Por qué en volumen? Una de mis ideas es traer aquí una multipower a la zona de pierna, a ver si cabe por la altura del techo. Pero tener una multipower ahí para poder hacer al final del todo el entrenamiento, sentarías al fallo. En plan, empezar con tres discos, pasar a dos discos, a un disco y acabar prácticamente con un disco, uno asistiéndome y yo muriéndome.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=384" target="_blank" class="timestamp">[06:24]</a> Así que bueno. Uf, nada chicos, estoy pegando. Tengo ganas de hacer más cardio, tengo ganas de más meruza. Tengo ganas de más todo sin perder mis líneas. Así que vamos, joder. Se me va a cerrar este volumen no hacer cardio del modo en el que lo hago ahora. Creo que también después de muchos años me va a suponer una liberación. Pero mi propuesta es hacerlo un poco diferente, la verdad. Sobre todo porque un volumen duermo más y por priorizar el dormir más. Así que nada chicos, voy a seguir con el cardio. Voy a currar, aunque sea sábado. Voy a poder currar que tengo algo aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=413" target="_blank" class="timestamp">[06:53]</a> de curro. Además, ya sabéis que el aniversario de PBS está ahí, que el aniversario también... No sé si el aniversario es Impact With, creo, de MyProtein. También hay que prepararla muy guay, porque se la provoca la ida. Y sobre todo, los fines de semana hay gran parte de asesorías. De hecho, ahora luego os enseñaré un cambio que me hace bastante ilusión. Bueno, dos incluso. Y vais a flipar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=433" target="_blank" class="timestamp">[07:13]</a> Vais a flipar del curro que estamos haciendo en esa parte. Así que, chicos, let's go, que además tengo la zona de posing montada. Vamos con ello. Por cierto, no os voy a enseñar todos los días las ocho veces que poso porque me sabe ya mal por vosotros. Ya acabo de posar con los greens. Tíos, no sabéis la motivación de esto que me pasó a Kim, de ver las llamadas de la Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=452" target="_blank" class="timestamp">[07:32]</a> Además, no hay casi coches porque es sábado por la mañana. Es festivo. Bueno, sí es festivo, pero se acaba además mayo ahora que la temporada alta y todo. Bueno, he estado posándome esto. Os juro que mola muchísimo escuchar la voz de Steve, los nombres, lo que van haciendo. No sé quién, no sé quién, cámbiate. Todos en sus cajas, tal. Y luego aparte voy viendo el vídeo a veces mientras descanso para, pues no sé, para seguir viéndolo y seguir motivándome, la verdad. Porque yo, o sea, al final es donde quiere estar todo el mundo y es bastante guay. Pero bueno, chicos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=477" target="_blank" class="timestamp">[07:57]</a> Hoy entrenamos a las 10 de la mañana, así que me voy a subir, voy a desanimar. Haré otra comida antes, luego el intra. Fran sé que prefiere que entrene siempre con dos comidas en el cuerpo, así que lo prefiero. Además, hoy será el día que me grabaré el posing que le mandaré a él en la revisión del lunes. O sea que mucho mejor con comida en el cuerpo. Así que vamos para allá. ¡Uff!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=494" target="_blank" class="timestamp">[08:14]</a> Sesión número uno terminada. Me tiraría más raro incluso posando. Se me come un poco el tema de los hipopresivos, el tema del cardio, el tema del tal. Pero bueno, luego he tocado otra ronda de poses. Así que cumplidita. ¡Cumplidita! Y las máquinas, tío. Voy a volver a bajar la guerra. Madre de la muerte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=510" target="_blank" class="timestamp">[08:30]</a> Me he intentado dormir otra vez después del cardio, pero no ha sido posible. Pero sí he conseguido hacer las dos comidas. Y una cosa importante que os quiero decir, muy importante, es esto. Tenéis un 70% más un 10% de descuento ahí abajo en mi link, ¿vale? Yo tenéis el primer link. Si lo queréis aprovechar, dadle caña. Porque, chavales, la creatina no se falla. La creatina no se puede fallar todos los días. Es un buen momento. Por la mañana, por la tarde, cuando sea. Con tal de tomárosla, es un buen suplemento. Ya sabéis que yo soy el sin sabor, con sabor. Según lo que queráis. Pero, bueno, estaba aquí currando, básicamente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=539" target="_blank" class="timestamp">[08:59]</a> Estamos a tope. Y tenía la creatina por aquí, yo os lo quería decir, porque además hay ofertas muy, muy tochas de MyProtein, por si las queréis aprovechar, que lo tenéis por ahí abajo. Y yo, chicos, hoy, 9 y media, he estado currando, he intentado dormir, tengo que decirlo, pero no me he podido dormir, así que me he puesto a currar. Me voy a ir, voy a pirarme a entrenar ya, voy a cambiarme, voy a tomarme la suplica que tengo que tomar, voy a bajarme y sé que estará en uno ya. Y empezamos con el entrenamiento de brazo bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=563" target="_blank" class="timestamp">[09:23]</a> bien bien a fuego que luego además toca pose o sea que hoy es un día de esos que es largo pero como entrenamos pronto y es sábado luego descansas mucho así que vamos a ello lo de ayer fue increíble sigo sin palabras</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=574" target="_blank" class="timestamp">[09:34]</a> Bueno, ahora sí llegó el momento más esperado del día, el momento de entrenar. Tengo ganas. Por cierto, me bajo este objetivo para que luego... Bueno, no sé si posar para vosotros o posar directamente para Fran para la revisión. Porque yo crecéis hasta los huevos de verme posar. Pero no, vamos para abajo. Marta se va a clase de yoga con las yoga man de aquí en Andorra, que además es bastante graciosa su historia. No sé si la ha contado ella, tampoco quiero contarla yo, pero bueno, se va con ellas a aprender inglés. Son todas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=598" target="_blank" class="timestamp">[09:58]</a> No todas, pero son muchas inglesas. Y las gallinas están todas bien, por lo que veo. Y Marta me ha dicho que les ha puesto como una puerta solar, ¿vale? Entonces ahora tienen una puerta solar, básicamente, que se abre y se cierra por las noches y por las mañanas. O sea que bastante, bastante currado. Y yo por aquí tengo discos, movidas y todo. O sea que esto es un caos, un parque en general. Hello. ¿Te vas con la yoga, man? Me voy con la yoga.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=619" target="_blank" class="timestamp">[10:19]</a> ¿Has contado la historia de la yoga más alguna vez? ¿Puedes decirlo muy rápidamente? Pues que me he apuntado a un grupo de gente que dan pilates en el parque central aquí de Andorra. Pero lo mejor de todo es que son todas guiris. Son todas de fuera. Y luego me enteré de que eran todas mujeres de ciclistas y de gente así, súper random. Y se ponen a dar clases y son todas de fuera. Y luego yo, hello, hello, how are you? Aprender inglés. All okay? Everything is okay? Everything is okay. Luego nos hacen unas garras cake y nos traen gay y todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=648" target="_blank" class="timestamp">[10:48]</a> La verdad que espectacular. Diez euros, ¿eh? Le cuesta. Para los que salís de Andorra, diez pavos. ¡Uh, mira lo tienes que rock que hay por la mañana! Gente muy exclusiva y está ella, ¿eh? Espectacular. Voy a bajar contigo. A ver qué opinas. Mira, con esta te voy a grabar y con esta no. Porque con esta ya la voy a enseñar. Si me grabas con esta. Sí. Vale. ¿Bajo yo primero o bajaste? Vale. Vamos a ver qué opina de las cositas nuevas. A ver. Son talcores de tamaño que me esperaba. Sí. Tal cual. Tal cual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=674" target="_blank" class="timestamp">[11:14]</a> Eso tiene pintón, ¿eh? ¿Esto tiene pintón, bro? Hoy lo tenéis en el canal. No digo más. Y ya te coges. Ya estás. Eso tiene pintón, la verdad, sí. Tiene pinta de clavarte esta. Pequeñita, ¿eh? La altura es muy pequeña. No llega al... Si te fijas, no llega al este. A la ventana. La parte que apoyo no llega. Es que esta fue el tamaño que te dije, tío. Del tamaño encuadrado este.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=703" target="_blank" class="timestamp">[11:43]</a> La cosa es que lleva la zona de carga. Hay que ver cómo lo ajustamos. Lo bueno que no ocupa mucho es la zona de carga. La jaca no, la prensa un poco más. La prensa yo creo que la hemos dirigido. Si no le meto un taco para que me dé más recurrido. Ya, claro, tía, igual te hace todo. Tienes tan movilidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=729" target="_blank" class="timestamp">[12:09]</a> Esa se puede pegar más o menos. Me dijo, te la dejo así. Pero esa es añadida extra. Me dijo Charlie en plan, que es el que la montó. Te dejo, como está la zona de carga que cae justo ahí, te dejo un poquito por detrás para que pases para la siguiente máquina. Pero bueno, ya veremos en un futuro. Eso sería ajustándola. Pero esta se ve bonita, bonita de color, que flipas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=750" target="_blank" class="timestamp">[12:30]</a> Muy chiquitilla, la zona hace carga y todo. Sí, sí, sí, me gusta. Me gusta, me gusta. Tiene la zona de apoyo del cuello, que en la otra no tenía, la de Valencia. Me gusta que se saca de abajo y te coges y ya estás sólido. Es sólida la parte de arriba, no tienes que hacer movimientos. Eso está bastante guapo. Eso está guay. Y aparte que así ya tenemos los ejercicios lineales, ¿sabes? Que no es todo pendular. Ya tenemos saca lineal, tensa lineal, intercalados con los pendulares. Pendular, pendular. Y a jugar. Y a jugar mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=778" target="_blank" class="timestamp">[12:58]</a> Pero me flipas el asiento, tío, porque está en el suelo. Ya. Se va puramente vertical, ¿sabes? Ya, está en el suelo. Yo esto y eso no lo he probado. Ahí voy a probarlo. No lo he probado. No lo he probado. No lo he probado. Yo he probado esa, pero no lo he probado. Pero eso, pues bueno. A mí me gusta que esté atrapado el suelo, tío. Mira cómo tiene la zona que se ha hecha. Pájimelo. Está pasadísima la deja, pero... Guay, es que esto haces así. Sí, sí. Muy bien, está cogido. Ya está así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=809" target="_blank" class="timestamp">[13:29]</a> Esto va a ser duro. Es que va a durar. Pero me gusta que esté tan atrás de suelo y que sea tan recto el banco. Porque la cadera no se te mueve en nada, ¿sabes? Bueno, así seguramente cinturóncito por aquí. Y por aquí atrás, un cinturón, un cinturón. Y me cojo aquí. Y yo aquí ya juego. ¿Y aquí tú? Aquí yo ya. Manda. Hasta que no</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=840" target="_blank" class="timestamp">[14:00]</a> ¿Tienes que te atras? Te atras muy bien. Te atras. Te atras. Te atras. Te atras. Te atras.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=856" target="_blank" class="timestamp">[14:16]</a> podemos guardar. Uf, lo del cinturón me ha molado, eh. Ponemos cinturón aquí. Y ya, eh, por sí, como está hecha, ya estás clavado, eh, por sí. Con el cinturón, ya. Cinturón aquí. Y manitas aquí. Ya está. No te mueves. Pierlo. Y aquí yo ya... De hecho, como tenga algunos esto, le pongo a estaros aquí. A cogerme aquí. Pero no es mala, eh. Como tenga algún... algún tornillete por aquí. Ah, así es. Un trapenocho. Un trapenocho por aquí. No, mira. Pero pasará, es que es muy ancho, eh. No sé yo, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=886" target="_blank" class="timestamp">[14:46]</a> Se queda muy corto. Se queda corto y puedes poner el dedo si quieres.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=898" target="_blank" class="timestamp">[14:58]</a> Ya, pero lo suyo es... No, pero que esto consigo uno más largo. Uno más largo y ya está, sí, sí. Esto consigo uno más largo, es fácil, nada más. Tampoco te creas que es muchísimo más largo, eh. Ya, bueno, con que te entén cuatro de dos. Es que puedo poner esto y una muñequera. No tobillera. Claro. Me cojo la tobillera. Y ya te coge. Bueno, esta va muy bien, eh. Esta me ha gustado mucho. Estaba mucho que no he probado una prensa lineal. Uf.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=928" target="_blank" class="timestamp">[15:28]</a> Pero... Sin calentarnos, pero madre mía. Aquí también se puede hacer un tratero. Ya.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=940" target="_blank" class="timestamp">[15:40]</a> Pero es que me encanta cómo está hecho, tío, porque no se te mueve nada la cadera. Como está tan a ras de suelo y te vas a clavar... Me va a poner el cinturón. Sí, pero incluso si no el cinturón está muy bien fecha, tío. ¿Sabes? Porque no es la típica prensa que tiene el huequecito así medio volado, que se te levanta la cadera, que... ¿Sabes? Aquí estás totalmente clavado. Esto es un lateral. ¿Eh? Es un lateral... Palilla de femoral. Tan pequeñita, pero tan matona. Palilla de femoral. Me puedes un lateral. Con el pie hacia arriba.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=979" target="_blank" class="timestamp">[16:19]</a> Y esto da igual, no se te mueve nada la cara de la tía. Es un full y aquí no se te levanta la cara. Y lo mismo se pone con el cinturón. Sí, sí. O sea, el cinturón lo hace. Es mala la de los estados, ¿eh? Es mala la de los estados, ¿eh? Es mala la de los estados tope. Que puedas hacer toda la fuerza que quieras. Eso, un strap más largo o... Strap dentro del strap. ¿Sabes? Ahí cruzas otro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1003" target="_blank" class="timestamp">[16:43]</a> más más más más más más más más más más más más más más más más más más más</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1031" target="_blank" class="timestamp">[17:11]</a> Tenemos casi todo montado. Lo de los straps más con un mosquetón y con eso. Como de hecho ahora tenemos los otros straps, tenemos muchos más straps en 8. Te soy sincero, las dos mejores máquinas que he probado nunca en mi vida. Nunca. Pero es que la prensa ya suelo como un reasco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1052" target="_blank" class="timestamp">[17:32]</a> ¿Qué personaje Marvel es? Mi puta idea, ¿no? Sé que es de Marvel, pero... Si alguien lo sabe, que me lo ponga, por favor. Me pedí todo el pack, pero no tengo ni idea de sé cuál es de Marvel. ¿Wonder Woman? No sé. ¡Vamos, va! ¡Fajita! ¡Fajita! Y le voy a poner este objetivo de Tony para grabar también el entrenamiento, ya que lo tengo. Y es mucho mejor y es el entrenamiento. O sea, es que al final yo me grabo con esto, porque es un 17 y así me coge mucho más. Pero si no, no tiene sentido. ¡Obligatorio! De hecho, creo que me voy a empezar a poner por casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1079" target="_blank" class="timestamp">[17:59]</a> Normalmente el hambre, faja. A dormir, faja. Eso lo hace la peña, ¿eh? Fuerte. A mí nunca se me había ocurrido y tengo que ser sincero y tengo una faja arriba. No la he usado, pero tengo una arriba por si acaso. Chicos, vamos con el otro objetivo. Vale, con este objetivo ya no se puede ni aguantar aquí la cámara, así que lo cambio de trípodes. Y ahora sí, nos vamos a hacer brazo. Me falta mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1115" target="_blank" class="timestamp">[18:35]</a> Tira, chiques. Cuesta bien. Dame dos. Tira, tira, tira, tira. Una más, una más. Pelea, pelea, pelea. Tú, tú, tú, tú, tú. Una más, una más, una más. Peleala, peleala, peleala. Otra fuerte, última fuerte. Última.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1151" target="_blank" class="timestamp">[19:11]</a> Arriba. Suelte. Quiero tres. Suelte arriba. Dos. Arriba. Arriba. Arriba. Arriba. Arriba. Arriba. Arriba. Una más. La clavas. Tú. Tú. Tú. Eh. Tú. Vamos a estar ahí. Cinco. Cuatro. Tres. Estira poco a poco. Dos. Uno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1181" target="_blank" class="timestamp">[19:41]</a> ¡Arriba! ¡Cuatro más! ¡Dame tres! ¡Va! ¡Vuelve a dos! ¡Tira, tira, tira, tira! ¡Una más! ¡Apreta! ¡Apreta! ¡Apreta! ¡Clávala tú!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1212" target="_blank" class="timestamp">[20:12]</a> ¡Vamos! ¡Tira, Joan! ¡Clávalas tú! ¡Tú! ¡Dame tres! ¡Aprétame dos! ¡Tú! ¡Una más! ¡Fuerte, fuerte, fuerte! ¡Tira, tira, tira! ¡Tú, tú! ¡Tú, tú! ¡Tú, Joan! ¡Tírame tú! ¡Vamos cuatro! ¡Tres!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1243" target="_blank" class="timestamp">[20:43]</a> Fuerte arriba, va. Dos. Cinco. Cuatro. Tres. Estira. Dos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1255" target="_blank" class="timestamp">[20:55]</a> Vale, hemos terminado de entrenar. Pero, pero, pero... Tengo que pasar la revisión a Fran del Luden. O sea, me la tengo que grabar para pasar al Luden. Pero es el mejor momento. Así que voy a comer el pecho. Llevo los cacharros. Muy cacharros ahora mismo, la verdad. Así que quiero pasar esta revisión. O sea, no sé si se me ve, pero vamos a hacer caso. Voy a ver cómo le grabo. Y además, tengo que posar, evidentemente, otras rondas. Y que vamos para allá. A ver cómo me organizo. Front double left. This is crucial somewhere. Front left. Front double left. This is crucial somewhere. Front left. Front double left.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1288" target="_blank" class="timestamp">[21:28]</a> Nunca sabes en mis blogs, ya es pronto de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1316" target="_blank" class="timestamp">[21:56]</a> ¿Dóner mío? Ah, si no quieres. He hecho... Yo creo que hay gente que no sabe qué es más padre. ¿Qué dices? Procuro. A ver, poco han investigado entonces, ¿no? Vale, explica la situación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1327" target="_blank" class="timestamp">[22:07]</a> Pues que es sábado y que vamos a ver Harry Potter. Toca ocio conjunto. Y el ocio conjunto es tirarnos aquí. Pues están muy cansados. No tenemos sofá. Me tendría que haber cogido unas palomitas, ¿eh? No tenemos tampoco la telegrama. Y algo muy importante que parece una tontería es que hasta el día 24 de mayo no sale Lilo y Stitch que quiero ir a verla al cine. Entonces vamos a... Marta, por cierto, tenía HBO y lo tenía escondido y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1353" target="_blank" class="timestamp">[22:33]</a> Y HBO es una caña. Y estamos viendo cosas ahí. Cosas que no teníamos sofá. Es que es un coñazo no tener sofá. Hemos comprado un sofá súper chulo, tal, no sé qué, tal, a entregarlo dos meses. Y es como, hermano, por favor, ¿es esta semana lo más para cuánto queda? Sí, ya me pregunto. Y me tengo prisa y van a decir...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1369" target="_blank" class="timestamp">[22:49]</a> A decirme, pues no son dos meses, van a ser tres. Ya, sí, seguro. Y la tele esa es la de la habitación realmente. Y tiene que venir aquí la de Valencia. Es una tele que es como toda esa pared. Lo de mudarse es un coñazo. Pero bueno, nuestro plan de sábado realmente es tener una desconexión juntos. Vamos a tenerla. Yo vería Harry Potter por no buscarlo. Si quieres podemos empezar algo nuevo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1396" target="_blank" class="timestamp">[23:16]</a> Que da miedo, creo. Yo prefiero dejar Harry Potter que se irá seguro. Por cierto, estoy de los entrenamientos. Muerto, matado. Pero muerto, muerto, matado. Y por cierto, he tenido también noticias que le acabo de comentar a Marta. Chulas o de conocimiento. También tengo competiciones. Han confirmado algunas competiciones. Que hay open y demás. Me he metido en el calendario. Ansiedad pura y dura. Me he metido en el calendario porque sí. Me he despertado a la cierta. Con ansiedad pura me he metido en el calendario. Y antes Tampa Pro, por ejemplo. No ponía que había open. Ponía que era solo masters. Y ahora han puesto que hay open.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1423" target="_blank" class="timestamp">[23:43]</a> Era evidente, pero yo hasta que no lo viera, no quería, era en plan, vale, vale, tampoco, pero muy bien. Yo me meto en el calendario y no pone Calle Open, pone que soy yo de Master, pues bueno, hasta que me ponga Calle Open, paso. Así que nada, otro, tenemos encargos con el tema de la mudanza, ¿vale? Otro de los encargos de Marta es poner una cortina, o sea, comprar una cortina para ese ventanal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1443" target="_blank" class="timestamp">[24:03]</a> Entra una luz en esta casa, chicos. Yo no sé si vivimos en Andorra o en Miami. O sea, de verdad. Pues tengo unas ganas de que caiga unos copos de nieve así de gordos. Así de gordos. Y luego pusimos calefacción en el gimnasio y todo. En plan, nos gastamos una pasta ahí en poner calefacción en el gimnasio. Os juro que no la voy a poner. No la voy a poner. O sea, y tú, Marta, ponla cuando bajes a entrenar. Pero yo no la voy a tener puesta. Yo voy a entrenar sin calefacción. Yo paso. El caso. También tengo la play. Por cierto, que no he jugado a Miami. A ver si juego un poco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1469" target="_blank" class="timestamp">[24:29]</a> Me cuesta mucho jugar a gameplay. De hecho, de a Willy me pregunto, el AK-47 en el Black Ops está bastante chulo. Es que al final me paso el día trabajando y cada vez que digo me pongo a jugar y digo, paso. Así que prefiero ver algo con Marta y pasar el tiempo con Marta un rato, la verdad. Este es nuestro sopa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1484" target="_blank" class="timestamp">[24:44]</a> Y ya no el problema es el sofá. Lo más cuando te quieres levantar de ahí, pues estás a ras de suelo. Bueno, en mi afán por pasar una tarde tranquila y todo, soy un desastre. O sea, lo tengo que reconocer. Marta, lo siento. Me cuesta mucho ver contenido. Cuando os digo mucho es que creo que tengo un problema. O sea, no me entretengo con nada. Pero no me entretengo ni con TikTok. O sea, es que es como... No lo entiendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1502" target="_blank" class="timestamp">[25:02]</a> No lo entiendo, o sea, no lo entiendo. O sea, me ha costado de Harry Potter, me ha costado de todo y son mis pelifavorites de toda la vida. Me ha costado hasta jugar a la play mucho rato, eh, realmente. O sea, mucho rato es en plan que juego tres partidas y ya está. Es muy raro. Es el hambre. Voy a comer. Esta es la ternera que os dije ayer. Arrosito. Manduka. Marta se ha tomado antes un plato de manduka. Que era un taco de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1522" target="_blank" class="timestamp">[25:22]</a> Sí, como, ufff, espectacular, una pinta, que digo, ufff, supongo que no estoy en preparación, ya me voy a pedir para probarlo. Pero bueno, tenemos esto, tiene muy buena pinta, evidentemente comida de preparación, ternerita, como su domingo de ternera, pero evidentemente es la ternera épica, esa que estaba muy jugosita, y creo que toga toga desde el lunes la puta revisión, la verdad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1542" target="_blank" class="timestamp">[25:42]</a> y que se haya acabado la semana y que también estoy como destruido destruido y lo de las máquinas estoy como que sigo viendo vídeos de las máquinas todo el rato y todo o sea ha sido una semana muy guapa muy muy guapa así que nada chicos os dejo ya y deciros solo dos cosas dos cosas para acabar tenéis descuentos también en la descripción y la segunda empezamos con el quinto aniversario de PBS o sea muy fuerte es muy fuerte llevar 5 años con esta empresa y es muy fuerte estar preparándolo todo tan tan guay y todo así que tenéis descuentos en la descripción</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tnyj-PiE-QQ&t=1571" target="_blank" class="timestamp">[26:11]</a> No digo nada y esta semana os voy a fundir a deciros cosas, mejor dicho. O sea que vamos a por ello. Espero tener noticias pronto de las competiciones.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-Q3yP7Kw6XkQ">
+            <h2>¡YILDIZ APLAZA EL PASE AL OLYMPIA DE GERMAN! El ANÁLISIS del CALIFORNIA PRO en CLASSIC</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 04/05/2025 19:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ" target="_blank">
+                    <img src="https://i.ytimg.com/vi/Q3yP7Kw6XkQ/hqdefault.jpg" alt="¡YILDIZ APLAZA EL PASE AL OLYMPIA DE GERMAN! El ANÁLISIS del CALIFORNIA PRO en CLASSIC" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video repasa los resultados de varias competiciones de culturismo del fin de semana: el California Pro Show y el Ben Wader Pro Qualifier.
+Se analiza la victoria de Mustafa Gilmiz sobre Germán Pastor en el California Pro Classic Physique y la decisión de los jueces.
+Se anuncian los nuevos profesionales del evento amateur, destacando a Denis (Open) y Derek Dejanov (Classic Physique).
+El presentador comenta el nivel de los atletas y adelanta un análisis más profundo para un programa posterior.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Arranca el Análisis del Fin de Competiciones <a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&amp;t=2" target="_blank">[00:02]</a></h3>
+
+<p>El video comienza presentando los eventos del día: el California Pro y el Ben Wader Pro Qualifier en Alicante. Se anuncian las categorías a cubrir, incluyendo resultados profesionales y amateur, y la expectativa por los nuevos profesionales.</p>
+
+<h3>Las Primeras Palabras del Campeón Pro <a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&amp;t=309" target="_blank">[05:09]</a></h3>
+
+<p>Tras analizar su victoria en Classic Physique, se escucha el audio de Mustafa Gilmiz reaccionando a su triunfo en el California Pro. Sus palabras confirman la decisión de los jueces, donde su físico, especialmente el tren inferior, fue clave.</p>
+
+<h3>Denis Conquista el Carnet Pro en Open <a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&amp;t=614" target="_blank">[10:14]</a></h3>
+
+<p>Se anuncia que Denis ha ganado el overall en la categoría Open de culturismo amateur en el Ben Wader Pro Qualifier. Esta victoria le otorga su tarjeta profesional, un resultado que el presentador considera lógico dado su dominio en la categoría.</p>
+
+<h3>Derek Dejanov, el Nuevo Pro Classic <a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&amp;t=752" target="_blank">[12:32]</a></h3>
+
+<p>Se presenta a Derek Dejanov como el ganador del overall en Classic Physique del evento amateur. Se destacan sus buenas líneas y condición física, considerándolo un merecido receptor de la tarjeta profesional y un competidor con gran potencial a futuro.</p>
+
+<h3>Cierre y el Bikini Profesional <a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&amp;t=797" target="_blank">[13:17]</a></h3>
+
+<p>El video concluye mencionando brevemente el resultado de la categoría profesional de Bikini en el California Pro, donde Lisa Reid se llevó la victoria y su pase al Mr. Olympia. Se ofrece un rápido resumen de los resultados principales antes de despedir el programa.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno, ¿qué tal chicos y chicas? Bienvenidos a un nuevo vídeo del canal, espero que estéis pasando una muy buena jornada de domingo, como buena jornada ha sido evidentemente de culturismo, culturismo del bueno en el V-Space de Alicante, en esa Ben Wader, en ese torneo clasificatorio para conseguir el carnet profesional, para ser pro qualifier y por supuesto el California Pro Show que acaba de terminar justo ahora y del que hablaremos bastante porque en categoría clásica ha habido muchas novedades. Vamos a intentar repasarlo absolutamente todo, vamos a empezar por el pro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=32" target="_blank" class="timestamp">[00:32]</a> Y después vamos a hablar también un poquito de ese culturismo amateur que hoy ya deja de ser amateur porque en el caso tanto de Monse como por supuesto de Denis ya son profesionales. Así que como digo vamos a repasarlo absolutamente todo y por supuesto mañana tendréis las mejores imágenes del campeonato.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=49" target="_blank" class="timestamp">[00:49]</a> con la mejor calidad posible y evidentemente con el mejor análisis en Iron Road a las 11 de la noche así que como digo vamos a pasar directos a analizar todo lo que ha tenido que ver esta tarde esta mañana esta tarde en Alicante no sin antes obviamente no olvidarme de los códigos de descuento ya los conocéis código de descuento Iron Road en toda la web de Big aprovechad porque Big está haciendo una apuesta espectacular en la calidad del producto los sabores son brutales así que como digo aprovechad</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=76" target="_blank" class="timestamp">[01:16]</a> Y por supuesto, código Iron Road en toda la web de Agon Gym para la mejor ropa, para la mejor ropa deportiva, que además estará ahora con el nuevo drop, con el drop back in the game, con un montón de ofertas y de promociones. Así que como digo, aprovechad y comprad con el código porque como digo vais a tener ahí un muy buen descuento. Vamos a pasar a analizar lo que ha ocurrido en ese California Pro en la categoría Classic Physique.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=103" target="_blank" class="timestamp">[01:43]</a> Porque, iba a decir, ha habido sorpresas, ¿no? En realidad, sorpresas como tal, ¿no? Ya habíamos hablado en la previa de que el campeonato iba a estar entre este señor, Mustafa Gilmiz, y nuestro Germán Pastor. En este caso, pues se ha llevado el gata al agua Mustafa Gilmiz. Como digo, mañana tendréis un análisis pormenorizado de todo lo que ha ocurrido en el evento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=125" target="_blank" class="timestamp">[02:05]</a> Pero en este caso las imágenes de las que disponemos son estas, que son pertenecientes a las presentaciones de los tres, del top 3 que se ha producido, que se ha dado en Classic y referente a la comparativa entre Germán Pastor y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=139" target="_blank" class="timestamp">[02:19]</a> Y Mustafa, tenemos que decir que, al menos desde mi punto de vista, Germán ha salido con un puntito de condicionamiento superior a Mustafa, al menos en lo que vemos en las imágenes, lo que pasa es que al final Mustafa tiene un tren inferior tan poderoso, que ese tren posterior, sobre todo mejor dicho, ese tren inferior...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=159" target="_blank" class="timestamp">[02:39]</a> Desde mi punto de vista ha sido lo que le ha dado la victoria, en este caso Germán, ya ha anunciado y lo escucharéis, que el siguiente reto que tiene por delante es el de Irlanda, donde ya consiguió hace unos años, hace dos años en concreto, el título, el pase al Olimpia, luego esto lo refrendo con el Empro,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=179" target="_blank" class="timestamp">[02:59]</a> Y el año pasado se le resistió porque, si os lo recordaréis, pues ganó Petkov. Así que como digo, Germán que evoluciona, Germán que va a más. Para mi gusto ha presentado un físico muy renovado con respecto a la pasada temporada, con mucha más carne, mejor condición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=195" target="_blank" class="timestamp">[03:15]</a> Yo creo que hemos visto el mejor Germán Pastor de toda su carrera. Pero bueno, en este caso, los jueces se han decantado por la victoria de Mustafa Gilmiz. Tengo que decir, porque nosotros hemos estado en el VPS y también con gente que estaba allí, que la victoria...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=211" target="_blank" class="timestamp">[03:31]</a> pues para nada ha sido ningún robo ni nada por el estilo sino que en este caso era algo muy reñido entre los dos y que los jueces se han decantado por la victoria de Mustafa y en este caso lo que tenía para comentar en Mustafa que ahora lo oiremos es sobre todo pues esa puesta a punto que parece que ha sido clave en su desarrollo porque obviamente él venía como una condición</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=237" target="_blank" class="timestamp">[03:57]</a> bestial que desde luego se ha corroborado en el torneo de hecho como podéis ver la condición ha sido más que buena y sobre todo ya lo comentábamos es un atleta con</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=248" target="_blank" class="timestamp">[04:08]</a> con algunos puntos un poquito diferentes a lo que se está buscando en Classic desde luego es un músculo mucho más denso con menos línea en este caso que Germán pero sí que es verdad que con ese tren inferior ganan muchos enteros por ejemplo la espalda no es uno de sus fuertes fijaros aquí en el doble bíceps de espaldas que no es uno de sus fuertes de hecho la cintura en comparación con esa amplitud de la espalda</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=277" target="_blank" class="timestamp">[04:37]</a> no es de lo mejor, pero sí que es verdad que en las poses de frente, Mustafa gana, como digo, muchos enteros por...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=285" target="_blank" class="timestamp">[04:45]</a> por ese tren inferior tan bombeado. Por otro lado, las dos ginecomastes que arrastraba, parece que en este caso han quedado un poquito difuminadas, si os dais cuenta, tienen un poco menos, o al menos se hacen menos visibles, pero aún así siguen existiendo, no parecen penalizar, desde luego, a juzgar por la victoria. Y esto es un poquito lo que comentaba Mustafa tras la victoria, vamos a escucharle.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=309" target="_blank" class="timestamp">[05:09]</a> Hola a todos, hola a todos. Hola a todos. Hola a todos. Muy bien. Muchas gracias por suerte, ganamos, ganamos, ganamos, ganamos, ganamos. Primero y ganamos. Primero y ganamos. Muchas gracias por suerte. Muchas gracias por su teléfono. Pero no puedo mirar nada. Aquí no puedo mirar nada. Aquí no puedo mirar nada. No puedo mirar nada. Me voy a ir a dar a mi casa y a mi casa y a mi casa y a mi casa y a mi casa y a mi casa y a mi casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=337" target="_blank" class="timestamp">[05:37]</a> Pues ahí teníamos esas palabras de Mustafa. Y como digo, pues una victoria que sin duda le hace conseguir o al menos confirmar aquello que vimos justo hace un año en el Empro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=367" target="_blank" class="timestamp">[06:07]</a> Un atleta muy poderoso con un tren inferior bestial. A mí personalmente la estética de Germán me gusta más. Como podéis ver ahí un poquito imágenes un pelín más cercanas. El condicionamiento de Germán desde mi punto de vista era superior. Fijaros por ejemplo aquí. Pero bueno, al fin y al cabo era algo muy justito. Quizás se han decantado más por la densidad de Mustafá. Y en este caso habrá que ver un poco por dónde va la valoración de los jueces de aquí en adelante a la hora de seguir juzgando el Classic.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=395" target="_blank" class="timestamp">[06:35]</a> Obviamente, como podéis ver, hay más imágenes que nos llegan. De hecho, remarcar que Antonio Valeno está en el primer callout, que es el que estáis viendo ahí. Tenéis imágenes más cercanas de Mustafa, como digo. El condicionamiento, sobre todo, de lo que es cintura para abajo en esas piernas es espectacular. Y obviamente eso es lo que le ha dado la victoria por delante de Germán. A mí personalmente, por ser del Seychelles, me gusta mucho la de Germán, pero también es verdad que, claro,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=424" target="_blank" class="timestamp">[07:04]</a> Con ese tren inferior es complicado meter mano en una atleta tan grande. Aquí tenemos más imágenes, las voy a poner ahora por aquí, de esa comparativa, en este caso se ven un poquito peor. Pero esto ha sido un poco la tónica habitual del campeonato, con ese top 4, donde entraba en este caso Ricotti, aunque este es el primer callout, como digo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=446" target="_blank" class="timestamp">[07:26]</a> No se puede vislumbrar bien, como digo, mañana en Iron Road vais a tener todas las imágenes con la mejor calidad, sin ninguna duda, pero bueno, esto es una noticia de última hora y es lo que quería tratar, sobre todo para que vierais el top 4 y vosotros valoraréis. En este caso Germán se puede ver claramente que la estética, al menos bajo mi punto de vista superior, cintura más fina, la amplitud del dorsal queda bastante más nítida y en este caso, pues el caso de Mustafá,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=472" target="_blank" class="timestamp">[07:52]</a> amplía mucho lo que es el tren inferior, ¿no? El tren inferior es el que al final le hace difuminar bastante, pues, esa línea, ¿no? Por otro lado, importante remarcarlo, esto mañana lo vamos a tener bastante, lo vamos a tratar bastante promenorizadamente, el tema de la Ben Wader.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=490" target="_blank" class="timestamp">[08:10]</a> porque hay mucho y seguramente grandes protagonistas, como por el caso de Denis, de Fede, puedan estar mañana en el programa. Como digo, ha habido diferentes noticias en el tema de los Classics. Aquí tenéis a Fede entrando en este caso en la final de su talla. No se ha podido llevar la victoria. Lo único que aporta un poco de tranquilidad es que precisamente el que le ha ganado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=518" target="_blank" class="timestamp">[08:38]</a> Como ya fue en el anterior torneo, es el que se ha llevado el título. Aquí tenemos al campeón, en este caso, de la clase A, que ha sido Dani, que consigue ese pase al ser número...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=541" target="_blank" class="timestamp">[09:01]</a> a ese overall digamos y aquí tenemos el overall de Classic ¿vale? donde pues en este caso Derek Dejanov ha sido el atleta que se ha llevado el carnet profesional un atleta cuyo preparador es en este caso Stefan y que además yo creo que es el que mejor iba en cuanto a condición y también el que mejor línea llevaba con lo cual aunque bueno en determinada condición puede haber ahí diferentes debates con otros atletas pero lo que sí que tengo bastante claro</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=570" target="_blank" class="timestamp">[09:30]</a> es que era el que más se lo merecía. De hecho, aquí tenéis, recibiendo el título, ahí tenemos cuando se proclamaba campeón del overall y, por supuesto, conseguía de esa manera su carnet profesional. Y como digo, una línea bastante bonita la de este chico. Este chico va a haber que seguirlo porque tiene pinta de ser bastante joven y puede hacer grandes cosas en la categoría. De hecho, recibía el premio de mano de Luca Reger. Luego, en culturismo, aquí tenemos, esta ha sido precisamente</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=599" target="_blank" class="timestamp">[09:59]</a> Bueno, pues el campeonato empezado, donde teníamos ahí en este caso la victoria de uno de los atletas, pero quizá la noticia más importante desde luego ha sido</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=614" target="_blank" class="timestamp">[10:14]</a> la victoria de Dennis en ese overall y consigue de esta manera su carnet profesional algo que ya augurábamos en la previa porque estaba bastante cantado de que Dennis era muy superior a todo lo que habíamos visto en esta temporada en el Open Amateur y era obvio que se iba a hacer con el carnet profesional ya arrasó en el NPC sprint de hace dos semanas creo que era en Terrassa si no me falla la memoria</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=639" target="_blank" class="timestamp">[10:39]</a> Y en este caso conseguía el carnet profesional, un DNG desde luego, como podéis ver, mostraba un nivel espectacular y no ha habido ninguna duda de que tenía que llevarse ese carnet profesional. De hecho, ahí está nuestro compañero Juanjo de Telju, que por supuesto mandarle un recuerdo desde aquí. Ya sabéis que los campeonatos profesionales los hacemos siempre de la mano de Telju.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=663" target="_blank" class="timestamp">[11:03]</a> Y como digo, pues ese ha sido el balance de la competición. Luego tenemos, hemos tenido esta tarde, la categoría de bikini.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=674" target="_blank" class="timestamp">[11:14]</a> a nivel profesional, como digo, y este ha sido un poco el de debate, digamos, cómo se ha solucionado el campeonato con la victoria, en este caso, de Lisa Reid, que es la atleta que se ha hecho con la victoria. Así que, como digo, aquí lo tenéis, gana la competición de bikini, consigue de esta manera su pase.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=699" target="_blank" class="timestamp">[11:39]</a> al Mister Olympia. Y como digo, todo esto lo analizaremos mañana porque es que hay muchísimo. Insisto que hay muchísimo de lo que tratar. Además, quiero enseñaros, por si acaso se hubieran subido imágenes de alta calidad del campeonato amateur, que yo creo que sí. Mira, fijaros, aquí tenemos a Denis. No lo tenemos en comparativa, como digo, mañana intentaré hacerme con las imágenes, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=722" target="_blank" class="timestamp">[12:02]</a> Fijaros el físico que presentó Dennis, un físico todavía más pulido, el tren inferior de Dennis es una absoluta barbaridad, hay que decirlo así. Es un tren inferior de profesional. Veremos a ver qué es lo que hacen ahora, porque claro, la duda está en saber si se lo van a llevar a Classic, va a seguir en Open, veremos a ver un poco qué es lo que hace con Fede, que es su preparador, pero desde luego que ese tren inferior es un tren inferior totalmente de Open, porque es una absoluta barbaridad, ¿cierto?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=752" target="_blank" class="timestamp">[12:32]</a> que vamos a tener que ver si Dennis también está dispuesto a bajar los kilos que hay que bajar para poder meterse en la categoría del Classic Physique, o si por otro lado deciden ir un poquito más allá y seguir en el Open. Aquí tenemos a Derek Denianov, que es el atleta que ha conseguido el overall de Classic,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=775" target="_blank" class="timestamp">[12:55]</a> Y como digo, unas líneas muy bonitas. Líneas muy bonitas, muy buena forma de X, la condición también es buena. Y yo creo que merecidamente se ha hecho con el carnet profesional que tenéis en la clase D. Así que desde luego de aquí darle la enhorabuena. Así que poco más, chicos. Aquí tenéis precisamente el bikini profesional. Donde como digo, Lisa ha sido la atleta que se ha hecho con la victoria.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q3yP7Kw6XkQ&t=802" target="_blank" class="timestamp">[13:22]</a> Y poco más, porque no hay mucho más que tratar a estas horas. Como digo, victoria de Mustafa Yilmiz sobre nuestro Germán Pastor. Buena clasificación también de Antonio Valero. Y a partir de ahí, pues a seguir la temporada que esto no ha hecho nada más que arrancar. Así que como digo chicos y chicas, dejadme en la caja de comentarios si opináis. Fuerte like al vídeo, suscribiros al canal y como siempre digo chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-9aOCw9BCy6c">
+            <h2>URS SE RÍE DE LARRY WHEELS POSANDO PIERNAS Y VA RUMBO A PROFESIONAL - Victor Valdivia</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Victor Valdivia</span>
+                <span class="date">Publicado: 04/05/2025 20:08</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=9aOCw9BCy6c" target="_blank">
+                    <img src="https://i.ytimg.com/vi/9aOCw9BCy6c/hqdefault.jpg" alt="URS SE RÍE DE LARRY WHEELS POSANDO PIERNAS Y VA RUMBO A PROFESIONAL - Victor Valdivia" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video consiste en el presentador analizando clips de entrenamiento y posing de otros atletas de culturismo. Se centra principalmente en la sesión de Urs y Larry Wheels, especulando sobre su preparación y objetivo de conseguir la tarjeta profesional. También se comenta el físico de Kike, destacando su extrema definición antes de una competición. Se discuten transformaciones físicas, entrenamientos y el estado de forma de varios competidores en la categoría Classic Physique.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Objetivo Profesional con Urs y Ruedas <a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&amp;t=21" target="_blank">[00:21]</a></h3>
+
+<p>El presentador introduce el propósito del video: ver un entrenamiento de Urs con "el ruedas". Menciona que, según el título, la sesión busca ayudar a conseguir la tarjeta profesional.</p>
+
+<h3>La Misteriosa Transformación de Urs <a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&amp;t=299" target="_blank">[04:59]</a></h3>
+
+<p>Se comenta el gran cambio físico que Urs ha experimentado en un año. El presentador insinúa que ha habido "trucos" (ayudas externas), ya que llegó mucho más musculado que en años anteriores.</p>
+
+<h3>Las Impactantes Piernas de Larry Wheels <a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&amp;t=419" target="_blank">[06:59]</a></h3>
+
+<p>El presentador reacciona con asombro a las piernas de Larry Wheels. Destaca su gran tamaño y definición, mencionando que están muy marcadas para su estado actual.</p>
+
+<h3>¿El Físico de Ruedas para Classic Physique? <a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&amp;t=534" target="_blank">[08:54]</a></h3>
+
+<p>El presentador evalúa el físico de "el ruedas" (posiblemente él mismo), destacando su estética y amplitud. Considera que tiene un físico adecuado para la categoría Classic Physique.</p>
+
+<h3>Kike: Definición Extrema y Dudas Competitivas <a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&amp;t=801" target="_blank">[13:21]</a></h3>
+
+<p>Se muestra a Kike con una definición muscular extrema, prácticamente listo para competir. El presentador analiza su condición, pero plantea la duda sobre si su físico general será suficiente para superar a rivales como Rube Diesel o Josema.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=1" target="_blank" class="timestamp">[00:01]</a> Qué manera de matarlo, tú. Qué manera de matarlo. No se le ve nada mal a las ruedas, chicos. Bastante, bastante estético. No tiene nada mal físico para la categoría de Classic.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=21" target="_blank" class="timestamp">[00:21]</a> hola amigos vamos allá es largo tiempo sin ver al ruedas entrenamiento con urs y por lo que pone en el título le va a ayudar a conseguir la tarjeta profesional yo sí yo sí que recuerdo que compitió no la rewits pero no sé si era pro o no vamos a ver qué es lo que nos cuenta vamos a ver</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=43" target="_blank" class="timestamp">[00:43]</a> Bueno, esto comienza, chavales. Vamos allá en el búnker. Esta sí que no me la esperaba. Cuidado, cuidado a la calidad de esa máquina. Pintaba nueva. Es su última incorporación. Es su última incorporación al gimnasio. Fíjate, nuevita la traigo. La traigo fresca, la traigo. Que es de modelo 2025. 5 kilómetros de uso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=67" target="_blank" class="timestamp">[01:07]</a> No tengo ni idea qué era eso. ¿Para qué era esa máquina? Para hacerle un monumento. No sé qué vídeo subí que pedí mazo de likes para ir al búnker. No me acuerdo, tío. Hubo un vídeo en el que pedí que si llegábamos... No sé cuál es, la verdad. Tengo que revisarlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=89" target="_blank" class="timestamp">[01:29]</a> Lo estuve hablando en el vídeo con Fede, que había habido truco. No para de crecer. Es que con esa cachetada de cara que me lleva…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=114" target="_blank" class="timestamp">[01:54]</a> fíjate tío guau qué ganas eh la verdad o sea va a caer chavales va a caer la visita de bunca la verdad es que me gustaría ir con alguien en plan no sé sabes o algún algún atleta o algo sabes irme con alguien y pasar ahí tres o cuatro deitas de entreno macho si lo puedo bueno es que claro Madelman el problema es que claro está en plena prepa y Madelman no le sacas ahí de la cova ni queriendo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=138" target="_blank" class="timestamp">[02:18]</a> Y yo la cosa es esa, claro, que yo... Es una cosa que me gustaría hacer en breve. O sea, ¿a quién me podría llevar? O sea, ¿a quién podría ser el combo? ¿Me llevo a Babilónico? ¿Me llevo a Babilónico? No, pero no sé qué... O le meto un call a Ursh. Ursh, estoy llegando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=155" target="_blank" class="timestamp">[02:35]</a> Alemania. Entrenido. Sería épico, tú. Lo intento. Es que claro, daos cuenta que Urs ahora se ha hecho su propio gym y voy a ser completamente honesto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=169" target="_blank" class="timestamp">[02:49]</a> No tenías que haberte hecho un gym moderno. Tenías que haber cogido y haber replicado el búnker. ¿Dónde estaban las risas? Las cañerías rotas. Las rotas pasando. El tubo gordo. Ahí por la pared. La verdad es que llevaba bastante tiempo sin escuchar la risa malévola del ruedas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=196" target="_blank" class="timestamp">[03:16]</a> Si ustedes son malos, van a mirar el IFTB. Es el del barrio, bro. ¿Hay algo como Inyo, que quiere salir y sacar 700 metros de la tierra? Oh, 100%. Nunca conseguí el deslizamiento de 1,000 lbs. Siempre está en mi mente, desde el diseño de tiempo. La verdad es que... Nunca querías caminar y probar tu poder.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=226" target="_blank" class="timestamp">[03:46]</a> Aquí tengo curiosidad de ver el físico de Larry Wills, porque la verdad que por lo poco que he estado viendo se le veía realmente bien. Lo que os digo es eso, no sabía que no era pro. Yo pensaba que sí que competió y se hizo pro, pero tiene pinta de que no es pro. Entonces, vamos a ver si se hace pro. ¿Qué hubo? Hay que empezar a meterlo, ¿no? Un poquito en el lenguaje.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=251" target="_blank" class="timestamp">[04:11]</a> ¿Qué hubo? Es que os tenéis que ir a ver el vídeo de Kim Angel y Rubial Mosquera, tío, porque a mí no me fastidies, tío. O sea, el ¿qué hubo? Digo, pero ¿por qué dices eso? Y es que, no sé, es para dar motivación, digo. Lo que está haciendo es que me departa aquí de risa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=270" target="_blank" class="timestamp">[04:30]</a> Bueno, yo creo que vamos a ir adelantando, ¿no? Un poquito tirantitos en ruedas. Ahí está. Yo recuerdo que la última competición llegó seco de narices, eh. Cuidadito que le está haciendo la de la cruz.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=299" target="_blank" class="timestamp">[04:59]</a> Ok. Tío, Urs tendría que mostrar físico. Algo deja ver por ahí. Yo lo hablaba con Fede, si no oíros a ver el vídeo, que está muy interesante el vídeo con Fede de todo lo que hablamos. O sea, se cuentan cosas muy interesantes en el vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=319" target="_blank" class="timestamp">[05:19]</a> Y una de ellas hablábamos un poco de al final cómo Urs ha pegado un cambio tan grande en un año, ¿sabes? O sea, los trucos estaban ahí y algo ha hecho sin duda. Porque a mí no me digas, tío. Llegó mucho más musculado que años atrás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=337" target="_blank" class="timestamp">[05:37]</a> Tres discatos en el incline. Con esto Larry desayuna. Lo que pasa es que claro, ahora mismo es otro... Es otro tipo de entrenamiento ahora. Aparte que estará súper bajo de comida y todo. Pero vamos, te digo yo que el Larry más debilitado...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=365" target="_blank" class="timestamp">[06:05]</a> Es la velita de Larry y te saca a Urs eso y claro. Dices, aquí hay algo que no me están diciendo. Qué bien entrenar a Urs, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=393" target="_blank" class="timestamp">[06:33]</a> Valiendo, valiendo. ¿Qué pasó, carnal? No se despiste, no se despiste. Lo hemos hablado varias veces. Que venimos a lo que venimos. Si no, no le queremos por aquí. Pero que coge y le dice que se la saque ahí para asñar las piernas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=419" target="_blank" class="timestamp">[06:59]</a> Si es que como le gusta, tío. Sheesh. Now those are legs. Look at those things. God damn. Five weeks up. Yeah. Damn, leaner than me. You got lines in your fucking quad and everything. That's crazy, dude. ¿Qué manera de matarlo, tú? That's insane. You open like that, she said.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=440" target="_blank" class="timestamp">[07:20]</a> ¡Qué manera de matarlo! ¡Maya pataca! ¡Maya pataca de urs!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=463" target="_blank" class="timestamp">[07:43]</a> Y es que luego al final pasa lo que pasa. Urz realmente va a un nivel de condición buenísimo. O sea, realmente va bastante seco y está pesando una barbaridad. O sea, que lo hablaba yo con Fede. Digo, si Urz se tiene que quitar 20 kilos, ¿sabes? Para salir a tarima. Ya miras tú cómo lo haces. Ya de por sí está haciendo una partida desde un punto muy seco. It's tight. A ver, a ver, que la aconseja aquí. Oh, we'll be sure enough, yeah.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=489" target="_blank" class="timestamp">[08:09]</a> Pero lo que veo es que tienes que abrir más... Tienes que abrir más... Tienes que abrir más... Tienes que abrir más... Tienes que abrir más... Tienes que abrir más... Tienes que abrir más... Tienes que abrir más... Tienes que abrir más...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=517" target="_blank" class="timestamp">[08:37]</a> Así hay que hacer el posting en el baño por las mañanas. Tienes que ir en grande. Movimientos ahí que digas. Estoy aquí. Nadie me gana. Bueno, vamos a ver el posting.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=534" target="_blank" class="timestamp">[08:54]</a> Estoy justo en la franja justa para que se me vea la cabeza bien, porque es que si me giro a la derecha tengo el sol, yo no sé. Tengo ahí justo la ventana, tío, estratégicamente puesta. Joder, no se le ve nada mal a las ruedas, chicos. Bastante, bastante estético.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=563" target="_blank" class="timestamp">[09:23]</a> Es que tiene mucha amplitud, eh, Larry Wills. Joder, no me lo esperaba, tío. Es amplio, eh. Y luego la cintura que se le queda, muy bien, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=590" target="_blank" class="timestamp">[09:50]</a> No tiene nada mal físico para la categoría de Classic. ¡Ostras! ¡Qué bien! Incluso con el bíceo estuerto, tío. A poco va mal la cosa. Y con el brazo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=617" target="_blank" class="timestamp">[10:17]</a> Y voy con esta pierna, voy a la izquierda. Y luego… Se ve muy raro. Se ve como una línea perfecta. Tío, te diría que Gursky darse la Kami para ver la diferencia entre los dos físicos. Y la izquierda izquierda es como… Aquí. Ya os digo que el físico de Larry es muy bueno. O sea, al final… Como le meta caña… Con esta energía en estado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=648" target="_blank" class="timestamp">[10:48]</a> Me parece físico muy estético, tío. Sigue muy buena amplitud, la cintura fina. Lo único que sigue es cierto que las piernas va a tener que darle caña.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=672" target="_blank" class="timestamp">[11:12]</a> Se veía alguna venilla por allá abajo eh, o sea que no se mantiene nada mal Nuestro hombre Vamos a ver el side chest Look over your shoulder like this Because the people see</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=702" target="_blank" class="timestamp">[11:42]</a> Tiene una espalda densa, ¿eh, Larry? Bastante, bastante bien, ¿eh? Es que Urs no va a enseñar nada, el perro. Solo enseña las piernas, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=733" target="_blank" class="timestamp">[12:13]</a> ¡Ostras! ¡Pues muy bien!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=747" target="_blank" class="timestamp">[12:27]</a> La verdad es que me está sorprendiendo. Se fue de rosca ahí, Larry. Con la mano. A ver, voy a ir al vídeo con Ursch. A ver si aquí muestra algo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=776" target="_blank" class="timestamp">[12:56]</a> Nada, no se deja ver el maldito Urs, tío. Oye, perro, macho. No se deja ver. Es que luego te metes a su Instagram y tampoco es que haya mucha cosa. O sea, tiene esta imagen de hace cuatro días. Que sí que es cierto que al final, bueno, se deja ver que está hecho un bicharrango. Pero la verdad, molaría bastante poder ver cómo luce el físico de Urs ahora mismo. O sea, sí que es cierto que se le ha visto algo más tapadete.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=801" target="_blank" class="timestamp">[13:21]</a> Y al final también es normal. No sé si pronto veremos algo. Vamos a ver un poquito de cómo va Kike. Para cerrar el vídeo de hoy. Yo no sé si puede estar más triturado este tío. Ya son dos semanitas fuera este vídeo. Sí que es cierto que la calidad tampoco es del todo, ¿no? Increíble, entonces...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=826" target="_blank" class="timestamp">[13:46]</a> Yo creo que al final el físico de Kaike se ha ido manteniendo durante todos estos días bastante parecido porque es que mucho más no podías hacer. Ya el tío estaba absolutamente trillado. Ya no había dónde coger y definir más. Ya lo siguiente que veríamos es lo que os digo. La apuesta a punto y el resultado final.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=855" target="_blank" class="timestamp">[14:15]</a> Es todas las líneas del pectoral. La condición es tremenda. Lo que hablaba yo con Fede es el tema de decir ¿Has visto el físico completo? Es lo único. Yo creo que va a ser, como ya decía, un físico muy espectacular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=870" target="_blank" class="timestamp">[14:30]</a> De verlo, yo creo que al final va a ir completamente partido de arriba y tal, pero como físico final, de arriba abajo, es lo que va a haber que esperar. A ver, o sea, puede que sí que sorprenda, pero puede que también por otro lado, pues no tenga al final, ¿no? Cada grupo muscular bien, bien, no sé si compensado, pero al nivel de poder estar por delante de Rube Diesel o Josema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9aOCw9BCy6c&t=893" target="_blank" class="timestamp">[14:53]</a> Y poquito más, chavales. Queda poquito para el Pitbull Pro. Así que iremos informando. Y nada más por el día de hoy. Sean muy felices. Yo me despido. Nos vemos mañana con más. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-2USFvSSaaH4">
+            <h2>¿Eres entrenador? Necesitas Notebook lm</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: alvarobernalalejandre</span>
+                <span class="date">Publicado: 04/05/2025 21:44</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=2USFvSSaaH4" target="_blank">
+                    <img src="https://i.ytimg.com/vi/2USFvSSaaH4/hqdefault.jpg" alt="¿Eres entrenador? Necesitas Notebook lm" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video demuestra cómo usar Notebook LM, una herramienta de IA para gestionar y analizar información.
+El presentador carga su propio contenido de videos sobre fitness, entrenamiento y nutrición para mostrar sus capacidades.
+La IA extrae resúmenes y respuestas específicas basadas únicamente en las fuentes proporcionadas.
+Se presenta como una herramienta poderosa para organizar conocimiento y responder preguntas complejas de forma eficiente.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>IA al Servicio del Fitness Personal <a href="https://www.youtube.com/watch?v=2USFvSSaaH4&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El presentador introduce Notebook LM, una herramienta de inteligencia artificial diseñada para gestionar información de diversas fuentes. Carga 27 videos de su canal, que suman más de 30 horas de contenido, para demostrar su utilidad.</p>
+
+<h3>Fitness Adaptado a Condiciones Médicas <a href="https://www.youtube.com/watch?v=2USFvSSaaH4&amp;t=330" target="_blank">[05:30]</a></h3>
+
+<p>Se muestra cómo la IA resume las recomendaciones del presentador sobre entrenamiento para personas con cáncer. La herramienta subraya la prioridad de la adaptación individual, la consulta médica y la dosificación cuidadosa del esfuerzo.</p>
+
+<h3>Principios Nutricionales Clave según la IA <a href="https://www.youtube.com/watch?v=2USFvSSaaH4&amp;t=591" target="_blank">[09:51]</a></h3>
+
+<p>El video explora las recomendaciones generales de alimentación saludable extraídas por la IA de los videos. Resalta la importancia de priorizar alimentos sin procesar, el balance calórico y la ingesta adecuada de proteína, frutas y verduras.</p>
+
+<h3>Entrenamiento para la Obesidad Desentrañado <a href="https://www.youtube.com/watch?v=2USFvSSaaH4&amp;t=880" target="_blank">[14:40]</a></h3>
+
+<p>Se utiliza la IA para obtener pautas de entrenamiento en casos de obesidad. La herramienta resume la sugerencia inicial de empezar con entrenamiento de cuerpo completo, muy baja intensidad y alta frecuencia semanal.</p>
+
+<h3>IA: Herramienta, No Reemplazo <a href="https://www.youtube.com/watch?v=2USFvSSaaH4&amp;t=1182" target="_blank">[19:42]</a></h3>
+
+<p>El presentador reflexiona sobre el uso responsable de la inteligencia artificial como una herramienta de apoyo profesional. Enfatiza la necesidad de no desconectarse de la tecnología y menciona referencias cinematográficas sobre su impacto.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=0" target="_blank" class="timestamp">[00:00]</a> En este vídeo te cuento cómo usar una herramienta de inteligencia artificial para que puedas responder tus preguntas de fitness, entrenamiento y nutrición. Fíjate, Notebook LM es muy sencillo, es gratuito, solo requiere que tengas una cuenta de Google y en este caso yo lo que he hecho es que he cogido los 27 directos que he realizado uno semanalmente en YouTube hasta la fecha en la que estás viendo el vídeo. He puesto aquí todos los directos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=29" target="_blank" class="timestamp">[00:29]</a> La herramienta lo que hace es una transcripción de todo y le he hecho una pregunta. En este caso he hecho una demostración y le he dicho que con la información que tengo yo en mi canal, cuáles son las recomendaciones generales de entrenamiento de fuerza y resistencia para personas de más de 45 o 50 años.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=47" target="_blank" class="timestamp">[00:47]</a> Acordaros que en este caso la herramienta Notebook LM solo va a buscar información en las fuentes. En este caso son los 27 directos que yo he hecho, como os decía, en las últimas semanas. Y aquí fijaros cómo llega a profundizar en el contenido. Donde veas que aparece un número está haciendo alusión a la explicación en la cual yo había hablado de ese tema. He cogido mi contenido para que no haya problemas de derechos de autor, pero puedes hacerlo con</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=75" target="_blank" class="timestamp">[01:15]</a> los creadores de contenido que tú consideres oportuno. Esto es muy importante que lo tengas en cuenta. Va a buscar solo en el contenido de esos vídeos y, como verás, pueden ser vídeos, pero dándole a añadir fuentes pueden ser sitios web, pueden ser PDFs, documentos... En definitiva, puedes buscar muchísima información. Incluso también le puedes pedir que te aporte información nueva. Puedes pedir...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=101" target="_blank" class="timestamp">[01:41]</a> qué rigor quieres en la información, puedes limitarlo. La verdad es que merece mucho la pena ir trabajando con estas herramientas que llamamos de inteligencia artificial. Yo creo que ya es un término demasiado pomposo. Creo que son herramientas de gestión de la información.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=116" target="_blank" class="timestamp">[01:56]</a> Y nada más. Bueno, pues aquí, cuando le he preguntado sobre entrenamiento de fuerza, recomendaciones generales, 40-45 años, 50, por poner una edad de corte. En fin, hay un momento en la vida que uno dice, uff, ya no soy el mismo. La estadística dice que sobre los 40 y pocos, uno ya percibe que la vida no es la misma, que el cuerpo no es el mismo. Y después, 60-62 también, como diciendo, ¿qué ha pasado? Bueno, pues que ha pasado ya dos tercios de la vida. En principio es lo que ha pasado, ¿no? Pero lo que quiero que veas es cómo realmente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=143" target="_blank" class="timestamp">[02:23]</a> 27 vídeos, estoy por encima de la hora, hora y cuarto, estamos hablando de casi 30 horas de contenido y estas son las recomendaciones que hace de mi propio contenido. Es como si le preguntases a Álvaro Bernal, exactamente igual. Dice principios clave para el entrenamiento en personas de esa edad, priorizar la fuerza y la resistencia, el cardio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=163" target="_blank" class="timestamp">[02:43]</a> que se adapte de forma individual. Es tan sencillo como que cojáis los vídeos de la persona que queráis. He dicho vídeos, pero insisto, pueden ser web, pdf, lo que tú quieras, cualquier información, pero con los vídeos es lo que normalmente nos manejamos. Y a partir de ahí le preguntas lo que quieras. Decíamos el foco en las fibras tipo 2, que siempre os estoy dando la matraca, la importancia de la fibra 2...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=186" target="_blank" class="timestamp">[03:06]</a> las contracciones intensas, todo ese tipo de cosas. Intensidad adecuada en la fuerza, el volumen razonable en la fuerza. Acordaros, cada vez que aparece un numerito, ahí está diciendo exactamente en qué momento yo hice un comentario sobre lo que está apuntando. El rango de movimiento completo, siempre que sea posible, el cardio que sea variado, también dentro de las posibilidades, que la recuperación sea suficiente. Todo esto es fundamental.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=213" target="_blank" class="timestamp">[03:33]</a> Y después verás que hablo de las máquinas guiadas, pero que siempre que se pueda que estemos con el peso libre y el peso corporal para que de alguna manera nos sintamos más capaces de hacer cosas con nuestro propio cuerpo. Hablo de diferentes equipamientos. Hace alusión, en este caso hago alusión en muchos vídeos, a monitorizar la recuperación con la variabilidad de la frecuencia cardíaca. Hay un vídeo en el que lo explico con mucho detalle.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=238" target="_blank" class="timestamp">[03:58]</a> Y también hago alusión constantemente a factores importantes como es el sueño, el estrés, la nutrición, el bienestar emocional y social. Todo esto son 30 horas, probablemente más de 30 horas de vídeo resumidas. Pero vamos a hacer más pruebas. Por ejemplo, algo más concreto. ¿Qué recomendaciones hace Álvaro Bernal en relación al entrenamiento en personas que tienen cáncer?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=268" target="_blank" class="timestamp">[04:28]</a> Va a toda la fuente, se va a esas treinta y tantas horas de contenido y va a hacer un resumen de lo que yo haya podido decir. Fijaros que aquí está haciendo un trabajo complejo porque yo en los directos respondo a muchos tipos diferentes de preguntas. Tiene que estar mirándoselo todo. La verdad es que merece mucho la pena. Yo lo utilizo con personas con las que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=290" target="_blank" class="timestamp">[04:50]</a> Admiro divulgadores, profesores que he tenido a lo largo de mi vida y que siguen siendo mis profesores y me ayuda muchísimo a concretar. Yo, por ejemplo, estoy viendo un podcast o un vídeo en YouTube, tomo notas y después cojo ese vídeo en Notebook LM y le hago preguntas, me genero documentos. Es una auténtica maravilla, ¿no? Vale, pues vamos a ver. Vale, pues aquí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=316" target="_blank" class="timestamp">[05:16]</a> Vamos a irnos al inicio y dice... Vale. Basándome en esa información, las recomendaciones que hace para personas que pudieran tener cáncer y demás...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=330" target="_blank" class="timestamp">[05:30]</a> La prioridad es la adaptación individual y el contexto médico, que hay que hablar con los médicos, que los médicos son los que nos tienen que poner los filtros, los límites a qué podemos y qué no podemos hacer porque el paciente tiene una fatiga crónica, tiene un desgaste muy importante físico y emocional por la enfermedad, por el proceso, la medicación, todas esas cosas que siempre os cuento anteriormente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=349" target="_blank" class="timestamp">[05:49]</a> En los vídeos, fijaros, dice el médico debe liderar el proceso. Acordaros que cada vez que yo me pongo aquí aparece el donde yo he estado hablando de ese tema. Y te dice, por ejemplo, en preguntas, entrenamiento y alimentación, 11. Y te dice exactamente qué vídeo, por si tú quisieras ya vértelo con más detalle.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=366" target="_blank" class="timestamp">[06:06]</a> Habla del entrenamiento como fármaco, que la dosis es la clave porque nos podemos venir muy arriba, tanto el paciente como el entrenador y que ese esfuerzo genera un estrés superior a lo que esa persona puede recuperar en ese momento de su vida y de su enfermedad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=382" target="_blank" class="timestamp">[06:22]</a> Por lo tanto, aquí dice que el entrenador debe ser responsable de dosificar el estímulo y gestionar los descansos y la recuperación, considerar todos los estresores vitales. Os hago mucha alusión en muchos vídeos a que la carga de entrenamiento, es decir, aquello que podemos objetivizar, series, repeticiones, ejercicios, cargas, descansos, todo lo que se puede objetivizar, que es la carga externa, dependerá de los estresores a los que está sometida la persona, esté sana o no, también una persona sana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=412" target="_blank" class="timestamp">[06:52]</a> tiene estresores y le condiciona la carga de entrenamiento que va a soportar y la repercusión que tiene en el organismo, que es lo que llamamos la carga interna, que hablo mucho y ahora voy a ver si nos dice algo al respecto. Quiero que veáis que es una auténtica maravilla, no el contenido, obviamente porque es mi contenido, es un contenido humilde, es un contenido simplemente honesto, pero digo que es una maravilla la herramienta. Vamos a ver si hace alusión a algo de esto. Según los vídeos de Álvaro Bernal que hay en este proyecto,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=440" target="_blank" class="timestamp">[07:20]</a> ¿Qué es la carga interna y la carga externa en el entrenamiento?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=448" target="_blank" class="timestamp">[07:28]</a> A mí todo esto me encanta. Pienso que la IA bien utilizada es maravillosa. Si, en cambio, dejamos que la inteligencia artificial haga todo en nuestras vidas, pues nos vamos a ver muy estúpidos. Pero si somos capaces de hacer un uso responsable de los datos, de los contenidos, del conocimiento, podemos tener una mejor vida profesional. Insisto en esto muchísimo. A lo largo de las semanas voy a seguir...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=472" target="_blank" class="timestamp">[07:52]</a> subiendo vídeos de inteligencia artificial yo no soy un experto ni mucho menos soy un random soy un usuario pero creo que no nos debemos desconectar si nos desconectamos completamente nos va a pasar como seguro que lo recordaréis que tenéis familiares muy mayores que ya les han cogido ciertas tecnologías y no son capaces de comprender la capa básica para poder aprovecharlas y les resulta muy intimidatorias entonces por favor</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=495" target="_blank" class="timestamp">[08:15]</a> Ir cogiendo vídeos de divulgadores que os gusten, utilizáis Notebook LM, insisto, es terriblemente fácil y vais viendo. Bueno, vamos a ver, basándome en la información de los vídeos de Álvaro Bernal que hay en este proyecto, que es la carga interna y externa. Carga de trabajo externa, se refiere al entrenamiento que se ha realizado, es la carga objetiva y medible del ejercicio, como la cantidad de series, repeticiones, peso levantado…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=516" target="_blank" class="timestamp">[08:36]</a> La verdad, lo que acababa de deciros, ¿verdad? ¿Y qué es la carga interna? Pues representa cómo el individuo tolera ese estresor que es la carga externa. La verdad es que es una auténtica maravilla poder utilizar una herramienta de estas características. Voy a seguir haciendo preguntas. Yo hablo poco de temas de alimentación porque creo que la red está muy polarizada. Muchos de los estudios que hablan en relación con los alimentos y la nutrición están financiados por lobbies.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=543" target="_blank" class="timestamp">[09:03]</a> Entonces trato de no pelearme con estos temas. Creo que las cosas son más simples y vamos a ver qué he dicho en los directos. ¿Cuáles son las recomendaciones generales que promueve Álvaro Bernal en relación a la alimentación saludable?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=561" target="_blank" class="timestamp">[09:21]</a> Vamos a ver qué contesta. Casi todas las IA se están trabajando de la misma manera. Hay una curva de aprendizaje que se aprovecha de una herramienta a otra. No tendría sentido ninguno que una IA funcionase de una manera muy diferente a la otra. De la misma manera que todos los teléfonos, con independencia del sistema operativo, de la marca, sean iOS o sean Android, todos tienen, por así decir, una forma de interactuar muy similar. Por lo tanto, si conocéis una IA, todas van a ser muy parecidas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=591" target="_blank" class="timestamp">[09:51]</a> Bueno, pues fíjate, en materia de alimentación, yo lo que he recomendado en todos estos vídeos es priorizar alimentos sin procesar o buenos procesados. Aquí hace la distinción de qué es cada cosa. El balance calórico es determinante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=604" target="_blank" class="timestamp">[10:04]</a> Claro, no es lo mismo estar tomando 4.000 calorías que 1.000 en una persona, por ejemplo, de mi tamaño y de mi edad. Pues obviamente, claro que importa si son 4.000 o son 1.000. No son solo calorías, no son solo macronutrientes. Hay muchos factores, como digo en los vídeos, que condicionan lo que gastamos, enfermedad, estrés…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=624" target="_blank" class="timestamp">[10:24]</a> Pero evidentemente, como quiero decir constantemente, no podemos decir a la ligera que no importan las calorías. Claro que importan. Una persona que esté en un superávit crónico permanentemente irá cogiendo grasa de la misma manera que alguien que esté en un déficit muy severo de forma crónica va a enfermar en ambos casos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=642" target="_blank" class="timestamp">[10:42]</a> Bueno, adaptar la ingesta a la actividad física y el contexto, asegurar una ingesta adecuada de proteína, incorporar suficientes frutas y verduras, considerar la frecuencia de las comidas, todo esto. Vamos a ver, por ejemplo, qué he dicho yo sobre los hidratos de carbono. ¿Qué opinión tiene Álvaro Bernal sobre el consumo de hidratos de carbono? Es una pregunta muy genérica porque hay que particularizar, pero vamos a ver qué dije yo al respecto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=671" target="_blank" class="timestamp">[11:11]</a> Ya os adelanto que lo que defiendo es carbohidratos a demanda. Una persona que está corriendo la etapa reina del Tour de Francia está más cerca de 20 gramos de hidrato de carbono por kilo de peso corporal que de 8 o de 10, que es lo que haría esa misma persona en un entrenamiento fuera de temporada. Y una persona que es diabética, tiene obesidad, pues lógicamente no tiene ningún sentido que esté tomando una cantidad de carbohidratos que no va a gastar, evidentemente. De hecho, no tiene sentido que esté en un superávit calórico. Esa sería la primera...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=699" target="_blank" class="timestamp">[11:39]</a> norma a tener en cuenta. Basándome en los vídeos, Álvaro Bernal dice que la cantidad y el contexto son claves. La recomendación debe ir en función de los niveles de actividad de la persona y de su contexto vital. El balance calórico por encima de macronutrientes, él enfatiza en la importancia de que, como decía, que las calorías cuentan, que importa que haya un déficit calórico si queremos perder grasa corporal, que ese déficit debe ser ligero, sostenido en el tiempo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=729" target="_blank" class="timestamp">[12:09]</a> Habla también, en este caso hablo yo, del rol de los carbohidratos en el entrenamiento de fuerza y resistencia. De verdad, es muy importante que esta parte quede claro. El cerebro es maravilloso, detecta los niveles de glucógeno que tenemos almacenados en el músculo. El glucógeno es la forma que tiene el músculo de almacenar glucosa y hay actividades físicas en las que uno no puede decidir el sustrato energético. Uno está haciendo entrenamiento de pesas, de fuerza, sprintando, jugando al pádel...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=757" target="_blank" class="timestamp">[12:37]</a> Al fútbol, todo eso que es explosivo, que es repetitivo, es cíclico, va a consumir muchos hidratos de carbono, mucho glucógeno, mucha glucosa almacenada en el músculo. Por lo tanto, cuando el organismo, el cerebro, detecta que los depósitos de glucógeno no están llenos, va a tener menor rendimiento con independencia de otras cosas. Yo sé que todo esto cuesta entenderlo, pero estas cosas están ahí, ¿de acuerdo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=779" target="_blank" class="timestamp">[12:59]</a> ¿Dónde me documento? Pues viendo a los mejores, a los que considero que yo son los mejores, viéndome todos sus vídeos, sus podcasts, haciendo cursos. Sigo pensando que en 2025 tiene sentido pagar porque alguien te estandarice la información, que te la cuadre, que te la ajuste a tus necesidades, pero estas herramientas de verdad que son tremendas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=798" target="_blank" class="timestamp">[13:18]</a> Hablo yo, evidentemente, de la calidad de los hidratos. Esto no es hidratos y hidratos no. Es siempre sobre la premisa, como os decía antes, de alimentación de calidad, que los hidratos dependan de la actividad física. Siempre priorizando alimentos sin procesar o buenos procesados. Habla también del timing, de en qué momento tomarlos. Es impresionante lo que podemos sacar de una herramienta de estas características. Y la última que voy a poner aquí, por ejemplo, voy a dar algunas recomendaciones de entrenamiento de fuerza y resistencia en la obesidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=829" target="_blank" class="timestamp">[13:49]</a> Con la información de estos vídeos, cuáles son las recomendaciones de Álvaro Bernal de entrenamiento de resistencia y de fuerza en la obesidad. Ir viendo que aquí al lado aparece una sección que pone estudio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=847" target="_blank" class="timestamp">[14:07]</a> Y te puede crear un podcast hablando dos personas con el resumen de todo el contenido. La verdad que es fascinante. Ya desde hace pocos días te lo hace en castellano, hasta hace poco lo hacía solo en inglés. Pero bueno, volvemos a la pregunta basándonos en la información de los vídeos. Bueno, recomendación inicial y frecuencia. Una persona con obesidad, decía yo, lo decía, vamos a ver dónde lo decía esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=873" target="_blank" class="timestamp">[14:33]</a> Pues lo hablaba, por ejemplo, en el directo número 13. Decía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=880" target="_blank" class="timestamp">[14:40]</a> que una persona que se encuentra en un estado de, utilizo la expresión entonces, de desentrenamiento, la recomendación inicial sería un entrenamiento de todo el cuerpo, lo que se llama full body, a muy baja intensidad y la mayor parte de los días de la semana. Ahí sí que importa, muy baja intensidad, vaciar los depósitos de glucógeno, lo que se pueda, para que cuando vuelva a haber alimento, vuelva a haber glucosa en sangre, lo primero que vaya a hacer el organismo es rellenar esos depósitos de glucógeno. Cuando la intensidad es muy baja, claro que se puede hacer fuerza de baja intensidad a diario,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=909" target="_blank" class="timestamp">[15:09]</a> ¿Qué es lo que hace un ciclista? Pues entrenamiento de fuerza, de una intensidad baja la mayor parte del tiempo que está pedaleando, que ojo, que mueve muchos vatios, que tiene mucha fuerza, pero respecto a lo que podría hacer en un gimnasio es baja intensidad. Por lo tanto, una persona con obesidad se beneficia de mover los músculos todos los días que pueda a baja intensidad. Luego ya habrá tiempo para bajar la frecuencia porque los entrenamientos sean más intensos, requeramos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=932" target="_blank" class="timestamp">[15:32]</a> requiramos perdón ya más descanso todo eso es importante no pero no lo va aclarando en función de todo lo que yo he dicho la verdad es aquí por ejemplo digo es crucial no buscar la máxima intensidad en los primeros días por la cuestión de la inflamación porque esas agujetas van a ser invalidantes hay muchas cosas que que podemos ver no una buena noticia es que tú este notebook lm yo se lo puedo mandar a cualquiera se lo puedo compartir a cualquier persona</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=957" target="_blank" class="timestamp">[15:57]</a> Y si yo lo voy actualizando, pues se van actualizando las fuentes. Yo a mis clientes, por ejemplo, les mando información actualizada de todo esto, para que ellos no tengan que estar teniendo que hacer este trabajo. Pienso que también tiene su interés el estar conociendo la herramienta, pero hay personas que están muy ocupadas, que tienen poco tiempo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=976" target="_blank" class="timestamp">[16:16]</a> Y agradecen que les mande este tipo de información. Lo he hecho con mi contenido. Lo podéis hacer con personas que admiréis, que respetéis, que os parezcan brillantes. Y la verdad es que es una auténtica maravilla. Fijaros que también tiene la opción, cuando le damos a fuentes, descubrir. Yo aquí podría escribirle literalmente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=995" target="_blank" class="timestamp">[16:35]</a> qué tipo de contenido quiero para que se sume a estas fuentes. Y a partir de ahí, cada vez que añada una fuente nueva, la va a incorporar a las preguntas o lo que le pidamos. Yo le puedo pedir que haga un resumen, por ejemplo, de esta última pregunta que le acabo de decir. Le puedo decir que lo guarde como nota. Ya me la pone aquí y la llama ejercicio en obesidad. Aquí está la nota con todo esto. Y de ahí yo podría hacer otro uso si quisiera también en otra herramienta de ella, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1023" target="_blank" class="timestamp">[17:03]</a> Y esta parte de la conversación en profundidad es tremenda. Tarda un poco y me temo que con 27 vídeos más de 30 horas va a tardar bastante en hacerlo. Vamos a ver, si no es muy largo os lo muestro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1037" target="_blank" class="timestamp">[17:17]</a> Pues ha tardado unos 5 minutos. En otros ejemplos tarda bastante menos, pero como digo, aquí había bastante tiempo. He estado hablando de unas 30 horas, pero lo he revisado ahora mientras hacía esta parada en el vídeo y tranquilamente son unas 40 horas porque estoy más en una hora 25 de media, por lo tanto es que es mucho contenido. Fijaros, crea un podcast...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1061" target="_blank" class="timestamp">[17:41]</a> Bienvenidos y bienveninas a esta nueva exploración. Hoy nos metemos de lleno en varias charlas de YouTube. No voy a ponerlo porque lo podéis hacer vosotros. Sería absurdo que os pusiera todo lo que va a hacer. Pero sí lo que quiero es que veáis cómo interactúa. Es una maravilla. Todo sobre el contenido que ha sacado de mis directos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1084" target="_blank" class="timestamp">[18:04]</a> las hormonas anabólicas bajan, es lo natural. La clave, pues seguir moviéndose. Fuerza, cardio... ¿No abandonar? Exacto. Quizá centrarse más en la potencia. Mover cargas rápido, aunque no sean máximas. Y cuidar mucho el sueño, el estrés. Y asumir que recuperar nos va a costar más. Tiene sentido. Y si hay, bueno, problemas más serios, dolor crónico... Unos segundos más... O alguna enfermedad autoinmune, ¿se puede entrenar?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1112" target="_blank" class="timestamp">[18:32]</a> Sí, se puede, pero con muchísima cautela. Intensidad baja, lejos del fallo siempre. Piensa que estas personas ya tienen un nivel de estrés basal, digamos, muy alto. Claro, el cuerpo ya está lidiado. Lo decíamos antes, si tus niveles de estresores son altos, el entrenamiento no debe ser un estresor más que te impida recuperarte. Es una maravilla. De verdad, puedes decirle que haga un documento resumen de todo lo que había en estas casi 40 horas. Le puedes pedir una guía de estudio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1142" target="_blank" class="timestamp">[19:02]</a> para que te vaya diciendo, oye, ¿cómo me introduzco en estos temas? La verdad es que es una auténtica maravilla, no lo voy a alargar, son 29 fuentes, lo digo constantemente, esas 40 horas al menos, pero el ejemplo de los directos quizá no es el más adecuado porque…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1157" target="_blank" class="timestamp">[19:17]</a> Claro, date cuenta que me preguntáis muchísimas cosas en los directos, aunque todas tienen que ver con entrenamiento, resistencia, fuerza, alimentación, pero es muy difícil generar una guía de estudio de 40 horas de entrevistas, por decirlo de alguna manera. Pero sí que perfectamente podríamos crear un proyecto nuevo en el que solo fuéramos a un tema en concreto. Así que si hay algún vídeo que os gusta de lo que yo he creado...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1182" target="_blank" class="timestamp">[19:42]</a> Me podéis preguntar en los directos semanales, pero también podéis hacer una prueba de que respondería yo a razón de esos contenidos que pongo en YouTube. A mí la verdad que todo esto me está encantando, lo de la inteligencia artificial. Creo que, como os decía, si se da un buen uso puede ser maravilloso, si se le da un mal uso va a ser un desastre. Hago alusión constantemente a dos películas, a tres. Una es la de Her, por favor, ver la película de Her.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1209" target="_blank" class="timestamp">[20:09]</a> hablando de inteligencia artificial, de relaciones humanas. Hay que intentar no llegar a eso. Constantemente también hago alusión a esta película de Sylvester Stallone, que dibujaba una sociedad aparentemente distópica, ridícula. No queda muy claro cuándo, porque son esas películas de ciencia ficción de los 90. Bueno,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1231" target="_blank" class="timestamp">[20:31]</a> como podría ser el 2040, como podría ser el 2080. Hay una tecnología que entonces no había, tampoco la tenemos ahora, pero cómo va esa sociedad de forma absolutamente descontrolada. Merece la pena verla, Demolusion Man y, por supuesto, 2001, Odisea en el Espacio, que ya a mediados de los años 60 del siglo pasado había personas que intuían cómo iba a ir esto de la inteligencia artificial y que hagamos, por favor, un buen uso de ello.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2USFvSSaaH4&t=1258" target="_blank" class="timestamp">[20:58]</a> Si te interesa me lo pones en los comentarios, te agradezco que me sigas, que me apoyes y que me digas qué temas te gustaría que tratásemos de inteligencia artificial respecto al fitness. Un abrazo para todos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 04/05/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
