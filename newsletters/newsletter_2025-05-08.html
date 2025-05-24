@@ -1,0 +1,969 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 08/05/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">08/05/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Miguel Navarro</strong>: <a href='#video-CjDVWd0IUfE'>ÚLTIMAHORA| ¡GOODVITO FUERA DEL PITTSBURGH PRO POR LESION! ¿ES SUFICIENTE para RENUNCIAR a COMPETIR?</a></li>
+<li><strong>Antonio Masmas</strong>: <a href='#video-BMeGGP_fkS8'>Eddie Hall Se Le Va La Cabeza Con Fans</a></li>
+<li><strong>Miguel Navarro</strong>: <a href='#video-tIF2KwCB06o'>"SERÁ EL MÁS ESTÉTICO PERO NO SERÁ SUFICIENTE PARA GANAR" Shawn Ray NO VE FAVORITO a RUFF DIESEL</a></li>
+<li><strong>Jorge Tabet</strong>: <a href='#video-BwzEl5-jgqE'>PLANES de PUESTA a PUNTO | ENTRENAMIENTO de ESPALDA con SERGIO DUFORT</a></li>
+<li><strong>Joan Pradells</strong>: <a href='#video-_9TrDrMJsoA'>Llamo A Fran Espín De Urgencia, Queda Poco Para Competir | 90 Días Para Mi Competición Profesional</a></li>
+<li><strong>Miguel Navarro</strong>: <a href='#video-eDo6fz5pDkc'>"MILOS ES EL MEJOR EN TODO" Pradells y Tabet FIJAN su OBJETIVO en EEUU con POLÉMICA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-CjDVWd0IUfE">
+            <h2>ÚLTIMAHORA| ¡GOODVITO FUERA DEL PITTSBURGH PRO POR LESION! ¿ES SUFICIENTE para RENUNCIAR a COMPETIR?</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 08/05/2025 12:28</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=CjDVWd0IUfE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/CjDVWd0IUfE/hqdefault.jpg" alt="ÚLTIMAHORA| ¡GOODVITO FUERA DEL PITTSBURGH PRO POR LESION! ¿ES SUFICIENTE para RENUNCIAR a COMPETIR?" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video informa sobre la inesperada retirada de Gutvito del Pittsburgh Pro de culturismo.
+El motivo es una lesión muscular en el dorsal que le impide posar correctamente y competir a su nivel.
+Se analiza la gravedad de la lesión y se muestra el comunicado oficial del atleta.
+La decisión se considera acertada para permitir su recuperación de cara al Mr. Olympia, donde era visto como un fuerte contendiente.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Noticia de Última Hora: Gutvito se Retira <a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&amp;t=2" target="_blank">[00:02]</a></h3>
+
+<p>El video comienza anunciando la triste noticia de la baja de Gutvito del Pittsburgh Pro de culturismo. Explica que el motivo es una lesión en la zona del dorsal que le impide competir.</p>
+
+<h3>El Doloroso Comunicado de Gutvito <a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&amp;t=106" target="_blank">[01:46]</a></h3>
+
+<p>Se lee el comunicado oficial de Gutvito, donde detalla su lesión muscular en la espalda y cómo le afecta. Anuncia su retirada del campeonato para centrarse en la recuperación de cara al Mr. Olympia.</p>
+
+<h3>La Evidencia del Desgarro y Decisión Inteligente <a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&amp;t=174" target="_blank">[02:54]</a></h3>
+
+<p>Se muestran imágenes de la lesión de Gutvito, un desgarro en el dorsal derecho, y se analiza cómo le causa asimetría y dificulta el posado. Se destaca que retirarse fue una decisión inteligente dadas las circunstancias.</p>
+
+<h3>De Ganar el Arnold a la Baja Inesperada <a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&amp;t=212" target="_blank">[03:32]</a></h3>
+
+<p>Se recuerda el reciente y espectacular nivel de Gutvito mostrado en fotos y su victoria en el Arnold Brazil un mes antes. Se contrasta su pico de forma con la súbita lesión que frena su temporada.</p>
+
+<h3>¿Qué Esperaba el Olympia de Gutvito? <a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&amp;t=338" target="_blank">[05:38]</a></h3>
+
+<p>Se reproduce un análisis de Olympia Television sobre el Pittsburgh Pro, donde consideraban a Gutvito un contendiente clave. Lo situaban con opciones de estar en el primer callout, destacando su potencial.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno, ¿qué tal chicos y chicas? Bienvenidos a un nuevo vídeo del canal y tenemos noticia de última hora, noticia triste en este caso porque Gutvito ha anunciado en sus redes sociales su abandono, su baja de este Pittsburgh Pro que se disputa este fin de semana. Una lesión, en este caso en la zona del dorsal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=21" target="_blank" class="timestamp">[00:21]</a> Parece que es la que ha limitado al bueno de Gudvito de estar en un Pittsburgh Pro donde por cierto tenía bastantes opciones de hacerlo bien, no digo de ganar, pero sí de por ejemplo meterse en el primer callout. Así que vamos a ver todo lo que ha dicho Gudvito, de dónde venimos, hacia dónde vamos y por supuesto hablar un poco...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=38" target="_blank" class="timestamp">[00:38]</a> también de las previsiones en Estados Unidos del Open así que como digo vamos a pasar a ello porque ha sido una noticia de última hora muy importante evidentemente por supuesto recordaros los códigos de descuento ya los conocéis código Iron Road en toda la web de Big que por supuesto os daros las gracias por el apoyo que le estáis dando al código y también recordaros ese código de descuento Iron Road en toda la web de Agonji donde por cierto tenéis este pack ganador de su nuevo drop el drop back in the game así que aprovecharlo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=66" target="_blank" class="timestamp">[01:06]</a> Porque por la compra de dos camisetas os podéis llevar una tercera de regalo con el código IRONROAD. Y como digo, vamos a pasar a analizar todo lo que ha tenido que ver con la actualidad de Good Vito. Porque Good Vito, ¿quién lo iba a decir? De hecho, estuvimos hablando durante bastante tiempo, no poco además...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=85" target="_blank" class="timestamp">[01:25]</a> del nivel que mostraba en redes sociales, que es algo también muy habitual en Good Vito, mostrar un nivel bestial en redes sociales, mostrar fotos desde luego muy impactantes y evidentemente en este caso llegamos a la noticia que la tenemos aquí y que os la voy a traducir ahora</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=106" target="_blank" class="timestamp">[01:46]</a> Vamos a leerlo donde dice que con gran tristeza anuncia que no participará en el Pittsburgh Pro Champions League debido a una gran lesión muscular en la espalda que sufrió hace una semana y no me informé antes tratando de aliviar los síntomas preparando mi cuerpo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=125" target="_blank" class="timestamp">[02:05]</a> para el campeonato siguiendo una estricta rutina. Además del intenso dolor que estoy dispuesto a soportar, el músculo hinchado no me permite posar correctamente y negativamente afecta a mis proporciones. Vine a este campeonato para ser un digno competidor, yo creo que en la previa lo era, y mi objetivo era lucir mejor que hace un mes, que ahora veremos las imágenes de Gus Víctor justo hace un mes cuando ganó el Arnold de Brasil.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=149" target="_blank" class="timestamp">[02:29]</a> Pero ya que eso se está volviendo imposible, así que junto con mi entrenador se tomó la decisión de concentrarme en recuperar mi cuerpo y prepararme para el Mister Olimpia. Esto no es solo una ruptura completa de los músculos de espalda, sino una pequeña ruptura de las fibras musculares. Dentro de un buen volverá mi rutina de entrenamiento gracias a todos los que me apoyaron. Y sube aquí imagen eje, como podéis comprobar en el dorsal derecho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=174" target="_blank" class="timestamp">[02:54]</a> pues tiene un desgarro muscular bastante considerable. Y ya no solamente es que esto se pueda ver en la tarima, que evidentemente se va a ver, porque el hematoma está ahí, sino que parece que le dificulta bastante, fijaros, a la hora de abrir el dorsal con respecto al otro dorsal. Le genera una simetría que estoy completamente seguro que es lo que ha llevado a tomar esa decisión. Fijaros aquí la diferencia del dorsal con esta de aquí. O sea que con lo cual...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=200" target="_blank" class="timestamp">[03:20]</a> Una decisión bastante inteligente de Gutvito. Entiendo que tenía muchas ganas de competir, pero desde luego con eso ahí y con la limitación que provoca eso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=212" target="_blank" class="timestamp">[03:32]</a> desde luego que ha sido una decisión más que inteligente. Aquí tenemos el que ha sido, al menos el que sigue siendo hasta hace 21 minutos, el último post de Good Vito, donde se le ve espectacular. Ya, de hecho, en otros posts lo hemos ido viendo. Fijaros estos de aquí, este, o en concreto este, que también levantó mucho revuelo sobre el nivel. Hay que decir que esto fue hace cinco días, o al menos esta foto fue publicada hace cinco días, seguro que fue de algunos días antes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=242" target="_blank" class="timestamp">[04:02]</a> Y aquí no se vislumbra ningún tipo de problema en el dorsal. Parece que este tipo de situación, este tipo de problema ha llegado más adelante y como vemos, evidentemente complica muy mucho a Gudvito el hecho de poder competir, de poder ser importante en la tarifa y mostrar el nivel que nos tenía acostumbrados. Como digo, un Gudvito que se os parece, ya para cerrar un poco el círculo de su actualidad,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=269" target="_blank" class="timestamp">[04:29]</a> Vamos a analizar qué fue lo que pasó en ese Arnold de Brasil, porque evidentemente Gudvito, ahí lo tenéis, mostró un nivel altísimo. Sí que es cierto que no se corresponde con las imágenes que sube, pero ya sabéis que las imágenes al final son muy satinaditas, con mucho contraste, mucha definición, etc. Luego esto evidentemente en tarima.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=290" target="_blank" class="timestamp">[04:50]</a> No se muestra tanto ese punto de condición, aunque se lo vio muy bien. Evidentemente de Gumbito sobra decir el tren inferior que tiene, que es uno de los mejores de la categoría profesional. De eso no puede caber tampoco ninguna duda. Y en este caso es evidente que era de largo. Compitió ahí de hecho mano a mano con Leandro Paredes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=309" target="_blank" class="timestamp">[05:09]</a> Era de largo el atleta más importante y así de esa manera se llevó el título, ahí lo tenemos, se llevó el título del Arnold de Brasil. Confirmó que iba a salir el PSU Pro y finalmente pues no ha podido estar y evidentemente es una baja muy sensible porque era un atleta que yo estoy convencido de que iba a estar peleando con los Nick Walker, Martin Fittwater, por supuesto Michael Crizo, William Bona por entrar evidentemente en esa...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=338" target="_blank" class="timestamp">[05:38]</a> Hablando un poquito del Open, la web oficial, o mejor dicho, el programa oficial del Mr. Olympia, la Olympia Televisión, con Terry Kelguín de la cabeza, ha querido también valorar el Open. Ha mostrado sus favoritos, porque vais a ver que evidentemente tiran mucho por directo, pero uno de los que destacaban en la previa, con opciones de hacer algo importante, era el caso de Gutvito. Vamos a escucharlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=361" target="_blank" class="timestamp">[06:01]</a> Esto es lo que va a ser insane. Men's bodybuilding, Derek Lunsford. He es Mr. Olympia. He won the Arnold Classic, and he said, Tarek, I want to win the first Pittsburgh Pro. I want that title. And yes, based on the past results,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=383" target="_blank" class="timestamp">[06:23]</a> He es el favorito de ganar. ¿Puedo ser defeated? ¡Absolutamente! Ve a algunos de los otros nombres. Nick Walker, Guadavido, Martín Fitzwater, Bonek. Todos están llegando a él. Pero Derek es, por los resultados que he tenido en el Olympia de Arnold, el favorito. Ahora, más que solo ser el favorito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=404" target="_blank" class="timestamp">[06:44]</a> Si Derek loses a este show, eso realmente pone un marco en su resumen. Él fue el favorito y no le dio. Es un peligroso para ser, especialmente porque él just won el arnold. Si él barely wins por un punto, o alguien le da un tiempo difícil, entonces tenemos que mirar a Samson y decir que Samson es todavía el favorito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=428" target="_blank" class="timestamp">[07:08]</a> Ahora, si Derek absolutamente obliterates el campeonato y wins convincingly, entonces tenemos que ponerlo como el favorito para ganar el Olympia. Así que para Derek, no es solo para ganar o proteger contra un campeonato, sino para cómo ganar, si ganas el show. Esto es algo que todos ustedes tienen que ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=451" target="_blank" class="timestamp">[07:31]</a> Nick Walker, redemption, redemption. If he wins this show, he shuts up the entire world. Bob Ciccarillo will be embarrassed for the rest of his life. Nick Walker storms the stage and says, yes, you guys forgot about me. I never left.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=472" target="_blank" class="timestamp">[07:52]</a> Now Nick Walker can play second, third, fourth, fifth. But everybody's going to be looking at his performance. After missing two Olympias, we want to see Nick Walker on stage. We want to see the physique. We want to see some of those massive poses.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=489" target="_blank" class="timestamp">[08:09]</a> He is under pressure. He knows it, but I think Nick Walker can handle it. Martin Fitzwater, fourth at the Olympia. Can he deliver a victory? Absolutely. He's got to surpass Nick Walker because he lost to him at New York and then he's got to attack Derek Lunsworth. Martin Fitzwater can make a name for himself if he wins this show.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=516" target="_blank" class="timestamp">[08:36]</a> And yes, he has shown he can do that. The wild cards. Good Evito. Man, some of his updates online. Insane. Michael Criso. He is massive. And William Bonek. He just won the Detroit Pro. He's the most experienced. I also want to mention Leandro Perez. He took second in Brazil. And it looks like he's going to deliver a powerful performance.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=544" target="_blank" class="timestamp">[09:04]</a> Pues ahí lo teníamos, eh. Good Vito, que desde luego que para la previa, para la oficialidad del Olimpia, para Terrique el Guindy, entraba desde luego en esa pareja o en ese hipotético primer callout a cinco, con Derek, por supuesto, que es el gran favorito, con Nick Walker, con Martin Fidwater, que tendrá su particular batalla. Y luego en ese siguiente escalón, que era donde realmente todos situábamos a Good Vito, estaba Good Vito, estaba Michael Cricio y estaba...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=568" target="_blank" class="timestamp">[09:28]</a> William Bonac, entre otros. Así que desde luego que es una baja muy sensible, una baja que veremos a ver lo que supone y que yo creo que también hasta cierto punto es buena precisamente para el que en su momento fue su competidor en el árbol de Brasil, de Leandro. Entonces puede ser que a lo mejor por ahí consiga aprovechar y entrar en ese primer calauto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=592" target="_blank" class="timestamp">[09:52]</a> Así que, como digo, noticia de última hora, noticia fresquita, noticia desde luego triste, obviamente, porque nos habría gustado ver un gutvito diferente al del Arnold de Brasil, que era su primera participación en la temporada. Seguramente habría llegado, sobre todo a juzgar por las imágenes, mucho más refinado, que era lo que se le pedía.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=CjDVWd0IUfE&t=611" target="_blank" class="timestamp">[10:11]</a> Y evidentemente esto implica para ver qué es lo que va a pasar de cara a la Olimpia, si va a competir antes de la cita, si va a lo mejor a esperar y salir ya en la Olimpia directamente, así que veremos a ver qué es lo que pasa con la actualidad de Good Vito. Así que como digo, dejadme en la caja de comentarios qué opináis y sobre todo estas predicciones de Terrique el Guindy como las veis. Dadle un fuerte like al vídeo, suscribíos al canal y como siempre digo chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-BMeGGP_fkS8">
+            <h2>Eddie Hall Se Le Va La Cabeza Con Fans</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 08/05/2025 14:10</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=BMeGGP_fkS8" target="_blank">
+                    <img src="https://i.ytimg.com/vi/BMeGGP_fkS8/hqdefault.jpg" alt="Eddie Hall Se Le Va La Cabeza Con Fans" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Eddie Hall responde a un video viral que lo muestra alterado frente a su casa.
+Explica que el clip de 30 segundos es parte de un incidente de 18 minutos de acoso por intrusos.
+Presenta evidencia de cámaras de seguridad y argumentos para justificar su reacción.
+Denuncia la difamación y el impacto del acoso en la privacidad y seguridad de su familia.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Clip Engañoso <a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&amp;t=115" target="_blank">[01:55]</a></h3>
+
+<p>Eddie Hall introduce un video que se ha viralizado, mostrando solo una pequeña parte de un altercado. Aclara que son los últimos 30 segundos de una interacción que duró 18 minutos. Denuncia que el video saca de contexto su reacción.</p>
+
+<h3>El Inicio del Acoso <a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&amp;t=180" target="_blank">[03:00]</a></h3>
+
+<p>Eddie relata cómo tres coches con ventanas tintadas llegaron a su casa. Describe que tocaron bocinas, aceleraron motores y permanecieron en la puerta durante 10 minutos.</p>
+
+<h3>La Reacción de su Esposa <a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&amp;t=845" target="_blank">[14:05]</a></h3>
+
+<p>La esposa de Eddie, Alex, sale a la puerta con el perro de protección para pedirles cortésmente que se marchen. Explica que los coches han estado allí por 9 minutos molestando y despertando a los niños.</p>
+
+<h3>Negativa y Desafío <a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&amp;t=1013" target="_blank">[16:53]</a></h3>
+
+<p>A pesar de las peticiones, los intrusos se niegan a irse. Argumentan que están en una vía pública y pueden hacer lo que quieran, a pocos metros de la entrada privada de la propiedad de Eddie.</p>
+
+<h3>Confrontación y Amenaza <a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&amp;t=1152" target="_blank">[19:12]</a></h3>
+
+<p>Tras ver que no se marchan después de casi 20 minutos, Eddie sale a confrontarlos. Exige que se vayan de su propiedad. Uno de los ocupantes del coche azul lo amenaza verbalmente.</p>
+
+<h3>La Defensa del Hogar <a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&amp;t=1579" target="_blank">[26:19]</a></h3>
+
+<p>Eddie establece firmemente que su casa no es un lugar público para fotos o visitas no deseadas. Explica que es un santuario para su familia y que no permitirá que nadie perturbe su paz o seguridad.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=0" target="_blank" class="timestamp">[00:00]</a> Tíos, eh... Lo he visto antes y no me lo podía creer, ¿vale? No sé si sabéis... Bueno, ¿os imagináis que llegan a vuestra casa y se quedan en la puerta un rato y le decís, tíos, pero qué pintáis aquí y tal, no sé qué, como increpando un poco y le dices que ya vale y siguen y te dicen que están en la vía pública pero ellos lo que buscan es grabarte y hacer... Bueno, pues eso le ha pasado a Eddie Hall. A Eddie Hall. Vamos a ver lo que le ha pasado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=29" target="_blank" class="timestamp">[00:29]</a> ¿Ves eso? ¿Scared Marnie, entonces? ¿Me estoy? ¡No! ¡No!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=59" target="_blank" class="timestamp">[00:59]</a> Pues por lo que debe ahora explicará mejor, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=99" target="_blank" class="timestamp">[01:39]</a> Yo, ¿qué? No, no, no, no, no. Ahora, ahora, ahora con texto. Ahora bien. He's just, he's just trying to grab me out the car. He's just trying to grab me out the car. He's just trying to grab me out the car. He come, I was just sat there on me phone, scared morning.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=115" target="_blank" class="timestamp">[01:55]</a> Hey guys, hope everybody is well. Now I am here today because I am having to defend myself through the shitslinging match that's happening online at the minute. A video has been posted, as you've just seen online, that was basically the last 30 seconds of a total of 18 minute interaction.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=137" target="_blank" class="timestamp">[02:17]</a> Anda, que eso duró 18 minutos y han enseñado solo 30 segundos. Ah, qué bien. Hombre, por supuesto, claro. Si tú ves esos 30 segundos, dejan a Eddie Hall como un monstruo, como un loco, ¿no? Supongo que ahora Eddie Hall nos explicará y nos enseñará y justificará su actuación, ¿no? Vamos a verlo. Señores.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=159" target="_blank" class="timestamp">[02:39]</a> Toca lo que toca. Proteína hidrolizada pro de Proficz. Vale de vainilla, la más pura que hay. Fijaros. 98%. Por supuesto, esta proteína la podéis conseguir con mi código de descuento Antonio G. Es la más limpia que hay. Para mí la mejor. Y además, no te sientas mal al estómago, que es lo típico, ¿no? Que te compres una proteína y luego lo paga de ir al vácer y de perte y de todo. Por supuesto, con la leche esta de almendra, que es la que estoy liando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=180" target="_blank" class="timestamp">[03:00]</a> No sé tú a qué estás esperando. Dale. Tres autos con la ventana tintada llegaron a mi casa afuera. Tocando bocinas, acelerando los motores. Vamos, molestando, haciendo ruido. Se sentaron allí por un total de diez minutos. Antes de que Alex saliera. Alex es su mujer, ¿vale? Alex es su mujer. Que saliera de fines que se fuera muy educadamente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=210" target="_blank" class="timestamp">[03:30]</a> They then moved from one side of my driveway to the other side of my driveway and stayed there for a further seven minutes. This is after they've been asked to leave and that's when I came out and look they've been asked to leave politely, asked them again with a bit more frown to it and they still stayed there for another seven minutes. So I was in the garden</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=233" target="_blank" class="timestamp">[03:53]</a> Estoy disfrutando de un buen fuego con mi hijo, estoy jugando un cigarro. Estoy muy tranquilo, ya sabes, he venido de una pelea en polandia. Estoy away 80% de la vez. No vivo aquí, ya sabes? No vivo aquí, ya sabes? No vivo aquí, ya sabes? No vivo aquí, ya sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=250" target="_blank" class="timestamp">[04:10]</a> Estaba pasando un buen rato con su hijo, no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=274" target="_blank" class="timestamp">[04:34]</a> there were kids involved and up until that last 30 seconds i did not know kids were involved in the scenario my wife didn't know there were kids in the car all the windows are blacked out no kids said anything how would we know there were young children in the car we just didn't know so</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=298" target="_blank" class="timestamp">[04:58]</a> I want to go over the video itself right it just shows me blowing up a blue BMW driver who is literally sat parked literally five meters from the entrance to my property and I'm just telling him to leave you know I'm just like I've just I don't want to hear anything they've got to say you've been asked to leave politely you've been asked to leave with a grunt now just off just get away from me get away from my property get away from my family just off I don't want to hear what you've got to say it's 9 p.m.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=328" target="_blank" class="timestamp">[05:28]</a> y a un buen día y a un buen día y a un buen día y a un buen día y a un buen día</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=344" target="_blank" class="timestamp">[05:44]</a> lo que quiero venir es que de verdad hermano ¿cómo pueden ir a tu casa? ¿cómo pueden ir a tu casa?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=370" target="_blank" class="timestamp">[06:10]</a> Píritu una foto a tu casa. Es que la gente no tiene... Hay gente que no tiene límites, eh. And then he starts creeping away. And as he's creeping away, he looks at me and he says I'm gonna knock you the...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=393" target="_blank" class="timestamp">[06:33]</a> Te voy a dejar inconsciente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=400" target="_blank" class="timestamp">[06:40]</a> You know, I'm protecting my kids, I'm protecting my family. You don't say that to some mom and they just want you to leave the property man. So I blow up, you know, get out the car, I'm going to twist your head off, all that kind of thing. And then on that last bit of the video, the guys, I could see the guys filming me through his window. So I ran towards the car just to grab his phone, just to throw it in a bush or something, you know, just to be like, f*** off man.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=424" target="_blank" class="timestamp">[07:04]</a> ¡Qué fuerte! ¡Que vayan a tu puta casa a tocarte los cojones, tío! ¡Unfortunadamente! Y luego, él continúa a filmar, mientras se firmó el camino. Mis crocs salieron. Yo no tenía en el modo de sport. En la parte de la croc, puedes poner la cosa en el modo de sport. Yo no tenía eso, así que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=449" target="_blank" class="timestamp">[07:29]</a> My crocs fell off my feet. Luckily I didn't fall on my face or anything. But yeah, and he continues to film. I mean, I will add, he's filming whilst driving. And I know for a fact he didn't have a seatbelt on. And, you know, he claims that... I don't know, I'll go on the next comment here. He claimed that... This is from Callum. I'm not going to say his second name. I'm going to blur his second name out. Because I don't want this guy to get harassed. I don't want this guy to get people, vigilantes, to go into his property beeping the horn.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=479" target="_blank" class="timestamp">[07:59]</a> Offering him out for a fight. He's got kids. I don't want anything to happen to this gentleman other than this response video, just to clear my name, just to squash his accusations. So this is what he wrote when he posted that video that we've just seen on his Facebook. This accumulated within an hour, two hours, a million and a half views. It was going viral for him.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=501" target="_blank" class="timestamp">[08:21]</a> Y imagínate, me sat there at 10 o'clock at night, watching this video, get posted, everyone's blasting me, everyone's calling me, every name under the sun, saying I'm disgusting. Claro, pero es normal que critiquen, porque si solo ven un clip, es normal que lo critiquen, tío. Dere you react like that in front of children, but let me give it all context in a little bit. So, Callum writes, Big Eddie, I'm going to read it in my English, because his English just is terrible. Big Eddie all coming, smashing our cars, and punching me in the jaw.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=529" target="_blank" class="timestamp">[08:49]</a> Vi que Eddie viene destrozando nuestro coche golpeándonos en el cajón y asustando a nuestros hijos, que sinvergüenza son. Fuimos a un pub local para el décimo cumpleaños de mi hijo. A un pub. ¿Te vas con tu hijo a un pub?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=554" target="_blank" class="timestamp">[09:14]</a> ...en hopes to catch him there. Then we took him to show him where he lives. What a day to ruin a 10-year-old's birthday. And then he's put... ...not to mention the stress cord to my missus who is 37 weeks pregnant. Okay, let me prove what actually happened and then we'll come back to this. Okay, but he's saying I punched him in the jaw and smashing the cars up.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=578" target="_blank" class="timestamp">[09:38]</a> ¿Ha dicho que le pegó en la mandíbula o la traducción es así? Se ha inventado que le ha pegado, manda cojones, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=606" target="_blank" class="timestamp">[10:06]</a> he's a liar first off he is a liar he's trying to suit the narrative to suit his objective which is to make me look like it</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=617" target="_blank" class="timestamp">[10:17]</a> Claro, está queriendo dejarlo como una persona mala. Es la mandíbula. Le dan puñetazo a la mandíbula y dijo a un humano medio y lo dejaba allá durmiendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=643" target="_blank" class="timestamp">[10:43]</a> No, no, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=664" target="_blank" class="timestamp">[11:04]</a> Disgusting behavior. I hope he gets jail time for this. Just horrible things. People say horrible things about me. Just jumping. Conclusions. Not having the narrative to the story at all. So he's basically said. And let's just find his comments. Right. So. Okay. So let's go. So he's replying to someone here. So he's replying to someone. Jake Skye. Jake Skye does nothing to do with this.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=691" target="_blank" class="timestamp">[11:31]</a> We had him at the local pub in hopes of bumping to him as it's the little lad's 10th birthday. We then went to his street maybe two doors up.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=701" target="_blank" class="timestamp">[11:41]</a> Que estuvimos dos puertas más arriba, que no estuvieron en su portal, ¿no? Hombre, dice que sí. Que deberíamos y causársemos problemas, pero no quedamos allí sentados ocupándonos de nuestro propio asunto. Una mierda. Está diciendo Larry Hall que aceleraba y hacía el subnormal en la puerta de su casa. No dos puertas más allá. Ok, so this...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=727" target="_blank" class="timestamp">[12:07]</a> A ver, ahora lo que va a de mentir. Las cámaras de Vijol. La puerta de Vijol, ¿eh? De su casa. So this is at exactly 8.30pm. I'll show the timestamps in a second. 8.30pm outside my house. So you see the car, a blue BMW X5 drive past my house. There's the timestamp. 20.30pm.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=746" target="_blank" class="timestamp">[12:26]</a> Luego de un blanco BMW. Y luego, si miras en la izquierda, un silver Ford Focus, creo, pulls al lado de mi casa. Ahora, que es innocent, ¿no? Pero espera. Ok. Así, el silver Ford Focus parka directamente opposite la entrada de mi habitación. El dos carros que han pasado, turno y vuelve. Este hombre decides de salir de su carro, checkar algo en su casa. No puedo ver ni ni niños ahí. Perdón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=776" target="_blank" class="timestamp">[12:56]</a> Bueno, hay una luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz de la luz</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=804" target="_blank" class="timestamp">[13:24]</a> Me dices, ¿me explica a alguien qué es lo que está haciendo? O sea, el tío viene aquí a asomarse, a ver qué ve, ¿no? He walks around, veers into the property. I mean, that's quite intimidating, ¿no? Three blacked out cars turn up, someone comes and leaks into you. Anda huevos, tío. Anda huevos, tío. Property like that. What the f*** would you think? He then goes and talks to the owner of the blue BMW. So this happens at 8.30.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=833" target="_blank" class="timestamp">[13:53]</a> Peer. Ok. Engines running. Beeping. Cars coming past. Squeezing in between the cars. He's left his car door open. The silver cars. People are coming past. They're beeping the horns. They're waking my kids up.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=845" target="_blank" class="timestamp">[14:05]</a> Alright, so we're going to forward to... Okay, so we're going to forward to 20.39pm, okay? Look at the car, the silver car's turned around, so this is nine minutes later. The gates are opening, Alex goes outside to have a word. So Alex goes out with the dog, rightly so. You know, three cars blacked out windows, people waving in the gate, you don't know what the f*** they want. So Alex goes out with the attack dog, who by the way is very highly trained and one point and a word.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=874" target="_blank" class="timestamp">[14:34]</a> good night so she has a word of these people</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=879" target="_blank" class="timestamp">[14:39]</a> Nos gusta atender a su fan, pero atenderlos en la calle, no en la puerta de tu casa. Qué miedo, por Dios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=909" target="_blank" class="timestamp">[15:09]</a> Luckily, we just say, Luke, it's a private home news alone. They go. No qualms. They just understand. You know, you say it and they're like, ah, sorry, bye. These guys didn't want to leave. Okay, so that goes out. She explains to them, you know, come on. Like, this is like my kids are trying to get to sleep. You've been out here nine minutes. You've been revving your engines. There's been cars beeping. Can you please leave? Can you just move on, please? Okay, and apparently the woman was quite argumentative.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=937" target="_blank" class="timestamp">[15:37]</a> Ah, que la mujer del coche azul estaba diciendo que estaba en la vía pública y nos enteramos donde queramos. Ah, qué bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=954" target="_blank" class="timestamp">[15:54]</a> So, 2040, so they've been sat outside the house exactly 10 minutes. Alex has had a word. Tío, te están diciendo que te vayas si te quedas ahí, tío, con todo tu papo. She starts walking back in. Let's play from there. We thought, you need to go down and have a nice word, very polite. We thought, oh, well, Alex thought they'd move on, you know? Done. They all understand. It's a private home. Don't harass us here. We're gonna swap bangles in a second. Okay, so, on face value,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=984" target="_blank" class="timestamp">[16:24]</a> Parece que se han movido de este ángulo, pero hay más ángulos, ok? Así que Alex, vamos a ver el paso. Y esto es donde tenemos audio, ok? Esto es el único audio que tenemos que grabar en el exterior. No puedes escuchar de gente en el driveway, pero puedes escuchar de gente. Escucha esto y escucha los subtítulos. We have got cameras, so we will be taking advantage. Keep moving. Yes, I know, but you're sitting outside our gates like a weirdo. Move on.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1013" target="_blank" class="timestamp">[16:53]</a> So Alex quite clearly says, we will be taking your edges, keep moving. Now look at the response here in the yellow writing. It's a public path, we can do what we want. Yes, I know, but you're sitting outside our gates like a weirdo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1039" target="_blank" class="timestamp">[17:19]</a> move on rightly so it's weird who the does that who the does that how intimidating is that</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1051" target="_blank" class="timestamp">[17:31]</a> Esto es lo que me desencadena, entonces obviamente Alex ha dicho algo como baja ya.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1077" target="_blank" class="timestamp">[17:57]</a> Timestamp, en el botón de la derecha, es de 20 a 9. Ahora puedes ver las caras, parece que se mueve a la derecha. Pero vamos a cambiar de ángulos ahora, lo que vas a ver en un segundo. Así que esto es, moviendo de la derecha, dos puestos abajo. Justo por referencia, hay muy grandes casas en la calle y si fueran dos puestos abajo, ellos estarían literalmente 100 metros de la calle. Eso es lo que he dicho en el comentario, que eran dos puestos abajo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1105" target="_blank" class="timestamp">[18:25]</a> sitting outside the gate, other side of the gate. Ok, so you can see the blue BMW X5 is parked just the other side of the gate. The Ford Focus, Silver Ford Focus is parked in the middle of the road and the black BMW is just in front of the blue BMW. Ok, so this is at 20 to 8. So let's see how long they wait outside the house.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1127" target="_blank" class="timestamp">[18:47]</a> ¿Pero qué buscan haciendo eso? ¿Llevan siete minutos ahí más? Madre mía.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1152" target="_blank" class="timestamp">[19:12]</a> I've got to go work. And she comes and explains to me exactly what happened. She came and asked them to leave nicely. She told them to leave a bit more abruptly. And then they sat outside the house for a further seven minutes. I checked CCTV very quickly. I see what's happened. So I go down. No nonsense. I'm not there to have conversations. The black BMW in front of the blue BMW. I just go straight up to that car. And I say look buddy, I don't care what you're here for. You've been asked to leave.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1180" target="_blank" class="timestamp">[19:40]</a> I don't want to hear it. Just f*** off. He tries to argue with me about something. I can't remember what he said. But the door opened. And it was like. Mate. Like second warning now. If there's a third warning. It's going to get nasty. Just f*** off. I closed his door.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1197" target="_blank" class="timestamp">[19:57]</a> I then walk towards the silver car and as I'm walking towards the car I'm like mate just f*** off now as I do that he actually is like okay and he moves and he pops adjacent to the black BMW so he moves in front of the blue BMW to the like parallel with the black BMW and then as you can see in the video walk up to the blue BMW X5 and that's when the altercation starts so I want to talk about that conversation a little bit because</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1225" target="_blank" class="timestamp">[20:25]</a> Joder, que se tiran casi 20 minutos a la puerta de tu casa también manda cojones. Y que luego encima te quieran exponer de una manera que no... O sea, que cuenten una mentira para tirarte a ti tu imagen por el suelo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1251" target="_blank" class="timestamp">[20:51]</a> ¡Blued me, I'm not you guy!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1265" target="_blank" class="timestamp">[21:05]</a> Y él es como, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?, ¿qué?,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1293" target="_blank" class="timestamp">[21:33]</a> Ah, que le dijo el del coche, te voy a dejar inconsciente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1323" target="_blank" class="timestamp">[22:03]</a> Es que verdad, tío. Encima tienen los huevos de fila y luego se giña, claro. Es harassment, stalking, revving engines, beeping horns. It's just, come on man, you don't do it. I was so angry. And when he said that to me, they're gonna knock you out. I was like, come on then, get out of the car. And obviously I saw Ed, I chased him a little bit, or not chased, I walked after him just to make sure they'd go. And then I turned to the black BMW, which is the one who was filming, Callum. Saw he was filming and I thought,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1353" target="_blank" class="timestamp">[22:33]</a> So I ran at him, I was just going to grab his phone and throw it in the bush. That was my intention. Didn't want to hurt him, didn't want to damage the car or nothing. And I ran at the car and I didn't even touch the car. It was literally like he just sped off.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1367" target="_blank" class="timestamp">[22:47]</a> Y luego me van a seguir filmando desde la calle. Nada, tío. Han ido buscando el clip. Yo creo que sí, tío. Han ido buscando eso, a provocarle y sacar el clip. Igual que le hacían a Wes Watson y a esta gente, tío. Han ido a provocarle y a buscar el videito, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1388" target="_blank" class="timestamp">[23:08]</a> ¡Bullshit man! ¡That's the truth! ¡That's what happened! You can see by the conversation that Alex had with them, it's just, it was just, it was just like a f***ing attitude. We're here, we're not leaving. Come on, 9 p.m. at night on a bank or any Monday. Okay, I have an interview with the police tomorrow on this matter. And this is half the, he was saying to his pals.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1411" target="_blank" class="timestamp">[23:31]</a> la cosa es tío es que me hace gracia tío la cosa es ¿qué mierda buscan?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1442" target="_blank" class="timestamp">[24:02]</a> Yendo a la casa de alguien. No es que solo queríamos una foto. Cómete una mierda, hermano. That's causing a disturbance. That's waking up the kids, even if it was that once, which it wasn't. It was more than once. OK, we didn't come to cause a nuisance. As a family, I wouldn't like that my son was hoping to bump into you several times at the local pub, but you weren't there. And by off chance, check to see if we saw you.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1470" target="_blank" class="timestamp">[24:30]</a> ¿Por qué no aportes con manners rather than biting? He watches your videos all the time, come across as people, people's idols. Wow. Well, firstly, Jade, I want to massively, and I mean massively apologise for upsetting your children. I don't condone that. If I knew from the instance that there were kids in the car, I would not have acted that way in a million years. But I didn't know that.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1496" target="_blank" class="timestamp">[24:56]</a> Está pidiendo perdón encima de mi hijo, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1520" target="_blank" class="timestamp">[25:20]</a> O sea que dice que era la tercera persona que iban a hacer eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1540" target="_blank" class="timestamp">[25:40]</a> ¿Cómo va la gente a pedir autógrafos o fotos a la casa de alguien? Por Dios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1562" target="_blank" class="timestamp">[26:02]</a> No, no, no, no, no, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1579" target="_blank" class="timestamp">[26:19]</a> No one is welcome at my home. I've made that clear on my social media several times over. People come to my home, I'm sorry you're going to get told to leave. No questions. I'm not doing pictures. Kids, adults, infants, babies, old people. I don't care. This is a place of peace. This is a place where my family come to feel safe. You are not breaking that peace for my family. You're not doing it. I'm not going to allow it.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1606" target="_blank" class="timestamp">[26:46]</a> So this response, I am sorry for, but you were asked nicely. It was justified. I stand by my actions. I don't stand by upsetting your children, but I stand by my actions. If it happened again, I would do exactly the same again. If I knew the kids in the car, I wouldn't have acted like that.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1625" target="_blank" class="timestamp">[27:05]</a> I want to make that clear. You have tried to paint me as a thug, as someone who... As a bully, as someone that just has no emotions, that just doesn't care about children. You have defamed me by what you've done by posting this video and these comments online. It's defaming. And the newspaper outlets grab it and they circulate it and people have their opinions. Looking at the comments now, now I've put a few statements out.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1655" target="_blank" class="timestamp">[27:35]</a> Es bastante bueno, ¿sabes? People are sticking up for me. Pero siempre hay aquellos que no entiendan la situación, que no leen mi respuesta, que no leen el contexto para el video. Ellos van a ver que Eddie Hall... Claro, es que si tú solo ves el video de 30 segundos de los otros, tú piensas que Eddie Hall es un monstruo, tío. ...fretting to rip people's heads off for innocently sitting outside the house with your kids. That's how you put it in. And it just paints me as an ogre. And it's not fair. You people are the ogre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1687" target="_blank" class="timestamp">[28:07]</a> Leave my family alone. I feel like I need to really emphasise the stresses and strains that this has on a public figure's family. Now, for instance, if I take my kids to an amusement park, we haven't been for years by the way because of this,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1707" target="_blank" class="timestamp">[28:27]</a> Cada dos pasos, alguien pregunta una foto. Para esa persona individual, en su cabeza, es completamente inocente. Probablemente se siente que son la única persona que pregunta, pero no. Es literalmente cada dos pasos. Y si me paro y hago una foto, se llaman.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1731" target="_blank" class="timestamp">[28:51]</a> And you think about that, like, I couldn't really care, but think about that from a kid's perspective. You go to an amusement park and you've got to sit or stand there and watch your dad do pictures all day. That sounds great, doesn't it? The effect it has on my children is it's quite devastating. And you know what? I don't really give a what people think about me. Like, I don't want you to feel sorry for me. Like, I have brought this on myself. I am in the public eye. I'm one of the world's strongest man. I've done a lot of YouTube videos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1761" target="_blank" class="timestamp">[29:21]</a> Sí, es el precio de la fama, por eso vive donde vive ahora y antes vivía en un barrio marginal. Es lo que hay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1785" target="_blank" class="timestamp">[29:45]</a> Mi niños quieren ir a la cama, ¿sabes? Es una de las más importantes cosas para los niños es dormir. Y tú estás disturbando su paz. Tú estás tomando dormir de mis niños, mis hijos, mis dos hijas que vivan aquí en esta casa. Y eso no está bien. Había un caso, literalmente la semana,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1808" target="_blank" class="timestamp">[30:08]</a> que ya viene uno con un drone a grabar allí tío</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BMeGGP_fkS8&t=1826" target="_blank" class="timestamp">[30:26]</a> La gente está loca perdida, tío. Madre mía, tío. La gente tiene que parar de hacer según qué cosas porque... Vaya tela, tío.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-tIF2KwCB06o">
+            <h2>"SERÁ EL MÁS ESTÉTICO PERO NO SERÁ SUFICIENTE PARA GANAR" Shawn Ray NO VE FAVORITO a RUFF DIESEL</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 08/05/2025 14:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=tIF2KwCB06o" target="_blank">
+                    <img src="https://i.ytimg.com/vi/tIF2KwCB06o/hqdefault.jpg" alt=""SERÁ EL MÁS ESTÉTICO PERO NO SERÁ SUFICIENTE PARA GANAR" Shawn Ray NO VE FAVORITO a RUFF DIESEL" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza las expectativas y el análisis de expertos estadounidenses sobre la categoría Classic Physique en el próximo Pittsburgh Pro de culturismo. Se centra en la participación española, destacando a Josema y comparándolo con competidores clave como Ruth Diesel y Kaique de Oliveira.
+Se discuten las opiniones de figuras como Terrique El Guindy, Son Rey y otros, quienes valoran la densidad y tamaño de Josema y Kaique. El consenso apunta a una posible batalla entre estos tres atletas, poniendo en duda las opciones de Ruth Diesel frente a físicos más voluminosos.
+El presentador subraya la importancia de la visibilidad de Josema en Estados Unidos, como su reciente visita a la sede de la NPC. La conversación en EE. UU. corrobora la expectativa de una contienda a tres bandas.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Perspectiva de Son Rey <a href="https://www.youtube.com/watch?v=tIF2KwCB06o&amp;t=49" target="_blank">[00:49]</a></h3>
+
+<p>Se introduce el programa de debate en EE. UU. y se destaca que Son Rey no ve a Ruth Diesel ganando, señalando la densidad y tamaño de Josema y Kaique como factores clave que podrían opacarlo en el escenario.</p>
+
+<h3>Primeras Valoraciones de Terrique El Guindy <a href="https://www.youtube.com/watch?v=tIF2KwCB06o&amp;t=153" target="_blank">[02:33]</a></h3>
+
+<p>Terrique El Guindy presenta a los principales contendientes en Classic Physique (Terence Ruffin, Josema y Kaique). Describe a Josema como grande, condicionado y capaz de sorprender, generando gran expectación por verlo competir.</p>
+
+<h3>El Impacto Visual de Josema en el Debate <a href="https://www.youtube.com/watch?v=tIF2KwCB06o&amp;t=315" target="_blank">[05:15]</a></h3>
+
+<p>Al ver fotos de Josema durante el debate, los expertos Son Rey, Boz Cicerillo y Lenda Murray expresan su asombro y se retractan de sus comentarios previos, impresionados por el físico y la condición del atleta español.</p>
+
+<h3>Comparativa Clave del Debate <a href="https://www.youtube.com/watch?v=tIF2KwCB06o&amp;t=337" target="_blank">[05:37]</a></h3>
+
+<p>Los panelistas comparan a Terence Ruffin con Josema y Kaique, refiriéndose a ellos como "chicos más jóvenes y gruesos". Concluyen que Terence necesitará más tamaño y predicen que Josema y Kaique lucharán cabeza a cabeza por la victoria.</p>
+
+<h3>La Estrategia y Visibilidad de Josema <a href="https://www.youtube.com/watch?v=tIF2KwCB06o&amp;t=525" target="_blank">[08:45]</a></h3>
+
+<p>Se informa sobre la visita reciente de Josema a la sede de la NPC con los Manion. Se subraya la importancia de esta presencia y relaciones públicas en Estados Unidos para su carrera y el desarrollo de su marca personal.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno, ¿qué tal chicos y chicas? Bienvenidos a un nuevo vídeo en el canal y como todos sabéis, dentro de tan solo dos días tenemos ese Pittsburgh Pro, es el sábado a partir de las 7 de la tarde, por supuesto, el Preyatgin en el canal con el mejor equipo, muy pronto desvelaré cuál va a ser el equipo oficial, tanto del Preyatgin como de la final, pero la gente también en Estados Unidos, y esto lo estábamos esperando como agua de mayo, lo voy diciendo, estábamos esperando un poquito a ver qué comentaban, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=31" target="_blank" class="timestamp">[00:31]</a> Una gran participación española, no la única, esto también hay que decirlo, pero sí es verdad que la participación es la que centramos más el foco, que es el caso de Josema. Interesante lo que se ha hablado tanto en la página del Olimpia, de la categoría clásica, en este caso Terrique el Guindy, como sobre todo lo que se ha hecho extensible, en este caso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=49" target="_blank" class="timestamp">[00:49]</a> ...a el programa de debate que suelen tener... ...en el que aparecen, entre otros... ...Voz y Cherilo, que ya bastante la tuvo con el tema de Nick Walker... ...también aparece Son Rey... ...que cada vez que abre la boca sube el pan y lo vais a escuchar... ...y en este caso una gran campeona del Mister Olimpia... ...así que como digo, vamos a analizarlo todo... ...porque de hecho Son Rey... ...yo creo que se ha venido también muy arriba... ...y ha dicho que Ruth Diesel no lo ve para ganar... ...sobre todo viendo la densidad y el tamaño... ...tanto de Josema como de Kaique... ...así que como digo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=77" target="_blank" class="timestamp">[01:17]</a> Vamos a ir analizando absolutamente todo, por supuesto no sin antes no olvidarme de los códigos de descuento, código Iron Road en toda la web de Big, aprovechad el código que sé que le estáis dando muchísima caña porque Big cuenta mucho con nosotros y vamos a tener un montón de promociones especiales para conseguir vuestra mejor suplementación al mejor precio, así que aprovechad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=97" target="_blank" class="timestamp">[01:37]</a> Código Iron Road en toda la web, por supuesto, de nuestros amigos de Big. Y por cierto, también recordaros ese 3x2 de Agonjin. Su adera, por supuesto, es tan guapa como esta. Y en este caso, ese pack 3x2 con las camisetas del nuevo drop, del drop Back in the Game. Así que ya sabéis, si compráis dos de las camisetas del drop de Back in the Game, tenéis la oportunidad de llevaros una gratis. Así que aprovechad el código Iron Road para poder equiparos de la mejor forma. Y como digo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=127" target="_blank" class="timestamp">[02:07]</a> Vamos a pasar a escuchar y vamos a ir directos a todo lo que ha ocurrido, porque se ha hablado bastante del tema del Classic, por parte de, como digo, de estos líderes, podremos así decir, de opinión. Vamos a escuchar primero, si os parece, las valoraciones de Terrique El Guindy, que han sido precisamente antes de las siguientes del debate, las declaraciones de Terrique El Guindy en la página o en el canal oficial del Mr. Olimpia, el Olimpia Televisión. Vamos a escucharlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=153" target="_blank" class="timestamp">[02:33]</a> Classic physique. Here we go. Terence Ruffin. Man, he placed second at the Olympia. This guy is a heavy, heavy hitter. And I think we have to put him as the favorite because he has shown in the past to win a lot of shows. Dubai, Arnold Classic.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=172" target="_blank" class="timestamp">[02:52]</a> Ahora voy a mencionar Josema de España. Él sorprendió a todos por placing 6 en la Olimpia. Él es grande. Él está condicionado. Y tal vez puede poder poder sobrevivir a todos. Ahora hay otro nombre que está apareciendo en la Internet. La especulación es enorme.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=191" target="_blank" class="timestamp">[03:11]</a> Kaique de Oliveira. He's got fibers on his chest. He looks insane in some updates. People are speculating he could win this and be one of the favorites to win the Olympia. I don't know. But I'm not missing the classic physique either for anything in the world. Congratulations. Great lineup. I saw all the competitors. This is going to be a crazy.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=218" target="_blank" class="timestamp">[03:38]</a> Pues ahí no teníamos las valoraciones rápidas, por supuesto, de Terrique El Guindy. Ahora vamos a ver bastante más en profundidad, sobre todo cuando aparezca el nombre de José Manuel Atalestra. Pero os digo una cosa, lo de Terrique El Guindy promocionando los eventos me parece un escándalo. A mí me vende el evento el solito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=233" target="_blank" class="timestamp">[03:53]</a> porque desde luego que hay muchísima expectación con cualquiera de los tres, hay mucha expectación con ver si Ruth Diesel ha mejorado con respecto a la versión que quedó segundo en el Mr. Olimpia, con la versión que todos más o menos tenemos en la retina, por supuesto lo de Josema, sobra que decir la expectación que tenemos con él en España, y creo que fuera de España también la tienen y bastante, y ahora veremos, porque Josema ha estado recientemente en la sede de la NPC, donde ya dijimos que debería haber estado, pero no pudo estar antes por el tema de la FIBO,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=259" target="_blank" class="timestamp">[04:19]</a> y donde también estuvieron en este caso tanto Kaike como Rutis ir entrenando, ya ha estado, así que ya los Manion lo han podido chequear de primera mano, y en el caso de Kaike, ¿qué decir? Es que es todo expectación, o sea, queremos ver a Kaike ya por fin sin esas camisetas de tirantes, sin esos obstáculos que tenemos para ver un post-in real y completo de Kaike, que él ya dijo que no iba a llegar hasta el día de la tarima, así que por supuesto, evidentemente hay una expectación tremenda,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=285" target="_blank" class="timestamp">[04:45]</a> Brutal. A partir de aquí, de esta manera de abrir boca sobre el Classic, Terrique el Guindy se lo llevó a la mesa de debate, ¿no? Y se lo llevó a la mesa de debate, como digo, con Bozicharillo, con Son Rey y con una gran campeona del Mr. Olympia. Vamos a escucharlo porque tiene mucha amiga y ojito a lo que dice Son Rey, sobre todo al final, porque yo creo que es sintomático el cómo. Se ve que venían de analizar, en este caso, a Ruth Diesel, venían todos con el hype muy arriba...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=309" target="_blank" class="timestamp">[05:09]</a> pero en cuanto fueron apareciendo en la palestra tanto Josema como Kaique empezaron a pedir perdón a Ruth Diesel todos. Vamos a escucharla. This is Josema right here. Oh, this is Jose… Oh, my goodness. Oh, my… I might have to take it back, Terrence. I'm sorry. I mean, looking at this guy right here, this is… Hey, listen. We need someone like that to step in. This guy looks amazing.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=337" target="_blank" class="timestamp">[05:37]</a> Terence is going to look phenomenal by himself. And then you're going to stand him next to these younger guys, these thicker guys. And you're going to go, okay, Terence needs more calves. Terence needs more hams. Terence needs more thickness. And to Bob's point, Terry Pastel had the same Francis Benfato-like effect. Slider on the sides, but by himself looked like the champion.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=363" target="_blank" class="timestamp">[06:03]</a> Si, si, si, si, si, si, si, si.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=392" target="_blank" class="timestamp">[06:32]</a> Comparable in terms of height, size, structure, beautiful physiques. They both pose very well. That's going to automatically take Terrence out. He's going to be the odd man out in those two. And they're going to tower over him. So those two, I think, are going to fight to the death and a finish in a one-point decision at the end of the night. Yeah, look at this guy. His chest. His chest development across the board. My God. He's full. Yeah, and he's full.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=419" target="_blank" class="timestamp">[06:59]</a> Yeah, I gotta take that back, Terrence. I love you. Sorry, Terrence. Sorry. I think Terrence Wins is the best poser, if there's any consolation for that. And he's probably gonna have the prettiest physique on the stage. But that's not gonna be enough to pull off the W, I don't think.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=435" target="_blank" class="timestamp">[07:15]</a> Pues ahí teníamos la valoración en este caso de Terrique el Guindy. Por supuesto, muy importante lo que ha dicho Son Rey. Lo que ha dicho Son Rey me parece sintomático.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=464" target="_blank" class="timestamp">[07:44]</a> Diciendo que no ve claro que Ruth Diesel al lado de estos dos pueda ganar porque se le van a ver bastante las costuras en cuanto al tamaño. Y es algo que también comparte Boz y Cherilo. A mí me sorprende bastante que son dos tipos, en fin, sobra de decir lo proamericanos que son, lo que suele entender siempre bastante al terreno nacional, lo de Lenda Murray también me sorprende bastante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=489" target="_blank" class="timestamp">[08:09]</a> E insisto en que esto va a ser muy interesante de ver y de analizar, obviamente, cómo se va a ver, que es algo que ya vamos hablando aquí durante bastante tiempo, cómo se va a ver root teaser al lado de estos dos. Porque son muy grandes, son aletas muy grandes, muy densos, con muy buena condición. Sí que es cierto que cuanto a la línea y el posin no llegan al nivel de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=512" target="_blank" class="timestamp">[08:32]</a> Pero va a ser súper interesante el ver y analizar cómo se va a desarrollar el Classic Physique en Pittsburgh. Por cierto, hablando evidentemente de eso, que yo creo que interesa bastante, un poco lo que se estaba comentando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=525" target="_blank" class="timestamp">[08:45]</a> Aquí tenemos a Josema, que estuvo en la jornada de ayer en el gimnasio de Los Manos. Ya tenemos tanto con Tyler como en este caso con el mandamás, con el presidente de la IFE Pro League. Y como digo, bueno, pues estando donde considero yo creo al menos que tiene que estar. O sea, al final no solamente es ir allí a competir, sino que también hay mucho de esto. Hay mucho de relaciones públicas, de que te conozcan, de que te vean, de que te tengan presente, etcétera, etcétera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=554" target="_blank" class="timestamp">[09:14]</a> Y en ese sentido, pues qué decir, ahí lo tenemos ataviado con la ropa de la IFBB Pro y trabajando en su gimnasio, dejándose ver, dejándose aconsejar, digamos que, en fin, con el feedback habitual de esta gente. Y como digo, pues disfrutando de algo que por otro lado es una etapa muy importante en su carrera, obviamente, que es la de competir en torneos en Estados Unidos y ir mejorando, o mejor dicho, ir ampliando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=583" target="_blank" class="timestamp">[09:43]</a> Esta imagen de marca que Joseba mantiene impoluta. Por lo que parece, el peso ya está prácticamente superado. De hecho, aquí vais a ver una imagen de Joseba bastante sintomática en cuanto a eso. La cara yo creo que ya muestra...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=601" target="_blank" class="timestamp">[10:01]</a> Que se está llegando ya al límite del peso. Y en principio parece que la estrategia está bastante clara. Vamos a ver qué es lo que pasa de aquí a unas fechas, de aquí a unos días. Porque sin duda que va a ser muy interesante ver la competición entre estos dos. E insisto que para mí es bastante, bastante importante. Las palabras de un sonri que no se muerde la lengua ni le regala ínfulas a nadie. Ya lo estáis viendo, lo vimos con otros atletas y lo hemos vuelto a ver con...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=629" target="_blank" class="timestamp">[10:29]</a> con el caso de Ruth Diesel. Yo creo que tanto Sean Ray como Bob Cicerillo destacan algo que aquí llevamos destacando ya, diría que meses, que es el hecho de que una cosa es como se lo ve a Ruth Diesel el solo posando, que es precioso y es un atleta clásico completo, total y completo. Y otra cosa es lo que vaya a ocurrir al lado de estos dos. Y meto a Kaiken en la ecuación también. Al final son atletas muy grandes, muy densos, con mucha condición, que impactan mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=659" target="_blank" class="timestamp">[10:59]</a> que tienen cada uno evidentemente su punto de hype, el de Kai que está más que claro por ver qué es lo que muestra y por Brasil, etc. Y en el caso de Joseba, porque de todos los que hay ahí, en el Olympia del 24 ha sido el único que ha competido en categoría Classic y es Top 6, con lo cual es un tipo que ya viene con un bagaje importante, a pesar de que a lo mejor no lo conozcan tanto, pero yo creo que ya se hizo conocer el año pasado. Así que va a ser un escenario bastante interesante, bastante completo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=686" target="_blank" class="timestamp">[11:26]</a> Y me interesa bastante ver cómo meten en la ecuación, tienen bastante claro que esto es una cosa de tres, como hemos hablado también muchas veces, un poco corroborar que en Estados Unidos la conversación que se produce es exactamente la misma que hay aquí, aunque la gente pueda pensar que somos demasiado favoritistas con Josema por el hecho de ser español, que lo somos, pero ya estáis viendo que entra también dentro de esa ecuación el nombre de Josema. Así que como digo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tIF2KwCB06o&t=708" target="_blank" class="timestamp">[11:48]</a> Chicos y chicas, esta es la última hora, este es el análisis del Classic Physique que están haciendo en Estados Unidos con Tarrick El Guindy, con el debate que se ha producido con Bo Cicerillo, con Lisa, con por supuesto las declaraciones de Son Rey, así que dejadme en la caja de comentarios si opináis. Fuerte like al vídeo, suscribíos al canal y como siempre digo chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-BwzEl5-jgqE">
+            <h2>PLANES de PUESTA a PUNTO | ENTRENAMIENTO de ESPALDA con SERGIO DUFORT</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Jorge Tabet</span>
+                <span class="date">Publicado: 08/05/2025 16:13</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=BwzEl5-jgqE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/BwzEl5-jgqE/hqdefault.jpg" alt="PLANES de PUESTA a PUNTO | ENTRENAMIENTO de ESPALDA con SERGIO DUFORT" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta una intensa sesión de entrenamiento físico entre un atleta (Jorge) y su entrenador.
+Muestra ejercicios exigentes con instrucciones detalladas y motivación constante.
+Posteriormente, la conversación se centra en estrategias de recuperación y nutrición post-competición, especialmente sobre hidratación y carga de carbohidratos.
+Se discuten protocolos para competir frecuentemente manteniendo altos niveles de energía y preparación.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Inicio Intenso del Entrenamiento <a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&amp;t=98" target="_blank">[01:38]</a></h3>
+
+<p>Comienza una sección del entrenamiento donde el entrenador guía a Jorge con instrucciones precisas sobre la técnica de los ejercicios. Hay un enfoque en la postura correcta y la amplitud del movimiento para maximizar el esfuerzo.</p>
+
+<h3>La Advertencia del Dolor <a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&amp;t=127" target="_blank">[02:07]</a></h3>
+
+<p>Jorge expresa que siente mucho dolor durante un ejercicio. El entrenador interviene inmediatamente para aconsejarle que no entrene si está sintiendo molestias significativas, priorizando la salud.</p>
+
+<h3>Motivación en Cada Repetición <a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&amp;t=314" target="_blank">[05:14]</a></h3>
+
+<p>El entrenador anima fervientemente a Jorge durante las repeticiones difíciles. Le recuerda que "cada rep es una rep es más cerca" y lo impulsa a "pelear" cada movimiento hasta el límite.</p>
+
+<h3>Estrategias Post-Competición Clave <a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&amp;t=503" target="_blank">[08:23]</a></h3>
+
+<p>La conversación cambia a la recuperación después de la competición. Se enfatiza la importancia de una alta ingesta de agua ("no cortamos el agua nunca") y la reintroducción controlada de carbohidratos para el rebote y la sensibilidad a la insulina.</p>
+
+<h3>Preparación para Competir Frequentemente <a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&amp;t=530" target="_blank">[08:50]</a></h3>
+
+<p>Discuten la estrategia de competir cada 15 días. Se explica cómo este ciclo permite mantener hidratos altos, facilitando una rápida recuperación, mínima pérdida muscular y una puesta a punto más fuerte para la siguiente competición.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=0" target="_blank" class="timestamp">[00:00]</a> La espalda es tu fuerte, pero hay que hacerle más fuerte todavía. Aguanta el estiramiento arriba. ¡Ahí! Vas a llegar, sí vas a llegar. ¡Vamos! Cortemos cardio. Comen más. Más proteína. No cortamos el agua nunca, incluso el día de la competición. ¡Joder, qué fuerte estoy! Cada rep es una rep es más cerca. Eso es. ¡Muerte! ¡Muerte!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=40" target="_blank" class="timestamp">[00:40]</a> ¿Estamos ya efectivo? Sí, sí, ahora ya. Muy bien. ¿Vas?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=98" target="_blank" class="timestamp">[01:38]</a> Eso es. Bien, estira arriba. Ahí. Estira arriba. Bien. Mira. Bien. Eso es. Abre. Abre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=127" target="_blank" class="timestamp">[02:07]</a> ¿Te duele? Mucho. Tío, no entrenes. Si te duele no entrenes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=159" target="_blank" class="timestamp">[02:39]</a> ¿Para qué entrego? No han visto mis ojos. No han visto. No caerá. Venga. Estira arriba. Que se abra las dejan, Jorge. Ahí. Eso es. Aguanta un poquito abajo. Eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=187" target="_blank" class="timestamp">[03:07]</a> Aguanta. Bien. Ahí. Esa es la buena. Estira. Aguanta arriba el estiramiento también. Aguanta el estiramiento arriba. Ahí. Aguanta el estiramiento. Ahí. Esa. Venga.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=216" target="_blank" class="timestamp">[03:36]</a> Estira, estira, aguanta ahí. No te inclines tanto. No te cumples tanto para atrás. Intenta sacar más recto. Si no me llevo el peso aquí. Si vas a llegar, si vas a llegar. Vamos, sí que llega.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=244" target="_blank" class="timestamp">[04:04]</a> como llegan porque no va a llegar hostia todo llega todo llega todo llega como llegabas no voy contigo vale aguanta aguanta aguanta eso es vamos marca bien atrás la espalda es tu fuerte pero hay que hacerle más fuerte todavía</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=276" target="_blank" class="timestamp">[04:36]</a> Eso es. Estira bien adelante. Eso es. Estira adelante. Ahí. Eso. Bien. Vamos, Jorge. Venga. Bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=314" target="_blank" class="timestamp">[05:14]</a> Estira, aprieta. Estira y aprieta. Aquí. Aquí. Una por cada semana, venga. Va. Apriétalo. Sientelo. Peléalo. Cada rep es una rep más cerca de la rep, tío. Eso es. Va. Vamos, aprieta. Trame los codos, trame los codos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=348" target="_blank" class="timestamp">[05:48]</a> ¡Va! ¡Va! ¡Va! ¡Va! ¡Va! ¡Va! ¡Va! ¡Va! ¡Va! ¡Va! ¡Va! ¡Va! ¡Va! ¡Va! ¡Va!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=375" target="_blank" class="timestamp">[06:15]</a> ¡Va! ¡Va! ¡Va! ¡Pelealo! ¡Pelealo! ¡Sigue peleando, tío! ¡Sigue hasta que no se mueva! ¡Tienes que parar el último! ¡Te tienes que parar el último!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=418" target="_blank" class="timestamp">[06:58]</a> Joder, qué fuerte estoy. ¡Sí!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=450" target="_blank" class="timestamp">[07:30]</a> Iba por 13, pero... En su cabeza tenía 13, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=476" target="_blank" class="timestamp">[07:56]</a> Yo he visto 10 y media, eh. 10 y media, 10 y media. Yo he visto 10 y media. Ya me valía. En su cabeza iba a ir a por 13, pero... A ver si nadie está contando. Y le digo que han sido 13. Cortamos cardio. Comen más. Más proteína. Pues está a punto. No cortamos el agua nunca. Incluso el día de la competición o el simulacro vas a beber</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=503" target="_blank" class="timestamp">[08:23]</a> Tres litros y medio, cuatro, ¿por qué? Porque yo te corto el agua hasta el simulacro de competición. Cuando termina el simulacro de competición, además esto es algo que yo comenté en un vídeo y justo esa semana lo explicó el que era el preparador de Danny Walker, que él hacía lo mismo y me dije, hostia, mira, qué curioso. Max Janssen. Max Janssen. Yo de la competición te digo, desde que te bajas del escenario hasta que te acuestas, tres litros de agua. De forma que no ha habido corte de agua ningún día. Ha bebido todos los días. Y el rebote del diurético no es... Exacto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=530" target="_blank" class="timestamp">[08:50]</a> Tres días, bueno, después de la competición, el día siguiente tampoco haces cardio. Pesan ante el cardio el martes. Y ahora, durante todos los días ya es peso diario que me tienes que mandar. Yo te mato que tienes una cantidad alta de hidratos. Por eso me gusta competir cada 15 días, porque te pongo muchos hidratos. Ya te da tiempo a regular el hidrato. Te pongo muchos hidratos hasta un peso target. Yo te pongo un peso target que normalmente es un kilo arriba de con el que has empezado la primera descarga.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=557" target="_blank" class="timestamp">[09:17]</a> Y ahí ya vamos, vamos metiendo hidratos, metiendo hidratos. El peso es prácticamente el mismo, pero rebote de competición. Ahora vas a acelerarísimo. Entonces, ¿qué hacemos? Son 15 días. Entonces, cuando ya es una semana, empiezas descarga. Claro, empiezas descarga con una cantidad aquí arriba de hidratos con muy poquito. Claro, aunque bajes. Descargas. Y aún así tienes mucho más. Y vuelves a cortar el cardio. Claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=581" target="_blank" class="timestamp">[09:41]</a> Lo bueno que tiene eso es que la descarga de esa puesta a punto va a ser con mucho más hidrato de lo que estoy ahora mismo, por ejemplo. El doble. Vamos, muchísimo más. El doble. Tú piensas... Ya vienes modulado al 100%. Exacto. Tú piensas que probablemente el lunes vas a comer 75 de arroz por comida. Claro. Eso es mi día alto ahora, tío. Bueno, mi día alto es mis cojones. Un día. Y eso lo vas a poder mantener tal vez tres días. Y luego te empiezas a quitar igual 25 gramos de hidrato. Claro, tú piensas que ahora tenemos 75 solo el día de cuárices. Claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=607" target="_blank" class="timestamp">[10:07]</a> Tú luego, igual te digo, me pasas el peso y cuando ya veo que hemos llegado al peso target o que hubiera mucho rebote, te digo 25, 30 minutos de cardio para mantener sensibilidad a la insulina. Llega el domingo, descarga, fuera cardio otra vez. Otra vez proteína arriba.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=624" target="_blank" class="timestamp">[10:24]</a> Sí, sí, sí. Y la energía va para las nubes, tío. Escucha, y yo por eso no hago entrenamientos de descarga, ¿por qué? Porque vas a muerte en el gimnasio. ¿Te vas a romper comiendo esa cantidad de hidratos? No. Aparte que estás hidratado, porque en ningún momento has cortado el agua. Claro. ¿Sabes? El problema de entrar fuerte sin agua es que te puedes romper. Si me rompe yo el dorsal. Si vas hidratado, tío...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=656" target="_blank" class="timestamp">[10:56]</a> Aguanta, vamos. De las que puedas. ¿A 15? Sí, sí. Hostia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=684" target="_blank" class="timestamp">[11:24]</a> ¡Suscríbete!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=744" target="_blank" class="timestamp">[12:24]</a> ah ah ah ah</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=773" target="_blank" class="timestamp">[12:53]</a> Joder. No voy a hacer más que me duele mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BwzEl5-jgqE&t=804" target="_blank" class="timestamp">[13:24]</a> Que me ha hecho polvo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-_9TrDrMJsoA">
+            <h2>Llamo A Fran Espín De Urgencia, Queda Poco Para Competir | 90 Días Para Mi Competición Profesional</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 08/05/2025 17:28</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=_9TrDrMJsoA" target="_blank">
+                    <img src="https://i.ytimg.com/vi/_9TrDrMJsoA/hqdefault.jpg" alt="Llamo A Fran Espín De Urgencia, Queda Poco Para Competir | 90 Días Para Mi Competición Profesional" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta un día en la preparación de un culturista para competir, mostrando su rutina matutina, cardio y entrenamiento de espalda.
+El atleta comparte sus pensamientos sobre el futuro, sus proyectos y la importancia de la disciplina y la preparación constante.
+Destaca la comunicación con su entrenador, Fran, revisando su físico, técnicas de posing y estrategias de dieta y suplementación.
+También aborda aspectos de su vida personal y negocios, como la mudanza a Andorra, la venta de productos y el apoyo de su familia.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Arrancando el Día con Obsesión <a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&amp;t=11" target="_blank">[00:11]</a></h3>
+
+<p>El atleta inicia su día a las 5 am con cardio y preparación, mentalizado en su objetivo de competir. Menciona la motivación recibida para el posing y la cuenta atrás para su regreso a las competiciones (día 45).</p>
+
+<h3>El Sueño de Revolucionar el Culturismo <a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&amp;t=172" target="_blank">[02:52]</a></h3>
+
+<p>Comparte su visión a futuro, incluyendo proyectos y planes para el invierno. Expresa un fuerte deseo de ser un atleta élite y profesionalizar el culturismo, comparándolo con otros deportes más medidos.</p>
+
+<h3>Compromiso Inquebrantable y Legado <a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&amp;t=221" target="_blank">[03:41]</a></h3>
+
+<p>Revela su intención de continuar entrenando y haciendo contenido al más alto nivel incluso después de retirarse de la competición. Esto lo define como una meta de vida, ligada a su felicidad en Andorra con su pareja.</p>
+
+<h3>La Vida en Andorra y el Frío Desafío <a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&amp;t=259" target="_blank">[04:19]</a></h3>
+
+<p>Agradece a su madre por ayudar con la mudanza en Valencia mientras él se prepara. Describe su vida en Andorra, cómo le encanta el lugar a pesar de anticipar un invierno muy duro, e incluso planea entrenar sin calefacción.</p>
+
+<h3>Apoyo a Clientes y Aniversario PBS <a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&amp;t=317" target="_blank">[05:17]</a></h3>
+
+<p>Habla sobre las ofertas del aniversario de su marca PBS, mencionando cómo aboga por los clientes para extender descuentos y asegurar stock. Destaca el éxito de las ventas y su compromiso con quienes le apoyan.</p>
+
+<h3>Novedades en el Gimnasio y Planes Futuros <a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&amp;t=661" target="_blank">[11:01]</a></h3>
+
+<p>Comparte noticias positivas del día, incluyendo avances con el espejo roto y la llegada inminente de nuevas máquinas de gimnasio. Discute la posibilidad de que su entrenador lo visite y planea trabajar en su movilidad de cadera/torso.</p>
+
+<h3>Intenso Entrenamiento de Espalda <a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&amp;t=1048" target="_blank">[17:28]</a></h3>
+
+<p>Muestra clips de su sesión de entrenamiento de espalda, considerada su día con mejores sensaciones. Se enfoca en la intensidad y la conexión mente-músculo, bajo la supervisión y guía de su compañero/entrenador.</p>
+
+<h3>Revisión con el Entrenador Fran <a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&amp;t=1565" target="_blank">[26:05]</a></h3>
+
+<p>Tiene una videollamada con su entrenador para revisar su físico y progreso, discutiendo la percepción visual según la iluminación, la estrategia de dieta (más comida sólida) y el progreso en el posing, así como pruebas de suplementos.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=0" target="_blank" class="timestamp">[00:00]</a> No entrenas bien, Joan. Puedes reconocerlo. Hay que hacer el trabajo bien. Es que se me hace muy dura la preparación. Estoy hasta los cojones. Yo creo que es mejor competir en el 2026.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=11" target="_blank" class="timestamp">[00:11]</a> Muy bueno a todos chicos, estamos en un nuevo vídeo. No sé en qué cojones día estamos, pero no tengo espejo para verme la puta espalda. Eso es una putada. Dame un segundo y os digo en qué día estamos y empieza un nuevo día. Cinco de la mañana. Puta locura, la verdad. Puta locura. Pero tengo ganas de subirme a la cinta del cardio. Ayer Jorge me motivó una barbaridad con unas cosas del posing. Fran me motivó la semana pasada. Así que a posar, a hacer el cardio, a hacer los ordinales y a hacer todo lo que toque por este sueño y este objetivo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=41" target="_blank" class="timestamp">[00:41]</a> y si no me equivoco día 46 para mi vuelta a las competiciones que tengo muchas muchas ganas de mirarlo exactamente para decirlo día 45 para mi vuelta a las competiciones y hoy pasamos revisión con Fran como vamos a llamar a Fran quiero hablar con él ya os dije que quería hablar con él todas las semanas y va a ser así aunque sea por hablar por tener las cosas claras por ver qué estamos haciendo va a ser así así que vamos a darle</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=72" target="_blank" class="timestamp">[01:12]</a> Lo de que yo solo me ponga el cardio más rápido y con más pendiente. Sin que nadie me lo haya dicho. ¿Eso cómo está? Eso es ganas de perder grasa porque no sé si así voy a perder grasa. Pero bueno, aquí estamos. Con un espejo menos, ahora tendré que posar. Me va a dar bastante rabia hasta que llegue el nuevo espejo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=90" target="_blank" class="timestamp">[01:30]</a> Aún así, con lo que me dijeron, tengo que ir haciendo rondas sin espejo y es lo que hay. Tengo ganas de llamar a Fran. Tengo ganas del día de espalda. Tengo los straps nuevos. Es el aniversario de PBS. Estamos working, working, working, working, working. Las asesorías van como un tiro. Es un buen momento, chicos. Es un buen momento. Este fin de semana. Bueno, ¿hoy o mañana? Mañana. Mañana sale el documental de Karol G. Me lo quiero ver. Seguimos sin tener sofá. Pero supuestamente la semana que viene llega.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=117" target="_blank" class="timestamp">[01:57]</a> No creo que llegue. Estamos haciendo la mudanza de Valencia. Bien. El jueves supuestamente llega un cargamento de máquinas nuevas que ya no sé dónde coño las vamos a meter. Bien también porque vienen cositas muy chulas. Así que estamos en eso. Este es mi cardio. Cinco de la mañana he despertado. Son las seis ya. Tranquilamente me he preparado las cosas. Me he dejado para acá. A estas horas estoy muy activo. Luego desayuno. Me pongo a hacer a veces miniaturas. Contesto al que hay buenas cosas en el cardio. Es un poco mi vida ahora mismo. Pero cada día</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=147" target="_blank" class="timestamp">[02:27]</a> pensando más en qué deparará el futuro. Y sé que es una mierda pensar siempre en el futuro, pero soy así, o sea, lo tengo clarísimo, soy así. Y lo primero de todo para el futuro hay que hacer es poner una bandera ahí, porque me encantaría que se vea una bandera ahí de obsesión. Pero bueno, más allá de eso, tengo varios proyectos abiertos en stand-by, por así decirlo, dentro de redes, o sea, no es nada loco. Y lo que deparará el futuro al final</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=172" target="_blank" class="timestamp">[02:52]</a> Va un poco sobre el invierno. Va un poco sobre lo que quiero plantear para el invierno, cómo quiero hacer las cosas. Pero todavía queda mucha parte de qué hacer en esta temporada. Hacer estiramientos. Seguir posando como un enfermo. Mejorar toda esa parte. Y al final todo eso no es en mano, no solo para esta preparación. Quiero que se sume a la otra preparación. Quiero ser un atleta élite. Quiero revolucionar el culturismo, ¿no? Es algo que comentaba ayer con Marte y le decía</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=196" target="_blank" class="timestamp">[03:16]</a> Es que quiero revolucionar el culturismo. El culturismo no es tan nada profesionalizado. En otros deportes entrenan mucho más, llevan todo mucho más medido, lo hacen todo mucho mejor. Y me apetece eso, tíos. Me apetece eso. Claro que el culturismo es un deporte muy joven. Me apetece ser yo en parte a veces quien marque algunas pautas. Y evidentemente tienen que funcionar para marcar esas pautas. No sé. Es una puta locura. Así también os digo una cosa. Yo habré un día que yo me retiraré.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=221" target="_blank" class="timestamp">[03:41]</a> pero seguiré haciendo culturismo como el puto número uno. Probablemente seguiré haciendo vídeos como el puto número uno. Y siga preparándome día a día, a cinco de la mañana haciendo cardio, haciendo mi dieta y entrenando como el más enfermo del mundo para que eso se recuerde siempre. Lo digo en serio, es como mi igual de vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=240" target="_blank" class="timestamp">[04:00]</a> junto a estar aquí en Andorra y ser feliz con Marta, con su gallinero, que por cierto no lo he enseñado, pero ayer con su padre, con su madre, lo dejaron espectacular. O sea, eso parece un parque de atracciones. Así como yo tengo mi gimnasio que me parece un parque de atracciones, eso parece un parque de atracciones. Tengo que agradecerle también a la vida, a Dios, a todo el mundo. No, en serio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=259" target="_blank" class="timestamp">[04:19]</a> Te voy a agradecerle a mi madre que está en Valencia haciendo un montón de gestiones mientras yo me preparo, mientras yo la verdad que no he salido a Andorra desde que llegamos aquí hace ya mes y medio o dos meses y medio porque me encanta ese sitio y tampoco pretendo ni quiero volver, es un poco raro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=274" target="_blank" class="timestamp">[04:34]</a> Estoy muy bien. O sea, me encanta España. Me parece el mejor país del mundo para vivir. Sin duda. No tengo duda. Sé que el invierno aquí va a ser muy duro. Muy, muy duro. Porque aparte le he dicho a Nuno. La luz aquí es súper barata. Le he dicho a Nuno. Nuno, tío. Creo que vamos a entrenar sin calefacción. Creo que vamos a entrenar a la antigua. Con gorro, con capucha, con mangas largas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=294" target="_blank" class="timestamp">[04:54]</a> Y a pasar frío y a entrenar duro. Así que ya veremos cómo será esa situación. Ayer también estuvimos pensando en una cosa para la sala donde me corto el pelo ahora de normal. También para cortar el pelo en otro sitio, ¿vale? De aquí de la casa. Pero algo muy guay para esa sala que creo que puede ser diferente. También para los vídeos. Siempre pensando en el contenido, chicos. Siempre pensando en el contenido. Y deciros otra cosa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=317" target="_blank" class="timestamp">[05:17]</a> Es que el aniversario... Ayer lanzamos todas las sudaderas, ¿vale? A 20 pavos. De hecho, esta sudadera... No creo ya ni que quede stock. O si queda stock, queda solo a una talla. Y no sé a qué hora lo van a quitar, ¿vale? Así que lo tenéis por la descripción. Quizá no lo han quitado todavía, siendo sinceros. Yo siempre que sepáis que miro por vosotros. O sea, miro por vosotros como un puto loco. Porque quedarse sin stock no es algo positivo, ¿vale? Y las barefoot, las sudaderas, se van a quedar sin stock. Y siempre miro por vosotros y aprieto para que haya más descuentos. Para que aguanten más las ofertas. Para que todo, porque me...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=346" target="_blank" class="timestamp">[05:46]</a> Al final la gente que trabaja está muy bien, pero no le escriben en el día a día los DMs al móvil. Y yo veo los DMs, por favor, alargadlo un día más que mañana cobro tal, no sé qué. Y yo digo, tío, por favor, alargadlo un día más, que esta persona lo quiere de verdad. Y pues es lo que hay y no hacemos ofertas nunca y se va a quedar sin esa prenda. Así que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=366" target="_blank" class="timestamp">[06:06]</a> Yo no lo lucho por vosotros todo lo que puedo, chicos, pero lo he dicho. Lo tenéis en la descripción, está todo al 30%. Tenéis un 10% con el código Joan de PBS, ¿vale? Extra. Y luego hay muchas cosas rebajadas de más. O sea, las barefoot están a 70% rebajadas, hasta que se agote el stock. Ahí sí, como se agote, se agotado. Todas las sudaderas, cuando se agote, se han agotado hasta la mitad de precio. Y nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=388" target="_blank" class="timestamp">[06:28]</a> Estoy increíble porque son las 5 de la mañana y yo me despertó con la ganas de hablar que no tiene sentido. Por cierto, hoy voy a llamar a Fran, no sé si ya lo he dicho ya, pero quiero hablar con él, quiero posar, evidentemente, después del entrenamiento de espalda, a ver qué tal, sin el espejo, a ver qué tal. Y cuando me lleguen las maquinas nuevas, además, también, hacer ciertos movimientos que quiero hacer porque está guay. Ayer vino Jorge a entrenar, que lo visteis en sus historias, hizo muchísima ilusión, nos quedamos luego arriba hablando y comiendo y ya venimos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=418" target="_blank" class="timestamp">[06:58]</a> cosas. Ya veréis más cosas. El 2018 vuelve. Nada, es broma. Bueno, chicos, me callo ya la puta boca y me voy a poner a trabajar con el móvil, a darle por culo a la gente. Sé que es muy pronto, pero tengo que mirar lo de los atajos, el WhatsApp Business y todas esas cosas para que me lleguen los mensajes a la gente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=436" target="_blank" class="timestamp">[07:16]</a> Así que vamos con ello. Se me ha olvidado el agua. No ha salido ni agallas. Momento clave de la mañana. He hecho una cosa con el timer. No voy a tener poso de espaldas. Le he puesto una ronda más ahora por la mañana. Y le he bajado el descanso total. Así que vamos a empezar a hacer las cosas duritas. Duritas, duritas. Tengo ganas de estirar también, tíos. Estoy in.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=472" target="_blank" class="timestamp">[07:52]</a> Voy a decir una cosa de la que luego espero no arrepentirme. Voy a hacer un poquito de fresito en Andorra. Pero es que tengo unas ganas de que haga frío, frío, frío en invierno y estar preparándonos aquí con nieve que flipas. Guardad este clip porque me voy a arrepentir. O sea, mirad el gallinero, mirad la gallina. ¿Cómo está? En la puerta esa, que es automática.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=490" target="_blank" class="timestamp">[08:10]</a> A punto de salir. No sé si la veis, porque se me ha puesto en el foto puntual. Pero si sale esa y ahora salen todas. Ah no, pero mira, ya hay uno por ahí correteando. Menudo show de gallinero, la que han puesto con flores y todo. Les han hecho un columpio. La verdad que espectacular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=505" target="_blank" class="timestamp">[08:25]</a> Muchas gracias porque viven los padres de Marta. El padre de Marta se puede ir con Marta a fuego, el gallinero, todo el día. Hacerles cositas a las gallinas para que se queden monos. Se los limpiaron todo. La verdad que hay súper monos. Sí, hay unas cuantas fuera. De hecho, todas las normales están fuera ahora mismo, que son las más normales, que ponen huevos y ya está, que valen 5 euros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=521" target="_blank" class="timestamp">[08:41]</a> y el resto son más raras que un perro verde y hacen cosas súper raras. No se enteran de nada. Las que son como palomas no se enteran de nada. Me hacen mucha gracia. A mí la marrón es la que más me gusta. Pero bueno, aquí estamos. El espejo roto. Me dijo la madre Marta que iba a hacer una cosa muy guapa con el espejo, pero dije, vale, pero te lo llevas en el marco. Y nada, a ver qué tal se da el día. Voy a volverme a hacer miniaturas y unos títulos que tengo además ganas de hacer y a preparar unas publicaciones y a comer sobre todo. Eso es lo primero.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=548" target="_blank" class="timestamp">[09:08]</a> Me he levantado con bastante energía hoy, con bastante ganas de hacer cosas. De hecho, me he hecho una lista ahora en la que me ha apuntado muchas de las cosas de invierno, qué quiere ir haciendo, casa, en todo. Eso es que es buena señal. A ver si se abre esto ya. Perfecto. Yes. Aquí está todo el mundo durmiendo. Por cierto, mira, nuestra cocina ahora son siempre restos en los tuppers de manduka para las gallinas y para los gatos. Y este es mi tupper de hoy, que son 100 arrojos, 50 de pollo y dos huevos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=575" target="_blank" class="timestamp">[09:35]</a> La verdad que esta comida se agradece porque es bastante grande y tengo 50 gramos de arándonos, que eso es bastante poco. Me voy a calentar ya y me lo voy a tomar ya porque me he tomado los greens. Me he quedado tranquilamente pensando cosas en el gimnasio. La verdad que me gusta ese momento reflexivo. Habría pasado más, o sea, los espejos me jode, pero habría pasado más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=602" target="_blank" class="timestamp">[10:02]</a> porque bastante cantidad. Mi mood oficina. Tengo muchas ganas de bajarme a entrenar. Espalda, la verdad. He estado currando esta mañana aquí en el ordenadorcito y me he puesto esto que me trajo Carla para entrenar. Me voy a poner gorra. Voy a probar los straps que me hizo Ana ayer. La verdad es que tengo muchas ganas de entrenar hoy. Es que la realidad es que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=620" target="_blank" class="timestamp">[10:20]</a> Me he bajado esta sudadera, que es de las pocas que siguen quedando talla a 20 pavos, así que bueno, si la queréis ver, si la queréis aprovechar. Es que he estado ahora mirando informes, mirando todo, la verdad que se os va a la puta olla. O sea, vale, está la web toda al 40%, porque está el 30 más el 10 de los códigos de los creadores. Hemos rebajado las sudaderas, pero se os va a la puta olla. He estado mirando los informes y he dicho...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=642" target="_blank" class="timestamp">[10:42]</a> Nos quedamos sin web, ya está. Y las barefoot también nos quedamos sin barefoot. O sea, son una liquidación, pero en un día es una fumada. Por cierto, por cierto, por cierto, por cierto, me voy a hacer una bandera para mí, para el cardio al final. Porque he dicho esta mañana, uy, aquí me molaría una bandera. Pues me he hecho una para mí yo solo. Y ya veréis cuál es. Qué guapa está. En 10 días está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=661" target="_blank" class="timestamp">[11:01]</a> Uy, me han dado algunas noticias también buenas durante la mañana. A mí me dan malas durante la mañana. O sea, mis mañanas son fiesta. Y cuando acabo de entrenar y cojo el móvil, otra fiesta más. Pero bueno, tengo ganas porque hoy posamos, hoy hablamos con Fran. Está ya en marcha el espejo. Que no tengo el espejo es algo que me pone muy nervioso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=676" target="_blank" class="timestamp">[11:16]</a> He estado con Marta también poniéndonos ahí de acuerdo para hacer cosas. Y ahora sí, chicos, nos bajamos a darle caña a la espalda, que es el día que mejores sensaciones sin duda tengo. O sea que mola mucho y encima luego ir a Fran con un buen vídeo, mandárselo y hablar con él un rato, es algo que mola. Y es algo como cumplidor. Y encima mañana, no digo nada y lo digo todo, pruebo tres máquinas nuevas. Eso mola mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=699" target="_blank" class="timestamp">[11:39]</a> Muchas actualizaciones que hacer y no dan todas, pero... Es que siento que esto es un no parar. Es un bricomanía continuo. Has cogido una caja de las grandes, ¿eh? Quedan otras dos, ¿no? Si podéis hacer una cosa, podéis volcarlas, aunque sea. ¿Qué le vais a hacer? Otra caseta a las gallinas. ¿Por qué no haces otra para gatos? Todo para las gallinas, ¿eh? Qué amor tiene esta mujer por las gallinas. Es increíble. Es increíble. O sea, es que os tengo que hacer una actualización del gallinero. De hecho, este fin de semana vamos a grabar una charla</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=727" target="_blank" class="timestamp">[12:07]</a> Dentro del gallinero Marta y yo, que lo vais a poder ver en su canal. Vamos, o sea, el gallinero, el mejor gallinero. De hecho, una cosa, un día me la vas a liar y van a haber más gallinas. Y tú y yo lo sabemos. O sea, es que es la típica que un día me ponga a contar y digo, sí, hay muchísimas más que las de antes. Pero bueno, que me voy a entrenar, chicos. Que estoy contento, que además me acaban de decir que el espejo va a ir más rápido de lo que pensaba. Estoy mirando una cosa para estirar también. O sea que, pum, pum, pum, vamos a tu pe. Que no se me caiga este objetivo, por favor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=755" target="_blank" class="timestamp">[12:35]</a> Joder, macho, si tú siempre estás aquí, tío, antes que yo, tío. Es increíble, tío. Siempre me gana, tío. ¿Cómo estás, mister? ¿Todo bien? Bien. ¿Qué haces ahí? ¿Dónde? Ah, para la nariz me lo he puesto. ¿Lo tenía? Me lo trajo de amigo. Sí, para respirar. A ver qué tal aquí, la verdad, en Andorra. En Valencia se me caía muchas veces el sudor. Claro. Que en Valencia, bro, en el gimnasio, Valencia era una puta locura. Tengo los straps aquí para probarlos, tomas. Bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=783" target="_blank" class="timestamp">[13:03]</a> Y bajará Ana a verlo mientras los probamos. Me ha dicho. Por si hay que ajustarle algo. He visto el canal de modificaciones, los straps. Sí. Y ya está el espejo en marcha. Y estoy mirando otra cosa. ¿Con tipo E? Sí, con rodas. ¿Has hablado con Hugo? Sí, hablo con Hugo. Bueno, hay dos espejos en marcha. Uno igual y otro tal. Y hay una cosa que estoy mirando. Estoy con gilipollas, perdido, ya lo sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=808" target="_blank" class="timestamp">[13:28]</a> Tengo que mirar lo de abrir la cadera. ¿Una máquina necesita abrir la cadera? Sí. Pero no solo para eso. Necesito también algo de rotación de torso. Claro. Eso es cadera. Te necesito rotación de torso. Tengo que ver qué puedo. Vamos a liar una que te cagas. Sobre todo de cara al año que viene. Va a estar todo estructuradito perfecto, loco. Mira esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=829" target="_blank" class="timestamp">[13:49]</a> Va perfecto. A ver, me va a cayer con ella. Me va a cayer con ella, lo medí y ya lo cosió. Pero clavado, ¿eh? Esto lo ha hecho para luego quitárselo. Claro. Hostia, va perfecto. Aquí te pones y ahora lo vas a poder coger perfecto. Aquí, 100%.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=850" target="_blank" class="timestamp">[14:10]</a> Vamos a hacer la cama. Un día en invierno nos explicaremos qué es hacer la cama. Pero la vamos a hacer. Vale, vamos a entrenar. Me he puesto tirantes. Siempre llevo tirantes bajo. No sé por qué llevo esto. ¿A que siempre llevo tirantes bajo? Sí. Siempre, siempre, siempre llevo tirantes bajo. Pero nunca me los pongo. Y es para ponerme una faja no sobre la piel. Que por cierto, me he pedido 10 fajas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=872" target="_blank" class="timestamp">[14:32]</a> 10 fajas y 10 zapatillas. Gracias. Sí, para que no me las quite nadie. Porque cuando se agoten, pues yo sigo atendiendo, aunque el resto no tenga. Y este yo ahí pensando, joder, y tal. Me gustaban mucho estas, tal. Nada, 10 fajas. Aunque se me rompa, aunque la pierda, aunque lo que sea, aunque vaya de viaje, tengo fajas. ¿Cuál es el botellín? ¡Grande! Yo no me la he puesto, pero grande, grande, grande.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=899" target="_blank" class="timestamp">[14:59]</a> Esto solo la tenemos tú y yo, ¿eh? Sí. Eso la tenemos tú y yo. Y solo la tenemos. Sí. Hoy toca entrenamiento de espalda y Hirox. Me hace mucha gracia tomarme. No sé qué es Hirox. Guau. Me pongo en el congelador. Está muy frío. Mi idea de dejarlo aquí fuera de invierno es que yo no me lo tomo. Todo el entrenamiento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=921" target="_blank" class="timestamp">[15:21]</a> Realmente no está buenísimo el puto intra enredo. Pero buenísimo, ¿eh? Lo juro. Vamos, bro. Ya han durado unas sesiones. Pero hoy no te doy nada. Te voy a maravar luego. Tengo que pasar un poco. He hecho una ronda más esta mañana. ¿Vas a pasar con llamar ahora? No. Ah, vale. He hecho una ronda más esta mañana. Porque me decía. Y le baja el tiempo a...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=945" target="_blank" class="timestamp">[15:45]</a> Y subiste los segundos también a las poses, ¿no? Y subí los segundos a las poses a las poses. Sí, sí, estoy afuera. Se acaba el objeto entero. Aquí tenemos otro, la verdad. Te voy a decir, el último agro...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=974" target="_blank" class="timestamp">[16:14]</a> Podemos hacer el cuarto, el prime. Todas en el de enmedio y de último todas en el de arriba. Y cambiando con el ejercicio. ¿No te ha gustado ese? Sí que me ha gustado, pero creo que le tengo que pillar el punto todavía. Y ese en cambio lo voy a hacer. A ver si acabas con...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=994" target="_blank" class="timestamp">[16:34]</a> Pues ya, el estiramiento máximo. Ah. Y ya luego el básculo. Ya veremos, ya lo reorganizaremos. Pero es que ahora me apetece... No sé cómo. Es como que hay que mejor se sacie esta manera. Claro. Y lo que funciona no hay que tocar. Fue, ayer me inventé un remo. ¿Te inventaste? Sí, monté un lío con bancos, con...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1016" target="_blank" class="timestamp">[16:56]</a> El que estoy mirando también de las primas es el que es el extreme low, ¿sabes cuál es? No. El gigártico para las sumidas. Llega cargado por los dos lados. Pues una polea que hay que supera y tal, que viene aquí. Banquito yo sentado, otro banquito para sentarme bien clavado. No está mal, ¿eh? No está mal. A ver, es que es el típico gimnasio que se puede hacer jalones y… Ah, te estoy seguro que te va a molar bastante. Que es un remo gironda, pero muy especial. Muy, muy especial, de hecho, yo creo que estoy… El girondo, igual, metiéndole van, pero claro, es que es un gimnasio que tiene dos jalones</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1048" target="_blank" class="timestamp">[17:28]</a> Tres, tuya, tres. Uno, vamos. Vienes, sigues. Dos, vuelta atrás, vamos. Hasta las tres, ¡pam! Fuerte, fuerte, fuerte, fuerte, fuerte. Peleas dos, ¡vamos! ¡Fuerte!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1068" target="_blank" class="timestamp">[17:48]</a> ¡Tú, Joan! ¡Tú! ¡Va! ¡Va! Aprieta, aprieta, aprieta. Agustina. ¡Va! Cinco. Cuatro. Tira. Tres. Dos. Uno. Vamos. Vale. Mantén tensión. Vamos. Bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1098" target="_blank" class="timestamp">[18:18]</a> Vas a dar tres más. Pelearás tú. Una más. ¡Arriba! La clavas tú. Perfecto. Sigues dos. Aprieta, aprieta, aprieta tú. Voy a pelear por ti. Agus, tírame. Gáname, va. Cinco. Agus, cuatro. Tres. Dos. Uno. Se ha vuelto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1122" target="_blank" class="timestamp">[18:42]</a> Aunque también es muy agresivo, eh. Sí, sí. De acuerdo, la semana que viene esta. Bueno, voy a ir a una prueba piloto. Y bien. Aquí pasa cartel, aguanto abajo y sabes. Como el otro día. Vale. Muy bien. Tres. A ver. ¿Está roto ya? Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1155" target="_blank" class="timestamp">[19:15]</a> Todos bien abajo. Ahí. ¡Pelea, Joan! ¡Vamos! ¡Cuatro! ¡Peleas tú, tú, tú, tú! ¡Bien! ¡Me vas a dar tres, dos! ¡Una más! ¡Vamos! ¡Sigues! ¡Dos, sigues! ¡Fuerte! ¡Va, Joan! ¡Tres! Tira, hago cinco, cuatro, tres, dos,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1184" target="_blank" class="timestamp">[19:44]</a> 1, 2, 3. Voy a poner este. Qué más estrecho. Sí, perfecto. Entra perfecto. Pero perfecto. Y si aún subo un poquito más a la muñeca. Más a la muñeca. Sí, pero nada. Claro, pero esto no lo puedes mover tú. Sí, claro. Hay que dejar un poco de margen porque si no, con esto se va a quedar pegado. No, con el 4. Diferente. Sí. Vamos. 3, 2,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1214" target="_blank" class="timestamp">[20:14]</a> Uno. Tú y ahí. Suelto tres. Suelto dos. Uno. Dos. Bien. Dos. Tres, vamos. Cuatro, va. Tú, sigues. Tú, tú, tira tú, tú, tú. ¡Uno! Bien, sigue.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1236" target="_blank" class="timestamp">[20:36]</a> ¡Vamos! Matamos, ¿eh? ¡Teleas tú! ¡Teleas tú! ¡Cuatro! ¡Va! ¡Apretame bien la espalda! ¡Tres! ¡Vamos! ¡Dos! ¿Quieres espalda o no? ¡Tira! ¡Apretala bien ahí! ¡Vamos! ¡Tira! ¡Tres! ¡Dos! ¡Tiras!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1257" target="_blank" class="timestamp">[20:57]</a> No hay chance. No hay chance. No hay más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1282" target="_blank" class="timestamp">[21:22]</a> Es como un traje a medida, este gimnasio, ¿sabes? Fica con la puta, tío. No hay chance. No hay chance. A que pase nada. Nunca había andado así, así, grabando o tal. Claro. Lo que hay que buscar es eso ahora. Apretar todo a muerte. Apretar todo a muerte. Y sí, entrenar mucho más intenso, pero sin perder este concepto. Y apretar. Que no quede ninguna fibra que os contrae. Muy trasto, tío. ¿Estás? Vamos, ¿eh? ¡Tres! ¡Dos! ¡Uno! Fuentes de la primera. ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1312" target="_blank" class="timestamp">[21:52]</a> ¡Arriba! ¡Bien! ¡Una! ¡Vamos! ¡Dos sigues! ¡Tres! ¡Cuatro! ¡Dos! ¡Pelea una! ¡Pelea una! ¡Arriba! ¡Bien! Es importante el gesto, ¿eh? Sí. El bronc. Sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1343" target="_blank" class="timestamp">[22:23]</a> Con Keon y con Derek, dice, ¿Rackpool? Me di cuenta de eso. Dije, no estaba haciendo el Rackpool en el que le conozco. Haciendo el gesto. Grabando la espalda, grabando los trapecios. Así son los tortugos. Entrenamiento finalizado con esta camiseta. Y esa que es una de dos, ¿eh? Una de dos, esa camiseta. Y yo, yo para de no body cares. Que justo estaba hablando conmigo ayer. Y vamos a pasar ahora un poco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1369" target="_blank" class="timestamp">[22:49]</a> Pero no me he puesto la de manga larga. Mañana que toco la espalda me pondré la de manga larga. Por mí los arcef. Vamos a posar. Me he puesto dos rondas. A ver qué tal estoy. Vamos arriba. A ver qué tal ha pasado. Poco out. Ya se me va coger la del intro y no me lo puedo acabar. Y eso me da una rabia que flipas. Y mañana le paso a revisión afrontamente. O sea, me tengo que grabar a revisión. Aguanta. Posar torse a las piernas. Grande arriba. Femoral. Femoral. Femoral. Femoral. Más, más, más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1399" target="_blank" class="timestamp">[23:19]</a> Cinco. Cuatro. Y oblicuo. Pa. Ahí. Ahí estás. Pierna, siéntate. Acuérdate de los dedos. Ahí. Cinco. Cuatro. Tres. Rotalo más. Atómico. Atómico. Cinco. Cuatro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1433" target="_blank" class="timestamp">[23:53]</a> Ahora más, más, más, más. Mejor ahí. Aguantala. Glúti, glúti no lo sueltes. Ahí. Tres. Dos. Es la ovia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1453" target="_blank" class="timestamp">[24:13]</a> Queremos reírse en el techo también. Ahí. Ahí, cinco. Aguanta las cuatro. Tres. He estado posando. Sí. Llego ahora en medio hora llamada con Fran. ¿Ah, sí? Sí. Y ha llegado el pedido de Manduka. Sí. Que haya pedido para ti. ¿Ah, sí? Me acabo de tomar la mejor Merluza que me he tomado en mucho tiempo. ¿En serio? Me la estaba muy buena. Podrías comprarte especias en plan, no especias con sal, pero orégano o algo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1476" target="_blank" class="timestamp">[24:36]</a> No quiero tomar nada, gente. Quiero que todo sea blanco. Quiero que todo sea raw totalmente. Que sufrir. Que sufrir. ¿Qué tal lo duro? ¿Qué tal? Estás ardiendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1485" target="_blank" class="timestamp">[24:45]</a> Sí, estoy raro, la verdad. Sí, yo creo que estás un poco malo, ¿eh? Yo bien, acabo de limpiar el gimnasio en plan he pasado la aspiradora, que se queda bastante apañado. Faltan algunas zonas darle con la fregona, pero yo no le voy a dar ahora. Tenemos al gallinero muy avanzado ya. ¿Y el huerto? El huerto a mitad. Pero es que mi señor padre está durmiendo en el salón. No, pero no. Es sagrada. Exacto. Ahí tiraron el suelo, porque no tenemos coche ni sillón ni nada. Y está tirado en el suelo, le suena tres narques de suelo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1509" target="_blank" class="timestamp">[25:09]</a> Da igual. Y nada, así que bueno, ahora cuando se despierte le ayudaré con eso. Plantaremos unas matas a ver si me acogen. La semana que viene lo malo es que hace bastante malo, pero bueno. Y nada, ya está. Muy guay. Sí. Pues me voy a llevar a Fran a ver qué tal y me la tengo revisión también. Qué bien. Sí, la verdad que sí. Te doy ganas. A ver si veis de... Y yo no, convites en Tampa. Y yo cojo yo ahora mismo saco unas vuelos a Tampa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1535" target="_blank" class="timestamp">[25:35]</a> Ahora mismo no lo cogerías. No somos tan previsores nosotros. No, no somos tan previsores. Dos semanitas antes. De hecho, no tengo ni el carnet profesional de este año. Pues eso sí que lo tengo que coger ya. No, pero es que ahora da un poco igual porque no hay falta tenerlo en físico. Ah, vale. Pagas y ya está y te dan como un código. Vale, pues igual, pero con te coger ya no vaya a ser que haya problemas. No tengo carnet profesional, no es de coña. O sea, no lo he pedido. Es que vale 300 pavos también. O sea, hay que pagarlo evidentemente. Por cierto, uff, qué sudaderón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1565" target="_blank" class="timestamp">[26:05]</a> ¡Sincronizado! ¿Me ves? Buenas tardes, ¿cómo estás? Estoy a tope, estoy a tope. ¿Me ves ahí? ¡Carita fina! Te falta un montón de luces de neón. Poner ahí algo, rollo civil. Tengo... Tenía un este antes que flipas, pero me lo quité. ¡Hola, Vanessa! ¿Qué tal? ¿Cómo estás?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1589" target="_blank" class="timestamp">[26:29]</a> ¿Estás bien? Sí, por aquí ando. Me voy a llevar a esta naval y está ahora. Guay, guay. Dale caña. A disfrutar. Bueno, Ana, cuéntame. Ay, cuántas cosas, Fran, te debo contar. Joder, macho, ¿qué te ha pasado? Nada, nada, es broma, pero... Pero era también por grabar el vídeo, evidentemente. Sí, claro. Siempre estamos con los vídeos. Pero, joder, ya te dije, desde que te vi, en plan, te quiero hablar más, quiero estar más en contacto, he empezado a posar. No pasa nada, pues.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1614" target="_blank" class="timestamp">[26:54]</a> He empezado a posar un montón. Ayer se me rompió el espejo, pero me he comprado otro ya. El de la espalda, pero así tengo que empezar a trabajar también sin el espejo. Te acabo de mandar... A ver, sí, te lo he mandado. El posing que he hecho hoy no te habrá llegado un... Pero bueno, como me dijiste...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1633" target="_blank" class="timestamp">[27:13]</a> al whatsapp por hd pero te está llegando te está llegando es que es largo sabes lo que pasa por si ahora lo quieres ver es para la revisión de mañana si te lo guardo ya me has dicho de pasarte dos revisiones a la semana que también es importante no sé qué más cosas y ver cómo evolucionar físico ver el reporte ver tú cómo lo ves ya me metiste más agresiva a la dieta bastante más</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1657" target="_blank" class="timestamp">[27:37]</a> A ver, es que esta semana justamente, tío, te vi con un latino más grueso. Pero creo que tiene que ser por cojones por la iluminación, tío. Porque a veces no se ve la iluminación tan buena como el otro día cuando sube. Sí. Me acabo de ir hablando. En vez de cuando te vi, por ejemplo, aquí ya se ve mejor. ¿Ves? Aquí ahora en esta foto, en este vídeo de aquí, ya te ve mejor. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1676" target="_blank" class="timestamp">[27:56]</a> Estabas como muy naranja en el vídeo. Estabas como muy naranja. Y digo, tienes una luminación que parece que la piel está más dulosa. Ese vídeo lo he grabado antes con el móvil así tal cual. O sea, me refiero, el vídeo no está editado de nada. Para que la gente lo sepa. Así te veo mejor que el lunes, tío. Gracias. Es una merluza. El toque de la merluza...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1698" target="_blank" class="timestamp">[28:18]</a> Me dice Marta el otro día, guau, ¿por qué te estás haciendo la merluza? Me dice, ¿no te toca los cereales ahora? Y le digo, Marta, digo, los cereales se los puedes dar a las gallinas ya si quieres. Ya me cereales. O que te los guardes hasta la vuelta, tío. A ver, al final prefiero, lo que te dije en su día, prefiero meter más comida sólida. Y estabas con un 50% de líquida, semilíquida. Sí, sí, sí. Y otro 50% de sólida. Y cuando empiezas a pasar hambre...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1725" target="_blank" class="timestamp">[28:45]</a> y el metabolismo se empieza a acelerar, es mucho más agradecido a comer sólido. Aparte que es mejor para los efectos. Pedí también los tuppers con, en vez de carne picada, solomillo de ternera, mucho más magro. Bueno, me da igual. Si es carne picada, de primera me refiero que... Ya, pero se ve más magro. En plan, está más seca la carne, por así decirlo. Entonces yo digo, hostia, mejor esto, ¿sabes? Sí, a ver, la punta que acaba de comer fliparás porque está duro, pero bueno, al fin y al cabo... Frank, como si me como una piedra.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1755" target="_blank" class="timestamp">[29:15]</a> Aquí ya te veo mejor que el otro día. Yo creo que también es porque la luz era como muy naranja. Sí. Y la luz que tienes aquí ya es mucho más… Bueno, es más sincera. Es la luz con la que te vi yo, pero hay más luz y la piel se ve más finita y ya te veo mejores cortos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1770" target="_blank" class="timestamp">[29:30]</a> Joder, pues el otro vídeo supuestamente debería ser mejor porque lo grabé con la cámara, con el objetivo que tal, le puse un filtro tal y pam, me ves peor. Y este, literalmente estaba con Nuno y le he dicho, guau, grábame que se lo voy a enviar a Fran para mañana. Me ha grabado y ahí está el vídeo. No, pero antes me ha pasado veces que Vanessa grababa con su móvil, habla con su móvil y otros habla con cámara y se ve mejor en el móvil de Vanessa que con cámara profesional.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1796" target="_blank" class="timestamp">[29:56]</a> Y también te digo una cosa, el vídeo que grabamos juntos cuando viniste, ese día estaba espectacular. Joder, ¿qué dices, tío? Ese día me motivé porque viniste, que flipas, o sea, fue una locura. Pero lo único que tenéis en el vídeo es que había más luz. Mira, te voy a decir una cosa que creo que en el posing, estoy analizando esta semana, evidentemente, estoy posando media hora todos los días, que me dijiste, no te sigo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1818" target="_blank" class="timestamp">[30:18]</a> Me dijiste, no te subo el cardio porque estás posando media hora todos los días. Y escucha, estoy ya no posando media hora todos los días. Me he descargado una aplicación que es un timer y cada vez le pongo más segundos de pose y menos de descanso, ¿sabes? Entre rondas. Muy bien hecho. Así es como debe ser.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1836" target="_blank" class="timestamp">[30:36]</a> Pero el tiempo es el mismo. Estoy más tiempo usando. Al final la intensidad es mayor. Sí. Más tiempo contrayendo el músculo para la pose. No entrenas bien, Joan. Puedes reconocerlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1849" target="_blank" class="timestamp">[30:49]</a> Hay que hacer el trabajo bien. Es que se me hace muy dura la preparación. Estoy a esto de los cojones. Joder, pues cositas, ¿no? Antes de los hipopresivos por las mañanas me pongo crema hidratante y me masajeo para que se me haga más profundo el vacío. Que parece una tontería, pero al final es importante. Aquí tiene que tener el glúteo y el perfil cuando mueves y el perfil para hacer el de tríceps o el 6-6 se te ve mucho más estrellado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1873" target="_blank" class="timestamp">[31:13]</a> Sí. Ayer estuve también posando con Jorge y me dijo una cosa que sí que es bastante clara. He mejorado muchísimo los perfiles. Es cierto. O sea, luego lo estoy analizando. He mejorado muchísimo los perfiles. Cuando me posiciono, te estoy haciendo caso. Pum, pierna atrás, clavo que se vea glúteo. Lo clavo para adelante, se me escuella la femoral. Escúchame, cuando he roto la cadera...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1896" target="_blank" class="timestamp">[31:36]</a> a tomar por culo. Entonces, voy a empezar desde ya a trabajar las rotaciones de cadera porque nos quedan esas semanas y en esas semanas voy a ganar rotación de cadera y te voy a poder dejar el glúteo y el extremo más visible y el torso mejor. Entonces, eso cuenta con ello, tío. Vale, muy bien. Ya te digo que recibe todo lo mejor, ¿eh? Ya lo digo. Yo te digo, primero, el otro vídeo lo enviaste demasiado cerca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1916" target="_blank" class="timestamp">[31:56]</a> Demasiado cerca, a veces, como pierdo la perspectiva porque te veo la piel, como más segura de lo normal. De lejos, es como cuando te pones a posar. Cuando te pones a posar, no me pega a tu cuerpo para verte posar, ¿vale? Necesito apreciarlo un poquito más en los detalles y hacerte un poquito más de lejos. A contrapejo. Claro, aquí has posado de lo más lejos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1934" target="_blank" class="timestamp">[32:14]</a> y puedo ver el pack, o sea, como más... O sea, te veo como mejor, como más en tres dimensiones, te veo como más detallado para hacer más fina. Es mucho más. Yo al final te llamo también ahora un poco ya, aparte los vídeos de YouTube y todo, pero te lo digo de verdad, porque me sirvió un montón y lo agradecí un montón que vinierais la semana pasada y me sirvió mucho, tío. Y dije, joder, quiero hablar con él también de esas cosas, en general, yo qué sé, quiero hablar. A ver si se anima la jefa, ahí voy en tres semanas. ¿En tres semanas?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1964" target="_blank" class="timestamp">[32:44]</a> ¿Cuándo te caen cuatro? Dicho la valenza. Ya, por eso, si le consigo convencer, me acerco. Sí, sí, sí, por nosotros es genial. Echarte un vistazo y estaría en el día y luego volver. Pero más o nada porque me quedo más a gusto. En serio, ¿eh? Sí, sí. Joder, ve in, ve in, ve in. De hecho, quizá en tres semanas... Es que, tío, tenemos movidas... Bueno, esto ya para vivir y todo igual, pero... Con las mudanzas y demás, estamos justamente ahora. Van a haber más máquinas. Eso es lo principal. ¿Eh? ¿Te han traído más?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=1993" target="_blank" class="timestamp">[33:13]</a> Me han traído una jaca y una prensa a Cibex que vas a flipar, Fran. ¿Qué son? ¿Flex? Cibex, las antiguas. Y me tienen que llegar ahora 16 más. Pero más allá de eso, nos llega la mudanza de Valencia. Entonces, también si os paro un día o lo que sea y queréis dormir aquí, no hay camas, pero hay sofás, se puede mirar. No, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2017" target="_blank" class="timestamp">[33:37]</a> No, no, es olvídate, es olvídate. Yo voy a ir para verte y luego me vuelvo. O sea, es olvídate. A ver, yo no cuentes conmigo para ir al tobotron mucho, la verdad, pero... Sí, y vas a cuantas semanas. A ti vas a cantar de casa, cabrón, que tienes ahí toda la fanaticada detrás, tío. No, pero flipas. Tú sabes que lo sufro... O sea, que estoy como muy apagado, como muy tal, no soy un culturista de tal, me voy mucho a la mierda. De hecho, la semana que viene tengo que ir a Barcelona, una cosa es lo último ya que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2046" target="_blank" class="timestamp">[34:06]</a> Que por cierto, es real, ya me han llegado las infusiones, que quiero probarlas, que lo estuvimos hablando. A ver, yo las probaría, yo casi mejor prefiero probarlas cuando hagamos la prueba de puesta a punto, la nuestra anterior. Bueno, la cara anterior. Pero es por probarlas antes de la puesta a punto también. Bueno, vale, vamos. ¿Sabes? A ver, ¿cuándo estoy el día alto? ¿En qué ruedas? Me toco mañana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2071" target="_blank" class="timestamp">[34:31]</a> Va, pues mira, ya está. Me viene de puta madre. Mañana no la tomas. Mañana lo que te haces es... Ponges un puñado de hierbas, un puñadito, ¿vale? Y la pones a cocer. La pones a cocer y luego escurres. Incluso venden en los supermercados o... Marta, Marta, tío. Va, qué estupendo. Pues lo metes ahí, que es como este de llaberito. Lo pones ahí en agua bien caliente. O sea, que seca así hirviendo. La pones ahí y lo dejas, ¿vale? Que se enfríe. Y así va cogiendo más...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2100" target="_blank" class="timestamp">[35:00]</a> se va a considerar mucho mejor. Y vamos a hacer una prueba tomándola como a las seis de la tarde. ¿Para qué? Sí, más o menos porque tiene un efecto de seis a ocho horas. Y calculas que sobre las doce de la noche, puede ser que a las doce o a las una o a las dos que vayas al baño, mejor que igual que tomártelo por la noche</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2124" target="_blank" class="timestamp">[35:24]</a> y luego por una mañana ir escopeteado y que se siente algo mal. O sea, hay dos opciones. Por ejemplo, yo Ángel se lo hago así porque él lo prefiere. ¿Vale? Por la mañana no, porque igual será justo, sigue que ir corriendo, tiene que hacer la comida, tiene que ir al campeonato, que suele ser así, porque en Estados Unidos, bueno, en Estados Unidos hay muchos campeonatos, menos, bueno, aquí en España no. Pero si fuese, por ejemplo, a Estados Unidos, jugo a otro país.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2146" target="_blank" class="timestamp">[35:46]</a> Entonces, si me lo tomo antes de acostarme, a primera hora voy al baño. Sí, también. Y poso y mañana me hago los hipopresivos y poso. No tengo cardio, pero me pongo a posar fuerte y vacío y demás. Y ya luego cargo y entro pierna. No, pero me refiero. Es que te digo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2170" target="_blank" class="timestamp">[36:10]</a> Que esto es como una... Intentar simular, perdón. Una conducción. Si tú tienes que cumplir a las 10 de la mañana y te lo has tomado a las 6 de la noche, a las 12 de la noche y no te ha hecho efecto, y has hecho a las 8 o a las 9 de la mañana, imagínate el plantel que te veo. Ya. Corriendo el backstage para ir a casa, ¿sabes? Entonces yo casi mejor prefiero o tomármelo por la tarde para que vayas por la noche, vaciarlo durante todo el día y ya mañana probablemente tan temprano. Ya, pero a ver si no voy a poder dormir. O sea, tú piensa que a las 5 de la mañana voy a despertar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2199" target="_blank" class="timestamp">[36:39]</a> Ah, bueno, vale, entonces sí, vale, vale. Tienes que estar en el cuarto baño entre 6 horas más tarde de haber tomado. Perfecto. O sea, tú piensas que yo me levanto entre las 5 y las 6 de la mañana. El otro día, ah, pues mira, está muy bien. El otro día cuando me dice la prueba a Ángel, que le dice la prueba de puesta a punto para ver qué tal, pues bueno, para tantear un poquito de cara a la semana de competición, para el tema del peso y todo eso, le dice tomate la infusión, coño, vale, por la mañana pongo a la comida, me hacía el vacío que flipas, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2225" target="_blank" class="timestamp">[37:05]</a> Por eso mañana poso. Mañana no posaré después de entrenar, pero me tiraré a la media hora posando, que no tengo cardio, por la bañada. Vale. Entonces me despierto, recién he ido al baño, tal, no sé qué, y me pongo a posar un rato y a ver qué tal. Y te mando vídeos, te mando... Tengo que mandar el reporte. Sí. También mañana, es importante. Sí, sí, eso es. Vale. Vale, guay. Por eso te digo que si mañana es el día altos carbohidratos, que hagas mañana, por la tarde, te tomes la difusión por mañana. No, oye.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2255" target="_blank" class="timestamp">[37:35]</a> ¡Ah! Mañana que sea el día alto. Que también estaría bien hacerlo. A ver, porque si mañana empezarías con el tomo vacío... Se llama recesivo. Lo que pasa es que puede que me pases el peso. No, pero claro, mejor. Así no te paso el peso. El peso es estable. Me lo tomo el día, al acabar el día alto en carbohidratos, vacío. Y al día siguiente, con el hombro pozo, que puede estar mejor. Es que el problema es que puede influir... Al final, date cuenta que es una...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2284" target="_blank" class="timestamp">[38:04]</a> que, aparte de ser, te ayuda a vaciarte del intestino y, aparte, es diurética. Entonces, ¿qué puede pasarte? Que pesas menos porque te está induciendo de forma natural a una diurisis y a que vacíes el estómago. Te vas a caer de puta madre, pero posiblemente igual pesas menos, igual pesas 500 gramos menos, no lo sé. Genial, porque como yo no me peso, así ni lo sé. Yo solo me peso como tú me lo dices. Así, si me pasa eso, no lo sabré.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2306" target="_blank" class="timestamp">[38:26]</a> Por eso si te pasa el día después de cargar, que supuestamente deberías pasar más, pues entonces... Ya, pues eso es lo que tienes. De puta madre. Pues muchas gracias, Frank. Ahora voy a hacer una cosa. Voy a cortar la cámara y me va a decir cuándo cojo el vuelo. Yo creo que es mejor competir en el 2026.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2326" target="_blank" class="timestamp">[38:46]</a> Bueno, gente, llamaba con Frank, que siempre me pongo súper nervioso cuando hablo con él. Pero ya está hecho, tenía que llamarle. Necesitaba llamarle. O sea, al final, para mí, el otro día cuando vino me pareció una pasada. Y necesitaba como hablar más con él. Me ha dicho que quizá volviera a venir. No sé, chicos, estoy súper nervioso. Es que no sé cómo decirlo. Estoy aquí, acabo de terminar justo ahora. Estoy súper nervioso. En general también se decía por más cosas y tal. Y le decía, bueno, tengo mucha ganas de saber dónde voy a competir. Realmente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2355" target="_blank" class="timestamp">[39:15]</a> No lo sabe nadie porque no lo sabemos ni nosotros. Yo se lo pregunto cada día. Pero está jodido. Es la puta realidad. Está jodido, jodido. Tiene que ir el físico viendo. Hemos apretado más. Vamos a apretar más. Me pican ya los ojitos. Así que nada, chicos. Tampoco quiero pegar mucho, mucho la chapa. Os quiero mucho. Gracias por apoyarme, de verdad. Porque... No sé, hablando con frame emotivo, pero también es duro, ¿sabes? Y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_9TrDrMJsoA&t=2379" target="_blank" class="timestamp">[39:39]</a> Es duro, es duro. O sea, es que no sé cómo decirlo, tío, pero es duro, ¿sabes? Es la realidad. O sea, es la voz de la experiencia, es la voz de la realidad y ya está. Así que, chicos, os quiero mucho. Espero que os haya gustado el vídeo. Suscribíos y en el link tenéis todo el aniversario de PBS. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-eDo6fz5pDkc">
+            <h2>"MILOS ES EL MEJOR EN TODO" Pradells y Tabet FIJAN su OBJETIVO en EEUU con POLÉMICA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 08/05/2025 18:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=eDo6fz5pDkc" target="_blank">
+                    <img src="https://i.ytimg.com/vi/eDo6fz5pDkc/hqdefault.jpg" alt=""MILOS ES EL MEJOR EN TODO" Pradells y Tabet FIJAN su OBJETIVO en EEUU con POLÉMICA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la reciente colaboración entre los culturistas Joan Pradel y Jorge Tabet, destacando consejos de posing y estrategias para sus próximas competiciones. Se discute la importancia de posar sin espejo y recibir feedback directo de jueces clave del Mister Olimpia.</p>
+
+<p>Un punto controversial es la opinión de Joan sobre quién es el mejor preparador en el deporte. Finalmente, se confirma la alta probabilidad de que ambos compitan juntos en Estados Unidos este verano.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Consejos Cruciales de Posing <a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&amp;t=172" target="_blank">[02:52]</a></h3>
+
+<p>Jorge Tabet aconseja a Joan Pradel practicar posing sin espejo, simulando la experiencia en la tarima frente a los jueces. Destaca que mirarse en el espejo puede llevar a vicios y falta de adaptación a la realidad de la competición.</p>
+
+<h3>La Jerarquía de las Opiniones <a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&amp;t=391" target="_blank">[06:31]</a></h3>
+
+<p>Joan Pradel y Jorge Tabet discuten la importancia de las opiniones de jueces como Steve Weiberger y Tyler Mannion. Aunque Joan afirma que para él Milos es el mejor en todo, reconoce que solo la opinión de los jueces principales es la que verdaderamente cuenta en la competición.</p>
+
+<h3>El Mejor en Todo: ¿Milos? <a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&amp;t=495" target="_blank">[08:15]</a></h3>
+
+<p>Se reitera la controvertida afirmación de Joan Pradel de que "el mejor sin duda es Milos y pocos más", indicando que lo considera el mejor para todo. Esta declaración genera debate sobre el reconocimiento a otros profesionales como Fran Espín.</p>
+
+<h3>Rumbo a Estados Unidos <a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&amp;t=541" target="_blank">[09:01]</a></h3>
+
+<p>Se confirma con alta probabilidad que Joan Pradel viajará a Estados Unidos este verano para competir, posiblemente en el Tampa Pro. Esta noticia, ya sugerida por Joan y de Grefg/Willy Rex, se presenta como un paso esperado en su carrera.</p>
+
+<h3>Compitiendo Juntos al Otro Lado del Charco <a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&amp;t=628" target="_blank">[10:28]</a></h3>
+
+<p>Joan Pradel expresa su ilusión ante la posibilidad de competir en Estados Unidos junto a Jorge Tabet. Aunque no está claro si coincidirán en el mismo campeonato, la alta probabilidad de que ambos estén en la temporada americana genera gran expectación.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno, ¿qué tal chicos y chicas? Bienvenidos a un nuevo vídeo del canal, espero que estéis pasando, que hayáis pasado ya casi una gran jornada de jueves porque son las 8 de la tarde y como sabéis tenemos un nuevo contenido en el canal y un contenido en este caso de la pareja que parece que no se unió de manera casual aquella vez, que fue en este caso tanto Jorge Tabet como Joan Pradel. Se han vuelto a juntar y en este caso han salido cosas muy interesantes, ha salido una especie como de mini colaboración en tema de posting, lo veremos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=32" target="_blank" class="timestamp">[00:32]</a> Consejos de Jorge, para mí muy buenos, porque tengo que decir que los consejos que le ha dado han sido fenomenales, tanto el hecho de posar sin espejo, porque evidentemente cuando uno posa delante de los jueces no hay espejo, con lo cual es importante que Joan en este caso también se habitúe a posar sin espejo, que por cierto se le ha roto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=47" target="_blank" class="timestamp">[00:47]</a> Y por otro lado también el hecho de aconsejarle que vaya en estas semanas a Alicante, tanto a Olympia Mater, al que va a estar Steve Weiberger, como en este caso a Lempro donde va a acudir Tyler Mannion. Son dos fechas importantes, son las dos personas que llevan todo el tema de los jueces.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=64" target="_blank" class="timestamp">[01:04]</a> o que son al menos los jueces principales del Mister Olimpia, con lo cual son las voces autorizadas de este deporte para poder ver hacia dónde se tiene que encaminar tanto un físico como una propuesta del posin. Yo creo que es un consejo muy bueno, a pesar de que Joan ya sabemos que no le gusta salir de su cueva.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=82" target="_blank" class="timestamp">[01:22]</a> Y un elemento que os lo voy a poner ahí, os lo voy a introducir y vosotros sacáis conclusiones porque me parece quizá una declaración de intenciones sobre no solamente el competir en Estados Unidos, sino sobre quién le parece el mejor preparador. Ya sabemos que Joan tiene una predilección máxima por Milos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=99" target="_blank" class="timestamp">[01:39]</a> pero yo no sé hasta qué punto el hecho de escucharle decir para mí Milos es el mejor en todo, no sé hasta qué punto dejar un buen lugar a Fran Espín, y sé que me vais a decir que estoy tirando mierda, pero yo os lo voy a poner y vosotros sacáis las conclusiones que queráis. Así que como digo chicos y chicas, vamos directos a analizar la actualidad tanto de Joan como de Jorge, no sin antes por supuesto no olvidarme de los códigos en el descuento, código Big, o mejor dicho código Iron Road en toda la web de Big.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=123" target="_blank" class="timestamp">[02:03]</a> con ese 10% de descuento para que podáis conseguir la mejor suplementación al mejor precio y por supuesto código Iron Road en toda la web de Agonjin aprovechad que tienen el código, con el código podéis adquirir este 3x2 y este pack ganador con el nuevo drop back in the game como digo vamos a pasar a escuchar tanto a Joan como a Jorge porque han vuelto a juntarse, han vuelto a ser noticia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=147" target="_blank" class="timestamp">[02:27]</a> Y en este caso creo que es importante ir viendo el primero de los consejos que le va a dar Jorge, en este caso a Joan, que por cierto, aparte de entrenar, también ha querido o parece que le ha podido ver posando. Vamos a escuchar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=172" target="_blank" class="timestamp">[02:52]</a> Tienes que hacerlo, tío. Tienes que hacerlo. Y encima es lo que me va a fallar, porque es que no ha competido tampoco tanto como para... No, y que se posa sin espejo. Ya. Porque tú mirándote, aprieta las piernas, hostia, me acabo de descansar la pierna izquierda, la aprieto. Es que encima ya se va a descansar un montón las piernas, ¿es sentido? O sea, mirándote... A ver, no digo que sea fácil porque posar es difícil, pero no puedes tener espejos. Si acaso la primera ronda para ser cómodo, vivir un poquito más, ver en qué has fallado y demás, pero yo te diría si hace seis, al menos tres de venir sin espejo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=202" target="_blank" class="timestamp">[03:22]</a> Pues ahí tenemos el primer consejo de Jorge, insisto, para mí un consejo muy bueno, consejo que yo personalmente creo que si fuera Joan debería agarrarlo, pero vamos, de todas todas, que por cierto él ya ha anunciado que se le ha roto el espejo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=216" target="_blank" class="timestamp">[03:36]</a> con lo cual también puede ser ahí una señal, de decir, igual entre lo que me dice Jorge, que se ha roto el espejo, igual sería bueno posar sin él. Yo creo que es importante el hecho de también posar con él, obviamente, para ver un poco lo que dice Jorge, de ver tus fallos y ver un poco fluir en las primeras transiciones y las primeras poses, pero sí que es verdad que tiene que habituarse a posar sin él, porque al fin y al cabo cuando tú estés delante de los jueces en una tarima, lo que vas a tener enfrente no es un espejo, va a ser un panel de jueces y un montón de gente detrás viéndolo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=245" target="_blank" class="timestamp">[04:05]</a> Con lo cual ahí no va a saber, y de hecho lo comenta en este caso Marta y tiene razón, hay veces evidentemente que en el posin y más un atleta como Joan que no ha estado acostumbrado a competir, que no ha estado acostumbrado tan acostumbrado a posar, evidentemente comete errores lógicos y normales de todo esto y evidentemente con el espejo tú te estás viendo, ves que a lo mejor no aprietas en esta zona tal, etc, etc.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=269" target="_blank" class="timestamp">[04:29]</a> Habla bastante del tema de descensar las piernas y demás, con lo cual yo creo que es trascendental el hecho de, bueno, de posar sin él. Vamos a ir directos a uno de los momentos, yo creo que van a ser de los momentos más controvertidos del vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=285" target="_blank" class="timestamp">[04:45]</a> Porque aquí empieza a hablar sobre... Joan le dice a Jorge que le gustaría que le aconsejara en tema de posin. Tengo que decir que Jorge es un gran posador. Es un tipo que sabe sacarse mucho partido de sus virtudes y, evidentemente, esconder sus debilidades al máximo de lo que puede. En ese sentido, creo que entiendo a Joan pidiéndole un consejo, un feedback. También vais a escuchar a Jorge.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=311" target="_blank" class="timestamp">[05:11]</a> Siendo bastante humilde, lo tengo que decir, que es algo que no me sorprende porque yo solo pude ver cuando lo pude conocer en persona. Yo vi en su trato con el resto de la gente, vi esa humildad y ese saber dónde está. Le comenta que poco consejo más le va a dar el de los que ya le han dado. Y destaca aquí Joan y es aquí la parte controvertida de que solamente se fía, evidentemente, solamente seguía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=337" target="_blank" class="timestamp">[05:37]</a> como opiniones tótem y de aquí también va a salir el tema de Steve Weyberger y de Tyler Mannion pero que para él el mejor es en todo esto en Milos vamos a escucharlo vale</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=348" target="_blank" class="timestamp">[05:48]</a> No, yo creo que me ayudes a posar, ¿eh? A ver, es lo que te dije. Sabes posar, me apetece que me ayude. Es lo que te dije, tío. Te has rodado de peña que te voy a decir yo. Yo te lo he dicho, tío. La gente que te voy a asesorar es muy buena. Bueno, sí. Yo creo que el mejor, sin duda, es Milos y poco más. Claro, es que tú me dices, no, Milos… Para todo, pero… Milos me ha dicho esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=376" target="_blank" class="timestamp">[06:16]</a> Y yo te lo voy a corregir, es como... No, pero cada uno, yo creo que es su rollo. Steve sí que es el único que te digo, mira... Pero es un poco... Es un poco osado, ¿no? En plan, que te han dicho esa peña a lo largo y yo te digo, bueno, pues me parece una puta mierda. No, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=391" target="_blank" class="timestamp">[06:31]</a> Salvo lo de Steve, porque es el que juzga. Y me refiero, me da igual a lo que me llega el resto. Y yo hablo un momento con Marta, a mí que me diga quien quiera lo que quiera, pero el que juzga es él. Aquí en la IFD hay que tener dos personas, Taylor Manning y Steve. Que lo que te diga el resto... De hecho, me dijo Kim. Bueno, yo he posado mucho con un audio de... De hecho, Manning. Manning no audio en español. De la final de la Olimpia. Viene a la impro y Steve viene a la Olimpia Amateur. Tío, yo, si fuese tú, iría a pasar delante de ellos, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=423" target="_blank" class="timestamp">[07:03]</a> Pero, tío, yo si fuese tú hablaría con ellos y les diría, oye, ¿qué os parece si posamos en privado? Lo digo de corazón. Al final, tío, sabe mal decirlo, pero, tío, todo el mundo lo hace. O sea, vas a ir a todo el mundo a las cuatro semanas, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=440" target="_blank" class="timestamp">[07:20]</a> Es que ya no están. Sí, pero a mí me pudieron ir a Nueva York y un profesor también. ¿Sabes cómo me refiero? Sí, pero hay que ir a Nueva York, joder. Pero no es lo mismo. Ya, pero te pegas una salida de entrada a Nueva York, ¿sabes? No, pero a lo que me refiero es que solo tienes que ver a todo el mundo. A lo largo que tienen en Pittsburgh, lo primero que hacen es ir a Powerhouse a hablar con este. A lo largo que tienen en Nueva York, lo primero que hacen es ir a Nueva York. Nosotros en Pittsburgh también estuvimos en la NPC. Y la verdad que me sirvió bastante. El dejar de enseñar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=468" target="_blank" class="timestamp">[07:48]</a> Este audio deja un montón de titulares, os lo voy diciendo ya. Como digo, desde la humildad de Jorge de decir lo que te vaya a decir yo en comparación con lo que te han dicho gente que son con mucha más trayectoria que ellos sobre el tema del posting, pero casi diría que es lo de menos. Este total, este extracto de... Y fijaros lo que dice aquí, porque creo que es interesante, cada uno tiene su opción, sí claro,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=495" target="_blank" class="timestamp">[08:15]</a> Pero yo creo que el mejor sin duda es Milos y pocos más. Y le dice, o no, le dice, para todo. O sea, como diciendo, el mejor es Milos para todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=504" target="_blank" class="timestamp">[08:24]</a> Insisto que no voy a meterme mucho más en el jardín, pero telita, eso por un lado. Luego, por otro lado, el consejo que le da Jorge es decir, oye, bájate a Valencia, tanto en el Olympia Mater como en el EMPRO, porque vienen estos dos, y los suyos que te vean, los suyos que poses con ellos, que te digan qué tienes que mejorar o qué cambiar, porque al final son ellos los que juzgan, que de hecho le da la razón en este caso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=528" target="_blank" class="timestamp">[08:48]</a> Joan al hecho de que la opinión de estos dos es la que más pesa por encima de la de todos importante y por otro lado el hecho de decir baja a Tabalense le dice igual no estaremos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=541" target="_blank" class="timestamp">[09:01]</a> Y le dice, pero puedo ir a Nueva York, como diciendo, me voy a ir a Estados Unidos. Está clarísimo. Ya lo confirmó de Grefg, o sea, perdón, de Grefg e Willy Rex cuando estuvo en su gimnasio. Es una evidencia. Joan Pradel va a estar en verano en Estados Unidos, seguramente mes de junio. Y a partir de ahí sí que es verdad que se ve bastante claro el tema del Tampa Pro, aunque no está confirmado y puede haber decisiones, tanto por parte de Joan como por parte evidentemente de Fran, de cuándo salir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=568" target="_blank" class="timestamp">[09:28]</a> Eso por un lado, eso por un lado. Lo de Jorge Tabet, ya lo visteis en la entrevista que le hicimos, que él ya dijo que no había unas fechas confirmadas, pero que él, todo el mundo sabe que su sueño y su deseo y su intención es competir en Estados Unidos. Y para ello, para ello, mejor confirmación que la de Joan Praters. Vamos a escuchar lo que dice Joan sobre este tema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=587" target="_blank" class="timestamp">[09:47]</a> Lo que haya venido Jorge me ha hecho especialmente ilusión. No le he visto al irse. Ahora hablaré con él porque yo tenía la reunión. También me he dormido. Si no, yo por la tarde no soy persona. La preparación es la preparación. Y me ha jodido lo del espejo porque estoy pasando muy a gusto. Me ha dicho una cosa que ya la veréis en el vídeo, que la voy a empezar a implementar desde ya. Me la he apuntado por mañana. Tengo que hablar con Marta, que es la persona que me va a ayudar a plantearla. Y mucha fiesta. Mucha fiesta, la verdad. Además, poder compilarnos en Estados Unidos juntos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=612" target="_blank" class="timestamp">[10:12]</a> Ya os digo, Tony ha estrenado las máquinas nuevas, me mola que haya venido Jorge, que haya venido María, va a entrenar. O sea, aunque haya sido por su cuenta, me ha hecho ilusión. Sinceramente, al final, no sé, es que nos conocemos desde hace demasiados años. Es que es una puta locura. Yo creo que, vamos, más claro agua. Mucha fiesta, mucha fiesta. La verdad, puede que compitamos en Estados Unidos juntos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=636" target="_blank" class="timestamp">[10:36]</a> Más confirmación ya que esta, chicos, yo ya no sé cuál daros. O sea, es una evidencia que estos dos van a competir en Estados Unidos, que es probable que incluso coincidan en fechas. No tengo tan claro que coincidan en campeonatos, también os lo digo, porque sabéis que Jorge suele ser más quizás selectivo a la hora de dónde salir. También es verdad que en el Clásico hay...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=654" target="_blank" class="timestamp">[10:54]</a> una mayor variedad de campeonatos, en el caso de Open suele ser mucho sota caballo rey, Tampa, Texas, ya lo hemos hablado, la ruta americana, que de hecho ya lo comentó Joan en sus vídeos, en el caso de Jorge es un poco más abierto a debate sobre la fecha a la cual seleccionar, pero yo creo que está bastante confirmado. Se van a ver en Estados Unidos, hay una amplia probabilidad de que puedan coincidir en Estados Unidos,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=679" target="_blank" class="timestamp">[11:19]</a> Esto ya ocurrió hace muchos años, no compitiendo obviamente, pero sí haciendo videoblogs y demás. Y desde luego que ilusiona, ¿no? Ilusiona por el hecho de ver cómo se va acercando ya las fechas, cómo la preparación se va ajustando. Y hay muchas ganas, hay mucha expectación por ver a estos dos en la tarima. Sé que les van a caer palos como si no costara por parte del público mainstream. Hagan lo que hagan, lo tengo bastante claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=703" target="_blank" class="timestamp">[11:43]</a> pero yo creo que tanto uno como otro lo pueden hacer muy bien, de verdad, cada uno evidentemente a su nivel, yo creo que Joan a día de hoy en Open es más competitivo que Jorge en Classic, lo creo de verdad, pero sí que es verdad que hay mucha expectación y mucho hype por ver dónde se pueden encuadrar, en qué punto están de su carrera y obviamente desde este canal, aunque la gente no se lo crea,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=726" target="_blank" class="timestamp">[12:06]</a> Desde este canal vamos a apoyar a los dos. Vamos a contar lo que ocurre, vamos a ser o a intentar ser lo más objetivos posible, pero dentro de nuestra subjetividad, por supuesto, y que quede muy claro, nos vamos a apoyar a los dos. Así que como digo chicos y chicas, esta es la información, esta es la noticia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=eDo6fz5pDkc&t=744" target="_blank" class="timestamp">[12:24]</a> Joan Pradels y Jorge Tabet pondrán en poquito tiempo, parece, rumbo a Estados Unidos a iniciar su temporada. Y desde aquí, desde el programa, estaremos muy atentos a lo que ocurra. Así que como digo, dejadme en la caja de comentarios si opináis. Fuerte like al vídeo, suscribíos al canal y como siempre digo chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 08/05/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
