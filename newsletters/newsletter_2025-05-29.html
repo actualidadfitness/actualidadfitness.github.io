@@ -1,0 +1,457 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 29/05/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">29/05/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-e_ONF2v5mGs'>IBAI EL FANBOY DE PERRO SANXE VISITA MANSIÓN DE 70 MILLONES</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-e_ONF2v5mGs">
+            <h2>IBAI EL FANBOY DE PERRO SANXE VISITA MANSIÓN DE 70 MILLONES</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 29/05/2025 07:31</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=e_ONF2v5mGs" target="_blank">
+                    <img src="https://i.ytimg.com/vi/e_ONF2v5mGs/hqdefault.jpg" alt="IBAI EL FANBOY DE PERRO SANXE VISITA MANSIÓN DE 70 MILLONES" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video es un tour por la casa más cara actualmente a la venta en España, valorada en 70 millones de euros en Marbella.
+El presentador y una experta recorren las vastas estancias, mostrando lujos como múltiples salones, cocinas, jardines gigantescos, piscinas y zonas de ocio.
+Se comentan los detalles de la decoración, el mantenimiento de la propiedad y se especula sobre el propietario y otros ejemplos de mansiones de ultrarricos.
+El tour culmina en la impresionante zona de ocio del sótano y un garaje con una exclusiva colección de coches de alta gama.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Casa Más Cara de España Revelada <a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&amp;t=135" target="_blank">[02:15]</a></h3>
+
+<p>El presentador, acompañado por una experta, confirma que están visitando la casa más cara a la venta en España, valorada en 70 millones de euros, y destaca su ubicación exclusiva en Sierra Blanca, Marbella, y su gigantesco tamaño de 14.000 m².</p>
+
+<h3>Lujo en la Cocina y Vistas Espectaculares <a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&amp;t=305" target="_blank">[05:05]</a></h3>
+
+<p>Recorriendo la enorme cocina, el presentador se sorprende al encontrar una Thermomix a pesar del lujo. Resalta las impresionantes vistas al mar desde la zona de desayuno, calificándolas de "absolutamente espectaculares".</p>
+
+<h3>Un Jardín Comparado con un Estadio <a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&amp;t=600" target="_blank">[10:00]</a></h3>
+
+<p>La visita se traslada al exterior, mostrando un jardín tan grande que lo compara con un estadio de fútbol. Presenta la piscina y el jacuzzi gigantescos, comentando el arduo trabajo diario que requiere su mantenimiento.</p>
+
+<h3>Comparando Excentricidades: De Marbella a Lloret <a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&amp;t=922" target="_blank">[15:22]</a></h3>
+
+<p>Mientras exploran la planta alta, un comentario deriva en una extensa comparación con otro palacio igualmente ostentoso en Lloret, propiedad de la hija de un expresidente kazajo, discutiendo su tamaño, baños y la controversia de su construcción.</p>
+
+<h3>Habitaciones de Invitados con Lujo Extremo <a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&amp;t=1253" target="_blank">[20:53]</a></h3>
+
+<p>Se revela el área de invitados, mostrando habitaciones que superan las expectativas con baños privados completos, vestidores del tamaño de tiendas de lujo y terrazas individuales con vistas, demostrando que "esto de habitación de invitados tiene poco".</p>
+
+<h3>Reflexiones sobre la Ostentación y Mansiones Icónicas <a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&amp;t=1370" target="_blank">[22:50]</a></h3>
+
+<p>Explorando el laberíntico sótano, se plantea una reflexión sobre la necesidad de validación a través de estas megacasas, comparándolas con las ridículas mansiones de celebridades estadounidenses con decenas de baños y habitaciones.</p>
+
+<h3>El Reino del Ocio y los Coches de Ensueño <a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&amp;t=1800" target="_blank">[30:00]</a></h3>
+
+<p>La parte favorita del presentador, el garaje, muestra una asombrosa colección de coches de lujo, incluyendo múltiples Ferraris, uno de ellos extremadamente exclusivo (Ferrari Monza). Previamente, se recorre el sótano con bolera, cine, gimnasio, sauna y hasta peluquería.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=0" target="_blank" class="timestamp">[00:00]</a> hoy estoy en la casa más cara de españa una casa valorada en 70 ahora qué hace de agente inmobiliario el ibai se dedica a promocionar casas para la venta</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=11" target="_blank" class="timestamp">[00:11]</a> millones de euros. Está en Marbella y esta es la primera vez que va a ser grabada para YouTube. Es una casa enorme que cuenta con tres plantas gigantescas y tiene todos los lujos imaginables. La verdad es que desde fuera parece un ayuntamiento. O sea, no parece un ayuntamiento, tío. Para el que me conozca desde hace años sabrá que yo siempre he estado muy...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=30" target="_blank" class="timestamp">[00:30]</a> Simón fumó. Ya se cansó de promocionar al PSOE. Hostia, qué fuerte. Cuando me enteré me quedé muerto, ¿eh? Cuando vi recopilación de tweets comiendo el culo a Pedro Sánchez... Hostia, qué asco de pavo, tío. Me quedé muerto, ¿eh? Me quedé muerto, tío. Bueno, seguro que mentira, como bien dice alguien por aquí, que ni de coña. Lo que pasa es el clickbait de decir a casa más cara de España. Bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=51" target="_blank" class="timestamp">[00:51]</a> ...interesado en el contenido de ver casas. Y desde hace muchos meses he intentado venir a esta casa, pero por diferentes motivos nunca he podido. O me han cambiado la fecha, o no se podía, o me han dicho que imposible.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=63" target="_blank" class="timestamp">[01:03]</a> Pero hoy, por fin, estamos en la casa más cara de España. Y aquí tenemos el primer baño. Voy a dejar un contador de todos los baños que tiene esta casa. Primer baño de invitados. Nada más entrar en la casa es lo que tienes a mano izquierda. Vamos a entrar al comedor. Imagínate entrar en la casa y contarte un patinazo en la porcelana del baño, ¿sabes? Al agente inmobiliario le dice que te sientes insultado y te vas. A mano derecha, nada más entrar en la casa es lo primero que nos encontramos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=94" target="_blank" class="timestamp">[01:34]</a> Está cerrado. No se puede entrar. No es mi casa, es normal. Por suerte nos fue a ayudar una experta en el tema. Bueno, estamos en la entrada con María. María, ¿qué tal?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=105" target="_blank" class="timestamp">[01:45]</a> Anda, mire que listo. Le han metido el nombre en el canalillo donde meten los euros, ¿sabes? El datáfono que tiene orgánico la señora. Bueno, estamos en la entrada. Mira, mira, vemos un poco de canalito y te lo quitan enseguida, ¿sabes? Hola, venga. Te ha quedado sin ver tetas. María, ¿qué? ¿Qué tal? ¿Tú es la casa más espectacular, María, que has visto nunca? Algo único está hecho desde cero. Son 70 millones lo que piden por esta casa. Actualmente es la casa más... Bueno, pero por 40 igual te lo venden, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=135" target="_blank" class="timestamp">[02:15]</a> Más cara a la venta en España. Claro, de las que estén a la venta y que conozcamos es la más cara. Igual alguno dice, mi abuelo tiene una secreta debajo de la tierra de 8000 metros cuadrados. Bueno, no lo sabemos, pero… Esta tiene 14.000, ¿eh? Bueno, esta tiene 14.000. O sea, he puesto una exageración de metros cuadrados y esta… Te has quedado corto, ¿no? Hostia, estas manchas de césped como si fueran meados de animal… Lo mola, ¿eh? El césped podría estar mejor cuidado, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=157" target="_blank" class="timestamp">[02:37]</a> Tiene el doble, ¿eh? Te tengo que decir una cosa, María. Yo no sabía que una casa podía valer tanto. O sea, mira que he visto revistas de reviews de jugadores de la NBA, de la NFL, de la Liga. Me ha impactado. También es la ubicación. Estamos en Sierra Blanca, en Marbella, de las zonas y comunidades más. Ubicación, está enterado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=173" target="_blank" class="timestamp">[02:53]</a> Caras de España y es por eso también el precio. Sierra Blanca es la urbanización más exclusiva de toda España, donde las casas son literalmente palacios. Para que comprendáis la magnitud de la casa que veremos hoy, esta es una mansión normal, entre comillas, de este barrio. Pero es que mirad en la que estamos hoy. Una auténtica locura. Vamos a entrar al comedor. Pues se ha entrado hasta en obras.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=194" target="_blank" class="timestamp">[03:14]</a> A la derecha tenemos un cuadro de la última cena. No son imágenes reales, ¿vale? Elvis Presley, al parecer, no estaba en la última cena. Pero, bueno, como veis, entramos al comedor. No puede ser un comedor más de casa totalmente cara. Aquí vemos, bueno, algunas imágenes del propietario. Son fotos de su...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=213" target="_blank" class="timestamp">[03:33]</a> Yo tampoco creo que paguen el dinero que dicen. Quiero soltar el moco, hay 100 millones. Y luego… Si te dan 50, gracias, ¿sabes? Ahora mismo estoy flipando. No busquéis, por favor, lo que significan estos símbolos en Google. Nunca se sabe. La cantidad de valor que deben tener estas lámparas, que ni lo sé realmente. Me llama la atención la cantidad de este flow que tienen, de candelabros, de velas. Todo muy un poquito clásico que a mí me da un poco de respeto. A mí tanto candelabro y vela me da como un poco de miedo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=243" target="_blank" class="timestamp">[04:03]</a> Al lado del comedor tenemos la cocina. Una cocina totalmente gigantesca también. Se me hace muy raro estar en esta casa, os lo tengo que decir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=253" target="_blank" class="timestamp">[04:13]</a> A mí se me hace pequeña la cocina, eh. Acostumbré a cocinar al restaurante de mi padre que tenía una pedazo de oncinera a hacer un chile gigante, tío. Qué maravilla. Cocinar en una cocina enorme con espacio, limpiarlas un coñazo. Bueno, a ver, se limpia bien, eh. Al final. Pero de verdad te lo digo que iba una hora antes de mi trabajo por la mañana para cocinar para mí. Y tienes ahí un montón de espacio a hacer un oxidable y coges harina, el huevo, te haces tu masa. Pero es que tienes mucho espacio. Y me hacía de todo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=280" target="_blank" class="timestamp">[04:40]</a> Y fijaos la magnitud. Para mí la cocina es... Eso y los lavabos es lo más importante, tío. Y la cocina... Al final tengo una cocina que es pequeñísima, ¿no? Pero por pedir, ¿eh? Mi fantasía... Bueno, fantasía, qué tontería. Pero por pedir... Mira, es que... Si te fijas, tiene muy poco espacio de encimera, tío, para cocinar y hacer cosas, ¿sabes? Es decir, como que... Tienes el mármol y el armario aquí, ¿no? O eso parece.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=305" target="_blank" class="timestamp">[05:05]</a> De esta cocina, ojo, esto es Thermomix. Esto es Thermomix, señores. La Thermomix, por mucho dinero que tengas, se sigue utilizando. No hay nada por encima de la Thermomix. Una cocina que también se cuida en todos los detalles. Un caballo de cristal, no sé qué significa. Tiene unas vistas absolutamente espectaculares que después veremos porque estás desayunando prácticamente… Bueno, prácticamente no, estás desayunando viendo el mar. Se ve absolutamente todo el mar. Es increíble. Esto debe estar cotizadísimo. Y hay una nueva mesa de comedor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=335" target="_blank" class="timestamp">[05:35]</a> Bueno, a menos… No es la típica casa ultramoderna, que es una estructura de hormigón pintada de blanco que tiene ventanas. A menos hay la combinación de mucha luz, pero también el factor este de intimidad, de paredes y todo eso. Mucha decoración… Hostia, qué fuego más feo, ¿no? Con los caballos… Esta persona que tiene esta casa que no conozco tiene una obsesión… Adail de retraso es casa de ruso. Creo que la has clavao, ¿eh? Total, por los caballos… Bueno, ucraniano ahora.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=364" target="_blank" class="timestamp">[06:04]</a> No voy a tocar, porque si rompo esto son 250.000 euros. Y aquí, como vemos, pues un cuadro de… ¿Alguien sabe qué es este cuadro? Digamos que son Zetangana y Rosalía grabando su primer tema. Bueno, hemos entrado a una sala con las luces apagadas y la verdad que no tengo huevos a encender la luz. Kitchen fees sent out.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=390" target="_blank" class="timestamp">[06:30]</a> Anselmo o árabe. No, si fuera árabe habría todo de oro y cosas doradas. System information. Flash. Luz. Bueno, no sé. Hay otra cocina. ¿Qué hay fuera de la cocina? Pues fuera de la cocina. Hay más cocina y hay más mesas. Fijaos, otra mesa. Yo ya estoy contando que aproximadamente…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=417" target="_blank" class="timestamp">[06:57]</a> En todo lo que voy sumando hay una capacidad para más de 50 personas que puedan comer o cenar aquí para hacer una boda. Como veis, zona de bar… Bueno, aquí necesitas tener sirvientes, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=428" target="_blank" class="timestamp">[07:08]</a> Pero es que, por si fuera poco, sigue habiendo mesas. O sea, esta casa, mesas… O sea, aquí no te puedo decir que no hay hueco para quedarte a dormir. Y esto es solo un 5 % de la casa. Lo que vais a ver a continuación es una auténtica locura, pero esto es lo primero que tienes al entrar. Hemos empezado la planta principal, la parte más importante de la casa. Luego subiremos a la planta de arriba, donde duerme el propietario, y acabaremos con mi parte favorita. Entra, entra.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=453" target="_blank" class="timestamp">[07:33]</a> el sótano. Lo que pasaría si tuvieses dinero infinito como en el GTA, pero en la vida real. Bueno, pues este señor vive así. Una cosa que tengo muchas ganas de hacer es hacer cosas que podemos hacer en el día a día, pero estando en esta casa. Quiero vivir la experiencia. De hecho, tengo muchísimo hambre y quiero saber, quiero descubrir qué pasa cuando el repartidor viene a una casa como esta. Y mientras pido la comida, como sabéis, para pagar, siempre utilizo Revolut. Descarga Revolut con el código una forma de ahorrar y personalizar al cliente de Revolut.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=483" target="_blank" class="timestamp">[08:03]</a> Hostia, que largo el anuncio, tío. ¿Cuánto dura? Un minuto, luego es tanto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=487" target="_blank" class="timestamp">[08:07]</a> al que le damos las gracias por habernos acompañado hasta esta casa. Al lado del comedor, como veis, tienen una sala de estar con un cuadro también gigantesco. Vegetta 777 al fondo a la derecha, al parecer, que estuvo también en esta cena. Qué cuadro más raro, tío, de verdad. Es ruso, yo creo, ¿no? Es ruso. Y una vez más, yo, de verdad, el tema de los caballos. ¿Qué significa esto? No quiero saberlo. Has acertado, quien fueres. Es ruso, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=514" target="_blank" class="timestamp">[08:34]</a> Pero bueno, una sala de estar con una televisión gigantesca para disfrutar de una buena tarde. Por cierto, una botella de vino gigante de Ramón Bilbao. Mira de dónde soy yo, coño. Es que hay un móvil. Qué mojones, tú me lo quedas para mí. No sé quién es. Segundo baño. Vamos a ir contándolos. Aquí habrá otro baño. Hostia, qué hortera de baño, tío. Con el candelabro encima, como se llame.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=541" target="_blank" class="timestamp">[09:01]</a> ¡Coño, su puta madre! Que hay un niño de 11 años cosiendo. Atención, porque entramos al salón principal, una de las grandes zonas de esta casa. Entramos aquí con este para pegarle un zambombado y decir que la comida ya está llegando. No sé qué es esto. Fijaos este pedazo de salón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=560" target="_blank" class="timestamp">[09:20]</a> ¿Qué decís vosotros ahí? Cabrones. Hay un tío que vive ahí, me dice. Si esto está sin montar. Y el candelabro gigantesco lleno de un material que desconozco. Como veis, no está decorado porque sí, es increíble. Las sillas son invisibles, pero funcionan. Fijaos. Y de hecho, fijaos, aquí sí que hay mesa, ¿eh? Hostia, el Ibai ha perdido mucho a nivel de humor, ¿eh? O sea, con la pérdida de grasa se le ha ido lo gracioso que era, ¿eh? Hostia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=590" target="_blank" class="timestamp">[09:50]</a> Qué mal, tío. Fíjate, a ver qué saco por aquí. Hostia, un suscríbete al canal. Qué locura, lo tenía en la mesa. Amigos y amigas, vamos a una de las zonas más espectaculares de toda la casa. Bienvenidos al jardín, a la terraza, al mar, a Marbella, a España. Jardín, por llamarlo de una manera, porque parece el estadio Santiago Bernabéu, acompañado de ocho tumbonas y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=615" target="_blank" class="timestamp">[10:15]</a> Cabe un jardín así, tienes que tener el tío ahí trabajando casi todo el día, todos los días, todos los días. Porque ese césped se tiene que regar todos los días un buen rato, ¿eh? Porque con el calor que pega ahí la solana y para regar tienes que apartar las tumbonas. Tienes que comer todo y ir regando. Es un fanón. Y aquí tienes el Engel und Volkers este que es la empresa que promociona el vídeo. La empresa donde trabajaba el simón, el fumeta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=645" target="_blank" class="timestamp">[10:45]</a> Una piscina que aproximadamente podrían caber 150… ¿Todos los días? Sí, sí, todos los días. Esto si no riegas al día y siente está muerto. Entre lo cortito que está el césped, que hace que tenga poca superficie para retener agua, la solana que pega Marbella, el viento que pega delante de la playa, que el viento te seca el césped y todo, se tiene que regar cada día y no poquito, ¿eh? Un montón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=672" target="_blank" class="timestamp">[11:12]</a> ¿Qué pinta que usan arena? No, hombre, a ver. Tendrá desrenaje, pero arena no usan para esto. Tienen que utilizar aquí una tierra muy fértil. Y el césped, pues cortarlo cada… cada semana. ...a personas con un jacuzzi. Me imagino que el agua estará caliente, pero fijaos, señores, qué vistas tenemos. Bueno…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=696" target="_blank" class="timestamp">[11:36]</a> Voy a decir una gilipollez. ¿Piscinas que refigen el agua? No, ni de coña. He visto las que calientan agua. No, no existe eso. ¿Colección de Teo Martín? No sé quién es. Esto es un absoluto privilegio. Ahora por aquí hay obras. Para el que no lo sepa, ¿qué está haciendo aquí? Está haciendo otra casa. Otra casa que tendrá un púnel y conectará con su propia casa para tener dos casas. Mentira, no sé qué están construyendo. Unas escaleras hacia aquí. No, espérate.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=726" target="_blank" class="timestamp">[12:06]</a> ¿Qué es esto? Ah, no, no, ¿qué tiene? No, no, no, escúchame. Mira los módulos. ¿Veis los módulos aquí, prefabricados? Aquí deben vivir el servicio de la mansión. Que sí, sí, que yo creo que esta obra la está haciendo. Estas escaleras van para abajo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=743" target="_blank" class="timestamp">[12:23]</a> No, no, que se estará haciendo otra cosa. Fijaos todos los metros y metros y metros que tiene esto. Está conectado con la parte que hemos visto anteriormente. Absolutamente impresionante y un día brutal que hace aquí en Marbella. Si meto gol, tienes que darle like.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=765" target="_blank" class="timestamp">[12:45]</a> Dale. Dale, que he metido. No me mientas. Qué curioso, porque mientras tú vas caminando un poco, ya no sé ni cómo llamarlo, salón principal… Hostia, es que la casa parece una embajada, tío. O yo qué sé. El Palacio Presidencial o algo así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=780" target="_blank" class="timestamp">[13:00]</a> Parece un edificio representativo del gobierno, ¿no? Y es una casa para ir dentro. Tienes aquí como si fuera el aeropuerto. Dos sillas, una mesita, te tomas un cóctel. ¿Qué tal, crack? ¿Todo bien? Sí, pues aquí esperando el autobús. Pero ¿qué esperando el autobús? Si estás en una casa, ¿qué es esto? No tiene ningún tipo de sentido. Seguimos con las habitaciones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=799" target="_blank" class="timestamp">[13:19]</a> Otra habitación más. Contador de baños. Cuéntame el baño. Esta habitación está personalizada de Versace. Al parecer es muy fan de la marca y todos los detalles son de Versace. Oh, qué horterada. Esto es muy ruso. Habitación de invitados que tiene una salida espectacular a la piscina. Bueno, Versace es esto ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=818" target="_blank" class="timestamp">[13:38]</a> La pared, ¿no? Como veis, las paredes, la cama, todo personalizado de la marca. O sea, yo no sé cuánto debe valer esto, pero bueno, pues al parecer era muy fan y ha dicho, pues, pues todo de Versace, ¿no? Ya que tengo dinero, pues lo gasto lo que quiera. Y aquí tiene el libro, ¿no? Versace, efectivamente, el Versace Catwalk. Tampoco lo voy a utilizar. O sea, está claro que lo voy a tener en un dormitorio. Parece un poco que estás esperando a alguien, ¿no? Te pones aquí y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=841" target="_blank" class="timestamp">[14:01]</a> Tengo reunión. La estampada parece súper ruso. Es orterismo ruso. Con mi tutor, que he suspendido todas. Aquí tenemos otra cama. Televisión gigantesca y, por cierto, editor. Contador de baños. Aquí se viene un baño y un baño raro. ¿Haces así? ¿Te escondes? ¡Oh! ¡Ay! ¡Ay! ¡Qué cabrón! Madre mía. ¡Uy! Esto ya se está perdiendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=869" target="_blank" class="timestamp">[14:29]</a> Bueno, otra habitación más. Parece que no está muy decorada. Fijaos, ya se empiezan a ver los primeros vehículos. Hasta el niño de 7 años ya empieza con la moto. Hostia, es una casa que está habitada. Pero parece que no hay nadie. Está vacía, tío. Qué más rollo ¿no? Editor, súmame otro baño que es idéntico al anterior. Otro baño más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=892" target="_blank" class="timestamp">[14:52]</a> Y atención, porque ahora viene lo verdaderamente importante de la casa. Estamos en la planta alta, donde la gente duerme y donde la gente vive. Después iremos a la última planta de todas, que vais a flipar. Sobre todo con el garaje y con los coches. Pero ahora estamos en una parte muy importante. Esta planta alta, todas las luces, si os fijáis, se encienden con el movimiento. Mucho candelabro, como siempre. Aquí tenemos la habitación principal. En Lloret está un palacio que es la casa de verano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=922" target="_blank" class="timestamp">[15:22]</a> de la hija de un presidente de Kazajastán, creo que es. Lo tengo que mirar. Lo podéis buscar y lo encontraréis, la información. Fíjate, la casa de verano, que viene solo por un par de semanas en verano o va a pasar el verano. Creo que es para hacer su fiesta de cumpleaños.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=939" target="_blank" class="timestamp">[15:39]</a> Es un pedazo de palacio que hizo en una zona protegida, así con sus cojones, tal, soportando al arquitecto municipal y al alcalde, así, pagando pasta. Y es rollo Corea del Norte, el palacio. Vamos a buscar un segundito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=955" target="_blank" class="timestamp">[15:55]</a> A ver, es que no sé cuándo es la noticia. Aquí tienes... Fíjate qué pedazo de palacio. ¿Cuántas habitaciones tendrá esto? Es enorme. Es un plan Corea Norte. La estética está así rara. Fíjate. Y está haciendo aquí otro palacete aquí abajo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=974" target="_blank" class="timestamp">[16:14]</a> Esto era una zona protegida y, claro, no pueden cortar el acceso a todo lo que es la montaña esta. Y ponían unos letreros avisando de tu... No me acuerdo cómo era, ¿no? Como amenazando si pasas por ahí y si pasabas estaba la seguridad privada de la tía esta armados y eso, ¿sabes? Nunca ha pasado por ahí, ¿eh? Pero fíjate tú, el pedazo palacio, ¿eh? Que es esta señora...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1003" target="_blank" class="timestamp">[16:43]</a> No sé si está soltera, pero bueno, complicado. Amigo de Juan Carlos que lo agasajó con regalo, para variar. A ver, esta foto no la he visto yo. La pasta que sacan esta gente de los países. Para que la hija... Pedazo de palacio, tío. Madre mía.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1021" target="_blank" class="timestamp">[17:01]</a> ¿Cómo se llama el presidente este de Kazajistán? Bueno, lo fue durante 30 años y se cree que lo sigue siendo en la sombra, ¿eh? Bueno, no puedo verlos igual. Nazar Vallev. Llevan años de denuncias, de juicios y de todo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1037" target="_blank" class="timestamp">[17:17]</a> Lo tiene, la hija va en verano y monta una fiesta, pero una fiesta que te cagas, con petardos, música y todo. Simón Fumo, la hija del presidente de Kazajistán y su marido compraron Kanj Yunkadeya en Lloret y las obras llevan casi 10 años. La casa tiene 13 habitaciones, 20 baños, teatro y varias piscinas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1054" target="_blank" class="timestamp">[17:34]</a> Escrito 17. 13 habitaciones. Joder, pues parece mucho a grande. Yo lo veo gigante, no sé. Parece un palacio, tío. Sí, sí. Lleva en obras mucho tiempo, ¿eh? Fijaos qué pedazo de alfombra. La cama totalmente preparada. Sofá. Y una de las cosas más importantes de esta habitación principal. Imaginaos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1073" target="_blank" class="timestamp">[17:53]</a> Es muy rusa la casa, sí. Mucho. ...cada mañana y venir a esta pedazo de terraza que es gigantesca. Creo que, sinceramente, por lo que más merece la pena esta habitación, además de por la pedazo de habitación que es, es por esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1091" target="_blank" class="timestamp">[18:11]</a> A ver, puesto a ser pijo asqueroso, a mí esta normalización tampoco me hace mucha gracia. No sé, a mí siempre el concepto de lujo es tener una pedazo de finca de muchas hectáreas, ¿sabes? No sé. Llegó el propietario. La verdad es que me puse un poco nervioso. Estábamos disfrutando de las vistas de su propia habitación. Ha llegado el propietario de la casa. No habla español. Creo que es British.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1119" target="_blank" class="timestamp">[18:39]</a> I'm British. Obviamente por privacidad no diremos quién es. De lo poco que puedo hablar con él me parecía un tipo bastante majo y sobre todo muy orgulloso de la casa que tenía. Me quería enseñar absolutamente todos los rincones. Yo creo que se pensaba que… ¡Eh! La foto sin censurar, tío. La casa que tenía. Me quería enseñar absolutamente todos los rincones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1139" target="_blank" class="timestamp">[18:59]</a> Vaya cagada del editor. Ibai, tío… El editor… ¿Este qué sé? ¿El hijo del dueño o qué? Mucha pinta de arruso no tiene. Yo creo que se pensaba que a lo mejor con suerte se la compraba. Me acaba de decir el dueño… Ibai, ¿quieres que saque un Ferrari en la puerta? Le he dicho no. Déjalos todos en el garaje, porque viene ahora una de mis partes favoritas. No sé por qué estoy surrando, me he puesto nervioso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1161" target="_blank" class="timestamp">[19:21]</a> Editor, cuenta dos baños más. Aquí hay un baño. Y, Arnau, mira, ahí hay otro baño. Dos baños más. Armarios por todos lados, espejo, ¿qué tal? Y el baño. Efectivamente, está el baño con una bañera. Con una bañera, zona de jacuzzi. Esto debe tener 400 hidromasajes. Aquí tenemos una ducha. Hostia, qué pedazo de ducha. Fijaos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1185" target="_blank" class="timestamp">[19:45]</a> Aunque te hayas visto 74 temporadas de One Piece, sales limpio. No hay manera de oler mal saliendo de aquí. Tiene 880 chorros y en el otro lado de esta habitación tiene… Hostia, vaya mármol en la pared. Exactamente lo mismo para otra persona. Os voy a llevar a la zona de invitados. Es decir, si yo tuviese esta casa… El Abramovic tenía un castillo de 500 millones de euros. Lo del Abramovic, ¿dónde saca la pasta?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1208" target="_blank" class="timestamp">[20:08]</a> Otro de los de la Estrella Azul que cuando colapsaron en Soviética se han echado los jóvenes que se quedaron con, no sé, con trozos. Muchos eran ante estas cerros de los Rothschild, demostrado. Y tienen un infinito, ¿no? Porque el Aramovic este, como se diga, los barcos que tiene, pero además no tiene uno, tiene unos cuantos, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1226" target="_blank" class="timestamp">[20:26]</a> No la voy a tener en mi vida, evidentemente. Vendríais vosotros. Se ha engordado el Ibai, ¿no? Te veo a cara más llena y más barriga. Bueno, ¿qué? ¿Os gusta vuestra invitación de invitados? Chavales, no os podéis quejar, ¿no? Aquí tenéis vuestra terracita. ¿Qué más queréis, chavales? Palmera toma por culo aquí a la derecha. Por la cita, enfermado y se ha muerto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1246" target="_blank" class="timestamp">[20:46]</a> Y, ojo, señores, esto digamos que sería… No sé ni cómo se llama. El cambiador… Hostia, qué barbaridad. ¿Esto es de invitados? Pues parece que estamos en una tienda Dolce & Gabbana. Y atención porque Editor cuenta otro baño. ¡Qué barbaridad! Lo más increíble de estas habitaciones es que todas… Hostia, con señorita, que eso es el cambiador y el pezolado para la mujer, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1269" target="_blank" class="timestamp">[21:09]</a> Tienen baño propio, vestidor y terraza con unas vistas increíbles. Esto de habitación de invitados tiene poco. Es que tienen hasta televisión en la bañera. También nos encontramos con habitaciones temáticas. De Ferrari, de Mickey Mouse, con las paredes y los muebles a juego. Bueno, vamos para la parte de abajo. Tiene ascensor, por cierto, como no, por si acaso. Pero nosotros vamos por las escaleras que a mí me da claustrofobia. Vamos a cerrar esa puerta. Yo no soy muy fan de los ascensores.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1294" target="_blank" class="timestamp">[21:34]</a> Sí, tampoco me gusta la casa tan grande, ¿no? La casa... Hombre, a ver, con una casa pequeña tienes de sabor para vivir y más... Al final lo importante es tener orden, limpieza, espacio y un poco de armonía. Pero, hombre, si tienes que pedir, al final es tener espacio para tus cosas. Ya está, no necesitas más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1310" target="_blank" class="timestamp">[21:50]</a> Sensores, desde que soy pequeño, así que vámonos a la parte donde os va a explotar la cabeza. Chavales, no sabéis lo que estamos caminando. Luego os lo enseñaré. 14.000 m2 de casa y 5.500 construidos. O sea, no sé ni lo que estoy caminando. Es que no puedo más con tantas escaleras, tío. Bueno, entra, entra. Mira esto, tío. No se acaba nunca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1330" target="_blank" class="timestamp">[22:10]</a> Zona totalmente gigantesca, todo rodeado de puertas, parece una película de... Sí, no moda nada, la casa es tan grande como tú dices que necesitas tener la campana para que el clavo venga ahí a servirte porque te pierdes, ¿sabes? Terror. Dos baños más, editor. Cuéntalos. He perdido la cuenta. Señores. Es que estas casas suelen ser de personas que necesitan validarse con esa excepción de poder y por eso el hombre... Digo, yo no lo conozco, pero suponiendo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1355" target="_blank" class="timestamp">[22:35]</a> Está tan contento de enseñar a Solibay. Como diciendo, mira, he triunfado la vida. Eso en Estados Unidos es bestia. En Estados Unidos están enfermos para validarse con el dinero. Y siempre es la casa. Han de tener muchas habitaciones. Da igual...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1370" target="_blank" class="timestamp">[22:50]</a> Muchas habitaciones, muchas. La casa de la Sterling. ¿Te acuerdas la actriz de Sensación de Vivir? Que su padre era el sionista este, productor de Hollywood. Déjame un momentito, porque era ridícula. Toris Spelling, perdón. Pues aquí está. Yo no sé cuántas habitaciones tiene. Bueno, la verdad le ha dado la hija, la actriz esta de Sensación de Vivir. Es que es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1399" target="_blank" class="timestamp">[23:19]</a> Como el ministerio de un país, ¿sabes? La hija está en ruina. Ah, sí, que se ha vendido la mansión. 150 millones de dólares. Tori Spelling recuerda su juventud en una casa de 50.000. ¿Está arruinada esta chica? Pues si su padre era el productor de Hollywood, estos ultradionarios. Ah, pues sí, está arruinada. Pero bueno, arruinada, no sé. A veces llevan a arruinar a un tío que tiene deudas, pero que tiene un estilo de vida carísimo. Ha dejado la casa por infección de moho. Qué asco, ¿no? Sí, sí, está en una caravana, sí. Había paseos ocultos y biblioteca subterránea.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1429" target="_blank" class="timestamp">[23:49]</a> Si empujas algo, entras en la habitación secretas. 14 del auditorio, 27 baños... Bueno, 27 baños. ¿Sabes? Mira, un ejemplo de muy rollo estadounidense era... ¿Os acordáis del boxeador Evander Holyfield? De Michael Jackson, vale, tiene que ser enorme, sí. La mansión de Evander Holyfield, tío. El tío se le fue la olla...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1455" target="_blank" class="timestamp">[24:15]</a> Porque al fin y al cabo, Van der Holfield, no sé, igual habría ganado en su vida 300 millones de dólares o así, ¿no? Pero fíjate, en Atlanta creo que es, el tío se hizo un pedazo de palacio. A ver, un vídeo un poco más...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1471" target="_blank" class="timestamp">[24:31]</a> 109 habitaciones. 109 habitaciones. La mansión se hizo el tío, el boxeador. Cine de 130 sillas, bolera, comedor para 100 personas. Hicieron estas cosas cuando las venden. ¿Cuánto costó la casa? Se la compró por 6 millones de dólares. 6 millones. Pago por el palacio ese gigante. No podía pagar mantenimiento hasta claro. El tío coge y te mete una piscina que yo no sé cuánto mira la piscina. La piscina es ridícula.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1498" target="_blank" class="timestamp">[24:58]</a> Metió delante una piscina pero gigantísima. A Michael Jackson le costó un huevo vender su mansión. Pero se vendió después de muerto, ¿no? Se veía pedazo. Es que encima la integración sobre el escenario tan seco, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1512" target="_blank" class="timestamp">[25:12]</a> O es un montaje, es un montaje. Esto es un 3D, coño, me está tomando el pelo, tío. Esto era un render. O sea, si es una mansión... Pero vea, pedazo y era de olla, tío. Tiene toda la habitación, hay que hacerse cateto, eh. Esto es una foto de verdad o es un render. Vaya mamotreto de casa, tío. Ah, Michael Jordan, coño. He confundido en Michael Jackson, perdón. Es que es ridículo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1536" target="_blank" class="timestamp">[25:36]</a> Pedazo de casa, hombre. La casa del... Bueno, todavía la casa del comtela, eh. Pero, ¿ves? Ya es algo más... No sé, tío. Lo veo más razonable. Más tradicional. Más integrado. No sé qué opináis vosotros. ¿Ves? Es una mansión, pero... No es tan ostentoso, tan ridículo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1554" target="_blank" class="timestamp">[25:54]</a> Me encanta que tenga tantísimo césped. Claro que es Nueva Zelanda, supongo que ahí llueve que te cagas, no sé. Hostia, qué fuerte lo de Estados Unidos contra el tío este. La chapuza legal que hicieron lo secuestraron invadiendo el territorio no ozelandés. Bueno, ridículo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1571" target="_blank" class="timestamp">[26:11]</a> Zona de ocio. Zona de cócteles total. ¿Qué le sirvo, caballero? Déjeme aquí lo que quiere que le sirva. Zona para tomar algo, lleno de botellas de alcohol que deben ser caras, pero no tengo ni idea. Remy Martí, Martel, Christian Dupre… Bueno, no tengo ni idea. Me gusta ese criticón, pero es muy vacío. Cuando quieres tener tanto, no usas nada. Se te pudre todo. Señores, esto a mí me ha roto la cabeza. Tiene una bolera en su casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1599" target="_blank" class="timestamp">[26:39]</a> Bueno, la bolera sí que la usas. Está guay, ¿no? Tiene una jodida bolera en su casa y Luciana estaba jugando contra Josep. ¿Quién es tan enfermo y tan zumbado de tener una bolera en su casa? ¿Quién tiene una bolera en su casa, tío? Me parece lo menos loco de la casa, no sé vosotros. Para, pero no dejes caer así, animal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1636" target="_blank" class="timestamp">[27:16]</a> Mierda. Bueno, impresionante. Y vuelven solos los bolos. Mesa de billar. Pues la bolera me parece buena idea, tío. Tanto espacio vacío. Air hockey. Por supuesto, como no, no podía faltar. Fútbol. Un fútbol hecho de madera maciza que valdrá un ojo a la cara. Más conocido en Latam como los pequeños futbolistas saltibankis. Como no. Sala de cine. A ver si tiene bolera también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1661" target="_blank" class="timestamp">[27:41]</a> Joder, cuánta luz azul. Qué más rollo, colega. Mentir un cine. Nosotros tuvimos un cine en una casa, pero la verdad, las cosas como son no eran incomparables a este. Qué sensación de tranquilidad. Yo creo que aquí caben, sí, fácilmente unas 15 o 20 personas en el cine, por si acaso, por si tenéis muchos amigos. Fijaos en el techo también cómo cuidan todos los detalles. Oh, la casa de Jorge Lorenzo. No me gusta nada. Todo cristal, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1688" target="_blank" class="timestamp">[28:08]</a> Oh, hola. Hostia puta. Esto sí que no me lo esperaba. Me habían hecho spoilers de la casa, pero hay cosas que me sorprenden. Joder, piscina interior calentita para disfrutar. También te digo, si te tocan el timbre, ¿quién responde? Como te llamen y estés aquí, no respondes nunca. Chavales, las cosas como son. Yo no me puedo hacer gilipollas. Vivo en una casa espectacular. La casa que tenía en G2 y la que tuve de streamers era una jodida locura. Pero esto, chavales, es otra cosa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1718" target="_blank" class="timestamp">[28:38]</a> Os lo voy a decir y espero que el editor deje esta parte. Llevamos cuatro horas en esta casa. Es que estoy sudando. Wow. Gimnasio. El mío es… Llevo cuatro horas pateándose la casa. ¿Qué dice? Mejor. Las cosas como son. Este señor tendrá mucho dinero. Mucho más que yo. Pero tengo mejor gimnasio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1738" target="_blank" class="timestamp">[28:58]</a> Y si te cansas en el gym, tienes la zona de masaje. Y mientras te hacen el masaje ves una lámpara llena de… No sé ni lo que es eso. No puede faltar. Si hay un gym, tenemos la sauna. Son dos tipos de saunas para, dependiendo de lo que estés haciendo. Esto está totalmente equipado. Esto es espectacular. Tiene una peluquería en su casa. Nunca había visto una peluquería dentro de una casa porque se nota que está verdaderamente hecho solo para…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1765" target="_blank" class="timestamp">[29:25]</a> ¿Qué pasa? Que si sale a la calle el tío lo matan, como el de Madrid. El ucraniano mata ahora. Que te corten el pelo y te dejen la barba perfecta. Otro baño, otro baño más. Hay tantos empleados en esta casa por el mantenimiento que requiere que después de este pasillo hay un piso solo para empleados. El piso de empleados tenía habitaciones, salón, más baños y al lado estaba la bodega. O sea, que esto estará en unos meses lleno de vino, ¿no? Sí. Pues aquí tenéis la bodega.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1791" target="_blank" class="timestamp">[29:51]</a> Tiene como olor a nuevo, como olor a madera, ¿verdad, Nao? Es impresionante. Ahora el propietario nos iba a enseñar parte de su colección personal de coches. Bienvenidos a una de mis partes favoritas de la casa porque vamos al garaje. Coño, pues los coches son caros, ¿eh? Es. Te quiero decir que no son Ferraris estos de gama baja. Baja, ya me entiendes. Que no es el típico Ferrari California, que es bastante ostentoso, pero son Ferraris caretes, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1821" target="_blank" class="timestamp">[30:21]</a> Como el garaje del GTA. Qué locura. Un Ferrari, dos Ferraris… Hostia, ese Ferrari Monoplaza, tío, es súper… Tres Ferraris y muchos más coches que vosotros me diréis cuáles son. Ese Beli es de ruso total, tío, pero de ruso total, eh. No sé ni qué coche es. Parece bastante clásico. Tenemos por aquí… ¿Valilla? ¿De qué país es fabricante ese coche, tío? Clásico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1849" target="_blank" class="timestamp">[30:49]</a> ¿Otro Ferrari? ¿Un Fiat? Bueno, ahí está un California, que te dije, que eso es una... Bueno, a gustos, ¿eh? Pero a mí ese coche me parece una bazofia por todos lados, caro, no corre y tal. El Fiat, hostia, el Fiat, el pintor que la ha hecho paragolpes es para hacer un homenaje, ¿eh? Joder, tío. Y yo soy un oligarca ruso y la pintor, no sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1873" target="_blank" class="timestamp">[31:13]</a> le digo a Putin que le mande un escándalo al pintor que ha pintado el coche porque anda que acertar el color joder</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1887" target="_blank" class="timestamp">[31:27]</a> Vaya chapuza de trabajo, tío. Tenemos por aquí otra marca de coche… Se va pintor daltónicos, eh. Es que va a hacer típico trabajo de seguro. Pasar por el seguro y pintar el chapampam, que a veces lo veo… Me extraña, eh. …que desconozco cuál es. Tiene una cabeza de caballo. Coño, te lo pone la matrícula Azure.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1905" target="_blank" class="timestamp">[31:45]</a> Están guapos estos Bentley, los que hacían antes, antes de modernizarse. Un Range Rover y una camioneta Mercedes, por si acaso. Sí, sí, pero la V, se llama ahora V, esta funeta Mercedes, si la pillas tope gama, es una pasada, ¿eh? Brutal. Esto es un bicho de lujo que flipas. Y encima con aspecto flagoneta, que es lo que mola, si no somos dentoso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1928" target="_blank" class="timestamp">[32:08]</a> Pero si utilicé pasta, yo un pico que tendría sería una V de estas, pero de alta gama, como Tor V6, y a tope de extras, y tienes un rollo, bueno, limusina, pero lo mejor de todo, la estética furmeta, digo lo mejor, tipo taxi. Samuel Luque, sí, sí, tú lo has dicho exactamente, el aviano, ¿no? Es que nos hemos llegado ahora.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1947" target="_blank" class="timestamp">[32:27]</a> No, de verdad. Hace un presupuesto y ahora lo que te sale, tío. Por un pico eran fueron estas. Y lo mejor es eso, tío. Que pasas… No, no es Vito. Tiene otro nombre la que está así de lujo. Ferraris bestias, eh. Yo, Mariano, tengo una idea de coches. He venido aquí y he contado los Ferraris. Pero me he dado cuenta de que hay un Ferrari que es de una única plaza. Me has dicho que es un Ferrari extremadamente exclusivo, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1972" target="_blank" class="timestamp">[32:52]</a> Sí, hay como unos 200 en el mundo. Es el Ferrari Monza. Cuesta alrededor de unos 3 millones y medio. Y para poder comprarlo tienes que ser cliente de Ferrari y además... Sí, por eso Jaileno no quiere comprar Ferraris porque el rollo que llevan tan de sobrados le toca a las narices.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=1989" target="_blank" class="timestamp">[33:09]</a> es el Ferrari, el otro modelo, no recuerdo cómo se llama ahora, SP, no sé qué, no recuerdo, y le ha metido una carcasa de fibra encima. Pero si tú tocas y tal, está hueco, y debajo, debajo del plástico, está la plaza del copiloto. Se han cogido el coche de plaza y le han metido una tapa encima.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=2008" target="_blank" class="timestamp">[33:28]</a> Y está metido con una unidad súper exclusiva. Que es el otro coche. Pero con una tapa encima para tapar el asiento del copy. No son listos italianos. Son más listillos. Dudo mucho que este coche. No lo sé. Dudo mucho que este coche esté muy cotizado. No lo sé. McLaren se apuntó al carro a hacer uno igual que este. Y fue un fracaso. No lo vendía ni queriendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=2030" target="_blank" class="timestamp">[33:50]</a> Y intentando vender las... No me acuerdo cómo se llamaba el McLaren que hicieron. ¿Ebola? Puede ser, el McLaren. Hicieron un McLaren igual que este, Monoplaza. Al final ofrecían opcional un cristal para poner ahí chapucero. O sea, no vendían. Y este... Te lo tienen que ofrecer. Es tan exclusivo que aunque quieras comprarlo no puedes. Necesitas un poco la recomendación, el te dejo y demás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=2054" target="_blank" class="timestamp">[34:14]</a> Es que el mundo de Ferrer me da bastante asco. Es de un estirao... ¿Estirling Moss en McLaren? ¿Puede ser? ¿Sí? Agárrame. Gracias, tío. No sé mucho de coches, pero claro, entiendo que son algunos un poco más clásicos, ¿no? Otro... Es que este... ¿De dónde es el clásico este, tío? La matrícula de... No sé mucho de coches, pero claro, entiendo que son algunos un poco más clásicos. No sea soviético del este, ¿no? Este coche. La matrícula esa, tío. No...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=2083" target="_blank" class="timestamp">[34:43]</a> esa letra. Lo menos clásico, ¿no? Sí, en total tiene unos 16 coches. 16 coches. 16 Ferraris. 16 Ferraris. Sí. Bueno, por si acaso. Bueno, estamos en la sala de mantenimiento. Parece que te has metido en un garaje de la Fórmula 1 o en una casa...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=2100" target="_blank" class="timestamp">[35:00]</a> La verdad, chavales, que no sé ni qué decir ya de esta casa. Nos han dicho que hay otro garaje abajo que tiene capacidad para 30 coches. Aquí caben unos 40 coches. 40 coches, pensaba que era para 30. Por lo tanto, en esta casa, aproximadamente, caben 52 coches solo en los garajes. De hecho, si os fijáis, hay máquinas de construcción. De verdad que nunca había visto una casa con capacidad para 52 coches. O sea, aquí puedes meter a 20 familias, si quieres, o a 50 familias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=e_ONF2v5mGs&t=2128" target="_blank" class="timestamp">[35:28]</a> Si alguien quiere comprar la casa… No, claro, con la cantidad de trabajos que tiene que ver en la casa… Si está interesado, dejo el link en la descripción. Nunca se sabe cuando alguien está interesado en una casa de 70 millones de euros. Por cierto, como curiosidad… 12.700 pasos. 8 kilómetros solo recorriéndome esta casa. La madre que me parió. ¡Qué fuerte! ¡No! ¡Fuera de aquí! ¡Esqueroso! ¡Ah! ¡Quita, cerdo!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 29/05/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
