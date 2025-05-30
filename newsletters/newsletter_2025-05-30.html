@@ -1,0 +1,421 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 30/05/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">30/05/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-OUT8BBoTReE'>SOLUCIÓN A LA CRISIS DE VIVIENDA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-OUT8BBoTReE">
+            <h2>SOLUCIÓN A LA CRISIS DE VIVIENDA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 30/05/2025 09:54</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=OUT8BBoTReE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/OUT8BBoTReE/hqdefault.jpg" alt="SOLUCIÓN A LA CRISIS DE VIVIENDA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la crisis de vivienda en España, señalando la acaparación por grandes capitales y compras al contado.
+Argumenta que el sistema actual no es socialismo, sino un régimen liberal gobernado por empresas e intereses extranjeros.
+Critica la ineficiencia, corrupción y el aumento del gasto estatal tras la democracia en contraste con la era franquista.
+Concluye que la falta de soberanía política y la dependencia externa son la raíz de los problemas, no una ideología socialista.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Capital Global Acapara Vivienda <a href="https://www.youtube.com/watch?v=OUT8BBoTReE&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El video comienza destacando el récord de compras de vivienda al contado por capital, especialmente extranjero y fondos de inversión. Se describe la situación como demencial e insostenible, donde los anuncios de alquiler duran minutos.</p>
+
+<h3>El Sistema es Liberal, No Socialista <a href="https://www.youtube.com/watch?v=OUT8BBoTReE&amp;t=176" target="_blank">[02:56]</a></h3>
+
+<p>El presentador argumenta vehementemente que el régimen político español es liberal y capitalista, no socialista, a pesar de los altos impuestos. Explica que la carga fiscal es resultado de la ineficiencia y corrupción del sistema descentralizado.</p>
+
+<h3>De Franco a la Democracia: Coste y Corrupción <a href="https://www.youtube.com/watch?v=OUT8BBoTReE&amp;t=479" target="_blank">[07:59]</a></h3>
+
+<p>Se contrasta la baja carga fiscal y la política de vivienda social masiva del franquismo con el aumento del endeudamiento y gasto superfluo de los ayuntamientos tras la llegada de la democracia. Se critica la ineficiencia y corrupción en la administración local.</p>
+
+<h3>¿Quién Gobierna Realmente? El Poder del Dinero Extranjero <a href="https://www.youtube.com/watch?v=OUT8BBoTReE&amp;t=668" target="_blank">[11:08]</a></h3>
+
+<p>Se identifica a grandes familias financieras y multinacionales (Rothschild, Black Rock) como los verdaderos dueños y gobernantes a través de la democracia liberal. Se explica cómo la separación de poderes debilita al estado para facilitar el control externo, usando el dólar como herramienta.</p>
+
+<h3>Soberanía vs. Dependencia: El Problema Central <a href="https://www.youtube.com/watch?v=OUT8BBoTReE&amp;t=1283" target="_blank">[21:23]</a></h3>
+
+<p>El video culmina reafirmando que el problema fundamental es la falta de soberanía política, incompatible con la democracia liberal. Se argumenta que reducir el Estado aumenta la dependencia e injerencia extranjera, consolidando el control de grandes fortunas sobre el país.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=0" target="_blank" class="timestamp">[00:00]</a> Gente, crisis de vivienda en España. Oriol Sabata, ojo a esto, la compra de vivienda al contado alcanza un máximo histórico en España. A la toca la teja, pam pam, soltando la pasta de golpe. Entre enero y marzo, el 34 y medio de las operaciones se realizaron sin recurrir a hipotecas. El gran capital está acaparando el mercado. 35% de las compras...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=26" target="_blank" class="timestamp">[00:26]</a> Se hacen sin hipoteca. Increíble, ¿eh? Los anuncios para alquiler duran una hora, ya ni ves el piso. Llaman para comprar y en vez de regatear, hacen ofertas a la alza para asegurarse la compra. Es una cosa demencial e insostenible. Es increíble que no reviente todo. He trabajado en una notaría un tiempo y era una barbaridad ver...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=45" target="_blank" class="timestamp">[00:45]</a> representantes de fondos de inversión inmobiliaria comprar no sólo pisos sino edificios enteros al contado mediante transferencia bancaria perfil persona física extranjera de unos 40 años y pagando al contado para edificios enteros así se vende un país y los súper patriotas y súper creyentes de acuerdo y felices exactamente luego un tío se va a Andorra o se va a otro país para no pagar los impuestos que se pagan aquí</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=72" target="_blank" class="timestamp">[01:12]</a> Y la gente los insulta y les odian. Porque no es español. Porque no tributa en España. Pero vamos a ver, es un normal. Tenía que ser al revés, ¿no? Tendrías que odiar a los que pagan impuestos en España. Y aplaudir a los que se van. Y tú estás a favor de este sistema político. No tendrás nada y serás feliz. Agenda 2030. El lema de la Agenda 2030, exactamente. Del foro de Davos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=92" target="_blank" class="timestamp">[01:32]</a> Mirad aquí, un liberal. Es evidente que hay que construir a lo bestia, construir más y más y eliminar impuestos. El precio bajará y el negocio del suelo artificialmente escaso por culpa del Estado se terminará. Y cuando el Estado deje de joderos vivos, el mercado salvará a los pobres. Que se joda del Estado. Este es un libertario. O un anarcocapitalista. Fíjate si es imbécil y ¿quién crees que va a hacer todo esto? Es un normal, si no es el Estado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=120" target="_blank" class="timestamp">[02:00]</a> Son tan idiotas que se creen que un país se puede gobernar como si fuera una empresa privada y siguiente, eliminando el Estado, se cree que todo se autorregula. El Estado es el que decide si se bajan los impuestos y si se construyen millones de viviendas. Mira, esto es maravilloso. Estás en un sistema, en un régimen liberal, gobernado por empresas multinacionales, fondos de inversión, todos con narices enormes, sionistas todos. ¡Oh, es antisemitismo!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=146" target="_blank" class="timestamp">[02:26]</a> ¿Me quieres mirar cuántos son de la Estrela Azul? ¿Eh? ¿De esta gente? Casi todos, ¿verdad? Entonces, ¿qué me cuentas, tío? Deja de repetir como un loro el tema del racismo antisemitismo. ¿Cuál es la obviedad? ¿Cuál es la verdad objetiva? ¿Es verdad o no es verdad? Pues la verdad es lo único que tienes que defender. No tienes que defender ni un sistema político ni una consigna de un amo que tú ni reconoces que tienes. No tienes que repetirle la propaganda de nadie. Defiende la verdad por sí misma, tío. Es suficiente. Tenga las ideas políticas que quieras.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=176" target="_blank" class="timestamp">[02:56]</a> Pero ante una evidencia, por favor, no me quieras negar la evidencia, ¿vale? Ya sabemos este sistema político a quién beneficia. A los de siempre, ¿vale? Tienes un sistema que es liberal. Es que se pagan muchos impuestos, esto es socialismo. Que no, eso es normal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=192" target="_blank" class="timestamp">[03:12]</a> Tonto del culo, lo repito en todos los vídeos 50.000 veces, no hay que ser muy listo para entender esto, porque yo no soy muy listo. Se pagan muchos impuestos porque este es un sistema extremadamente ineficiente, corrupto, porque por otras peculiaridades del sistema político que hay en España, hay 50.000 gobiernos autónomos, el gobierno de Taifas que dicen...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=212" target="_blank" class="timestamp">[03:32]</a> La corrupción lleva al mal gasto sistemático de los recursos. Lo que pasa aquí, aumenta más la carga fiscal y se tira más el dinero. Y cuanto más progresa un país, más tonterías, igualitarias, más se tira el dinero. Porque son cosas que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=229" target="_blank" class="timestamp">[03:49]</a> no tienen ningún fundamento biológico real, práctico, por lo tanto, no pueden repercutir en ningún beneficio. Pero claro, tú, vamos a ver, tú quieres invertir dinero para que los gatos huelen, pues, o que los perros maullen como gatos. Evidentemente, eso no tiene pies de cabeza y vas a tirar el dinero. Pues es lo que pasa mucho con las políticas que se hacen en este país y en muchos otros occidentes. Y esto no tiene nada que ver con el socialismo. No sé esto, estupe, por favor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=257" target="_blank" class="timestamp">[04:17]</a> La ideología woke, lo que es el marxismo cultural, este concepto de Antonio Gramsci, que algunos acuñan, otros lo llevan diferente. Pon el nombre que quieras. Es un fenómeno que se dio en Occidente, no en los países comunistas, no en los estados socialistas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=274" target="_blank" class="timestamp">[04:34]</a> No existió eso. Existió en Europa. En la no soviética había igualdad de género. Pero bueno, paga unos temas y ya está. Pero si tú hacías la apología de la pedofilia, como en Holanda, como en Alemania... Alemania fue constante antes y después del nazismo. Y si no, os tiré un poco el tema. Ya podría hacer un vídeo sobre el tema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=293" target="_blank" class="timestamp">[04:53]</a> Eran soviética, tocas el tema ese y te enterrarán vivo. No vengáis con lo woke, porque lo woke es algo que se ha creado en el mundo capitalista. Vale, seguimos. Estás en un régimen liberal. Es decir, en el paraíso de las empresas. Gobernado por empresas. Para empresas. Y te meten un tío con una corbata roja que dice, soy socialista. Y la gente, ¡ah, es el socialismo! ¡Trae pobreza al socialismo!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=318" target="_blank" class="timestamp">[05:18]</a> Y no lo entienden, tío, que no vives en un régimen socialista. Que sí, ya, que es el socialismo, ya. Y todo el mundo repite con sus normales. Es que no sé qué es más tonto. El tonto que repite que esto es el socialismo o el subnormal del otro lado que dice que esto es el fascismo. ¿Pero tú crees que esto es fascista, gilipollas? ¿Dónde está el fascismo aquí? Ah, cuando gobierna el PP. Claro, cuando gobierna el PP es el fascismo, ¿no? Claro, claro. Y cuando se cambian las tornas y está la corbata roja es el comunismo en España. Y luego viene la corbata azul, el PP. ¡Ah, el fascismo!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=349" target="_blank" class="timestamp">[05:49]</a> Vamos a ver, tío. Tienes un poco de autoestima. No te rebajes tanto. No me creo que seas tan tonto. Tú. Que a lo mejor eres tontísimo. Tan tonto no eres. De verdad te lo digo. Tan tonto no puedes ser. Y si no, te suscribes de este canal y te vas a otro lado. Para aguantar un gilipollas como tú. Porque luego me escriben en comentarios. No tienes ni idea, John. Tienes que leer a Hayek, a Locke, a Friedman, John, no sé qué.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=371" target="_blank" class="timestamp">[06:11]</a> Si ya las conozco. Si yo he pasado en una adolescencia como todos los seres humanos del mundo, y en la adolescencia era tonto, como tú. Porque pasa tú, tienes 40 años o 30, a veces sabes qué edad tienes, ¿no? Y yo me leía a Friedman, a John Locke y todas esas tonterías, a Adam Smith, y me tragué las tonterías esas. Luego ya fui entendiendo que... Bueno, no me voy a enrollar porque encima es muy político incorrecto lo que tenía que decir ahora.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=394" target="_blank" class="timestamp">[06:34]</a> Pero ya ha pasado esa fase, tío. La pasé con 15, 18 años. He hecho varios vídeos hablando de lo que es el Estado liberal, la democracia liberal y no quiero repetirlo, me da mucha pereza. Quiero centrarme en que España no es un régimen socialista. O sea, no queráis valorar ideológicamente un régimen político por unos detalles aislados porque no tiene ningún sentido. En la España, en franco...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=416" target="_blank" class="timestamp">[06:56]</a> Prácticamente no había carga fiscal. Había carga fiscal ridícula. ¿Por qué? Porque el coste del Estado era ridículo. Era una fracción ínfima del coste del Estado que hay ahora. Y era fascista. Y era socialista.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=430" target="_blank" class="timestamp">[07:10]</a> Era socialista porque las leyes fundamentales del régimen que es la constitución de la época garantizaban que a una persona era muy, muy difícil que le expropieran la casa, que le cortaran el agua, que le cortaran la electricidad. Al trabajador era muy caro despedirlo, muy caro. Se construía viviendas sociales a millones. Se hicieron...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=450" target="_blank" class="timestamp">[07:30]</a> 4 millones y medio de viviendas asociadas en 15 años. Donde había barreras de gitanos se hacían viviendas, aunque luego lo destrozaran. Todas las barreras de gitanos que había visto en España las hizo Franco. En los años 60 y 70 comprar un piso en España era relativamente barato. Que sí, que tenía muchos defectos el régimen. Que era situación de extrema pobreza donde salían todos los españoles. Bueno, ya. Hombre, es un bloqueo internacional que metió la ONU a España. Un embargo internacional, perdón. Pero no es un sistema liberal, el franquista. Y no se pagan impuestos prácticamente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=479" target="_blank" class="timestamp">[07:59]</a> Y desde la llegada de la democracia, lo primero que se hizo fue que los ayuntamientos empezaron a endeudarse hasta las trancas a los dos años de gobiernos democráticos. Empezaron a comprar coches oficiales, a hacer que las alcaldías fueran representativas y no esa cosa gañana de bienvenido a Mr. Marshall, que da vergüenza ajena, ¿no? Entonces, si tiene que hacer todo con mucho dinero, despilfarrando como locos, ¿sabéis que alcaldes cobran sueldo con franco?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=507" target="_blank" class="timestamp">[08:27]</a> El de Valencia creo que era. El de Barcelona. El de Madrid. Ya está. Los alcaldes no cobraban. Los concejales no cobraban. ¿Y quién era el alcalde? Pues lo decía el gobierno civil. Tú. Tú eres alcalde. Venga. Para allá. Que no puedes. Que no quieres. Bla, bla, bla. Bueno, pues nada. Tú eres alcalde. El otro. ¿Quién era el alcalde? No sé. Mi pueblo era los empresarios de... Eran los alcaldes. Era una cosa de prestigio social ser alcalde. Y se gobernaba más o menos bien. Ahí con la democracia...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=534" target="_blank" class="timestamp">[08:54]</a> Y tío, de alcalde lo siento mucho, pero te encuentras cada inútil que dices, ¿tú de dónde vienes? ¿Que arruinaste la empresa de tu familia? Ah, vas al alcalde. ¿Y tú qué eres? ¿Tienes este rango académico? ¿Eres de esta profesión? ¿Y no te ganas la vida? Pues macho, tío, con el trabajo que tienes, para no ganarse la vida, me lo inútil, ¿no? Venga, alcalde.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=553" target="_blank" class="timestamp">[09:13]</a> Tío, esto es un desastre y corrupción por un tubo, por todos lados. Las alcaldías son máquinas de tirar dinero. ¿Y a ver quién dice algo? ¿Tú te crees que en un pueblo que vivo yo, que son cuatro mil habitantes, tienen que estar con el tema del feminismo, gastando un céntimo en feminismo en mi pueblo? ¿Para qué gastan un céntimo en feminismo? Y luego, que si cojas cosas LGTBIQ+, y no sé qué, se tiran el dinero obscenamente. Y eso no tiene nada que ver con el socialismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=579" target="_blank" class="timestamp">[09:39]</a> es una cosa eminentemente capitalista, de un régimen liberal. Es el régimen de cuatro multinacionales, cuatro jerarcas, Rothschild, Rockefeller, cuatro tíos que se cuidan mucho, están a sombra, que nunca aparecerán a lista Forbes de Marcos del Mundo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=596" target="_blank" class="timestamp">[09:56]</a> ¡Qué casualidad! Los Rothschild, que en el siglo XIX llegaron a controlar el 90% de los recursos naturales del planeta en explotación. La Gold Mining Company de Reino Unido, que en una consulta al gestor de la compañía, que fue al proyecto británico en calidad de experto, y le preguntaron cómo estaba el mercado del oro en el siglo XIX en el mundo. Le preguntaron el nivel de competitividad que habría contra Reino Unido y el...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=623" target="_blank" class="timestamp">[10:23]</a> Presidente de la Gold Money Company dijo, que nosotros sepamos, más del 99% de lo que es el comercio del oro lo controlamos nosotros. Y esa empresa era de Rothschild, la empresa de Beers, de diamantes de Holanda. Se sabe, lo sabéis todos, lo habéis escuchado, los que tienen poca edad, hasta hace poco el 99% del comercio mundial del diamante lo controlaba de Beers, de Holanda. De Rothschild, cuando cayó en Soviética...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=650" target="_blank" class="timestamp">[10:50]</a> y se privatizaron todos los recursos naturales de Rusia, cayeron todos a manos de testaferros de Rothschild. ¿Vosotros qué os pensáis? ¿Que chavos de 30 años informáticos de golpe se hicieron mil millonarios como Jodor Kovsky, que se hizo dueño de la mitad del gas natural de Rusia? Solo el tío este tenía más gas natural que todos los países del mundo juntos, prácticamente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=668" target="_blank" class="timestamp">[11:08]</a> O al menos en aquel momento lo que se creía que había en reservas. Pues era otro testaferro de Rothschild. Pues esta gente son los dueños del dinero. Y una democracia liberal es el gobierno del dinero. Y nos gobiernan las empresas. No te das cuenta, tío. No te das cuenta aquí los planes que tiene este país. Si tuviéramos un mínimo de soberanía política, se soluciona en dos días.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=692" target="_blank" class="timestamp">[11:32]</a> Hay crisis de vivienda. Pues construir vivienda a millones. Para el gobierno no es problema el tema de la vivienda. No se va a arruinar España por construir 4 millones de viviendas en un plazo de 10 años como hizo Franco. Que no necesitas contratar a Rusia o a Francia para que te construyan zetas nucleares porque nosotros no podemos. Que no se requiere una gran tecnología para hacer edificios. Que el coste de construcción de edificios no es especialmente caro. Que el gobierno tiene medios para construir millones de apartamentos más o menos aceptables para familias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=722" target="_blank" class="timestamp">[12:02]</a> ¿Crees que es casualidad que se muere Franco y la natalidad española que estaba disparadizo de golpe se hunde y desaparece la natalidad en España? ¿Tú has visto los datos sociológicos en España del año 75 al 82 que en 7 años se hunde todo y parece que había una guerra civil en España? Y no, es que ha ido a la democracia. Y yo no soy nacionalcatólico. No soy franquista, pero hombre, ante las evidencias elijo Franco 100 veces, claro que sí. Es que esto es catastrófico, tío. Y lo peor de todo, lo peor es que te meten un tío con una corbata roja</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=752" target="_blank" class="timestamp">[12:32]</a> Y la gente dice, claro, es que el socio es vota de pobreza. Pero es impresionante. Es que hay que reconocer que la clave en la política es tratar de la población como si fueran imbéciles y les sueltan un discurso sencillo hasta la ofensa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=768" target="_blank" class="timestamp">[12:48]</a> como si fueras imbécil y triunfas. Estás en un régimen liberal. Las viviendas las están comprando todas las multinacionales, las fondos de inversión, los fondos judíos estos. Nosotros pagamos impuestos como locos. Las multinacionales no pagan impuestos. Sale Netflix en una entrevista en el Día del Mundo, me acuerdo, ahora unos años, diciendo, hombre, nosotros pagamos impuestos, pagamos el IVA. Yo me quedé alucinado y los comentarios de la noticia alucinaban. Dicen, pero vamos a ver, como un tío supuestamente erudito, no sabe lo más elemental que el IVA. O sea, tú lo recaudas, pero no lo pagas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=798" target="_blank" class="timestamp">[13:18]</a> El IVA, es que es muy fuerte, ¿eh? Se lo cobras al cliente y haces así al gobierno. Toma. Tú no pagas nada de tus beneficios. Y sale el de Netflix. Sí, nosotros pagamos el IVA. Ah, no lo encuentro. Me gustaría buscar el artículo. Apple no paga impuestos en Europa. Y la Unión Europea, si quiso poner dura con Apple, decía que debían 15.000 millones de euros en impuestos que evadían a través de Irlanda y Estados Unidos nos metió el Dieselgate como represalia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=825" target="_blank" class="timestamp">[13:45]</a> Porque avisó el secretario del Tesoro de Estados Unidos, el secretario de Estado también, avisaron de no metáis con Apple porque os vamos a trincar. Y nos metieron 15.000 millones de euros por Dieselgate a Volkswagen, casualidad. Media simétrica, no se ve, ¿verdad? La simetría. El Estado liberal, el liberalismo no existe. El Estado liberal es una mentira, pero se llama así. Y es el gobierno de los que tienen el dinero. Y los que tienen el dinero, ¿qué quieren? Quieren lo contrario de lo que era el franquismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=853" target="_blank" class="timestamp">[14:13]</a> Quieren separación de poderes. ¿Por qué? No es para que tú te salves del autoritarismo, del abuso de poderes de los gobernantes. No. Lo hacen porque si separan los poderes del gobierno, el gobierno que ha debilitado tiene un poder muy limitado y no puede gobernar prácticamente. Es tan estúpido el sistema que cuando tú votas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=875" target="_blank" class="timestamp">[14:35]</a> Tú te lees, si eres tan tonto para leerte un programa electoral, ¿no? Te lo lees el PSOE. Vamos a hacer esto, vamos a hacer esto, vamos a hacer esto. Bueno, pues me ha convencido. Voy a votar al PSOE, ¿no? O a Podemos, ¿no? O al PP, lo que quieras. Te lees el programa electoral. Vale. Sale elegido. ¿Y qué hacen? Pues pactan con la oposición. Porque si no, no pueden gobernar. Claro, es que la democracia se trata de consenso. Y tú dices, pero oiga, pues yo le he votado porque en el programa electoral ponía esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=904" target="_blank" class="timestamp">[15:04]</a> ¿Y qué te voy a decir? El que ha ganado las elecciones es normal. Aquí pone esto, pero con que tengo que pactar esto a la basura y tengo que aceptar lo que me diga el otro. ¿Esto es así? La democracia es una estafa. Votas a un tío que no puede aplicar el problema de todo lado porque tiene que pactar con los demás. Pero es que los demás tienen el mismo dueño. Porque cuando no hay un líder...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=923" target="_blank" class="timestamp">[15:23]</a> que esté en la cúspide de la pirámide de poder, lo que es en una autocracia soberana, cuando no hay eso, no gobierna nadie. Y si no gobierna nadie, ¿quién gobierna? El que viene de fuera con la máquina de imprimir billetes, de imprimir dólares. Como hacía Alan Greenspan, otro sionista que estaba en la Reserva Federal durante 25 años, el presidente de la Reserva Federal durante 25 años, el presidente de la Reserva Federal durante 25 años dijo lo siguiente, mira lo que pone aquí, os leo los subtítulos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=953" target="_blank" class="timestamp">[15:53]</a> Los Estados Unidos puede pagar cualquier dinero que tiene porque siempre podemos prestar dinero para hacer eso. Así que no hay probabilidad de default.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=966" target="_blank" class="timestamp">[16:06]</a> Siempre son los liberales, los economistas, pretendiendo venderte una ingeniería que no tiene sentido ninguno. Y aquí sale el jefazo y te lo suelta con toda la evidencia. Los Estados Unidos pueden pagar cualquier deuda. Pueden tener deuda infinita. Porque ellos tienen la máquina de imprimir dinero. Este señor. Este. El de la estrella azul. Por lo tanto, da igual. Ellos tienen la máquina...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=993" target="_blank" class="timestamp">[16:33]</a> de imprimir la moneda de curso internacional, la aceptada, que es el dólar. Y aquí está este tío que se ha quedado con cara de canguro que le ha dado unos flashes, un coche, que se ha quedado aquí petrificado el tío con una cara de what the fuck que está diciendo este hombre. Pero claro, que está haciendo la verdad. Mira qué cara se ha quedado el tío, se ha quedado ahí petrificado. Dice, coño, pues no digas esto, tío. Entonces, en un régimen liberal se dividen los poderes</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1017" target="_blank" class="timestamp">[16:57]</a> el Poder Judicial, esas tonterías, esas chorradas que solo caben en la cabeza de un niño pequeño, para que venga este tío con sus secuaces, los rochis y todo el rollo, el Black Rock y todo el rollo, y dice, mira...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1032" target="_blank" class="timestamp">[17:12]</a> Que viene el papá con el dinero. Que se ha acabado lo de Franco, que eso era terrible. La falta de libertad que hay en España es terrible. Vamos a ver libertad. Mira, la libertad es esto. Es fajos de dinero. Y todo el mundo. ¡Hostia! Y viene el gran pacto de los demócratas. Fascistas de la falange. Comunistas. Santiago Carrillo. El Fraga. Pacha del Opus. Pachas de la falange como Ofo Suárez.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1054" target="_blank" class="timestamp">[17:34]</a> Todos hacen amigos y hacen el gran pacto de los demócratas, ¿no? Y te lo venden como el triunfo del consenso. Y todo el mundo, qué bonito, qué bonito, ¿no? Normal, lo que está pasando está este tío de detrás, narizudo, está ahí saltando dinero como un loco, comprando todo, porque a cambio es una inversión que repercute mucho en interés, porque te haces dueño en el país, das las garantías geostratégicas de que España sea una mierda...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1077" target="_blank" class="timestamp">[17:57]</a> porque destruye su industria nacional, el tejido industrial, pues en España prácticamente desaparecido, los astilleros, minas, todo lo que pudiera dar más mínimo grado de independencia política en España y peso en la mesa de negociaciones en el exterior, te lo cargas, para que sea un Estado inútil, dependiente completamente del exterior.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1098" target="_blank" class="timestamp">[18:18]</a> Y así es un estado de vasallo, que es lo que somos nosotros. Fijaos que cuando estaba el ministro Arias Cañete, intentaron cargarse los olivos en España, en la Unión Europea. ¿Os acordáis? Hace creo que 20 años ofrecieron pagar por olivo cortado a los agricultores porque Andalucía produce el 50% del aceite de oliva del mundo. Otra cosa que se etiqueta con marcas italianas, lo que sea. Y la Unión Europea dijo, vamos a ordenar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1125" target="_blank" class="timestamp">[18:45]</a> que sea en Grecia, en Turquía, en Italia y en España, no. O sea, que se quede el 10% de lo que está haciendo ahora. ¿Por qué? Porque consideraban que hasta era malo que tuviese olivos en España. Ni siquiera olivos. Porque claro, producen aceite. Y quieras o no, algo de independencia tiene España. Al menos se puede alimentar aceite. Quieren cortar los olivos para que formos totalmente dependientes del exterior en todo. Que mientras vaya fluyendo cosas de fuera, España va bien. Pero claro, tú me imagínate que España un día dice...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1155" target="_blank" class="timestamp">[19:15]</a> Pues no estamos de acuerdo con esto. Pues no estamos de acuerdo con la FMI. No estamos de acuerdo con Bruselas. Y no estamos de acuerdo con Israel, ni con Londres, ni con Estados Unidos. ¿Qué pasa?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1164" target="_blank" class="timestamp">[19:24]</a> Pues se ponen todos de acuerdo y dicen, pues te vamos a cerrar un poco el grifo, ¿eh, España? A ver de qué comes. ¡Ay! Que no tengo industria, que no tengo comercio interior, o sea, no puedo producir interiormente, que no tengo astilleros, que no tengo minas, no tengo ni olivos. La agricultura es un desastre. ¿De qué voy a vivir? Pues nada, te vas a morir de hambre. Aceptamos que Marruecos nos traiga desagricultura envenenada porque lo riegan todo con aguas fecales, fresas con hepatitis y no pasa nada, ¿eh? Los supermercados están llenos de frutas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1193" target="_blank" class="timestamp">[19:53]</a> de Iberoamérica que se utilizan pesticidas prohibidas por Unión Europea porque son cancerígenos y no pasa nada ¿Qué te crees? ¿Que no lo saben los de Europa? ¿Los de Bruselas? ¿Qué pasa? La agenda responde a esto que os acabo de decir reducir el grado de independencia de España para que sea España un secreto vacío y no pueda independizarse no pueda negociar nada por sí misma hemos aceptado que este señorcito este señor venga le hemos comprado el relato de esta gente de aquí con la estrella en la cabeza</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1223" target="_blank" class="timestamp">[20:23]</a> Hemos dejado que la historia del siglo XX la escriban esta gente. Le hemos comprado el relato. Le hemos comprado sus películas con sus fantasías históricas. Le hemos comprado su moral, su religión. Le hemos comprado su pacifismo, su concepto de libertad, de democracia. Que ellos nunca se aplican para sí mismos. Ya sabéis que en su país, este tío en su país, el que se pasa un poco, lo despellejan vivo. Lo matan y los órganos se lo quitan y lo venden encima.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1253" target="_blank" class="timestamp">[20:53]</a> Hay un comercio ilegal de órganos con Israel que flipas. Pues así estamos. Y somos tan tontos, porque son mayoría los unormales que encima dicen esto, que con un Estado liberal al 100%, la gente dice, no, claro, es que tenemos socialismo. ¿Y por qué dicen esto? Es que se pagan impuestos. Ah, claro. Si pagas impuestos es socialismo, si no pagas impuestos es liberalismo, ¿verdad? Claro. Y Franco, que era súper liberal, ¿no? Hombre, por favor, hay que ser gilipollas, tío, de verdad, te lo digo, ¿eh? Es un problema de soberanía política.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1283" target="_blank" class="timestamp">[21:23]</a> Punto. Y la soberanía política es incompatible con el concepto de democracia liberal de separación de poderes. Los medios de comunicación tienen un dueño. El editor depende de un tío que le paga, que le financia. Y los medios de comunicación tienen un dueño. O en la Moncloa...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1298" target="_blank" class="timestamp">[21:38]</a> O lo tienen en Londres o en Washington. Entonces, ¿la solución es reducir más el Estado? Hombre, se ha reducido lo que es el peso del gobierno. El poder del gobierno se ha reducido desde franco. El peso bruto del Estado se ha multiplicado porque hay las autonomías, ya sabéis...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1318" target="_blank" class="timestamp">[21:58]</a> Las alcaldías, los ayuntamientos se han convertido en unos pozos donde se tira dinero. Sin fin. La corrupción y la ineficiencia lleva a que se tengan aumentados los impuestos al infinito para no repercutir en beneficio de nada. Prácticamente porque el dinero se pierde, se tira. Cada vez hay más funcionarios. Es la torre está perfecta. O sea, la solución es menos Estado. Si hay menos Estado, España tiene menos independencia aún. Si hay menos independencia, hay más injerencia extranjera. Si hay más injerencia extranjera...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1347" target="_blank" class="timestamp">[22:27]</a> Las grandes empresas y las grandes fortunas extranjeras se hacen más dueñas del país. ¿Qué es lo que está pasando ahora? Así está. Este es un normal. Te dice que hay socialismo. El PP, el gilipollas este que tiene medias de 82. Y claro, es que el Estado es el enemigo. No sé, a ver. La no soviética tenía la vivienda más barata del mundo. Es que eran mis pobres. No, tampoco eran. La vivienda no soviética no era cara. Para nada. En la no soviética los precios eran estables. Los precios...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1374" target="_blank" class="timestamp">[22:54]</a> de los bienes de consumo venían impresos de la fábrica. En la democracia liberal los precios se tienen que fijar en la estantería donde se exponen los productos. ¿Por qué? Porque los precios cambian tanto y tan rápidamente</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1391" target="_blank" class="timestamp">[23:11]</a> Que si estuviese impreso en los productos, se tienen que tirar a la basura. Entonces tienen que poner un papel. Leche fresca. El litro y medio, 1,60€. 1,70€. 1,80€. Bueno, ahora va 2,30€, ¿no? La letona creo que es. ¿Tenemos científica? No. O sea, había precios de productos que tardan dos años en caducarse, se imprimía de fábrica y había una total estabilidad en los precios. Y tú dirás lo que quieras, pero no se puede vivir en un régimen político basado en la especulación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1418" target="_blank" class="timestamp">[23:38]</a> Y en la inversión de sionistas que vienen de fuera. Porque entonces tienes un sistema económico muy inestable. Que pasa constantemente por burbujas y crisis económicas. Porque las burbujas y las crisis económicas empobrecen a todos. Menos a cuatro gatos. Que son los inversores. Los inversores necesitan las burbujas y las crisis. Porque cuando llegan al punto de la burbuja, venden. Y cuando llegan a crisis, compran. Y siguen el ciclo. Van alimentando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1443" target="_blank" class="timestamp">[24:03]</a> ¿Tú te crees que se puede vivir un país en este sistema político? ¿Que puede haber creación de empresas y sostenibilidad económica para las empresas? En el 2008, pues en el 2007 había bares en España. Ahora sobran bares por todos lados. Pero es que cuando haya otra subidón a nivel económico, pues podrán faltar bares y así. Se crean negocios, se cierran, se crean, se cierran. Cuando normal se crean un negocio y el negocio lo heredan tus nietos. Sea lo que sea.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1474" target="_blank" class="timestamp">[24:34]</a> Que los precios sean más o menos iguales. Ahora que hay aquí 40 años. Que no puede ser que en 5 años todo se haya duplicado de precio. La vivienda valía igual a la Unión Soviética. Del año 25 al año 75. Y no vengáis con el rollo que es un fracaso porque la Unión Soviética no fracasó por ser socialista. Fracasó por democratizarse, que es muy diferente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1493" target="_blank" class="timestamp">[24:53]</a> con la perestroika, el Krasnost y todo lo de un tío que se demostró, Gorbachev, que estaba a sueldo de Washington y de Londres. Porque si es por Stalin, la soviética no desaparece. Stalin sí crea socialismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1507" target="_blank" class="timestamp">[25:07]</a> Korbachov no. El comunión fue tan fracaso como el capitalismo. Pero el capitalismo, cuando hubo... cuando se... creo que fue Nixon, abandonó. El patrón oro fue porque Estados Unidos no tenía dinero para financiar nada. Se acabó lleno de donde podía. Le vendía armas a los enemigos. A Irán. Irán contra.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1527" target="_blank" class="timestamp">[25:27]</a> había incapacidad para competir contra una soviética y abandonaron el patrón oro y entraron en el patrón deuda ya en primer dinero a lo loco y eso duraría lo que iba a durar por suerte se cargaron soviética en un plan inteligente muy bien planificado y Estados Unidos se salvó pero Estados Unidos estaba con el agua al cuello en ese momento y en cualquier estado fascista o socialista la gente tiene vivienda porque la vivienda no es una mina de oro que se va agotando el oro no son recursos limitados la vivienda la produce...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1555" target="_blank" class="timestamp">[25:55]</a> Por orden del gobierno. La vivienda social, la vivienda básica para vivir no puede ser un negocio, tío. Haz un negocio, si quieres, con la vivienda de lujo. Viviendas de 500 metros de espacio. Pero no hagas negocio con los recursos básicos del ser humano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=OUT8BBoTReE&t=1574" target="_blank" class="timestamp">[26:14]</a> Viviendas básicas para poder vivir no es un negocio. Tiene que estar garantizado por el Estado. Es un sentido común. Bueno, esto podría hablar sin fin y enlazado un tema con otro. Pero el que no quiere ver, no sé, es que es un fanático y es tonto. Es que no sé cómo llamarlo. Yo creo que es bastante claro y con que me he cansado de hablar. Aquí acaba el vídeo. Un saludo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 30/05/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
