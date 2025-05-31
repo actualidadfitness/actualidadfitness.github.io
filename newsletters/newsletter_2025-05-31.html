@@ -1,0 +1,620 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 31/05/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">31/05/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-wbGTjwzv9Mk'>NÜRBURGRING - EL PARAÍSO DE LOS 911</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-wbGTjwzv9Mk">
+            <h2>NÜRBURGRING - EL PARAÍSO DE LOS 911</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 31/05/2025 09:49</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk" target="_blank">
+                    <img src="https://i.ytimg.com/vi/wbGTjwzv9Mk/hqdefault.jpg" alt="NÜRBURGRING - EL PARAÍSO DE LOS 911" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la experiencia de conducir Porsches clásicos, centrándose en el 911 de chasis corto y el 911 Turbo (930) y Ruf Yellowbird.
+Se discuten sus características únicas de manejo debido al motor trasero, falta de asistencias y entrega de potencia radical.
+El hablante compara su rendimiento y calidad de construcción con otros coches de época y modernos.
+Se subraya la importancia de las habilidades del conductor y la evolución tecnológica en neumáticos y suspensiones.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La conducción "inconducible" del 911 chasis corto <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=2" target="_blank">[00:02]</a></h3>
+
+<p>El hablante introduce el 911 de chasis corto, describiéndolo como muy difícil de conducir ("inconducible"). Destaca cómo el morro va suelto y le falta dirección.</p>
+
+<h3>La magia de conducir "el bicho" <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=216" target="_blank">[03:36]</a></h3>
+
+<p>Se describe la experiencia de conducir este coche como "lo más divertido del mundo". Se emociona al ver cómo se le va al coche y el conductor corrige con contravolante.</p>
+
+<h3>La extrema ligereza del primer 911 <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=352" target="_blank">[05:52]</a></h3>
+
+<p>Se menciona el bajo peso del primer 911 (unos 900-950 kg). Esta ligereza, combinada con su motor, lo convierte en una "cosa bestia".</p>
+
+<h3>Radicalidad de los primeros 911 Turbo <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=396" target="_blank">[06:36]</a></h3>
+
+<p>Se explica que los dos primeros años del 911 Turbo (930) eran muy radicales. No tenían válvula de descarga ni intercooler, haciendo que el motor subiera de vueltas muy rápido.</p>
+
+<h3>Realismo de la conducción en simuladores <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=592" target="_blank">[09:52]</a></h3>
+
+<p>Se discute qué simuladores (Assetto Corsa, Dirt Rally 2) son más fieles a la conducción de un 911. Se destaca su burrada de tracción trasera.</p>
+
+<h3>La técnica única de conducción del 911 viejo <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=704" target="_blank">[11:44]</a></h3>
+
+<p>Se describe la peculiar forma de trazar curvas con un 911 antiguo. Requiere frenar fuerte antes para mover el peso al morro y que gire, a diferencia de coches equilibrados.</p>
+
+<h3>Acelerar a fondo desde el principio de la curva <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=863" target="_blank">[14:23]</a></h3>
+
+<p>Se enfatiza que con el 911 hay que dar gas a fondo desde el inicio de la curva. El peso trasero clava el culo, a diferencia de un BMW donde eso provocaría una trompada.</p>
+
+<h3>El "chip BMW" vs. el 911 <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=1031" target="_blank">[17:11]</a></h3>
+
+<p>Se explica que alguien acostumbrado a coches con culos juguetones (como un M3) no entiende el 911. Le parece una "caca" porque no derrapa fácilmente, pudiendo quemar el embrague al intentarlo.</p>
+
+<h3>Filosofías diferentes en el mundo del coche <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=1096" target="_blank">[18:16]</a></h3>
+
+<p>El hablante compara la conducción del 911 con otros coches (Corvette, Viper). Cada coche tiene su personalidad y no se debe juzgar con la perspectiva de otro tipo de vehículo.</p>
+
+<h3>La virtud del motor trasero "mal diseñado" <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=1207" target="_blank">[20:07]</a></h3>
+
+<p>Se defiende el diseño del 911 con el motor colgando del eje trasero. Aunque se le tilde de "mal diseñado" o desequilibrado, le otorga una tracción trasera incomparable, incluso con mucha potencia.</p>
+
+<h3>Anecdota del 930 Turbo y la carga fiscal en España <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=1291" target="_blank">[21:31]</a></h3>
+
+<p>Se cuenta la historia de un vecino con un 911 Turbo (930) en la España de Franco. Se menciona la carga fiscal del 100% en la época y cómo la aceleración impactó a un niño.</p>
+
+<h3>Entrega de potencia "todo o nada" del 930 <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=1438" target="_blank">[23:58]</a></h3>
+
+<p>Se describe la banda de potencia estrecha del 930 Turbo. Estás "muerto" a bajas vueltas hasta que entra el turbo, que te pega un "patadón" y estira espectacularmente a altas revoluciones.</p>
+
+<h3>Especificaciones en papel vs. Sensación al volante <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=1652" target="_blank">[27:32]</a></h3>
+
+<p>Se comenta que las cifras de velocidad del 930 Turbo no reflejan la sensación brutal de aceleración. La patada se concentra en un margen estrecho de revoluciones, haciéndolo parecer menos potente en papel.</p>
+
+<h3>Encuentro con un BMW M1 de 1978 <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=1801" target="_blank">[30:01]</a></h3>
+
+<p>Se relata la emoción de ver y sentarse en un raro BMW M1. Se destaca su estética retro-futurista, su combinación de Gran Turismo con sensaciones de carreras y su valor en el mercado.</p>
+
+<h3>El desafío de la caja de cambios antigua <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=2200" target="_blank">[36:40]</a></h3>
+
+<p>Se describe la caja de cambios de los coches antiguos, señalando que meter marchas como la segunda requiere fuerza y tacto con los sincros para no rascar. No es una caja rápida.</p>
+
+<h3>El sorprendente rendimiento del Opel Corsa GSI <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=2235" target="_blank">[37:15]</a></h3>
+
+<p>El hablante recuerda su Opel Corsa GSI como su coche diario favorito. Destaca su ligereza y la instantaneidad de sus reacciones, que le permitían sorprender a otros coches "flipados".</p>
+
+<h3>El cambio de calidad en Porsche a finales de los 90 <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=2655" target="_blank">[44:15]</a></h3>
+
+<p>Se afirma que Porsche bajó drásticamente la calidad de construcción con los motores refrigerados por agua (años 98/99). A pesar de ello, subieron precios y vendieron más que nunca.</p>
+
+<h3>El brutal impacto de los neumáticos modernos <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=2946" target="_blank">[49:06]</a></h3>
+
+<p>Se explica que los avances en neumáticos modernos (ej. Michelin) son inmensos. Un cambio de neumático puede mejorar tiempos en Nürburgring hasta en 7 segundos por vuelta en un mismo coche.</p>
+
+<h3>Introducción al legendario Ruf Yellowbird <a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&amp;t=3319" target="_blank">[55:19]</a></h3>
+
+<p>Se introduce el video del Ruf Yellowbird (basado en un 911). Se menciona su fama de "Widowmaker" por su radicalidad, su dificultad de conducción y el alto riesgo que conlleva.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2" target="_blank" class="timestamp">[00:02]</a> Un poco de coche y luego reacciones a algo, ¿vale? Esto es un 911 de chasis corto. Los primeros 911... Pues no sé si se hicieron dos años o cuatro años. Eran de chasis corto. Y luego hicieron más largos porque... Eran bastante inconducibles. Vais a flipar bastante, ¿eh? Porque es realmente inconducible, ¿eh? Y eso que iba a jaula antihuelco que da... A un chasis tamborante le da rigidez.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=37" target="_blank" class="timestamp">[00:37]</a> Esta es una carrera clásica, como podéis ver. Joder, cambia rápido, ¿eh? Con ese cambio tan largo. Ha metido primera, que larga, ¿no? Primera. No, tiene que ser tercera, hombre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=69" target="_blank" class="timestamp">[01:09]</a> Sí, tercera, cuarta, sí, sí, claro. Quinta. ¿Quieres en marchar este cambio? No puede ser.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=90" target="_blank" class="timestamp">[01:30]</a> El morro va suelto completamente. ¿Será que es cambio de pata de perro? ¿Habéis visto el morro que va haciendo así? El coche va meneándose y el morro se suelta y no tiene dirección. Fijaos cómo se levanta el morro al hacer la subida y el cambio rasante se queda sin dirección. Bueno, eso es un Mustang, ¿no? ¿Qué coche es este? No lo sé. Pensaba que era un Mustang de primera serie.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=121" target="_blank" class="timestamp">[02:01]</a> ¿Qué quiere decir esto del dedo? ¿Por qué le señala el de atrás con el dedo? No entiendo eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=154" target="_blank" class="timestamp">[02:34]</a> La vibración, para aguantar espejo Me sonaba que le estaba diciendo algo al conductor de atrás ¿Esto es un Ferrari o qué es el modelo ese? Muy difícil saberlo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=183" target="_blank" class="timestamp">[03:03]</a> Sí, pues Ragnar, vas a flipar, ¿eh? Cuando llego por aquí, donde está la montañeta, aquí vas a pegar una patinada, tío. Una patinada, una pérdida de dirección. Fíjate que el tío... Las rodillas las tiene ahí arriba. O sea, es que no le cae la pierna, ¿sabes? Hostia, tío, cómo se le va al coche, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=216" target="_blank" class="timestamp">[03:36]</a> Esto es lo más divertido del mundo de conducir, eh. El bicho este. Esto es mágico. Dios, cómo se va a los lados cuando frena, tío. Fíjate que toma la curva, al acelerar se le va y tiene que tomar la curva con la dirección contraria a la curva.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=247" target="_blank" class="timestamp">[04:07]</a> Y ojo, que el tío no es que sea un manaza si el coche se le vaya yendo porque es malo con la dirección y con el gas. O con el freno. O sea, con el movimiento de pesos. No, no. Es que el tío se va fundiendo todos los demás coches. Entiendo que los demás van a cuchillo también. Sí, gira con el acelerador, sí. El pobre Mini ahí hace lo que puede. Le acaba de adelantar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=299" target="_blank" class="timestamp">[04:59]</a> un jaguar que le corta el paso atención aquí que se le va que flipas a la dirección todo esto tío la velocidad que va la pedazo cruzada que ha pegado de dirección exagerado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=328" target="_blank" class="timestamp">[05:28]</a> ¡Bestia, eh! ¡Mira, mira! El típico amigo que te dice ¡Mira, mira, mira! ¡Bestia, eh! ¡Hostia, profeta!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=352" target="_blank" class="timestamp">[05:52]</a> es que muy ligero este coche es el primero de 11 igual pesa 900 kilos y poco 950 kilos de pesar así este coche es muy muy muy ligero muy poco peso no se tiene un swap de motor igual lleva un 2,4 de motor con 200 caballos puede ser y 200 caballos con 200 kilos ya son cosas bestias</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=396" target="_blank" class="timestamp">[06:36]</a> Muy bestia, tío. Muy, muy bestia. Claro, esto lo explica José en el vídeo que he hecho de los Porches. Los dos primeros años del 911 Turbo, el primer Turbo, no tenía valvo de descarga, que os recuerdo, que no entiendo eso, como no tenía valvo de descarga. No tenía intercooler y era un motor que subía un rápido de vueltas y es muy radical.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=429" target="_blank" class="timestamp">[07:09]</a> hay vida después de los porches ya pero no es lo mismo Samu no es lo mismo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=459" target="_blank" class="timestamp">[07:39]</a> Ni un coche te va a dar la tracción que tiene un V11. Ni de coña. Y la frenada tampoco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=476" target="_blank" class="timestamp">[07:56]</a> a mí estos cambios me encantan tío la palanca está así doblada larga clac clac clac está así súper mecánico y luego tercera cuarta así es reducir esto muy mecánico me encanta como acelera un coche en el 77 de calle tío</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=503" target="_blank" class="timestamp">[08:23]</a> Joder, macho, pero es una auténtica locura para la época, ¿eh? De 800 a 140, qué barbaridad, ¿eh? Fíjate, la versión que Porsche hizo para Caraghan, especial para Caraghan, que en el capó pone Caraghan en metálico, era este coche con 150 kilos menos, creo que era, una burrada así, y muchísima, tenía 360 caballos, tenía 110 caballos más que el de origen.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=532" target="_blank" class="timestamp">[08:52]</a> Una salvajada, tío. Súper bestia, debe ser, pero pepinísimo, ¿eh? O sea, este coche en el año 77 era una locura, ¿eh? Pero una sententica burrada, ¿eh? Que correr así. Dios, como empujan altas, tío. 160. Estoy flipando. Esto está de serie, sí, porque suena de serie.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=563" target="_blank" class="timestamp">[09:23]</a> Había un poco de cuesta abajo, ¿no? Porque había 180 en nada. Me quedaba muerto, tío. Este vídeo no lo había visto, ¿eh? Tiene curiosidad porque... Ya te digo, los primeros turbo fueron muy radicales y los dos primeros años. Y los siguientes... Creo que esto los hizo el departamento de Motorsport. Y los siguientes ya lo hicieron un intercooler. Habló a descarga, no sé qué.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=592" target="_blank" class="timestamp">[09:52]</a> Son más potentes, pero ya son mucho más dóciles. Adrià, ¿cuál es el simulador donde es más fiel conducir un 911? Hostia, pues no lo he conducido todos, pero la Seto Corsa con el RUF me pareció realista. Tenía que conducirlo bastante más, porque solo intenté hacer drift con él y me recordaba mucho a mi coche. Estos coches tienen una burrada de tracción, pero una locura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=620" target="_blank" class="timestamp">[10:20]</a> perdón porque piensa que detrás deje trasero donde va matriculada está el motor todo el peso del coche está detrás y entonces</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=631" target="_blank" class="timestamp">[10:31]</a> Por mucha potencia que tengas, tú aceleras y eso no se suelta. No se suelta, tío. No es como un M3, que el eje trasero está colgando, va botando, y tú das un golpe de gas así, das gas, sueltas la gas otra vez, y depende de cómo pilles, se suelta el culo, ¿no? Eso no, eso es un... Y cuesta mucho, y me parece muy realista. Luego, en el Deep Rally 2, me hizo gracia, porque cuando te acostumbras a llevar un M3 de 30, por ejemplo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=657" target="_blank" class="timestamp">[10:57]</a> Pues coges el 911 y el Alpine. El Alpine que tienes todo atrás también tiene una conducción muy 911. Te hablo de memoria. Tendría que probarlo otra vez. Ponerme y verlo. Y me parecía recordar que vaya bastante 911. A ver, los 911 tienen características, o todos los viejos, que es la siguiente. Tuve un coche con un peso más o menos equilibrado, sobre todo con motor delantero. Cuando llegas a una curva, vas a la recta, te vas acercando progresivamente a la curva, vas de un extremo a otro de la...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=686" target="_blank" class="timestamp">[11:26]</a> de tu carril o de la carretera, llegas, pisas la línea de tu derecha y entonces aceras suavemente y sales de la cura. Tienes que hacer una conducción muy progresiva. Es decir, visto desde arriba la cura, tienes que ser lo más recto posible dentro del ángulo este.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=704" target="_blank" class="timestamp">[11:44]</a> Un 911, exagerándolo, al tener todo el peso detrás y la dirección, que depende de cómo vayas, pues no gira. Bueno, sí que gira por muy poco. Bueno, a verte. La gente acostumbra a un BMW, siempre les pasa lo mismo con los 911 más antiguos. Por ejemplo, mi coche, cuando alguien venía y cogía mi coche, era siempre decían mismo, ¡no corre! ¡No corre en curva! ¡Es que no corre! ¡Ve mierda coche! ¡No tiene paso por curva! Que sí que corre. Que no sabes conducir, es un normal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=734" target="_blank" class="timestamp">[12:14]</a> Mira, que no corren y entran, pero pasadísimos a velocidad. Iban ahí, pero viene la curva, venga, va, se meten de morro ahí. Que no va así este coche, tío. O sea, tú cuando ibas a la curva, primero tienes que meter un frenazo, mueves todo el peso al morro y cuando has movido el peso al morro, el coche te gira. Pero si no frenas, el morro tiene peso, no gira. Entonces pasa eso, que tú...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=759" target="_blank" class="timestamp">[12:39]</a> te metes en la curva y notas que el morro no te sigue y sueltas el gas porque no gira. Esto es como una Zodiac. Tienes el motor aquí atrás y la palanca y la dirección y la dirección se ayuda del gas. Entonces, tú no entras progresivamente con esa finura entrando. Tienes que ser fina, evidentemente, pero la trazada no tiene nada que ver. Tú tienes la curva. Tengo que ampliar porque si no...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=789" target="_blank" class="timestamp">[13:09]</a> Te he hecho la curva ahí. Yo me acuerdo que con dos personas. Uno tiene un GT3 potente y el tío macho le costaba, ¿eh? Acostumbrado. Sí, no mola. Lo hice un par de veces nunca más en mi vida. O tres veces lo he hecho y otras veces mal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=804" target="_blank" class="timestamp">[13:24]</a> Y entonces le decía, no, cuando llega la curva, yo... No frenes, no frenes, no frenes. A derecha, ¿sabes? La curva de izquierda. A derecha, quédate a derecha. No frenes, no frenes. No, que no frenes, ¿sabes? Y cada curva, que no frenes, que no frenes. Así. Y cuando se acerca la curva, frena fuerte. La frenada regresiva, no es que yo sea un experto, ¿eh? Pero el concepto este de... Mites el frenazo fuerte y cuando vas a llegar a un punto en que disminuye velocidad, tienes que ir soltando progresivamente el freno, ¿no? La frenada regresiva. Pero bueno, resumiendo para no enrollarme...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=832" target="_blank" class="timestamp">[13:52]</a> Curva bastante abierto, comparado con un coche equilibrado como un BMW 3, por ejemplo, bastante abierta la curva, cosa que la gente no le entraba. O sea, frena, frena, frena, frena. Y ahora toma la curva, métete y desde el principio la curva tienes que acelerar. Claro, con un BMW, por ejemplo, aceleras mucho más tarde. O sea, toma la curva, tocas este vértice y entonces ya aceleras y cuando ya está el coche estabilizado, das gas a fondo, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=863" target="_blank" class="timestamp">[14:23]</a> Ahí no. O sea, freno, freno, freno, freno. Ya giras y ya cuando giras das gas. O sea, ya has hecho el apoyo con el morro antes de que entres ya dentro de la curva. Ya estás dando gas, pero a fondo. A saco tienes que dar gas. A lo bestia. Gas a lo loco. Que el culo no se va. Que el culo está clavado. Claro, en tu chip de BMW...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=882" target="_blank" class="timestamp">[14:42]</a> Te estás ahí y dices, no, no, no, dale gas, que no se va el culo. Bueno, tienes que saber llevarlo, pero claro, un M3, le metes el gas así como te digo y te pega una trompada que ten manos para aguantarlo, ¿eh? Pero que no, tío, que mi coche tiene las ruedas así de anchas y va 2,85... No, ahí va 2,95 detrás, acá al lado...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=901" target="_blank" class="timestamp">[15:01]</a> el motor que pesa una barbaridad y la caja de cambios. Tú atrás. Pero es que no delante del eje trasero como un Ferrari y un motocentro, no. Es que lo iba atrás de todo. Es que tienes que cambiar el chip. Entonces tú, cuando estás entrando a curva, y ya gas, gas, gas, gas, y a fondo tienes que agarrar. Es muy agresiva la conducción. Es una conducción muy agresiva y es lo que... Bueno, te hablo de novences viejos. Los modernos ya... Es otro rollo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=928" target="_blank" class="timestamp">[15:28]</a> No es tan bestia. Pero es una conducción muy agresiva que para mí me encanta. Pero ya te digo, mucha gente no tiene ni idea. Y coge un 911 y dice, pues no, pues no corre. Es que no se ha conducido, chaval. Pero vamos, que era ese sitio que sentía común, ¿eh? Y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=946" target="_blank" class="timestamp">[15:46]</a> claro un m3 pues es juguetón sabes es como pues lo que no es fácil para nada pero puedes hacer una rotonda y bueno este vídeo lo grabé yo ya sabéis ahora os lo enseñaré bueno de hecho si escucháis se oye mi voz ahí en el vídeo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=974" target="_blank" class="timestamp">[16:14]</a> Hostia, cuanto más tiempo pasa, peor se ve el vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1000" target="_blank" class="timestamp">[16:40]</a> Claro, esto con un 9.11 no lo haces ni de coña. Con un GT3 sí. Pero con los viejos ni de coña. Olito, ¿no te cepillas el coche con un cido tan agresivo? Bueno, aumenta el desgaste proporcionalmente. Igual que aumenta el consumo de combustible y de frenos, todo, sí. Bueno, lo bueno que el V3 llevaba Pilot Sport Coupe. Ya está, se llama así, es verdad. Llevaba los semislicks de origen, los Pilot Sport Coupe. Que eran carísimos y blandísimos. Y que duran los rumáticos nada y menos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1031" target="_blank" class="timestamp">[17:11]</a> O sea, que eso es puro chicle. Y ahora sí, fíjate cómo se va el coche, ¿no? Pues te quiero decir esto, que... Claro, el que viene con el chip BMW, el 911, un 9S4, un 911 como este que veis en el vídeo, le parece una caca porque va con el chip M3. El culo se mueve, ¿no? Pues la gracia. Y se ponen a...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1054" target="_blank" class="timestamp">[17:34]</a> Bueno, un buen amigo mío, no sé qué, le dejé mi coche y me dejó un embrague nuevo, ¿eh, Virgen? Todo quemado. Unas quemadas, unas decoloraciones en el embrague de flipar, ¿no? Y me dice, hombre, es que lo he intentado derrapar y no derrapa. Y tiene un embrague, ¿sabes? Y yo, claro, ¿cómo voy a derrapar? Si necesitas tener 600 caballos para que te... Para el ángulo Pegasi que se desprenda los neumáticos y todo el peso que hay detrás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1077" target="_blank" class="timestamp">[17:57]</a> Y luego cuando hice el motor, restauré el motor y tal, el embrague, nuevo, que iba a tener el embrague. El embrague iba a tener 100 kilómetros de uso, es un exagero, ¿eh? Unas quemadas de flipar, ¿no? Pero bueno, creo que le puse otro nuevo, ¿verdad? Por si acaso ya ha puesto... Quemado el disco de inercia, perdón. Unas quemadas que flipas el disco de inercia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1096" target="_blank" class="timestamp">[18:16]</a> Bueno, a ver, que no se mueve el embrague, pero bueno, que es para que veas la gente. Y es eso, o sea, te montas un 911, es un 911. Si tú quieres conducir un BMW, te montas un BMW. Y si te montas un Corvette, conduces un Corvette. Llevas un bicho con pistones como ladrillos de hormigón, con dos válvulas por cilindro, que son válvulas como mi cabeza, como sombreros mexicanos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1123" target="_blank" class="timestamp">[18:43]</a> Y es todo lo bestia. Y es un bicho que le vas a meter 500.000 kilómetros y ni se entera. ¿No? Entonces... Si un tío viene de Mundo Japo con el Frank Spin, que es súper fan del Mundo Japo, lástima que es un tío muy sensible y no lo puedo entrevistar, porque... Lo que te decía. Claro, si tú vienes de Mundo Japo y te pillas un Dodge Viper...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1150" target="_blank" class="timestamp">[19:10]</a> No sube vueltas. Claro, tío. Si es un motor 8 litros de 10 cilindros. Claro, sube de vueltas, tío. Si tiene un motor como un diésel. Entonces es un 911. Es un 911. Con sus virtudes y sus efectos. Los americanos me encantan. Le llaman Small Block a los V8 5 litros. Sí, que es el pequeño. Porque el Big Block es gigantísimo, ¿sabes? Entonces...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1177" target="_blank" class="timestamp">[19:37]</a> Un 911 te va a dar tracción como nada y frenada como nada. Es el secreto de los 911. O sea, la gente... Está mal hecha, coche. Está mal diseñado. Está desequilibrado. Tú sí que estás desequilibrado mentalmente. Qué pesado, tío. Llevo 20 años escuchando a chorradas que el coche está mal diseñado. Pero ¿cómo va a estar mal diseñado? Subnormal. ¿Cómo va a estar mal diseñado? Es que está en un sitio que no es natural, ¿no? Como si no fuera orgánico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1207" target="_blank" class="timestamp">[20:07]</a> el motor tiene que estar en centro el motor delante tiene unas virtudes y el motor de atrás colgado de eje trasero tiene otras virtudes el motor colgado de eje trasero te obliga a tener un motor boxeo no te cabe pero tío te da una tracción que no te da nada tú a un 911 le puedes meter 800 caballos siendo trasera y te va a traccionar o sea tú te coges 50.000 coches potenciados y no traccionan nada</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1237" target="_blank" class="timestamp">[20:37]</a> Es como los Konischgeck. ¿Conocí los Konischgeck? Esos que hacen de... Konischgeck, ¿no? Sí, el sueco ese. Que hace coches de 1500 caballos, locuras de esas. El motor no funciona en esos coches.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1253" target="_blank" class="timestamp">[20:53]</a> O sea, tú haces a fondo en un Koeniggeek y el control de tracción hace clac, clac, clac, clac, clac, clac, clac, clac, clac, clac, clac, clac, clac, clac, clac, clac, clac, clac, y hasta que no llegan a unos 200 km por hora, no empieza a tirar el motor. Literal, ¿eh? Esto es la realidad. No te he sentido ninguno. Pero en el V11, ¿por qué os creéis que este coche corre lo que corre? Siendo año 77. Porque tiene motor atrás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1277" target="_blank" class="timestamp">[21:17]</a> O sea, tú te pillas un muscle car de la época con una potencia que flipas y que no se mueve. No se mueve, si haces así, te impresiona, es una cabra loca, pero el circuito coche no va. Va muerto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1291" target="_blank" class="timestamp">[21:31]</a> Me estoy quedando muerto. Yo sabía que este coche tenía una forma legendaria de ser muy radical, muy difícil de conducir, porque pensaba que este coche son cuatro marchas. Mira, de hecho, un conocido se compró uno. Porque cuando era pequeño, en la España de los estertores de Franco, aquí ha dicho lo terrible, pues los coches no se cerraban y tenían llave. Bueno, a ver, habría unos barrios, algunas ciudades de España que se cerrarían, pero en general no se cerraban.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1319" target="_blank" class="timestamp">[21:59]</a> Y entonces había un vecino que tenía un 9A11 Turbo, que es este coche que tenéis aquí. Un 9A11 Turbo. Que en aquella época, un 9A11 Turbo, la carga fiscal era del 100%. O sea, si el coche te valía 15 millones de pesetas, que en España con 15 millones de pesetas igual te comprabas 3 o 4 viviendas, sin exagerar nada, pues con la carga fiscal de Franco te costaba el doble el coche, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1345" target="_blank" class="timestamp">[22:25]</a> Quiste, ¿el McLaren F1 dirías que es el mejor supercoche? Sí, de los tres mejores de la historia, sí. Bueno, no he conducido ninguno, pero por todo lo que he leído, que he leído bastante y referencias, luego, Quiste, si quieres hablamos de la lista de mejor coche de la historia. Luego leo el Shimofumo, luego hablamos de esto. Si no digo nada, comentáis porque los contesto después. Pues bueno, que el vecino se compró un 911.30, hasta. El bestia, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1372" target="_blank" class="timestamp">[22:52]</a> Ya, pero es igual, es para hacer el video integral, aunque lo he contado otras veces. Y el niño, con otro amigo, se montó, estaba ya puesta, lo encendió, y cogió la calle, le metió primera y va a hacerlo a fondo. Y el tío me dijo que quedó toda su vida, recordaba la sedación como algo inolvidable. Le impactó.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1391" target="_blank" class="timestamp">[23:11]</a> Claro, y es que no todo el mundo ha escuchado la nota Lo que explicaba el tío Y entonces su sueño era comprarse el nuevo 11 Turbo Pero el primero, el viejo viejo, ¿no? Era pues en el año 2000 o 2000 y pico cuando se compró Sí, el año 2000 Pues el pavo me dice cuando lo compró Lo compró no sé dónde y lo trajo a Barcelona Eh... Sí, Costco y seis recomendadores, sí Claro, me dice Cuatro marchas Motor, seis cilindros, monoturbo O sea, un turbo, gordo así</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1419" target="_blank" class="timestamp">[23:39]</a> leen tu nariz en el turbo y que luego te pega un patadón marchas larguísimas pues que decía el tío y el tío se quede de traerlo cuando compro de traerlo ya dijo me lo vendo pasabas de estar abajo de vueltas que no se mueve el motor con el tal turbo te pega un patadón con una estirada espectacular</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1438" target="_blank" class="timestamp">[23:58]</a> Claro, de 4.000 vueltas a 7.000, corría que flipas. Hasta entonces te quedas esperando. ¿Qué sucede? Era todo o nada. O ibas ahí muerto de potencia, o cuando empezaba a acelerar era meter marcha y sin penaltas. Sin penaltas, sin penaltas. Y sin mantener las revoluciones, el coche era un cohete.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1454" target="_blank" class="timestamp">[24:14]</a> Pero si no, se bajaba y se ahogaba otra vez. O sea, muy radical. Y entonces con las rondas de Barcelona y tal, el tío flipaba, ¿sabes? Estás ahí... Y luego una estirada. Porque encima este se ve que tiene un crucer de levas un poco bestia, ¿sabes? Un poco radical. Entonces, más exagerado aún. Y es eso, hay que tener manos, ¿eh? Y es un coche de todo arriba, todo arriba. Y como se te va con un poco las reducciones, se ahoga y ahí te quedas tirado hasta que recupera un poquito, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1484" target="_blank" class="timestamp">[24:44]</a> ¿Qué? Vaya rollo este metido, ¿eh? Tela, ¿eh? Joder, vaya empuje, chaval.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1511" target="_blank" class="timestamp">[25:11]</a> Yo no imaginé que con un turismo de calle del 77 pudieras ir en el Wolverine con esta velocidad, eh. A ver, está claro que estos coches si tienen la fama legendaria que tienes por algo, eh. ¿Lo has visto de todo? ¿De 140 a 190? ¿Has visto la velocidad que pide 190? Tú cógete un deportivo año 77 y me cuentas, eh. Chaval, pero como sube esto de velocidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1540" target="_blank" class="timestamp">[25:40]</a> Ahora entiendo cuando me decían, es que subía el velocímetro como el cuántas revoluciones. Me parece exagerado. Pues sí, sí. Vaya paso por curva, chaval.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1563" target="_blank" class="timestamp">[26:03]</a> Madre mía, lo que hace a ligereza, ¿eh? Y neumáticos modernos, yo diría neumáticos de tecnología actual, que eso se nota todo. Hola, Keitel, ¿qué tal? Vosotros pensad que entre un GT3 MK1, MK2 o un modelo u otro, la bestial diferencia de tiempos en Urburing son los neumáticos, ¿eh? ¿Quinta? ¿Quinta?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1596" target="_blank" class="timestamp">[26:36]</a> Este coche era lo más rápido del mundo en su época. Y Caraghan tenía este coche con ciento y pico kilos menos y cinco años más. Suerte cuando tengo pasta. Porque me pongo a buscar uno y me lo compro mañana. De 9.30 turbo de primera serie. Qué pasada, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1626" target="_blank" class="timestamp">[27:06]</a> El índice de sinistralidad del circuito este es absurdo, ¿eh? Pero absurdo, ¿eh? Mira, aquí está un GT3 997 parece, no lo sé Pues ahí el tío se ha dejado unos cuantos miles de euros, ¿eh? Pero bastantes miles, ¿eh? 997, sí Ah, otro, dos espiñados</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1652" target="_blank" class="timestamp">[27:32]</a> ¿Sabes qué pasa con estos coches? Como el 930 Turbo. Es un 9-11 Turbo pero la silla 930. Claro, las características en papel, las especificaciones de velocidad en papel no se corresponden con la sensación que vas a tener. ¿Por qué? Porque acelerando hasta que no entra a las altas revoluciones es un cepo. Y entonces tú cuando vas conduciendo y aceleras a 5 mil vueltas la patada y las prestaciones son absurdas. Pero claro, se concentra en un margen así de revoluciones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1683" target="_blank" class="timestamp">[28:03]</a> No, 60.000 tanto no, que se ha chafado un poco de morro. El problema es que te cobran todo el trabajo de derretir el vehículo, la curva PC de oro y el quitamiedos. No me acuerdo si te cascan 2.000 euros al metro o algo así del quitamiedos. Sí, bueno, el quitamiedos, como se diga.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1724" target="_blank" class="timestamp">[28:44]</a> Tío, esto está de serie, chaval. Con ruedas de calle Hankook RS2. O sea, no lleva ni semi-sleak. Estoy flipando, chaval. Dios, cómo corre el maldito coche, ¿eh? Ya os lo dije que me pasó a mí con el 911 SC del 81. Lo que corría eso no era normal. Es que al final cuando coges un coche que no pesa nada, con un motor un poco gordete, flipa, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1751" target="_blank" class="timestamp">[29:11]</a> No sé qué disfrutaba más, si el 911 de 77 o el corte de pelo del 77. Sí, es verdad, muy reto el corte de pelo, ¿eh? El tío es muy bueno conduciendo, no sé si es piloto retirado o qué, pero vaya pasada, ¿eh? Muy bestia, ¿eh? Sí, sí, el copiloto se está cogiendo aquí a la garra a manos este, vamos, que va a dejar los dedos ahí imprimidos en el cuero, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1773" target="_blank" class="timestamp">[29:33]</a> agárra me manejaste el m3 de 46 csl no en casa tengo un cs manual procese no pese lo tenía un conocido mío que es donde grabé el vídeo y hostia la diferencia entre m3 y un csl era potente las visiones la admisión de cesar es de hostio bestial el bmw m1 del 78 en la pasada un conocido mío tiene tenía el m1 el viejo de 78</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1801" target="_blank" class="timestamp">[30:01]</a> que me acuerdo cuando entré en su casa tenía un Ferrari 430 GT3 creo que era el de competición, el de carreras ahí con los pistones esos que se le va el coche y diferentes coches más y uno tapa con la lona y cuando entré ahí y vi el coche tapa con la lona</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1821" target="_blank" class="timestamp">[30:21]</a> Yo entré y dije, ¡hostia! ¿Es un M1? Y el dueño, ¡hombre! ¡Sí, tío! Emocionadísimo. ¡Joder, menos mal! Todo el mundo con el marito Ferrari en narices. Vale, Ferrari era espectacular, hay que decirlo. Pero claro, yo vi el M1 y dije, tapado, ¿eh? Pero claro, es una cosa tan cuadrada y con el morro en punta y bajito. Y dije, ¿esto es un M1, no? Y el tío emocionado, si es un M1. Y lo destapó y tal. Y el tío con un amor por los coches y un hombre mayor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1849" target="_blank" class="timestamp">[30:49]</a> Y le hice una ilusión que yo reconocía al M1 tapado porque si llega la peña ni es tapado. Entra el Ferrari y el M1 y lo miraban. Y me monté el M1. Qué pasada de coche el M1, de verdad. Porque combinaba el rollo Gran Turismo del butacón de cuero así ancho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1867" target="_blank" class="timestamp">[31:07]</a> el cambio era de rejilla pero el volante era un rollo retro ultra deportivo cómodo me encantó ancho cuadrado la estética espectacular como retro futurista todo cuadriculo el coche con las llantas tipo tapa cubo así de como de con muchos platos juntos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1889" target="_blank" class="timestamp">[31:29]</a> era claro tan tan afuera de lo común en el mundo deportivo y luego el capó abierto atrás del motor se haciendo es en línea por reto que a mí los motos en línea con trompetacas y escape así recto me parece lo más lo más lo más con la misión esa de guillotinas así con las trompetas el escape y creo que el moto en la caja que me la tenía trasera</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1916" target="_blank" class="timestamp">[31:56]</a> que os recuerde, no delante de motos sino de atrás. Y, buah, yo veía motores y dice, esto tiene que ser, pero claro, el tío me decía que era muy muy radical, hace cuadrado el coche, corto y muy ancho, y de carreras para calle, de carreras completamente, me decía que, claro, la gente lo coge con cuatro gotitas y se va afuera, y se asustan y no lo quiere coger.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1940" target="_blank" class="timestamp">[32:20]</a> Samo, yo lo he visto varias veces al lado de mi pueblo. Hace muchas concentraciones clásicas. Joder, pues el BMW van cotizados, eh. Pero cotizados. Me dijo el tío que de la propia BMW le venían a comprárselo, insistiendo. Porque claro, unidades de serie original y tal. Y se subastó. Al final lo subastó en Bélgica.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1961" target="_blank" class="timestamp">[32:41]</a> Él cree que le estafaron, pero bueno, que le da igual porque él tiene un precio objetivo, se lo pagaron y ya está, le da igual, ¿no? Él sospechaba que estaban con pinchados el subastero con el comprador. Lo que él vio le pareció que fue último, ¿no? Subasta de un M1, ¿eh? Que no hablamos de un Golf. Se subastó, creo que eran por 600.000 o 800.000 euros o así. Fíjate, ¿eh? Pensad que estaba mañado. O sea, imagínate que igual se hubiera vendido por un millón de euros el coche.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=1991" target="_blank" class="timestamp">[33:11]</a> ¿Cuál fue tu primer coche? ¿Y con qué edad? ¿Con 22 años? No, 21 años Una Renault Express Flagoneta, carburación, cuatro marchas Un pepinazo, tío Pero molaba, de verdad Brutal este coche Flipante, bestial esto, tío Brutal este coche, madre mía, tío Si pudiera tendría uno, eh Y mira que tampoco estoy muy flipado con los coches Pero joder, qué maravilla de aparato, eh</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2025" target="_blank" class="timestamp">[33:45]</a> Vale que el GT3 va pisando huevos, ¿eh? Pero no, el GT3, el GT7, este que habéis visto, tiene un chasis que parece un avión. ¡Qué alucinas, tío! Increíble que se lo funda así, ¿eh? No, esa flaconeta la desguacé, que fue una cagada. Esa la desguacé hace años. Segunda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2057" target="_blank" class="timestamp">[34:17]</a> Lo había rapado por movimiento de masa, porque por gas no... ni se entera, ¿eh? Flipo la aceleración de la chatarra esta, tío. Flipo, ¿eh? Había un TTI y un GT397, Crovax.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2098" target="_blank" class="timestamp">[34:58]</a> Esto es lo más nurrín que hay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2100" target="_blank" class="timestamp">[35:00]</a> hay el nurgin con un 11 turbo de los viejos tío el misha karudin con m2 hace poco el vídeo que están dulces casi se mata</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2131" target="_blank" class="timestamp">[35:31]</a> esta caja de cambios meter a segunda cuesta es muy tercera y es un movimiento que tienes el brazo un poco estirado y luego la segunda es muy fíjate que pone la mano así, no pone la mano así, ¿sabes? no sé, es un poco igual soy yo que me faltaba adaptarme a ella, seguramente pero me costaba un poquillo que no es muy rápida la caja de cambios esa</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2162" target="_blank" class="timestamp">[36:02]</a> Aquí se ve. Mira. No sé si ha sido aquí o qué. A ver. Vale, se mete la curva. Aquí, con el cambio de apoyo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2186" target="_blank" class="timestamp">[36:26]</a> Vale, que no es muy curva. Bueno, no es un buen ejemplo. Que quiero decirte aquí con un M3, como vayas tan gas a fondo entrando y usando la curva, puede ser que el coche de culo te pegue un meneo bueno, ¿eh? ¡Guau! O sea, para hacer la reducción tan rápida, tienes que tener un tacto con los sincros, tío. No puedes coger y meter de golpe, pero te pegue una rascada que flipas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2215" target="_blank" class="timestamp">[36:55]</a> ¿Cuál es tu coche diario favorito de esa época y actual? Mira, el mejor coche que he tenido nunca, lo que es en relación a la realidad, el Opel Corsa G6, el primera serie, el primero, de 100 caballos, pero del faro cuadragordo, que lo tenía tocado de amortiguadores y bastidor y eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2235" target="_blank" class="timestamp">[37:15]</a> Eso era el mejor coche del mundo, tío. Divertido, lo usaba cada día y era Dios con él, ¿sabes? La mina de metosía tampoco es que haya un flipado, pero es que de verdad, tío. Y va, pero algo impresionante, ¿eh? Y es que... Y encima era lo que hizo el americano es un sleeper. Que parece una chatarra, pero la chatarra no te la esperas. Te pegan hace un día que te quedas colgado, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2261" target="_blank" class="timestamp">[37:41]</a> Y... Y es eso, ¿no? O sea, cuando algún imbece de una vacilada... O sea, es el típico ahí que te adelanta en un sitio y ¿qué haces? En plan, pa' echarte. Que coge adelante y te mete. Yo, sí, hombre. Cogí a dar gas... Y es creado como un coche de carreras. Porque ya las viste en PSB 14. Instaladas en el coche. Todos los signos cambiados, etc. ¿No? De barras entre torretas delante y detrás. Y claro, y era un coche súper rígido, súper fiable. O sea, me iba a que flipas. Y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2292" target="_blank" class="timestamp">[38:12]</a> Sí, sí, me ponía con el coche, con la punta de gas, porque encima corría que te cagas. El otro coche ahí que... Es el flipado. Es el típico niñato con un coche potente, nuevo y tal, que va a comprar el padre. Que va ahí y coge... Y me quiere meter un corte adelantando la guardia. Si vas a flipar, chaval. Tío, gas, me meto así. Y claro, es que tienes un control con ese coche. Y es tan pequeño. Y el cristal delante. Y la posición. Ves todo... Visualiza tanto el coche. Es que era perfecto el coche ese.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2320" target="_blank" class="timestamp">[38:40]</a> Sí, sí. Y entonces se ponías ahí y yo podía conducir a... Y yo por el coche. No es por el coche. A esto de esta fase del coche. Y claro, flipado ahí, que iba súper agresivo, asustado. Frena, freno, acelero, acelero. Y tú no te metes otra vez en carril, ¿sabes? O sea, tenía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2336" target="_blank" class="timestamp">[38:56]</a> Iba tan bien el bicho ese. Y sobre todo, al pesar 800 kilos, la instantaneidad de las reacciones. O sea, me dicen, hombre, si te dicen caballo ya, pero pesa 800 kilos, tío. Es que aceleras y ya te responde. Vale que la estirada no será espectacular y no coge y te mete 200 por hora. Pero en el ámbito este de la ciudad, de los esmáforos, etcétera, el coche responde como una moca. O sea, tajas y ha acelerado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2362" target="_blank" class="timestamp">[39:22]</a> Tú puedes coger un pepino, das gas, pero... Que sí, que luego pega una estirada que flipa, pero tú das gas y no te responde al momento. Eso sí, era... Y ya está, cerrando. Que sí, que luego no pega la gran estirada. O sea, no se estira ahí como si fuera motos y cilindros, un V8... No, ¿me explico? Pero era para lo que es la... Sí, hombre, ya ves. Ese coche era Dios, tiene un control...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2392" target="_blank" class="timestamp">[39:52]</a> es que este coche no tiene ABS y no tiene servofreno no tiene ABS y no tiene servofreno no vea lo difícil que es conducir este coche me pasó que uno ve once del año o si tiene servofreno yo diría que no tiene servofreno este</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2446" target="_blank" class="timestamp">[40:46]</a> Mola mucho esta gente que tiene un coche y se casa con él toda la vida, como este tío que, bueno, igual es piloto profesional, pero tiene pinta que el coche este lo tienes de hace mil años y lo lleva siempre y lo tiene que coger por la mano y son un montón, de verdad. El tío tiene manos. Ya ves si tiene manos, flipa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2472" target="_blank" class="timestamp">[41:12]</a> Tienes que tener manos, muchas manos, porque este coche, sin barras anti-huelco, sin casco, como vuelques, te matas. Pero vamos, que la cabeza te rienda con huevo, ¿eh? Si el techo se te hunde como papel, ¿eh? ¡Quítate de en medio! ¡Qué agresivo es el tío conociendo, flipa, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2503" target="_blank" class="timestamp">[41:43]</a> ¡Qué control, tío! Y el tío lleva copiloto, ¿eh? 70 kilos más de peso, ¿eh? Que en un clásico es una barbaridad. Gusiluz es un 911 Turbo Primera serie, el 3 litros. No el 3.3, el 3.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2535" target="_blank" class="timestamp">[42:15]</a> ¿Tú sabes lo que quieres con ese chasis de papel haciendo 80 por ese tramo? ¿Que esos mortidores de esa época son un truñazo? Comprar con ahora, claro. No, yo tengo 9.3, Cusiluz. El mío es del año 97. Esto es del año 77.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2570" target="_blank" class="timestamp">[42:50]</a> Realmente el tío va sobre el seguro. Se tiene manazas, pero no es el burro. Tiene margen de seguridad, creo yo, conociendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2597" target="_blank" class="timestamp">[43:17]</a> Hombre, estos interiores tienen una calidad increíble. Además, sí que son preciosos. A mí se ha picado esto. Se ha picado este, perdón. Con los pedazos relojes, así, enormes. Y en medio le cuentas revoluciones, así, que tienes la paella. Y en medio estará el relojazo de revoluciones. Y plástico duro, duro, de una calidad espectacular. Estos coches tienen una calidad, pero bestial. Bueno, y los Porsche 928, que tuve uno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2624" target="_blank" class="timestamp">[43:44]</a> Pues eso tenía una calidad, pero de lo mejor que he visto. Un deportivo, ¿eh? Claro, aquí hay poca Porsche, cada coche que vendía ganaba muy poco dinero. En relación a ahora. Eran coches de mucha, mucha calidad y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2655" target="_blank" class="timestamp">[44:15]</a> cuando pasaron los motores refrigados por agua cuando los modernizaron a saco a saco bajaron a calidad a lo bestia y subieron los precios y vendieron más que nunca más que nunca, fíjate y coches pero malos con avaricia pero ridículo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2682" target="_blank" class="timestamp">[44:42]</a> O sea, pasando a hacer motores indestructivos como este, motores. Este tío se pega aquí, no sé cuántas vueltas, las que quiera, aquí en Ururin, que es una paliza monstruosa, que esto lo hace con cualquier otro coche y te salta la... Bueno, te hablo de coches que no sean superdeportivos, claro, que está hecho para eso. Te salta el tapón del refrigerante, te caes el líquido y te paras ahí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2705" target="_blank" class="timestamp">[45:05]</a> que no aguanta el coche, te caes sin frenos, todo. Este coche, fíjate la velocidad que lleva, el rendimiento que tiene, el daño que es, y ni se entera. Le puedes meter aquí vueltas, vueltas, vueltas, en el circuito más bestia del mundo, que te revienta suspensiones todo, el motor. Y este tío, se puede coger el coche e irse para casa...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2727" target="_blank" class="timestamp">[45:27]</a> bueno hace la revisión de aceite el neumático sé cómo están y se va para casa con el mismo coche y se entera el coche ya te coges de aquí de rugby y te vas a madrid con el de tirón o sea coches de la calidad increíble pues cuando hicieron el cambio de calidad porsche en el año 99 98 99</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2746" target="_blank" class="timestamp">[45:46]</a> Yo me acuerdo estar en Montmeló, mi primera experiencia así, antes de comprarme el mío, cuando fui, me puse en la zona VIP, en la arriba, porque ya es tanda libre, ¿eh? Me pongo arriba y veía los 9 y 11 viejos, ahí con su ruido de cortacespe, como este, y los nuevos ahí, súper bonitos, y luego paraban todos, tío, en boxes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2771" target="_blank" class="timestamp">[46:11]</a> a refrigerar, ahí, sacando... sacando vapor, ¿sabes? El motor. No aguantaban, tío, muy melo. Y los viejos estos, que claro, no corrían porque eran viejos, en su momento eran superpepinos. Y dale vueltas, y dale vueltas, y dale vueltas, y dale vueltas, ni se enteraban, tío. No, tranquilo, Jotaloop.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2794" target="_blank" class="timestamp">[46:34]</a> Samu, los frenos se han mejorado, cerámicos, carbono... Eso es una mierda, ¿eh, Samu? Lo que pasa... Hombre, si tienes un McLaren P1 de mil caballos, pues... Con el par motor que tiene, pues sí, hay ya... Pero si no, es una mierda. Son muy malos esos frenos, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2815" target="_blank" class="timestamp">[46:55]</a> Están hechos para características muy concretas. Si fuera de ahí, no sé para nada. Los porches del año 2000 a no sé qué año, que llevan las pinzas amarillas, al final todo el mundo compraba discos de acero adaptados y quitaban los de carbono y los guardaban. No los tiraban, pero los guardaban. Tienen un uso muy limitado los de carbono, los carbocerámicos. Bueno, que en verdad son carbometálicos, pero bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2849" target="_blank" class="timestamp">[47:29]</a> Sí, en el papel es una maravilla los carbono metálico, los carbono cerámicos, pero ¿qué pasa? Cada disco te vale 10.000 euros. Luego que se se enfría, no frena un pimiento. Luego el tema de pastillas, no me acuerdo. Mira, la gente no se complica la vida. Se los quita, los guarda y le mete de acero.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2868" target="_blank" class="timestamp">[47:48]</a> Unos buenos que se acaban. Venga, pues lo tiras. ¿Qué te va a costar el disco? ¿Mil euros cada uno? Pues venga, ala. Pero te cuestan 10.000 euros. Que mucha gente, excepto que tengas coches muy especiales, que se quitan los carbometálicos, tío, de verdad. Bueno, para el circuito no. Para el circuito ya te vale el nivel de temperatura de servicio de un disco carbometálico o carbocerámico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2902" target="_blank" class="timestamp">[48:22]</a> Mira, al principio el tema este de los discos cerámicos era más bien porque no mancha tanto las llantas. Esto es así, la gente lo compraba porque tienes una pinza muy abrasiva.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2918" target="_blank" class="timestamp">[48:38]</a> el pad como se dice la pastilla muy abrasiva y un disco muy bueno de acero pega una frenada y la llanta te queda negra porque es que se come el disco las pastillas tan agresivas y todo este pie carbón cerámico que eso dura que flipas bueno dura de qué manera no los los de por si se arrancan todos era un desastre</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2946" target="_blank" class="timestamp">[49:06]</a> Salvo, los neumáticos han avanzado mucho. Los neumáticos cada generación se transforman. Es una barbaridad. Mira, es que un modelo de GT3 al otro, creo que era el MK2, no me acuerdo si fue el 911, no me acuerdo. Bajaba 8 segundos en Nürburgring, 8 segundos por vuelta por el neumático nuevo Michelin. Ya está, o sea, la mejor al coche era 1 segundo y los 7 segundos eran neumáticos. Flipa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=2997" target="_blank" class="timestamp">[49:57]</a> y aquí tiene una curva de hacer a fondo fondo no tiene tiene un agarre el coche este con el paro motor que tiene el motor este flipa</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3029" target="_blank" class="timestamp">[50:29]</a> No, Samu, la suspensión lo es todo. Cualquier coche que te compres, si tú quieres hacer una mejora, siempre... Bueno, los automáticos tienen que ser fresquitos, evidentemente, no pueden ser viejos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3045" target="_blank" class="timestamp">[50:45]</a> Pero amortiguadores siempre nuevos, tío. Si de última lo mejor que haya. Los carreras GT. Que claro, la gente ignorante. ¿A qué le cambia la amortiguadora a un carrera GT? ¿Qué va a ser mejor? ¿Qué pasa? Que eres tan buen piloto. Que te cambia el coche. Que no sé cuál. La gente que compra un carrera GT. Ya la recomiendan. Le dicen, cambia las suspensiones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3071" target="_blank" class="timestamp">[51:11]</a> Cambia de suspension porque el coche en el año 2008 creo que es, o no, 2012, no me acuerdo, es igual. 2008 no, demasiado... No me acuerdo. El Carrea GT... La gente, cuando compas un Carrea GT, que no es mi caso, evidentemente, pues ya se lo recomiendan. Cambia los amortiguadores porque este coche es muy radical, pero es una barbaridad, es con una barqueta,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3092" target="_blank" class="timestamp">[51:32]</a> y que te pueden matar con ese coche, y que es muy radical. Si le acaban los tigores, ponemos estos nuevos, unos allings así a medida de 14.000 euros, el coche se transforma y es mucho más fiable. Y no se trata de ser machote, se trata de que el coche no te haga un plano y se haga disparado. Sí, Samu, en el mundo de los Evo, la gente pone allings de estas de bestias, bestias, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3122" target="_blank" class="timestamp">[52:02]</a> Sí, sí, el copiloto cuando acabe le dirá al conductor, por favor, ¿me despegas los dedos que no puedo soltar la mano?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3156" target="_blank" class="timestamp">[52:36]</a> Vaya pedazo de máquina. Estoy flipando. Vamos a verlo un momentito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3184" target="_blank" class="timestamp">[53:04]</a> Me parece que tenía 250 caballos de coche. Flipa, ¿eh? Creo que tenía 250 caballos. De 0 a 100 en 4,8 segundos en el 77. ¡Qué barbaridad! De parado a 100, 4,8 segundos. ¿Tú sabes lo que es eso, tío? Pretendían fabricar 500 unidades.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3212" target="_blank" class="timestamp">[53:32]</a> Pero al final acaban haciendo 18.000. No sé, me cuadra que corra bastante más de lo que pone ahí. Porque es que viendo el vídeo es una auténtica locura. No me sale el peso. Qué raya, tío. Me jode que no salga el peso. Parmotor, que me hago un lío. Cuando es en... Ah, newton, sí. 329 newtons. Fíjate lo que es la potencia. 260 caballos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3241" target="_blank" class="timestamp">[54:01]</a> Aquí parece que tiene 300, 260, la caca que tiene, ¿sabes? De potencia. Y tú mira lo que acelera el bicho este, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3258" target="_blank" class="timestamp">[54:18]</a> Claro, alguno que no estoy habituado con los clásicos y ve las prestaciones aquí viendo esto dirá, bueno, te da 300 caos mínimo, pues 260. Diconde, ¿y ahora de preparación no está de serie este coche? Neumáticos de carretera. Este coche está de serie. Este coche tiene fama de ser exageradamente rápido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3289" target="_blank" class="timestamp">[54:49]</a> Como sube de vueltas, tío. Un kilo de res, ¿eh? 200 caballos este coche. A 7.000 y pico vueltas, ¿eh? Buen bicho este bicho, ¿eh? Vaya, vaya flipada. Vaya flipada de coche, tío. Yo no sabía que el 930, el primero, el 3 litros, era tan, tan rápido, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3319" target="_blank" class="timestamp">[55:19]</a> ¡Ah! Este vídeo es buenísimo, tío. Pero no lo encontraba. No he encontrado este vídeo. Esto era un GT2. Es un GT2 MK1. El Widowmaker, que lo llaman. El GT2 de la Seno 96 es un coche famoso porque comprarte uno ahora, que no esté sin extrao y reparado, es muy, muy difícil. Era un coche que valía 35 millones de pesetas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3348" target="_blank" class="timestamp">[55:48]</a> 35 millones de pesadas en la época que era ultra hiper mega caro y era muy muy radical o sea era neumático atrás enormes pero enormes y muy muy abrupto y decía con el chasis gordo pesado súper rígido cuando se iba se iba pero a lo loco o sea se te matabas con él dios wala chaval vaya pedazo de control a nivel forma 1</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3380" target="_blank" class="timestamp">[56:20]</a> Qué fuerte, tío. Qué hipervelocidad. La velocidad de manos... Claro, yo puedo reaccionar haciendo así. Pero no puedo coger... Bueno, bueno. Eso es lo complicado es... Se ha controlado un coche el latigazo más de este ángulo de movimiento de brazos. Muy, muy loco, ¿eh? Este tío se ha pegado el susto de su vida, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3411" target="_blank" class="timestamp">[56:51]</a> Hostia, va rapidísimo, eh. Hostia, pero un CS... Un CSL, dirás. Un CSL es muy noble conduciéndolo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3424" target="_blank" class="timestamp">[57:04]</a> Un futbolista del Valencia... Y creo que la letra total es real... Se copió un GT2... Se flipado... Salió el concesionario... Y lo estampó justo delante del concesionario... Contra un muro o algo así... Pero este coche... Digo... Es muy difícil... O sea... Cuando te pega este latigazo... Tienes que ser increíblemente rápido de manos... Para ponerlo en el sitio... Porque estos chasis tan gordos... Tan pesados... Pega el latigazo, tío... Y es... No es como el chasis que has visto antes... Que es así... Blandito... Noble... ¿No? Que... ¡Uh! Y te avisa... Y juguetón...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3453" target="_blank" class="timestamp">[57:33]</a> Esto no es muy rígido y pega una hostia, tío, y se va por una fuerza. Déjame verlo bien, perdona. Guau, chaval, esto es una velocidad de manos bestial, ¿eh? Y qué respuesta, tío. No se lo cree ni él.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3489" target="_blank" class="timestamp">[58:09]</a> Este tío tiene que haber chafado con tus coches, ¿eh? El primer beeper tuvo una rueda trasera de 330. Me suena que era 350 beeper, ¿eh? Pero bueno. Es que iba muy, muy rápido, pero mucho, ¿eh? Hostia, Dios, que entra... Va muy rápido, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3523" target="_blank" class="timestamp">[58:43]</a> No, no tengo ni idea, no sé. Pero me vuelo, diría yo, que las suspensión son muy buenas. No lleva las de origen ni de coña. Igual está el peso equilibrado, ¿sabes? Por rueda y algo así. Porque si no, no sé, tío. Es muy bestia, ¿eh? Qué fuerte, tío. Este es el conductor del 930 de antes, ¿eh? Ojo, es el conductor del Porsche que he visto antes, ¿eh? Qué locura, tío. Estoy flipando, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3558" target="_blank" class="timestamp">[59:18]</a> Bueno, ¿os acordáis, no, de este vídeo? Porque a relación de la anterior, ¿qué sucede si coges al coche que has visto antes y le metes... ¡Qué fuerte, tío! Le metes 200 caballos más. O sea, casi le duplicas la potencia. ¡Qué locura, eh! ¡Qué burrada, tío!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3585" target="_blank" class="timestamp">[59:45]</a> que en realidad creo que la base no era un turbo era un carrera me parece todo superadaptado pero bueno para que veas el pepino que has visto antes bueno no estrictamente pero acá es la idea de 260 caballos a 480 que tenía este que no me acuerdo yo lo vería 480 caballos si eso hace como antes vendían coches que eran más que las potencias para matarte bueno no hay otra cosa tío</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3611" target="_blank" class="timestamp">[60:11]</a> Bueno, aquí en Playa de Aro, unos abuelitos holandeses creo que eran, bastante mayores. Iba el hombre ahí con un McLaren estos nuevos, Spider. Que claro, a ver, si se ha coche mucho, seguro. Pero siete marchas cortas. Con una potencia, no me acuerdo, 600 y medio caballos. No me acuerdo, súper bestia. Que... Por la autopista, no, por la autovía, se fue fuera con la mujer y el hombre...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3639" target="_blank" class="timestamp">[60:39]</a> Y los sacaron ahí los dos tan reventadísimos, críticos, no sé si murieron o qué. Creo que había un vídeo, me parece, que estaban todos ahí en el coche así. O sea, claro, el coche es muy seguro, muy asentado, pero claro, es que estos coches avisan porque son chasis blanditos. Eso cuando se iba... Perdón, estos coches modernos llevan ahí cuando te pega el latigazo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3664" target="_blank" class="timestamp">[61:04]</a> Con que tienen el nivel tan alto, el chasis tan rígido y cuando pega el latigazo, depende de qué coche, ¿no? Los GT3, al menos en el Montmeló en circuito, los 9.7, hostia, eran... No te avisan mucho, es muy rígido, no mola. Son seguros hasta que se va y cuando se va, estás volando. Samo, el Porsche que has puesto antes, el 9.30...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3690" target="_blank" class="timestamp">[61:30]</a> Me escogo la mano que en baja potencia da más caballos. Hombre, claro. Eso siempre. Eso es típico de Porsche, ¿eh? Sí, sí, seguro que da más caballos. Y Ferrari al revés. Ferrari te da la mitad de la potencia. Ferrari te da, vamos, típico italiano, ¿eh? O sea, qué pelo. Y te vende una mierda de coche. El 328 creo que se llamaba. No, el 348. Este. El 348...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3718" target="_blank" class="timestamp">[61:58]</a> Yo no sé qué potencia declaraba. Muy bonito, eh. Pero los Golf GTI, los MK2, se lo fundían acelerando. Alucina. Fíjate qué truñazo de coche, eh. Los 3... Fíjate. Los 355 que me parece de los coches más bonitos de la historia y mejor dibujados. 388 caballos. Ah.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3744" target="_blank" class="timestamp">[62:24]</a> Mira, se ve que tiene 300 y gracias. 300, ¿eh? Alucina. Y gracias. Yo me acuerdo que iba loco por uno. Iba a vender el mío y me iba a pillar este coche. En amarillo porque me flipa. Es ostentoso. Pero claro, es que... Mi estómago, tío. Tenía 100 callos más que mi coche. Pesaba 100 kilos menos y tenía 200 más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3773" target="_blank" class="timestamp">[62:53]</a> Y yo me decía, Dios, tiene que ser esto una catapulta. Y encima cinco balos por cilindro. Arriba tiene una aspiración. Yo me estaba montando una peli con el cambio STH casi mecánico, el sonido, el diseño. Y dices, tú soy Dios con este coche. Brutal, no sé qué. Y un amigo alemán me dice, esto no corre una mierda, es mucho ojo tu coche. Y yo, ¿qué? Que sí, que sí. Tuvo un montón el 355. Y me lo dijo, corre un poco más que el tuyo. Y ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3802" target="_blank" class="timestamp">[63:22]</a> Pero si tiene 12 lindros más, es un V8. Pesa 100 kilos menos y tiene 5 años más. O sea, es que... No, no. Claro. Tenía la misma potencia que el mío. En realidad, pesando menos. Entonces sí, corría un poco más y ya está. Eso sí, con un mantenimiento pero de Formula 1, ¿eh? El coche... De 388 caballos tiene 300. Vale. Siguiente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3831" target="_blank" class="timestamp">[63:51]</a> Este, el Modena, de 400, según base tiene 320 en baja potencia. O sea, un pimiento de coche. Le conozco a uno que lo compró y a la semana lo vendió. O sea, lo compró y tal como lo cogió, lo mandó para el concesionario. Que lo vendieran.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3849" target="_blank" class="timestamp">[64:09]</a> Claro, el 355, que es un coche, pues bueno, ya mecánico, sensaciones, se pilló esto y era como si fuera un coche chino o algo así. Era una mierda impresionante. Eso sí, probó un Challenge Stradale y se compró otro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3869" target="_blank" class="timestamp">[64:29]</a> este nada nada que ver italianos de competición y lección de calle a lo bestia o sea la noche y el día el tío fíjate de coger el coche probarlo y dice llévate esa mierda al módena a coger este y decir este coche es dios así literal no nada que ver pero los italianos no tienen recorce ninguna depende de una moto y el coche tiene 80.000 caballos y luego lo paga potencia no no no lo que pasa cuando es contemporáneo el coche cuela</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3897" target="_blank" class="timestamp">[64:57]</a> Pero cuando pasan una generación, dos generaciones y bajan de precio y la gente los pilla y el coche pues está más en el mundo de los coches, ¿no? Picas con colega y ves que te pasan las manos por la derecha, pues te quedas que dices, tío, que tengo con tantos caballos, ¿no? Con tantos caballos no tienes fantasías. Esto y Porsche es al revés. O sea, te coges el 930 Turbo, que tiene 260 en papeles y luego con poco potencia, pues no acuerdo, pero una auténtica barbaridad de potencia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3928" target="_blank" class="timestamp">[65:28]</a> al final se cumple un poco siempre bastante los estetipos de países y claro el coche antes le metes 200 caballos lo que hizo roof y le mete una marcha más le dista esta locura de coche que da hasta vértigo comparado con el otro da hasta vértigo y es un coche no es el mismo técnicamente pero vamos con si fuera mismo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3965" target="_blank" class="timestamp">[66:05]</a> A mí estos coches tan ostentosos me gustan oscuros. Si tienes razón, yo opino como tú. Lo que pasa del Ferrari 355 es muy bonito. No es un coche agresivo. Es ostentoso porque es un Ferrari, pero es muy bonito ese coche. O los coches muy feos. Los coches muy feos negros, que no se vean.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=3987" target="_blank" class="timestamp">[66:27]</a> esto calgas y mete una aspirada este es mi turbo mete una aspirada del turbo que se ha catapultado con el culo metiendo unos meneos absurdos qué locura</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4022" target="_blank" class="timestamp">[67:02]</a> Es que, tío, es hiperespacio, tío. Buah, chaval, me da hasta vértigo todo. Acostumbrado al otro, me está dando vértigo. Creo que es Stefan Veloz, el piloto. Salto. Ha saltado el coche, tío, aquí. Dios. Ha entrado en la curva a hipervelocidad, chaval. ¿Tú has visto esto?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4052" target="_blank" class="timestamp">[67:32]</a> Dios, qué subviraje, tío. Va a ser subviraje, subviraje, pero con un nervio increíble, ¿eh? Cuarta. Hostia, estoy al lado y me cojono, ¿eh? La bajada ahí a lo loco, la voz 60. La moto ahí que dice, apártate, loco. Como más reducido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4085" target="_blank" class="timestamp">[68:05]</a> Atención. Así se toma una curra con un 911 de los viejos viejos. Flip. Mira, mira. Te casco al detalle. Venga, volantazo. Gas, gas, gas, gas, gas. Algo este. Venga, gas, dale gas. Desde el principio dale gas. Bueno, en este caso son casi 500 caballos, ¿no? Con ruedas de bicicleta. Pero ¿tú has dado cuenta que dale gas desde el principio y dale gas, dale gas, dale gas? Ya, tío. Otra moto. Quita, hombre, que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4129" target="_blank" class="timestamp">[68:49]</a> Primera, tío. Luego hay otro vídeo que hay imagen de helicóptero y pega una fumada de atrás, una quema de neumáticos. Tío, o sea, va girando con el gas, como si fuera una zodia, ¿qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4156" target="_blank" class="timestamp">[69:16]</a> tercera primera primera es la potencia también este caso de tener para que el neumático vaya reventando esa manera tío</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4187" target="_blank" class="timestamp">[69:47]</a> La segunda es larga, ¿eh? Las marchas son largas. Creo que había 3,40 o algo así. Es que este coche se hizo ya</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4200" target="_blank" class="timestamp">[70:00]</a> legendario porque una revista de estas súper famosas ah no acuerdo cómo se llama revista hizo como a qué época es diferente hizo una prueba de velocidad con los coches motentes del mundo el f40 el f40 recién estrenado hace 40 que era el dios el porsche 959 que era lo más de lo más</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4222" target="_blank" class="timestamp">[70:22]</a> Y había Lamborghini, no me acuerdo. Había de todo, pero más bestia. Y claro, se esperaba que ganara el F40. Porque es que, hombre, es un V8 biturbo. Con 1.100 kilos de peso. Madre mía, tío. Vaya locura, ¿sabes? En el final del 80. Y ganó este. El desconocido. Que tú lo ves por fuera. Bueno, aquí se ve. Es este. Tú lo ves por fuera y tampoco parece nada especial. El coche, la verdad. Tú lo ves así, con un poquito estrechito y tal. No destaca, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4251" target="_blank" class="timestamp">[70:51]</a> Y se fundió el F40 y pilló 340 de punta. 340 el bicho este. Me encanta el 959. Es el coche favorito de Bill Gates, que tiene muchos coches. Y hay más gente que no me acuerdo. Samu, yo creo que no es primera. Es primera, es primera. Primera, segunda, tercera, cuarta. Tiene cinco marchas este coche. Ha metido primeras. La primera es larga que no veas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4274" target="_blank" class="timestamp">[71:14]</a> No, Gusiluz, el 911 de Bad Boys, que es del director, lado del coche, es un 911, es este. Que es un modelo ya moderno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4288" target="_blank" class="timestamp">[71:28]</a> Que es la versión... Antes de comprarme mi coche estuvo a punto de comprarme uno igual que este. Igual. Que ahora valen 30.000 euros, pero valía 40.000 en aquel momento. Es este. Es más moderno, es mucho más dócil. Es un pepinazo, pero es mucho más moderno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4305" target="_blank" class="timestamp">[71:45]</a> Sí, es los coches más bonitos de la historia, así te lo digo, porque es como un habitáculo pequeñito, porque el coche es pequeño, y atrás sale el culo así, con la... atrás tiene ahí el galerón, o sea, las cosas más bonitas de la historia. Precioso, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4321" target="_blank" class="timestamp">[72:01]</a> Y de conducir mola un montón. Porque encima es eso. Cuero gordo de calidad de la época. Plásticos duros que no hacen ruidos. Y mi coche manual, sí. Y le metí un cambio de GT3. Con grupo corto. Con machas cortas. No es locura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4339" target="_blank" class="timestamp">[72:19]</a> Y decimos, estos coches te montas y tiene el parabrisas delante, recto. Es un coche muy pequeño. Parece que es un Smart comparado con lo que hay ahora. Y esa sensación de coche pequeñito, todo súper metálico y mecánico y con una patada es comunal. Pero bueno, que es un hierro comparado con... Bueno, no, es un hierro. Es un cepo comparado con esto, claro. ¿Y hierro es esto? Qué viejo. Es que trabaja con esteroides, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4376" target="_blank" class="timestamp">[72:56]</a> Este coche ahora en el Uruguay con los GT3 se lo funde, ¿eh? Este bicho, ¿eh? ¿Habéis visto el de antes cómo se fundían todos los coches que había en el circuito? No había ningún piloto profesional ni coche carrera, ya lo sé, evidentemente. Pero este bicho en el Uruguay se funde al 90% de los coches, pero vamos, como nada, ¿eh? ¿Tú oyes el turbo? Como aspira aire. Vaya pieza aspirada, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4414" target="_blank" class="timestamp">[73:34]</a> Joder con las motos, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4423" target="_blank" class="timestamp">[73:43]</a> este es un roof de Yellowbird que se hicieron no sé 17 poquísimos y Aloys Roof el dueño de la empresa tiene uno aparcado y siempre en el concesario en el expositor de Yellowbird que es el del vídeo es este el que tiene el dueño lo tiene aparcado y siempre que no sé si tiene un millón de kilómetros una burra así una locura</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4447" target="_blank" class="timestamp">[74:07]</a> Yo no me acuerdo si es verdad, creo que sí, ¿eh? Y un jeque árabe se ve que le daba... Pero pasta lo loco, el tío no quiso venderlo. Ah, mira, hostia, para el podcast le entrevistaría, ¿eh? Porque además habla español el hombre, que está casado con una venezolana colombiana. Hostia, le entrevistaría a Lloyd Ruff, ¿eh? Tiene una historia interesante, ¿eh? Que la empresa se fundó en un año muy bueno, el 39. Vaya año para fundar una empresa en Alemania, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4479" target="_blank" class="timestamp">[74:39]</a> Con mocasines, sí señor. Como Dios manda. Con casines blancos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4519" target="_blank" class="timestamp">[75:19]</a> el morro tío haciendo así es como una barca</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4554" target="_blank" class="timestamp">[75:54]</a> Oh, tengo un caca con las marchas, tío. Era cuarta y metió quinta, diría así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4564" target="_blank" class="timestamp">[76:04]</a> Vamos a ver. Si tiene 5 marchas y con quinta pie a 3.40, eso quiere decir que cuando mete quinta tiene que ir bastante rápido de velocidad. Esto hace un cálculo, ¿no? Porque no puede ser que metas quinta y te baje mucho de reducciones, ¿verdad? Bueno, a ver, es que también la relación peso-potencia y par es bastante extrema, ¿eh? Pues yo creo que va aquí a 2.70, no sé qué opináis vosotros. A 2.70, 2.80, ¿eh? Qué locura, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4598" target="_blank" class="timestamp">[76:38]</a> Las suspensiones se ponen a rojo vivo en un circuito. Pero es que las suspensiones aquí deben estar porque la tecnología de la época de las suspensiones era muy arcaica. Pero literalmente derritiéndose. Perdiendo eficiencia por cada curva, diría yo. No sé, porque...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4619" target="_blank" class="timestamp">[76:59]</a> Cuántas vueltas aguantarán los neumáticos? Pues depende de la dureza del neumático. Pero yo creo que una vuelta está muerto el Harry Kane. Yo creo que acaba la vuelta esta, los traseos tienen los hierros ya fuera del... Fuera, ¿sabes? No sé. Es que es imposible, tío. Pero la... Tú piensas que cuando el neumático pierde tracción y empieza a patinar por encima del asfalto, es como coger una lija de estas de carpintero y empiezas a asesinar el neumático, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4653" target="_blank" class="timestamp">[77:33]</a> ¿2,40 no pillaba Samu el anterior 9-11? ¿Puede ser? O me he flipado. No llegaba a 200, ¿verdad? El anterior 9-11.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4663" target="_blank" class="timestamp">[77:43]</a> Ragnar, este coche con Vista actuales tiene que ser pasado ya, tío. Yo es que ya sé que es un sacrilegio, pero a un coche esto le meto suspensiones modernas, eh. Igual que los neumáticos. Yo no le meto neumáticos estos Pirelli P4000 o algo así, estos que son réplicas de los históricos. Gracias. Deja de meter un neumático moderno, que va a ir mucho más seguro y todo rollo, ¿sabes? Pues si que hace triz es otra cosa. ¡Venga!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4705" target="_blank" class="timestamp">[78:25]</a> Es un coche muy, muy ligero. Los frenos... Tampoco creas que hacen falta meter mucha virguería aquí, ¿eh? Nivel suspensión, sí. Y neumático, pero frenos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4719" target="_blank" class="timestamp">[78:39]</a> Sí, un disco flotante. No sé qué frenos llevaba este coche. Disco flotante, era así. Como un buen... Pastillas agresivas. No sé, es que yo no veo que haga falta más, ¿eh? Que la gente con los frenos se llevaba mucho la olla siempre. Con los M3... La gente me mete freno y freno y freno. Y yo, ¿para qué, hombre? De verdad. He vuelto a meter primera, ¿eh? Así que además la primera cuesta mucho meter. Y tiene que tener mucha traza porque si no te venga más rascada...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4758" target="_blank" class="timestamp">[79:18]</a> Cuarta. Tercera. Tercera, tercera. Y cada velocidad que hago va a ser primera, tío. También, también. Me hago un lío con las marchas porque estás tirada tan bestia para hacías segundas. Es que no lo sé, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4783" target="_blank" class="timestamp">[79:43]</a> Mira, sale la curva cuando mete la... No sé qué marcha es. A ver si me ayudáis. Y el espacio que hace antes de la curva esta de hormigón. No recuerdo cómo se llama ahora. Se pone velocidad, tío. Hostia, esta curva es criminal. Hay coches que se han...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4810" target="_blank" class="timestamp">[80:10]</a> escupido. Estaba fundiendo a pala escupido con expulsar. Quitarte escupido y vuelcan y todo, ¿sabes? Aquí. ¡Qué destrozo, tío! Soy la primera. Segunda. Por cómo la ha metido, eso es segunda. Porque dices que hace como un palancazo así, con una inercia, si no te entra. Espera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4838" target="_blank" class="timestamp">[80:38]</a> Son marchas larguísimas, tío. Me confunde, eh. Que vaya... Vaya pedazo de marcha. Qué largas son. Es que es muy agresivo el tío, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4868" target="_blank" class="timestamp">[81:08]</a> primera primera muy alto de vueltas y segundo otra vez y el coche ese que parece de otros milenios comparado con este es que es muy es muy absurdo este coche porque deja el f40 como el coche de la abuela sabes y qué</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4891" target="_blank" class="timestamp">[81:31]</a> Emilio de Villota se llamaba el padre de la piloto de María Villota cuando lo probó F40 dijo que le pareció tan radical que creería que nunca más que sea muy raro que volviera en un coche tan radical como el F40 imagínate</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4917" target="_blank" class="timestamp">[81:57]</a> Acelera y pide una creada de frenos muy 9-11, ¿eh? A lo bestia. ¡Claquada clavada que se echa con morro! Entra clavando un morro y venga. ¡Casa, bestia, tío! ¡Pasada, colega, tío! Otros tiempos, ¿eh, Nubrubling? El circuito vacío. ¿Lo habéis visto? ¿Qué cambio con ahora? Con el sol que hace, ahora, vamos, eso sería la reneta de gente. Una hostia, como es el Nubrubling.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4957" target="_blank" class="timestamp">[82:37]</a> Es que tío, a mí me da un gustazo esto de verdad, eso de verlo. Tampoco creo que el tío busque el drift, eh. Busca la conducción extrema y lo lleva como puede. No es la conducir que pretenda haciendo derrapes porque te frena muchísimo el tiempo. Yo creo, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=4993" target="_blank" class="timestamp">[83:13]</a> El coche va pegando unos botes con ese amortiguador que lleva. Va haciendo unos meneos el bicho. Es brutal, tío. ¿Cómo gira con el gas el bicho, eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5018" target="_blank" class="timestamp">[83:38]</a> se hace un poco de mete un poco el morro y ya tiene que hacer controlante a los locos es una cosa exagerada madre mía chaval espectáculo blera lo lleva al limite no es que haga drift si opina igual que tú</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5049" target="_blank" class="timestamp">[84:09]</a> La moto yo creo que se acojona. Cuando se toca la moto y pasa el bicho a toda esa velocidad y hace un derrapón así como mete, la moto está flipando, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5063" target="_blank" class="timestamp">[84:23]</a> Samu, pero John, que el Yellowbird es casi competición, pero mejorado, suspensión mejorada, todo esto no es un coche cualquiera. Hombre, claro, con 500 caballos y 1.100 kilos, tío, como no mejores algo, el coche, vamos, te está en para la primera curva. Pero por mucho suspensión mejorada que vive este coche, sigue siendo una barca y la suspensión es la que es. Es que es una suspensión del principio de los 80, o sea, bueno, mi idea de los 80, o sea, una mierda. En amortiguación...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5091" target="_blank" class="timestamp">[84:51]</a> el avance que hay es increíble de verdad lo que más impresionó forma 1 o un world rally car son los amortiguadores pero es alucinante tío que parece tecnología no sé cuántica es algo desconocido para mí cuando es un world rally car en finlandia pegando un salto ese de 20.000 metros que cuando cae en la carrocería ni se mueve que hace y sigue ahí como si nada que parece un juego con malas físicas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5120" target="_blank" class="timestamp">[85:20]</a> Samu. Bueno, bueno. Que ya había suspension stop. Ponte suspension stop y comparas con amortiguadores de 8.000 euros que tampoco es una locura. Alucinas. Alucinas. Es que alucinas. No, no. Que es una mierda. Ponte en neumáticos tus 280. Ni de coña. Igual que en frenos tampoco hay tantos motores. Pero es que amortiguación es brutal, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5151" target="_blank" class="timestamp">[85:51]</a> Es una barbaridad. Es que te coges, no sé, este coche, lo mandas a Nadaltec, una empresa un poco top, o a Manze y Racing. Y dices, ponme las suspensiones así para calle. Para calle, pero Racing, ¿eh? Para no tener caña. Y vamos, dices, es que no te lo crees. Es que no te crees la diferencia. Es que lo digo siempre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5176" target="_blank" class="timestamp">[86:16]</a> Yo me compro un coche, me pillo, no sé, tonterías y qué sé, va a hacer nombres. Un Lamborghini Miura, un carrera GT, hasta un carrera GT, que es moderno. Amante y le acabas suspensiones. Vas a disfrutar el coche. Igual que antes, solo que no te va a pegar un latigazo que te vas a matar. El coche va a ir, pero asentado que flipas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5198" target="_blank" class="timestamp">[86:38]</a> Imagínate, es un carrera GT, ¿eh? Y no lo digo yo, lo dice mucha gente. Yo obviamente no lo digo porque yo no... Yo te puedo decir lo que dice mucha gente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5234" target="_blank" class="timestamp">[87:14]</a> aquí pide tracción cuando cuando se incorpora por el hormigón es que lo controla instantáneamente pero el latigazo ha sido violento me encanta la paella de cuánto era 380 milímetros me encanta tío con el volante este de autobús antiguos así</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5256" target="_blank" class="timestamp">[87:36]</a> Con el cambio este que es como remar ahí en la barca. Haciendo así. Me encanta, me encanta. El ruido ese súper áspero del motor. Súper bestia. Haciendo así. Y aquí le contras revoluciones. A lo bestia. Que no sé por qué los coches viejos de contras revoluciones rebotan. Es una mierda. Pero bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5281" target="_blank" class="timestamp">[88:01]</a> Las suspensiones del Grupo B a día de hoy dan risa. Dan pena. Si el doble brazo y todo el rollo. Tecnológicamente las suspensiones del Grupo B dan risa, tío. Son como... Como las herramientas del neolítico. De verdad, tío. Es que no hay color, ¿verdad? Hay un abismo cósmico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5307" target="_blank" class="timestamp">[88:27]</a> Es como si comparas ahí el Silex con un cuchillo de cocina, ¿eh? Que sí, que sí, que si me pillas una autounión del año 36, evidentemente es mejor, sí, pero... Y es flipante en su momento y tal, pero es que de verdad... A mí personalmente, que es que te diga, ¿eh? Cuando conduces un coche así fuerte y más tal, y cambias las amortiguas por algo nuevo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5330" target="_blank" class="timestamp">[88:50]</a> poniendo amortiguores de la época nuevos y ponen luego amortiguores de modelo moderno y dices, madre mía, tío. Sin tirar, si tampoco gastas mucho dinero, ¿eh? Samu, ¿pero cómo van a dar risa si hacía algunos tiempos mejores que un volo radical moderno? Bueno, esto habría que verlo. Habría que verlo. Por lo pronto el volo radical, ahora no sé cómo está, pero antes que yo sepa, está limitado a 32 caballos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5359" target="_blank" class="timestamp">[89:19]</a> A 300 caos, ¿verdad? ¿Y un grupo B? ¿A cuánto está limitado? Pues ya está. Y segundo, que hace mejores tiempos un grupo B que un Bobo Radicar... Vamos, esto me gustaría verlo, ¿eh? No sé, me gustaría verlo. Porque vamos, que no me lo creo ni borracho. De verdad te lo digo. A lo mejor me equivoco, ¿eh? Pero es que no... Vamos, yo no me lo creo. Porque solo tienes que ver un Bobo Radicar moderno. Que eso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5383" target="_blank" class="timestamp">[89:43]</a> Que la carroce va así. Y el neumático va así. Esto cuando salta un borro alicar. Cuando salta y cuando llega al suelo. Igual que los Forna 1. Las amortiguas de los Forna 1 son increíbles. La absorción que tiene la amortiguación de un Forna 1 actual. Es que me quedo muerto, tío. Parece mágico. Es que es increíble, de verdad te lo digo. El paso por cura que tiene. La amortiguación que tiene un Forna 1. Comparado con hace 25 años. Es que yo me quedo muerto, de verdad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5410" target="_blank" class="timestamp">[90:10]</a> Y mira que los motores son una mierda, ¿eh? Porque, hombre, comprar con un V10 al motor que tiene ahora, ya me dirás tú. Que cuando pasan 200 por hora, vamos, los V10... Que yo recuerdo, me parece que corrían bastante mal, me parece, ¿no? Que yo recuerdo haber visto vídeos, los V10... Me parece recordar que los V10 a partir de una velocidad eran, Dios, que... Una velocidad exagerada, ¿sabes? No sé, confirmadme si queréis lo de los grupos que he comprado con un Borreca moderno, porque yo no lo creo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5444" target="_blank" class="timestamp">[90:44]</a> Samu, lo último en tecnología de amortiguación para calle. Porque es un coche de calle, ¿eh? Por mucho que digas, es un coche de calle. Lo último en tecnología de amortiguación en el año 87 es una risa. Y esto es muy sencillo. Te pillas eso y nada, te coges una mierdecilla, entre comillas. Unas Olinx Road & Track, que es la gama más barata de Olinx. Ya son 3.000 euros, ¿eh? Y lo pones y me cuentas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5475" target="_blank" class="timestamp">[91:15]</a> Por un amortiguador de... De alta calidad, pero el modelo de calle, de calle, de calle. El Rotom Track de track no tiene nada. Bueno, sí, tiene un poquito para hacer cuadro de tandas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5519" target="_blank" class="timestamp">[91:59]</a> La aerodinámica de este coche es un petardo. La fricción del aire con el parabrisas recto que tiene es fatal. Te quedas sordo solo por el ruido aerodinámico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5552" target="_blank" class="timestamp">[92:32]</a> A los quemados les encantan estos coches, pero luego grandes pilotos como Alonso yo creo que disfrutan más con un kart. No puedo hablar por Alonso. No puedo evitar yo decir mi opinión. Un kart es un kart. Es que no tiene nada que ver con coches. Es como las fórmulas. La gente, no, mola más un Caterham Super 7. Ya, ya, pues que mola mucho. Un fórmula va sentado ahí en el suelo. Así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5582" target="_blank" class="timestamp">[93:02]</a> Y es... Y es que es eso, tío. Es que no es un coche. El coche y la gracia es esa comodidad. Es... Es que la gente no entiende de los simuladores de conducción. Los simuladores de 20 o 30 mil euros, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5595" target="_blank" class="timestamp">[93:15]</a> Me parece que te compras un coche. Ya, pues que el simulador... Que sí, la comparación es estupida, o sea. La comparación es estupida. Pero el simulador es... Te sienta, le mete, pim, pam, pam. Has acabado sudando. Has hecho un tramazo, una competición ahí que flipas con online. Igual te ves a Verstappen por ahí. Bueno, sí, claro, si eres muy bueno y compites a nivel mundial. Y oye, y has disfrutado. ¿Por qué? Porque la relación de comodidad y tal es bestial.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5620" target="_blank" class="timestamp">[93:40]</a> Que el kart es increíble. Que el kart aprendes a pilotar a un nivel bestial. Sí, pero es que es un kart. O sea, vas sentado en el suelo. Es que es otro rollo. Es que es otro mundo. Los fórmulas y los coches. Samu, que no tienes razón. Ari Batanen en Pikes Peak 80. Esa mierda. Suspensiones. Competición. Tardaron años en llegar a producción. A nivel tecnológico no había un abismo. O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5649" target="_blank" class="timestamp">[94:09]</a> O sea, un F40, 959... 959, un F40 no lo sé. Pero 959 le meten amortiguadores modernos y hubo lo mismo. Pero es que de los 80, ahora, los neumáticos, los amortiguadores. Y luego está la tecnología de encendido, de gestión electrónica de la inyección.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5672" target="_blank" class="timestamp">[94:32]</a> Pero bueno, eso es otro tema. Pero lo que es amortiguadores y neumáticos es ridículo, tío. Y es que para mí, a mí personalmente los amortiguadores me flipa. Es que es increíble. No tiene nada que ver, nada que ver. El grupo B era un bichos que, como decía Walter Rol, o sea, cuando das gas, los pedales así, en el freno y el gas. Porque es que no podía acelerar prácticamente con esos bichos, con el Audi S1. Era con la conducción así, con los pedales así, con los pedales...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbGTjwzv9Mk&t=5701" target="_blank" class="timestamp">[95:01]</a> Y unos reflejos de las manos increíbles. Es como el... El onda... El onda, coño. El McLaren onda de Ayrton Senna. El monstruo ese. Lo que tú quieras. Pero es que lo comparas con... Bueno, habrá vídeos, ¿no?</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 31/05/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
