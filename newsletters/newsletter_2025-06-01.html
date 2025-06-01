@@ -1,0 +1,446 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 01/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">01/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-me8YBcOJEjY'>Charla Fran Espín Antes De Competir | 90 Días Para Mi Competición Profesional</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-me8YBcOJEjY">
+            <h2>Charla Fran Espín Antes De Competir | 90 Días Para Mi Competición Profesional</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 01/06/2025 13:22</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=me8YBcOJEjY" target="_blank">
+                    <img src="https://i.ytimg.com/vi/me8YBcOJEjY/hqdefault.jpg" alt="Charla Fran Espín Antes De Competir | 90 Días Para Mi Competición Profesional" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video es una conversación sobre el culturismo profesional y la preparación para competir.
+Se discuten ajustes en entrenamiento y posing, la mentalidad para volver a competir y la progresión a largo plazo.
+Analizan a competidores actuales de la categoría Open y el panorama de las competiciones.
+Reflexionan sobre la evolución del deporte, las oportunidades actuales frente a épocas pasadas y la importancia de encontrar métodos individuales.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Ruteo de Competiciones en EE. UU. <a href="https://www.youtube.com/watch?v=me8YBcOJEjY&amp;t=100" target="_blank">[01:40]</a></h3>
+
+<p>Se habla sobre las posibles competiciones en Estados Unidos como Chicago, Tampa y Texas. Mencionan cambios en el calendario, como el del Legend, y la posibilidad de que el Olympia regrese a fechas pre-COVID.</p>
+
+<h3>Ajustes en el Posing y el Regreso al Escenario <a href="https://www.youtube.com/watch?v=me8YBcOJEjY&amp;t=210" target="_blank">[03:30]</a></h3>
+
+<p>Conversan sobre la mejora en la técnica de posing, la adaptación a diferentes luces y la necesidad de trabajar puntos débiles específicos, como la espalda. Destacan los nervios y desafíos de la primera competición tras un parón.</p>
+
+<h3>La Progresión Muscular Año a Año <a href="https://www.youtube.com/watch?v=me8YBcOJEjY&amp;t=375" target="_blank">[06:15]</a></h3>
+
+<p>Se enfatiza la importancia de competir para seguir mejorando y ganando calidad muscular con el tiempo. Discuten la estrategia a largo plazo para añadir kilos de masa muscular y disfrutar la experiencia como profesional.</p>
+
+<h3>Encontrar tu Propio Sistema de Entrenamiento <a href="https://www.youtube.com/watch?v=me8YBcOJEjY&amp;t=610" target="_blank">[10:10]</a></h3>
+
+<p>Plantean la diferencia entre seguir las tendencias o encontrar el método de entrenamiento que funciona individualmente. Subrayan la validación del enfoque personal a través de los resultados y cómo desafiar la sabiduría convencional.</p>
+
+<h3>Análisis de Competidores Actuales Open <a href="https://www.youtube.com/watch?v=me8YBcOJEjY&amp;t=975" target="_blank">[16:15]</a></h3>
+
+<p>Realizan una revisión detallada de atletas de la categoría Open, como Saras, Tony Barton y competidores brasileños. Comentan sus físicos, condición y potencial para clasificar al Mr. Olympia.</p>
+
+<h3>Evolución y Profesionalización del Culturismo <a href="https://www.youtube.com/watch?v=me8YBcOJEjY&amp;t=1670" target="_blank">[27:50]</a></h3>
+
+<p>Reflexionan sobre cómo ha cambiado el deporte gracias a las redes sociales, patrocinadores y oportunidades. Comparan la facilidad actual para dedicarse profesionalmente frente a las dificultades que enfrentaban los atletas en épocas pasadas.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=0" target="_blank" class="timestamp">[00:00]</a> y algo de margen para seguir trabajando con la pose. Hay que seguir trabajando con la pose. Has mejorado mucho la resistencia. Hay que mejorar la espalda. Al final, te vas a poner en el escenario, te vas a poner nervioso y vas a cagar a alguna. ¿Cómo estás viendo las competiciones de Open?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=15" target="_blank" class="timestamp">[00:15]</a> Hostia, a ver, depende de las competiciones. Cada año está mejorando y este año la verdad que hay cosas buenas. Cuando te visité, te comenté que el año que viene hay que darle un punto un poquito mayor, hay que subir igual a 140 o por ahí y tratar de buscar la condición de este año que fuese con 130.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=33" target="_blank" class="timestamp">[00:33]</a> Bueno, ya sé que queréis ver la charla con Fran, que os interesa bastante más que lo que os podamos contar Marta o yo, ¿no? Supongo que sí. Pero simplemente queríamos agradeceros el aniversario del PBS. Son cinco años, han sido una locura. Sigue la web al 50% de descuento, ¿vale? La vamos a dejar durante esta tarde. Si lo queréis aprovechar, ya es lo último. Está absolutamente todo. Pues desde esta sudadera que lleva Marta, estos pantalones...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=55" target="_blank" class="timestamp">[00:55]</a> Y básicamente, bueno, esta camiseta, toda la ropa que utilizamos nosotros en nuestro día a día desde los últimos cinco años. Ha sido un bonito viaje. Espero que siga siéndolo. Eso es eso. Y que nos sigáis acompañando. Sobre todo eso, ese. Sí. Que nos sigáis acompañando y no sé qué más decir, pero bueno, lo tenéis en el link de descripción, esas cosas que se dicen. Se acaba ya hoy, pero a mí me hace especial ilusión que esto siga pasando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=76" target="_blank" class="timestamp">[01:16]</a> Estamos muy agradecidos. Sí, y siempre tenemos recuerdos de los anteriores y de cómo han sido y de que vosotros tenéis bonitas palabras para nosotros. Así que bueno, ahora sí, os dejamos con la charla, chicos. Tenéis el link de la descripción y os queremos mucho. Chao. ¿Todo bien? Sí, todo bien. Estaba aquí trabajando un poquito. Oye, nada, te he llamado un poco para hablar, pero sin más, hemos hablado más en privado estos días. Por cierto...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=100" target="_blank" class="timestamp">[01:40]</a> Justo me has pillado, rellenando el carnet profesional de este año. Justo momento, temporada. Pero bueno, que yo creo que es lo que todo el mundo se pregunta también. Categoría wellness. Categoría wellness y veremos si subir por ahí. Nada de broma. Pero bueno, básicamente. Que todo el mundo también se está preguntando todo y yo creo que es guay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=117" target="_blank" class="timestamp">[01:57]</a> Y yo siempre estoy diciendo, pero evidentemente eres tú el que más tiene los pies ahí y manda. También sobre las rutas de Estados Unidos, que está muy guay, ¿no? Hablamos de Chicago, hablamos de Tampa, hablamos de Texas. ¿Te has fijado este año, por cierto? Bueno, acaban de salir las listas del Legend. Sí, sí he visto, sí. Han salido 10 atletas. ¿El Legend lo han cambiado de fecha?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=138" target="_blank" class="timestamp">[02:18]</a> No, y es una expo, o sea, también...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=159" target="_blank" class="timestamp">[02:39]</a> Sí. Que eso también siempre, yo qué sé, es algo que agranda un poco el nivel del campeonato. Me molaría ir, ¿eh? Me molaría ir algún día a un campeonato así porque la verdad es que mola mucho, pero siempre lo ponía a final de temporada. De hecho, era clasificatorio para el año siguiente normalmente y demás. Sí. Y este año han dicho nada con todo. Sí, sí que verdad, sí que verdad. De hecho, ahora estará viendo un montón de campeonatos todos los fines de semana, si te fijas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=181" target="_blank" class="timestamp">[03:01]</a> Sí, sí, y de hecho estar adelantando los campeonatos. De hecho, lo han adelantado una semana. ¿Cuál? El olímpico lo han adelantado una semana. Claro, buscarán hacerlo como antes del COVID, en septiembre, supongo. Sí, puede ser que estén moviendo todo para que se ubique como estaba antes. Puede ser, puede ser.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=197" target="_blank" class="timestamp">[03:17]</a> Bueno, no sé. Te llamo la verdad por grabar un poco el vídeo también, pero es la primera vez y tú lo sabes que grabas conmigo. De hecho, solemos grabar en persona, pero esta vez lo grabamos por aquí. Suelo tener cosas apuntadas en plan tráiler, no sé qué, cosas así. No tengo nada, te lo prometo. Es charla por fan, lo que te apetezca hablar también. Lo que te apetezca decir o lo que sea. De hecho, esta mañana hemos estado posando juntos. Sí, muy bien. Hoy te he visto mucho mejor que otros días.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=226" target="_blank" class="timestamp">[03:46]</a> También, a ver, el cambio de ubicación de luz es diferente. Era más clarita, no hay tanta sombra. A veces no deja ver tanto el físico. A veces te acostumbras tanto a ver el cuerpo en una luz que cuando te cambias te cuesta. Sí. Cuando llevas 4 o 5 veces ya te adaptas. Y también me he grabado de frente. Sí, exacto. Acostumbradamente con la luz que te entra de lateral, que suele ser una luna bastante buena porque hace que los cortes también sean más profundos por las sombras.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=252" target="_blank" class="timestamp">[04:12]</a> Esto es verdad que siempre hay una pierna que se lleva más profunda que otra, o un último más profundo que otro, que me pasa mucho, ¿no? Me pasa mucho cuando viene uno de los coqueteos, me pasan las fotos o los vídeos, y le digo, joder, pues si tiene una pierna más cerca que otra. Pero bueno, al final ya comprendes que eso es por la iluminación. No, de hecho hasta muchas veces te lo pongo, te digo, no tiene ningún filtro, no tiene ninguna nada, porque hasta cambiando la zona de esto, el tiro de cámara, podemos abrirlo más o menos, que cambie un montonazo cómo se ve.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=276" target="_blank" class="timestamp">[04:36]</a> Pero bueno, que básicamente, que estoy posando mucho todos los días y poco a poco yo también quería que lo fueras viendo y aún hay algo de margen para seguir trabajando cada pose. Hay que seguir trabajando cada pose, has mejorado mucho las poses, has mejorado mucho la resistencia. Hay que mejorar cosillas, por ejemplo, con lo que te he dicho esta mañana, con el posing.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=294" target="_blank" class="timestamp">[04:54]</a> La espalda, tío. Nunca te ha pasado. Pero ahora te pasa por lo que sea. Simplemente pueden ser propias contracturas musculares que no te han sacado correctamente el dorsal. O bueno, puede ser simplemente que hoy te ha dado el día por ahí y ya está. Sí, puede ser. Pero que bueno, que por decirte algo en el post y te he dicho, métele más que allá a esa parte, ¿no? A el dorsal para que no haya ningún fallo. Que al final te vas a poner en el escenario, te vas a poner nervioso y vas a cagar a alguna. Seguro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=317" target="_blank" class="timestamp">[05:17]</a> ¿Alguna seguro? ¿Te vas a entreprezar un poco? Y sobre todo la primera competición. La segunda y la tercera la vas a coger con más gusto. Pero la primera siempre es la más chunga. Me refiero a la primera cuando ya estamos sin competir. Un año o dos años. La primera es la más complicada porque como que es ponerte encima del escenario de tanta gente como que te hace un poco de inseguridad. Pero yo te digo que es la primera. Las siguientes van a ser un poquito más...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=343" target="_blank" class="timestamp">[05:43]</a> A ver, no sé la gente que habrá. Si no me conocen, por lo menos, pues estaré más tranquilo. Yo creo que tengo que conocer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=352" target="_blank" class="timestamp">[05:52]</a> Yo creo que te van a conocer, no sé. Yo digo yo, ¿eh? No lo sé, no lo sé. Pero bueno, ¿alguno habrá que no te conozca? No, seguro, pero... Sí, al final, eso es eso de menos. Tú cuando subes el escenario, es que si estás concentrado en tus poses, hacerlo lo mejor posible y te hará meter la pata lo menos posible. Que es lo que te digo, que al final, una cosa u otra, seguro que a una la meterás y te estaré escribiendo yo al WhatsApp diciendo, cabrón, aprieta el lumbar, esto, aprieta el otro. Siempre hago lo mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=376" target="_blank" class="timestamp">[06:16]</a> Sí, sí, sí, sí, 100%. Aparte está la Marta, que es súper crítica también, diciéndome todo. Pero bueno, tengo ganas también, que al final es mucho tiempo y ya poco a poco parece que se va acercando. Claro, ya te queda poquito. Ya queda poco, ya queda poco. Hay que salir ya, hay que salir ya porque lo estuvimos hablando otro día. Es que si no salimos ahora, o sea, es como todo. Has tenido tu proceso, van a escalar una base, vamos a arrancar ya y la siguiente no va a salir mejor porque al final vas cogiendo más calidad muscular,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=401" target="_blank" class="timestamp">[06:41]</a> y en un año o otro vas a ir viéndote que la masa muscular se coge de otra forma y, bueno, vas cogiendo 2, 3, 4 kilos, los que vas a ir pudiendo coger año, año, año, año, ¿vale? A ver, siempre puede ser mejor, ¿no, señor? Pero 5 años estaré más fuerte que hoy, pero la realidad es la realidad. Por supuesto, lo que pasa es que, claro, siendo profesional y a ver, si igual no fuese tampoco a quién eres, pues tampoco, pero ahorita da igual. O sea, cuando eres profesional, tío, lo normal y lo ideal es disfrutar de sacarlo profesional y sacarlo lo antes posible. Si puedes en un año o dos, de puta madre. Tú lo sacas desde el primer año,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=431" target="_blank" class="timestamp">[07:11]</a> Ahora te has estado dos años esperando. Estabas el segundo para devolver a subirte al escenario. Y bueno, pues acabamos de subirte al escenario con mejoras y ya está. Se lo decía a Marta también de autoridades, como si me apetece ir el año que viene al New York Pro, porque me apetece disfrutar de la experiencia del New York Pro, pues voy al New York Pro, ¿sabes? Tampoco me rayo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=449" target="_blank" class="timestamp">[07:29]</a> que estés armado a nivel, eso da igual, porque lo vas a ir adquiriendo con el tiempo. Sí. Con los años y competir con los mejores y hacer un comparante contra ellos y crear esas perspectivas en ti mismo a la hora de trabajar para decir, oye, me estoy comparando con los mejores, quiero ser uno de ellos. Tengo que trabajar más de uno que los demás, o hacer esto mejor que los demás, o estar más concentrado que los demás, o estar siempre a hacerlo todo al 100%. Sí, al 100%. Bueno, eso ya sé que tú ya lo haces, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=473" target="_blank" class="timestamp">[07:53]</a> Pero bueno, al final es como todo, tiempo. Tiempo de trabajo, tiempo de trabajo y te vas construyendo poco a poco. Yo siempre amas. Yo si pudiera ir a 200 y ir a 200 todo el rato. Es increíble. Sí, pero ya sabes cómo funciona esto. Es que al final, ahí es cuando entramos los viejos. Los que ya llevamos años en esto y sabemos cómo funciona este deporte. Y aquí es un deporte de larga distancia, ¿no? No, 100%. Si lo que marque ahora no va a ser lo que marque dentro de 5 años.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=499" target="_blank" class="timestamp">[08:19]</a> habrá que verte dentro de cinco años en qué punto estás, el tamaño, la condición, no tiene nada que ver con lo que estás ahora. Y dentro de un año, igual. Cada año vas a seguir mejorando. Siempre y cuando hagas tu trabajo, tú vas a seguir mejorando. Sí, yo creo que... Es verdad que con el tiempo aprenderás a estar más relajado a la hora de prepararte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=515" target="_blank" class="timestamp">[08:35]</a> Es decir, darle menos importancia a cosas igual que, a ver, por ejemplo, un fin de semana, disfrutar un poquito más de la comida, que ahora igual, pues estás más concentrado, estás más motivado y no quieres, porque dices, aquí hago todo al 100% y se acabó. Y con los años me di cuenta que tampoco hacía falta. Pero también te voy a decir que cuando lo hice me fue de puta madre. Sí, no, está raro, pero sí, no, pero te lo planteas mucho. De hecho, ya me lo planteé el año pasado, te lo planteas este. De hecho, es decir, hace falta estar 20 y pico o más sin un sushi, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=543" target="_blank" class="timestamp">[09:03]</a> Tú has tenido la suerte, porque otros no. Yo no tengo la suerte y muchos no tienen la suerte de compartir experiencias muy grandes con los jugadores. Tú has conocido personalmente a Derek y has compartido un día a día con él y sabes... Un sushi. Y además has visto la Olimpia del 2-12 y Open. Sí. Y tú sabes cómo se lo toma en serio. Sí, sí. Y cómo se han sondado entrenado también y todo. Tienes esa suerte de poder haber conocido a esta gente... Y saber realmente lo que hay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=569" target="_blank" class="timestamp">[09:29]</a> Bueno, yo tarde en saber lo que era el culturismo, pues creo que fue cuando conocí a Jimmy. Llevaría unos 15 años entrenando, sin salir de mis revistas, sin salir de... De lo que te cuentan, eh. De España. Sí que había salido a competir en internacionales. Pero es ir y volver. Se acabó. Y no hablas con nadie porque no tienes ni idea de hablar con nadie.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=589" target="_blank" class="timestamp">[09:49]</a> Y volvías y nada, y no vivías un poquito lo que era. No estabas fuera un mes o una semana o dos semanas o vivías con alguien. En mi caso, hasta que me conocí allí, que era un poquito, que se había preparado con gente de fuera y tal igual, pues no me di cuenta de lo que era más el culturismo. Ya cuando empecé a viajar, a partir de ese año, empecé a viajar un poquito más, fuimos a Alemania. A convivir. A trabajar con preparadores de fuera y tal igual. Ahí fue cuando dije, coño, esto se puede hacer de otra forma.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=611" target="_blank" class="timestamp">[10:11]</a> Sí, cien por cien, cien por cien. Yo creo que en ese sentido... Bueno, ahora es mucho más internacionalista todo, mucho más a la vista de todo el mundo. Pero seguimos teniendo la mente muy cerrada, ¿eh? Es exactamente, tío. Es que es muy diferente. La gente, al final, piensa que... Yo creo que lo que veo muchas veces, ¿eh? Lo que veo muchas veces es que la gente se encierra mucho en intentar solo hacer lo que en ese momento está funcionando y no se dan cuenta de lo que tienen que hacer es encontrar lo que mejor les funciona a cada uno de ellos de forma independiente. Y para conocer eso, tienes que probar. Tienes que probar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=641" target="_blank" class="timestamp">[10:41]</a> Si hubieses hecho toda la vida lo que me mandaba mi entrenador en cuanto al entrenamiento, si un entrenador no hubiese dicho, por ejemplo, no hablas de la única rutina de Wader, de cinco días a la sabana, de plus, pecho, piernas, Marte y tal, posiblemente no hubieses descubierto o disfrutado tanto de lo que es el cultivo como cuando me di cuenta que el heavy beauty o el desistado de Mike Mercer, posiblemente el Dorian Yates, era lo que me ha gustado. Y la gente decía, oye Frank,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=665" target="_blank" class="timestamp">[11:05]</a> Eso no es una parada. Y a mí me hacía dudar la de Dios, ¿eh? Pues si hubiera razón, porque no puedo creer que lo haga personalmente. Otra persona o dos o tres puntuales. Pero claro, ¿qué pasaba? Que yo cogía 6-7 kilos de músculo de un año a otro y los otros estaban igual o peor. Y decía, coño, pues para no funcionar, te pagaba de puta madre. De puta madre, me acuerdo hace años un gran preparador. Me dijo, me dijo, ¿yo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=691" target="_blank" class="timestamp">[11:31]</a> Si quieres ir a la verdad progresar, Fran, deberías cambiar tu sistema de entrenamiento. Dije, hostia, pues igual tienes razón. Le dije, pero es que no ha funcionado. Yo empecé con 60 kilos y he competido hace pocos meses con 102, 103. He tardado 10 años, 15, 11 años. Le dije, ¿y tú cuántos años llevas entrenando? Y me dice, hombre, llevo 30 años, ¿y cuánto es lo máximo que haces a pesar? 89, ¿y empezaste con 60? Digo, hostia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=717" target="_blank" class="timestamp">[11:57]</a> igual eras tú el que tienes que cambiar el sistema. Sí, igual no te vas a hacer caso. Porque yo he cogido no sé cuántos kilos de vas a muscular con un sistema que supuestamente no debería funcionar y porque la gente no lo utilizaba y tú con tu sistema que utilizas y que supuestamente funciona pues he cogido solo la mitad de peso que yo. Al final</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=732" target="_blank" class="timestamp">[12:12]</a> porque luego tuve la suerte de conocer a gente que estaba igual que yo, que estaba en el mismo sistema que yo, y eso dio la oportunidad de verificar que lo que yo estaba haciendo era lo ideal. De hecho, cuando voy a entrenar en el segundo día, sigo entrenando igual. No tan fuerte, porque ya no tengo fuerza ni resistencia, pero si antes entrenaba cuatro días, cuando me quería poner fuerte y quería realmente competir, pues ahora con tres días a la semana y tengo un sistema de volumen bajo, o sea, después de estar entrenando, me sigo preguntando que ahora no se nota en físico,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=760" target="_blank" class="timestamp">[12:40]</a> Me refiero que hay algo que voy. Yo creo que es probar y saber lo que te funciona. No pruebas, no testeas, no sabes si realmente funciona. Y es de lo que me refiero yo antes, con lo que estábamos hablando. El problema que tenemos es que mucha gente se cierra a lo que ya tienen, o lo que todo el mundo utiliza o realiza, y parece que si sales de ahí, es un picho raro, no va a funcionar. Y esta cosa coincide, sí. Hazme que me equivoque yo solo, que tengo un propio pie, y que ya sea yo mismo el que me autocompece y diga, oye... Exacto. Oye...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=789" target="_blank" class="timestamp">[13:09]</a> Por ejemplo, yo creo que te dije ayer, estoy entrenando ahora lo que me da el intraentreno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=796" target="_blank" class="timestamp">[13:16]</a> Te dije, porque me dijiste, baja el ritmo de entrenamiento y te dije, mira, Fran, justo he bajado el ritmo de entrenamiento bastante, estoy haciendo series lineales y más o menos me sirve de referencia lo que me veo en intraentreno porque es lo que me está demandando también el cuerpo. Efectivamente. Y el glucógeno que tengo, ¿sabes? Y todo. Exacto. A ver, lo que le conté yo, si acabas con un buen bombeo y tal, eso es bueno si te va a dar bien. Lo típico es que si te pasas el entrenamiento, tienes el bombeo, tienes todo y dices, coño, estoy quitrado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=825" target="_blank" class="timestamp">[13:45]</a> Ya puedo inercia. A ver, el cuerpo te manda señales, ¿no? Pero bueno, como tuvimos ahí un par de semanas que el peso se ha bajado un poquito más de la lombar, por eso ya estamos a pocas semanas, y por eso no es interesante forzar el cuerpo al margen de que pueda activarte balanceado, no puedas verte bien y puedas tener... No es que puedas tener masa muscular, sino que realmente no puedas recuperarte de forma correcta y verte como deberías verte realmente, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=850" target="_blank" class="timestamp">[14:10]</a> Sí, sí, y además que yo que sé, a mí que me encanta entrenar mucho y dropships y no sé qué, yo creo que es inteligente pararse y decir ¿En qué momento es inteligente hacer esto? Vale, en el momento que estoy fuera de temporada, que quedan muchas semanas o lo que sea, y da un poco de igual, si te vas un poquito por lo alto que por lo bajo da un poco de igual, pues vamos a tenerlo ahí. Exacto. Ahora, siempre digo a los competidores, hay que saber escuchar el cuerpo también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=873" target="_blank" class="timestamp">[14:33]</a> También hay que tener en cuenta que aunque tú tengas muchas ganas, estás motivado, te sientas fuerte porque estás comiendo mucho, tu articulación, tus músculos, tus ligamentos no están igual, o sea, no se presentan igual porque hay menos grasa, menos líquidos, hay más desgaste por la intensidad que he estado creando estos últimos meses. Entonces el trabajo ya está hecho, ahora es más trabajo de dieta, de cardio y tratar simplemente de mantener y evitar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=895" target="_blank" class="timestamp">[14:55]</a> Si acabamos de evitar lesiones, un desgaste excesivo que te pueda influenciar en la pérdida masa muscular, que tampoco, porque si fuese de la pérdida natural, aún podrías. Pero con lo que comes, con la suplementación y todo eso, es muy difícil. Al final lo que pierdes es lo que tienes que perder. Líquidos, grasa y agua.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=915" target="_blank" class="timestamp">[15:15]</a> Más algo es curar, puedes perder cuando estás en un déficit carólico súper acusado, con dos horas de cardio. De hecho, estoy posando mucho y antes lo hablaba con más detalle y me decía, no sé qué. Y digo, ya, pero es que hasta hablando con Fran, le digo, es que no tengo que posar más de lo que estoy posando incluso. O sea, me refiero que yo me bajaría a hacer otra sesión por las tardes de media hora. Pero es que ya estoy haciendo una sesión de 20 y pico minutos por la mañana, otra vez 20 y pico después de la entrega.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=943" target="_blank" class="timestamp">[15:43]</a> porque al final, y bueno, y cardio, estás haciendo 20 minutos de cardio. También. ¿Ago movilidad? ¿Ago depresivos? Si no le dices sí. Si le dices 30 o 40 minutos de post-in, posiblemente estarías haciendo 40 o 50 minutos de cardio o hasta una hora. Pero yo prefiero que prioricemos el cardio, ¿vale? Porque además coges más resistencia, le coges confianza al post-in, mejoras la forma de posar, te funciona como cardio, y encima haces un cardio mínimo por la mañana, que es el mínimo que suelo hacer siempre. Entonces antes de competir, vas a</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=972" target="_blank" class="timestamp">[16:12]</a> Bueno, hasta el día antes de competir, vas a estar haciendo cardio, ¿eh? Sí, sí, ya lo sé. Para activarte un poquito, salir a pasear, activarte un poquito, para antes de comentar el día ya tienes los niveles de serotonina ahí arriba y comentar mucho mejor el día. Sí, 100%. ¿Cómo estás viendo, por cierto, más allá de todo, cómo estás viendo las competiciones de Open? Hostia, a ver, depende de las competiciones. A ver, por ejemplo, el fin de semana este pasado me gustó mucho. A mí me gustan mucho cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=997" target="_blank" class="timestamp">[16:37]</a> ¿Se llama Saras? ¿Se llama Saras o Saras? O el inglés. Ese me encanta. Es que me encanta. La condición pesada. El que realmente es amigo mío. Amigo mío, lo conozco. Es un tío de puta madre, pero bueno, reconozco que aún no ha llegado a su punto. De hecho, hace años lo he visto mejor que ahora. Pero sí que es verdad que el otro día sí me gustó más. Cuando lo vi, no sé, fue la semana pasada lo vi. Bueno, lo vi, lo propio yo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1020" target="_blank" class="timestamp">[17:00]</a> El primer problema a mí me gustó mucho, aunque luego se le veía planito, pero la espalda ahí se le veía como en la vida, ¿eh? Me gustó muchísimo. Frente la vi un poco plano y las piernas un poco planitas, pero bueno, a ver, es la primera competición. Luego sí que empiezas a sudar el chaval y ya dijimos, madre mía, pobreza de desaparecido, ya no era lo mismo físico. Esa primera semana ya se corrigió, mucho mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1040" target="_blank" class="timestamp">[17:20]</a> Y sí que ahora que aún no termino de ver la piel. Igual es también el tipo de físico que tiene, ¿sabes? Porque al final... Bueno, ahora tiene tiempo. Es como tu piel. Tu piel tampoco es un tío con la piel y el músculo gramático. Al final cada persona es un poco... Pues como hablamos de Martín, ¿no? Del chico este que... Sí, de Martín. Sí, que sale más redondo, pero no tiene la piel tampoco súper fina. Al final son diferentes composiciones. Jóvenes. Por ejemplo, me encantó. Me encantó el Saras. Este chico...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1064" target="_blank" class="timestamp">[17:44]</a> o este hombre mejor dicho, una condición brutal, como a mí me gusta. Sí que es verdad que la línea no está bonita, no es fea, pero no está bonita como la de Reagan, y la posición se nota que es inglés. Yo creo que va a estar ahí haciendo competiciones hasta que se clasifique. La siguiente creo que es dentro de nada, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1084" target="_blank" class="timestamp">[18:04]</a> Este film es Legend. Ah, esa, esa. Si no me equivoco, pero también va Tony Barton, que Tony Barton siempre está ahí también. Hostia, hostia, no, es verdad que se me había olvidado. Ese me encanta, ese chaval me encanta. Sí, sí, sí, Tony Barton es una buena. Pero luego también...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1099" target="_blank" class="timestamp">[18:19]</a> Hay otra en Canadá, entonces yo creo que se van a ir repartiendo por ahí y se irán clasificando cada uno. Pero ese chico se va a clasificar 100%. Sí, sí, sí. Sin ser súper enorme, pero me gustó. También me gustó mucho el brasileño. Hay un brasileño que sabe competir, no sé si quiere el cuarto o tercero, no me acuerdo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1120" target="_blank" class="timestamp">[18:40]</a> Súper, súper bien. Lo vi en dos competiciones, creo que fue el nuevo Pro y otra Pro que hizo en Brasil, que no tenía mirada de coger el puntito de la zona de atrás, pero ya este fin de semana se veía brutal, que si incluso hubiese metido primero o segundo, tampoco me supuso nada. Ya, ya. Lo que pasa es que la estructura no es tan como le gusta a Tyler. Al final, a Tyler le gustan los muñecos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1142" target="_blank" class="timestamp">[19:02]</a> ¿Pero a quién decías? ¿Bruno? No, Bruno no. Bruno quedó detrás del otro brasileño. ¿Floreal? Puede ser Florian. No, ese no es brasileño. Ese es francés, un chico francés ese, que estaba muy bien. Pero no, es otro, un brasileño. Creo que cabe por delante de Florian. Me pierdo, me pierdo. Bruno también quedó cuarto el año pasado clasificó.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1162" target="_blank" class="timestamp">[19:22]</a> Bruno está llegando cada cuarto, tío. Sí. O quinto este fin de pasado. Quinto. Yo creo que he quedado quinto porque el que yo te digo estaba mucho mejor. De hecho, creo que quedó por delante de Bruno. Y también el conseño. Lo que pasa es que no me acuerdo el número. No me acuerdo, pero la verdad que está interesante la temporada. El nivel de Open está subiendo el chaval. Está subiendo porque me acuerdo hace años. Cuando fue el tema de la pandemia, me llevé una excepción en Olympia. Y para una vez que vengo, prefiero haber visto Olympia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1191" target="_blank" class="timestamp">[19:51]</a> Y el nivel de Open era muy flojo, pero claro, el superaba mil veces en 212 y superaba mil veces en Classic. También es que ten en cuenta, Frank, que si no me equivoco esos años eran los que todavía habían puntos, entonces en el Olympia habían treinta y pico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1206" target="_blank" class="timestamp">[20:06]</a> No me acuerdo, tío, no me acuerdo. Solo sé que aquel año dije, hostia, qué mal está el nivel. El siguiente año empieza a subir y cada año está mejorando. Cada año está mejorando y este año, la verdad, que hay cosas buenas. No, además, como es más difícil clasificarse, suben los precios económicos y demás. Sí, sí. La gente compite...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1228" target="_blank" class="timestamp">[20:28]</a> No, sí, pero la gente paga más y la gente compite más, aunque ya esté clasificada. Sí, sí, así es. O sea, dice, ya que me preparo, pues me hago dos o tres, ¿no? A diez. Pero no, es que, de hecho, es como debes ser, debes aprovecharlo, porque si no, claro, es una asesora y si hiciste alguna, al final tienes la oportunidad de poder clasificarte. El chico está interesado, por ejemplo, de Saras o...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1248" target="_blank" class="timestamp">[20:48]</a> O sea, no me lo coloco. Me está dando rabiándose a ver cómo se llama, porque la verdad es que el chico es una pasada. El chico es este. Es un físico limpia. Sí. No digo tal, pero es un físico limpia y está seguro que va a ganar. Le falta campeonato grabado. Para mí este piensa nada. Podría haberlo ganado antes que Regan por el tema de la condición, que gusta más ese tipo de físicos. Aunque luego entiendo lo que busca el juez. Pero bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1276" target="_blank" class="timestamp">[21:16]</a> A ver, al final también tiene un físico que cuando salga la Olimpia, de aquí hasta que salga, tiene un tiempo para mejorar y de la hostia. Y escúchame, es un top 10 Olimpia, creo. Sí, sí, sí, es una máquina. O sea, es un tío que cuando sale, sale pisando fuerte en la tarima. Sí, sí, sí. La estructura es una pasada, tío. La verdad que sí, tío. La verdad que me emociona hablar de Open así porque me gusta. Me gusta. Hay que seguir, hay que ir. Hay que darle caña y seguir trabajando y meter más a muscular y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1305" target="_blank" class="timestamp">[21:45]</a> Para ser uno de esos, ¿eh? De hecho, no me acuerdo quién subió... Ah, Samson Dauda, en plan, fuera de temporada y se subía a la báscula a 140 kilos. 144, sí, digo... ¡Wow! Pero no son los 144, es cómo los pesa mantenerlo nuevo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1321" target="_blank" class="timestamp">[22:01]</a> Sí, sí, sí. Me quedé flipando, ¿eh? Bueno, ese es el objetivo, ¿no? Y de los puestos pensamos, cada vez ser más grande y, bueno, le voy a la escuela de cada uno de cómo no quiera ser grande y cómo quiera ver si... Pero esa sería la idea, ¿no? Lo que te dije ahora en la visita allí a cuando te visité. Te comenté, el año que viene hay que darle un punto un poquito mayor, hay que subir, pues igual, a 140 o por ahí y tratar de buscar la condición de ese año que fuese con 130. ¡Uff!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1345" target="_blank" class="timestamp">[22:25]</a> Eso es progresar, tío. Se trata de buscar objetivos. Objetivos que puede ser, porque los 150 no pueden llegar a pesar. Con la realidad, bueno, poco a poco. Puede ser. Es un poco más borrado, pero es cuestión de llegar y seguir y trabajar. Sí, año a año asentarlos también. Creo que es importante. Sí, pero aún así lo que me flipa es Samsung lleva como tres o cuatro años compitiendo las dos temporadas. Sí, sí, sí. Yo me acuerdo. Y aún así progresa en peso y en todo y flipas. Sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1374" target="_blank" class="timestamp">[22:54]</a> Y un poco Sansón, haberlo visto competir, pero con 20 kilos menos. Sí. Me acuerdo más que venía a los miking, a lo que era la inscripción de los atletas, al miking del atleta, a coger el dorsal, y siempre venía con su mujer el tío elegante, con su corbata, con su traje. Sí, ¿eh? Sí, sí. Por lo menos yo las veces que lo vi, ahora no sé si voy a hacerlo, pero yo con Portugal Pro, en España, el tío va en traje. Va en traje elegante. Además, me chocó porque nadie miraría a los esto, ¿no? Que yo me acuerdo de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1402" target="_blank" class="timestamp">[23:22]</a> Igual en Olimpia sí, pero a los mittins de atletas, que igual, generalmente, al check-up de atletas la gente va... pues normal y corriente, ¿no? Se andan tirantes, zapagos, como quieras. Corbata americana, elegante, como el suelo, ¿sabes? Con mucho respeto al deporte, ¿no? Sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1421" target="_blank" class="timestamp">[23:41]</a> Además, es súper brillo porque le da un aspecto muy bueno, muy limpio, como muy profesional, ¿sabes? Es como, ¿no? Me hace años, ¿no? Veías en los Olimpia, veías a Coleman, a Gatler, a, me acuerdo, a Marco Root, con corbata y americana, o sea, los tíos bien vestidos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1440" target="_blank" class="timestamp">[24:00]</a> ¡Coño! ¡Hola, tío! ¡Hola! No, sí, sí, está muy bueno. Me gusta lo que me dice de Samson Dauda porque me lo dices y digo, mira, tío, es un tío que nadie sabía quién era, estaba ahí, estaba poco a poco, año a año, pegando por ir mejorando y por ir trabajando para estar ahí. Y ahora de repente es Mister Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1459" target="_blank" class="timestamp">[24:19]</a> Y no es de repente. Es porque lleva muchos años pegándose para hacer Miserio Olimpia. Y campeonato a campeonato y yendo ahí con su mujer y yendo y yendo y compitiendo y compitiendo hasta llegar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1473" target="_blank" class="timestamp">[24:33]</a> Sí, a ver, yo, porque me ha pillado más de cerca, lo he conocido más de cerca, por lo que te he dicho. Incluso me intercambió palabras en el Instagram, pero el otro día estaba subiendo vídeos, el tío con su Porsche GT3, y yo escribiéndole, digo, bueno, y yo le digo, ah, es un Porsche GT3, qué suerte, no sé qué, ese coche me gusta mucho y tal, y el tío le digo, ah, pues tienes coches japoneses que me gustan mucho, no sé qué, también. O sea, ¿qué es que no? Y digo, hostia, fíjate tú, ¿no? O sea, como muy de casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1499" target="_blank" class="timestamp">[24:59]</a> A ver, es que también cuando te ves, desde el principio es diferente a cuando apareces de repente o cuando alguien aparece... En mi época, pues claro, no tenemos la actividad que tenemos ahora para hablar, por ejemplo, con Doris Chase o con Coleman, ¿no? Que hubieses ido a la base con Coleman por Instagram. Claro, claro, es increíble. Esto es la base, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1518" target="_blank" class="timestamp">[25:18]</a> Entonces ahora, pues, las redes sociales, en que viajano al campeonato, si te lo encuentras y le saludas o te reconoces por cualquier cosa. Sí, sí, eso. A mí ahora a veces me contesta Jay Calder y es como, ¿qué? Es verdad, es verdad. ¿Qué? Tú lo verás porque a veces te salen etiquetados también. Sí, sí, me sale, me sale. ¿Sabes? Y es como... Mira la tía, mola, mola. Increíble, ¿sabes? Esa persona muy particular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1541" target="_blank" class="timestamp">[25:41]</a> Es muy particular, tío. Es muy particular. Sí, pero no me refiero a que te comentes como... Sí. ¿A mí? ¿Sabes? En plan, ¿por qué me estás comentando? ¿Sabes? Sí, de hecho, me ha pasado muchas veces que cuando me lo he encontrado en el Olimpia, en lo que son los hoteles, con su buen mejor hotel, yo he hecho así, bueno, no voy a mirarle porque me da cosa, porque me da vergüenza, tío. Igual me dice que yo como compañeras a mirarle, pero ese es el tío que me da coger, me toca mi tela de Francisco, digo. Claro, claro. Si sabe quién soy.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1567" target="_blank" class="timestamp">[26:07]</a> Claro, porque sabe quién eres y el tío va y queda bien, ¿sabes? Y te saluda. Él siempre ha sido un profesional para eso. Me acuerdo haberlo visto en la Fit4 o Fibo en España. Estaba haciendo cola para ir a comer y el tío es súper agradable girarse, sonreír, guiarte el ojo o hacer de así. Me acuerdo que fue Jesús Gallego a una Fibo y estamos haciendo cola para hacerle una foto con él.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1593" target="_blank" class="timestamp">[26:33]</a> Y me acuerdo que le dio a Jesús que tenía el bíceps operado. Y él se acababa de operar el bíceps. Y el tío cogió, se agitó la cola y se vinieron a uno de nosotros y decían «¿Qué tal lo tienes? ¿Qué tal?». Y nosotros así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1605" target="_blank" class="timestamp">[26:45]</a> Es un tío que sabe gestionarlo muy bien. Yo no sabría gestionar las cosas como lo hace él. Y él es un reparte. Si quieres ser un buen embajador de tu deporte, tienes que hacer las cosas. Es sin duda el mejor embajador. Es verdad que tú vienes de otra época donde el fan que tienes es un poco diferente. Pero bueno, te quería decir que al fin y al cabo... Claro, él es muy de expo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1635" target="_blank" class="timestamp">[27:15]</a> De mano a mano, de saludar a la gente, de foto con la cámara grande. Sí, lo que pasa es que cuando vas a poner esto, como que la gente no se atreve a decirle nada y no va a muy rodear a la gente. Va rodeado, pero no mucho. Por ejemplo, vas a colar mal y flipabas. Y era una locura, una escuela que flipas. O bueno, no colo más solo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1652" target="_blank" class="timestamp">[27:32]</a> ¿Me acuerdo el año pasado? Eh, Cebu. ¡Pues era una locura, tío! No, pero Cebu... Cebu es otro rollo. Cebu con seguridad, con todo. Sí, sí, sí. Eso va a pasar. Nada, hombre. El culturismo va cambiando. Sí, así es. ¿No? Hombre, el culturismo evoluciona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1670" target="_blank" class="timestamp">[27:50]</a> A bien y para mal, depende de cómo quieras tomarlo. A ver, los que somos de la vieja escuela, al final decimos, ah, antes era mejor que el de ahora, pero es que es diferente. Simplemente no es que sea mejor, es diferente. Me imagino que cuando yo era chaval y me gustaba el culturismo, que era actual, en aquellos momentos, los que eran más mayores que yo dirían que eso no era el culturismo. Bueno, el culturismo era anterior, el del hijate. Es como cuando tu padre te dice, eso no es música, es lo que te escuchas, ¿sabes? Y tú le dices a tu hija, eso lo escuchas no es música, ¿sabes? Porque hay autotune. Bueno, pues ya está. Al final,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1699" target="_blank" class="timestamp">[28:19]</a> Son épocas diferentes, tío. Y hay que adaptarse. Lo que pasa es que, claro, los viejos somos dos, tío. Los que somos ya perros viejos... Yo creo, sinceramente, que para muchas cosas es muy bueno cómo se está viviendo el culturismo actualmente. Me cabe, por supuesto... Solo por el hecho de que te permita dedicarte a ello. Y antiguamente era mucho más complicado. Exacto. Eso es una parte muy positiva, porque antiguamente era una pera grandes potenciales que había en todos lados, que no se pudieran aprovechar por el simple hecho de que no había cómo gestionarlos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1724" target="_blank" class="timestamp">[28:44]</a> No había tampoco tantas marcas que te pudieran posibilizar y darte recursos para poder soportar competir a nivel profesional. A día de hoy, entre marcas, es de todo tipo, sponsor de ropa, de comida, de suplementos, de todo. Las redes sociales, todo eso hace un soporte que realmente puede hacer que te puedas dedicar a tu deporte de forma profesional mucho más fácil que antes. Y si antes no hubiese existido esto, posiblemente hubiese sido positivo. Muy positivo. Porque habría más grandes profesionales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1751" target="_blank" class="timestamp">[29:11]</a> Sí, cien por cien. Y los de antes quizá no estarían... Es verdad que los de antes están mitificados, nivel Dios, ¿eh? Pero porque antes era mucho más complicado también por la burocracia, por todo, por la internalización, se presionan. Claro, es que al final estaba por ahí entre medios. Por ejemplo, a nivel europeo, Rafael Santó, haciendo su trabajo y él estaba, para ser profesional, para ser campeón del mundo absoluto, tío. En cambio, si vivías en Estados Unidos, tenías...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1777" target="_blank" class="timestamp">[29:37]</a> el perfil del NPC que tenemos hoy en día aquí en España. Eso ya existía hace 15, 20 años en Estados Unidos. Campeando con que estaban siete carnet profesionales. Siete, ocho, nueve. Los NPC ya estaban trabajando en los nacionales, ¿no? Ya estaban ahí trabajando dando un montón de carnet profesionales. Me acuerdo cómo se dio carnet a South Florida que pesaría, no sé, cincuenta y pico kilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1797" target="_blank" class="timestamp">[29:57]</a> Y la gente dijo, como se ha dado el título de carne profesional, claro, nomás no son muy carnes profesionales, pues se le ganaría igual a 70 kilos, su categoría. Y luego ya tenía carne profesional, yo qué sé. Ese perfil entonces no lo había en Europa, solo lo había en Estados Unidos. Lo que pasa es que Tokio y Asúbal, la separación de federaciones, pues ya entonces ese perfil ya cruzó el charco y se dividió por toda Europa. Y no podías competir en Estados Unidos, claro. Tú podías competir en Estados Unidos,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1823" target="_blank" class="timestamp">[30:23]</a> campeonatos puntuales que no tuviesen, por ejemplo, me acuerdo en Muscle Beach, que lo ganó Marlon Callao, lo ganó Cisco Serra, pero no eran federativos, digamos, es decir, no los hacía a nivel local en la playa. Ah, ¿el muscle beach? Ese, ese. ¿El típico? Sí, ese. Yo creo que he visto fotos de Cisco pagándolo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1840" target="_blank" class="timestamp">[30:40]</a> Y aquí también tenemos a Manuel Callao Ventura. También un gran competidor, una leyenda del culturismo español. Hoy en día sigue incluso compitiendo. Se arquivó y volvió a competir hace un año o dos, creo. Y ahora se ha trabajado con una federación diferente. Esa es una federación que ha montado de campeón y tal. Y ese hombre fue uno de los que me acuerdo que ganó el Muster Beats, más que el Beats, y luego también</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1866" target="_blank" class="timestamp">[31:06]</a> Los campeones así sí se podían llegar a competir. Lo que tú no podías competir, claro, en un nacional, porque tú no eres americano. Entonces, la única manera de poder competir en Estados Unidos era directamente, o irte a los dos así, que no tenía, digamos, regional, algo más... Sí, no accedías al carnal profesional. Claro. No accedíamos, efectivamente. O irte allí. Con los pros tienes que ser campeón del mundo absoluto, tío. O irte a vivir allí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1893" target="_blank" class="timestamp">[31:33]</a> y hacerte plicado. Eso también podía ser, ¿sabes? Era muy complicado. Hacía falta también mucho dinero. Yo en mi época eso era totalmente impensable. Tú nunca en la vida ibas a pensar en poder llegar a ser profesional. En la cabeza tenías que ser un tío que ya de cada 100 salía uno. Me acuerdo que uno era el Patas, el Paco Batista, o lo que sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1920" target="_blank" class="timestamp">[32:00]</a> Este tío no es normal, se salen de lo normal, ¿no? Ramón González, Paco Mura, pero eran muy pocos. Eso es igual y, ya ves tú, las competiciones que tenía porque económicamente te fundías un general terrible. Eso Paco no puede decir mucho más porque Paco viajó mucho, como Raúl Carrasco también. Coño, Raúl Carrasco estuvo en los hijos dos veces también, pero la competición es que hizo para llegar ahí porque Paco no iba por puntos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1942" target="_blank" class="timestamp">[32:22]</a> Entonces, claro, era otra época. Si hubiese pillado este momento actual, en aquella época, habría habido muchos problemas españoles y posiblemente mejores plazas y más campeonatos. Ya. Pero bueno. Bueno, todo es momento. Veremos dentro de cinco años, tío. Exacto, veremos dentro de cinco años cómo estamos los españoles. Yo sinceramente confío mucho en el culturismo español y en lo que está creciendo en España, que lo sepas. Sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1970" target="_blank" class="timestamp">[32:50]</a> Bueno Fran, te voy a dejar en paz, que sigas trabajando, que sé que tienes curro, yo también tengo curro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=me8YBcOJEjY&t=1992" target="_blank" class="timestamp">[33:12]</a> Así que muchas gracias y en poco estaremos seguramente compitiendo y que la gente tiene ganas también. Muchas gracias por todo, de verdad. Un abrazo. Chao, chao. Adiós.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 01/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
