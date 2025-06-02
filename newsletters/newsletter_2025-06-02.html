@@ -1,0 +1,379 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 02/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">02/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>alvarobernalalejandre</strong>: <a href='#video-WFjF00E60Pw'>¿Cómo calcular tu repetición máxima? 1 RM. Usa herramientas de IA.</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-WFjF00E60Pw">
+            <h2>¿Cómo calcular tu repetición máxima? 1 RM. Usa herramientas de IA.</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: alvarobernalalejandre</span>
+                <span class="date">Publicado: 02/06/2025 12:58</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=WFjF00E60Pw" target="_blank">
+                    <img src="https://i.ytimg.com/vi/WFjF00E60Pw/hqdefault.jpg" alt="¿Cómo calcular tu repetición máxima? 1 RM. Usa herramientas de IA." loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video explora el uso de herramientas de inteligencia artificial para estimar la repetición máxima (1RM) en el entrenamiento de fuerza.
+El presentador muestra cómo una IA realiza este cálculo y lo compara con métodos manuales, destacando la facilidad y velocidad.
+Reflexiona sobre la vertiginosa evolución de la IA, la potencial aparición de sensores de fuerza en el futuro cercano.
+Finalmente, enfatiza la importancia de usar la IA como una herramienta para profundizar el conocimiento y desarrollar competencia, evitando la dependencia.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La IA al Rescate del 1RM <a href="https://www.youtube.com/watch?v=WFjF00E60Pw&amp;t=69" target="_blank">[01:09]</a></h3>
+
+<p>El presentador muestra cómo una herramienta de IA (Grock) puede estimar la repetición máxima (1RM) con solo ingresar el peso y las repeticiones realizadas. Explica que esto simplifica métodos tradicionales para obtener este dato clave en el entrenamiento de fuerza.</p>
+
+<h3>Comparando la IA con Métodos Manuales <a href="https://www.youtube.com/watch?v=WFjF00E60Pw&amp;t=145" target="_blank">[02:25]</a></h3>
+
+<p>Se compara el resultado de la IA con una tabla de cálculo de 1RM creada manualmente, mostrando ligeras diferencias basadas en las fórmulas utilizadas. El presentador destaca que la IA incluso puede generar el código para replicar la tabla o un gráfico.</p>
+
+<h3>La Velocidad Impresionante de la IA <a href="https://www.youtube.com/watch?v=WFjF00E60Pw&amp;t=246" target="_blank">[04:06]</a></h3>
+
+<p>El video cambia de enfoque para reflexionar sobre la rapidísima evolución de la inteligencia artificial. Se menciona la posibilidad de implantes de inteligencia en el futuro y la importancia de usar la IA de forma consciente, no siendo "víctimas".</p>
+
+<h3>El Futuro de la Medición de Fuerza con Sensores <a href="https://www.youtube.com/watch?v=WFjF00E60Pw&amp;t=288" target="_blank">[04:48]</a></h3>
+
+<p>Se introduce el concepto de sensores de movimiento (como pulseras) que pronto permitirán medir los niveles de fuerza en tiempo real cada día, basándose en la aceleración de las cargas. Esto optimizará el entrenamiento al considerar las variaciones diarias de fuerza de una persona.</p>
+
+<h3>IA: Herramienta para Competencia, No Dependencia <a href="https://www.youtube.com/watch?v=WFjF00E60Pw&amp;t=399" target="_blank">[06:39]</a></h3>
+
+<p>El mensaje central del video se refuerza: la IA debe ser una herramienta para aumentar la competencia y el conocimiento personal. Se anima a usarla para entender los principios subyacentes (como las fórmulas de 1RM) y no solo para obtener respuestas superficiales.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=0" target="_blank" class="timestamp">[00:00]</a> cómo saber de forma estimada tu repetición máxima con una carga determinada fíjate le he pedido a una herramienta de ella en este caso a groc estaba hablando sobre entrenamiento en personas de mediana edad que hacen entrenamiento de carrera a pie de ciclismo sobre cómo deberían entrenar la fuerza y es muy frecuente que hablemos de porcentajes sobre la repetición máxima algo así como decir oye</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=24" target="_blank" class="timestamp">[00:24]</a> Trata de mover con la máxima velocidad intencional 6 repeticiones con una carga que represente el 80% de tu 1RM, una repetición máxima. Claro, en la práctica podemos, imaginemos que estamos hablando de la prensa, cargar la prensa, calentar y ir progresivamente hasta que veamos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=42" target="_blank" class="timestamp">[00:42]</a> ¿Cuánto sería el máximo peso que podríamos levantar en una repetición? Y eso es una forma de trabajar, pero entraña algún riesgo. No tiene por qué haber riesgo, se hace técnicamente bien, pero entraña un mínimo riesgo. Tradicionalmente lo que hacemos es utilizar una calculadora de repetición máxima. Yo le he pedido aquí a Grock que me hiciese una tabla para hacer esa estimación de la repetición máxima. Aquí nos hace alusión.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=69" target="_blank" class="timestamp">[01:09]</a> A modelos como el que pone aquí de Britsky, Play o Lander, fórmulas así. Es mirar qué sencillo. Yo pongo aquí una carga, por ejemplo, esa persona ha levantado 70 kilos en ese movimiento, ha hecho 10 repeticiones y nos da una estimación de cuántas repeticiones podría hacer con esa carga. Por ejemplo, estima que el máximo sería 93 kilos, 93.3 kilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=92" target="_blank" class="timestamp">[01:32]</a> Fijaros que yo solo le he preguntado esto. Aquí me da la explicación completa. Me hace un gráfico también diciéndome, oye, pues con tanta carga, si de repente haces cinco repeticiones con esta carga, pues tu máximo sería 73. Si pudieras hacer, por ejemplo, con esa carga 12 repeticiones, pues tu máximo sería 82. Bueno, este es un gráfico que le he pedido sobre una estimación de una persona que puede hacer</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=115" target="_blank" class="timestamp">[01:55]</a> 60 kilos para 10 repeticiones como máximo. Bueno, pues esto a mí, por ejemplo, hace años me llevó una tarde a hacer esta hoja de cálculo en el que al final yo he hecho lo mismo. Voy a poner, por ejemplo, aquí alguien que pueda hacer con 90 kilos un ejercicio y si, por ejemplo, con 90 kilos hace 6 repeticiones, bueno, pues nos estima que su 1RM serían 106 kilos. Bueno, vamos a ver. Pongo los 90 kilos que tenía aquí. Modifico aquí 90 kilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=145" target="_blank" class="timestamp">[02:25]</a> 90 kilos, ¿de acuerdo? 6 repeticiones. Nos hace el cálculo y nos dice que la repetición máxima sería 104,5. Yo en mi tabla tenía aproximadamente 106. Daros cuenta que aquí yo he cogido 3 fórmulas, ¿de acuerdo? Pero hace una estimación de la media. Esto, para que os hagáis una idea, me ha dejado impresionado en el sentido de que este es el código que ha hecho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=175" target="_blank" class="timestamp">[02:55]</a> para generar esa tabla y me permitiría, como veréis aquí, llevarlo. Me explica que es el 1RM efectivamente, pero me permitiría copiar este código para hacer un gráfico HTML o podría llevarlo a Google Sheet manualmente. Aquí me estaría explicando una serie de cosas que realmente sería como generar la hoja de cálculo. Estas cosas a mí me parecen verdaderamente útiles.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=201" target="_blank" class="timestamp">[03:21]</a> Si somos capaces de utilizar las herramientas de IA de forma inteligente, valga la redundancia, y no ser simplemente personas que decimos hazme esto y ya está, y no profundizar, vamos a ser verdaderamente competentes. Si dejamos todo en manos de la inteligencia artificial, pues vamos a llegar a esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=232" target="_blank" class="timestamp">[03:52]</a> de verdad es que parece un chiste pero no es un chiste</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=246" target="_blank" class="timestamp">[04:06]</a> Ese es el nivel actual. Yo sé que vamos a ver implantes de inteligencia. Y tú dirás, qué locura. Sí, probablemente yo no lo vea o lo vea en el inicio, pero los que tengáis menos de 40 años sí creo que vais a ver implantes de inteligencia. Esto de la IA está yendo a una velocidad escandalosa. Siempre os insisto en la película Her, por favor, vedla para hacer lo imposible porque no lleguemos a eso. ¿De acuerdo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=272" target="_blank" class="timestamp">[04:32]</a> Los productos que se ven en la película Her, por supuesto que van a estar ahí presentes en el mercado, pero hacer un esfuerzo, por favor, de no ser víctimas de esto. Fijaros, en el cálculo de la 1RM, nosotros tenemos que ser conscientes</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=288" target="_blank" class="timestamp">[04:48]</a> de que los niveles de fuerza van variando cada día y lo que en el futuro y además próximo va a ser muy habitual va a ser pulseras que sean sensores de movimiento que nos permitan ver aceleración y a razón de cómo aceleramos las cargas vamos a poder saber cuáles son los niveles de fuerza que tenemos ese día cuando una persona está empezando todos los días va mejorando su fuerza o gradualmente va mejorando pero a partir de cierto momento cuando uno ha alcanzado ya una meseta</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=316" target="_blank" class="timestamp">[05:16]</a> en lo que es la ganancia de fuerza la fuerza ya va oscilando y eso cualquier persona que entrene fuerza hace años para hipertrofia o con objetivo puro de fuerza comprenderá y me podrá confirmar que hay periodos en los que tienes más fuerza otros tienes menos y que de hecho hay días en los que dices oye qué pasa que no puedo mover la carga porque algo me está pasando cuando hace cuatro días en el mismo movimiento sí que podía y otros días de repente te pones a hacer dominadas y dices qué pasa que parece que me están ayudando desde abajo porque tengo una fuerza diferente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=344" target="_blank" class="timestamp">[05:44]</a> La capacidad de reclutar las fibras tipo 2, que sabéis que son las que con el paso del tiempo vamos perdiendo con mayor rapidez y va perdiendo la eficiencia, son muy determinantes en cuanto a la fuerza que podemos realizar. Por lo tanto, siempre os insisto en trabajar con la máxima velocidad intencional, pero con movimiento controlado en aquellos ejercicios en los que dominamos perfectamente la técnica. Entonces, ¿cuál es el sentido de este vídeo? Primero, que puedas utilizar una herramienta para saber</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=372" target="_blank" class="timestamp">[06:12]</a> la repetición máxima, no haría falta ni siquiera esto. Tú escribes ahora mismo en una web cálculo de repetición máxima y llegas a esta calculadora, pero sí tendría sentido que tú entendieses el por qué esto es así y que no fueras una persona muy limitada y que dijeras, bueno, pues yo simplemente pongo esto y punto, sino que le digas, por ejemplo, en la herramienta, oye, profundiza un poquito en el porqué de estas ecuaciones o de estos valores. Es decir, que tú seas una persona que utilices la IA</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=399" target="_blank" class="timestamp">[06:39]</a> para ser más competente no para ser dependiente y no tener criterio ninguno vamos a hacerle un ejemplo dame las ideas básicas que debe tener una persona que está interesada en ganar fuerza hipertrofia respecto a este cálculo de la repetición máxima de dónde vienen estos datos qué utilidad puede tener y en definitiva que la persona pueda tener cierto control de esta información</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=430" target="_blank" class="timestamp">[07:10]</a> Todas las IAs tienen normalmente la opción de búsqueda profunda, de pensar, de hacer un diálogo. Cada día es mejor. Recuerda que lo que hoy te muestre una IA es lo peor que te va a mostrar en la historia de la inteligencia artificial. Siempre, cada día va a mejorar. Las IAs, hay una competencia brutal entre ellas y entre las empresas que las...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=452" target="_blank" class="timestamp">[07:32]</a> Están generando, todas tienen una curva de aprendizaje similar, todas tienen interfaces muy similares, todas nos están dando mucho, pero el plan obviamente es que todos paguemos una cuota mensual de inteligencia artificial. Cuanto más alta sea esa cuota, más cosas hará y como siempre las cuestiones económicas también van a marcar un sesgo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=472" target="_blank" class="timestamp">[07:52]</a> Actualmente, quien maneje bien la IA tiene una ventaja competitiva muy clara en su profesión. Probablemente dentro de unos meses, unos o dos años como máximo, porque esto va a una velocidad que hace imposible predecir cómo va a evolucionar. Vamos viendo la dirección en la que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=489" target="_blank" class="timestamp">[08:09]</a> en la que esto camina, pero no podemos saber exactamente los tiempos ni lo que va a hacer. Pienso que los usuarios como yo, que somos unos random, lo más que podemos hacer es ver la capa superficial de la IA, pero como se suele decir, el meollo, lo gordo va por debajo y no tenemos ni idea de lo que está pasando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=506" target="_blank" class="timestamp">[08:26]</a> las élites lo controlan y evidentemente nos contarán la parte que nos interese. Pero sí que va a haber ese sesgo entre las personas que tengan acceso a inteligencias artificiales de pago y a las más caras y a las que no tengan acceso a esas herramientas. Al final quedará una especie como de Google avanzado y quien no tenga acceso a las herramientas de pago pues recibirá</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=528" target="_blank" class="timestamp">[08:48]</a> Mucha publicidad recibirá mucha información sesgada para condicionar su pensamiento, porque a medida que vamos dejando que la IA tome decisiones por nosotros, nosotros nos vamos desadaptando. Como muchos de los que tenemos mi edad, pues ya no nos manejamos bien por las calles. Cuando hace 30 años nos manejábamos perfectamente porque trabajábamos la memoria. Bueno, otras cualidades podemos poder trabajar después, pero lo que es cierto es que lo que no entrena se desadapta y volviendo al origen,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=553" target="_blank" class="timestamp">[09:13]</a> Si no trabajamos las fibras tipo 2, nos desadaptamos. Bueno, pues aquí, cuando yo le he pedido a la herramienta que nos dé unas nociones, pues tendría sentido leerlo. Nos está hablando de los rangos de porcentajes, cuando se busca fuerza, cuando se busca hipertrofia. Ya sabéis que todo esto es subjetivo, que luego cada sujeto responde de una manera individual. Pero sí que tiene sentido que os conozcáis las generalidades. Por favor, utilizar estas herramientas y pedir un plan de estudio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=580" target="_blank" class="timestamp">[09:40]</a> decirle lo que sabéis lo que no sabéis y que os dé información de cómo vosotros progresar para no tener que depender de divulgadores yo soy una gota de agua en el mar yo puedo querer hacer las cosas con buen sentido con buen fondo pero puedo estar equivocado puedo estar dando información errónea sin saberlo otras personas la dan sabiéndolo lo cual pienso que todavía es más punible pero el mensaje es que utilicéis las ías para que vosotros tengáis control de cómo lograr vuestros objetivos de hipertrofia de ganancia de fuerza de</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WFjF00E60Pw&t=610" target="_blank" class="timestamp">[10:10]</a> salud en general. Este ejemplo del 1RM es muy útil, pero creedme, los sensores que van a venir en los próximos meses nos van a permitir optimizar muchísimo el entrenamiento. A mí me fascina todo esto, en la élite ya se está haciendo, es muy caro, pero dentro de poco llegará al mercado popular a precios razonablemente asequibles, siempre por supuesto dentro de la economía de cada uno y podremos optimizar muchísimo nuestro entrenamiento. Un abrazo para todos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 02/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
