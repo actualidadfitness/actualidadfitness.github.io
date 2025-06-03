@@ -1,0 +1,400 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 03/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">03/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Benlliure Reacciona</strong>: <a href='#video-6SZnBCLWtBo'>NO ENTRENES COMO JOSEMA | NUNCA TENDRÁS SU ESPALDA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-6SZnBCLWtBo">
+            <h2>NO ENTRENES COMO JOSEMA | NUNCA TENDRÁS SU ESPALDA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Benlliure Reacciona</span>
+                <span class="date">Publicado: 03/06/2025 12:57</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=6SZnBCLWtBo" target="_blank">
+                    <img src="https://i.ytimg.com/vi/6SZnBCLWtBo/hqdefault.jpg" alt="NO ENTRENES COMO JOSEMA | NUNCA TENDRÁS SU ESPALDA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video analiza un vídeo de reacción al entrenamiento de espalda del culturista Josema.
+El speaker principal discute cómo la genética de Josema, especialmente en su espalda, influye en su forma de entrenar.
+Advierte a los espectadores contra la idea de copiar directamente los métodos de atletas de élite.
+Se enfatiza que el entrenamiento efectivo para la mayoría requiere más volumen, intensidad y enfoque en la técnica adecuada para uno mismo, no para un profesional genéticamente dotado.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Falacia de Autoridad en el Culturismo <a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&amp;t=89" target="_blank">[01:29]</a></h3>
+
+<p>El speaker critica la tendencia a copiar el entrenamiento de Josema basándose solo en sus resultados físicos. Argumenta que su físico, especialmente su espalda, es en gran parte resultado de su genética excepcional.</p>
+
+<h3>Una Vez a la Semana es Suficiente... ¿Para Quién? <a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&amp;t=253" target="_blank">[04:13]</a></h3>
+
+<p>Se revela que Josema entrena espalda solo una vez por semana, lo cual el speaker considera un error para la mayoría. Explica que Josema puede hacerlo porque la espalda es su punto fuerte genético, no una estrategia óptima para quienes buscan desarrollarla.</p>
+
+<h3>Sentir vs. Cargar: El Debate de la Intensidad <a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&amp;t=315" target="_blank">[05:15]</a></h3>
+
+<p>Josema prioriza la conexión mente-músculo sobre la carga. El speaker discrepa, defendiendo que la carga progresiva, con buena técnica, es fundamental para la hipertrofia en la mayoría de personas.</p>
+
+<h3>Peso Muerto en la Rutina de Espalda <a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&amp;t=624" target="_blank">[10:24]</a></h3>
+
+<p>Josema incluye peso muerto rumano con énfasis en la retracción escapular. El speaker cuestiona su eficacia para la hipertrofia directa de dorsales/trapecios, considerándolo más un ejercicio para la cadena posterior baja (glúteo, femoral, lumbar).</p>
+
+<h3>No Eres Josema: La Advertencia Final <a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&amp;t=1004" target="_blank">[16:44]</a></h3>
+
+<p>El speaker concluye tajantemente que los espectadores no deben imitar el bajo volumen o peso usado por Josema. Reitera que su físico es resultado de años de entrenamiento y una genética privilegiada, no de esta rutina específica.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=0" target="_blank" class="timestamp">[00:00]</a> muy buenas a todos chicos aquí estamos un nuevo vídeo para mi canal vamos a ver un billete de ares es una persona de un youtuber en concreto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=9" target="_blank" class="timestamp">[00:09]</a> que los vídeos que hace son de culturismo y en general suele ser bastante crítico es cierto que la mayoría de veces las cosas que dice suelen ser respaldadas y tienen su sentido pero para mí es demasiado crítico y hay veces que en vez de centrarnos tanto en la tema crítica tenemos que respaldar un poquito más sobre todo a la gente más relacionada con</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=38" target="_blank" class="timestamp">[00:38]</a> que sean españoles básicamente. O sea, si tú puedes decir, quieres decir a alguien de fuera, ¿vale? No tengo problema, pero por lo general echo de menos que se apoye un poquito más la gente, como te digo, española y no se haga una crítica tan directa. A pesar de que tenga razón, pero buscar un equilibrio, ¿vale? Recuerda que aquí estamos para apoyarnos. Así que hoy vamos a reaccionar, como digo, a un vídeo de Así se entrena la espalda, José Mavés sin tonterías, un día solo y pocas series.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=67" target="_blank" class="timestamp">[01:07]</a> Vamos a hablar de Josema, top 6 del Mr. Olimpia, classic, un chico español, lo conocéis obviamente de todo el mundo, y que sin duda su mejor grupo muscular es la espalda en sito a la cadena posterior, tanto glúteo, femoral como espalda. Por tanto, vamos a ver cómo entrena.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=89" target="_blank" class="timestamp">[01:29]</a> Pero me hace gracia, porque los mismos que criticáis falacia de autoridad, porque una persona dice ciertas cosas en base a su experiencia, en base a cómo él se encuentra físicamente, luego son los mismos que voy a entrenar cómo entrena Josema a espalda, porque Josema en la espalda sí. Al loro, al loro que para algunas cosas falacia de autoridad, pero para otras cosas me interesa. Voy a ver cómo entrena.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=117" target="_blank" class="timestamp">[01:57]</a> Josema, la espalda así, porque si está así es por algo y algo está bien haciendo. Por tanto voy a copiarlo. Pues error. No te sentes en copiarlo. ¿Vale? Porque Josema tiene la espalda así, por su genética, por cómo enfoca todo. ¿Vale? Pero también entrena igual de bien los brazos. Igual entrena igual de bien los cuáles. ¿Por qué no lo tiene como la espalda? Clank. Genética. ¿Vale? Entonces vamos por partes que me da un poquito de rabia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=145" target="_blank" class="timestamp">[02:25]</a> los mejores culturistas o los traigo a josé mapiste en cómo se construye la mejor espalda de classic físic y vuelvo a repetir también como entran los culturistas vale aquí es como todo si nos basamos al fin y al cabo en los resultados en base a cómo estaba una persona físicamente branch warren por poner un ejemplo entrenaba mal le iba mal aunque nos basamos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=171" target="_blank" class="timestamp">[02:51]</a> ¿Nos basamos en cómo tú estás físicamente? ¿En los resultados que tienes físicamente? ¿O qué? Josema, si no tuviera esa espalda, lo pondríamos de ejemplo. Y entrenaría de la misma manera. O sea que... Cuidado. Muchos os va a sorprender. No tenemos una crítica a Josema. Josema es una bellísima persona. Pero que me hace gracia que... Para unas cosas aplicamos lo de la falta de autoridad y para otras no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=196" target="_blank" class="timestamp">[03:16]</a> Porque es muy diferente a lo que se podría pensar. José Masu, solo 23 años. 23 años. Y por cierto, recordad que todos los meses hago dos sorteos de 150 euros en LivePro con mi código JordiBen y pidiendo cualquier cosa ya entras en el sorteo. Pidiendo una simple crema de arroz ya entras directamente en el sorteo y no te falta hacerle captura. A tope y cuelgo los ganadores siempre por Instagram. Estate pendiente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=225" target="_blank" class="timestamp">[03:45]</a> ...sexto en el mistero limpia y tiene un físico muy destacable donde la espalda, femorales, lúteos, la cadena posterior en general es muy dominante. Sin duda. O sea, Josema está donde está por la cadena posterior que tiene. Recordemos que la cadena posterior es la mitad del cuerpo. Por tanto, de frente, tú luces, te das la vuelta, eres un 10. Por tanto, ya tienes el 50% ganador. De espaldas, Josema, no hay nadie que lo bata. ¿Vale? Y tened en cuenta que obviamente son dos poses.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=253" target="_blank" class="timestamp">[04:13]</a> Un clásico, una, si no me equivoco. Explicado al detalle cómo entrena la espalda. Vamos, que influye mucho. A un mes y medio de la competición. Un día de espalda semanal, solo una vez a la semana. Un día a la semana entre la espalda. Para ti, primer error. ¿Por qué? Porque probablemente no necesites... O sea, tú no tengas que entrenar a la espalda una vez por semana. Tú eres Josema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=277" target="_blank" class="timestamp">[04:37]</a> ¿Tienes la masa muscular que tiene Josema en la espalda? Josema, probablemente la espalda es el grupo muscular que menos prioridad tenga que darle. Porque es lo que más desarrollado tiene. La espalda normalmente es un grupo muscular que cuesta bastante desarrollar, que encima tolera bastante volumen de entrenamiento y que probablemente tengas que entrenarlo bastante más. Igual dos veces por semana o igual una con un recordatorio. Pero ya es el primer error. Fijarte en que Josema entrena la espalda una vez por semana. Insisto. Entrenara como entrenara</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=306" target="_blank" class="timestamp">[05:06]</a> Josema tendría esa misma espalda. Porque si no, ¿por qué no tiene igual de bien el resto de grupos musculares? Vuelvo a repetir, por genética.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=315" target="_blank" class="timestamp">[05:15]</a> Sí, lo que habéis oído. Empieza diciendo que prioriza mucho el estiramiento y la máxima contracción de la espalda. Que cada rep se sienta y duela sin importar tanto la carga, que no es tan importante. Comenta que tiene un volumen... Para mí la carga sí que es importante, por supuesto. Y en general para todo. Cuanto más peso puedas poner con una técnica adecuada, es lo que tienes que hacer. Aplicado a todos los grupos musculares.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=338" target="_blank" class="timestamp">[05:38]</a> ...de entrenamiento bajo para este grupo muscular, una intensidad media-baja y que hoy hará peso muerto porque solo hizo pierna una vez esta semana y quiere darle estímulo a los femorales y glúteos. Me parece que estuvo enfermo o algo así. Así que va a meter ese ejercicio extra que no toca en el vídeo de hoy. Así que vais a ver lo breve que sería su entrenamiento de espalda de normal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=358" target="_blank" class="timestamp">[05:58]</a> Empieza haciendo una serie de jalón neutro al pecho. Perfecto. Es un ejercicio más enfocado a nivel dorsal que incluso lo emplea como a modo activación. Ya está. Una serie. Esto le sirve para ir activando la espalda, para ir llevando sangre. Una serie. A mi parecer, se queda muy corto una serie. Y, insisto, tú que lo estás viendo y tú que quieres ponerte fuerte para ganar masa muscular, no tienes que hacer una serie. Vuelvo a repetir. ¿Por qué no tienes que fijar en cómo treinar Nick Walker? Porque Nick Walker...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=388" target="_blank" class="timestamp">[06:28]</a> No se ha puesto entrenando fuerte, no se ha puesto fuerte entrenando como entran actualmente, sino en cómo ha entrenado, ¿vale? No nos confundamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=395" target="_blank" class="timestamp">[06:35]</a> Lleva un primer estímulo en los dorsales y de aquí ya directamente, calentito, pasa un ejercicio básico, un ejercicio multiarticular, entre 1 y 3 del fallo. Va la guiada y se pone a hacer remo normal. Joder, pensaba que lo haría guiado. Debe ser para sorprender al músculo. A mí desde luego me ha sorprendido. Ahí hay, José Ma, que no se lo espere. Aquí hay una explicación interesante que es que prioriza estar horizontal y no heredirse en cada red.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=419" target="_blank" class="timestamp">[06:59]</a> Sí, obviamente hace un remo más estricto. Pero es que, insisto, Tavani, si ves el remo que hace Tavani, que es un remo agarra supino que prácticamente parte vertical, también tiene una espalda brutal. Una vez más, cuando tienes esa masa muscular, cuando tienes esa predominancia, cuando tienes esa genética, todo lo que dices es válido. Todo lo que dices es válido. Y si entrenara como te digo haciendo un remo menos estricto, también sería válido. Porque a la vista está que lo que haces te funciona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=448" target="_blank" class="timestamp">[07:28]</a> El lumbar trabaja siempre, y más en un ramo que en barra, y cuanto más inclinado usted es, cuanto más horizontal esté respecto al suelo, lo vas a notar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=478" target="_blank" class="timestamp">[07:58]</a> Lo del ego me parece muy relativo, porque ¿quién no tiene ego? Si tú no tuvieras ego, tú irías al gimnasio. El objetivo de ir al gimnasio es superarse, ir a mejor, evolucionar y por supuesto que hay ego.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=493" target="_blank" class="timestamp">[08:13]</a> Entonces, lo de dejar el ego de lado, no. O sea, todo el mundo tiene ego. Entiendo lo que quieres decir, ¿vale? De priorizar más la técnica y en estos ejercicios, en los que son tan demandantes, no tratar de trampear tanto y por eso hay que dejar el ego. Pero lo del ego, vamos a cogerlo con pinzas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=508" target="_blank" class="timestamp">[08:28]</a> Por esa parte, muy buen cambio de mentalidad de Josema en ese aspecto entrenando espalda. Y sí que es cierto que yo, Ares, estoy cansado de ir a gimnasios y ver a la gente hacer todo tipo de remos con un ego desmedido, creyendo que están fuertes, levantando 100 kilos. Pues te digo una cosa, yo prefiero que haya gente así que que haya gente con la polea, ¿vale?, de ejercicio principal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=528" target="_blank" class="timestamp">[08:48]</a> enroscados que parecen unas gárgolas que están ahí medio girados, ¿sabes? Que dices, madre mía, parece que vas a dar la voltereta y haciendo este tipo de ejercicios. Prefiero gente que entrena fuerte, prefiero gente que entrena con básicos y se esfuerza. Que no digo que los otros no se esfuercen, pero los otros van a lo fácil. Algo que más sencillito es.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=546" target="_blank" class="timestamp">[09:06]</a> 120 dando tiones y prácticamente de pie. Y su dorsal ni se ha enterado de lo que están haciendo. Su trapecio un poco, el bicepecho polvo y el lumbar se llevó el protagonismo. Y yo no entiendo esto. ¿Y qué problema hay? O sea, realmente. Quiero decir, no voy a defender tampoco un remo así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=561" target="_blank" class="timestamp">[09:21]</a> Pero el remo no es el mejor ejercicio para hacerlo de forma más estricta. Si quieres hacer un remo más estricto, optas por un shield row, optas si no por un remonte, optas por ejercicios que dan pie a hacerlo de forma más analítica. Que en ciertos momentos tú hagas un remo que sea menos estricto, te aseguro que no va a haber ningún problema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=579" target="_blank" class="timestamp">[09:39]</a> Salvo que tu enfoque sea power no tiene sentido hacerlo así, así que bravo Josema. Yo en el pasado era igual y no tenía espalda, lo cambié y ahora tengo espalda. No, ahora probablemente sigas en tener espalda, pero como llevas más tiempo, más entrenamiento acumulado, la espalda te ha evolucionado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=594" target="_blank" class="timestamp">[09:54]</a> y no será porque el remo lo hagas más o menos estricto, sino conforme tú entrenas y comes, y obviamente eso lo llevas año tras año, inevitablemente hay una evolución, no va a haber un regreso, pues inevitablemente vas a progresar más o menos, pero va a haber un progreso. Entonces el entrenamiento, lo he dicho, que no estoy defendiendo que se haga de por sí una mala técnica, pero vamos a saber un poco el ejercicio en el que estamos hablando y buscando, como te digo, tratando de buscar un equilibrio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=624" target="_blank" class="timestamp">[10:24]</a> Ahora hace dos series de peso muerto con las piernas bastante estiradas. Dice que al final... Básicamente un peso muerto con las piernas rígidas. ...movimiento hace como una retracción escapular para sentir más la espalda, que lo quiere para glúteo, para femoral y para espalda, que se lleve todo un estímulo global. Esto es interesante porque el peso muerto... A ver, yo no entiendo meterlo en... Las reducción de los brazos y extensión de los hombros son consecuencias del movimiento, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=644" target="_blank" class="timestamp">[10:44]</a> Ya de espalda, lo siento mucho, vale. Yo cuando lo hago estoy un montón de días sin poder ni caminar ni agacharme de las agujetas de femoral y glúteo que me deja. El lumbar me lo masacra y la espalda pues sí, a ver, algo de estímulo, pero tampoco nada de loco. Para mí el peso muerto es un ejercicio de pierna, pero es cierto que es multiarticular y que usas hasta los antebrazos, vamos. Realmente, tal y como está haciéndolo él, es un ejercicio específico a nivel de rectores, a nivel de espalda baja y también trabajar glúteo femoral, porque te está tratando de partir con las rodillas semiflexionadas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=674" target="_blank" class="timestamp">[11:14]</a> Pero en mi opinión, tanto los dorsales como trapecios te duelen más bien de estar estabilizando, de estar ahí en contracción isométrica a tope, no de que se estén llevando un estiramiento-contracción para ganar una hipertrofia efectiva. Esto ya es mi opinión, ¿eh? Pero vamos, que el peso muerto, oye, brutal ejecutado, muy bien, mirad qué técnica tan depurada. Lo hace perfecto el tío y de nuevo parado, bastante lejos del fallo, no le hace falta entrenar intenso. Es que José Mabal falló en un par de ejercicios y ya se pasa de categoría, tiene que tener cuidado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=701" target="_blank" class="timestamp">[11:41]</a> Aquí explica que con 4 o 5 series ya nota una inflamación en la espalda tremenda y que la lleva muy congestionada, que como es su punto fuerte y la consigue conectar mucho, no necesita más. Pero la consigue conectar mucho porque ha aprendido a hacerlo, porque se concentra, porque lo hace bien, hace buena técnica y esto es en lo que pica mucha gente. Y luego, no, es que yo tengo mala genética de espalda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=721" target="_blank" class="timestamp">[12:01]</a> Y no cabrones, que tu brazo y tu hombro se comen el entrenamiento de espalda. Para mí es un grupo muscular diferente a todos los demás que tienes que entrenar con un enfoque distinto. Ahora pasas a hacer una serie de remos sentado cerca. A ver, en general todos los grupos musculares tienen su aquel, por así decirlo, y la espalda obviamente es un grupo muscular muy grande, formado por diferentes músculos y que igual cuesta focalizarlo un poco más. Pero bueno, el pectoral también cuesta focalizarlo más. O sea, todo conlleva una práctica.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=749" target="_blank" class="timestamp">[12:29]</a> Cerca del fallo en polea. Una serie así, ya está. Cerca del fallo, buen control y aquí se tira un zasca brutal. Fijaros, chicos, que yo ahora mismo... Así, mira, puedo estar así hasta que me vayan a mi casa. Pero realmente, tío, no hagáis eso, tío. Parecéis tontos haciendo eso, ¿sabes? Que puede estar todo el día. Bueno, a ver, yo no veo mal que cuando ya has llegado al fallo técnico, por así decirlo, hagas parciales y trates de compensar con tus músculos musculares.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=777" target="_blank" class="timestamp">[12:57]</a> No lo veo algo que sea negativo y no creo que te vaya a estar. Si al fin y al cabo la serie ya ha acabado, qué problema hay en sacar alguna repetición más forzada. Haciendo esto, que parecéis tontos haciendo esto, que no tiene sentido. Estaba espinoso Josema, le acercabas y te pincha. Pero es que tiene toda la razón del mundo, vamos. Tiro un montón en espalda, tiro un montón en espalda, no tengo espalda. Pues algo falla. Procede a hacer dos series de pullover y no nos explica nada. O sea, no sabemos lo que hace, pero bueno, da igual. Es un pullover, no tiene demasiado misterio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=804" target="_blank" class="timestamp">[13:24]</a> Entiendo que esas dos series estarán cerca del fallo. Vamos a poner a una o cero del fallo máximo, una carga ligera, entre 12 y 15, algo así. Y para terminar vas a hacer remo alto dos series. Lo hace en diagonal, estirando al máximo el dorsal, alineándose con la fibra y tira hasta atrás, pero no tan atrás porque pierde la tensión y se va a otros sitios. Dice, uso solo 40 kilos, no hace falta más. Solo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=827" target="_blank" class="timestamp">[13:47]</a> Yo tampoco lo veo utilizar 40 kilos. Si puedo utilizar 60, utiliza 60. Lo he dicho siempre y cuando la técnica esté correctamente hecha. Que aquí, poniendo 40 kilos por lado, te vaya bien, perfecto. Porque al fin y al cabo eres una persona que solamente mirando la espalda te crece. Pero al resto de personas que tenemos que evolucionar, tenemos que esforzarnos, cuanto más peso nos podamos meter mejor. Esto es como Derek. Derek también en ese remo hace dos platos. ¿Y qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=853" target="_blank" class="timestamp">[14:13]</a> ¿Tengo la espalda que tiene Derek? No. ¿Quiero evolucionar? Sí. Derek ya tiene esa espalda hecha. Haga lo que haga, con ese mantenimiento le va a ir bien. Yo, por mucho que entrene, nunca voy a tener la espalda ni Josena, ni Josema ni Derek. Pero eso no quita para que quiera que seguir evolucionando y tenga que seguir ganando masa muscular. Por tanto, voy a tratar de esforzarme.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=872" target="_blank" class="timestamp">[14:32]</a> ¿Vale? Es que va a ver un poco el planteamiento, ¿vale? Porque es que, es lo que te digo, de verdad que me da rabia, pero de verdad que no es por Josema, sino porque es que, lo he dicho, los mismos que criticáis el tema de la falacia de autoridad porque X persona te dice un argumento y se basa en base a su experiencia, a su físico, lo que sea, ¿tienes autoridad, por así decirlo? Para estas cosas son los mismos que, no, voy a hacer esto porque lo hace esta persona. Pues eso, ¿eso entonces qué sería?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=902" target="_blank" class="timestamp">[15:02]</a> Tempo súper lento, entre 10 y 15 repes o algo así. No ha especificado cuántas hace. Aquí va bastante más cerca del fallo, digamos a una del fallo más o menos o a cero. Y aquí acaba el entrenamiento de espalda. Solo 10 series en una sesión, una sesión a la semana. 10 series semanales de espalda para tener una de las mejores espaldas de Classic que incluso es competitiva en Open.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=922" target="_blank" class="timestamp">[15:22]</a> Suficiente. Suficiente para su genética. Suficiente para la situación en la que se encuentra. Está perfecto. ¿Por qué? Porque puede. Pero tú puedes, no. Tú no puedes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=952" target="_blank" class="timestamp">[15:52]</a> Vuelvo a repetir, aquí queda demostrado que una persona que independientemente de lo que haga va a tener una buena espalda. Insisto, si al igual que entrenar una espalda, bien, entrenar al resto de grupos musculares bien. Porque no tiene esa proyección, porque no tiene esa predisposición al resto de grupos musculares. Ese ejemplo no lo pones. ¿Por qué? No te vale. Es el músculo que más se beneficia de todo. Vaya, vaya. Esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=976" target="_blank" class="timestamp">[16:16]</a> Y cuando combinas una genética excepcional con un entrenamiento excepcional... Perfecto. ...genespaldas tan freak como las de Joséma. Yo os digo personalmente, desde que cambié mi forma de entrenar espalda y ahora lo hago como lo hago, mi espalda en los últimos años ha progresado más que los siete que llevo haciendo pesas. Así que tomad los consejos de este vídeo, aunque seáis naturales, ¿vale? Yo también lo soy. El único consejo que tienes que coger de este vídeo es tratar de hacer la técnica de forma correcta. Y ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=1004" target="_blank" class="timestamp">[16:44]</a> ¿Sabes? Está diciendo que con dos discos te sobra, no lo tienes que tomar como ejemplo. Está diciendo que con dos series semanales te sobra, no lo tienes que tomar como ejemplo. Está diciendo que igual las últimas repeticiones no tienes que hacer parciales, no lo tienes que coger como ejemplo. No nos confundamos. No nos confundamos que te vuelvo a repetir que no eres Josema. Por tanto, si no eres Josema, no hagas lo que hace Josema. ¿Vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=1028" target="_blank" class="timestamp">[17:08]</a> Así que eso es todo chicos, espero que os haya gustado el vídeo, es mi opinión, es la realidad, os guste o no os guste. Y lo dicho, es muy sencillo coger lo bien que lo hace una persona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=1055" target="_blank" class="timestamp">[17:35]</a> cuando lo tiene todo de cara y cuando te genéticamente es una persona que ha nacido para ello insisto si cogiera palets de su casa si cogiera garrafas de butano tendría una espalda pues también muy desarrollada porque porque insisto ha nacido para ello vale o sea que no nos equivoquemos las cosas claras ya que sea realistas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6SZnBCLWtBo&t=1082" target="_blank" class="timestamp">[18:02]</a> Espero que os haya gustado el vídeo y nos vemos en siguientes. Un saludo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 03/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
