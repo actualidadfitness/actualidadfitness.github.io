@@ -1,0 +1,420 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 05/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">05/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-kwEBrCAm_NI'>JOAN PRADELLS YA ES DEMASIADO TARDE</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-kwEBrCAm_NI">
+            <h2>JOAN PRADELLS YA ES DEMASIADO TARDE</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 05/06/2025 14:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=kwEBrCAm_NI" target="_blank">
+                    <img src="https://i.ytimg.com/vi/kwEBrCAm_NI/hqdefault.jpg" alt="JOAN PRADELLS YA ES DEMASIADO TARDE" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video es un análisis y comentario sobre la preparación de competición del culturista Joan.
+El orador critica sus métodos de entrenamiento poco convencionales para esta fase de definición y su dependencia de ayudas visuales como el espejo al posar.
+Sugiere que Joan ha cometido errores de tiempo y enfoque, y que su objetivo de clasificar para el Olympia este año es muy ambicioso dado su estado actual.
+También aborda la presión externa e interna sobre Joan y el impacto de sus otros negocios en su preparación mental y física.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Camino Inusual de un Culturista Top <a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&amp;t=67" target="_blank">[01:07]</a></h3>
+
+<p>El orador compara el entrenamiento intenso y poco convencional de Joan con el de la mayoría de culturistas de élite. Afirma que el 99% de los top entrenan de forma similar, sugiriendo que buscar la excepción puede ser un error.</p>
+
+<h3>La Dependencia del Espejo al Posar <a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&amp;t=216" target="_blank">[03:36]</a></h3>
+
+<p>Se critica a Joan por practicar poses frente al espejo, argumentando que en competición no hay este tipo de ayuda. El orador enfatiza la necesidad de sentir y controlar los músculos sin referencia visual externa.</p>
+
+<h3>Entrenar lo Necesario, No Solo lo Que Gusta <a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&amp;t=391" target="_blank">[06:31]</a></h3>
+
+<p>Se discute la diferencia crucial entre hacer el tipo de entrenamiento que uno disfruta y el que es estratégicamente necesario para la etapa de competición. Se subraya que, a veces, las series de altas repeticiones, aunque no gusten, son esenciales para el progreso.</p>
+
+<h3>¿Demasiado Tarde para Corregir el Rumbo? <a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&amp;t=828" target="_blank">[13:48]</a></h3>
+
+<p>El orador expresa su preocupación de que Joan ha perdido un tiempo valioso con métodos de entrenamiento previos. Sugiere que el enfoque actual, más adecuado para la definición, llega tarde en la preparación para alcanzar su objetivo.</p>
+
+<h3>La Batalla Mental y el Estrés Extra <a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&amp;t=1288" target="_blank">[21:28]</a></h3>
+
+<p>Se identifica a Joan como su propio enemigo a nivel mental durante la preparación, reconociendo el duro proceso. Se menciona que gestionar múltiples negocios añade un estrés mental significativo que puede perjudicar el físico en una preparación tan exigente.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=0" target="_blank" class="timestamp">[00:00]</a> Me había dicho que viese de Joan antes. Como que estaba harto de algo, ¿no? Ha sido muy feo. Ha sido muy feo. No sé cómo explicarlo, tías. No sé cómo explicarlo. Porque no puedo estar así. En mi cabeza no puedo estar a mí siempre. Tengo que dormir, tío. Tengo que dormirme igual. Mira las chapas que da, tío. Por el tema de hacer piernas, todas las espaldas. Y gemelos. ¿Y gemelos? No tengo gemelos. Aunque hoy vamos a entrenar un poco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=28" target="_blank" class="timestamp">[00:28]</a> Pero tú mandes. Yo, chico, soy un mandado. Yo lo que me digan que es más inteligente hacer, creo que con el tiempo y con los años me he ido dando cuenta de que es lo inteligente seguir. ¿Qué me estás contando? ¿Cómo que con el tiempo y con los años me doy cuenta que me estás contando? Si hasta la semana pasada estabas haciendo Dropset. El tiempo y con los años, dices. No, no. ¿De qué has visto? De que tu cuerpo se come a tu propio cuerpo. Vamos, que tal cual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=51" target="_blank" class="timestamp">[00:51]</a> Ni años ni hostias, que lo estás viendo tú y lo estás viendo el mundo entero. Que entrenar así, en cierto punto de la preparación, va a hacer que me des mejores que peores. Y sinceramente, ya fuera de... Mira, a mí me encanta verte entrenar, Joan. De esa manera psicópata que entrenas. Pero la verdad, sí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=67" target="_blank" class="timestamp">[01:07]</a> De cada 100 culturistas top 99 entrenan de una misma manera por algo será, Joan. ¿Vale? ¿Qué le pasa tanto a ti como al Jordi? Va a ir buscando la excepción para justificar vuestros entrenos. Va a ir buscando, en serio. Va a ir buscando la excepción. No porque Pepito de Nueva Zelanda, mira cómo está y mira cómo entrena. No, no, no. Que me hable de todo el mundo en general. En general. Es que hace siempre lo mismo. Siempre hace lo mismo. Sobre todo más el Jordi, ¿vale? El Jordi más que Joan. Buscan la excepción.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=96" target="_blank" class="timestamp">[01:36]</a> Sí, sí, la excepción. No los top mundiales que hay, eso no interesa. Es que tienen una cosa. A mí me hace mucha ilusión esto. El hecho de no poder probar nada o no poder exprimirlo es como diciendo ya. Es como que va, hombre, me queda un montón de serie. Me han puesto en trena sin llegar al fallo, duro, pero sin llegar al fallo. Se lo pasé a uno en esa parte y me dijo vale, vale. En plan, le hace caso que flipas. Y pues nada, con lo que toca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=122" target="_blank" class="timestamp">[02:02]</a> Es que al final es lo que toca. Es que es así. Tampoco hay mucho más. Mucho más misterio. Así que hago caso con las cosas y ya está. Y si le haces caso, te irá de puta madre, Joan. ¿Quieres más cabezón, compadre? Bien, sin más, tío. Eso lo estaba diciendo, pero sin más. Tiene una cara de que no le gusta, tío. Finalmente, dice como probar cosas nuevas y ir al límite. Te decía la de gemelo, no sé qué. Decía, claro, lo que falta son hacer usage. Para sentir más sensaciones en el gemelo o tal. Pero bueno. Vamos a pasar un poco y ya está. Es lo que toca, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=150" target="_blank" class="timestamp">[02:30]</a> Y digo yo, Joan, ¿por qué no te esperas cuando toque hacer el volumen y haces todo el salvaje que te dé la gana? Que yo creo que no lo haría. Pero bueno, es que yo no entiendo esto, tío. Son etapas. Pero es cierto, a mí esta etapa es la que me gusta. Pero bueno, vamos para arriba, por salva.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=166" target="_blank" class="timestamp">[02:46]</a> Esta etapa es la que menos le gusta. Es que, sinceramente, con todo el respeto del mundo, Joan, es que esta es la etapa que dice si realmente vales para esto o no. La otra etapa la hace todo el mundo. Esta sí. Esta es la etapa más chunga. La de pasarlo mal, claro. La de no tener ganas de nada, claro. Esta es la etapa más... La que define tu nivel de culturismo. Es que es tal cual. Siéntate bien las piernas y aprietas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=197" target="_blank" class="timestamp">[03:17]</a> A ver, hoy es normal que estén más depletados que otras veces, también os lo digo. Están haciendo una apuesta a punto, es normal. Es normal, ¿vale? Es normal, es normal. Y el mucho de arriba. Mucho de arriba. Yo digo una cosa, Joan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=216" target="_blank" class="timestamp">[03:36]</a> ¿Por qué posa con el espejo? Si hay mucha competición, la mayoría de las competiciones no te vas a ver, por no decir todas. ¿Por qué posa con el espejo? ¿Por qué hace eso? Mira, hay una cosa, ¿vale? Os lo voy a explicar. En el powerlifting, ¿vale? La mayoría de los gimnasios, la máquina de senta... Las barras de senta... Joder, el...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=235" target="_blank" class="timestamp">[03:55]</a> El rack de sentadillas suelen dar para un espejo. La mayoría de racks suelen estar contra un espejo. Entonces te ves de frente haciendo el movimiento. ¿Qué pasa? Que la mayoría de la gente, para saber si bajan bien o bajan mal, se mira en el espejo. ¿Cuál es el problema? Que en competición tú estás de cara al público y no hay espejo ni nada. Entonces no sabes, no hay guía para saber si bajas bien la sentadilla o no. Pues esto es exactamente igual. Si te acostumbras a mirarte en el espejo, esto no vale para nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=264" target="_blank" class="timestamp">[04:24]</a> Porque tienes que saber tú, sin espejo y sin nada, qué grupo muscular estás apretando. Para mí esto no lo entiendo. Y está obsesionado con el espejo, ¿eh? Obsesionado con el espejo. Yo qué sé. Quiero creer que posa sin espejo. Y que esto es una excepción para el vídeo. Quiero creer eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=296" target="_blank" class="timestamp">[04:56]</a> Yo qué sé, tío. Yo ya sabes qué me pasa con Joan, tío. Es que es tan grande la diferencia en volumen y en la definición de Joan. Yo ya... Es verdad, hoy se le ve mal, sinceramente. No se le ve como otras veces. Pero ya es que quiero verlo con alguien al lado, tío. Ya es lo único que... Yo ya se acabó. Yo soy como Calderón. Eh...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=320" target="_blank" class="timestamp">[05:20]</a> Ya no... Es que, de verdad, decir que va a ganar una cosa u otra alguien, un culturista, que está solo en una sala, sin compararse con uno al lado, ya es que es mejor callarse, tío. Porque la vas a cagar siempre. Y lo repito, no veo a Joan mal, pero pensar que Joan va buscando el Olympia este año, ¿eh? Porque no te cae ninguna duda, ¿eh? No te cae ninguna duda. Su objetivo, si no ha cambiado, era ir al Olympia este año.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=344" target="_blank" class="timestamp">[05:44]</a> Yo es que creo que ha podido hacer las cosas mucho mejor. Igualmente, no voy a ser injusto. No voy a ser injusto. Este hombre necesita años de trabajo. Y años de dejar de hacer lo que él cree que es lo mejor cuando todos sabemos lo que es lo mejor. El tiempo. Tiempo, trabajo, tiempo, preparaciones, competiciones, lo que falta. Es un cuerpo que tiene que rodar. Ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=364" target="_blank" class="timestamp">[06:04]</a> Que tiene unas formas increíbles. Claro que sí, cabrones. O sea, sí. Claro que tiene las formas, tío. Claro que sí. Claro que las tiene. Claro que las tiene. Y la disciplina, pero luego el problema... ¿Sabes qué pasa, tío? Que hay veces en la vida que no es todo... Que no tienes que hacer... O sea, que hay gente que... Bueno, a ver cómo lo explico mejor. Hay veces en la vida que no tienes que hacer lo que te gusta. No. Tienes que hacer lo que hay que hacer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=391" target="_blank" class="timestamp">[06:31]</a> Y Joan, todavía, después de tantos años, sigue haciendo lo que le gusta, no lo que hay que hacer. Porque, por ejemplo, en la fuerza, os pongo otro ejemplo, en la fuerza, si todos los levantadores hiciésemos lo que nos gusta, ¿sabéis lo que es? Tirar muchísimos kilos. Cerca del límite o al límite. O sea, muy pesada, al máximo. Máxima carga posible. Eso es lo que nos encanta a los levantadores. ¿Qué pasa? Pues que así no mejoras, empeoras. Tienes que hacer unas etapas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=418" target="_blank" class="timestamp">[06:58]</a> Así, así, así. Es así. ¿Lo que menos nos gusta a un tío que nos gusta levantar kilos? Pues muy sencillo. Hacer series de 8, de 10 repes de peso muerto, que estás haciendo más cardio que otra cosa, no nos gustan los levantadores. Nos gusta levantar a 1, a 2, a 3 repes. Fuerza. Pero no nos gusta hacer series de muertos o de sentadillas de 10, 12, 15 revoluciones. Claro que no nos gusta. ¿Cómo nos da gusto? Eso no nos gusta. No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=445" target="_blank" class="timestamp">[07:25]</a> porque estamos muy acelerados, muy ahogados, pero es lo que hay que hacer. Para llegar a tirar una máxima increíble, tienes que pasar por ese proceso. Igualmente, no le veo mal, pero recordad dónde, en qué campeonatos se va a meter. Porque creo que se va a meter en campeonatos muy tochos. Muy, muy tochos. Muy bien. Ya, frente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=473" target="_blank" class="timestamp">[07:53]</a> La espalda se la ve menos encharcada, ¿eh? Pecho, pecho ahí, pecho, pecho, pecho, pecho. ¿Qué tal el dorsal? Que no lo ve bien. Mejor, ¿no? Mejor. De hecho, bastante mejor. Muy bien ahora. Muy bien. Si no te las piernas separarás, gritarás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=504" target="_blank" class="timestamp">[08:24]</a> Separa los pies un poco más, Joan. Y tienes un pie del arte derecha. Muy, muy, muy durante. Igual a los pies. Pierna, pierna, pierna. Muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=526" target="_blank" class="timestamp">[08:46]</a> Yo creo que te fijas en la puntura del pie, que está simétrica, pero uno tiene más abierto y otro lo tiene bien. Vale, va a ver el vídeo de hoy, ¿no? Yo hoy me quiero poner ya a enviar recursos a la gente y que la gente no llegará, pero tengo 28 años, lo que más me apetece es compararme con la gente. Es decir, subirme en el escenario, ver el vídeo luego y verme al lado y decir, hostia, pues te falta esto, te falta lo otro, hostia, pues aquí estás ya al nivel, ¿sabéis?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=554" target="_blank" class="timestamp">[09:14]</a> Es lo que más ilusión me hace. Pues ya te digo, no hace falta que compitas. Te lo digo yo y te lo dice todo el mundo. De frente, compites con quien quieras. Bueno, con quien quieras, ¿me entiendes? De espaldas, pues hay gente que va a ser muy superior a ti. Ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=566" target="_blank" class="timestamp">[09:26]</a> Hoy lo que tengo es desconocimiento. Desconocimiento total. De decir, no sé si estoy más fuerte, menos fuerte. No sé si la persona con la que me ponga al lado va a estar más fuerte que yo, menos fuerte. No sé, Instagram es un mundo realmente. Yo me saco cero partido de Instagram. No sé si es cierto. Cero, cero partido. Así que... Pero tarima es tarima. Tarima es para todo el mundo igual. Vamos a ver el treno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=598" target="_blank" class="timestamp">[09:58]</a> Tres, va. Puedes tú. No. No. No. No. No. No. No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=628" target="_blank" class="timestamp">[10:28]</a> Tan difícil era, Joan, hacer esto desde el principio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=650" target="_blank" class="timestamp">[10:50]</a> Tranquilo. Pide más. A ver, es que es una pena, voy a ser sincero, ¿vale? Es una pena porque a él, o sea, en verdad lo bonito del culturismo es el proceso, el entreno, la disciplina, el dejarte los cojones entrenando. Y Joan ha pasado los extremos ya, o sea, ha ido a un extremo ya loquísimo Joan, ¿vale? Joan ha pasado un extremo, pero de una pasada. Y es bonito, de verdad. O sea, ver Joan entrenar es una locura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=676" target="_blank" class="timestamp">[11:16]</a> Y en persona tiene que ser una locura. Pero es que el culturismo va de otra cosa. No es solo de entrenar. Hay que dar un físico, hay que crear músculo, hay que hacer cosas. Y eso Joan tiene que... Se le tiene que meter en el tarro de lo que tiene que hacer cuando lo tiene que hacer. Y lo que hay que hacer según qué etapa. Y Joan todavía, ¿sabes? No lo... no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=697" target="_blank" class="timestamp">[11:37]</a> No lo entiende. No lo entiende. Más que no lo entiende, no lo quiere entender. Y decir otra cosa, es muy meritorio en el punto en el que está Joan que él quiere entrenar más fuerte. Señores, cuando a ti te cortan la comida, tú no tienes ganas de entrenar fuerte. Tú tienes ganas de sacar el entreno y ya. En el culturismo más puro, Joan es muy admirable lo que hace a nivel de entreno. Muy admirable, tíos. En serio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=723" target="_blank" class="timestamp">[12:03]</a> Porque en el punto en el que está era para que no quisiera entrenar. O quisiera entrenar muy flojito. O sea, eso le da mucho... Para mí le da mucho valor, tíos. Tres. Con estos rugidos se va a hacer daño a la garganta, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=754" target="_blank" class="timestamp">[12:34]</a> ¿Lleva un crono el puto en uno? Tres. Puerta arriba, va. Vamos. Una. Y última, vamos. Arriba. Arriba, arriba, arriba, arriba. Bueno. Hermano, es que esto lo que tenía que haber hecho hace ya meses, tío. Más abajo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=790" target="_blank" class="timestamp">[13:10]</a> Y yo me subiría. Ya, tú subete y los codos aquí están. Pero tú... Ahí. ¿No pesa? Estaba a hacer series.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=828" target="_blank" class="timestamp">[13:48]</a> Hermano, es que ¿sabes qué pasa? Que creo que es demasiado tarde, tío. De verdad, creo que es demasiado tarde. Es el problema, que ha perdido mucho tiempo, tío, para hacer estos entrenos. De verdad, es que tenía que haber hecho... Es que tenía que haber empezado antes, tío. Y sobre todo, después de que empezara la preparación, toda la etapa de volumen, después del volumen...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=845" target="_blank" class="timestamp">[14:05]</a> Tenía que haber hecho otro tipo de entreno. Es que es muy tarde, tío. Claro que va sin tiempo. No creo que tarde más de un mes en competir. Yo creo que este tío en un mes se está compitiendo. Como mucho en un mes se está compitiendo. Entonces, es que creo que la ha cagado mucho, tío. La ha cagado mucho, tío. Y claro, no tengáis ninguna duda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=862" target="_blank" class="timestamp">[14:22]</a> ¿De que Frank le ha tenido que meter en vereda? O sea, ¿lo que habrá tenido que hablar Frank con él para que este tío deje el cabezonerío que tiene y haga caso? Pone uno, ¿este demasiado tiempo el que haya tardado en bajar de peso, Antonio? Mandela, yo no voy a competir el mes que viene. Yo no tengo objetivo ir a la Olimpia. ¿Entiendes? Es muy diferente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=879" target="_blank" class="timestamp">[14:39]</a> Es que estás diciendo la tontería como un castillo. Oye, ahí están luego los resultados. Ya está, oye. Punto. O sea, a mí... Es que hay una cosa que seáis fan de Joan, ¿vale? Y otra cosa que seáis gilipollas. Lo tengo que decir de corazón. Hay que hablar de lo que veis. Y creo que lleva haciendo un montón de entrenos que para mí le han hecho más mal que bien a Joan durante todo este tiempo. Si te molesta esto, hermano, háztelo mirar. ¿Vale? Porque no es que lo diga yo. Es que hasta el propio Frank se lo ha dicho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=907" target="_blank" class="timestamp">[15:07]</a> Punto. Es que no hay más. Aquí no hay ataque. Es algo que todos sabemos. No es un ataque lo que le decía a Joan. Es hablar. Ya está. Comentar. Punto. Es que de verdad que algunos tenéis una tontería en la cabeza, tío. ¿Por qué creéis que Joan está teniendo así ahora? No es evidente que su entreno le estaba jodiendo el cuerpo. Es que no es evidente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=927" target="_blank" class="timestamp">[15:27]</a> ¿Qué queréis ver más? Yo solo digo que hay etapas. Una etapa de un tiempo en el año en el que puedes hacer el salvaje. En la que todos los culturistas... No voy a decir que hagan el salvaje, pero hay una etapa en la que todos los culturistas mueven más cargas y hacen entrenos más agresivos. Pero cuando empiezan preparación, ningún culturista se pone a hacer drop set y mierdas hasta morirse, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=951" target="_blank" class="timestamp">[15:51]</a> Que ninguno. Ninguno. Buscad todos los que hay. Ninguno. Porque todavía me dice que me haces una dropshed. O sea, en un ejercicio. Se pone a hacer dropshed en uno. Y digo, venga, vale. Oye, vale, está bien. Pues vale, pero que todo, todo... ¿Estamos hablando de que es un tío que entrenaba?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=967" target="_blank" class="timestamp">[16:07]</a> O sea, que un entrenamiento de Joan 50 series, 60 series, ¿sabes? Solo hacéis sacar rencillas a todo. Joan tendrá que aprender. Probar cosas lleva tres competiciones y queréis verlo ya en el Olimpia. Dejar de meter tanta presión. Agradecer que enseña todo y hace vídeos de todo lo bueno y lo malo. Mi padre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=983" target="_blank" class="timestamp">[16:23]</a> ¿Quién nombró el Olimpia? ¿Quién fue el que nombró el Olimpia? Él. Él. Y nada más que él. Que el objetivo de este año era clasificar en el Olimpia. No hace dos años, no. Si lo dijo el otro día en el podcast. ¿Qué me estás contando? Si lo dijo en un podcast el otro día. Y la presión se la ha metido él. Nadie le ha dicho nada. Es más, he dicho por lo menos en cuatro vídeos que Joan lo que tiene que hacer es competir y sacar su mejor físico. Ya está. Que todo lo de ponerse que tiene que ganar, que tiene que quedar... No. Que eso es un error.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1012" target="_blank" class="timestamp">[16:52]</a> Que ese cuerpo necesita un rodaje. Es que no sea que me vienes a mí a recriminar, hermano. De verdad, vete a la playa. Vete a la playa. Mira, Joan lo que no necesita es lamidas de culo. Ni hate a muerte porque sí, ni lamidas de culo. Porque ya le han lamido el culo demasiado a Joan. Todo el mundo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1028" target="_blank" class="timestamp">[17:08]</a> Pero ¿sabes qué pasa conmigo? Que yo no necesito lamerle el culo a Joan. No lo necesito. No lo necesito. Yo no quiero hacer una colaboración. Yo no quiero hacerle nada. No lo necesito. Esa es la gran diferencia. Es que me hace gracia porque esto es como cuando alguien hace cosas mal durante un montón de tiempo y le echan las culpas a alguien de que le dicen lo mal que lo ha hecho durante un montón de tiempo. Bueno, Joan ha hecho giñadas que la gente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1051" target="_blank" class="timestamp">[17:31]</a> No yo. La gente no le perdona. La gente no le perdona. Y eso no es mi culpa. Eso no es mi culpa. Si veis mis vídeos, no hay hate a Joan. ¿Y a mí qué me estáis contando, hermano? Yo hablo para adultos. Y lo sabéis todos. Mi canal tiene una pestañita que me da a elegir contenido para niños o para adultos. Y supongo para adultos. ¿Vale? No es contenido para niños. Entonces, no me rayéis la cabeza.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1073" target="_blank" class="timestamp">[17:53]</a> Igualmente, todo lo que yo he dicho este año de Joan, ni una cosa ha sido, ni un solo vídeo mío ha sido hate. Ni uno solo. O sea, que a mí no me vengáis los fanáticos que yo no sé porque soy retrasado, compadre. Venía a decir tonterías a mí de Joan. De corazón, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1091" target="_blank" class="timestamp">[18:11]</a> Es que ese es el problema. La gente confunde hate con decir las cosas claras. Claro, ese es el problema. Es que aquí, si no aplaudes todo, eres hate. Eres hate. Y yo he sido el único tío, creo, de todo YouTube España, que ha dicho que, primero, que me encantaría ver a Joan en la Olimpia. Y, segundo, que le veía con mucho, sobre todo en la preparación de volumen, pero también decía que había que verlo en definición, que le veía con un nivel como que creía que podía clasificar para la Olimpia este año. Eso lo he dicho yo. Ahí están los vídeos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1120" target="_blank" class="timestamp">[18:40]</a> No me bajo de esa, ¿eh? No me voy a bajar de esa, ¿eh? Yo me confundo. O sea, yo me equivoco y me equivocaré. Pero yo no me bajo de esa, ¿eh? Sigo diciendo que la posibilidad de que Joan pueda ir ganando un pro show está. Está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1136" target="_blank" class="timestamp">[18:56]</a> Hay que verlo por otro día al lado, ¿eh? Está. ¿Que no le veo al nivel del top 10 Olimpia? Por supuesto que no. Ni del top 20. Vamos, por supuesto que no. ¿Pero para ir a la Olimpia? ¿Por qué no? ¿Por qué no? Claro que sí. Con la de campeonatos que hay en el mundo, claro que sí. Claro que sí. ¿Por qué no? ¿Que se le ve pequeño? Hombre, por supuesto que se le ve pequeño. Es evidente. Es demasiado tarde, hermano. Punto. Te moleste o no te moleste. Es demasiado tarde para tener así. Ya está. Tiene 28 años. Mis muertos, tío. Ok. Cuando vaya a competir, le dice lo de los 28 años. ¡Ay!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1166" target="_blank" class="timestamp">[19:26]</a> Gracias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1168" target="_blank" class="timestamp">[19:28]</a> Es que yo creo que alguno de aquí se cree que Joan va a ir a una competición a pasearse, a vivir la experiencia. ¿Estáis tontos? ¿De verdad queréis un tío? ¿Sabéis la pasta que se gasta Joan en la preparación? ¿El tiempo? ¿El trabajo que conlleva la preparación? ¿De verdad queréis alguno que Joan va a ir a competir a vivir la experiencia? Porque esto parte del proceso de la competición de un Open. ¡Por favor! ¡Por favor! Joan va con la que va. Va con el cuchillo en la boca, hermano. ¿Qué me estáis contando?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1198" target="_blank" class="timestamp">[19:58]</a> ¡Por Dios! ¡Presa, apresa, apresa, apresa!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1225" target="_blank" class="timestamp">[20:25]</a> De mí nunca vais a escuchar... Fíjate lo que te digo. Y más con... Mira, nunca vais a escuchar de... Y ojo, que le diga a alguien en el campo en el que esté que no pueda conseguir algo. Nunca lo vais a escuchar de mí. Fijaros lo que os digo, ni con Tabet. Que le está cayendo un hate a Tabet. Brutal. De que no da, que el cuerpo es una que tiene, no vale, que es... Yo lo voy a decir. Yo nunca le voy a decir a nadie tú no vales para esto, tú no puedes ser... No, nunca. De mí no. De otro a lo mejor, pero de mí no. Y Joan tiene cualidades para ser un gran Open.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1255" target="_blank" class="timestamp">[20:55]</a> Pero eso no quita. Creo que ha hecho muchas cosas mal este año. Podría haberla hecho mejor. Conclusión, aprendizaje. Y el año que viene, ya se verá. Y ahora, afrontar la etapa de competición, que es lo que hay que hacer. Se acabó. Aprieta, aprieta, aprieta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1288" target="_blank" class="timestamp">[21:28]</a> Por supuesto, ya te como, que Joan, él es su propio enemigo. Su cabeza es su propio enemigo. Él mismo es su propio enemigo. 100%. Él es su propio enemigo. Pero eso es evidentísimo, hermano. Y yo no me voy a meter en lo que estén diciendo de él o no. Ahora mismo, otros youtubers y tal, otros creadores, ¿vale? De su historia, de ellos que no me interesan. Eso a mí no me importa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1307" target="_blank" class="timestamp">[21:47]</a> Pero por supuesto que claramente se ve que mentalmente la persona que lo está pasando mal con la preparación, lo está pasando muy mal, muy mal con la preparación. Es así, claro. Y luego, fijad, es que, tíos, no voy a recurrir a lo que se decía antes de influencer, empresario, pero ¿habéis visto los grandes culturistas qué están haciendo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1327" target="_blank" class="timestamp">[22:07]</a> Más fácil. Sé que es cruel, pero lo tengo que sacar aquí a la palestra. ¿Habéis visto, Josema, lo que hace? Damos todos por hecho que Josema no está modo influencer, ni modo empresario, ni modo nada. ¿Qué es lo que hace Josema? Está modo psicopata del culturismo. Y es solo hay culturismo, no hay otra cosa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1351" target="_blank" class="timestamp">[22:31]</a> Joan, por suerte, por desgracia... ...lleva un montón de negocios para adelante. ¿Entiendes? Y eso es un estrés mental brutal. Y eso, queráis o no... ...le hace pupa a su físico también. 100%. Lleva muchas cosas para adelante. Que no voy a decir que deje de hacerlas, por supuesto. Por eso, yo el otro día hice un vídeo... ...y creo que hay un clip en el que digo... ¿De verdad le renta a Joan esto del culturismo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1379" target="_blank" class="timestamp">[22:59]</a> De competición. De verdad, muchas veces yo lo digo y lo pienso y lo hablo con mi entorno cuando me sacan a... Bueno, más que mi entorno, a algún chaval en el gimnasio. Y digo, tío, pues yo no sé si le retará porque le está quitando un montón. Que a lo mejor luego le da el triple. Pero le está quitando muchísimo, ¿sabes? Es así, le está quitando muchísimo. Y ser culturista open de competición es muy difícil.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1424" target="_blank" class="timestamp">[23:44]</a> Baja el brazo derecho. Se supone que compite en julio, ¿no? Así que es verdad que... Sabes que estamos muy mal acostumbrados, tío, a ver a pros como... Bueno, pues todos los pros que vemos, ¿no? Que tienen ya la piel...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1443" target="_blank" class="timestamp">[24:03]</a> de años, la piel pegá, de años, de definiciones y de tal. Y sí que veo a Joan que para estar a un mes de competir no tiene esa definición, ¿verdad? Es la sensación que me da. Que no le veo esa piel fina, fina, fina del todo. O sea, hay zonas que sí y hay zonas que no. Que no terminan, ¿verdad? O sea, a lo mejor es mi percepción, ¿eh? Sí, tío. Es que le veo zonas súper bien, pero a otras zonas le veo como que todavía le falta, tío. No, no estás seco del todo que va, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1477" target="_blank" class="timestamp">[24:37]</a> Claro, es cierto. Es que si define más, lo mismo se queda muy pequeño. Yo qué sé. Yo qué sé. Yo qué sé. Ellos sabrán, ¿no? Es que le queda mucho trabajo por hacer. Muchos años de trabajo, tío. En eso le dirá razón al chico este. Estás en el escenario, tío. Enséñate compadre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1509" target="_blank" class="timestamp">[25:09]</a> Ahí la tiene. Muy bien ahí. Entra el pecho ahí. Ahí la aflava perfecto. Ahí la aflava perfecto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1542" target="_blank" class="timestamp">[25:42]</a> Retroversión ahí. El tríceps también ha mejorado bastante, ¿eh? Buen vacuum. Piernas, piernas, piernas, piernas. Vamos, ahí. Piernas, piernas. Todo el rato, piernas. Todo el rato, piernas ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1568" target="_blank" class="timestamp">[26:08]</a> He hecho tres rondas de posi. Dos con espejo y una que la he hecho lateral, pero he hecho sin espejo. Estamos combinando siempre eso. La cosa es que Fran me manda que sean rondas rápidas. Eso es lo que me raya, porque mola muchas veces hacer rondas lentas por aprender por todo, pero bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1584" target="_blank" class="timestamp">[26:24]</a> Tengo ganas de empezar la carga. Lo del agua, hermano. Lo del agua es que me ahogo muchas veces. Muchas veces. Me tengo que hacer entrenamiento e intentar beber más. Me quedan dos litros y es por la tarde. He estado trabajando. Es que me queda mucho por tomar todavía de agua. Es una puta locura, pero bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1601" target="_blank" class="timestamp">[26:41]</a> Luego es que no me quiero estar despertando. Lo que más rabia me da es estar despertándome por la noche para ir a mear. Y luego también me toca merluza. La merluza os diría que es lo que mejor me sienta. Es una puta locura. La merluza sienta el estómago perfecto. O sea, cae vacío. Es como que es un alimento que no tienes que procesar en el estómago.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kwEBrCAm_NI&t=1617" target="_blank" class="timestamp">[26:57]</a> Pero bueno, hoy es un día bastante repetitivo. Pero es cierto que en el entrenamiento, y cada día le paso el reporte a Frank, cada día me he dado los ajustes realmente, aunque esté ya predispuesto lo que voy a hacer. Pero hoy en el entrenamiento he probado cosas nuevas, máquinas nuevas, y por lo menos, aunque no sea fuerte ni nada, me ha hecho ilusión probarlas. O sea, de eso que dices, wow, qué guay, y mañana espalda va a ser todavía más disfrutón. Y estamos ajustando más cosas para el final de esta semana también, que también va a ser disfrutón, aunque no sean entrenamientos. Eso no sé si lo enseñaré, ya lo veremos. Pero bueno, me voy a comer esto, que se me enfría, y la carne roja fría sí que no me gusta. Muy bien.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 05/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
