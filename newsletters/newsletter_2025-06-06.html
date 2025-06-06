@@ -1,0 +1,430 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 06/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">06/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Benlliure Reacciona</strong>: <a href='#video-3nxc2L0v9bQ'>JEFF NIPPARD VENDE HUMO PARA NATURALES ¿O NO?</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-3nxc2L0v9bQ">
+            <h2>JEFF NIPPARD VENDE HUMO PARA NATURALES ¿O NO?</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Benlliure Reacciona</span>
+                <span class="date">Publicado: 06/06/2025 13:12</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ" target="_blank">
+                    <img src="https://i.ytimg.com/vi/3nxc2L0v9bQ/hqdefault.jpg" alt="JEFF NIPPARD VENDE HUMO PARA NATURALES ¿O NO?" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video es una reacción a la rutina de entrenamiento de torso de Jeff Nippard para naturales.
+El presentador comenta la selección de ejercicios (press, aperturas, dominadas, remos, elevaciones laterales, extensiones y curls).
+Se analizan las técnicas, agarres y la importancia de la sobrecarga progresiva y la consistencia técnica.
+Se discute la interpretación de estudios sobre ejercicios específicos y se ofrecen consejos prácticos.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Elección del Press: Barra vs Mancuernas <a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&amp;t=105" target="_blank">[01:45]</a></h3>
+
+<p>El presentador analiza la diferencia entre press inclinado con barra y mancuernas. Argumenta que la barra permite añadir más peso y que, con buena técnica, no requiere excesiva estabilización.</p>
+
+<h3>Sobrecarga Progresiva y Técnica Consistente <a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&amp;t=542" target="_blank">[09:02]</a></h3>
+
+<p>Se enfatiza que la verdadera sobrecarga progresiva implica mejorar cargas manteniendo la técnica. Se advierte que sacrificar la forma por mover más peso limita el progreso real a largo plazo.</p>
+
+<h3>Aislamiento de Pectoral con Cruce de Cable <a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&amp;t=672" target="_blank">[11:12]</a></h3>
+
+<p>Se introduce el cruce de cable sentado como un ejercicio excelente para el aislamiento del pectoral. Se explican tips técnicos para optimizar la tensión, como mantener los codos arriba y pensar en un arco amplio.</p>
+
+<h3>Dominadas: Agarre y Menos Lesiones <a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&amp;t=862" target="_blank">[14:22]</a></h3>
+
+<p>Se comenta la elección de dominadas con agarre neutro, señalando que facilitan el trabajo del dorsal y son menos lesivas. Se reflexiona sobre la dificultad de aislar el impacto de un ejercicio en el crecimiento muscular.</p>
+
+<h3>Elevaciones Laterales: ¿Polea o Mancuernas? <a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&amp;t=1448" target="_blank">[24:08]</a></h3>
+
+<p>Se analiza la comparación entre elevaciones laterales con polea y mancuernas basándose en estudios. Aunque la evidencia sugiere resultados similares, se prioriza la conexión mente-músculo y el esfuerzo máximo con buena técnica.</p>
+
+<h3>Tríceps y Bíceps: Rematando la Rutina <a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&amp;t=1819" target="_blank">[30:19]</a></h3>
+
+<p>Se discute la extensión de tríceps tras la nuca con cable, destacando su efectividad pero mencionando posibles molestias en codos. Se sugiere variedad en ejercicios de bíceps según la posición del húmero.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=0" target="_blank" class="timestamp">[00:00]</a> muy buenas a todos chicos aquí estamos un nuevo vídeo para mi canal hoy vamos a ver un billete de el cow la mejor rutina para naturales rutina de jeff nipar no sabía que jeff nipar la verdad era tan tan famoso o sea que me ha dicho belén bueno mi novia que tiene siete millones seguidores la verdad será el power explosive pero internacional vamos a reaccionar a un vídeo de jeff nipar que se titula la rutina</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=29" target="_blank" class="timestamp">[00:29]</a> tenemos vídeo en español así que va a ser mucho más fácil e interesante comprenderlo así que bueno vamos a ver qué nos recomienda y pues daré mi opinión por supuesto rutina de entrenamiento de la parte superior del cuerpo que utilice no me gusta esa rutina de la rutina específica para el torso</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=55" target="_blank" class="timestamp">[00:55]</a> a ver si habremos de decir también que el por ventaja de grasa que tiene es más bajo en la foto de la derecha no seas ganado e incluso después de 15 años de entrenamiento natural aún logré ganar 1 para 2 kilos de masa magra medidos por texas e incluso añadir un poco 1 como 2 kilos de masa muscular en un natural avanzado año a año ojito está muy bien de pico a mis bíceps medido por ultrasonido</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=78" target="_blank" class="timestamp">[01:18]</a> Y por cierto, recordad que todos los meses hago dos sorteos de 150 euros en LivePro con mi código JordiBen y pidiendo cualquier cosa ya entras en el sorteo. Pidiendo una simple crema de arroz ya entras directamente en el sorteo y no hace falta hacerle captura. A tope y cuelgo los ganadores siempre por Instagram. Sete pendiente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=105" target="_blank" class="timestamp">[01:45]</a> realmente la diferencia entre un press de banca inclinado y un press de banca plano es que trabajas en el press de banca plano trabajas menos la parte baja del pectoral pero en la parte media alta no va a haber tanta diferencia hay estudios ahí</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=134" target="_blank" class="timestamp">[02:14]</a> así como el precio inclinado mueve menos peso también es verdad que nos va a venir mejor porque acumulas menos fatiga y es más</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=145" target="_blank" class="timestamp">[02:25]</a> A ver, realmente no siempre en el press inclinado se mueve menos peso respecto a un press banca. O sea, quiero decir, depende obviamente de cómo hagas el inclinado. Quiero decir, si la inclinación es muy, muy, rollo, estamos hablando de 45 grados, obviamente vas a mover menos peso. Pero estamos hablando del típico que hay 15 grados y luego incluso la pía que hagas arco, prácticamente eso es un press plana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=169" target="_blank" class="timestamp">[02:49]</a> o sea que si lo haces de manual todo si va a haber diferencia pero si no lo presenta lo que se ven por ahí el rendimiento es muy similar sino el mismo más concreto en donde queremos trabajar si queremos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=194" target="_blank" class="timestamp">[03:14]</a> que no se desplace hacia adelante o hacia atrás. Elegí el pressing. Aún así, no sé hasta qué punto... Bueno, si vemos ese agarre, no lo veo mal, pero justamente el vídeo de antes, o la toma de antes más bien, daba la sensación de que hacía un agarre muy específico de tríceps. Entonces, yo creo que en general aquí un agarre más medio tirando para abierto, mejor, por la involucración que va a tener a nivel del pectoral. En lugar del pressing trinado, con mancuernas por el potencial de sobrecarga que ofrece la barra. Seguí este programa durante todo un año.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=221" target="_blank" class="timestamp">[03:41]</a> mucho más inestable y en la mayoría de casos como ya comenté muchas veces no haces mayor recorrido porque cuando ya empezamos a tener fuerza de verdad no y que la mancuerna realmente te llega hasta aquí la mancuerna suelen ser más grandes inevitablemente yo diría que incluso bajas más en una barra que una mancuerna</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=254" target="_blank" class="timestamp">[04:14]</a> antes de que tú puedas acabar de hacer incluso lo que te digo llega a ver más recorrido en una barra que una mancuerna el recorrido completo digamos que las mancuernas son geniales cuando te vuelves fuerte se vuelven grandes voluminosas e incómodas pero siempre puedes añadir más peso a la barra aunque soy fan de la máquina smith aquí opté por pesos libres para aprovechar más los músculos estabilizadores especialmente los deltoides laterales y tampoco es un ejercicio que necesite de demasiada estabilización la verdad es que sale bien o sea si si tienes buena técnica</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=282" target="_blank" class="timestamp">[04:42]</a> el preso inclinado con barra de baja la carga pero bien bajada es una humildad no necesitas eso estabilizar demasiado para</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=308" target="_blank" class="timestamp">[05:08]</a> me alegro la verdad que diga algo o sea que digo algo así porque inevitablemente tendremos siempre como digo la zona de confort y no verás a mucha gente hacer presentado con barra en el gimnasio ni en general ejercicios que sean que cuesten siendo claros más multi power más maquinetas más cosas así pero una vez más lo básico lo más demandante se está perdiendo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=349" target="_blank" class="timestamp">[05:49]</a> ser más los pectorales superiores. El press inclinado. Pues mira, no me voy a poner a analizar ese estudio ahora, pero de todos modos, este tipo de cosas que tampoco es que necesites saberlo. Simplemente metes este ejercicio sobre carga progresiva, mejoran cargas en el tiempo, cuando ya pasen 6 meses, 8 meses,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=370" target="_blank" class="timestamp">[06:10]</a> y te haya cansado ese ejercicio o lo que sea, si lo quieres cambiar, lo cambias y con el otro ejercicio vuelves a hacer lo mismo. Lo importante es que tu programación de entrenamiento te lleve a esa mejora. Si no hay mejora en cargas, pasan los meses y no hay mejora en cargas, preocúpate. Y en muchas ocasiones no es por culpa ni de la rutina. A lo mejor tienes una etapa de mañana</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=399" target="_blank" class="timestamp">[06:39]</a> es posible y sólo por eso te puedes destacar no es la rutina muchas veces puedes tener la mejor rutina del mundo pero hay muchísimos otros factores que van a hacer que sigo a uno siempre también es muy eficiente cuando a tiempo porque mata dos pájaros de un tiro para mí por ejemplo el agarre que está haciendo aquí es un agarre demasiado estrecho creo que es un agarre muy cerrado y que abriendo un poquito más cogiendo más por la zona de la milla inevitablemente va a trabajar mucho más el pectoral</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=438" target="_blank" class="timestamp">[07:18]</a> a ver muy bien espera ver porque lo explico aumentar el rango de movimiento y eso trabajará un poco más los tríceps sin perder tensión en el pecho y por supuesto llevé aquí habría que verlo o sea no es hasta qué punto la activación en el pectoral es la misma haciéndose agarre cerrado obviamente va a ser más va a haber más flexión de codo e inevitablemente el tríceps y el hombro van a trabajar más por tanto yo creo que el pectoral no trabajará tanto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=465" target="_blank" class="timestamp">[07:45]</a> ya teniendo un agarre normal, ya tengo mucho recorrido. De hecho, si eres muy alto, de piernas, de brazos, de todo, por norma general, en los ejercicios tienes más recorrido. Y si tienes más recorrido, es probable que necesites menos volumen de entrenamiento, porque a lo mejor una serie, por ejemplo, de este hombre, por ejemplo, una serie de él, si yo hago una serie, para él es una y media. Entonces esto también hay que tenerlo en cuenta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=494" target="_blank" class="timestamp">[08:14]</a> Nunca utilice un observador plan. Si yo hago una serie, para él es una y media. No. Para él será media, entonces, no. ¿O qué? Si está diciendo... O sea, si al fin y al cabo los brazos los tienes más cortos, será media serie en comparación a lo que estás haciendo tú.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=518" target="_blank" class="timestamp">[08:38]</a> Un levantamiento compuesto pesado puede ser un poco intimidante al principio, incluso para levantadores experimentados. Pero realmente no hay nada de qué asustarse. Simplemente empuja a... No, no es intimidante. Simplemente luego lo dejas en los soportes y listo. Cuando es un press... O cuando es un día de empuje y es un día de espalda, bien. ¡Ah! Pero cuando es una sentadilla...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=542" target="_blank" class="timestamp">[09:02]</a> es rebotar la barra en el pecho. Sí, puedes levantar. Sí, a ver, yo aquí lo de rebotar tampoco es muy partidario. Lo ideal es tratar de mantener la tensión de forma constante. Más peso de esta manera. Pero recuerda, la sobrecarga progresiva es cuando añades un poco de peso o una repetición de una semana a otra. Y eso solo cuenta si tu técnica se mantiene consistente. Así que eso es lo que suele pasar. Muchas veces con clientes agarran y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=566" target="_blank" class="timestamp">[09:26]</a> Muchas veces por la euforia de querer mejorar todavía más, muchas veces se pasan del peso que yo les pongo, por ejemplo, les digo, bueno, pues en semana 4 tienes que hacer con tal peso hay que repeticiones. Y llegan motivados al gimnasio y no me hacen caso y le ponen más peso o intentan hacer más repeticiones de las que me puse con ese peso y al final acaban mermando la técnica. O más que mermando la técnica que también puede ser limitando el progreso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=594" target="_blank" class="timestamp">[09:54]</a> nada una mejora en cargas a raíz de un empeoramiento técnico. Imagínate, por ejemplo, te pongo press de banca con una pequeña pausa. Si después le metes más kilos pero no haces la pausa, no ha sido una mejora real.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=610" target="_blank" class="timestamp">[10:10]</a> Entonces, aún así esto ya lo hablamos alguna vez y inevitablemente es muy complicado tratar de mantener la técnica estandarizada siempre que se aumenta la carga. Es decir, tú cuando haces una sentadilla y de una forma u otra mejoras tu, yo qué sé, tu...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=625" target="_blank" class="timestamp">[10:25]</a> haces una top set y antes hiciste 240 240 por 5 rp 8 y más adelante igual a 150 por 5 rp 8 igual alguna de esas repeticiones no están igual de bien bajadas bueno pues poco a poco también habrá tiempo de bajarlas mejor</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=641" target="_blank" class="timestamp">[10:41]</a> Y poco a poco antes de seguir aumentando carga tendrás que mejorar un poco más la técnica. O lo mismo en un remonté. El remonté es inevitable que también el pecho esté apoyado en todo momento. Bueno, pues igual alguna repetición se te escapa y antes de seguir siguiendo carga tendrás que mejorar esa técnica. Pero quiero decir que para mejorar en una carga a veces es muy complicado no hacerlo de la mejor forma, sino pues igual trampear de alguna forma y luego ya ir perfeccionando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=672" target="_blank" class="timestamp">[11:12]</a> el descenso hace una pequeña pausa en tu pecho y luego empuja el peso hacia arriba y ligeramente a la espalda bien lo siguiente es donde redujo un poco más la velocidad y colocó toda la tensión exactamente donde la quiero en los pectorales el cruce de cable sentado también ese ejercicio está muy chulo y se nota muy muy bien el pectoral os lo recomiendo pectorales que el preso un puesto pesado que hizo a mí me encanta primero para estos colocan un banco bastante alejado es un poco coñazo vale porque tú lo puedes ver y te lo estoy a tío teniendo el pectec teniendo tal pues hazme caso que si lo pruebas las sensaciones van a ser brutales toma ambas manijas sujeta las</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=703" target="_blank" class="timestamp">[11:43]</a> Si, siempre y cuando obviamente no tengas molestias en el articular. Entiendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=731" target="_blank" class="timestamp">[12:11]</a> es que en este ángulo de apertura el hombro te vas a partir el hombro mandito rotado si metes una buena flexión de codo va a seguir estirando el pectoral y vas a proteger la articulación del hombro pero sé qué historia si lo haces con sobrecarga progresiva si lo haces con un peso que manejas bien etcétera no te tiene por qué pasar nada ahora bien no pues si me molesta no se ajusta la técnica puedes incluso</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=755" target="_blank" class="timestamp">[12:35]</a> en vez de hacerlo con este ángulo, pues bajas un poquito más y ya está. O sea, hay veces que simplemente ajustando un poquito la técnica ya podemos hacerlo sin ningún problema, sin ninguna dolencia ni nada. Los hoax, no solo las ma. Esto mantendrá la tensión en tu pecho y evitará que tus tríceps y deltoides frontales tomen el control. A partir de ahí, mueve el peso hacia afuera y de regreso en un arco, no solo hacia atrás. Así que intenta pensar en cubrir la mayor cantidad de espacio posible mientras haces la fase negativa. Ahora, elegí estas en lugar de la máquina pec-deck porque</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=786" target="_blank" class="timestamp">[13:06]</a> y las hago sentado en vez de de pie porque al estar sentado estarás un poco más estable, lo que significa que no se pierde tensión proveniente de la pila de pesas. Bueno, también te digo yo que muchas veces lo he intentado yo así y si es un banco así con poquito peso, el peso te tira para atrás y te vas a tomar por culo. Realmente no. Si apoyas los pies adelante como está él, el peso del banco no se te va atrás porque estás compensado. Con este banco, porque este banco, no sé, se ve como que pesa muy poquito. Hay bancos más sólidos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=816" target="_blank" class="timestamp">[13:36]</a> en mis tobillos o en mi zona lumbar, que tendría que estabilizar cuando estoy de pie. Recuerda, nuestro objetivo aquí es el aislamiento puro del pectoral. Ahora, el error más común que veo aquí es dejar que los codos se callen. Eso pone a los pectorales en desventaja mecánica y empeora la línea de tracción de las fibras del pecho. Así que mantén los codos arriba y piensa en abrazar un árbol grande mientras llevas los brazos hacia adelante y barra el peso en un arco amplio en la fase negativa. Y de nuevo, la última serie hasta el fallo sin excepciones. Creo que los mayores avances que logré este año fueron en mi espalda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=844" target="_blank" class="timestamp">[14:04]</a> bueno los dos ejercicios que he hecho de empujes me parecen bien y lo de siempre vale que tampoco quiero estar con lo que comentó la mejor rutina para naturales usados los ejercicios todos ejercicios son todos independientemente de que sea natural o no pero siempre pero bueno que vale que entiendo qué</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=862" target="_blank" class="timestamp">[14:22]</a> que lo hace para llamar más atención o lo que sea lo que sea que son válidos independientemente de lo que hagas vamos a las dominadas dominadas las estradas que realmente es una especie de jalón vamos a ver un poco las causas que dan sólo por la explicación que da teniendo en cuenta que al final dos lados de una diferencia ese ejercicio yo imposible porque creo que me hago 56 dominadas de forma polémica las puse en el nivel a</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=895" target="_blank" class="timestamp">[14:55]</a> la extensión del hombro, tus trapecios medios y robo. Pero fijaros que está haciendo un agarre neutro, incluso algunas personas hacen un agarre supino. Sí, o más que neutro, sí, semineutro, no llega a ser del todo neutro. Porque de esa forma es más fácil tener el codo más en aducción, un poquito más hacia adentro en vez de hacia afuera, y si tú tienes más hacia adentro, el dosalo va a poder trabajar mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=922" target="_blank" class="timestamp">[15:22]</a> las dominadas con un agarre neutro para que lo sepa y se pueden tirar más que unas dominadas agarre prono o arrepino y luego son menos lesivas por así decirlo o sea que no es que las dominadas normales no sean sean lesivas pero inevitablemente al trabajar más en el plano de escápula y el codo está más cerca del torso las molestes de por sí van a ser menos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=959" target="_blank" class="timestamp">[15:59]</a> progresiva para este experimento y encuentro que con los jalones de dorsales una vez que te vuelves pero aquí realmente no por nada pero no se puede equiparar o sea básicamente porque tú aquí están haciendo un jalón agarre pero no y en cambio la dominada es un agarre semineutro entonces partiendo de que el agarre no es el mismo ya no se puede comparar lo siento no por nada pero si lo suficientemente fuerte se vuelve casi imposible evitar balancearse hacia adelante en las dominadas inevitablemente también cuando hace un agarre pero no tiendes a compensar un poco más entonces no me vale</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=992" target="_blank" class="timestamp">[16:32]</a> Con el peso colgado sí que es verdad que te balanceas menos con el peso colgado aquí. Pero sí con tu peso corporal sí que tiendes más a balancearte. Pero al final yo no creo que ningún ejercicio...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1008" target="_blank" class="timestamp">[16:48]</a> yo con jalones al pecho he progresado fácilmente y también estuve muchos no y aparte que adrián herrero las dominadas yo creo que está muy muy muy muy jodido se anda por nada no creo que sea mucho más igual estoy equivocado pero no se te diría que más de 15 no se hace haciendo dominadas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1037" target="_blank" class="timestamp">[17:17]</a> Lo que sucede es que la ganancia de masa muscular y fuerza están multifactorial que no puedes decir, no, pues fue este ejercicio, porque probablemente no estás haciendo solo un ejercicio, probablemente no solo haces el volumen de entrenamiento de las dominadas, probablemente no solo mejoras en dominadas en cuanto a ejercicios de espalda, entonces no se puede decir, no, es que fue este ejercicio, es como decir, no, me compré este suplemento y he mejorado un montón, ¿será este suplemento o no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1063" target="_blank" class="timestamp">[17:43]</a> Indicaciones técnicas simples. Piensa en llevar tu pecho a la barra en lugar de solo pasar la barbilla por encima de la barra.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1095" target="_blank" class="timestamp">[18:15]</a> me gusta me gusta a ver ya lo he dicho muchas veces los ejercicios de espalda realmente el objetivo es que trabaje la espalda es muy complicado realmente cuando todo es un ejercicio sin straps que el fallo literal sea por dorsal y no por agarre como tal donde yo por eso siempre recomiendo emplear extras y cuando lo dije alguna vez la gente se me echó encima de hecho podrían en el que reacciones y dijo no bueno pues dos contra uno</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1134" target="_blank" class="timestamp">[18:54]</a> No son un ejercicio para sentir los músculos. Realmente no se supone que deban sentirse increíbles. Se supone que... Sí, esto de típico mente músculo... Conexión. ... y no sé qué historias, la realidad es que en muchos ejercicios no se trata de sentir el músculo. O sea, si sientes más el músculo, no es que se vaya a desarrollar más. Si simplemente haces la técnica correcta, en ese patrón de movimiento que estás moviendo el peso, va a trabajar el músculo que trabaje con ese patrón de movimiento y punto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1160" target="_blank" class="timestamp">[19:20]</a> yo si entiendo lo que quiere decir pero también hay ciertas personas que le vendría bien un poco más esto creo que la gente que entrena con demasiados descansos excesivamente igual luego acaba entrenar y no nota ni</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1178" target="_blank" class="timestamp">[19:38]</a> ni que ha trabajado por así decirlo esa zona. Entonces obviamente para mí eso también no es buen síntoma. No te digo que trabajes en congestión, pero buscando un equilibrio respecto al grupo muscular que estás trabajando y la sensación que tienes de que has focalizado bien el trabajo como toca. La verdad, si acabas un ejercicio o acabas un día en concreto y dices, pues estoy como empezado, pues algo falla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1204" target="_blank" class="timestamp">[20:04]</a> de esa persona y tiene una sentadilla así con una presión de rodilla brutal no te preocupes está trabajando el peso no se está levantando por arte de magia tus músculos no está levantando se trata de mejorar encargas si no vale porque lo dicho recordar que en culturismo el peso es una consecuencia no es un objetivo la prioridad</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1230" target="_blank" class="timestamp">[20:30]</a> por eso es interesante tener una base las opciones mínimas de biomecánica porque vas a saber perfectamente si estás haciendo buena técnica o no y entonces este tipo de cosas no te van a preocupar no siento la espalda pero si tú sabes interpretar que estás haciendo una técnica correcta no te vas a preocupar ahora si se hace una técnica correcta probablemente la espalda sí que la sientas de manera controlada aumenta el peso que levantas con el tiempo y si haces eso tus dorsales</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1266" target="_blank" class="timestamp">[21:06]</a> ejercicio siempre el mismo con mismas condiciones y pasó un año y mejoraste en ese ejercicio ganaste masa muscular sin duda ganaste masa muscular es la mejor manera de saber si estás ganando masa muscular no a corto plazo estamos hablando a largo plazo de seis repeticiones con 30 libras el primer día y ahora acabo de hacer seis repeticiones con 60 libras y eso es simplemente sobrecarga progresiva pero la garra ha sido diferente de mi crack</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1295" target="_blank" class="timestamp">[21:35]</a> ¿Has visto? ¿Has visto muy bien? Se ha catado también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1326" target="_blank" class="timestamp">[22:06]</a> Vamos ya a por el día de hombro. De momento he comentado eso. El día de pecho presinclinado con barra. Aperturas en cable sentado. El día de espalda dominadas agarre neutro. Y ahora vamos con laterales en polea.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1355" target="_blank" class="timestamp">[22:35]</a> La estrecha. Yo utilizo poleas aquí porque proporcionan una tensión constante durante todo el rango de movimiento, a diferencia de las mancuernas, donde no hay tensión en la parte baja y la tensión máxima solo se alcanza en la parte más alta. Además, al colocar la... Da igual, si en la parte más baja de las elevaciones laterales, de aquí a aquí, que lo estáis viendo, también está trabajando súper espinoso. O sea, no está trabajando tanto el deltoides. Entonces, por ese caso, al final es lo que yo digo. Una temporada, por ejemplo, ahora a mí me está gustando hacer elevaciones laterales con mancuernas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1386" target="_blank" class="timestamp">[23:06]</a> sentado y otro día durante la semana otras veces si tengo una máquina en el gimnasio para generar acciones laterales luego con máquina y así así no voy vale ya está tratando la planificación así así no no vamos bien lo voy turnando con el tiempo no lo cambio cada semana ni cada mes si no estoy unos meses de saco partido y luego lo cambio</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1414" target="_blank" class="timestamp">[23:34]</a> No sé a qué temperatura tendrá el aire este chico, no sé si vive en España, pero estoy yo sudando, pero que flipas, y verlo en sudadera, bueno. La distancia del estiramiento se exageró un poco en las redes sociales durante un tiempo, pero sigue siendo cierto que con las... Fue culpa tuya, todos te pusieron de ejemplo, oh mira, ayer mi padre dijo que fue por el estiramiento y voy a tener...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1448" target="_blank" class="timestamp">[24:08]</a> A ver lo que dice, elevaciones laterales sin polea versus elevaciones laterales con mancuerna. Yo digo que es muy similar. El estudio que todos estábamos esperando. Al menos yo sí. Cada participante entre un brazo con poleas y el otro brazo con mancuerna dos veces por semana. Cinco series por sesión, todas las series hasta el fallo. Después de ocho semanas de entrenamiento, encontraron que ambos ejercicios hicieron crecer el deltoides lateral aproximadamente por igual. Incluso parece que el lateral es con mancuerna incluso algo más. Si es que es lo de siempre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1476" target="_blank" class="timestamp">[24:36]</a> En la mayoría de estudios... Es lo de siempre, con que te fuerzas en el gimnasio, sobra. Por eso los que sí que tienen diferencias significativas son muy interesantes, pero la mayoría de estudios que hacen sobre entrenamiento de fuerza pone sin diferencia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1507" target="_blank" class="timestamp">[25:07]</a> Puede pasar que hagan un estudio de 8 semanas y pongan principiantes, incluso a lo mejor en esos principiantes uno de los dos grupos ha visto más resultados, pero es que no sabemos si en ese estudio de 8 semanas, si lo hubieran por ejemplo alargado a 6 meses, no sabemos si en esos 6 meses al final las ganancias se habrían igualado. Porque puede pasar que estás usando un ejercicio, una técnica concreta y las primeras 8 semanas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1536" target="_blank" class="timestamp">[25:36]</a> con una técnica un ejercicio lo que sea concreto mejores más pero si mantienes los dos a lo mejor con el tiempo se igualan no lo sabemos entonces claro los estudios así muy cortos simplemente con pizzas no vamos a coger estudios de culturistas que pasen 120 kilos no te digo que los estudios también pero al final que abocado no tiene que adaptar las circunstancias y lo dicho para la población general bien para</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1566" target="_blank" class="timestamp">[26:06]</a> Para mí, por ejemplo, pues es una referencia, pero no lo puedes tomar al pie de la letra. Y estudios, un estudio muy concreto hay que agarrarlo con tizas. Por eso, en la evidencia científica, los estudios que más peso tienen suelen ser meta-análisis, revisión y sistemáticas, ensayos clínicos... Tiene sentido. Y todos estudios en donde hay muchos estudios dentro de uno mismo. O sea, como por ejemplo, agarramos... Sí, un meta-análisis o una revisión sistemática.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1596" target="_blank" class="timestamp">[26:36]</a> y los analizamos y sacamos una conclusión, suelen ser los estudios más válidos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1612" target="_blank" class="timestamp">[26:52]</a> costado del cuerpo, lo cual, en mi opinión, significa que se estaban perdiendo uno de los principales beneficios potenciales de usar una polea, ese rango de movimiento extra que obtienes al barrer el peso a través de tu cuerpo. Aún así, basándome en estos nuevos datos, dudo que la diferencia entre poleas y mancuernas sea realmente un factor decisivo. Lo más importante es elegir una variante en la que realmente sientas trabajar tus deltoides laterales y esforzarte al máximo con buena técnica. Yo sigo usando ambos, poleas en mi día de tren superior y mancuernas en mi día de empuje. Y por supuesto, la última serie siempre va al fallo. Ahora bien, el error más común con las elevaciones laterales es encoger los hombros al subir el peso. Esto hará que los trapecio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1639" target="_blank" class="timestamp">[27:19]</a> Piensa que el codo siempre tiene que ir por encima de la muñeca. Es un tip bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1667" target="_blank" class="timestamp">[27:47]</a> de brazo en la pared. Aplica presión gradualmente y deberías notar cómo se activan tus deltoides laterales. Esa es la intención que debes tener al hacer elevaciones laterales. Tratando de que el codo obviamente esté lo más extendido posible. Me está gustando, ¿eh? Me está convenciendo. No, o sea, lo veo todo bien, la verdad, lo que está diciendo. Yo estoy de acuerdo. Las cosas como son. Lo único que es eso. Que la mejor rutina o los mejores ejercicios más bien para todo el mundo. Riva. Este próximo ejercicio activará cada una de las fibras musculares de toda tu espalda, desde el cuello hasta las caderas. Es el REM OP.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1699" target="_blank" class="timestamp">[28:19]</a> esto por ejemplo justamente ya lo hablamos en otro vídeo y justamente adrián decía que le iba un poco mal porque por si ya estaba muy tieso que muy alto que no le beneficia que tal ya veréis como a ver lo que dice</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1730" target="_blank" class="timestamp">[28:50]</a> la espalda de forma isométrica y simplemente lo tienes que tener en cuenta a la hora de programar porque si metes demasiados ejercicios que tengan que ver de la estabilidad pues a lo mejor acabas fatigadísimo extensión del hombro y los electores espinales encenderá o por ejemplo si puedes hacer un sín row que es como es es así pero con un banco y estás tumbado en un banco realmente no es lo mismo porque justamente los rectores espinales no trabajarían tanto como pues en un remodel de o sea que</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1757" target="_blank" class="timestamp">[29:17]</a> La función es similar, pero no es lo mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1790" target="_blank" class="timestamp">[29:50]</a> no vas a poder con tanto peso básicamente porque vas a tener que trampe no vas a poder trampear entonces claro ten en cuenta que estás paralelo respecto al suelo es un remo súper estricto full street prácticamente un remo vertical más para un propio exterior y trapecio que para dorsal algún logra utilizando parciales en posición</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1819" target="_blank" class="timestamp">[30:19]</a> más en la posición de estiramiento también es que se fijáis tampoco acabo de apoyar los discos pero bueno no sé por encima de la cabeza con cable este estudio comparó las extensiones por encima de la cabeza con las puestas ya que dieron un 50% más de crecimiento en la cabeza larga un 40% más en las cabezas lateral y medial realmente los trasnucas en tríceps son los ejercicios más importantes</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1847" target="_blank" class="timestamp">[30:47]</a> El problema es que suelen dar bastante molestias en los codos. Las cosas también hay que decirlas claras. El press francés y el extension de tristes trasnuka daban bastante molestias. El error. Sí, el katana press de toda la vida lo pueden hacer unilateral o con las dos manos. Más común aquí en realidad ocurre antes de que la serie siquiera comience, durante la preparación. La mayoría de las personas coloca el cable demasiado bajo y desperdicia mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1876" target="_blank" class="timestamp">[31:16]</a> importante este ejercicio vale es que no hay que tirar hacia adelante que parece que va a deshacer un saque de banda no de poner lo más vertical posible y tratar de compensar también lo menos posible con el peso corporal eso es lo suyo biceps</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1904" target="_blank" class="timestamp">[31:44]</a> está complicado la verdad no lo digo por nada pero es que miden un 91 y pesa 100 kilos no creo que pueda llegar a tener un cuento de abrazo o sea tendría que pesar mucho o incluso no sé ni si ciclando se llegaría no lo sé</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1930" target="_blank" class="timestamp">[32:10]</a> Es que al final pues tiene que haber variedad. Yo por ejemplo si haces bíceps dos veces por semana pues te da tiempo de hacer</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1956" target="_blank" class="timestamp">[32:36]</a> con el hombro en flexión con el hombro en extensión por ejemplo aquí el pulvayasian es con el hombro en extensión o el húmero en extensión o sea por detrás del cuerpo puedes hacer otro ejercicio con el húmero por delante del cuerpo y otro ejercicio neutro y ya está bueno vamos a dejar aquí el vídeo y ya sabéis que los interesados en el curso de programa</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3nxc2L0v9bQ&t=1978" target="_blank" class="timestamp">[32:58]</a> Pues eso chicos, hasta aquí el vídeo de hoy. Un vídeo diferente, un vídeo más formativo. Y bueno, en general los ejercicios que has puesto están bastante bien, estoy de acuerdo. Y realmente cualquier persona que entre en el gimnasio le puede sacar partido. Obviamente es importante que los dé con los tips que toca. En el Bayesian es importante también que solamente haya una flexión de codo. Sin anteriorizar el hombro, sin que se lleve cargar el hombro. Y ya está, flexión de codo y punto. Así que eso es todo chicos, espero que os haya gustado el vídeo y nos vemos en siguientes. Un saludo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 06/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
