@@ -1,0 +1,356 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 08/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">08/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John_MH</strong>: <a href='#video-v53B-l7OhZ4'>PRADELLS QUÉ TE HAS TOMADO? #culturismo #fitness #mrolympia</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-v53B-l7OhZ4">
+            <h2>PRADELLS QUÉ TE HAS TOMADO? #culturismo #fitness #mrolympia</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John_MH</span>
+                <span class="date">Publicado: 08/06/2025 11:15</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=v53B-l7OhZ4" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=v53B-l7OhZ4" target="_blank">
+                    <img src="https://i.ytimg.com/vi/v53B-l7OhZ4/hqdefault.jpg" alt="PRADELLS QUÉ TE HAS TOMADO? #culturismo #fitness #mrolympia" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video explora la perspectiva de un competidor de culturismo sobre las comparaciones.
+Aborda la subjetividad de la evaluación en el deporte y su impacto personal.
+El orador siente la necesidad de competir para validar objetivamente su estado físico.
+Expresa cierto desagrado hacia las comparativas en determinados aspectos.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Inicio de la Comparación de Pesos <a href="https://www.youtube.com/watch?v=v53B-l7OhZ4&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El orador comienza el video discutiendo cómo se compara con otros competidores basándose en el peso. Menciona que estar dentro de un estándar de peso es un factor.</p>
+
+<h3>La Subjetividad Afecta Personalmente <a href="https://www.youtube.com/watch?v=v53B-l7OhZ4&amp;t=21" target="_blank">[00:21]</a></h3>
+
+<p>Se introduce la idea de que, aunque el culturismo es subjetivo en su evaluación, esa subjetividad le afecta personalmente. Siente frustración por no saber cómo está realmente hasta que compite.</p>
+
+<h3>Necesidad de Competir para Evaluar <a href="https://www.youtube.com/watch?v=v53B-l7OhZ4&amp;t=28" target="_blank">[00:28]</a></h3>
+
+<p>El competidor enfatiza que necesita subirse a la tarima junto a otros. Solo así podrá ver detalles cruciales como la condición de su piel en la puesta a punto.</p>
+
+<h3>Validar la Condición en el Escenario <a href="https://www.youtube.com/watch?v=v53B-l7OhZ4&amp;t=35" target="_blank">[00:35]</a></h3>
+
+<p>Reitera la importancia de la competencia para una evaluación real. Estar al lado de otros es la única forma de ver si su piel se seca correctamente y cómo se compara visualmente.</p>
+
+<h3>Desagrado por Ciertas Comparativas <a href="https://www.youtube.com/watch?v=v53B-l7OhZ4&amp;t=44" target="_blank">[00:44]</a></h3>
+
+<p>El orador concluye esta parte de su reflexión expresando que no le gustan las comparativas en ese aspecto específico del deporte. Cierra el tema mostrando su verdad al respecto.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=v53B-l7OhZ4&t=0" target="_blank" class="timestamp">[00:00]</a> Si le falta aquí, con respecto a todos los competidores más grandes, no creo que sea, más o menos por los pesos. Más o menos si me he ido por los pesos, sé que estoy dentro del estándar de que es un competidor open. Entonces hay tantos factores que no quiero... A ver, pero a ver, tío, no sé qué te has tomado, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=v53B-l7OhZ4&t=21" target="_blank" class="timestamp">[00:21]</a> Claro que objetivamente, porque el culturismo es subjetivo, me afecta. Pero me afecta de forma subjetiva el no saber que estoy rayadísimo y jodidísimo con eso. Es decir, necesito competir para verme al lado de otros competidores, para ver cómo mi piel se seca con una puesta a punto, para ver todo eso. Entonces, no me gusta el hecho de las comparativas en ese aspecto. La verdad. Hostia, no estoy escuchando lo que dice que parece interesante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=v53B-l7OhZ4&t=48" target="_blank" class="timestamp">[00:48]</a> Voy a competir, voy a competir para pasármelo súper... ¿Qué le ha pasado a vos, tío? Voy a competir, voy a competir para perderlo...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 08/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
