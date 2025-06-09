@@ -1,0 +1,394 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 09/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">09/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-4b8AKYvq1m8'>A SAM SULEK LE QUEDAN LOS DÍAS CONTADOS</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-4b8AKYvq1m8">
+            <h2>A SAM SULEK LE QUEDAN LOS DÍAS CONTADOS</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 09/06/2025 14:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=4b8AKYvq1m8" target="_blank">
+                    <img src="https://i.ytimg.com/vi/4b8AKYvq1m8/hqdefault.jpg" alt="A SAM SULEK LE QUEDAN LOS DÍAS CONTADOS" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la salud y el físico del culturista Sam Sulek, centrándose en su acné severo como posible síntoma de abuso de sustancias y problemas hepáticos.
+El presentador, basado en su propia experiencia, discute los peligros de las altas dosis en el culturismo y la influencia que figuras como Sulek tienen en jóvenes seguidores.
+Se reflexiona sobre el lado oscuro del culturismo competitivo y la presión para usar química para alcanzar altos niveles.
+El video advierte sobre los riesgos para la salud a largo plazo y la superficialidad de la búsqueda de la gloria a cualquier costo.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Acné Alarmante de Sam Sulek <a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&amp;t=44" target="_blank">[00:44]</a></h3>
+
+<p>El presentador observa la gran cantidad de acné en Sam Sulek, sugiriendo que podría ser un síntoma claro de consumo excesivo de anabólicos. Especula que su hígado podría estar muy afectado por ello.</p>
+
+<h3>Peligros del Exceso en el Culturismo <a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&amp;t=158" target="_blank">[02:38]</a></h3>
+
+<p>Se comparte una anécdota de alguien que tuvo que dejar el entreno y la química porque su hígado colapsó. Se enfatiza que tomar cantidades excesivas sin regulación o con un cuerpo no preparado es muy peligroso.</p>
+
+<h3>La Influencia y la Verdad de la Piel <a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&amp;t=360" target="_blank">[06:00]</a></h3>
+
+<p>Se destaca la enorme influencia de Sam Sulek en jóvenes seguidores, aunque no hable de esteroides. Se argumenta que su piel visiblemente afectada habla por sí misma sobre el posible uso de sustancias y problemas de salud subyacentes.</p>
+
+<h3>El Acné como Señal de Alerta Interna <a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&amp;t=548" target="_blank">[09:08]</a></h3>
+
+<p>Se reafirma que el acné, especialmente en el caso de Sam Sulek, es una señal clara de que el hígado está sufriendo e intoxicado. Se sugiere que es la forma del cuerpo de expulsar lo que no tolera, posiblemente por dosis muy altas.</p>
+
+<h3>El "Lado Oscuro" del Culturismo Competitivo <a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&amp;t=797" target="_blank">[13:17]</a></h3>
+
+<p>El presentador habla sobre su propia experiencia con la química en el culturismo, explicando que era necesario para competir a nivel internacional. Advierte que el culturismo competitivo exige grandes sacrificios y predice un futuro difícil para Sam Sulek si no controla su situación.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=1" target="_blank" class="timestamp">[00:01]</a> a Sam Sulek, tíos. O sea, he estado mirando por encima y de verdad quiero hablar de esto. Mirate ahora cuando se quite la camiseta cómo se le ve al bicho, ¿sabes? Y no especialmente bien. Mirate la cantidad de acné que tiene ahora, tío. Mira, mira, mira, mira. Jack.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=27" target="_blank" class="timestamp">[00:27]</a> No le he visto con tanto acné nunca. Mira que él es propenso, ¿vale? Porque él es propenso a tener más... Yo le veo igual. Yo no le veo igual, hermano. Tiene más acné que nunca, tío. No hablo del físico. El físico es siempre, bueno, espectacular, pero la cantidad de acné que tiene...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=44" target="_blank" class="timestamp">[00:44]</a> En cuanto a… No solo al consumo… O sea, esto puede ser claramente un síntoma de consumo de anabólicos, pero disparados. De que su hígado le está pidiendo socorro. Seguro. Vamos, cien por cien. No, no, la verdad. Es lo que creo. Tiene el hígado seguramente muy tocado y, además, seguramente, esté en tratamiento de… Bueno, antes se llamaba Rakutan. Creo que lo han cambiado. Han cambiado el nombre de ese medicamento y ya… Pero es que se le vea horrible, tíos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=75" target="_blank" class="timestamp">[01:15]</a> Viene, viene, viene. Es que os lo digo en serio, está muy mal. No sé si se llega a apreciar en cámara. Es que hostia, ¿eh? ¿Qué crees que Sanity era? Porque me siento que mi voz correcta...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=103" target="_blank" class="timestamp">[01:43]</a> Es que no es normal el acné que tiene. Hubo una época en la que tenía menos acné. Tenía las marcas, pero no el acné.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=122" target="_blank" class="timestamp">[02:02]</a> ¿Os acordáis? Y creo que fue un tiempo que dijo que estaba usando el Rakutan. Y yo creo que ahora a lo mejor ha dejado de usarlo y, bueno, se le ha vuelto loco. O sea, el tío de corazón, ¿eh? Cuidado, ¿eh? Cuidado. Yo no me la voy a dar a la hora de... Le voy a poner una fecha de vida, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=137" target="_blank" class="timestamp">[02:17]</a> Os prometo que al último que vi así, que era de mi ciudad, bueno, de donde vivía antes,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=158" target="_blank" class="timestamp">[02:38]</a> Al último que vi así, tuvo que dejar la química porque... Bueno, la química, el entreno, porque el hígado le reventó. O sea, le petó. No se murió, pero perdió todo el físico. Y esto pasa muchas veces que tomas tales cantidades porque te crees que más es mejor, no haces nada</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=175" target="_blank" class="timestamp">[02:55]</a> para regular. Y ya no es solo para regular, sino que hay veces que tu cuerpo no está del todo sano. Y hay veces que el cuerpo incluso está sano, pero no lo suficiente como para hacer este tipo de excesos que hace este hombre. Es que es el problema. Es que es un tío que, aparte, ha enseñado tantas veces y tiene una dieta que come fatal para ser culturista. Y claro, lo veo regular. Señores.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=200" target="_blank" class="timestamp">[03:20]</a> Toca lo que toca. Proteína hidrolizada Pro de Profix. De vainilla, la más pura que hay. 98 %. Por supuesto, esta proteína la podéis conseguir con mi código de descuento Antonio G. Es la más limpia que hay. Para mí, la mejor. Además, no te sientas mal al estómago, que es lo típico. Que te compres la proteína y luego lo pagas de ir al váter y de perte y de todo. Por supuesto, con la leche esta de almendra que estoy tirando. No sé tú a qué estás esperando. Dale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=225" target="_blank" class="timestamp">[03:45]</a> La verdad, tiene que tener mucho cuidado. Tiene que tener mucho cuidado. Pensad que, bueno, este hombre ha llegado a tener este físico con la edad que tiene porque los abusos que ha hecho no han sido ni medio normales. Porque este tío no lleva tanto tiempo entrenando. Hasta lo que yo sé. No es un tío que lleva entrenando desde los 12. No, no, no, no, no. Lleva entrenando relativamente poco. O sea, lo que ha tenido que hacer con ese cuerpo, el abuso que ha tenido que meter ha sido inhumano. Inhumano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=253" target="_blank" class="timestamp">[04:13]</a> Y el gran problema que yo veo de esto, lo que más me preocupa, amigos, es que lo hagan todo por la gloria. Para ellos la gloria es esto, que la vean en YouTube, que todo el mundo hable de ellos, por supuesto, vivir de ellos y ganar mucho dinero.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=269" target="_blank" class="timestamp">[04:29]</a> Y claro, lo mismo, ellos ven muy lejos que su salud peligre. Porque, claro, juegan con que son jóvenes. Como son jóvenes, a mí eso no me va a pasar. Hasta que te pasa. Hasta que te pasa. No sería la primera vez que se muere un culturista con 24 años. No sería la primera vez, hay un montón. Es que todos los años cae uno de los más conocidos. Todos los años. Desconocidos a saber los que caen. ¿Qué te gusta?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=298" target="_blank" class="timestamp">[04:58]</a> Vamos a ver el análisis de Gorrino que quiero verlo con él a ver</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=317" target="_blank" class="timestamp">[05:17]</a> Dudo mucho que sean algo sano, más bien todo lo que... Es que claro, es que es normal, es que esto no es sano. Al contrario, la cosa no tiene buena pinta. El joven de apenas 23 años ha hecho recientemente un entrenamiento con Urs Kalechinski, culturista profesional de la categoría Classic Physique. Durante este entrenamiento han entrenado duro, pero más duro era ver el cuerpo de Sam Sulek cuando se quitó la camiseta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=340" target="_blank" class="timestamp">[05:40]</a> Sam Sulek en Estados Unidos es todo un referente. Los chavales se vuelven locos con él y hasta incluso algunos le copian su característico look con el pelo largo y la gorra. Algo que la verdad causa bastante rechazo. Está bien que admires a alguien, pero ¿de verdad tienes que vestir y actuar como tu ídolo? Un poco de personalidad, señor. Bueno, pero son niños.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=360" target="_blank" class="timestamp">[06:00]</a> Total que a Sam lo admiran muchísimo y eso lo convierte en una auténtica influencia. Así es, un tío como Sam tiene bastante influencia y vaya que sí tiene, casi 7 millones de seguidores en Instagram. Lo bueno de ser una gran influencia es que puedes influir para lo bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=377" target="_blank" class="timestamp">[06:17]</a> Pero también puedes influir para lo malo. Y ahora imagínate qué clase de influencia es para sus jóvenes seguidores un influencer que su ejercicio favorito es el curl jeringa. Aunque dentro de lo que cabe Sam nunca ha mencionado que yo sepa el tema de los esteroides. Y eso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=392" target="_blank" class="timestamp">[06:32]</a> Es que tampoco puedo mencionar nada. Esto le suma puntos en el fondo. Podría apostar a tu casa. Como digo, muchos chavales jóvenes le siguen. Adolescentes que se inician en el gimnasio por gente como Sam. El problema es que por mucho que no hable del tema, su piel ya está hablando por él. Es posible que esté bien, pero que bien jodido a nivel de salud.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=414" target="_blank" class="timestamp">[06:54]</a> Resulta que el otro día entrenó con Urs Kalechinski. Es la segunda vez que entrena con él. Ya lo vimos la primera vez después del Arnold Classic. Donde ambos estuvieron compitiendo tanto Urs como Sam. Urs en su categoría claro y Sam en amateur. Tratando de convertirse en culturista profesional. Que lo consiguió, como recordarás. Pero ahora... Gracias Chame.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=433" target="_blank" class="timestamp">[07:13]</a> Han vuelto a entrenar, se ve que están haciéndose buenos amigos y lo mismo todavía cae un entreno de pierna también por lo que hablaron. Ya en el inicio del vídeo se puede observar la cara de Sam y lo destrozada que la lleva. Ahora hablaremos del... ¿Por qué ocurre esto y por qué le salen tantos granos?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=451" target="_blank" class="timestamp">[07:31]</a> Empezaron con una máquina de espalda donde estaban tirando con tres discos de b****. Entrenar con alguien de su calibre es un privilegio si tratas de competir en culturismo, ya que Urs lleva una buena experiencia a sus espaldas. Y su forma de entrenar, como siempre digo, es bestial, una técnica impoluta y con intensidad. Aquí me exprimió al pobre Sam. Curiosamente los dos movían el mismo peso, ambos podían trabajar perfectamente con eso, así que en términos de fuerza van muy parecidos, aunque...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=480" target="_blank" class="timestamp">[08:00]</a> Yo creo que incluso Sam Suri es más fuerte que Urs. ¿Cómo lleva la espalda? ¡Hostias! Lleno de granos. Se puso a posar y cuando le graban desde este ángulo no se nota tanto. Pero cuando lo ves en un primer plano flipas. Es que tiene agujeros, tío. Tiene agujeros. Código Antonio G, siempre, pero un profis. Persona se tiene que notar aún más. Dirás tú, Gorrino, ¿pero por qué tiene tantos granos, Sam? Hermano, esto yo creo que es 100% por la química, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=507" target="_blank" class="timestamp">[08:27]</a> Entre otras cosas, ¿sabes? Seguramente, ya he dicho, es un tío que es propenso a tener granos. Lo sabemos de siempre. Pues la realidad es que sea lo más probable. No es la única causa, pero es la más probable. Es que tiene demasiados.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=524" target="_blank" class="timestamp">[08:44]</a> Los granos pueden salir por una mala alimentación, pueden salir por sudar demasiado a veces. Alguna gente simplemente es más propensa a tener granos. Pero en el caso de Sam Sulek ya sabemos que hace consumo de sustancias dopantes. Y algunas sustancias dopantes no son de la mejor calidad. Es posible que Sam esté tomando algo que su cuerpo no reacciona de la mejor calidad. No tiene nada que ver con la calidad, amigo. No tiene nada que ver con la calidad del producto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=548" target="_blank" class="timestamp">[09:08]</a> Nada que ver. No te van a salir granos por la calidad de la química que tomes. No. Te puedes sentar mal porque sabe mala calidad, pero eso no. Si esto es por la química, esto es porque el hígado es una señal clara de que estás pasando, de que está mal, de que estás intoxicado, de que está tu hígado tocado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=564" target="_blank" class="timestamp">[09:24]</a> Y su forma de expulsar aquello que no le gusta al cuerpo es de esta forma. También puede ser por tomar dosis extremadamente altas de esteroides. El caso es que un usuario ha comentado en el vídeo, la piel de Samsulek parece frita. Y alguien abajo dice, estaba pensando lo mismo, tuvo una mala reacción a algún compuesto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=584" target="_blank" class="timestamp">[09:44]</a> Otro dice, estaba pensando exactamente lo mismo. Ojalá sea solo su piel la que reaccione tan mal. Pero la posibilidad de que esté metiendo la pata bajo el capó también es innegable. Otro dice, estoy bastante seguro de que su hígado también está frito. Sinceramente, si tiene la piel así por fuera, imagínate cómo debe estar Sam por dentro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=603" target="_blank" class="timestamp">[10:03]</a> Lo de que tiene el hígado frito no me parecería nada raro. Un dato a tener en cuenta es que Sam está actualmente en volumen. Y cuando está en volumen el tío se vuelve loco comiendo todo lo que le da la gana. Y al ser una persona propensa a tener acné como ya hemos visto. Si abusas de comida basura o abusas de química vas a tener más acné todavía. Es como el que tiene poco pelo siendo natural y decide pasarse al lado oscuro. Pues lo que ocurre es que se queda con menos pelo todavía. Y eso es acné.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=630" target="_blank" class="timestamp">[10:30]</a> Así, si eres propenso a X cosa siendo natural, pre... Sí, sí, la química es un potenciador, también os lo digo. Párate para sufrirlo el doble cuando empieces a hacer curl jeringa. Lo bueno de Sam es que es millonario y al ser alguien con tanto dinero, pues te puedes... Da igual que sea millonario, o sea, como el hígado esté mal, no hay quien te lo cure.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=648" target="_blank" class="timestamp">[10:48]</a> permitir cualquier tipo de tratamiento para evitar estas cosas y probablemente ya se esté poniendo en manos de alguien para tratar de solucionar este problema que tiene lo más grave es que pueda tener problemas internos que con 23 años estés así sencillamente da miedo y ahora imagínate el olor que debe de tener sam se sabe que los culturistas no suelen oler muy bien precisamente por el tema de la química ya dependiendo de tu genética y todo eso</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=674" target="_blank" class="timestamp">[11:14]</a> que los culturistas no huelen bien hostia yo discrepo de aquí muchísimo tío yo esto lo discrepo mucho el que no huele bien es quien se ducha no te calientes esto es como el gordo los gordos tienen fama también de no que huelen claro no es que no a ver no es que huelan es que a los gordos lo que les pasa que les cuesta tanto ducharse es un esfuerzo que terminan oliendo pero eso solo significa que se ducha poco no que va yo no lo creo mira si me dices que puede que tu sudor huela rollo como amoníaco eso si tiene una explicación</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=704" target="_blank" class="timestamp">[11:44]</a> Tema de lo que comes, sí que tiene un olor amoníaco y uso de química sí que puede pasar. Pues varía, puedes apestar más, apestar menos o si tienes muchísima suerte, no apestar. Algo que ya te digo yo que es difícil, especialmente si te metes mierda por un tubo. Al final te pones a pensarlo viendo estos casos y dices, pero ¿cómo cojones te merece la pena hacer esto? Con lo bien que está... ¿Cómo sabe tanto de química? Porque he estado años usándola.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=731" target="_blank" class="timestamp">[12:11]</a> uno sin estar todos los días preocupándose de pincharse esto, de pincharse lo otro y luego de sufrir los diversos efectos secundarios y tener que ir al médico y esto y lo otro. De verdad que lo del culturismo es para gente con ganas de sacrificar muchas cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=746" target="_blank" class="timestamp">[12:26]</a> Así que si en algún momento te has pensado pasarte al lado oscuro, ya sea para competir o para marcarte la del influencer fitness de moda, piénsatelo realmente bien, porque las vas a pasar canutas con tal de conseguir algo que es simplemente superficial. Ahora veremos qué pasa con Sam Sulek, esperemos que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=764" target="_blank" class="timestamp">[12:44]</a> Yo, sinceramente, o se controla o creo que un día se va a tener un susto muy tocho y se va a acabar Sarsules. Creo que está en esa espiral de más musculado, más grande, más todo siempre y eso puede tener muy mal fin.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=781" target="_blank" class="timestamp">[13:01]</a> Espero que, bueno, es que encima era peor porque encima ahora ya es pro. Ya tiene el carne pro. Entonces ahora ya va a ser como ya sin límites. Antonio, ¿te arrepientes de haber usado química? ¿Qué te digo? Si te digo que sí, te miento. Y si te digo que no, te miento también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=797" target="_blank" class="timestamp">[13:17]</a> Si te digo que me arrepiento, soy un hipócrita. ¿Por qué? Porque es lo que tocaba. Porque yo, cuando competía, me tocaba hacerlo, ¿sabes? Me tocaba hacerlo. Si quería competir a nivel internacional, no había otra. Porque la gente va hasta las cejas de química, ¿vale? Entonces no hay otra. O sea, es lo que hay. Es igual que el culturismo. ¿Tú crees que a los culturistas les gusta tomar química? La mayoría de personas que han tomado química, que están en el culturismo, los culturistas no lo hacen porque vengan, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=824" target="_blank" class="timestamp">[13:44]</a> Es porque o lo hacen o no tienen nivel para competir. No pueden competir. Y las competiciones naturales, sinceramente, Juanjo, con todo el respeto del mundo, las competiciones naturales no valen para nada, ¿sabes? O sea, no tienen ningún tipo de nada. Culturismo... A ver, es que está feo que diga yo que no valen para nada. No es que no valgan para nada, simplemente que no... La gente quiere verse en el Mister Olimpia, ¿vale? No en el campeonato del mundo de culturismo natural. Que seguramente sea hasta más difícil, la verdad. Es así. Luego también te digo una cosa, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=853" target="_blank" class="timestamp">[14:13]</a> No voy a engañaros. La mayoría de los culturistas naturales no lo son. Eso es otro tema. La mayoría no lo son. Y te dicen que sí lo son. La gente se lo tiene que creer. Sinceramente, yo no me creo en la gente natural. Ves algunos físicos y dices, ven, iros a la mierda. No hay pruebas y en el fútbol también hay pruebas. En el fútbol también hay pruebas. Y las pasan y luego con los años se ven que no las pasaban.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4b8AKYvq1m8&t=878" target="_blank" class="timestamp">[14:38]</a> Yo siento respeto al culturismo natural, pero esto es otro tema. Si quieres competir en culturismo, es lo que hay, ¿vale? Es lo que hay. El deporte que te lleva a la vida en ello, en todos los sentidos. Y a Sam Sulek o hace algo o va a tener muy mal futuro, tío.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 09/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
