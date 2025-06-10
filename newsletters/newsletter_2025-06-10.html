@@ -1,0 +1,398 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 10/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">10/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joelus Fitness</strong>: <a href='#video-wN8__LT9P_E'>COMPRA ASÍ para LLEGAR a TU PRIME  - Camino a Competir 🐷💀#37</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-wN8__LT9P_E">
+            <h2>COMPRA ASÍ para LLEGAR a TU PRIME  - Camino a Competir 🐷💀#37</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joelus Fitness</span>
+                <span class="date">Publicado: 10/06/2025 15:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=wN8__LT9P_E" target="_blank">
+                    <img src="https://i.ytimg.com/vi/wN8__LT9P_E/hqdefault.jpg" alt="COMPRA ASÍ para LLEGAR a TU PRIME  - Camino a Competir 🐷💀#37" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video muestra una compra saludable en Carrefour para una estricta dieta de definición de un competidor.
+Detalla los alimentos clave como verduras, legumbres, frutas, patatas y carnes magras, explicando cómo los incorpora a su plan.
+Comparte consejos sobre la elección de productos, la preparación de comidas y la importancia del carro de la compra para el éxito de la dieta.
+El objetivo es perder los últimos kilos para una competición, enfatizando la disciplina y la planificación.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Comienza la Definición: El Frigorífico Vacío <a href="https://www.youtube.com/watch?v=wN8__LT9P_E&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El presentador anuncia el fin de la "etapa permitida" y el inicio de una dieta estricta para competir.
+Muestra su nevera completamente vacía antes de la compra, simbolizando el punto de partida.
+Introduce el tema del video: una compra saludable para cumplir con su nuevo plan alimenticio.</p>
+
+<h3>Más Allá de la Comida: Hidratación y Caprichos <a href="https://www.youtube.com/watch?v=wN8__LT9P_E&amp;t=129" target="_blank">[02:09]</a></h3>
+
+<p>Además de los alimentos, muestra artículos no comestibles comprados, como botellas para agua fría.
+Comenta detalles personales, como que se siente como una influencer y que le ilusionan cosas simples como vasos.
+Destaca la importancia de la hidratación constante, a pesar de tener un sistema de osmosis.</p>
+
+<h3>Verduras y Legumbres: El Volumen que Sacia <a href="https://www.youtube.com/watch?v=wN8__LT9P_E&amp;t=170" target="_blank">[02:50]</a></h3>
+
+<p>Presenta una variedad de vegetales y legumbres esenciales para su dieta, como ensaladas, champiñones y judías blancas.
+Explica cómo utiliza estos alimentos para añadir volumen a sus comidas y mejorar la saciedad.
+Comparte breves tips de preparación, como pochar la cebolla sin aceite o mezclar judías con ajo y perejil.</p>
+
+<h3>Superalimentos de Definición: Patata, Fruta y Café <a href="https://www.youtube.com/watch?v=wN8__LT9P_E&amp;t=343" target="_blank">[05:43]</a></h3>
+
+<p>Enfatiza la patata como un "súper alimento" imprescindible en definición por su baja densidad calórica y versatilidad.
+Muestra sus frutas favoritas (mandarinas) y discute la importancia de los frutos secos.
+Menciona el café como una herramienta clave para activarse, quitar el hambre y ayudar en la definición.</p>
+
+<h3>Rompiendo Mitos: Pan y Bebidas Zero <a href="https://www.youtube.com/watch?v=wN8__LT9P_E&amp;t=476" target="_blank">[07:56]</a></h3>
+
+<p>Desmitifica la necesidad de eliminar el pan y las bebidas "zero" en definición, defendiendo su consumo moderado.
+Aconseja controlar las porciones de pan, sugiriendo congelarlo para evitar comer en exceso.
+Concluye que el éxito de la dieta comienza con la compra, evitando tener "mierda" en casa para no caer en la tentación.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=0" target="_blank" class="timestamp">[00:00]</a> Bueno, bueno, bueno. Ya sabéis que vengo de Bali, gente. Ya sabéis que hemos pasado ya la etapa en la que todo está permitido, más o menos dentro de lo que cumplimos. Se acabaron las comidas trampas. Se acabó comer fuera. Ahora todo tupper, tupper, tupper, tupper. Os tengo que traer un día en mi dieta. Si queréis un día en mi dieta, ya sabéis, comentadme, por favor, darle like y amor a este vídeo. Os voy a enseñar hoy mi compra saludable para cumplir con esta dieta. Luego, pues, en otros vídeos podemos traer recetas y demás que sé que os encantará.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=27" target="_blank" class="timestamp">[00:27]</a> Pero hoy solo tengo a la compra. No tengo absolutamente nada en la nevera. Mira, está en la nevera. Que tiene espejo. Hay que aprovechar cualquier ángulo. Hay que vender. Hay que vender. Se me tiene que ver bien. No hay literalmente nada. El tupper de la cena que me he hecho este mediodía. Un Monster. Una Coca-Cola. Leche de soja. Y sandía que compré para comerme fresquita. Agua y vino. De la borracha de Jenny. Dentro intro. Compra saludable en Carrefour.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=75" target="_blank" class="timestamp">[01:15]</a> Vale, gente, ya sabéis que voy a competir, así que mi dieta no es tan extensa. No hay tanta variedad como me gustaría. En esta compra yo introduciría otras muchas cosas que podrían ser bienvenidas, pero debido a, sobre todo, comodidad, me voy a basar en esto para bajar los 7 kilos que me quedan. Ya sabéis que hemos bajado 13 hasta ahora con la anterior dieta. Ahora estamos con una nueva, estamos comiendo 2200 calorías los días de entreno. 2000, más o menos, 2070 o así, los días que no entreno. 16000 pasos, 5 días de entreno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=103" target="_blank" class="timestamp">[01:43]</a> Putada, sí. ¿Estamos sacando fisicazo? También, ¿vale? Así que por una parte de putada, por la otra bien. Vamos a ver lo que hemos comprado en Carrefour. Lo primero de todo, chicos, cuidado, ¿eh? Esto, Jenny me dice que últimamente me parezco como que los vlogs se están quedando muy guapos y tal. Y dice que me estoy pareciendo un poco como a las típicas influencers. Pero las, ¿sabes? Como que me estoy soltando mucho, que está guay, que doy tips y que tal. Y esto es una prueba de ello, ¿no? Mirad que me he comprado reinas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=129" target="_blank" class="timestamp">[02:09]</a> Ya sabéis que la casa es nueva y, claro, he venido de Bali justo. Claro, yo me fui haciendo un poquito de frío y ahora ya hace un poco de calor aquí en España. Pues el agua que me tomo, tengo osmosis, me la puse. Me costó una pasta, pero creo que va a salir rentable porque hay que beber mucha agua, amigos. Claro, no tengo agua fría, ¿no? Mirad qué monas. ¿Sabes que te haces mayor cuando estas cosas te hacen ilusión? Mirad qué monas. ¿Qué os parece?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=149" target="_blank" class="timestamp">[02:29]</a> Me faltaban vasos también y he comprado estos. Que a Jenny le gustan. Así como abombados y que no pesen nada. Simple detalle y no te importaba pero me he gastado el dineral en Carrefour para esta puta mierda. Carrefour. Yo lo recomiendo. Está guapo. Está chulo. He comprado cuatro de estas que en esta casa se ve mucho agua. Así hay fresquita siempre. Si la rellenas Jenny. No se rellena sola. Tenemos osmosis pero no se rellena sola.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=170" target="_blank" class="timestamp">[02:50]</a> No por arte de magia, lo Matilda... Se rellenan solas las cosas. La rellena aquí algún servidor. Bueno. Jenny rellena el agua. Vale, guapos. Imprescindible. Me gusta juntarme unas buenas ensaladotas. Sobre todo con las legumbres que tengo puestas en la cena. Ya lo veréis que serán muy recurrentes las ensaladas porque haya más volumen en mi estómago, más cantidad de comida que estoy masticando y a mí me gusta mucho combinar los canónigos con la lavanda esta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=198" target="_blank" class="timestamp">[03:18]</a> Odio las carolas. Podéis cominarlas como queráis, evidentemente. Pero para mí ensalada clavísima. Esto es lo único que hay en mi cesta que no es mío. De lo que he comprado. ¿Sabéis de quién es, no? El enemigo está en casa. No, pero poca problema está muy bueno esto. Aunque, ¿para qué quiero eso? Si tengo esto. Codio y los diez.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=213" target="_blank" class="timestamp">[03:33]</a> Más ensaladita. Para acompañar en todas las comidas sólidas, tengo puesto verdura para acompañar. Evidentemente, ahora el volumen de comida es bajo, con 2.200 calorías para un hombre, pidiendo unos 70 ahí, pesando 77, 78 pesaré ahora por lo del viaje y tal. Champiñones, me encantan. Con un poquito de ajito, lo revolvemos rápido, sin matarse mucho, con un poquito de aceite, muy poquito...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=237" target="_blank" class="timestamp">[03:57]</a> del spray. Y esto queda riquísimo y rellena un poquito el plato. Cebollas para la pasta. Tengo pasta al mediodía. Entonces, lo que haremos también, que ya os traeré... Si queréis, hacemos una... El día de mi dieta lo hago chefelos, ¿no? En vez de enseñaros solo el plato, cómo lo hago. Creo que puede ser interesante. Eso, yo la pico. La pongo primero en agua para que se poche, porque no lo hago con aceite. Y así se cuece o se hace, se medio hace. Y luego con el mismo jugo de la carne se acaba de hacer. Y pues queda espectacular, porque luego le añado el tomate picado y queda...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=263" target="_blank" class="timestamp">[04:23]</a> ¡Oh la la! Ok, legumbres. A mí me gustan las judías blancas, también con ajito. Me flipa el ajo mezclado con cebolla o con pimiento. Me gusta mucho, pero como más me gustan son con ajo y perejil y queda de locos. Y como guarnición luce mucho unas judías. Las tenemos por la noche para que nos llenen. Las pondremos eso con el ajito acompañado de la proteína o con la ensaladita así mezcladito con un poquito de tomate cherry y demás. ¡Almendras siempre!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=288" target="_blank" class="timestamp">[04:48]</a> Los frutos secos, tostados o crudos, ¿vale? Cuidado con los fritos, que encima muchas veces lo te lo ponen muy claro y están fritacos. Dale la vuelta, léelo y a ver cómo está hecho, porque joder, más vale que no estén fritacos, ¿vale? Yo me los compro tostados, buenísimos. Eso para la merienda lo tengo puesto con las tortitas de arroz o maíz. Van a ser también clave en esta preparación, dado que eso, abultan un poquito más, son un poco densas calóricamente, pues eso, no la tomaremos con los frutos secos o la crema de cacahuete de vigor, coño de los dedos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=316" target="_blank" class="timestamp">[05:16]</a> Tomate es clave en rama para untar, para todo. El tomate es mi vida. El tomate es la razón por la que existo. Viva el tomate mediterráneo. La dieta mediterránea es espectacular. He comprado de ensalada, he comprado de rama, he comprado también de pera y he comprado de todo. Vivan los tomates. Vivan los tomates, hostia. Cebollita dulce para las ensaladas, lo que me apetezca un poquito. Incluso cruda me la como, me gusta mucho. O sea, cruda. En la ensalada me la como cruda. Así picada con un poquito...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=343" target="_blank" class="timestamp">[05:43]</a> de sal y pimienta y listo. Las dueñas de mi corazón. Si no es mi fruta favorita, gente, ¿cuál es vuestra fruta favorita? Podríamos hacer un top tier de frutas, ¿no? Así en frío, claro, hay que tener en cuenta cuál es la mejor fruta, ¿no? O sea, si la fruta está en su prime. Porque, por ejemplo, un buen presego en su prime, uff, claro, es por la cantidad que abuso de esa fruta, o por lo que me gusta en su prime, o qué, no sabría qué decir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=367" target="_blank" class="timestamp">[06:07]</a> Si es por su prime, el melocotón gana para mí. Si es por lo que abuso, esta puta mierda. O sea, esto es increíble. Estos son como golosinas, tío. Me encantan, me flipan. Tenemos creo que unos... Es que es nueva la dieta. No sé, son 150 gramos por la mañana. Y le meteremos mandarinita que me gusta mucho. ¡Ya lo sabéis! ¡Clave!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=383" target="_blank" class="timestamp">[06:23]</a> De verdad, esto va a hacer que no sea una tortura el comer tampoco. Por favor, si hacéis una definición, tenéis que comer patata. Si hacéis una definición, tenéis que comer patata. Si hacéis una definición, tenéis que comer patata. Sí o sí. En realidad no tan sí o sí, pero te va a venir muy bien. Poca densidad calórica, ya lo sabéis, la habéis escuchado 300.000 veces. Empieza a ponerla en tu puta dieta. Cocida, al horno, súper versátil. Es que te la puedes hacer hasta en el pudo micro. O sea, esto es increíble. Qué súper alimento es la patata, de verdad. Y si no me equivoco...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=412" target="_blank" class="timestamp">[06:52]</a> Tiene mucha alanina, ¿no? No lo sé, no me acuerdo. Tenemos aquí el nuevo integrante de la dieta. Hasta ahora nunca había tenido aguacate. Tenía jamón y tal. Pero bueno, me han puesto aguacate. No le hago ascos. No sabía que era tan caro el aguacate. Claro, allí en Indonesia vengo de comprar los súper baratos. No sé si me ha costado esto 7 euros. La madre que me parió. El aguacate.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=431" target="_blank" class="timestamp">[07:11]</a> ¡Mamá! Menos mal que tenemos poco por la mañana. ¡Imprescindible también! ¡Cafelito! Esto me viene de locos para activarme. Cuando estamos en una definición, la mejor suplementación que hay, evidentemente, es con el código de los 10 en B, pero si tenéis que coger algo en general, ¿no? Pues proteína versátil, creatina, el suplemento como más... Pero la cafeína. La cafeína te activa, tío. La cafeína te acelera un poquito. Te hace salir ahí a hacer los pasos cuando no deberías o cuando no querías.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=453" target="_blank" class="timestamp">[07:33]</a> Te hace ahí meterle un punch. Te quita un poquito el hambre también por lo amargor, ¿no? No sé, a mí me viene súper bien. Me lo pongo con un chorrito de leche de soja. Un poco de stevia o lo que sea. Oye, pues para la merendola me estaré sucurrando o algo cuando me inicia el stream, ¿no? Al principio me viene súper bien para activarme. O por las mañanas. Así que, de verdad, para mí es muy importante el café. ¡Más cositas! ¡Pan! ¡Joelus! ¿Vas a comer pan en definición?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=476" target="_blank" class="timestamp">[07:56]</a> ¿No tienes que eliminar el pan para definir? Gente, estoy cansado de decirlo. No tenéis que eliminar los hidratos y no tenéis que demonizar el pan. El pan es bienvenido para tu puta dieta. Además lo va a hacer mucho más adherente y mucho más apetecible. ¿Por qué no te puedes desayunar unas tostadas con aceite y sal o aceite y tomate o con jamoncito o con aguacate o con jamón del bueno de pavo? ¿Por qué? No pasa nada. Lo malo que tiene el pan es que no puedes comerte la barrantera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=506" target="_blank" class="timestamp">[08:26]</a> Eso es cierto. Pues si lo haces, tendrás que cuadrártelo en tus macros, pero tienes que ponerle freno. Y para ello yo me cojo estos panecillos. Yo no sé ponerle freno. Entonces yo esto lo congelo, me saco el pan que me pertoca, que suelen ser dos bollos, y listo. No tengo la barra ahí porque es que me como la barra. Es que me como la puta barra. Y eso, vienen súper bien. No demonicéis el pan, por favor. Además, sobre todo en España, ¿no? O sea, es que se come mucho pan, se come pan con todo. Puedes comer pan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=529" target="_blank" class="timestamp">[08:49]</a> Lo malo es lo que le eches al pan. Le echas un litro de aceite a tomar por culo. Le echas chorizaco, salchichón, no sé qué, fué, tal. Si le echas 5 kilos de aguacate, claro. Podéis comer esto sin ningún problema. Más cositas. Pepino, ¿vale? Y zanahorias. Ya sabéis, los de stream, los veteranos. Siempre cae uno o dos. Son 4 horas de directo, siempre caen uno o dos antes de la cena. No he valorado el volumen como debía. O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=552" target="_blank" class="timestamp">[09:12]</a> Yo me recuerdo un volumen y decía, qué ganas de definición. Su puta madre, ese Joel. Ese Joel es un completo ignorante. Ahora que estoy en definición quiero volver al volumen. ¿Qué hago comiéndome un pepino? Una zanahoria. Pues viene súper bien, ¿vale? No solo por los micronutientes, sino también para la saciedad. Así que coman más cositas de estas, que viene súper bien. Eso, con un poquito de sal. Espectacular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=572" target="_blank" class="timestamp">[09:32]</a> ¡Pasta! Ya sabéis que me lo voy a hacer a eso, como mini-moloñesa. Y me encanta gente, Ginny se ríe de mí siempre porque esto es un tipo un poco... Información que no habías pedido porque yo te doy. La pasta. Cuanto más rara sea, más me gusta. O sea, macarrones típicos, pues sí, me los puedo comer, pero... Como que si cuanto más rara sea la forma, más me gusta. Y ahora estoy viciado a estos, que son una puta mierda, son los tubulones de todos los cojones, o las caracolas estas. Porque la carne se mete dentro y es como un ravioli, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=596" target="_blank" class="timestamp">[09:56]</a> Ok, hablando de carne, pochito, que lo congelaremos con sus porciones, ¿vale? Tenemos 2,50 creo en total, así que lo iremos congelando luego con el papel film y también la carne, ¿vale? La carne sí que me haré por completo la salsa boloñesa, la dividiré en los 5 tuppers que pertocan porque estos son 500 gramos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=617" target="_blank" class="timestamp">[10:17]</a> Pues eso, pues tendré hecho eso y solo tendré que hervir la pasta, ¿vale? Se me hace mucho más cómodo que no hacer todos los días la salsita. Importante, gente, tened mucho cuidado porque hoy justo eso, mirando en el Carrefour, todas las putas bandejas, o la gran mayoría, o al menos las que yo he visto, 85% carne, 75% carne. El resto es fécula de patata, mierda, agua, basura y asqueroso. Yo me la he cogido de carnicería, así que es cierto que es un poquito más caro, pero al menos comes lo que quieres, ¿no? O sea, al menos comes carne y no comes cosas que no son carne.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=643" target="_blank" class="timestamp">[10:43]</a> Es una putada, pero es así. Lo he estado mirando y he hecho una virgen o todo. Más o menos. He acabado yendo a la carnicería, como siempre. Porque no había nada. A lo mejor justo la que es buena no estaba. Crema solar. Esto no se come. Pero protéjanse. Esta marca no nos ha pagado. Pero protéjanse del sol. Muy importante este verano. Yo tiendo mucho a quemarme. Soy muy blanquito. Y claro, salgo a hacer el cardio, los pasos, no sé qué, no sé cuánto. Crema solar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=668" target="_blank" class="timestamp">[11:08]</a> Más alubias, en este caso lentejitas paradinas de estas. Me encanta para poner en la ensalada o de guarnición. Y por último, esto tampoco es colaboración pagada, la verdad. Coca-Cola. Además las he visto así minis, monas y me trago el marketing, gente. ¿Por qué no las has cogido normales Joelus? Pues porque las he visto así minis, monas y me trago el marketing. La caja así, el packaging. Pues bueno, me trago el marketing. Me lo he tragado y ya está. Así lo llevas. Sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=687" target="_blank" class="timestamp">[11:27]</a> Me viene súper bien también para eso. La Coca-Cola cero, gente, no pasa absolutamente nada. No tiene casi calorías, por no decir nada. Y las bebidas cero vienen súper bien. La cual sea, da igual la marca, da igual tal, la que más te guste. Para una definición, te puede salvar de ese picar algo, ¿no? Entonces, esto con unos gelitos y una rodaja de limón, a mí me encanta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=708" target="_blank" class="timestamp">[11:48]</a> Pues esto ha sido toda la compra, gente. Todo esto que veis aquí y el pelapatatas me ha costado 140 pavos. Bueno, en mucha calidad, ¿eh? Carnes, aguacate, o sea, hay bastantes cositas, ¿no? El pollo hay un kilo y medio, pero, hostias, carente, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=725" target="_blank" class="timestamp">[12:05]</a> Vuestro carro de la compra se tiene que parecer a esto de aquí, ¿vale? Imprescindible, que haya legumbres, que haya parte de vegetales, con sus frutas, con sus verduras, pues para hacerte unos mini sofritillos, ¿vale? Sin mucho aceite, pero bueno, que vayas combinando, que haya guarnición, que haya parte vegetal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=742" target="_blank" class="timestamp">[12:22]</a> También unos frutitos secos, en mi caso café imprescindible, pasta, pan y luego buenas carnes de carnicería. También pescados de pescadería, que en este caso no hay porque tenemos que ir a otra que me gusta. Pero tu carro de la compra se tiene que ver equilibrado. Por favor, no metas en el carro de la compra mierda porque te la acabas comiendo. Tu cambio físico empieza en el carro de la compra. Empieza en el supermercado. Si en tu casa no hay mierda...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=768" target="_blank" class="timestamp">[12:48]</a> No comes mierda. Ay no, voy a coger esto para de vez en cuando. O voy a coger esto para darme el caprichito cuando tal. Te lo vas a acabar antes que el resto de cosas. Porque te conoces y nos conocemos. Entonces no te autoengañes. Si tú quieres algún caprichito, pues sales justo a comprártelo ese día o que tengas que hacer un esfuerzo o que haya una mínima barrera para ello. Pero si tú te compras el caprichito y la mierda y la basura, te la vas a acabar comiendo. En el caso de que quieras hacer un cambio físico, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=792" target="_blank" class="timestamp">[13:12]</a> no quieres, si todo es de boquilla, no lo quieres de verdad, cómprate todos los kickcats y todo lo que te dé la gana. Pero normalmente es difícil controlarse, sobre todo encima si estamos en una baja de peso. Entonces, que tu carrito de la compra se parezca a esto. Saludable, nutritivo, bueno y en consideración a tus objetivos. Muchísimas gracias. Dale like, suscríbete, espero que te haya gustado este pedazo de vídeo, un poquito diferente en el día de camino a competir. Queda poquito, gente. Queda poquito. Les voy a decir lo de la dieta y lo de Chefelus, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wN8__LT9P_E&t=820" target="_blank" class="timestamp">[13:40]</a> Besad, hijos de puta. Si hay una cosa que está clara. Es que nos vemos. Eso está clarísimo. Sí, sí hay buenas luces aquí, supongo que sí. Sí, parece que sí.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 10/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
