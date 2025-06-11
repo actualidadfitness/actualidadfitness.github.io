@@ -1,0 +1,356 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 11/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">11/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-M1xUJ9h1Zyw'>PS5: EL FUTURO ES GENÉRICO #playstation #gaming #gamer #games #videojuegos</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-M1xUJ9h1Zyw">
+            <h2>PS5: EL FUTURO ES GENÉRICO #playstation #gaming #gamer #games #videojuegos</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 11/06/2025 06:25</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=M1xUJ9h1Zyw" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=M1xUJ9h1Zyw" target="_blank">
+                    <img src="https://i.ytimg.com/vi/M1xUJ9h1Zyw/hqdefault.jpg" alt="PS5: EL FUTURO ES GENÉRICO #playstation #gaming #gamer #games #videojuegos" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video muestra la fuerte decepción del orador al ver algo en su PlayStation 5.
+Critica lo que ve por ser genérico, comparándolo con creaciones artificiales y sin personalidad.
+Expresa frustración por haber comprado la consola para experimentar esto.
+Finalmente, asocia esta genericidad con una visión negativa de un futuro sin individualidad humana.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Decepción Inicial con la PS5 <a href="https://www.youtube.com/watch?v=M1xUJ9h1Zyw&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El orador reacciona con sorpresa y fuerte decepción ante lo que está viendo en su nueva consola. Utiliza expresiones contundentes para manifestar su frustración inmediata.</p>
+
+<h3>Cuestionando la Compra de la Consola <a href="https://www.youtube.com/watch?v=M1xUJ9h1Zyw&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>Inmediatamente después de su reacción inicial, el orador se pregunta si la compra de la PlayStation 5 valió la pena "para esto", indicando que lo que ve es inaceptable o decepcionante.</p>
+
+<h3>Crítica al Diseño Genérico y Artificial <a href="https://www.youtube.com/watch?v=M1xUJ9h1Zyw&amp;t=28" target="_blank">[00:28]</a></h3>
+
+<p>Describe lo que observa (probablemente un personaje o juego) como "genérico", creado por "arte artificial". Lo compara despectivamente con estilos visuales populares que considera impersonales.</p>
+
+<h3>La Ausencia de Creación Humana <a href="https://www.youtube.com/watch?v=M1xUJ9h1Zyw&amp;t=39" target="_blank">[00:39]</a></h3>
+
+<p>Generaliza su crítica lamentando la falta de personalidad y un "rastro de individualidad humana de crear" en lo que está presenciando, valorando la creatividad original.</p>
+
+<h3>El Temor a un Futuro Impersonal <a href="https://www.youtube.com/watch?v=M1xUJ9h1Zyw&amp;t=39" target="_blank">[00:39]</a></h3>
+
+<p>Concluye su reflexión asociando esta genericidad y falta de individualidad humana con su visión negativa del "futuro", percibiéndolo como algo sin alma ni personalidad propia.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=M1xUJ9h1Zyw&t=0" target="_blank" class="timestamp">[00:00]</a> me he comprado la playstation 5 para esto pero que mierda es esta tío esto que es tío</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=M1xUJ9h1Zyw&t=28" target="_blank" class="timestamp">[00:28]</a> Patinete man en el mundo genérico hecho por arte artificial. El mundo clorines, el mundo fornite, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=M1xUJ9h1Zyw&t=39" target="_blank" class="timestamp">[00:39]</a> qué coñazo tío que es el futuro sino una cosa genérica sin personalidad sin un rastro de individual individualidad humana de crear</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 11/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
