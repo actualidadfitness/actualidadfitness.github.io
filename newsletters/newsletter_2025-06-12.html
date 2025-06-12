@@ -1,0 +1,353 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 12/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">12/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-XdCzskvJFjg'>LA IA CREÓ EL ADOLF LATINO #noticias #actualidad #política #historia</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-XdCzskvJFjg">
+            <h2>LA IA CREÓ EL ADOLF LATINO #noticias #actualidad #política #historia</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 12/06/2025 06:31</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=XdCzskvJFjg" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=XdCzskvJFjg" target="_blank">
+                    <img src="https://i.ytimg.com/vi/XdCzskvJFjg/hqdefault.jpg" alt="LA IA CREÓ EL ADOLF LATINO #noticias #actualidad #política #historia" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video muestra cómo discursos de una figura histórica de la Segunda Guerra Mundial, recreados con inteligencia artificial, contienen lenguaje de odio y vulgaridades. Estos videos han alcanzado millones de visitas en Facebook antes de ser retirados por la plataforma. A pesar de su contenido ofensivo, algunos usuarios han comentado positivamente, llegando a considerar al personaje como un "héroe". La situación plantea un dilema sobre el contenido generado por IA y la moderación en redes sociales.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Discursos Históricos y Odio en IA <a href="https://www.youtube.com/watch?v=XdCzskvJFjg&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>Se presenta el fenómeno de discursos de un líder de la Segunda Guerra Mundial recreados por inteligencia artificial. Estos videos, aunque cómicos inicialmente, rápidamente muestran su contenido agresivo y vulgar.</p>
+
+<h3>La Cruda Realidad del Lenguaje de Odio <a href="https://www.youtube.com/watch?v=XdCzskvJFjg&amp;t=23" target="_blank">[00:23]</a></h3>
+
+<p>Se reproducen fragmentos explícitos del contenido, cargados de insultos y expresiones de odio. El narrador reacciona indignado, señalando que este tipo de contenido viola los derechos humanos y fomenta el odio.</p>
+
+<h3>Millones de Vistas Antes del Retiro <a href="https://www.youtube.com/watch?v=XdCzskvJFjg&amp;t=52" target="_blank">[00:52]</a></h3>
+
+<p>Se revela que uno de estos videos acumuló más de un millón de vistas antes de ser retirado por la plataforma. Esto subraya la rápida propagación de contenido controvertido.</p>
+
+<h3>La Pregunta de la Moderación <a href="https://www.youtube.com/watch?v=XdCzskvJFjg&amp;t=52" target="_blank">[00:52]</a></h3>
+
+<p>Tras mencionar el retiro del video, surge implícitamente la cuestión de por qué tardó tanto en ser eliminado. La pregunta "¿Por qué no retiras?" refleja la frustración con la moderación de contenido.</p>
+
+<h3>Apoyo Inesperado en los Comentarios <a href="https://www.youtube.com/watch?v=XdCzskvJFjg&amp;t=52" target="_blank">[00:52]</a></h3>
+
+<p>A pesar del contenido ofensivo, se destaca que usuarios han comentado positivamente. Citas como "era un héroe" muestran una alarmante aceptación o apoyo hacia el personaje histórico o el mensaje de odio.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XdCzskvJFjg&t=0" target="_blank" class="timestamp">[00:00]</a> He visto discursos en español del pintor, un poco cómico, así un poco como... Los discursos del principal responsable de la Segunda Guerra Mundial, recreados o traducidos mediante inteligencia artificial, están recibiendo millones de visitas en Facebook. ¡Te jodes, puta! ¡Te jodes! Contra el contenido de odio, estos videos se han multiplicado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XdCzskvJFjg&t=23" target="_blank" class="timestamp">[00:23]</a> Jódete, mira. Jódete. Putoide. Te jode. Te jode. No te gusta. Pues suba aquí y no me toques. Pero te jodes, hija de puta. Cerda, cerda. Ay, no mames, güey. Esto no puede aceptarse. Se ha tentado a los derechos humanos. Es odio. No hay amor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XdCzskvJFjg&t=52" target="_blank" class="timestamp">[00:52]</a> Y más de un millón de vistas antes de ser retirado. ¿Por qué no retiras, hija de Purr? Usuarios comentan frases como, era un héroe.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 12/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
