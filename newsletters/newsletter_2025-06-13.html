@@ -1,0 +1,392 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 13/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">13/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Benlliure Reacciona</strong>: <a href='#video-8eTLGqEhamA'>ASÍ SE PUSO FUERTE NICK WALKER | HAZ LO QUE HIZO Y NO LO QUE HACE</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-8eTLGqEhamA">
+            <h2>ASÍ SE PUSO FUERTE NICK WALKER | HAZ LO QUE HIZO Y NO LO QUE HACE</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Benlliure Reacciona</span>
+                <span class="date">Publicado: 13/06/2025 13:44</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=8eTLGqEhamA" target="_blank">
+                    <img src="https://i.ytimg.com/vi/8eTLGqEhamA/hqdefault.jpg" alt="ASÍ SE PUSO FUERTE NICK WALKER | HAZ LO QUE HIZO Y NO LO QUE HACE" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video analiza la evolución del entrenamiento de Nick Walker, comparando su estilo actual técnico y controlado con un video de hace tres años donde entrenaba más pesado.
+El presentador argumenta que la forma "antigua" de entrenar, priorizando la carga, fue clave para construir su gran masa muscular.
+Se discute si el entrenamiento actual de Nick es viable para principiantes o si es un enfoque para pulir detalles en físicos ya desarrollados.
+El video plantea la pregunta de por qué Nick cambió su estilo y cuál es la mejor forma para ganar masa muscular.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Contexto lo Es Todo: Imitar sin Comprender <a href="https://www.youtube.com/watch?v=8eTLGqEhamA&amp;t=37" target="_blank">[00:37]</a></h3>
+
+<p>El presentador advierte sobre usar a Nick Walker como ejemplo de entrenamiento sin entender el contexto. Explica que la forma en que entrena actualmente, priorizando técnica y tempo, no siempre ha sido así. Es crucial conocer la historia para aplicar correctamente el entrenamiento.</p>
+
+<h3>Un Viaje al Pasado: El Entrenamiento Brutal de Hace 3 Años <a href="https://www.youtube.com/watch?v=8eTLGqEhamA&amp;t=61" target="_blank">[01:01]</a></h3>
+
+<p>Se introduce un video de hace tres años donde Nick Walker entrena con Samson Dauda y Kamal Elgarni. El objetivo es mostrar cómo entrenaba Nick en una etapa diferente de su desarrollo físico, antes de su estilo actual súper controlado.</p>
+
+<h3>La Clave de la Masa: ¿Entrenar Fuerte o Controlado? <a href="https://www.youtube.com/watch?v=8eTLGqEhamA&amp;t=371" target="_blank">[06:11]</a></h3>
+
+<p>El presentador compara la técnica de Nick en el video antiguo (más carga, menos control extremo) con su técnica actual (pulcra, controlada). Sostiene que la forma de entrenar "fuerte" y con progresión de carga es la que le permitió construir la masa muscular que tiene hoy.</p>
+
+<h3>Intensidad del Pasado: Drop Sets y Super Series <a href="https://www.youtube.com/watch?v=8eTLGqEhamA&amp;t=788" target="_blank">[13:08]</a></h3>
+
+<p>Se observan y comentan técnicas de alta intensidad utilizadas en el entrenamiento antiguo, como drop sets y super series. El presentador comparte su opinión sobre la aplicación de estas técnicas en un programa de entrenamiento general.</p>
+
+<h3>La Gran Pregunta: ¿Por Qué Cambió Nick y Cómo Deben Entrenar los Novatos? <a href="https://www.youtube.com/watch?v=8eTLGqEhamA&amp;t=979" target="_blank">[16:19]</a></h3>
+
+<p>El video cierra planteando preguntas clave: ¿Por qué Nick Walker ha cambiado tan drásticamente su forma de entrenar a un estilo más controlado? Y, ¿es viable para una persona novata entrenar como lo hace Nick actualmente para ganar masa muscular?</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=0" target="_blank" class="timestamp">[00:00]</a> Muy buenas a todos chicos, aquí estamos en un nuevo vídeo para mi canal hoy tenemos un billete diferente y realmente quiero ver un poco la evolución del entrenamiento de Nick Walker</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=11" target="_blank" class="timestamp">[00:11]</a> Realmente, más allá de todo, me parece algo inteligente porque cada circunstancia, cada etapa en tu vida no es la misma, por tanto tienes que adaptarte, al igual que el entrenamiento, el físico, todo en general, en todos los aspectos de tu vida. Y la clave es seguir evolucionando o no evolucionarlo, pero por lo menos adaptarse a las circunstancias de cada uno. Entonces, más allá de eso, sí que es cierto que hoy en día...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=37" target="_blank" class="timestamp">[00:37]</a> Mucha gente emplea de ejemplo a Nick Walker a la hora de entrenar. Y ojo, no estoy diciendo que esté mal, pero como todo, antes de sacar conclusiones o antes de imitar ciertos aspectos, tenemos que saber el contexto de esa persona. A día de hoy Nick Walker ha entrenado de una forma muy controlada, priorizando mucho la técnica, el tempo, todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=61" target="_blank" class="timestamp">[01:01]</a> pero la realidad es que no siempre ha sido así, entonces vamos a ver realmente cómo entrenaba previamente New World, que estamos hablando de un vídeo hace tres años, en este caso entrenaba con Samson y Kamal, que era un chico de 2-12, y de hecho creo que fue top 2 Olimpia, si no recuerdo mal, top 2, top 3, junto con Ángel, y vamos a ver un poco el entrenamiento de hace tres años, a poco hace mucho, tres años.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=90" target="_blank" class="timestamp">[01:30]</a> Ese es Kamal, que por cierto el pavo cuando... No sé si llegó a ganar un Olimpia, tengo dudas. Pero vamos, ese hombre igual cuando lo veis ahí en ese vídeo igual tiene 47 años, 46 años. Y luego Samson, que no sabíamos la que se venía encima. Y ahí está fino incluso, ahí lo podéis ver fino. Pero para dos años más tarde hacerse ganador del ministro Olimpia. Voy a traerlo en la vuelta, así que será un buen día.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=121" target="_blank" class="timestamp">[02:01]</a> Nick Walker ya estaba muy fuerte y muy grande, pero realmente, como digo, ¿qué ha hecho? Y realmente se ha entrenado de la misma manera. Vamos a ver qué no. Primer ejercicio. Empezamos ya con un jalón-agarre-supino. ¿Vale? A nivel de activación. Y bueno, en este caso vemos siempre que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=150" target="_blank" class="timestamp">[02:30]</a> Que, bueno, pues a modo activación, ¿vale? En este caso veo muchas veces que... Hay gente que se pone dos platos o lo que sea, bueno. Y por cierto, recordad que todos los meses hago dos sorteos de 150€ en LivePro con mi código JordiBen y pidiendo cualquier cosa ya entras en el sorteo. Pidiendo una simple crema de arroz ya entras directamente en el sorteo y no hace falta hacerle captura. A tope...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=178" target="_blank" class="timestamp">[02:58]</a> Cuelgo a los ganadores siempre por Instagram. Estás dependiente. Nick, como digo, actualmente está entrenando de forma muy, muy controlada, pero ahora vamos a ver exactamente cómo entrenaba. Y estoy seguro que se pone mínimo, mínimo 3-4 platos. No sé si 4, pero encima del primer ejercicio 2-3 seguro. Ahora igual se pondría 2, lo haría de forma muy controlada, pero no es lo mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=201" target="_blank" class="timestamp">[03:21]</a> Cuando tú tienes un objetivo de ganar masa muscular, que en este caso Nick Walker, que ya realmente no tiene que ganar mucha masa muscular, lo que tiene que hacer es seguir puliendo ciertos detalles. Ya vamos por dos platos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=218" target="_blank" class="timestamp">[03:38]</a> Y luego también para que os hagáis una idea, Nick Walker, o sea, de verdad que yo no sé cómo ha mutado tanto, de hecho por eso le llama The Mutant, porque actualmente igual tiene 31-32 años, aquí en este vídeo igual tenía 28 o por ahí, o sea, es una locura. Eso sí, estaba en pleno volumen y se le ve mega ancho, o sea, fijaos la pedazo de panchota que tiene. Primer ejercicio, hemos visto tres platos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=241" target="_blank" class="timestamp">[04:01]</a> Y ahí está Kamal haciendo remo con mancuerna, que la técnica en un principio, pues no vamos a decir que sea mala, pero tampoco la veo mega buena. Vamos ahí, 57,5 kilos, o 67, tengo dudas ahora. Samsung, por cierto...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=267" target="_blank" class="timestamp">[04:27]</a> De todos, de los tres, creo que es el que menos controlado hace las cosas. Que lo he dicho, que no por hacerlo más controlado es que sea mejor, pero como últimamente estamos siempre en el aspecto de fijarnos a nivel técnico, a nivel todo, pues bueno, es el menos técnico, vamos a llamarlo así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=291" target="_blank" class="timestamp">[04:51]</a> Así que fijaos, está entrando con Samson y Nick. Y el pavo está al lado de ellos, parece un chiquillo de 15 años. No sabemos cuántas series hace por ejercicio, pero vamos, dos series, o sea, dos ejercicios. Jaron, agarro, supino y luego remo con mancuerna.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=324" target="_blank" class="timestamp">[05:24]</a> Bueno, de momento llevan dos ejercicios. Aquí no están explicando prácticamente nada del entrenamiento, pero dos ejercicios. Pasamos al remo agarre prono más enfocado en principio para espalda alta. Samsung tirando con todo. Samsung no sé si entrena igual, la verdad. No sé si sigue entrando igual o ha modificado algunas cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=354" target="_blank" class="timestamp">[05:54]</a> veo que en general tampoco mete demasiada carga, porque cuando le veo, por ejemplo, el único que sigue entrenando duro e intenso, improvisando la carga, el Chopin siempre que luego ha Chopin haciendo sentadillas con 6 platos por lado, y Samson muchas veces cuando le veo, pues igual lleva 3, lleva 4.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=371" target="_blank" class="timestamp">[06:11]</a> Bueno, realmente es una persona que se podría poner mucho más. Pero, lo dicho, son cuerpos que ya están hechos. Entonces, como yo siempre digo, cuando ves a una persona que está fuerte, no te fijes en lo que está haciendo actualmente, sino fíjate en lo que ha hecho. Este es el ejemplo de estas dos personas y sobre todo de Neil Walker.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=393" target="_blank" class="timestamp">[06:33]</a> Nick Walker, ¿vale? Ya solamente viendo esa primera repetición, a día de hoy, esa repetición para él, vamos, inviable. La técnica, la excéntrica controlando las 5 segundos, llevándola atrás, apretando bien, esta técnica ni de coña la haría. Ni de coña, ni de coña. Que no es que esté mal hecha, ¿eh? Fijaos que no es que esté mal hecha, pero lleva toda la máquina, o prácticamente toda la máquina, y no es que esté mal hecha, pero esta técnica a día de hoy no la hace. Es mucho más pulcro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=423" target="_blank" class="timestamp">[07:03]</a> Pero insisto, así es como se puso fuerte. Que vuelvo a repetir que no es que esté mal lo otro, pero de la otra forma, con un plato por lado, es muy complicado. De esta forma, sí. Samson está tirando con todo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=448" target="_blank" class="timestamp">[07:28]</a> Tres ejercicios. Vamos a por el cuarto. Cuarto ejercicio. Aquí es que tampoco el ejercicio esté siendo excesivamente controlado. De hecho, no es que la vea mal, pero acostumbrado a cómo entrena Nick Walker a día de hoy, no es un ejercicio que sea pulcro a nivel técnico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=467" target="_blank" class="timestamp">[07:47]</a> De hecho, es un remo similar, bueno, el remo de antes estaba más enfocado a nivel de espalda alta, están internando, están trabajando la espalda por completo, tanto la zona alta de la espalda como a nivel dorsal. En este caso vemos que es un agarre neutro, codos lo más pegado posible al torso y, como te digo, trabaja más el dorsal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=513" target="_blank" class="timestamp">[08:33]</a> transiciones han estado bien cambiando ahí de atleta primero samson luego kamal y luego nick muy bien editor esto también lo mismo prácticamente toda la máquina con ese agarre que encima cuesta bastante porque es un agarre que no se necesitan straps pero también el agarre como digo te puede llegar a limitar un poco</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=536" target="_blank" class="timestamp">[08:56]</a> y ahí vemos tirando a full eso sí veo que tampoco dejan las series enteras pero veo que ninguna van al fallo fallo fallo la sensación novedad aproxen 12 12 o respaldo pero si se ha bajado claro sí</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=579" target="_blank" class="timestamp">[09:39]</a> samson lo dicho volver a pedir de los tres es el que menos controlado de todo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=607" target="_blank" class="timestamp">[10:07]</a> Ahora ahí, igual que le dices, escucha de máquina, controla un poquito más, no te balances tanto. Por tanto, manos adelante y sin que parezcas un columpio. Muy bien. Muy bien. Te clava rodilla, manín. Te clava rodilla. Así sí no te puedes balancear. Muy bien. Te clava rodillas. Yo se lo he hecho alguna vez también. Muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=636" target="_blank" class="timestamp">[10:36]</a> así le obligas como digo a la otra persona que no se balancee tanto y la de forma más estricta de una cosa la panchota que lleva nick locura salta que está en volumen y debería ir enfajado como yo ponte la faja como johnny</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=674" target="_blank" class="timestamp">[11:14]</a> si no recuerdo mal cuatro ejercicios llevan o cinco ya me he hecho lío la verdad no me acuerdo primero gelón agarre su pino segundo remo con mancuerna tercero ramo para espalda alta cuarto este quinto cinco ejercicios no pero extensiones más enfocadas a nivel lumbar si no llevan nada de cargo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=701" target="_blank" class="timestamp">[11:41]</a> Pero, insisto, otra vez, no son unas hiperextensiones controladas, subiendo, bajando, bueno, pues eso. No digo que sea hacer por hacer, pero para que veáis cómo cambian las cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=715" target="_blank" class="timestamp">[11:55]</a> Y ahora os preguntaré realmente, ¿cuál creéis vosotros que es la mejor forma para entrenar? Y yo pienso que, yo siendo honestos, si me tuviera que quedar con alguna me quedaría con cómo está entrenando ahora en Nick Walker. O sea, en este vídeo en Nick Walker, no cómo entrenar actualmente, sino realmente cómo entrenaba es lo que le ha llegado y le ha permitido</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=738" target="_blank" class="timestamp">[12:18]</a> llegar a donde está a tener ese físico a tener esa masa muscular es uno de los opens con más masa muscular y eso es por algo porque entramos fuerte porque aprovechó la carga porque ha hecho una sobrecarga progresiva si tú ahora pretendes ponerte fuerte poniendo de un disco por lado a nivel de ganancia más muscular se hace muy complicado mantenerte si te vas a mantener pero progresar es muy complicado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=781" target="_blank" class="timestamp">[13:01]</a> La congestión que llevará de lumbar es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=788" target="_blank" class="timestamp">[13:08]</a> hemos visto que han metido técnicas de alta intensidad, como puede ser en este caso las drop sets, en el jalón agarre neutro, y ahora vemos que está haciendo la super serie, a mí particularmente no me gustan ni las drop sets, ni las super series, ni nada, o sea, de forma general, para introducirlas en tu entrenamiento, algún ejercicio en concreto, pues bueno, las super series, si es de brazo, miento, no me desagradan, pero en general, yo que sé, hacer un plano en máquina y luego unas aperturas, no lo veo, no me gusta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=822" target="_blank" class="timestamp">[13:42]</a> es algo como como digo complementario a las hiperextensiones</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=840" target="_blank" class="timestamp">[14:00]</a> Y pensar solamente que ya una persona, como puede ser en este caso Nick o Samson, ya solamente hacer hiperextensiones con ese peso corporal es una locura. O sea, estamos hablando de Samson, no sé por esa época que pesaba, actualmente en volumen está en 150 kilos para un 80. 150 kilos para un 80 es una barbaridad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=870" target="_blank" class="timestamp">[14:30]</a> Kamal Elgarni En total 6 ejercicios</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=899" target="_blank" class="timestamp">[14:59]</a> diferente a la forma de entrenar que él tiene pero aún así tú puedes decidir hacerlo más controlado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=924" target="_blank" class="timestamp">[15:24]</a> claro para para acabar al fin y al cabo pues igual ni gol que le saca la cama le sacan igual que igual no sé 18 19 años y a samson de sacar a los 10 seguro</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=953" target="_blank" class="timestamp">[15:53]</a> así que nada chicos hasta aquí el vídeo de hoy para que veáis un poco cómo eran las cosas y cómo son actualmente lo dicho no digo que sea mejor ni peor pero es algo diferente</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=979" target="_blank" class="timestamp">[16:19]</a> Y me gustaría saber por qué creéis que Nick Walker ha cambiado su forma de entrenar y qué es lo que le ha llevado a ello. O sea, qué ha habido en su pensamiento, en su mentalidad, para que directamente haya un cambio tan drástico en el entrenamiento y lo haga todo de forma tan controlada. Y una vez más, si veis, o sea, si creéis que es viable poder ponerse fuerte entrenando como Nick Walker lo hace. Para una persona que empieza el gimnasio, una persona novata.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8eTLGqEhamA&t=1008" target="_blank" class="timestamp">[16:48]</a> Lo dicho chicos, espero que os haya gustado el vídeo y nos vemos en siguientes. Un saludo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 13/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
