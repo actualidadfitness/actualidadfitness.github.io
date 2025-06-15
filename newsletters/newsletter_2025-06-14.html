@@ -1,0 +1,405 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 14/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">14/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-utSfErxu8Jw'>No Hay Competiciones | 90 Días Para Mi Competición Profesional</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-utSfErxu8Jw">
+            <h2>No Hay Competiciones | 90 Días Para Mi Competición Profesional</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 14/06/2025 09:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=utSfErxu8Jw" target="_blank">
+                    <img src="https://i.ytimg.com/vi/utSfErxu8Jw/hqdefault.jpg" alt="No Hay Competiciones | 90 Días Para Mi Competición Profesional" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video sigue a un culturista en su preparación para competir este año, a pesar de sentir agobio y nerviosismo.
+Explica que competir es esencial para su desarrollo como culturista, practicando la puesta a punto.
+Muestra su rutina de entrenamiento, probando nuevas máquinas y accesorios para mejorar su técnica.
+Comparte sus inseguridades sobre el calendario de competiciones y su estado físico actual, pero mantiene su compromiso.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Compromiso Inquebrantable de Competir <a href="https://www.youtube.com/watch?v=utSfErxu8Jw&amp;t=14" target="_blank">[00:14]</a></h3>
+
+<p>El culturista declara su firme intención de competir este año.
+Explica que participar en competiciones es crucial para su mejora continua y desarrollo físico.
+Para él, la tarima es una parte fundamental del proceso de ser culturista.</p>
+
+<h3>Ansiedad y la Incertidumbre del Calendario <a href="https://www.youtube.com/watch?v=utSfErxu8Jw&amp;t=110" target="_blank">[01:50]</a></h3>
+
+<p>El presentador expresa su agobio y ansiedad por la falta de claridad en su calendario de competición.
+Revela que hay cambios constantes y que aún no sabe dónde ni cuándo competirá.
+Esta incertidumbre le genera estrés a pesar de los avances logrados.</p>
+
+<h3>Probando Inventos para el Entrenamiento Perfecto <a href="https://www.youtube.com/watch?v=utSfErxu8Jw&amp;t=462" target="_blank">[07:42]</a></h3>
+
+<p>Durante la rutina de hombro, el culturista prueba un nuevo accesorio que describe como el "mejor invento".
+Este le permite realizar elevaciones laterales de una forma que considera superior y efectiva.
+Destaca cómo estas innovaciones buscan optimizar el entrenamiento.</p>
+
+<h3>Sesión de Posing para Evaluación <a href="https://www.youtube.com/watch?v=utSfErxu8Jw&amp;t=585" target="_blank">[09:45]</a></h3>
+
+<p>Después del entrenamiento, el culturista realiza una sesión de poses obligatorias para enviárselas a su preparador.
+Se siente nervioso y algo inflamado, pero busca evaluar su estado actual para seguir ajustando su preparación.
+Este paso es clave para recibir feedback y pulir la puesta a punto.</p>
+
+<h3>Competir es Necesario para Crecer <a href="https://www.youtube.com/watch?v=utSfErxu8Jw&amp;t=816" target="_blank">[13:36]</a></h3>
+
+<p>A pesar del nerviosismo y la situación personal, reafirma con total convicción que va a competir sí o sí este año.
+Enfatiza que la experiencia de la tarima es fundamental para evolucionar como culturista.
+Considera que es una inversión necesaria en su desarrollo a largo plazo.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=14" target="_blank" class="timestamp">[00:14]</a> Os voy a ser claro. Voy a competir. Este año voy a competir porque tengo que competir para seguir mejorando como culturista. Si no compito, no sigo mejorando como culturista. Pero os prometo que lo vamos a hacer lo mejor posible. De verdad, lo vamos a hacer lo mejor posible.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=29" target="_blank" class="timestamp">[00:29]</a> Muy buenas a todos chicos, estamos en un nuevo vídeo. Sí, sí, sí, sí, voy a subir un poquito la cámara. Ay, me gusta más. No sé si está recta, yo creo no. Está un poco ya en el límite. Pero bueno, muy buenas a todos chicos, estamos en un nuevo vídeo. Estamos en el día 81, si no me equivoco. La verdad que los días van pasando, es una auténtica locura. Pero aquí estamos, 90 días para competir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=50" target="_blank" class="timestamp">[00:50]</a> Es lo que hay. En nombre de la serie sé que no he sido el más acertado. Hoy estoy motivado, pero no motivado. Estoy con bastantes cosas en la cabeza. Pero es cierto que tener el gimnasio ya, tener la mudanza ya, son cosas que me han liberado mucho, mucho, mucho de la cabeza. Es una locura. Pero es cierto que ayer fallaron algunas cosas y pues hoy hay que solucionarlas. Ayer también me dijeron algunas noticias que hay que pensarlas y lo más importante de todo es</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=75" target="_blank" class="timestamp">[01:15]</a> Estar aquí, entrenar, hacer el mejor entrenamiento del mundo. Y nada, el mejor entrenamiento del mundo no. Porque es un entrenamiento con cabeza, un entrenamiento como toca normal. Pero sí que es cierto que, bueno, pues vamos a probar una máquina nueva que me merece. Y joder, tenemos cositas que hacer durante el día.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=91" target="_blank" class="timestamp">[01:31]</a> Entonces, básicamente vamos a estar aquí, vamos a ver este fin de qué tal el empro, qué tengo ganas, a ver quién gana, a ver quién... No sé, a ver cómo se posiciona la liga profesional, a ver cómo se posiciona la liga de verano. Ya os digo, llevo un poco de agobio realmente con todo eso, porque han cambiado cosas que pensaba que no iban a cambiar y demás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=110" target="_blank" class="timestamp">[01:50]</a> Pero lo que tengo ganas es de competir, así que supongo que de un modo u otro encontraré la manera de competir, básicamente. Pues eso chicos, no sé muy bien cómo enfocaría a veces estas cosas porque siempre cada vez estoy más encerrado, entonces hago menos cosas y ya no sé muy bien qué contaros y yo mismo soy el propio problema a todo esto porque...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=131" target="_blank" class="timestamp">[02:11]</a> Yo mismo estoy no sabiendo dónde competir, yo mismo estoy sabiendo dónde hacer las cosas. Yo mismo estoy haciendo cambio de planes en el último momento. A Marta me pregunta cosas. Me dice, oye, ¿y para tal fecha tú qué piensas hacer? Y yo, pues tío, para tal fecha no lo sé, sinceramente. Y ya sé, así, así. Ayer no conseguí hablar con Milos, quería hablar con él. A ver si estos días consigo hablar con él. Y os cuento también un poco, a ver qué me dice. Pero bueno, siempre es un alivio y siempre es una motivación. Así que chicos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=157" target="_blank" class="timestamp">[02:37]</a> Vamos a agarrar el cardio. Hoy me he tocado abdominales. Hoy me he tocado movilidad. Hoy me he tocado todo lo que me gusta, realmente. No me toca movilidad de cadera, pero voy a hacer un poquito y muy, muy light porque me gusta y me lo disfruto y me lo divierto. Así que... ¡A por ello!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=174" target="_blank" class="timestamp">[02:54]</a> Vale, gente, momento vital. Es este. Madre mía, qué leche de pedo al micro. Así me encuentro. Me he puesto de negro y todo. Pero estoy haciendo 50 vueltas ahora. Con tranquilidad hoy. Hoy con bastante tranquilidad, lo digo en serio. Porque ayer hice adductor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=190" target="_blank" class="timestamp">[03:10]</a> básicamente y estoy ya con mucha cabeza la deshidratación de la semana pasada y demás pero así me encuentro bastante como me pongo un minutito y de hecho si me encuentro bien le subo un poquito más si no me mantengo aquí estoy jugando hoy así que con cierta calma me da pena porque quiero hacer más quiero hacer más quiero hacer más quiero hacer más pero bueno esta es mi rutina de mañana tengo ganas de entrenamiento de hoy la verdad y mis linchesitos la verdad que este fresquito está a su puntito</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=217" target="_blank" class="timestamp">[03:37]</a> Es que encima tenemos maquina nueva y bueno, es la maquina que está en Valencia. Y el trajero y la de laterales si me merece usarla. Y es que además la de posterior, quiero probar a que hagamos una cosa. Así que bueno, ya fue un momento para empezar el día, chavales. Vamos allá. Nos vamos a la aventura. Let's go. Vamos para allá. Yo tengo aquí un nuevo invento. Habrá llegado ya en uno, así que va a flipar cuando lo vea.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=244" target="_blank" class="timestamp">[04:04]</a> Hoy puede ser un gran día. Hoy puede ser un gran día. Tengo que pasar para pasarse la flor mañana, así que puede ser un gran día. No, pero el nuevo invento este puede estar bastante bien, aunque no sabemos todavía bien del todo si va a funcionar. Pero ya sabéis que nos gusta probar cositas. Marta se va a comprar, así que... Pásalo, luego la veremos. Buenas. Llevo un gusto, ¿eh? Toma, te traigo un invento. Hostia, ¿y esto? ¿Cómo lo es? Gasfit. Ah, ya lo tengo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=273" target="_blank" class="timestamp">[04:33]</a> A ver si lo entiende, a ver si lo entiende. A ver... No hay falta palabras en nuestro entendimiento. Ojalá funcione, sinceramente, pero es que me acuerdo que esta mañana ha dicho... Oye, voy a probarlo, ¿sabes? No perdemos nada. A ver... Cuidado, bro. A ver si quieres hacer la prueba. Si no, porque con esto no lo haremos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=296" target="_blank" class="timestamp">[04:56]</a> Uy, here. I'm here. Send me a message. Like location, eh. Así. 100%. Pro. No, al revés. ¿Te ayudo? Eh, si no aguantas el taco... Mejor. Que quiero que se vea cómo hacemos aquí las cosas. Voy, voy, voy. Tengo una perda. ¿Sí?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=318" target="_blank" class="timestamp">[05:18]</a> ¿Recuerdas si en uso no se moverá? No, pero... No, porque lo haces totalmente. Porque la haces hacia afuera, la fuerza. O sea, la haces hacia aquí. Aquí sí que llega justo, o sea, está en el punto. Y tú piensa que la fuerza la haces hacia... Hoy puede que proveemos dos máquinas nomás. Cada día son que hay inventos, eh. Esto está la huella. En plan, no quiero más. O sea, no quiero esto en mi vida. ¿Cómo que vamos a pasar a ser... Si no, como lo he hecho antes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=352" target="_blank" class="timestamp">[05:52]</a> Vale, tenemos mal estructuradas las zonas todavía. Toma dos. Empiezas aquí, aquí hay tensión. De hecho hay más estiramiento que hay. ¿Sí? Sí, diría que sí. Conseguimos, decidimos hacer la máquina dual. Lo mismo, ¿no? Si quieres probarlo hoy aquí, pruébalo ahora. De hecho creo que es un poco más ahí aún. ¿Me grabas? Espera que no veo dónde estoy grabando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=385" target="_blank" class="timestamp">[06:25]</a> Bien está. ¿Quieres que le metamos hoy aquí? Vale. Vale, le metemos aquí. Un invento más. No lo vamos a poder exprimir. De todos modos se puede poner. En vez de así, así. Y aún ocupa más. ¿Cómo? En vez de así, mirando así. Mirando así. Va así a un vale. De hecho lo podemos meter. No, de igual, de igual. Si está bien, pero... Vale. Podemos hacer cositas. Me encanta. Vamos a darle. Toma, bro, tu trasto. Mi trasto. Mi trasto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=411" target="_blank" class="timestamp">[06:51]</a> Sí, tío. Me voy a ir probando. He venido un par de discos aquí. Vale, locos. Vas a flipar con esa. Esa pesa muchísimo. ¿Le metemos con los straps? Sí. Vamos a darle caña. Antes me he bajado aquí el intro. Entreno ya directamente para que esté aquí. Tengo por aquí un cinto y focus en el entrenamiento de hombro. En el entrenamiento de hombro realmente es como todos los días.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=430" target="_blank" class="timestamp">[07:10]</a> Vamos a cambiar solo las primeras elevaciones a hacer a la vez. Vamos a hacer en maquina. Y yo no voy a hacer la bala reciente. Y ya está. Luego vamos a hacer el cojimiento como siempre. Está guay, eh. Hay cositas. Cositas, chavales. ¿Cuánto tiempo sin entrar esta mañana, tío? Sí, tengo que decirlo. ¿Cuánto tiempo sin entrar esta mañana, tío? Sí, tengo que decirlo. ¿Cuánto tiempo sin entrar esta mañana, tío? Y esto me encantaba hacerlo así, además. O sea, nunca he probado con el pecho, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=462" target="_blank" class="timestamp">[07:42]</a> ¡Arriba! Estoy fuera, va. ¡Fuera! Esto es el mejor invento que... Muy top, ¿no? Que se ha visto en la vida ahora. Pensadlo. Ya, ya, me lo cuento. Me lo cuento. Se ve mucho arriba, tío. Sí. Pero este es el invento más top de la historia, tío. O sea, ya lo hice hace un montón, pero es que ahora con esto está mejorado, con esto está mejorado. Esto es increíble. Entre esta y la Stripe...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=491" target="_blank" class="timestamp">[08:11]</a> Ahí las traes. No es bien. La flex esta. Cuidado con el hombro. Vamos. Dos arriba. Una. Y ahí tienes más. Vamos. Arriba. Una más. Tú, tú, tú. Pelea tú, Joan. La bala. Bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=512" target="_blank" class="timestamp">[08:32]</a> No hay margen para trancar. Tienes todo el peso apoyado. No sé. Usa el gas. Y punto. Pues sí que hay que estar. Otra cuello. Esta doble. Esa doble. Creo que es la que pediste tú. Esto está muy abajo, puede ser. ¿Está dónde está? Prueba algo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=544" target="_blank" class="timestamp">[09:04]</a> Cinco. Cinco más. Tira, tira, tira. Tira, Joan. Una. Dos. ¡Vamos! ¡Ya! Fuerte, fuerte. Fuerte, fuerte. Fuerte. Fuera. Nice. Está bien, ¿eh? Muy bien. La niña de sensaciones. ¿Los dos mejor? Aquí. Diferente. Esto es otra de las cosas que viene alguien de fuera de esto y dice...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=575" target="_blank" class="timestamp">[09:35]</a> ¡Una! Fuerza. Fuerza. Clávala. Fuera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=585" target="_blank" class="timestamp">[09:45]</a> Sí, aquí te ayudo como la otra. Ves que no pesa nada, ¿eh? Y luego... Vamos a lo que era mucho. Hemos acabado de entrenar, he grabado súper poco de entrenar, pero lo importante hoy es posar, porque se lo tengo que pasar a Fran. Me lo ha pedido y estoy bastante nervioso por ello. De hecho, he bombado el pecho un poco, así que vamos a ver qué tal salen estas rondas para Fran en concreto y a ver qué tal. Estoy súper nervioso, he superado el viaje. Pero lleno, ¿no? Creo que esas piernas para tener una pierna no están tan profundas, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=613" target="_blank" class="timestamp">[10:13]</a> Luego se le profundiza mucho con la descarga de agua. Pero a priori a la red. Arriba el monte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=644" target="_blank" class="timestamp">[10:44]</a> Piernas. Sentado. Hazme todo rápido. Hazme, hazme arriba. Hazme. Muñecas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=674" target="_blank" class="timestamp">[11:14]</a> Y él con placa, toque. El culo. El pecho ahí. Ahí. Y él da permiso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=708" target="_blank" class="timestamp">[11:48]</a> Te he echado muy bien. Me está notando hoy bastante inflamado y lo estábamos hablando justamente entreposando. Se me ve lleno pero inflamado. Es un poco raro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=719" target="_blank" class="timestamp">[11:59]</a> Estoy como esta semana con mucho nerviosismo. Mucho, mucho, mucho nerviosismo. Mirad, por cierto, lo que me he subido del gimnasio. Me hace gracia esto. Me he hecho ahí en el gimnasio como una basura de shakers. No es basura, evidentemente. Pero me los guardo aquí vacíos. Los chintras y los jeans. Y ahora luego me los subo todos. Están en las neveras del gimnasio. Y los meto todos al microondas. Pero bueno. Ahora, chavales, el post y a disfrutar. Sin duda, este es el shaker por excelencia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=747" target="_blank" class="timestamp">[12:27]</a> Bueno, real, justo entrené. Y real que lo que tengo aquí abierto es el calendario del IFBB. Y es como un poco aleatorio todo. En plan, qué hacer. Y fechas y campeonatos y localizaciones y todo. Obviamente hay muchísimos campeonatos. Pero si vas a Open hay muy pocos campeonatos. Pero qué rabia el de Chicago, tío. Porque ves las divisiones y Men's Bodybuilding Open no está. Ay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=775" target="_blank" class="timestamp">[12:55]</a> Y antes sí que estaba. Me da como mucha rabia, tío. Voy a comerme esto y os cuento a ver. Buena comida tengo, la verdad. Hoy me he encontrado muy inflamado, se lo voy a decir a Fran. Pero también es normal, porque realmente es de los últimos días. O sea, al final, hace casi una semana, muy hace una semana, estaba ya en descarga. Entonces ahora ya me estoy recuperando de esas hidrataciones y todo. Pero bueno, es lo que toca, tíos. Yo qué sé. Cada fase supongo que tiene sus cosas. Bueno, toca esto. Las chicas de la vaso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=802" target="_blank" class="timestamp">[13:22]</a> No sé si me estáis sintiendo muy pesado, ¿no? Siendo sincero, no sé si me estáis sintiendo pesado, ¿no? Es que no estoy saliendo casi de casa estos días. Estoy como... ¿Qué os digo? Estoy nervioso. O voy a ser claro. Voy a competir. Voy a competir. O sea, me refiero... Este año voy a competir. Y las cosas se han preparado así. Y no me rajo de... tal, no sé qué.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=820" target="_blank" class="timestamp">[13:40]</a> Voy a competir. Lo tengo clarísimo. Y se va a dar la situación antes o después, en un sitio u otro, voy a competir. ¿Por qué no les dice competir? Porque tengo que competir para seguir mejorando como culturista. Si no, compito, no sigo mejorando como culturista. Porque la piel va pillando ese tono, las puestas a punto. Yo quiero. Ayer estábamos preparando para hacerle otra puesta a punto. Estaba hablándolo con Fran. Vamos a hacer puestas a punto, puestas a punto y hacer competiciones. Una fase de competición. Es lo que toca. O sea, yo no puedo. Otro año más no saliera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=848" target="_blank" class="timestamp">[14:08]</a> Pero ya no por nada, porque ya pagué el año pasado y no competí, ¿sabes? Pasó de pagarlo para nada. No es por eso, pero es porque me quiero desarrollar como culturista y el culturista también se hace en la tarima. Así que este año voy a competir. Pero me agobia mucho la situación. Estoy en un momento muy agobiado, tíos. Pasan cosas encima, en general, en la vida. En otros vídeos hemos hablado de cosas que han pasado. Y sé que no son importantes para muchos, pero para mí pueden ser importantes. Tengo 28 años, soy un niñato de mierda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=877" target="_blank" class="timestamp">[14:37]</a> Cada vez es menos niñato, pero a la vez me siento niñato. No sé, no sé, tíos. Hoy me sentí inflamado. Y digo, joder, hoy me tengo que sentir inflamado. Pero claro, no puedo estar en el punto de competición del año. Y a la vez, estar como en medio de competiciones todo el año no me gusta. O sea, a mí me gusta la fase de off-season, de crecer y de todo. Pero es cierto que también...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=896" target="_blank" class="timestamp">[14:56]</a> ya empieza una dinámica de competiciones y que todo el mundo está compitiendo y que ves a otros compañeros competir, competir, competir, competir, competir. Entonces, no sé, tíos, me agobia el tema, me agobia mucho el tema. Me puede, me sugestiona, no estoy tranquilo. Tengo intranquilidad. Mirad cómo son las cosas, tengo intranquilidad. Y debería estar en una fase más tranquila que nunca. El entrenamiento de hoy, por ejemplo, ha estado muy guay, muy, muy guay para ser un entrenamiento entre...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=922" target="_blank" class="timestamp">[15:22]</a> época de puestas a punto y de todo, porque estamos afinando mucho el gimnasio. Estamos afinando mucho el gimnasio. Estamos haciendo cositas para que cuando podamos tirar fuerte, fuerte, fuerte, como a nosotros nos gusta, que yo entiendo, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah, ah</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=937" target="_blank" class="timestamp">[15:37]</a> Yo tengo muy claro lo que me gusta para entrenar y todo. Entonces ahora estamos pudiendo afinarlo y saber lo que nos va a gustar para un futuro y cómo vamos a llevarlo a cabo en un futuro. Y lo vamos a llevar muy loco. Eso sí que me mola bastante. Así que sin más. Estoy... me está pudiendo un poco la situación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=953" target="_blank" class="timestamp">[15:53]</a> Lo siento, chicos. Lo siento de verdad porque me está comiendo la situación y sé que no os lo merecéis muchas veces y sé que los vídeos no son igual de chulos y sé que todo, pero al final soy creador de contenido, soy culturista, pero ¿qué? ¿Eres más creador de contenido, más culturista? Siempre sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=970" target="_blank" class="timestamp">[16:10]</a> Es todo como súper imbécil, ¿sabes? Si lo piensas. No lo sé. No sé muy bien si vivo muchas veces la vida que quiero vivir o cómo me gustaría vivirla. No lo sé. Es muy raro. Da igual. Me voy a encallar la boca porque al final voy a saltar alguna burrada y es lo que no quiero. Así que, chicos, espero que os haya gustado el vídeo. Perdón por no estar grabando los mejores vídeos. Pero os prometo que antes o después, durante este verano, voy a competir y lo vamos a hacer lo mejor posible. ¿Vale? Y de verdad, lo vamos a hacer lo mejor posible.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=utSfErxu8Jw&t=995" target="_blank" class="timestamp">[16:35]</a> Porque eso nos va a hacer desarrollarnos como culturistas en el futuro. Al final el pensamiento a largo plazo siempre, siempre gana. Siempre gana. Lo tengo clarísimo. Así que chicos, gracias a los que me seguís viendo todavía. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 14/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
