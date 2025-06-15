@@ -1,0 +1,413 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 15/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">15/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-zghyD7DlBxk'>JOAN PRADELLS TENEMOS QUE HABLAR</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-zghyD7DlBxk">
+            <h2>JOAN PRADELLS TENEMOS QUE HABLAR</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 15/06/2025 14:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=zghyD7DlBxk" target="_blank">
+                    <img src="https://i.ytimg.com/vi/zghyD7DlBxk/hqdefault.jpg" alt="JOAN PRADELLS TENEMOS QUE HABLAR" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video presenta a Joan, un culturista, visiblemente afectado y discutiendo su estado físico y mental tras una preparación, y la incertidumbre sobre sus próximas competiciones.
+Paralelamente, el reaccionador comenta y analiza las palabras de Joan, abordando las expectativas del público, las presiones del culturismo profesional y defendiendo su estilo de reacción.
+Se menciona una controversia pasada sobre un preparador y se reflexiona sobre el proceso de competición frente al simple entrenamiento.
+Joan expresa agobio pero reafirma su intención de competir este año para mejorar en el deporte.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Agobio Tras la Puesta a Punto <a href="https://www.youtube.com/watch?v=zghyD7DlBxk&amp;t=25" target="_blank">[00:25]</a></h3>
+
+<p>Joan describe sentirse mareado y sin recuperarse completamente desde su última "puesta a punto". Explica que esto afecta su estado de ánimo y su capacidad para entrenar con normalidad, viéndose obligado a hacer sesiones muy ligeras.</p>
+
+<h3>Hype Nulo y Expectativas Realistas <a href="https://www.youtube.com/watch?v=zghyD7DlBxk&amp;t=310" target="_blank">[05:10]</a></h3>
+
+<p>El reaccionador afirma que no hay "hype" (expectación) sobre Joan en la actualidad, ni para bien ni para mal. Argumenta que, dado el poco tiempo que lleva en el culturismo, es lógico y normal esperar resultados modestos como quedar quinto o sexto en las competiciones.</p>
+
+<h3>La Logística del Atleta Profesional <a href="https://www.youtube.com/watch?v=zghyD7DlBxk&amp;t=605" target="_blank">[10:05]</a></h3>
+
+<p>El reaccionador, comentando la indecisión de Joan, insiste en que un atleta profesional que planea competir ya debe tener toda la logística lista: casa, billetes de avión y hasta el coche alquilado en el destino, desmintiendo la idea de la improvisación.</p>
+
+<h3>La Decisión de Competir A Pesar del Agobio <a href="https://www.youtube.com/watch?v=zghyD7DlBxk&amp;t=899" target="_blank">[14:59]</a></h3>
+
+<p>Joan, a pesar de confesar sentirse "muy agobiado" e intranquilo por la situación actual, reafirma rotundamente que "va a competir" este año. Argumenta que la competición es esencial para su desarrollo y mejora como culturista.</p>
+
+<h3>La Presión Mental en el Culturismo <a href="https://www.youtube.com/watch?v=zghyD7DlBxk&amp;t=1200" target="_blank">[20:00]</a></h3>
+
+<p>El reaccionador reflexiona sobre la "presión gigantesca" que Joan parece autoimponerse. Destaca la importancia fundamental de la cabeza y la salud mental en el culturismo, sugiriendo que el estrés puede ser perjudicial incluso para el físico.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=0" target="_blank" class="timestamp">[00:00]</a> Señores, ¿qué le está pasando a Joan? ¿Qué coño le pasa? ¿A qué le pasa? Vamos a verlo un poco y cómo ir opinando. Es para flipar. No me quiero quejar, pero guau. No me quiero quejar, pero chapa. Llevas quejándote 80 días. 80 días llevas quejándote. ¿Cómo que no te quieres quejar? 80 días llevas quejándote. Todos los vídeos son quejas. Puedes hacer lo que te dé la gana. No me quiero meter en los comentarios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=25" target="_blank" class="timestamp">[00:25]</a> No me recupero. No me recupero desde la puesta a punto que hicimos. Todo el rato mareado, pero no me recupero. No sé qué deciros, he hecho un tono muy light, pero... Ah, bueno, este es otro tema. Aprobado, ¿no? Esto con las droves me va a encantar. Esto con las droves ahí me va a encantar. Importante. Ahora sí que sientas como en la escena de Spiderman con el metro. Pecho. Muy bien, se le ve aquí, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=54" target="_blank" class="timestamp">[00:54]</a> Ahí. Pensa arriba. Sube a la izquierda. Bien, bien, bien. Bueno, lo de siempre un poco, ¿no? De frente, se le ve increíble. De espalda, pues, no tanto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=89" target="_blank" class="timestamp">[01:29]</a> Ya no le tiene que quedar mucho para competir, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=115" target="_blank" class="timestamp">[01:55]</a> No me recupero, no me recupero desde la revisión, pero ya la tengo, ya está Fran en ello, pero no me recupero. Es un poco raro, estoy aquí trabajando con el ordenador y demás, pero no sé qué decir, he hecho un entrenamiento muy light, muy muy light, toda esta semana muy light, recuperándome poco a poco, pero me noto que los ojos se me siguen cayendo, me sigo deshidratado y demás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=134" target="_blank" class="timestamp">[02:14]</a> Aprovecho este vídeo, ya que estoy mal porque me encuentro mal y no puedo hacer nada. O sea, no me encuentro para hacer nada, mejor dicho. Bueno, para deciros un poco algo que me ha llamado bastante la atención. Y es decir, han salido las listas del EMPRO. Es el fin de que viene, supongo que será el domingo. Estamos a martes cuando estoy grabando esto. He grabado al día, vale siempre. Entonces, bueno, lo veréis el miércoles. Básicamente han salido las listas del EMPRO. Mierda, no tengo agua. Pero quería hablar con esto con vosotros bien. No sé qué pasa o qué ha pasado en plan...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=162" target="_blank" class="timestamp">[02:42]</a> Hostia, yo no estaba en la lista del EMPRO, no sé qué. ¿Por qué la gente se pensaba realmente que iba a ir al EMPRO? Es decir, me explico. Es en España. Es la puta hostia tener campeonatos en España. Pero chicos, me hice profesional en el EMPRO. Debuté como profesional en el EMPRO. Me salió, no diría que muy mal, pero se percibió muy mal porque yo lo hice percibir muy mal. Entonces, ¿por qué iba a salir en el EMPRO realmente? O sea, no lo sé. O sea, está claro que luego muchas veces...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=185" target="_blank" class="timestamp">[03:05]</a> No, las listas son muy buenas, no sé qué. Las listas no se saben. Cuando te apuntas, tienes tu canal profesional y te apuntas a un campeonato, no sabes que otros competidores van. ¿Qué hablas, tío? Que las listas no se saben. Cuando vayas al campeonato, tú sabes de pe a pa quién va a competir. No hay sorpresa. Puede venir algún random, pero de los tochos, todo el mundo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=210" target="_blank" class="timestamp">[03:30]</a> Por favor. Pero no por nada, porque se corre la voz entre preparadores. Todo el mundo sabe dónde va a competir. Que tengáis en cuenta que un campeonato que parece buenísimo puede no ser tan bueno. Eso pasa un montón de veces. Eso lo quería aclarar por una parte y me parece curioso porque…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=228" target="_blank" class="timestamp">[03:48]</a> No es que vea muchísimas cosas, pero evidentemente veo cosas. Y me han etiquetado en Instagram muchísimas publicaciones de John Bryce Nova Lempore. Y en ningún momento he dicho que vaya a ir a Lempore. De hecho, no he dicho en ningún momento que vaya a competir. De hecho, creo que lo único que he dicho es que la ruta más me gusta es Chicago, Tampa y Texas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=247" target="_blank" class="timestamp">[04:07]</a> Me han etiquetado en Instagram muchísimas publicaciones de John Bright no va a Lempro. En ningún momento he dicho que vaya a ir a Lempro. No he dicho que vaya a competir. Lo único que he dicho es que la ruta más me gusta es chica… ¿Estoy entendiéndolo mal? Acaba de decir que él no ha dicho que va a competir o que no va a competir a Lempro. Lo último que acabo de escuchar. Ha dicho las dos cosas. Lo primero sí. No iba a decir lo de Lempro, no soy tonto. O al menos no tanto. Pero lo segundo…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=272" target="_blank" class="timestamp">[04:32]</a> Chicago, Tampa y Texas, que además es en Estados Unidos. Me apetece probar competir en Estados Unidos y demás. Y creo que Chicago la han quitado, o sea. El hate que le ha caído a este tipo de parte de todos los relacionadores, excepto de José María Fortes, ¿cómo cayó su imagen? Pero qué hate. Yo quiero entender el hate que le cae al... ¿Cuál es el hate? Estamos muy piel fina, eh. Estamos muy piel fina, tío, de verdad. Lo digo serio, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=293" target="_blank" class="timestamp">[04:53]</a> Estamos muy... A ver, hey, espérate, espérate. A ver, a ver. Que habrá alguno que le insulte y le diga perrerías. ¡Eh! De ahí me quito yo. De ahí me quito yo. Eso ya me callo. Si los hay, me callo. Sinceramente, ¿vale? Hype poco hay con Joan. Seamos realistas. Hype con Joan no hay ninguno. Ninguno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=310" target="_blank" class="timestamp">[05:10]</a> O sea, de corazón. Queremos que ver que compita, pero ya está. O sea, nadie espera nada de Joan. O sea, de corazón. Ni espera nada malo ni espera nada bueno. Supongo en cuanto a lo general. Esperan que compita y a ver con qué físico sale cuando se compare con otro. Y ver cómo está con otro al lado de otro. Ya está. Yo no creo que nadie, nadie ahora mismo, o sea, no hay una bola como la otra vez hace dos años, una bola de high esperando que Joan vaya a la Olimpia. No. Si va a la Olimpia es un sorpresón. ¿Que no va a la Olimpia? Pues es algo que es normal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=337" target="_blank" class="timestamp">[05:37]</a> Que hace un top 3 en una competición será algo excepcional. Será algo aplaudible. ¿Que no lo hace? Pues es normal. ¿Por qué? Porque es un tío que no lleva nada en el culturismo. Ya está. Que no pasa nada. Todo el que critique algo de eso, de un mal resultado o algo así, es porque es un niño rata que no le gusta el culturismo ni sabe cómo va esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=357" target="_blank" class="timestamp">[05:57]</a> La categoría de Joan… Lo lógico y normal es que, con el tiempo que lleva, es que llegue a los campeonatos y que de quinto, sexto… Bueno, quinto es una pedazo de posición. Y se hace podio. Es una locura, ¿sabes? Esa es la verdad. La gente… No sé qué espera, tío. No sé qué… Ojalá llegue el primer campeonato al que vaya y gane para la Olimpia. En cambio, como yo, feliz. Así de claro. Pero lo lógico sería que no lo hiciese. Eso sería lo normal, digamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=385" target="_blank" class="timestamp">[06:25]</a> Esto te va de un día para otro y esto ya bastante tal y le han quitado. Entonces ahora tengo que medir realmente dónde voy. No sé muy bien qué decir. En ningún momento dije que iba a ir. Eso es lo primero. Y evidentemente no he ido. Y también creo que fue un error el año pasado, hace dos años. Por mi mala gestión, repito. Decir tan pronto que iba un campeonato. Así que prefiero estar tranquilo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=410" target="_blank" class="timestamp">[06:50]</a> Vale, yo voy a decir algo, si no soy yo mismo, ¿vale? A mí, después de yo hacer un vídeo diciendo, oye, ¿y si va a Lempro? ¿Y si va a Lempro? O sea, ¿imagináis que va a Lempro? ¿Os acordáis? Hace poco que lo hice. A mí me contactaron por privado y me dijeron que había preparadores diciendo por ahí que sí, que le habían dicho que iba a competir en el Lempro, ¿vale? Yo dije, hermano, yo no digo nada, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=433" target="_blank" class="timestamp">[07:13]</a> Yo no digo nada porque... Porque es mejor no decir nada. Y diréis, sí, sí, por lo de la peluquería. Os voy a decir algo, ¿vale? Y esto quiero que salga. Lo de la peluquería era verdad. Y no voy a soltar aquí. Dos años después. ¿Cómo me lo han confirmado? Hace unas semanas que lo de la peluquería era verdad. ¿Vale? Así que no me toquéis los palillos. Sí, sí. Lo de aquella peluquería que dije que lo de Jani era verdad. Lo que pasa que hubo un problema que no voy a comentar aquí con Jani y las cosas se cambiaron.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=462" target="_blank" class="timestamp">[07:42]</a> Pero era verdad. Era verdad. Verídico. Bueno, dos años después lo voy a decir yo ahora. Pero sí, sí. Se dieron una serie de circunstancias que no. ¿Ok? Pero era verdad. Me lo han confirmado hace dos o tres semanas. De alguien muy top. Muy top. Cuando dije, para los que lo sepáis, yo dije hace dos años que me filtraron un chavalín en una peluquería de Valencia, que Joan iba a cortar su pelo. Cuando estaba buscando preparador, Joan...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=490" target="_blank" class="timestamp">[08:10]</a> El Joan, de su boca, dijo que iba a prepararse con... Que estaba buscando... O sea, estaba ahí negociando para ver si se... Coño, que iba a prepararle Hanni Rambut, el mejor preparador del mundo. Las cosas se torcieron. Y a mí me dejaron de embustero, de invento, ¿vale? Sí, sí, y se cachondearon de mí. Resulta de gente del culturismo más puro de una persona, ¿vale? Que todos conocéis. Hace unas semanas, cogió y me dijo, hermanito, se me había olvidado. Pero esto...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=519" target="_blank" class="timestamp">[08:39]</a> Fue así, así, así</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=521" target="_blank" class="timestamp">[08:41]</a> Por lo cual, no mentiste. Era verdad. Ahora ya, creedme o no creedme, me da igual. O sea, ya la cosa está hecha. Hace dos años. Pero era verdad. Las cosas se torcieron después. No estoy tranquilo, evidentemente. De hecho, estoy bastante tranquilo. Pero, de hecho, deleo la responsabilidad en Fran, mucho de campeonato salón que no. Teníamos que hacer una apuesta a punto de prueba ya para ver más o menos por qué mi físico empieza a estar a punto. No del todo. Quizá hacemos otra para conocernos. Porque al final no habíamos hecho ninguna apuesta a punto. No, pero a mí me dolió porque a mí me tacharon de embustero, tío. ¿Sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=551" target="_blank" class="timestamp">[09:11]</a> Me tracharon de como que inventé un bulo y me dolió un montón en aquel momento. Y mira que a mí no me suele doler nada, porque había mucho cachondeo de culturistas, sobre todo de culturistas, más que de la gente. Cuando sabíais muchos que tenía razón y que era verdad lo que estaba diciendo, hijo de eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=567" target="_blank" class="timestamp">[09:27]</a> Se rían de mí, ¿sabes? Se rían de mí. Me dio rabia porque, tío, yo... Mira, otra cosa no, pero mentiras no me gusta contar, ¿sabes? Y oye, si me han mal informado, que lo dije, ¿eh? Yo lo pongo la mano en el fuego con el chiquillo este, pero me lo dijeron. Y ya resulta que me entero casi dos años después de que fue verdad. Hombre, me da coraje, ¿sabes? Me da coraje. Pero bueno, ya está. Ya ha pasado, ya te digo, casi dos años y ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=586" target="_blank" class="timestamp">[09:46]</a> Juntos juntos, pero prefiero delegar en Fran los campeonatos, en ese sentido también, porque… Lo hice muy mal cuando fui ese año al EMPRO y aunque sea un campeonato excelente, pero es un campeonato excelente… Joan, tienes ya la casa, los billetes y te falta inscribirte a los campeonatos. ¡Anda, Joan! ¡Fran, Fran, Fran! ¡Que Fran! ¡Anda, anda, anda! ¡Por favor! ¡Vamos! ¡Tienes casa! ¡Hasta el coche alquilado para moverte allí en Estados Unidos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=615" target="_blank" class="timestamp">[10:15]</a> ¡Venga, anda, Joan! ¡Anda, Joan! ¡Por favor! Es que esto no es información, esto es opinión pura. ¡Vamos! ¡Por favor! ¡A Fran! ¡Qué va! Esto lo tiene ya... ¿Qué va? ¿Y de una semana a otra? ¡Ni de coña! Te lo tienes que preparar con tiempo. Ella sabe dónde va a competir. Ya lo sabe 100%. 100%.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=632" target="_blank" class="timestamp">[10:32]</a> Pocos campeonatos podéis saber así. Os lo digo yo que he estado en otros. A nivel de escenario, a nivel del pabellón. Público es increíble. Backstage, luces, sonido, todo. Es cuestión de eso. Entonces, ¿por qué me han ido? Porque necesitaba una desconexión, básicamente. Aunque esté en España, esté cerca de mi casa. Bueno, cerca, ya no está tan cerca como antes. Ahora hay que sumarle cinco horas. Pero bueno, es un buen sitio. Tiene...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=659" target="_blank" class="timestamp">[10:59]</a> Y no es mejor decir, Joan. No he ido porque no me apetecía. Yo qué sé, tío. No he ido porque tengo ya X campeonatos vista. Ya está. Pasa nada, tío. Para ir. Te entiendes el idioma. Ya, vamos a seguir con otro. Las chapitas. Chapitas para ver. No hay competiciones. Lo voy a ser claro. Voy a competir. Voy a competir. Este año voy a competir. Ah, vale, vale. Va a competir. ¡Va a competir! ¡Va a competir! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=681" target="_blank" class="timestamp">[11:21]</a> Porque tengo que competir para seguir mejorando como culturista. Si no compito, no sigo mejorando como culturista. Lo que llevamos diciendo, llevo diciendo tiempo ya, ¿no? Una cosa, toda esta peña que se pone tan grande a la lengua le pasa igual, porque parece que tenga un pan en la boca al hablar. No, pero bueno. ¿Qué te digo, tío? O sea, el chaval, pues... Se le entiende regular y más cuando anda. Le dejó la de agua. Pero que ya la sé. De hecho. De hecho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=711" target="_blank" class="timestamp">[11:51]</a> Tiene que posar todos los días. Mira. ¿Qué es eso? Sentado. Ya por lo menos no hay espejo, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=741" target="_blank" class="timestamp">[12:21]</a> Adiós.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=757" target="_blank" class="timestamp">[12:37]</a> Vale, ya os digo yo que tampoco va a cambiar mucho más de aquí a que compita el cuerpo, ¿eh? Puede ser que esté un pelín más seco para competir, pero ya no va a cambiar mucho más. Esto es lo que hay, ¿vale? Esto es lo que hay, no hay más. Y él con placa. Toque. El culo. El pecho ahí. Y bueno, va a haber un apretón más, pero un poquito más, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=787" target="_blank" class="timestamp">[13:07]</a> Las estrías del hombro son una barbaridad. El hombro es un espectáculo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=801" target="_blank" class="timestamp">[13:21]</a> Al lado de lo Open, bueno, se queda pequeño. Hasta que no lo veamos al lado de un Open, no le podremos decir nada, tío. Un poco aleatorio todo. En plan, qué hacer. Y fechas, y campeonatos, y localizaciones y todo. Obviamente hay muchísimos campeonatos, pero si vas a Open, hay muy pocos campeonatos. Joan, ¿qué tal que me dices, tío? Hay muy pocos campeonatos. Pero qué rabia de Chicago, tío. Porque ves las divisiones, men's bodybuilding Open, no está. Ay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=830" target="_blank" class="timestamp">[13:50]</a> Y antes sí que estaba. Me da como mucha radio, tío. Voy a comer esto y os cuento. Pero es cartampa, ¿no? Buena comida tengo, la verdad. Hoy he encontrado muy inflamado, se lo voy a decir a Fran. Fran es normal, porque realmente es de los últimos días. O sea, al final, hace casi una semana, una vez una semana, estaba ya en descarga. Entonces ahora ya me estoy recuperando de esa hidratación, de ese todo. Pero bueno, es lo que toca, tíos. Yo sé, cada fase supongo que tienen sus cosas. Bueno, a tocar esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=856" target="_blank" class="timestamp">[14:16]</a> El Tampa Pro es el 31 de julio. ¿Problemáis? No sé si me estáis sintiendo muy pesado, ¿no? Siendo sincero, no sé si me estáis sintiendo pesado, ¿no? Es que no. ¡No, hombre, Joan, no! ¡No, hombre, no! ¡Que va! ¡Que va, que va! ¡Que va, chapitas pradel! ¡Que va, hombre! ¡No, hombre, no! ¡Que va, que va, que va!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=873" target="_blank" class="timestamp">[14:33]</a> No estoy saliendo casi de casa estos días. Estoy como... ¿Qué os digo? Estoy nervioso. Hermano, ¿y por qué no sales de casa, tío? Date una vuelta por la montaña, compadre. Yo veo que tiene un problema a nivel de salud mental cada día más fuerte. Eso de estar encerrado semanas y semanas no le puede hacer bien a nadie, tío. A nadie. Claro. Voy a competir. Voy a competir. O sea, me refiero... Este año voy a competir. Y las cosas se han preparado así. No me rajo de... No sé qué...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=899" target="_blank" class="timestamp">[14:59]</a> Voy a competir, lo tengo clarísimo. Y se va a dar la situación antes o después, en un sitio u otro, voy a competir. ¿Por qué me dice competir? Porque tengo que competir para seguir mejorando como culturista. Si no compito, no sigo mejorando como culturista. Porque la piel va pillando ese tono, las puestas a punto. Yo quiero. Ayer estábamos preparando para hacer otra puesta a punto. Estábamos hablándolo con Fran. Vamos a hacer puestas a punto, puestas a punto y hacer competiciones. Una fase de competición. Es lo que toca. O sea, yo no puedo. Otro año más nos haría.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=927" target="_blank" class="timestamp">[15:27]</a> competir, pero ya no por nada, porque ya pagué el año pasado y no competí, ¿sabes? Pasó de pagarlo para nada. No, no es por eso, pero es porque me quiero desarrollar como culturista y el culturista también se hace en la tarima. Así que este año voy a competir, pero me agobia mucho la situación. Estoy en un momento muy agobiano, estoy como... Pasan cosas encima, en general, en la vida. En otros vídeos hemos hablado de cosas que han pasado y sé que no son importantes para muchos, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=953" target="_blank" class="timestamp">[15:53]</a> Hermano, que tu mayor problema, según lo que cuentas, es que no te llegan las máquinas del gimnasio o los muebles. Compadre, te va el negocio bien, te va la vida bien. Es que yo creo que si tú tuvieras los problemas de la gente de a pie, Joan… Mamma mío, ¿eh? Mamma mío, ¿eh? Pero para mí puede ser importante, pues tengo 28 años, soy un niñato de mierda. ¿28 años? Casi 29 que creo que vas a cumplir. ¿Niñato? Pues nada. Yo soy un adolescente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=981" target="_blank" class="timestamp">[16:21]</a> Pero a la vez me siento un niñato. No sé, no sé, tíos. Hoy me sentí inflamado. Y digo, joder, hoy me tengo que sentir inflamado. Pero claro, no puedo estar en el punto de competición del año. Y a la vez, estar como a medio de competiciones todo el año no me gusta. O sea, a mí me gusta la fase de off-season, de crecer y de todo. Pero es cierto. Estar como a medio de competiciones todo el año no me gusta. O sea, a mí me gusta la fase de off-season, de crecer y de todo. Pero es cierto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1006" target="_blank" class="timestamp">[16:46]</a> que también ya empieza una dinámica. Te voy a decir una cosa, tío. Abandonar el culturismo. A ti te gusta tirar kilos. A ti no te gusta el culturismo, la verdad. Te gusta entrenar, verte grande, pero no te gusta competir. No te gusta. Se ve claramente. No te gusta, hermano. El culturismo no... O sea, lo que tienes que hacer para ser paraculturista yo creo que no te mola. Lo que a ti no te mola es tirar kilos. Es la verdad. Te mola eso, el entrenar, el sentirse fuerte y tal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1031" target="_blank" class="timestamp">[17:11]</a> Pero quizá tienes que cambiar de deporte, hermano. O no competir, y quiero decirlo, ya está. Porque yo creo que a lo mejor es que no te gusta. Es que no puedes decir eso, no sabes nada, tío. Mis muertos, si le acabas de decir él. Mi puta madre, tío. Aquí tengo otro retrasado. Otro retrasado. Otro que le abre el ano a este hombre y a él. Si le acabas de decir él, tonto el culo. Lo que le gusta es offseason tirar hierro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1052" target="_blank" class="timestamp">[17:32]</a> ¡Entrenar duro! ¡Es lo que le gusta a él, coño! ¡Verdad! ¡Qué manada de gilipollas! Y yo lo entiendo, yo claro que lo entiendo. Si en verdad el culturismo lo bonito es el entrenamiento, el proceso, la tarifa es bueno. Algo indispensable, sí, pero bueno. De competiciones, sí que todo el mundo está compitiendo y que ves a otros compañeros competir, competir, competir. Entonces, no sé, tíos. Me agobia el tema. Me agobia mucho el tema. Me puede, me sugestiona. No estoy tranquilo. Tengo intranquilidad. Mirad cómo son las cosas. Tengo intranquilidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1081" target="_blank" class="timestamp">[18:01]</a> y debería estar en una fase más tranquilo que nunca. El entrenamiento de hoy, por ejemplo, ha estado muy guay, muy muy guay para ser un entrenamiento entre época de puestas a punto y todo, porque estamos afinando mucho el gimnasio. Estamos afinando mucho el gimnasio. Estamos haciendo cositas para que cuando podamos tirar fuerte, fuerte, fuerte, como a nosotros nos gusta, que yo entiendo, ah, ha sorprendido entrenar a la hora, no sé qué.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1104" target="_blank" class="timestamp">[18:24]</a> Yo tengo muy claro lo que me gusta para entrenar y todo. Entonces ahora estamos pudiendo afinarlo y saber lo que nos va a gustar para un futuro y cómo vamos a llevarlo a cabo en un futuro. Creo que claramente no. Claramente el tío... Es que lo está diciendo claramente. Él quiere entrenar. No quiere. A lo otro no le gusta o no le gusta tanto. Le mola lo que le mola. Ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1124" target="_blank" class="timestamp">[18:44]</a> Y lo vamos a llevar muy loco. Eso sí que me mola bastante. Así que sin más. Estoy... Me está pudiendo un poco la situación. Lo siento, chicos. Lo siento de verdad porque me está comiendo la situación. Y sé que no os lo merecéis muchas veces. Y sé que los vídeos no son igual de chulos. Y sé que todo, pero al final... Soy creador de contenido, soy culturista. Pero ¿qué eres? Más creador de contenido, más culturista. Es todo como súper imbécil, ¿sabes? Si lo piensas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1152" target="_blank" class="timestamp">[19:12]</a> que sea creador de contenido o si ya la mayoría de los culturistas son creadores de contenido ¿qué más va? no sé muy bien si vivo muchas veces la vida que quiero vivir o como me gustaría vivirla no sé muy raro me van a caer a la boca porque al final voy a sentar alguna burrada hermano Joan tío tiene un cacao en la cabeza el chaval</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1173" target="_blank" class="timestamp">[19:33]</a> Tiene un cacao, pobrecillo. Y lo peor es que las preparaciones te lo agravan más, tío. En este caso me da penilla, ¿eh? No estoy de cachondeo. No estoy de cachondeo. O sea, yo creo que tiene demasiadas cosas en la cabeza. Yo qué sé. Esto es una pena porque esto jode. Jode un cuerpo porque tanta presión, tanta mierda en tu cabeza, que no sé exactamente qué pensará, pues te puede joder el físico. ¿Qué te digo? Tendrás que aprender a sobrellevar estas situaciones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1200" target="_blank" class="timestamp">[20:00]</a> Si quiere llegar a lejos, ¿no? Claro, Cortisol se le va a disparar. Es una pena, tío. Y ya está. También lo repito. Creo que es un tío que se ha puesto una presión a sí mismo gigantesca. Gigantesca. Porque yo ya os lo digo, os lo he dicho antes. Creo que nadie espera... No es que no esperen nada de Joan. No se malinterprete porque puede parecer como anda ya. Joan no vale un duro, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1220" target="_blank" class="timestamp">[20:20]</a> Simplemente que gane ese hype Y oye, lo bueno que venga de él De competición Pues de puta madre Lo que no está bueno Pues de puta madre aprendizaje Y ya está Es lo que pasa, tío Pero bueno Esperemos a ver qué tal Y yo le deseo desde aquí lo mejor Pero tiene que solucionar también la cabeza Que la cabeza es muy importante, tío Lo que no quiero Así que chicos Espero que os haya gustado el vídeo Perdón por no estar grabando los mejores vídeos Pero os prometo que Antes o después Durante este verano Vaya a competir Y lo vamos a hacer lo mejor posible Vale</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1246" target="_blank" class="timestamp">[20:46]</a> final está grabando tu día, tu día. ¿Qué vas a grabar? Diferente. Es que si estás todo el día encerrado en casa, ¿qué vas a grabar? Es que es muy complicado crear contenido desde tu casa todos los días, blogs y que sean extraordinarios. Y de verdad lo vamos a hacer lo mejor posible porque eso nos va a hacer desarrollar más como turistas en el futuro. Al final el pensamiento a largo plazo siempre, siempre gana, siempre gana. Eso está claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1269" target="_blank" class="timestamp">[21:09]</a> Así que chicos, gracias a los que me seguís viendo todavía.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1289" target="_blank" class="timestamp">[21:29]</a> Muy complicadas. No apretar en los racionadores. Mira, es fera. Siendo sinceros, ¿vale? Hermano, le estoy poniendo cada pelota botando a Joan. Hermano, le estoy... Literalmente, mis vídeos a Joan, la mayoría son sinceridad pura, pero son vídeos que le pueden beneficiar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1306" target="_blank" class="timestamp">[21:46]</a> No que le puede perjudicar. Mis vídeos que estoy haciendo a Joan no son ninguno. Es un ataque o un destrucción. No, miradlos los cuatro últimos vídeos. Sinceramente, yo creo que soy exacto el único reaccionador que le tiene algo de fe. La mayoría le están, algunos le están poniendo tal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1323" target="_blank" class="timestamp">[22:03]</a> Otro no sé qué. Yo estoy siendo bastante realista. No me he tirado ningún mérito, eh. Ni mucho menos. Pero, cabrones, no me digáis a mí. No me digáis a mí que yo le estoy tirando nada. Porque, vamos, creo que se las estoy poniendo votando, eh. Facilitas. Bien. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1339" target="_blank" class="timestamp">[22:19]</a> No sé. ¿Sabes qué pasa a mí? A mí me gusta cuando ir al frente con los que van a… Cuando estás fuerte. Pero yo ahora mismo, imagínate. Yo ahora veo a Joan así y digo alguna perrería. Yo no me sentiría bien, tío. Yo ahora tirándole una mierda… O sea, una bomba encima, Joan. Que no tengo necesidad, eh. No tengo necesidad ninguna. Pero yo no me sentiría bien. Es como… No. No cuando se ve claramente que el chaval no está bien. Hostias. Que no está bien. No está bien el chaval. No voy a ser yo el que le… No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1366" target="_blank" class="timestamp">[22:46]</a> Y que, tíos, competir mentalmente es muy complicado. Si eres un tío que te gusta ganar, que eres tal, competir mentalmente... ¡Uff! Ya hace virguería. Yo hablo desde mi punto de vista, de lo que yo... Bueno, por supuesto que mucho ánimo, Iván. Mucha fuerza, que la vas a necesitar. Y tío, haz la tuya.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zghyD7DlBxk&t=1389" target="_blank" class="timestamp">[23:09]</a> tuya. Y otra cosa, porque te peguen un descanso o dos de no subir algún video algún día, tampoco pasa nada, hermano. No te rayes.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 15/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
