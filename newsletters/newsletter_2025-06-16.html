@@ -1,0 +1,401 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 16/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">16/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-jiNyPJtsO-8'>MI PRÓXIMA COMPETICIÓN | 90 Días Para Mi Competición Profesional</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-jiNyPJtsO-8">
+            <h2>MI PRÓXIMA COMPETICIÓN | 90 Días Para Mi Competición Profesional</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 16/06/2025 06:13</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=jiNyPJtsO-8" target="_blank">
+                    <img src="https://i.ytimg.com/vi/jiNyPJtsO-8/hqdefault.jpg" alt="MI PRÓXIMA COMPETICIÓN | 90 Días Para Mi Competición Profesional" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video narra la llegada del creador y su equipo a China para una competición, destacando el choque cultural y las dificultades tecnológicas (pagos, internet). Muestra la búsqueda y el entrenamiento en un gimnasio local, adaptándose a las diferencias. El creador se somete a un masaje para recuperarse del viaje y jet lag, mientras lidia con los problemas para subir contenido. A pesar de los retos, expresa emoción por competir y anuncia su plan para seguir filmando con el móvil.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Choque Cultural y Dificultades al Llegar <a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&amp;t=41" target="_blank">[00:41]</a></h3>
+
+<p>El creador describe las primeras impresiones de China, señalando que es un sitio "raro" y muy diferente. Menciona las trabas encontradas, como la imposibilidad de pagar con tarjeta y las dificultades con aplicaciones comunes (WhatsApp, Google Maps).</p>
+
+<h3>La Búsqueda y Encuentro del Gimnasio <a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&amp;t=288" target="_blank">[04:48]</a></h3>
+
+<p>Tras superar obstáculos para desplazarse (pedir taxi es una odisea), llegan a un edificio para buscar el gimnasio. Se enfrentan a la barrera del idioma para confirmar que está abierto, lográndolo con ayuda de alguien que habla inglés.</p>
+
+<h3>El Entrenamiento en China <a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&amp;t=492" target="_blank">[08:12]</a></h3>
+
+<p>Dentro del gimnasio, el creador lo describe como "guapísimo", mostrando las instalaciones, equipamiento y la decoración (mural de Dragon Ball). Se prepara para su entrenamiento de brazo, destacando las particularidades del gym local.</p>
+
+<h3>Recuperación Post-Viaje: Masaje Drenante <a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&amp;t=880" target="_blank">[14:40]</a></h3>
+
+<p>Después de entrenar, el creador se da un masaje de cuerpo completo, principalmente para drenar las piernas tras el viaje. Considera que este cuidado es clave para recuperarse del jet lag y empezar la semana de carga en buena forma para la competición.</p>
+
+<h3>Desafíos de Filmar y Subir Contenido <a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&amp;t=1059" target="_blank">[17:39]</a></h3>
+
+<p>Explica que subir videos es muy complicado en China debido a la falta de VPNs funcionales y el peso de los archivos de cámara. Anuncia que grabará con el móvil para asegurar la publicación de contenido y se enfoca en la competición, a pesar de la rabia por los problemas técnicos.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=0" target="_blank" class="timestamp">[00:00]</a> Muy buenas a todos chicos. Estamos en un nuevo vídeo. Estamos... ¿Dónde estamos? Estamos en China. Estamos en China. Estamos en China. Día 83. Estamos en China. Competimos en China. Al final coinciden los 90 días.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=19" target="_blank" class="timestamp">[00:19]</a> Coincide en los 90 días, bro. No tiene sentido. Y no está hecho agrede, ¿eh? Coincide en los fucking 90 días. Día 83 y en los 90 días con qué es la competición. Os soy totalmente sincero. No sé cómo va a ser la competición. No sé absolutamente nada. No sé qué hacemos en China. Es decir, este sitio...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=41" target="_blank" class="timestamp">[00:41]</a> Que no se sienta nadie ofendido. Es muy raro. El hotel es la polla. Hemos pillado el hotel oficial de la competición. El hotel es la polla, ya os lo enseñaré. Pero este sitio es muy raro. En plan, no puedes pagar con tarjeta. Hay muchas trabas. Muchas trabas. Muchas trabas para venir. Y mirad que hemos venido con muchos vídeos mirados. Con muchas cosas preguntadas a HGPT. Y esperad que llevamos un rato aquí. Que nos faltan muchas trabas por pasar. O sea, nos acostumbremos y nos estamos yendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=68" target="_blank" class="timestamp">[01:08]</a> ¿Tú cómo lo ves, Tony? Cambio cultural más grande que he tenido nunca. No usan WhatsApp, no usan Instagram, no usan YouTube. Google Maps. No usan Visa para pagar, no usan Apple Pay. Y desde aquí quiero agradecer a Joan por tener la mejor habitación de otro que he tenido nunca. Muchas gracias. ¿Y del vuelo qué? Y el vuelo espectacular. Como era Economy Premium Class. Exacto, en Premium. Tengo que decir que cuando fuimos a comprar los vuelos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=98" target="_blank" class="timestamp">[01:38]</a> ha sido totalmente sin querer, o sea me refiero de repente eran carísimos porque eran carísimos no sabemos por qué pero tampoco era business ni nada y bueno pues básicamente eso empezamos hoy los vídeos en china Tony vas a entrenar conmigo estos días voy a entrenar contigo estos días es domingo voy a entrenar brazo hay gimnasio en el hotel si no entrenaremos en el hotel o vamos a buscar algo quiero hacer un masaje drenante también porque estoy súper retenido</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=123" target="_blank" class="timestamp">[02:03]</a> estos van a disfrutar de la ciudad, sin duda. O sea, ya os he dicho que pasen de mí. Nos hemos comido un poco de comida callejera, tengo el sistema digestivo ahora mismo para echar a tirar. Estoy viviendo una experiencia full. Yo lo único que les he pedido es que me acompañen en el entrenamiento, ¿no? Que además entreno desde lunes a jueves. Y Joan tiene que dormir, dormir, dormir. Y luego estar en el hotel tranquilo y ya está. Y ellos, que no sean tontos, que se vayan a ver la ciudad, que se vayan a ver las cosas y ya está. Entonces si me acompañan en el entrenamiento,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=153" target="_blank" class="timestamp">[02:33]</a> Yo encantado. Sí, así que nada. Tenías ganas tú. Sí, estamos un poco cansados porque no hemos dormido como de forma, o sea, son más seis horas. Entonces hemos llegado y justo aquí eran como las cinco de la mañana. Y en España era como muy tarde. Entonces hemos intentado alargarlo, nos hemos echado una mini siesta por la mañana. Pero Tony y yo hemos quedado para ver si encontrábamos algún súper y te comprábamos unos huevos y nos comprábamos algo para comer. Porque tú te has traído todas las comidas, las tienes en las neveras.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=178" target="_blank" class="timestamp">[02:58]</a> Joan ha cogido la nevera de la habitación de Toni, se ha puesto dos neveras y tiene toda la comida refrigerada. Luego lo enseñas con la sartén. Sí, eso ha de enseñar muchas cosas. Currada máxima la que nos pegamos. Y quiero enseñarosla también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=194" target="_blank" class="timestamp">[03:14]</a> Voy a estar cansado. Ahora justamente yo he podido dormir 5 horas, ellos no. Yo he dormido 5 horas y estoy un poco bien y quiero irme al gimnasio, entrenar. Si me puedo dar un masaje, dar un masaje. Incluso hacer algo de cardio para bajar un poco la retención. Quiero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=214" target="_blank" class="timestamp">[03:34]</a> Movilizar un poco. Movilizar el cuerpo. Porque no sé cómo estoy. El gym estará guapo también. El gym tiene buena pinta. Lo que pasa es que es domingo y esto lo veo muy para los domingos. Ahora es verdad que estamos yendo hacia el centro. Que estamos en una zona de business. O sea, de business en plan de... Sí, de negocios. De negocios, de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=232" target="_blank" class="timestamp">[03:52]</a> Es el convention center, entonces como centro de convenciones, entonces es un domingo, pues no sé, yo creo que... Está como cerca del aeropuerto, yo hemos estado nosotros por una zona que tenía pinta de ser como de oficinas, estaba todo vacío, además es verano, domingo, yo creo que esto, pero vamos, o sea, son espectaculares, van en moto, eléctrica, sin casco, es que es, o sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=255" target="_blank" class="timestamp">[04:15]</a> La competición es dentro de una semana, empezaré mañana a descargar. Tenemos que encontrar agua mineral porque aquí el agua no es mineral. El agua es purificada, entonces no tiene nada de minerales. Tenemos que aún todavía ver un poco porque estamos en un país de verdad de muchos contrastes comparado con los nuestros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=271" target="_blank" class="timestamp">[04:31]</a> Eso, de hecho, coger un taxi es una odisea, para que os hagáis una idea. Dejé de salgar 40 aplicaciones. Yo ya llevo 60 euros gastados en Movistar y he conectado un segundo para que me enviaran un código de verificación. Así que, chicos, vamos pa' allí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=288" target="_blank" class="timestamp">[04:48]</a> Vale, ya estamos. El gimnasio tiene pinta de estar muy guapo, pero bastante miedo que esté cerrado. Es como dentro de este edificio, ¿no? ¿Entramos por ahí? Mira, el gimnasio tiene pinta de que voy a entrenar. Hola, ¿estás aquí en el gimnasio? Sí, está bien. Ok, gracias. Mira, qué bien. ¿Ya hablaba inglés? Es que es súper complicado. O sea, va a todo ir poniéndoles audio a ustedes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=312" target="_blank" class="timestamp">[05:12]</a> Aunque la gente del gym no estudia. Yo solo quiero que salga bien el poder de entrenar porque me va a ir muy bien. ¿Está saliendo bien? Por cierto, ¿vamos todos iguales? No, yo no. Yo me quería poner esa camiseta para la competición y me la pongo igual. Se puede lavar y se lavar y dar la vuelta. Está guapísimo. ¿Cuánto tiempo se entrenan en un gym?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=341" target="_blank" class="timestamp">[05:41]</a> Buah, esto es de intro de YouTube, eh. Está bastante guapo, eh. Se ponen muy nerviosos, eh. Sí, sí que es verdad. Mira, aceptan aquí. Veis ahí todo. Chiclin, chiclin, chiclin, chiclin. No sabéis qué problema es para pagar, chaval. Vale, espera. Aquí vamos a ser todos filmmakers y todos, todo, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=372" target="_blank" class="timestamp">[06:12]</a> Yo me comprometo a Marta a pillar tu cámara, para las bellas. Gracias. Yo, ya lo he dicho, voy a dinamizar los vídeos en la medida de lo que pueda. Vale, Tony, esa es muy buena, te lo digo en serio, porque yo puede que esté muy muerto esta semana y tú puedes dinamizar bastante. Vale, el gimnasio está muy guapo, pero es cierto que cuando no tiene ni idea de inglés se pone súper nervioso. No entiendo muy bien por qué. O sea, es en plan, no pasa nada, ¿sabes? En plan...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=398" target="_blank" class="timestamp">[06:38]</a> Te miran en la cara, se van corriendo a buscar a alguien que sepa o cosas así. No sé. Es un poco raro. Me estoy preparando el pre-entrene. Voy un poco rayado porque la cámara está como... Ahora se ve la punta de la tonía del pinza. Pero no sé muy bien porque ese tripod está bien puesto supuestamente. Pero la verdad que en este gimnasio, muy bien. Muy majos. Me voy a tomar... Suple voy a tomarme ahora el pre-entrene que hoy llevo bastante raro las comias y todo. Estaba hablando con Fran. Este está haciendo un día en España.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=428" target="_blank" class="timestamp">[07:08]</a> Va súper rayado, Tony, porque dice que el agua es purificada, no mineral. No tiene minerales el agua.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=437" target="_blank" class="timestamp">[07:17]</a> El gym está bastante guapo, eh. Voy a hacer una cosa. Vale. Agua esta, que sí que es mineral. Estaba aquí al lado. Y alguien se va a bajar. Estos han sido muy majos. El chico que sabía inglés es súper, súper majo. Así que... Bueno, yo me lo tomo. Y después de quedarme 5 horas por mi hotel, súper bien cuando hemos llegado. Y la verdad que ahora me está pegando un poco más de bajón. Pero bueno, si entrenamos, me hago un masaje. Dregnante. La cosa es que me han dado un masaje dregnante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=467" target="_blank" class="timestamp">[07:47]</a> Está perfecto. Ahora os enseño en el gimnasio, porque el gimnasio... El gimnasio es todo especial. Con este agua que no sé de quién es, vamos a poner el pre dentro. Le voy a poner... Esta cuchara está más sucia, esta cuchara ha volado a todo. O sea, no me ha dado aún para sentarme en el hotel, por así decirlo. He hecho cosas, he ido mejorando todo, pero no para tanto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=492" target="_blank" class="timestamp">[08:12]</a> Tengo que hablar alto a la antigua, gimnasio, hay música. Quiero ver el gimnasio. El gimnasio está guapísimo. Tiene aquí una zona de tienda. Está muy, muy guapo. Zero to Hero. Yo creo que esta marca patrocina a Keon. Yo creo. Esa marca yo creo que patrocina a Keon. Pero está muy guay. Está muy, muy guay en general. Y el rollo que llevan y todo. ¿Me grabas un segundo? Para enseñaroslo. Por ejemplo, yo me pillo aquí el intro, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=521" target="_blank" class="timestamp">[08:41]</a> Hay microondas aquí. Mira, Energy Monster. En plan, son baterías, ¿no? Bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=531" target="_blank" class="timestamp">[08:51]</a> Prefiero no tocarlo mucho. Va todo con QRs y todo con WeChat, que es una aplicación. Claro, pagas y te saldrá. Después hay maquinaria como de importación y todo, pero la gente deja sus cinturones aquí, sus cosas aquí. Hay maquinaria americana, hay maquinaria... Es bastante raro. Mira el mural de Dragon Ball de allí. A ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=555" target="_blank" class="timestamp">[09:15]</a> Hay un mural de Dragon Ball. No, está muy interesante. Hay máquinas Hammer. De hecho, la estoy viendo aquí. Los discos son como en fundición. Está... No me creo que estemos en China y en un gimnasio sí. Vale, mirad esta máquina de espalda que si quieras la quiero enseñar que está bastante bien. Bueno, tienen mi maquinaria Hammer, ¿vale? De espalda, pero mirad la máquina que tienen. Arsenal esto. Tienen la típica máquina que se ve en los viñidos. Que te pones así como... No la he probado nunca, ¿eh? Que te pones así como apoyado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=585" target="_blank" class="timestamp">[09:45]</a> y remas. Está guapa, ¿eh? Sí. Y luego por aquí tienen una zada de piernas, zada de mancuernero. Voy a quitarme. Voy a entrenar descalzo, sinceramente. Un poco mal, pero... ¿No? Sí, en blanco. Ahí. Eso, eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=614" target="_blank" class="timestamp">[10:14]</a> ¡Suscríbete!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=652" target="_blank" class="timestamp">[10:52]</a> Lleva ahí bien arriba. Vale, una más y estamos fuera, ¿vale? Fuerte, clavando bien arriba. Y fuera ya. No me dejas hacer un del... del más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=680" target="_blank" class="timestamp">[11:20]</a> Estoy hinchadísima, me encuentro popular. Pero bueno, estoy entrenando. Estabas muy inflamada ante el viaje y la comida, ¿no? Sí, no me encuentro nada bien. Estoy viendo la Full Experience China. He comido gato y... ¿Va muy bien? ¡Ost!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=720" target="_blank" class="timestamp">[12:00]</a> Vamos dos, sin pensar. Una. Con toda la bajada y estás ya. Tío, una cosa, ¿eh? Me dais envidia, bro. Porque como país, yo hace mucho que nos tiene algo en un sitio tan diferente. Tan diferente, sí. Es un choque cultural. Y, bro, podéis disfrutarlo en ese sentido. Sabemos ver cosas nuevas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=749" target="_blank" class="timestamp">[12:29]</a> ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos que está más fuerte que adivinable! ¡Aca la va al final! ¡Ahhh! ¡Ahhh!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=778" target="_blank" class="timestamp">[12:58]</a> Ahí sí. Mucho mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=808" target="_blank" class="timestamp">[13:28]</a> ¿Qué tal la opinión del gimnasio?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=830" target="_blank" class="timestamp">[13:50]</a> Chulo, la verdad. Te encantan las fotos y esas cosas. Sí, a mí estas cosas me gustan. Nos vamos. ¿Eso? Parece el powerhouse. Sí, esto puede ser powerhouse. Quizás son fotos de por ahí. Quizás son powerhouse de por aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=853" target="_blank" class="timestamp">[14:13]</a> ¿Qué es tu nombre? ¿Cuál es tu nombre? Mi nombre es tu nombre? Mi nombre es mi nombre es Chino. ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi? ¿Yan Shiqi?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=880" target="_blank" class="timestamp">[14:40]</a> Vale, me voy a dar el masaje. Me hace mucha ilusión estar explicando en plan todo. Se pensaba que era para los tres. Pero estoy yo aquí solo. Y es un masaje de cuerpo completo. Estoy muerto matado. Pero la idea es que me drene las piernas. Todo lo que pueda. No es como un sitio super profesional de esto en concreto. Pero me renta muchísimo. La verdad, o sea, es una pasada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=909" target="_blank" class="timestamp">[15:09]</a> Y yo soy cero de darme caprichos, pero esto flipas. Ir a mear antes y a volar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=931" target="_blank" class="timestamp">[15:31]</a> Fuera broma, está siendo increíble que me haga el masaje este hoy. Nada más haber llegado, estar así como cubriendo el jet lag, yo he conseguido dormir. Es una pasada, es una pasada. Y si consigo curar el jet lag y luego entrenando me visto bien, yo creo que puede ser perfecto para empezar la semana de carga mañana en un punto perfecto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=956" target="_blank" class="timestamp">[15:56]</a> Tengo muchas ganas de competir, chicos. Esto también es algo que os quería decir y que tengo muchas, muchas ganas de competir. ¿Sabes qué me apetece? Me apetece realmente porque sé que va a ser súper positivo hacer competiciones. Quiero hacer esta competición, quiero hacer más competiciones, evidentemente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=974" target="_blank" class="timestamp">[16:14]</a> pero empezar por aquí creo que ha sido un buen punto. Llegar hasta aquí ha sido complicado, la verdad. Viajar a China es complicado. Más de lo que nos esperábamos, pero a por todas. Así que empieza la semana. Y empezamos además de la mejor modo. O sea que es súper guay. Cuidándonos un poquito. Que nunca nos cuidamos tanto, la verdad. Antes de cerrar el vídeo, ¿qué tal vuestra experiencia? Tony sobre todo, tú que va, me animó.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1000" target="_blank" class="timestamp">[16:40]</a> Yo no soy la persona que más países ha visitado, pero si tenéis ganas de visitar China, yo os recomiendo que haya sitios mucho mejores.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1013" target="_blank" class="timestamp">[16:53]</a> Os voy a contar lo que ha pasado. Ahora lo contamos en la habitación que tenéis que ir a dormir. ¿No? ¿O vas a venir? ¿O vas a comer? Me voy a acostar y ya está. En ayunas, ¿eh? Y encima, cuando hemos ido a comprar los Pokémon, le digo a Chajevet, ¿esto qué? Y me dice, esto es falso. Y dices... Sí, tío. La última tienda que estaba abierta ya, estaba el Bartort. El Bartortuolo era...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1041" target="_blank" class="timestamp">[17:21]</a> Y yo pasaba un taxi por ahí. Y el taxi, el taxi estaba. Es que cuesta mucho pagar taxis o pagar o cosas así. Es una locura. Bueno chicos, después de todo el día de ayer, realmente no grabé la toma final. No os quise tampoco desvelar nada. Básicamente porque me puse muy nervioso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1066" target="_blank" class="timestamp">[17:46]</a> cosa que no tiene que pasar, pero llegué al hotel y sí, estamos en China, ¿vale? Como ya habéis visto en todo el vídeo y lo hemos dicho, lo quería anunciar en este vídeo, ya estando aquí, compito en China, compito este fin de semana, salen en las listas, si no me equivoco, hoy o mañana, pero el caso es que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1087" target="_blank" class="timestamp">[18:07]</a> China es un país complicado, ¿vale? China es un país complicado, no funcionan las VPNs, tenemos aquí las cámaras, tenemos todo, hemos grabado, no podemos subir el vídeo, ¿vale? Básicamente, estáis viendo este vídeo, lo vamos a subir, vamos a apoyarnos, vamos a buscar el modo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1102" target="_blank" class="timestamp">[18:22]</a> pero a partir de ahora me voy a grabar con el móvil, ¿vale? Es un poco mierda esto, es un poco mierda, pero la cámara saca archivos que pesan muchísimo, saca archivos de muchísima calidad, el móvil saca archivos de muchísima calidad, pero realmente los puedo subir desde la tarifa móvil, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1120" target="_blank" class="timestamp">[18:40]</a> Así que me voy a grabar con el móvil. O sea, lo tengo clarísimo. No voy a estar todos los días buscándome las vueltas, estando mal, cuando tengo que estar tranquilo y relajado, haciendo esto. Es que básicamente lo tengo súper, súper claro. Así que hoy de hecho empiezo la carga o la descarga. Siempre me lío. La carga de agua.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1149" target="_blank" class="timestamp">[19:09]</a> ¿Vale? La descarga de hidratos, aunque yo descargo pocos hidratos. Y hoy realmente es el día que peor se me ve el físico. Hoy realmente, ayer viajamos, retención y demás. Hoy es el día que peor se me ve el físico. Y... Bueno, no sé cómo habrá salido el vídeo porque hemos tenido que meter mucho recorte. Era un vídeo largo, era un vídeo chulo, divertido, tal. De verdad, era un vídeo divertido porque salíamos un poco de la rutina, salíamos un poco de lo común. Y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1180" target="_blank" class="timestamp">[19:40]</a> No ha podido ser. O sea, es que lo digo así, claro. No ha podido ser. Entonces me da bastante, bastante rabia. Pero bueno, aquí estamos. Estamos en China. Vamos a competir. Tengo muchas ganas de competir. Creo que es guay empezar por la competición más complicada. O sea, no más complicada, perdón. Más lejana. E irnos hacia las competiciones más cercanas, ¿vale? Seguramente me voy a ir hacia las competiciones más cercanas, lo tengo claro. Pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1204" target="_blank" class="timestamp">[20:04]</a> Es complicado mucho y el lag es muy diferente esto. O sea, esto es muy muy diferente. Estar aquí es una auténtica locura. En plan, nos está costando pagar en los sitios, nos está costando todo. Así que, bueno chicos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jiNyPJtsO-8&t=1218" target="_blank" class="timestamp">[20:18]</a> Sin más, no quiero alargar el vídeo porque no sé lo que va a durar, no sé si vamos a conseguir subirlo. Pero espero que os haya gustado y nos vemos mañana, ¿vale? Día 83 completado. Vamos a por el China Pro. Vamos a competir y vamos a disfrutar. Quiero salir con mi mejor versión. Quiero salir como el otro día le ha puesto a punto. O sea, para mí ese es el objetivo, sin ninguna duda. Así que chicos, chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 16/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
