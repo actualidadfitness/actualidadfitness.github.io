@@ -1,0 +1,387 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 17/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">17/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-iSRg3u5RDPs'>Llamada Con Fran y Retención Del Viaje | 90 Días Para Mi Competición Profesional</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-iSRg3u5RDPs">
+            <h2>Llamada Con Fran y Retención Del Viaje | 90 Días Para Mi Competición Profesional</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 17/06/2025 12:50</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=iSRg3u5RDPs" target="_blank">
+                    <img src="https://i.ytimg.com/vi/iSRg3u5RDPs/hqdefault.jpg" alt="Llamada Con Fran y Retención Del Viaje | 90 Días Para Mi Competición Profesional" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video documenta el día de un competidor de culturismo en China, a 85 días de un campeonato.
+Se encuentra en un hotel gigantesco y peculiar, posiblemente construido para los Juegos Olímpicos, lidiando con el jet lag y su estado físico.
+Comenta la reciente publicación de las listas de competidores, destacando el alto nivel y afluencia.
+Planifica su entrenamiento diario en el extraño gimnasio del hotel y busca formas de recuperación como la sauna, enfrentando también desafíos como la conectividad a internet limitada.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Las Listas de la Competencia que Elevan el Ánimo <a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&amp;t=18" target="_blank">[00:18]</a></h3>
+
+<p>El presentador inicia el día en el gimnasio del hotel, visiblemente letárgico pero con el ánimo cambiado. La noticia de la publicación de las listas de competidores para el campeonato lo sorprende y motiva positivamente.</p>
+
+<h3>Perdido en un Palacio Olímpico Vacío <a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&amp;t=135" target="_blank">[02:15]</a></h3>
+
+<p>Describe el hotel donde se aloja como "muy raro", inmensamente grande y notablemente vacío, especulando que fue construido para los Juegos Olímpicos. Expresa sentirse muy perdido navegando por las instalaciones del lugar.</p>
+
+<h3>La Lucha Interna y el Foco en el Entrenamiento <a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&amp;t=198" target="_blank">[03:18]</a></h3>
+
+<p>Revela que el día anterior lo pasó "bastante mal" emocionalmente y reconoce que aún tiene trabajo personal por delante. A pesar de las dificultades mentales, se concentra en preparar y realizar su entrenamiento de pecho del día.</p>
+
+<h3>Un Gimnasio con Sorpresas de Halterofilia <a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&amp;t=292" target="_blank">[04:52]</a></h3>
+
+<p>Ofrece un recorrido detallado por el gimnasio del hotel, mostrando el equipamiento disponible para su entrenamiento. Señala la presencia de elementos y soportes muy específicos y únicos de halterofilia, sugiriendo el uso histórico del lugar.</p>
+
+<h3>Bloqueo Digital y la Búsqueda de Relajación <a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&amp;t=650" target="_blank">[10:50]</a></h3>
+
+<p>Intenta sin éxito conectarse a internet para usar WhatsApp, atribuyéndolo a las restricciones del país ("fucking dictadura"). Más adelante, tras el entrenamiento, planea utilizar la sauna para relajarse y ayudar a su recuperación, lidiando con la retención de líquidos y el jet lag.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=0" target="_blank" class="timestamp">[00:00]</a> No sé cómo estaré en el espejo porque en el espejo al final vino tanta agua. Me siento letárgico totalmente. Me siento mal con el físico. Pero bueno, es lo que hay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=18" target="_blank" class="timestamp">[00:18]</a> Muy buenas a todos chicos, estamos en un nuevo vídeo. Estoy en el gimnasio del hotel, ¿vale? Mirad por aquí. Día 85 antes de competir. Han salido ya las listas. ¡Madre mía! Menudas listas han salido. Me he despertado yo creo ya con otro humor hoy. Con humor también de que el Yelda creo que está empezando a hacerme ya ya. Y empezar a estar un poquito más acostumbrado aquí. Entonces ya llevan mejores parados aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=39" target="_blank" class="timestamp">[00:39]</a> que es algo que me relaja también bastante, porque quiero sentarme aquí, o sea, no quiero estar como incómodo aquí y demás, aunque me aburra, aunque todo. Quiero estar aquí. El caso es que pienso que en uno de estos hoteles se ha hecho algo de Pekín 2008, si no me equivoco. O sea, hay cosas como de halterofilia, luego el género está de punto madre, pero hay cosas como de halterofilia muy específicas y eso me llama bastante, bastante la atención. Pero bueno, sé que no nos interesa esto, así que más allá de esto, lo que vamos a hacer es cardio. Tengo, me he bajado, me he dejado por ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=69" target="_blank" class="timestamp">[01:09]</a> Tengo unos greens, pero bueno, tengo crema. Tengo para hacerme los hipopresivos bien, bien, bien. Creo que me van a ir bien porque también es entrenante. Porque tengo el aparatito y creo que me van a ir bien para toda la zona del abdomen. El peso está un poco alto, se me acaba de pasar a Fran. Pero bueno, hoy toca pecho. O sea, entrenamiento de torso realmente. Creo que es algo que puede vivir bastante bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=85" target="_blank" class="timestamp">[01:25]</a> No sé cómo estaré en el espejo, porque al final, viviendo tanta agua, me siento letárgico totalmente. Me siento mal con el físico. Pero bueno, es lo que hay. Lo que sí que he flipado son las listas de esta mañana. O sea, chicos, hay mucha gente que no es el campeonato con más afluencia que hay, sin ninguna duda. O sea, de europeos que podéis conocer viene Andréa Presti, Andréa Mucci, Florian, no sé. Pero bueno, ya lo dije ayer, nada bastante igual. Porque quieres competir y hacerlo bien. Y quiero enseñar un físico, como el que enseñé el otro día de Andorra. Para mí, con eso, me doy como un canto de los dientes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=115" target="_blank" class="timestamp">[01:55]</a> Lo prometo. No quiero otra cosa que no sea eso. Así que vamos a por ello. Vamos a seguir aquí. Estamos un poquito de paseo, la verdad. Marta, aquí te voy a enseñar a comprarme agua. Porque aquí hay un problema. Y es que este agua es mineral. Pero aquí hacen mucha agua purificada. Y no quiero agua purificada. Quiero agua mineral a la carga. Así que vamos para allá. Vamos a seguir andando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=135" target="_blank" class="timestamp">[02:15]</a> Y ahora sigo contando un poco. El hotel es muy raro. Muy, muy raro. Es decir, se nota que se dice para los Juegos Olímpicos, pero en toda esta sala no hay nadie. Está como toda una... No hay nadie en otras habitaciones. No hay nadie en el paseo gigantes, hay salas gigantes. Pero es muy raro. A ver, ¿qué tal? Bueno, mis panas, estoy mucho más tranquilo hoy, creo. Pero es cierto que voy muy, muy perdido en el hotel. O sea, muy perdido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=157" target="_blank" class="timestamp">[02:37]</a> Creo que tengo que volver al gimnasio ahora. Hoy llevamos mejor ritmo. Más ritmo de aquí. Vale, que es algo que también creo que estamos pecando mucho. Pero hemos decidido que no vamos a ir al gimnasio de ayer. Porque realmente nos toca solo pecho. Estos han visto esta mañana al gimnasio. Me han dicho, tío, esto es suficiente para tener pecho. Así que vamos a tener pecho aquí. El pecho que nos toca, evidentemente. Y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=177" target="_blank" class="timestamp">[02:57]</a> Así que vamos a la planta 2F y ahora ya empiezan a ver competidores por aquí. Como que el gimnasio de aquí surgía en su hotel, pero da para hacer pecho. Es un 100%. Tiene una contractora, tiene un precio de pecho, tiene mancuernas, tiene mis cositas. Así que bueno, también otra cosa que quiero decir es que estoy bastante más tranquilo y es que ayer lo pasé bastante mal. Sinceramente lo pasé bastante mal porque no sabía muy bien</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=198" target="_blank" class="timestamp">[03:18]</a> cómo va a afrontar la situación, cómo todo. Estoy hablando con Marta. Mejoraron... Estoy perdidísimo. Mejoraron un poco las cosas en mi cabeza, pero sigo teniendo mucho trabajo por delante, sinceramente. Mucho, mucho trabajo. O sea, lo pienso de verdad que en ese sentido estoy jodido, pero creo que lo solucionaremos y creo que con el tiempo irá mejorando. Quiero pensarlo así porque al final, si no para mí, es un problema muy grande. Así que bueno, me he quedado con Tommy para entrenar. Marta se ha encontrado un poco mal, se ha quedado durmiendo. He hecho dos comidas, he vuelto a dormir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=226" target="_blank" class="timestamp">[03:46]</a> Les voy a acercar de todo lo que me habéis visto. Y por aquí estamos en un recinto que es gigante. Bueno, ahora hay seguridad. Pero es como que es un recinto que yo creo que se produjo para los Juegos Olímpicos. Y ahora está vacío realmente. O sea, no hay nadie en el hotel. Es muy muy raro. Así que hay mucha seguridad. No sé si habrá pasado algo, pero hay muchísima seguridad. Pero lo dicho, hay como pistas de tenis internas. En el gimnasio hay como cosas de halterofilia súper específicas. Hay salas, hay pabellones de reuniones que yo creo que en algún momento se utilizaría para otras cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=253" target="_blank" class="timestamp">[04:13]</a> Y así. Y bueno, en cuanto a la comida, pues ha sido igual. Hablo con Fran. Yo me veo personalmente muy retenido. Muy, muy retenido. Está claro que son estos días. Pero me veo muy retenido. Y tenemos que bajar en la última comida bastante de los tiratos. Lo que me ha dicho él. Así que por mí, genial. Porque es lo que estaba deseando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=269" target="_blank" class="timestamp">[04:29]</a> Para ver en el inter si yo estoy viendo exactamente lo mismo. Tengo un litro que está preparado. No está frío ni nada, la verdad. Es que las neveras que tenemos no enfrían nada. O sea, me da mucho miedo. De hecho, Tony me trajo una insolidación. Está bien de la Tony y estoy viendo un poco lo que podamos o podemos hacer aquí. La verdad es que cuando está bebiendo tanta agua beberla con sabor no sabe muchas cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=292" target="_blank" class="timestamp">[04:52]</a> Básicamente, esa es la entrada. Ahí con una especie de recepción. Cuando entras, pues tenéis por aquí. Un banco de hiperextensiones, un banco de abdominales, una contractura de pecho, un perrito de pecho. Yo creo que estas dos son las que vamos a utilizar más. Después una multipower y aquí más cuernas, pero las cuernas, evidentemente, están muy cortas. Pero la multipower, la verdad, que la podemos utilizar para tener inclinado o algo del estilo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=319" target="_blank" class="timestamp">[05:19]</a> Después por aquí un montón de cintas y de cardio, todo parqué. Por aquí esto creo que es una extensión con un curso moral, una extensión creo. Pes de hombro, jaloncito. Y ya os digo, esta es como la primera sala, con son muy cuernero, con sus cosas. Muchas gracias por esto, pero se ha utilizado para alterófiles. Tienen soportes individuales como alterófiles. Es que mirad estos soportes, estos soportes son súper específicos de alterófiles. Y luego, aparte de tener como sala de vareta ahí en todo el lado, tienen como...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=348" target="_blank" class="timestamp">[05:48]</a> Baño de chicos, baño de chicas y tiene aquí otra sala con una parte de pirates y parte de estar de relax totalmente en plan con... bueno para lo que quieras usarla, pero tiene foam rollers, tiene cintas, tiene de todo. A mí personalmente me ha llamado bastante la atención que estoy haciendo eso ahí. ¡Oh! Ya llegó. ¿Qué tal? ¿Tienes sueño? Me he dormido. ¿Te has dormido? Me he dormido. Ah, me has dicho eso y te has dormido. No, no. Ah, gracias. Hemos dicho a tal hora tal. Y te has dormido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=377" target="_blank" class="timestamp">[06:17]</a> Vale. ¿Qué vamos a hacer? Pecho. Mira, tenemos estas dos. Tenemos la multipower. Y para tríceps yo creo que habrá una polea que nos dé. Sí, la del jalón. La del jalón. Y si no, unas mancuernitas, una barra fija. Vale, acabaremos. Vamos a hacer el entrenamiento que es el más fácil de todos. Pero luego hacer espalda. Pues así la verdad que se complica. Así que, por ello.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=410" target="_blank" class="timestamp">[06:50]</a> Tenías dos guardadas ahí en la recámara.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=442" target="_blank" class="timestamp">[07:22]</a> Sin creer en la movilidad que tienes, tío. Trabaja.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=462" target="_blank" class="timestamp">[07:42]</a> Más movilidad, más rom, más daño muscular, ¿no? Más daño muscular. Más músculo. Lo pienso de verdad, ¿eh? Sí, sí, no es así. Yo por eso soy tan real con esas cosas, tío. Si te gusta movilidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=479" target="_blank" class="timestamp">[07:59]</a> ¿Qué es esto?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=518" target="_blank" class="timestamp">[08:38]</a> Vamos, dale. Última aquí. A Marta que la van a echar del hotel. Y Toni. Vamos, dale, galleta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=567" target="_blank" class="timestamp">[09:27]</a> Está dura, ¿eh? Sabéis que tengo agujetas del entreno que hicimos de brazo y yo ahora ni se enteró de ese entreno. Era como flojito. Tengo agujetas en el tríceps. Los bíceps no. No, ¿eh? Los tríceps sí. Tengo agujetas. Los bíceps los hicimos más calmos. ¿Diferentes? Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=618" target="_blank" class="timestamp">[10:18]</a> ¿Qué vas a hacer? Me llamo a Fran. Vamos a comentar unas cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=650" target="_blank" class="timestamp">[10:50]</a> y me va a tomar el post internet mientras. Por lo tanto, aquí ya preparado. Y poner agua toda contada, evidentemente. Pero no estoy consiguiendo entrar a compartir mi internet. ¿Por qué no consiglio compartir mi internet? Pues mira si está compartiéndose con algo vuestro. Por resumo, básicamente no se puede conectar WhatsApp con el internet de aquí. ¿Por qué? Por la VPN o porque el gobierno chino no te deja, ¿no? Es que ya es expresamente mi idea.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=678" target="_blank" class="timestamp">[11:18]</a> Es una fucking dictadura. Sí, es por eso. ¿Eh? Sí. Bueno, claro, porque WhatsApp es estadounidense y no tienen convenios o tratados, pero yo lo sé. Están aquí jugando a tenis. Yo hace años que no juego. Pero contra una niña de ocho o nueve años china aún le puedo dar. Le pasé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=704" target="_blank" class="timestamp">[11:44]</a> jugando a ping pong. Y estaba ahí, era ahí. Y empieza, y empieza. Ahí había niveles. Sí, se nota que desde pequeñito es. Es que aquí la gente flipas. Bueno, chicos, también se va a buscar una sauna aquí en el hotel. El hotel este es un palacio imperial que no te lo recorres ni con coche. Hay cuatro pistas de tenis, por lo menos. Cuatro pistas de tenis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=728" target="_blank" class="timestamp">[12:08]</a> pista de baloncesto, piscinas olímpicas hay dos. Se puede hacer paddlesurf dentro de la piscina, imagínate. Y Joan ya ha dicho que va a hacer todas las actividades. Y yo básicamente voy a hacer sauna, hemos hablado con Fran ahora, y sigo teniendo algo de retención del vuelo, así que vamos a probar a hacer sauna. Y relajarte, no solo por sudar. Sí, no solo por sudar, ni por nada. O sea, no por nada malo. De hecho, me dice, tío, relájate ahora, vete a dar un paseo, tal. No quiero dar un paseo. Hace mucho calor también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=753" target="_blank" class="timestamp">[12:33]</a> Hace mucho calor y no hay nada. Es que es importante también. Es un hotel gigante, pero cuando os digo gigante, no sé cómo puede ser de grande esto. Yo todavía no termino de entender cómo se va del gimnasio al ascensor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=772" target="_blank" class="timestamp">[12:52]</a> Sí, es rollo museo. Como todo muy grande, todo muy loco. Impresionar, ¿eh? Para jardar. Sí, hemos entrenado pecho hoy aquí. Mañana espalda sí que tenemos que entrenar en el otro gimnasio. Pero es que ir hasta el centro es un coñazo de tráfico. Son 50 minutos de taxi. Los taxis son súper baratos, pero... Ah, el entrenador de hoy, o sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=788" target="_blank" class="timestamp">[13:08]</a> Hemos entrado bien. Sí, para lo que hayan entrado. Las aperturas se sentían bien. Pero en máquina de espalda solo hay un jalón. Entonces, mañana toca espalda y bíceps y con un jalón, pues no nos da. Así que, además en el otro esquino se está pegado. Así que iremos para allá. Así que nada, chicos. Espero que os haya gustado el vídeo. Vamos nosotros a la sauna, a relajarnos. Marta, tú no puedes. Yo voy a hacer una comida antes, para gustarme pronto. Pero también el tema del jet lag es un poco raro, porque a veces de repente no dormimos mucho rato, ¿no? O sea, por la noche no duermes mucho y luego de repente quizás te duermes dos horas. Y es como...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=816" target="_blank" class="timestamp">[13:36]</a> Joder, no, por favor. Pero bueno, chicos, espero que os haya gustado el vídeo y nos vemos mañana. Ya he hablado con Fran, por lo menos también. Me he quedado tan tranquilo en ese sentido porque he estado posando con bañador, con todo, pero es verdad que me he notado un poco retenido todavía y demás. Aparte de que estoy bebiendo agua al fallo y tomando sal al fallo. Pero bueno, que por cierto, Marta me ha comprado pollo y me lo he cocinado pollo de aquí. Ayer me compré un pollo. ¿Qué tal estaba?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=840" target="_blank" class="timestamp">[14:00]</a> El pollo de aquí estaba bueno. Era normal, pollo normal. Pero es que dice Marta que son muy sucios, por así decirlo. Y lo cogen así con las manos, en plan, te lo meten en la bolsa, estaba medio congelado. Es muy raro. O sea, eso sí que hay que reconocer, que es muy raro. Ahí huele fuerte, ¿eh? Ahí huele fuerte. He abierto la nevera y he flipado. Es que las neveras no van muy fuerte, la verdad. Me estoy acabando esa primero y luego la otra. Bueno, si hay que comprar comida, se comprará. Bueno, chicos, espero os haya gustado el vídeo. Hay que bajar el aire de la habitación para que esté a 5 grados. Espero os haya gustado el vídeo y a ver si conseguimos una sauna.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iSRg3u5RDPs&t=870" target="_blank" class="timestamp">[14:30]</a> Relajarme. Me ha dicho que fueran relajarme y relajarme. Que por cierto salieron las listas también. Y ya os lo he dicho antes. Menudas listas. Hay mucha gente. Yo creo que es el campeonato con más afluencia del año. Viene todo el mundo, ¿eh? Viene. Todos los asiáticos, seguro. Que compiten en la IFE. A ver, es que es normal. Es su campeonato. Más cercano. Y la gente que está un poco parecida a ti. Es como los españoles que van a dar en pro. Normalmente. Que van mucha más gente que de otros países. Así que... Bueno, chicos. A la semana.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 17/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
