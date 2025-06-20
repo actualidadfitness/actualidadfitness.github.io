@@ -1,0 +1,376 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 20/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">20/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-8s3y88qmsvw'>JOAN PRADELLS AHORA SI PUEDE HACERLO</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-8s3y88qmsvw">
+            <h2>JOAN PRADELLS AHORA SI PUEDE HACERLO</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 20/06/2025 14:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=8s3y88qmsvw" target="_blank">
+                    <img src="https://i.ytimg.com/vi/8s3y88qmsvw/hqdefault.jpg" alt="JOAN PRADELLS AHORA SI PUEDE HACERLO" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta la llegada de un grupo a un hotel repleto de competidores para un evento de culturismo.
+El foco principal es el competidor Joan, cuya preparación, estado físico y confianza son analizados.
+Se discuten sus preocupaciones, su aparente mejora al verse y las predicciones sobre su posible rendimiento.
+Finalmente, se reflexiona sobre el alto nivel de la competencia y las posibilidades de Joan frente a otros atletas destacados.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Hotel Invadido por Competidores <a href="https://www.youtube.com/watch?v=8s3y88qmsvw&amp;t=15" target="_blank">[00:15]</a></h3>
+
+<p>El narrador describe la llegada al hotel, que se encuentra inesperadamente lleno de competidores de diversas nacionalidades. Contrasta este ambiente vibrante con el estado previo del hotel.</p>
+
+<h3>La Lucha Interna y los Espejos <a href="https://www.youtube.com/watch?v=8s3y88qmsvw&amp;t=86" target="_blank">[01:26]</a></h3>
+
+<p>Se menciona la "obsesión" de Joan por verse en los espejos para ganar confianza. Se destaca que este día es el más difícil emocionalmente para él.</p>
+
+<h3>Predicción Audaz sobre Joan <a href="https://www.youtube.com/watch?v=8s3y88qmsvw&amp;t=104" target="_blank">[01:44]</a></h3>
+
+<p>El narrador expresa su fuerte creencia en que Joan superará las expectativas de mucha gente. Predice que logrará "cargarse" a alguno de los grandes competidores.</p>
+
+<h3>El Crucial Momento de Verse <a href="https://www.youtube.com/watch?v=8s3y88qmsvw&amp;t=313" target="_blank">[05:13]</a></h3>
+
+<p>Joan tiene la oportunidad de verse correctamente en un espejo para posar. Se insinúa que el proceso ha sido muy duro emocionalmente, llegando a llorar.</p>
+
+<h3>El Nivel de la Competencia y los Rivales <a href="https://www.youtube.com/watch?v=8s3y88qmsvw&amp;t=506" target="_blank">[08:26]</a></h3>
+
+<p>Se analizan las fotos de otros competidores, como Presti, destacando su físico y el alto nivel general. Se reitera que, a pesar de esto, Joan tiene potencial para sorprender.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=0" target="_blank" class="timestamp">[00:00]</a> Tengo un poquito de yoar. Vamos a ver los dos vídeos hoy. ¿Y por qué pone esa cara? Vamos a ver cómo está, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=15" target="_blank" class="timestamp">[00:15]</a> Eso sí, hoy han llegado todos los competidores. Está lleno de competidores el hotel. Es increíble. Hay una vida. En plan, hay un montón de asiáticos, chicos, chicas, competidores en el hotel y han puesto el cartelón. Parece que ya han empezado a entrar, ¿eh? Sí. O sea, todo lo vacío que estaba y todo lo despico que estaba. Es una locura. De repente ha empezado esto a tener bastante vida. Así que nosotros nos vamos a pillar el taxi y nos vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=50" target="_blank" class="timestamp">[00:50]</a> Ahí tienes que tener un montón de cuidado con la comida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=56" target="_blank" class="timestamp">[00:56]</a> No por nada, porque la comida de otro país te puede sentar mal por el hecho de que no sea la comida que siempre comes o porque pide alguna bacteria o algo y tal y te la lía, ¿eh? Te joda una preparación. Vamos a hacer un poquito de cositas y luego sale posibilizadas súper, súper bien. Así que vamos a... Cuéntalo. Cuéntalo. ¿Qué quieres que cuente? ¿Te has visto mejor o no? He visto mejor. Pero más allá de todo, que da igual, que el caso es que quiero posar un espejo bien y que se me vea algunas luces. Pero que es importante que a veces competí... Ya, ya, ya. Pero me refiero, es importante, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=86" target="_blank" class="timestamp">[01:26]</a> Vale. Qué obsesión tiene con los espejos, eh. Tiene una obsesión… Confianza en ti mismo. Y hoy es el peor día, realmente, que es el día que más hago el día. Por ello… Yo creo que… Eh… Vale, será…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=104" target="_blank" class="timestamp">[01:44]</a> Me vais a atrayar en los comentarios, ya lo estoy viendo. Yo creo que lo va a hacer mejor de lo que piensa mucha gente, tío. De verdad lo digo, tío. Yo pienso que Joan lo va a hacer mejor de lo que la gente piensa. Yo creo que se va a cargar alguno de los grandes. Ya verás. Ya verás cómo se va a cargar uno de los grandes, tío. Ya veréis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=144" target="_blank" class="timestamp">[02:24]</a> oye oye oye oye</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=156" target="_blank" class="timestamp">[02:36]</a> les trían los bastos externo y el interno. Mire, mire, mire. Es que es verdad que el cabrón de frente, sinceramente, de frente le va a dar guerra al Presti y al ruso. No, no, no. De frente le va a dar guerra seguro. Si el problema es cuando se dé la vuelta. Pero de frente... De frente 100% que le va a dar guerra a todos. A todos. 100%, psicopatón. 100%, hermano. No tengáis ninguna duda. El chino está flipando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=189" target="_blank" class="timestamp">[03:09]</a> Sí que se le ve lleno, sí. Se le ve muy lleno. ¿Eres entrenador online y quieres llevar tu negocio a otro nivel? Te voy a dar la oportunidad. Tengo una empresa de software experta en creación de aplicaciones móviles y desarrollo web. Te puedo ayudar a que lleves, escales, este negocio que estás empezando a algo inigualable. No dudes en contactar nuestro Instagram y pedir presupuesto o cualquier tipo de preguntas. Dale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=226" target="_blank" class="timestamp">[03:46]</a> es que el hombro es de otro mundo, eh. El hombro es que es de otro mundo, compadre. El hombro no tiene ningún tipo de sentido, tío. Es gigante. Es gigante, tío. ¡Madre mía! ¡Mira, mira, mira! ¡Mira el rameado de venas que me lleva! ¡Puuu!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=258" target="_blank" class="timestamp">[04:18]</a> Va muy pero que muy bien, eh. Sí, yo lo veo mucho mejor, tío. No sé, será cosa mía. Eh, gano. Muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=297" target="_blank" class="timestamp">[04:57]</a> Bueno, me va aquí haciéndose el post-in definitivo, pero tiene más claro que nadie. Algún día os juro que la veréis en acción de verdad. Es que se os sale todo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=313" target="_blank" class="timestamp">[05:13]</a> Hasta la cara. Venga, vamos. Vale, ahora es mi momento. Voy a pasar yo, de verdad, pero no voy a grabar. Vale, pero bueno, mira, aquí he fijado la espalda y todo. Aunque se puede hacer ahí mucho mejor ahora las noches. Hemos entrenado. Sinceramente, ahí estamos las fiestas y fuera. Si llego el lunes a saber este gimnasio, no habría llegado ni a ver que había llegado. Vale, pues sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=334" target="_blank" class="timestamp">[05:34]</a> No había llorado ni la mitad de lo que he llorado. O sea, el tío se la ha pegado llorando allí. ¿Echo? ¿Presentación hecha? Y nos vamos, ¿no? Vamos, por favor. ¿Me vas a depilar? Te voy a depilar, te voy a espoliar, te la voy a dar las uñas de los pies. ¿Y qué vas a depilar? ¿Eh? ¿Y qué vas a depilar?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=351" target="_blank" class="timestamp">[05:51]</a> Ah, mira, oye. Bueno, chicos, el caso. Me ha venido muy bien poder verme en un espejo, que hay veces que verme las piernas. Y sabiendo que es el peor día, la verdad. Mañana entramos. La siguiente es... La siguiente es bombeo mañana en el hotel, meeting... Hombre, se le ve más disfrutón, se le ve más relajado. No como este último mes y medio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=378" target="_blank" class="timestamp">[06:18]</a> La verdad es que hoy ya se le ve más tranquilo. Más relajadillo, la verdad. La verdad, que ya va siendo ahora. Al final lo que tenga que ser, será. Son de chill. Así que, chicos, nos vamos al hotel. Vamos a ver todo lo que ha dicho Marta. Vamos a vernos, SREC. Y os quiero mucho. Un besito enorme. Y nos vemos mañana. Estoy un poquito más tranquilo. La verdad, y nos vemos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=401" target="_blank" class="timestamp">[06:41]</a> No, un poquito bastante, se te nota mejor. Yo creo que también se ve mejor, quizá. Me he visto bastante bien. Claro. Es un postre que sin más que nunca había visto yo especialmente bien. Me encuentro bastante hinchado, enfermo, no había más. Pero bueno, es el peor día de dormir. Estoy con mucha agua, pasa bastante rato. Y ha sido un caos de día, sinceramente. Hasta ahora, que están tranquilos, ha sido un caos de día. Así que, chao.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=422" target="_blank" class="timestamp">[07:02]</a> ¿Qué posición creéis que va a quedar Joan? YouTube, os leo. ¿Qué posición creéis que va a quedar Joan? Primero, cuarto, top cuatro, sexto, tres, tres, cuarto, tercero, séptimo, octavo, último. Cuatro optimistas, segundo, sexto, tres, segundo, séptimo, sexto, tercero, quinto, quinto, tercero, quinto, cuarto, quinto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=446" target="_blank" class="timestamp">[07:26]</a> Mira, fotoísta. No puedo verlo. Yo... Hostia, es que decir que va a ganar es una puta locura. Que me encantaría. Que me encantaría. Pero es que está el Presti y está el ruso, tío. Bueno, y el otro, que no me acuerdo de dónde era. Había tres tíos muy fuertes. Había tres tíos muy fuertes. Venga, va. Yo digo que entre los tres primeros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=475" target="_blank" class="timestamp">[07:55]</a> Yo digo que entre los tres primeros, así abarco un poquito más. Entre los tres primeros que lo llevan. Vamos a ver un poquito a Presti y a los otros. Un poquillo, a ver cómo van. Aunque no creo que enseñen nada a esta altura ya. A ver, Presti. Esto es antiguo, ¿no? Ah, no, es decir siete horas. Pues te voy a decir una cosa, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=506" target="_blank" class="timestamp">[08:26]</a> Veo más freak a Joan, eh. Hostia, es que mira que estrechura de cintura tiene el bicho, ¿sabes? Es que fíjate en esto. Uf.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=545" target="_blank" class="timestamp">[09:05]</a> Está alto el nivel, eh. Está alto el nivel, tíos. A ver quién era el otro. Era el Poison, no Poison. ¿Ha subido algo? No. No ha subido nada. Pero en esta es un espectáculo, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8s3y88qmsvw&t=578" target="_blank" class="timestamp">[09:38]</a> En esta es increíble, tío. Espérate, que no se ve por mi cabeza. En esta es que se ve... En esta es que es un jodido monstruo, eh. Sí, tiene una ira rizfiana. Yo qué sé, a ver qué va a pasar, tíos. Bueno, ya veremos cómo queda. Ya lo veremos. El tiempo lo dirá. O sea, el fin de lo sabremos, perdón. Ya lo veremos. A lo mejor puede dar sorpresa.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 20/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
