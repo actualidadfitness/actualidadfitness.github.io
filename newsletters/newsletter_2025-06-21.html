@@ -1,0 +1,373 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 21/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">21/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-WLitwhTkqbQ'>ISRAEL COMETIÓ UN ERROR COMO HIZO RUSIA.  GUERRA IRAN-ISRAEL. Juan A. Aguilar</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-WLitwhTkqbQ">
+            <h2>ISRAEL COMETIÓ UN ERROR COMO HIZO RUSIA.  GUERRA IRAN-ISRAEL. Juan A. Aguilar</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 21/06/2025 08:28</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=WLitwhTkqbQ" target="_blank">
+                    <img src="https://i.ytimg.com/vi/WLitwhTkqbQ/hqdefault.jpg" alt="ISRAEL COMETIÓ UN ERROR COMO HIZO RUSIA.  GUERRA IRAN-ISRAEL. Juan A. Aguilar" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la reciente operación israelí contra Irán, comparándola con la estrategia inicial rusa en Ucrania.
+Explica que la operación israelí fue un intento fallido de "golpe de shock" para derrocar al régimen iraní.
+Detalla las fases de la estrategia israelí, incluyendo ataques aéreos y sabotajes dirigidos.
+Concluye que el fracaso del plan inicial ha llevado a una situación de guerra con estrategias opuestas: batalla rápida vs. guerra de desgaste.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Un Azaroso Golpe de Shock <a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&amp;t=29" target="_blank">[00:29]</a></h3>
+
+<p>El presentador compara la operación israelí con el inicio de la incursión rusa en Ucrania. Ambas buscaron un rápido "golpe de shock" para derrocar un régimen, pero fracasaron en su intento inicial.</p>
+
+<h3>La Estrategia Multidimensional Israelí <a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&amp;t=83" target="_blank">[01:23]</a></h3>
+
+<p>Se describe el plan israelí en tres fases: infiltración de drones/misiles Spike, un masivo ataque aéreo desde espacio aéreo vecino y ataques de sabotaje coordinados para descabezar el mando iraní.</p>
+
+<h3>El Fracaso del Plan de Derrocamiento <a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&amp;t=194" target="_blank">[03:14]</a></h3>
+
+<p>Se confirma que el "golpe de shock" no logró derrocar ni desestabilizar gravemente al régimen iraní. A pesar de los ataques, la estructura de mando se recuperó rápidamente, desencadenando la represalia iraní.</p>
+
+<h3>Israel vs. Irán: Choque de Estrategias <a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&amp;t=251" target="_blank">[04:11]</a></h3>
+
+<p>Se expone la divergencia estratégica actual: Israel busca una victoria rápida mediante batalla aeroterrestre (doctrina OTAN), mientras Irán apuesta por una guerra de desgaste. Irán busca agotar a Israel en el tiempo.</p>
+
+<h3>Raíces Históricas del Plan Fallido <a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&amp;t=414" target="_blank">[06:54]</a></h3>
+
+<p>El video revela que la estrategia israelí formaba parte de planes elaborados hace años por think tanks estadounidenses. Estos documentos, como uno del Brookings Institute, ya contemplaban opciones para derrocar al régimen iraní, incluyendo la vía militar.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=0" target="_blank" class="timestamp">[00:00]</a> Oye, ¿cómo puede ser que Israel haya tenido, aparentemente, un fallo de cálculo tan estrepitoso, no? Porque se está comiendo unas tortas, pero pares. Bueno, a ver, quizás el fallo de cálculo... O sea, quizás no sea un fallo de cálculo, sino que han hecho una apuesta muy arriesgada. Y claro, cuando se hace una apuesta muy arriesgada, te puede salir bien o te puede salir mal. Por ejemplo, vamos a decir una apuesta que salió mal como esta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=29" target="_blank" class="timestamp">[00:29]</a> cuando Rusia comienza la operación militar especial, da un golpe, el comienzo de la operación da un golpe tremendo. Y los paracaidistas rusos están en el aeropuerto de Kiev. Es decir, que empiezan a entrar tropas por un montón de sitios. ¿Qué se pretendía con eso? Porque no eran tropas para poder invadir un país de la envergadura de Ucrania. Con 120.000 hombres tú no puedes hacer eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=58" target="_blank" class="timestamp">[00:58]</a> ¿Qué es lo que se pretendía? Lo que se pretendía era un golpe de shock que provocara el derrocamiento del régimen en Kiev. Cuando eso no fue posible es cuando realmente comienza ya una guerra, que es la que estamos viendo hoy. ¿Qué ha pretendido aquí Israel? Lo que ha pretendido es dar un golpe de shock que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=83" target="_blank" class="timestamp">[01:23]</a> de alguna forma derrocara o pusiera ya contra la pared al régimen de la revolución islámica. ¿Eso cómo lo hizo? Bueno, pues lo hizo en tres fases. Una, durante mucho tiempo han estado introduciendo drones y sistemas de misiles antitanque guiados con fibra óptica, que son los Spike. Los han estado introduciendo en Irán.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=106" target="_blank" class="timestamp">[01:46]</a> no para que utilizaran los propios agentes del Mossad, que no iban a tener centenares de agentes allí metidos, sino elementos terroristas de la oposición iraní, el MEC. Organización terrorista financiada por la CIA y por el Mossad. Entonces, cuando se inicia el ataque por parte de 200 aviones israelíes, pero desde el espacio aéreo de Irak y Siria, ellos no se acercan al espacio aéreo iraní,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=136" target="_blank" class="timestamp">[02:16]</a> Lanzan desde allí los misiles, comienza el ataque e inmediatamente estos grupos de sabotaje lanzan drones perfectamente dirigidos, o los antitanques Spike, a viviendas de científicos, de militares de alto rango del Estado Mayor iraní, etc. Intentando descabezar toda la cadena de mando del ejército irano. E inmediatamente que eso se produce, porque es verdad que se produce y hay unas horas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=165" target="_blank" class="timestamp">[02:45]</a> Hay unas horas en las que la estructura iraní tiene que estar reconstruyendo esa cadena de mando, que ya estaba previsto, esto estaba previsto en los planes, que una cosa así podría ocurrir. Por eso se traerá tan pocas horas en recomponer toda la cadena de mando. Ese tiempo es en el que Israel utiliza para atacar algunas instalaciones nucleares, baterías de defensa antiaérea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=194" target="_blank" class="timestamp">[03:14]</a> bases militares, bases aéreas. Este es el golpe. Este es el golpe con el cual se quiere poner al régimen contra la pared para que o haya un golpe de Estado o se derrumbe, la gente empieza a huir, ya sabe decir. Pero eso no ocurre. A las pocas horas, cuando ya la cadena de mando está reconstruida, comienza la represalia iraní. Es la famosa oleada de 100 misiles que se produce a las pocas horas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=225" target="_blank" class="timestamp">[03:45]</a> Eso no se produce y, por tanto, digamos que la operación en ese sentido falla. Es decir, falla igual que falló el primer golpe ruso en el comienzo de la operación militar. Porque son operaciones muy arriesgadas. Es decir, el porcentaje de que te salga bien siempre es bajo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=251" target="_blank" class="timestamp">[04:11]</a> son opciones muy arriesgadas. Es muy difícil que solamente de un golpe logres derribar a toda una estructura estatal. Y es lo que ha pasado aquí. Con lo cual Israel, lógicamente, se encuentra con que eso ha fallado y ahora tiene una guerra. Una guerra en la cual hay dos estrategias muy distintas. Israel lo deja toda la batalla extraterrestre, doctrina OTAN,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=277" target="_blank" class="timestamp">[04:37]</a> Es decir, bombardear instalaciones críticas, instalaciones militares, bases aéreas, etcétera, etcétera. Y otra que es... Y hacerlo además en el menor tiempo posible. ¿Por qué? Porque Irán no tiene profundidad estratégica. Entonces, claro, ¿qué va a ocurrir? Que Irán, que sí la tiene, que tiene una mayor demografía, un mayor territorio y experiencia en tipos de guerra simétrica, ¿qué va a hacer?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=306" target="_blank" class="timestamp">[05:06]</a> Irán. Intentar que esto se convierta en una guerra de desgaste. Porque sabe que Israel no podrá aguantar. Entonces, estamos ahí en esa balanza de un Israel que tiene que intensificar esa batalla aeroterrestre. Por eso, ruega, suplica la ayuda de Estados Unidos. Porque sabe que Solán no va a poder. Y un Irán que lo que va a intentar es que vayamos a una guerra de desgaste de... Bueno, yo te lanzo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=334" target="_blank" class="timestamp">[05:34]</a> 20 misiles, pero tres veces al día, de tal manera que tengo a toda la población israelí sin poder ni producir ni hacer nada, porque no sabe a qué hora van a empezar a caer pepinazos. Da igual si hace mucho o poco daño. Simplemente con que tengas a toda la población de Tel Aviv metida en los sótanos, ya estás haciendo daño. A mí me sorprende que haya gente que no se dé cuenta de esto. En televisión, en medios generalistas y demás, no se dan cuenta de esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=364" target="_blank" class="timestamp">[06:04]</a> Hoy ha sido atacada, diríamos, el Tel Aviv City, ¿no? Ese sitio donde está todo el mundo financiero. La bolsa, esas grandes rascacielos donde están situadas las grandes empresas y demás. Hoy ha sido atacada. Por supuesto, es decir, el sitio de la bolsa y los rascacielos al lado han quedado todos muy dañados. Es decir...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=387" target="_blank" class="timestamp">[06:27]</a> No se han derrumbado. No hace falta. Si es que solamente con los daños producidos y el terror de saber que en cualquier momento puede caer otro pepinazo, ya inutiliza completamente. Ya no se puede hacer actividad ahí. Eso es lo más grave. ¿Qué ocurre entonces? Pues que a Israel no le queda más remedio que suplicar la intervención norteamericana. ¿Por qué? Porque el plan inicialmente ha fallado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=414" target="_blank" class="timestamp">[06:54]</a> Planes que ya estaban elaborados por el Brookings Institute desde hace muchos años. Muchos años. Y una de las opciones que ponía en un documento que se titulaba así como ¿Qué hacer en Persia? O algo similar. Un título más o menos similar. Lo que venía a exponer es una serie de planes para intentar derrocar al régimen de la revolución islámica.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=444" target="_blank" class="timestamp">[07:24]</a> Y uno de los planes era este. Era este. Pero vamos, calcao. Yo recomiendo, porque está en internet, buscar ese documento y la gente lo puede leer. Es decir, tranquilamente. Es un documento que tiene ciento y pico páginas y ahí está perfectamente explicado. En más, hay un capítulo en concreto que se titula algo así como dejárselo a Vivi. Vivi, como sabéis, es el diminutivo que le aplican a Benjamín Netanyahu. ¿Mmm?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=472" target="_blank" class="timestamp">[07:52]</a> Es decir, que ya te estoy hablando de un documento de hace 20 años. De hace 20 años. Luego ha habido documentos de otros institutos y cintas norteamericanos, como la Grand Corporation, por ejemplo, sobre el tema de qué hacer ante el régimen islámico de Teherán. Siempre ha habido un plan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=492" target="_blank" class="timestamp">[08:12]</a> El propio Netanyahu escribió un libro hace 25 años, Luchando contra el terrorismo, se titula, en el cual ya establecía toda una serie de países a los que había que destruir. Uno de ellos era Irán, que coincide con el plan que el día que se jubile al general Wesley Clark y va al Pentágono a despedirse, le enseñan que vamos a invadir siete países. Libia, Sudán, Somalia, Irak, Afganistán, Siria...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLitwhTkqbQ&t=522" target="_blank" class="timestamp">[08:42]</a> Es decir, que no estamos hablando de algo nuevo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 21/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
