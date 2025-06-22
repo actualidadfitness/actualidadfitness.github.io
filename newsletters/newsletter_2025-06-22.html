@@ -1,0 +1,400 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 22/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">22/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Strongman Tarrako</strong>: <a href='#video-Oyq7kXVPWzE'>ES MÁS FÁCIL CRECER CON 25 SERIES QUE CON 5</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-Oyq7kXVPWzE">
+            <h2>ES MÁS FÁCIL CRECER CON 25 SERIES QUE CON 5</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Strongman Tarrako</span>
+                <span class="date">Publicado: 22/06/2025 10:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/Oyq7kXVPWzE/hqdefault.jpg" alt="ES MÁS FÁCIL CRECER CON 25 SERIES QUE CON 5" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video analiza la efectividad comparada de entrenar con alto volumen de series frente a la ultra-intensidad de bajo volumen para ganar masa muscular (hipertrofia).
+El autor argumenta que, para la gran mayoría de las personas, es más sencillo y probable lograr crecimiento con un volumen semanal más alto (20-25 series).
+Explica que la intensidad extrema requerida para que funcionen volúmenes muy bajos (5 series) es extremadamente difícil de alcanzar y sostener.
+Concluye que es crucial encontrar un volumen de trabajo para el cual uno esté realmente capacitado, siendo el volumen moderado-alto más accesible para la mayoría.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Capacidad Olvidada del Cuerpo <a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&amp;t=38" target="_blank">[00:38]</a></h3>
+
+<p>El presentador introduce el debate volumen vs. intensidad en el entrenamiento para la hipertrofia.
+Afirma que el cuerpo humano tiene una capacidad de adaptación y recuperación descomunal que a menudo se subestima.
+Establece la premisa del video: es más fácil crecer con alto volumen que con ultra-intensidad de bajo volumen.</p>
+
+<h3>El Mito del Heavy Duty Comercial <a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&amp;t=182" target="_blank">[03:02]</a></h3>
+
+<p>Critica a quienes dicen practicar Heavy Duty o ultra-intensidad con bajo volumen en gimnasios comerciales.
+Argumenta que no replican la intensidad, el foco y el entorno requeridos por verdaderos practicantes como Dorian Yates.
+Sugiere que la falta de crecimiento de muchos con bajo volumen se debe a la falta de intensidad real, no al método en sí.</p>
+
+<h3>Desmitificando el Volumen "Excesivo" <a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&amp;t=401" target="_blank">[06:41]</a></h3>
+
+<p>Aborda la creencia de que 20-25 series semanales por grupo muscular es un volumen desmesurado o imposible de recuperar.
+Explica cómo estructurar un entreno (ejercicios de aislamiento, compuestos) para alcanzar ese volumen de forma manejable.
+Afirma que este rango de series no es una locura y es alcanzable para la mayoría sin sobreentrenamiento.</p>
+
+<h3>La Verdadera Dificultad de la Ultra-Intensidad <a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&amp;t=590" target="_blank">[09:50]</a></h3>
+
+<p>Detalla por qué lograr un estímulo de crecimiento con 5 series requiere una intensidad y un foco mental extremos.
+Señala que aplicar esta intensidad consistentemente, especialmente en básicos, es agotador y de alto riesgo de lesión.
+Concluye que un volumen moderado-alto es más accesible y probable para generar crecimiento en la mayoría de la gente.</p>
+
+<h3>La Capacidad Real vs. la Teoría <a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&amp;t=851" target="_blank">[14:11]</a></h3>
+
+<p>Desde su experiencia como entrenador, explica por qué prefiere pautar 15-22 series para la mayoría de sus clientes.
+Argumenta que la falta de preparación mental/física y el entorno hacen que la ultra-intensidad sea impráctica para muchos.
+Prioriza un plan de volumen moderado-alto bien ejecutado, ya que es más probable que el cliente sea capaz de llevarlo a cabo con éxito.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=9" target="_blank" class="timestamp">[00:09]</a> Buenas amigos y amigas, nos encontramos en nuestro canal de YouTube Strongman Tarraco y bueno, toca hacer un vídeo sobre entrenamiento, sobre las series que hacemos en un entrenamiento y voy a intentar contextualizar y explicar el título. Es más fácil crecer realizando 25 series que realizando 5 series. Antes de que haya una implosión global de algunas personas que ahora se han decantado por la ultra intensidad</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=38" target="_blank" class="timestamp">[00:38]</a> que no me parece mal, voy a contextualizar y a explicar ese título. Lógicamente siempre he dicho y me reafirmo en ello que tú puedes entrenar todo lo que pueda recuperarte. Creo que estamos en una época en que la recuperación del ser humano y su capacidad de adaptación se menosprecia de forma sistemática. Hay gente de 20 años que no puede recuperarse de 8 series. Me extraña.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=64" target="_blank" class="timestamp">[01:04]</a> Cada uno tiene un contexto y cada recuperación, cada persona lleva un tipo de vida, por lo tanto, cada persona un mundo. Pero creo que sí se exagera la capacidad del cuerpo de sobreentrenarse. El cuerpo humano tiene una capacidad de adaptación descomunal. Dicho esto, para crecer y generar hipertrofia. Hablamos de hipertrofia. Aparte, lógicamente, antes de que algún gurú me ponga, hay que dormir bien y comer. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=93" target="_blank" class="timestamp">[01:33]</a> Damos por supuesto que una persona descansa adecuadamente y se alimenta adecuadamente para ganar masa muscular. Hablamos del entrenamiento. Para que el entrenamiento genere crecimiento hay que generar un estímulo. Es decir, tú el músculo entrenado debes llevarlo al límite para que necesite adaptarse.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=122" target="_blank" class="timestamp">[02:02]</a> incluso con frecuencias distintas. Mucha gente me pregunta, oye, pues 25 series, si las divido en 12 y 12, que son 24, en 13 y 12, lo que sea, también sirve, por supuesto que sí. Ahí entramos en otro debate, aunque para mí no es lo mismo de la 15 a la 25, evidentemente separando los días. Sí es verdad que estás más fresco, pero acumulas menos fatiga. Tiene una parte buena y una parte mala. ¿Por qué? Porque cuando tú llevas 15 series</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=152" target="_blank" class="timestamp">[02:32]</a> y haces 5 más en un ejercicio, ahí tienes la fatiga de los anteriores. Es más estímulo, pero también es más fatiga. Entonces la persona tiene que dilucidar si le interesa más una frecuencia 1 o 2. Ese no es el tema, pero contextualizo. Entonces, ¿qué sucede? Que tú cuando tienes que buscar el estímulo, a más series más oportunidad tienes. Entonces, si tú haces 20 series al 80%,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=182" target="_blank" class="timestamp">[03:02]</a> generarás más crecimiento que si haces 5 al 80. ¿Dónde radica el problema que ahora la gente le explota la cabeza con el título de este vídeo y no acaban de entenderlo? Que para tú crecer en 5 series, porque hay gente ahora que sigue nombrando el heavy duty de Mike Metzger, que llevó con éxito a la práctica Dorian Yates y demás. Vamos a ver una cosa. Si vosotros hicierais el heavy duty de verdad,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=207" target="_blank" class="timestamp">[03:27]</a> Os echarían de vuestro gimnasio comercial. Porque no es que vosotros no estéis preparados para el heavy duty, es que no está preparado el resto del mundo. La focalización, la intensidad, acordonaban a la zona. Se hablaba Dorian con su compañero prácticamente con grunidos, dicho por él solo para cambiar el peso. Iba con una concentración a cada serie que se jugaba la vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=232" target="_blank" class="timestamp">[03:52]</a> Y vosotros me decís que estáis replicando eso a las 7 de la tarde en un gimnasio comercial a tope. No sabéis de qué estáis hablando. Directamente os echarían. Por lo tanto, no digáis que hacéis heavy duty o super alta intensidad. Decid que hacéis 5 series y que vais pasando por ahí. Por eso no crecéis. Ahí está el problema. Se puede con 5, 6, 4 series. Es aproximado porque el heavy duty había muchas series de aproximación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=262" target="_blank" class="timestamp">[04:22]</a> que es una de las polémicas del tipo de entrenamiento, porque Dorian, si leéis el libro del retrato de un guerrero que explica el concepto del entreno, él apunta a lo que considera las series que cuentan. Pero hay un montón de series de aproximación que no cuentan. Os diré un secreto, todas esas series de aproximación de Dorian</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=287" target="_blank" class="timestamp">[04:47]</a> van con más intensidad y con más esfuerzo que todo el fallo de los que hablan que hace G20. Entonces, realmente lo único que estoy diciendo, y este es el título, el porqué del título, es que si tú vas a concentrar todo tu entreno en que tus series, las que cuentan, las que van a generar crecimiento, son 5 por grupo muscular, esas series tienen que ser llevadas a un extremo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=315" target="_blank" class="timestamp">[05:15]</a> del cual, como he dicho, no estáis preparados vosotros, 99%, siempre hablo en general, ni el entorno que os rodea en el gimnasio. Es que no tenéis el sitio para hacer heavy duty. Porque Dolan directamente acordonaba la zona que entrenaba con su compañero. No se le podía hablar, no se le podía mirar, era un nivel de foco que no entendéis. Hablamos de un tipo de entreno en el cual remando se arrancaba el tendón del bíceps</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=344" target="_blank" class="timestamp">[05:44]</a> el del tríceps, hablamos de una ultra intensidad que le obligó a retirarse. Y esto viene de una polémica generada entre Mike Metzger y Arnold, en el cual Arnold decía que entrenaba mañana y tarde dos veces y Metzger decía que entrenaba un día y descansaba tres. Por poner un ejemplo a grandes rasgos, probablemente Arnold entrenaba menos y Metzger entrenaba más. Pero al final, como todo en la vida, había que buscar polarizar y unos estaban con uno y otros con uno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=374" target="_blank" class="timestamp">[06:14]</a> Entonces probablemente todo estuviera exagerado. Tanto el volumen inmenso de entrenamiento de Arnold como el volumen tan bajo de Metzger. También Metzger fue precursor de subir más los hidratos. Era una persona que se basó en que se entrenaba demasiado y que el descanso generaba crecimiento. Eso está bien, pero el estímulo que él conseguía con unas pocas series</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=401" target="_blank" class="timestamp">[06:41]</a> y que Dorian llevó al extremo porque era un guerrero de un nivel mental infinito, no podéis replicarlo vosotros. Por tanto, en el momento que conseguimos hacer un entrenamiento de 15 o 20 series, porque hay gente también que se pone las manos a la cabeza de forma sistemática, hostia, 20 o 25 series. A ver, lo que hablábamos al principio del tema del sobreentrenamiento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=428" target="_blank" class="timestamp">[07:08]</a> tranquilidad, hacer unas extensiones de cuádriceps 4, por ejemplo, hacer un poco de culfe moral, para entrar en calor y congestionar, son 8, hacemos 4 de prensa 12, 4 de senta y 16, un poquito de gemelos y zancadas, 20 o 25 series en un entreno de pierna, frecuencia 1 semanal, si es frecuencia 2, pues hacer los básicos el primer día, los segundos más de aislamiento, 20 o 25 series por semana,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=456" target="_blank" class="timestamp">[07:36]</a> Tampoco es una locura de nivel bíblico para entrenar. Porque hay gente, hostia, es que 25, es que esto es imposible, natural, no sé. Para, para, para, para. Hay mucho sesgo mental. Entonces, contextualizar. Vamos a poner 15, 18 series, 20, 14. Ese rango te permite...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=482" target="_blank" class="timestamp">[08:02]</a> sin ser tan exigente a nivel de intensidad, porque yo mismo lo digo, yo no soy capaz. Es decir, yo puedo coger y decir, voy a hacer pierna, pero voy a hacer unas top set de sentadilla, una de prensa, una de hack y una de extensiones, cuatro. Cierto es que a veces en la sentadilla pruebo esa top set por las mañanas sola y busco...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=508" target="_blank" class="timestamp">[08:28]</a> Esa ultra intensidad es sumar un ejercicio, una repetición más, un kilo y medio más y busco. Pero realmente mentalmente es agotador la ultra intensidad. Entonces, ¿qué haces? Pues probablemente llegues al 90% y hagas cuatro series. En vez de una, al 120. Por eso explico que en la gran mayoría de gente 99.9% es más fácil crecer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=536" target="_blank" class="timestamp">[08:56]</a> Si semanalmente metes 25 series de un grupo muscular, ¿qué si metes 5? Que probablemente luego dirá uno, pues 15 lo mejor. Sí, seguramente. Pero hablamos de polarizar un volumen más alto a una ultra intensidad con un volumen más bajo. O muy bajo, porque 5 series de grupo muscular a la semana es muy bajo. ¿Sabéis cómo tenéis que llevar esas series?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=560" target="_blank" class="timestamp">[09:20]</a> Porque la cosa ya pasa a ser apoteósica en el momento que hay gente que pregunta, oye, ¿y las cinco series? Si quieres crecer con cinco a la semana, ¿tienen que ser al fallo? No, al fallo no. Otro escalón, otro y otro. Tiene que ser a muerte. Lo que no puede ser encima es que hagamos cinco series a reír diez. Para eso no vayas al gimnasio. Es que es de lógica. Entonces, claro, cuando dices eso, hostia, te sobreentrenarás</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=590" target="_blank" class="timestamp">[09:50]</a> Demasiado volumen para y escucha. Para crecer con la ultraintensidad debes llevar tus entrenos y tus series a un nivel de foco que la mayoría de gente no está capacitada. ¿Qué hace o qué es para mí lo más lógico en la gran mayoría de gente? Buscar un volumen de trabajo más alto que te permita con más series generar un estímulo que genere crecimiento a posteriores y la nutrición y el descanso son correctos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=620" target="_blank" class="timestamp">[10:20]</a> que si no lo fías todo, cuatro o cinco series. Porque otra cosa os voy a decir, hacer las series al fallo en el cul barra es una cosa, y en la sentadilla, la prensa, la hack, la mel, las zancadas, eso es otra. Por eso, una vez más, hay más gente con buenos brazos que con buenas piernas. Entonces, abrid la mente, porque llega un momento que a nivel de entrenamiento la gente va muy perdida. ¿Cuántas series tengo que hacer para crecer? Depende de cómo las salas. No es el número.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=651" target="_blank" class="timestamp">[10:51]</a> Hay gente que no genera estímulo con 50 series por grupo muscular y otros que lo pueden generar con 5. Pero lo que vengo a decir es que, en términos generales, un volumen más alto de trabajo en condiciones normales te generará más posibilidades de crecimiento que si dices, oye, lo hago con 5 porque yo hago ultra intensidad. O el heavy duty.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=678" target="_blank" class="timestamp">[11:18]</a> todo lo que utilizaba el heavy duty, forzadas, respause, drop sets, todo esto, es muy complicado, muy complicado y el riesgo de lesión con el heavy duty o la ultra intensidad es mayor. Además tienes que tener un control sobre el ejercicio brutal, porque cuando vas al límite tan absoluto, cuando haces drop sets descendentes de toda la vida, o respause, que es hacer la serie al fallo, descansar 10 segundos, seguir,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=706" target="_blank" class="timestamp">[11:46]</a> Tienes que tener un control sobre la técnica descomunal. Solo es para avanzados. Entonces no tiene sentido que gente que empieza en el gimnasio con la manía de sobreentrenarse, ¡pum!, ultraintensidad. Sí, pero para. Esto es muy serio. Entonces, que haya que ir o que sea importante cómo hacer las series, lo digo siempre. Entonces probablemente sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=739" target="_blank" class="timestamp">[12:19]</a> Pero como ir al tope es tan complicado, más series te pueden garantizar, que es lo que hace la mayoría de gente, un estímulo mayor, aunque no todas las series, porque hay que ser sincero. Si todo fuera ideal, dices, hostia, en 5 series y 40 minutos me metí el entreno de piernas. Sí, pero la realidad es que es muy difícil tener ese foco varios días a la semana o el día que entrenes, pom, pom, pom.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=769" target="_blank" class="timestamp">[12:49]</a> Entonces, ¿qué acaba sucediendo? Por eso la mayoría de gente que va al gimnasio ni se les nota. Que hacen el volumen de trabajo de la ultraintensidad con la intensidad de 30 series. Y ahí viene el problema. No tienes ni volumen de trabajo ni intensidad. Que lo ideal es, oye, mira, con 8 series, con 5, con 4 y en 40 minutos a muerte, pam, pam, drop, set, drop, y pa' casa. Y más con el calor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=801" target="_blank" class="timestamp">[13:21]</a> Perfecto. Ahora bien, ¿quién está capacitado para eso? Porque luego te habla de la ultraintensidad y no quiero ser malo ni tener el famoso sesgo de autoridad, pero es que ves a las personas que te lo están debatiendo y dices, bueno, vale, perfecto. ¿Lo has entendido? ¿Has leído algún libro? ¿Te has visto algún vídeo? Ahora bien, ¿qué? ¿Qué de tus músculos?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=826" target="_blank" class="timestamp">[13:46]</a> Al final, ya sé que esto no va de esto, ¿no? Que si no, no tienes por qué. Tú puedes saber mucho y no estar fuerte. Sí, vale. Pero también te llegará un momento que habrá que poner en práctica empírica sobre el cuerpo de las personas o de quien entrenes esas teorías. Yo podría mandar a mis clientes un heavy duty. Oye, 40 minutos listo, en media hora. Claro, pero la realidad es que si yo no veo a esa persona</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=851" target="_blank" class="timestamp">[14:11]</a> Si esa persona no está preparada mentalmente y físicamente y probablemente ni el gimnasio al que vaya esté preparado para ese tipo de entreno, no le va a resultar exitoso. ¿Qué hago? Pauta una rutina de entre 15 y 20 series, 22 el día de pierna y probablemente exigiendo que te mande vídeos, exigiendo que ajustes bien el peso, exigiendo que probablemente lleve a buen puerto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=881" target="_blank" class="timestamp">[14:41]</a> con mayor probabilidad que con un entreno de alta intensidad. Entonces ya no es lo que es mejor o peor, es lo que eres capaz de hacer. Porque igual que hay gente que podría decir, oye, mira, yo entrenando dos horas lo mejor, y hay gente que dice que yo dos horas no las tengo. Vale, pues busca máxima intensidad. Adapta a tu vida tu entreno, si no eres profesional. Luego habrá un 1% de gente que se dedica a ello y que ya busca un camino en función de</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=908" target="_blank" class="timestamp">[15:08]</a> cómo se siente, cómo se recupera. Hay gente que le ha ido bien el heavy duty, lo ha probado con turistas profesionales, otros que no, otros que tienen más volumen de trabajo, otros que menos, otros que trabajan en super sales, otros que trabajan peso libre. Hay muchas fórmulas. Lo que digo es que busquéis la fórmula para la cual estáis capacitados. Y que crecer con unas pocas series...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=933" target="_blank" class="timestamp">[15:33]</a> Parece muy idílico, está muy bien sobre el papel, pero luego hay que meterse bajo la barra de sentadilla, bajo la prensa y acabar vomitando y acabar mareado. Mirar como... Buscar vídeos de Dorian. Buscar vídeos del heavy duty, de la alta intensidad llevada al extremo. Que es como creces con tan pocas series. Porque si tú, como hacía Dorian lo decía, entrenas 40 minutos y le cachas 2 o 3 días, que eso se ha dicho igual que Metzler,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=962" target="_blank" class="timestamp">[16:02]</a> ¿Tú sabes cómo tiene que ser esa media hora, esos 40 minutos? Es que no estáis preparados para esos 40 minutos. Es así de sencillo. Por eso, para mí, a grandes rasgos y en general, es más fácil crecer con 25 series que con 5. Por estadística de probabilidades de la mayor parte de la gente donde entrenan y su capacidad física y mental. Y a partir de aquí, con el tiempo, que cada uno desarrolle sus talentos como mejor pueda. Pero al final, acordaros siempre</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=992" target="_blank" class="timestamp">[16:32]</a> y me sabe muy mal, vuestros músculos dictaminarán si el camino que habéis escogido es el correcto o no. Y sobre todo, si lo habéis recorrido con éxito. Porque puede ser que a el heavy duty o a la alta intensidad vaya muy bien si lo haces bien, pero el problema es que no estás capacitado para hacerlo. Igual que hay gente que no está capacitada para hacer mucho más volumen de trabajo, porque a partir de los 30 minutos pierde el foco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Oyq7kXVPWzE&t=1022" target="_blank" class="timestamp">[17:02]</a> Hay de todo, pero reflexionar sobre eso no es tan sencillo como qué número de series hago. Depende de cómo las hagas. Un fuerte abrazo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 22/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
