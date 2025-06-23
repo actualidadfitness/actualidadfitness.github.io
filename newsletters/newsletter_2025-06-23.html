@@ -1,0 +1,383 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 23/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">23/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-WtYzge0Bsn8'>SE ROMPE LOS HUESOS PARA MEDIR MÁS</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-WtYzge0Bsn8">
+            <h2>SE ROMPE LOS HUESOS PARA MEDIR MÁS</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 23/06/2025 14:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=WtYzge0Bsn8" target="_blank">
+                    <img src="https://i.ytimg.com/vi/WtYzge0Bsn8/hqdefault.jpg" alt="SE ROMPE LOS HUESOS PARA MEDIR MÁS" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video narra la historia de Jefferson Cosio, un influencer colombiano con complejo de altura que decide someterse a una peligrosa cirugía de alargamiento de piernas. A pesar de medir 1,77m (más que la media), busca alcanzar más de dos metros mediante un procedimiento costoso y doloroso. El video detalla la compleja operación, la difícil rehabilitación, los riesgos y el alto coste económico y físico. Finalmente, muestra su recuperación parcial y su intención de repetir el proceso para lograr su objetivo final de altura.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Complejo de Altura Inesperado <a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&amp;t=90" target="_blank">[01:30]</a></h3>
+
+<p>Se presenta a Jefferson Cosio, quien, a pesar de medir 1,77m (altura superior a la media en muchos países), sufre un profundo complejo por ser bajito. Este trauma lo impulsa a tomar una decisión drástica y costosa para ganar unos centímetros.</p>
+
+<h3>La Cruda Realidad de la Cirugía <a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&amp;t=179" target="_blank">[02:59]</a></h3>
+
+<p>Se explica el procedimiento de alargamiento de extremidades: cortar la tibia, insertar clavos y separar los huesos gradualmente para estimular el crecimiento de nuevo tejido óseo. Se enfatiza lo salvaje, doloroso y peligroso de la intervención quirúrgica.</p>
+
+<h3>El Sufrimiento Diario Post-Operación <a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&amp;t=277" target="_blank">[04:37]</a></h3>
+
+<p>Tras la cirugía, Jefferson debe alargar sus huesos un milímetro cada día usando un artefacto. Este proceso diario es extremadamente doloroso, debilita los huesos y le hace perder toda la musculatura de las piernas durante meses.</p>
+
+<h3>La Agónica Lucha por Volver a Andar <a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&amp;t=387" target="_blank">[06:27]</a></h3>
+
+<p>La rehabilitación es la parte más dura y crucial. Jefferson, postrado y sin fuerza en las piernas, debe someterse a dolorosos ejercicios para recuperar la movilidad y aprender a caminar de nuevo, enfrentando el riesgo de quedar con cojera permanente.</p>
+
+<h3>El Alto Precio y la Meta Obsesiva <a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&amp;t=645" target="_blank">[10:45]</a></h3>
+
+<p>Se revela el costo total del proceso (entre $150k y $200k) y cómo Jefferson logra eventualmente caminar, aunque con dificultades iniciales. Sin embargo, se destaca que su objetivo final es medir más de 2 metros, lo que implicaría repetir todo el dolor y el gasto.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=0" target="_blank" class="timestamp">[00:00]</a> El hombre que se ha gastado 200 000 dólares en aumentarse la altura. Esto es una puta locura. Por supuesto, este vídeo patrocinado no. Vídeo de nuestro amigo Alomo que hace unos documentales de la hostia. Vamos a ver este tipo lo que ha hecho, la salvajada que se ha hecho para poder crecer unos centímetros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=16" target="_blank" class="timestamp">[00:16]</a> Jefferson Cosio. Un joven colombiano con un claro problema que a grandes rasgos podría resumirse en tres palabras. Complejo de altura. Vivir con el trauma de sentirse bajito y querer ser más alto. Hasta cierto punto esto es algo habitual en muchas personas que no llegan a la altura que les gusta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=34" target="_blank" class="timestamp">[00:34]</a> pero es algo que suele afectar a personas que miden 5 o 10 centímetros por debajo de la media de su país. Aún así, a grandes rasgos, podríamos determinar como una persona bajita a alguien que mida menos de 1 metro 75. ¿En serio? Pero si en España creo que la media es eso, ¿no? A ver, aquí está. ¿1,69 en la media de España? No puede ser, ¿no? 1,76 para los hombres y 1,62 para las mujeres. La media. Recordad que la media entra en los que son muy altos porque son muy bajos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=62" target="_blank" class="timestamp">[01:02]</a> ¿Qué altura se consideraría una altura baja? En todos los hombres, se traduce en hombres adultos que miden menos de unos 63. Eso sí, eso sí, de algunos hombres de unos 63, pues sí, bueno, pero unos 75 no, cabrones. Con estos valores había algo en el caso particular de Jefferson que no cuadraba y que podría revelar que el complejo que tenía Jeff con la altura era aún más grave de lo que podría llegar a pensarse. Jefferson medía un metro setenta y siete de altura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=90" target="_blank" class="timestamp">[01:30]</a> En comparación con la media de su país, Colombia, Jefferson era 5 centímetros más alto que la media colombiana. Pero no solo eso, Jefferson también era más alto que la media de, por ejemplo, España, mi país. Y tendríamos que irnos a los países nórdicos, los que tienen las medias de altura más altas del planeta, para que Jefferson fuera considerado bajito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=115" target="_blank" class="timestamp">[01:55]</a> Pero todos estos datos que hacían ver a Jefferson como alguien con una buena estatura no eran suficientes para él. Él quería más. Quería ser... Hostia, yo no sé qué... La moda que hay ahora con el tema de las carillas, eh. ...más alto. Quería... Todos con carillas en la boca, tío. ...medir más de dos metros. Y solo había una única forma de conseguirlo y no sería barata. La operación de... Barato. Barato es lo de menos. El problema es el dolor que va a pasar. ...punto de altura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=144" target="_blank" class="timestamp">[02:24]</a> un procedimiento quirúrgico que busca alargar los huesos de las piernas para aumentar la estatura del paciente. Es una de las operaciones más novedosas del mundo pero a la vez una de las más intrusivas y complicadas que existen. Aunque fue creada en un principio como una solución para corregir malformidades en las piernas,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=161" target="_blank" class="timestamp">[02:41]</a> Rápidamente algunas personas quisieron someterse a ella para conseguir tener más altura. Además de complicada y peligrosa, esta operación también era extremadamente cara. Pero Jefferson lo tenía claro y no lo dudaría ni un segundo más. Tomó la decisión y se preparó para la intervención.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=179" target="_blank" class="timestamp">[02:59]</a> Durante la operación y para conseguir aumentar la altura de Jefferson, se le realizó un corte en la tibia de ambas piernas y se le implantó un dispositivo con clavos que poco a poco iría separando los huesos, dejando un hueco entremedio donde el propio cuerpo iría generando un hueso nuevo. Realizar esta intervención era realmente... ¡Qué salvajada, tío! ¡Qué jodida salvajada, tío!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=202" target="_blank" class="timestamp">[03:22]</a> Un momento, un momento. Te vengo a decir y recordar rápido que la mejor proteína del mercado, la hidrolizada por The Profits, tiene un descuento increíble si lo usas con mi código de descuento Antonio G. Proteína, creatina, todo lo que se te ocurra en suplementación deportiva. Y más. Así que ya sabes el código que tienes que usar para ponerte fuerte. ¡Vamos! De peligrosa. Si los especialistas no acertaban milímetro a milímetro en los cortes que debían realizar, podrían provocar a Jeff un dolor constante para el resto de su vida, deformidades en las piernas o incluso que no se... ¿Qué necesidad de meterse en este envergenal? Es que yo no lo entiendo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=232" target="_blank" class="timestamp">[03:52]</a> ...volvieran a unir los huesos jamás. A pesar de lo realmente complicada que llegó a ser su intervención y que ésta duró más de cuatro horas, Jefferson consiguió superarla con éxito y todo salió como se había planeado. Pero ahora empezaría realmente la parte más dura y complicada de toda la transformación. Próximas semanas e incluso meses postrado en una silla de ruedas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=257" target="_blank" class="timestamp">[04:17]</a> Sus piernas habían quedado en una situación de inutilidad total. Pero lo realmente importante tras la operación era el aumento de altura. La operación en sí no había hecho que Jefferson fuera más alto. Solo había abierto la puerta a que sus huesos se pudieran alargar. Y para conseguir aumentar su altura...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=277" target="_blank" class="timestamp">[04:37]</a> Jefferson debía mediante el uso de un artefacto que se conectaba a los clavos que le habían insertado durante la operación, alargar sus huesos un milímetro cada día. Era lo máximo que podía alargarlos en un día, por lo que si quería aumentar hasta el metro ochenta y cinco que deseaba medir, debía repetir esta acción durante ochenta días.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=298" target="_blank" class="timestamp">[04:58]</a> 80 días realizando una acción que llegaba a ser por momentos bastante molesta y que además dejaba el hueso en un estado muy frágil. Durante todo este alargamiento los huesos debían endurecerse y para ello deberían pasar entre 2 y 6 meses para que su nueva altura quedara fijada. El problema es que durante todo este tiempo no solo sus huesos se habían debilitado. Al no poder caminar Jefferson había perdido por completo la musculatura de sus piernas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=326" target="_blank" class="timestamp">[05:26]</a> Por lo que volver a conseguir ponerse de pie sería una tarea extremadamente complicada. Algo que también debía hacer Jefferson tras salir de la operación era hacer frente al coste de esta. La cifra del costo de la operación ascendió hasta los 100.000 dólares.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=341" target="_blank" class="timestamp">[05:41]</a> El dinero no era un problema para Jefferson ya que era un influencer con millones de seguidores, pero 100.000 dólares era una cantidad altísima de dinero. Pocas operaciones son tan costosas como esta y para las personas que realmente sufren de malformidades y si es necesaria esta intervención de reparación de los huesos, debe ser casi imposible hacerse cargo de ella.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=363" target="_blank" class="timestamp">[06:03]</a> Pero esto solo era la cantidad inicial, la de la propia operación. Los meses que vendrían a continuación de la rehabilitación la llegarían a poder aumentarla hasta casi doblar esa cantidad. El posoperatorio y la rehabilitación eran la parte clave de toda la transformación. Es cierto que si la intervención no hubiera salido perfecta, Jefferson no hubiera vuelto a tener piernas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=387" target="_blank" class="timestamp">[06:27]</a> Pero si la rehabilitación tampoco salía perfecta, Jeff jamás saldría de esa silla de ruedas. La estricta rehabilitación comenzó desde el mismo día siguiente a la operación. Momento en el que Jefferson se puso a disposición de los mejores rehabilitadores para lograr volver a caminar. Cada día Jefferson debía hacer ejercicios de movilidad en sus piernas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=407" target="_blank" class="timestamp">[06:47]</a> Esto no ha podido acabar bien, tío. Yo creo que este tío ahora mismo puede andar. Me parece bien que esto no acaba bien, ¿eh? Aunque estas apenas podían moverse unos centímetros. Puede andar ahora mismo. De hecho, durante las primeras semanas ni siquiera su pie se movía del todo. Por lo que tuvieron que empezar la rehabilitación desde ese punto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=424" target="_blank" class="timestamp">[07:04]</a> Una de las formas más efectivas de que Jefferson lograra el milagro de recuperarse fue hacer uso de la piscina para ganar movilidad y es que si ya viste el documental de este canal sobre la terapia que se le está realizando a Ronnie Coleman para recuperar sus piernas,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=439" target="_blank" class="timestamp">[07:19]</a> Sabrás que realizar ejercicios de movilidad en el agua no solo ayuda a las personas mayores, sino que también es súper efectivo en la etapa de rehabilitación de lesiones graves, ya que las piernas reciben muy poco impacto contra el fondo de la piscina y pueden realizar movimientos similares a andar o correr. Pero hasta el momento nada era sufici... Si es que está deforme.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=460" target="_blank" class="timestamp">[07:40]</a> Mirar esa longitud de la tibia con respecto a la del fémur. Jefferson seguía acudiendo al médico para que le realizaran ejercicios de estiramiento y revisiones constante, pero aún con todo esto seguía postrado en la silla de ruedas. Los ejercicios de rehabilitación...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=475" target="_blank" class="timestamp">[07:55]</a> aunque muy necesarios, eran extremadamente dolorosos para Jeff, que no podía evitar mostrar en su cara el sufrimiento que le provocaban ejercicios tan sencillos como aguantar un disco con sus piernas. ¿Estaba valiendo la pena todo el sufrimiento durante todos estos meses por crecer unos cuantos centímetros?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=494" target="_blank" class="timestamp">[08:14]</a> Probablemente era la pregunta que se estaría haciendo Jefferson en ese momento constantemente. Pero todos los túneles tienen la luz final, y aunque parecía que Jefferson no se recuperaría jamás, tras un largo tiempo consiguió por fin dar un gran paso. Tras meses postrado en la silla de ruedas, Jefferson consiguió por fin levantarse y mantener sus piernas erguidas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=516" target="_blank" class="timestamp">[08:36]</a> La rehabilitación estaba haciendo efecto y sus piernas habían recuperado la fuerza suficiente para elevar a Jefferson, pero de momento solo podía hacerlo usando un andador o unas muletas. El camino de la recuperación era largo y si Jeff forzaba a su cuerpo a andar más de lo debido, sus nuevos huesos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=537" target="_blank" class="timestamp">[08:57]</a> Que tiene un huevo en la cabeza tirado. Podrían quebrarse. Por ello, y a pesar de haber dado un gran paso, este siguió yendo a rehabilitación todas las semanas y a realizar todo tipo de ejercicios de rehabilitación y recuperación de la fuerza de sus piernas. Tuvieron que pasar aún más meses, pero por fin Jeff se pudo mantener de pie y soltar incluso las muletas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=559" target="_blank" class="timestamp">[09:19]</a> Lo estaba logrando. Casi siempre tenía que ir acompañado de unas muletas, pero por momentos podía mantenerse en pie sin ningún tipo de ayuda. Y poco a poco se fue independizando de la muleta y además pudo enseñar a sus seguidores mediante un cartel de sí mismo de antes de la operación cuánta altura había ganado. Y también lo hizo con sus amigos que se quedaron totalmente perplejos con su nueva estatura. Pero la realidad es que no había ganado mucha altura. Estaba sacrificando su propia salud por unos cuantos centímetros de más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=589" target="_blank" class="timestamp">[09:49]</a> Y además Jeff se estaba quedando cojo de una pierna. Con apenas 8 centímetros de diferencia y aunque ya... A ver, a ver, apenas 8 centímetros, 1,85. A 1,77. Ya podía caminar, era evidente... No, no, no merece nada la pena, pero quiero decir que es una locura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=604" target="_blank" class="timestamp">[10:04]</a> que sus piernas todavía no gozaban de la salud suficiente para poder andar correctamente. Era evidente que su andar era completamente cojeante y se veía muy ralentizado. Esta era la situación que parecía que permanecería por siempre en Jeff, que la rehabilitación no había salido perfecta y solo con eso ya había conseguido tener una cojera permanente. Se ha quedado cojo para toda la vida. Es que se ha retrasado, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=628" target="_blank" class="timestamp">[10:28]</a> Pero tras mucho tiempo con estos andares, Jeff, quien no había dejado de rehabilitarse con la esperanza de solucionar su cojera, acabó por terminar caminando correctamente. El proceso se estaba completando. Ahora podía empezar a realizar actividades cotidianas y a incluso trotar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=645" target="_blank" class="timestamp">[10:45]</a> Pero toda la operación y la rehabilitación le había costado una cantidad de dinero que casi nadie en el planeta se podría permitir, cifras que rondan entre los 150 y los 200.000 dólares. Aunque con todo esto todavía había algo más grave.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=662" target="_blank" class="timestamp">[11:02]</a> El objetivo de Jeff no era simplemente medir un metro ochenta y cinco, para nada. Su objetivo final era acabar midiendo más de dos metros. Es decir, Jefferson quería volver a repetir todo este durísimo proceso por el que había estado pasando durante tantos meses y que le había costado una fortuna para lograr aumentar a un quince centímetros más. De momento se queda en el metro ochenta y cinco y veremos qué pasará en el futuro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WtYzge0Bsn8&t=691" target="_blank" class="timestamp">[11:31]</a> Este está enfermo, tío. Espero que te haya gustado. ¿Cómo se llama? ¿Jefferson qué? No sale andando en ningún lado, ¿no? No le interesa, claro. Bueno, ahí no parece que coge. No sé. No sé cómo queda. No sé cómo ha quedado.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 23/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
