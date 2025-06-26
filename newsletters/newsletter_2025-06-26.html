@@ -1,0 +1,392 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 26/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">26/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>alvarobernalalejandre</strong>: <a href='#video-dOafBXTWxTg'>Pradells felizmente recuperado</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-dOafBXTWxTg">
+            <h2>Pradells felizmente recuperado</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: alvarobernalalejandre</span>
+                <span class="date">Publicado: 26/06/2025 13:21</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=dOafBXTWxTg" target="_blank">
+                    <img src="https://i.ytimg.com/vi/dOafBXTWxTg/hqdefault.jpg" alt="Pradells felizmente recuperado" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video critica duramente el culturismo de competición actual, señalando la normalización del uso peligroso de sustancias y la falta de cualificación de quienes asesoran.
+Cuestiona la ética de destruir la salud física y mental por objetivos competitivos, comparándolo con otras adicciones y criticando la falta de apoyo crítico del entorno.
+Se analiza el caso de un deportista que, a pesar de graves problemas de salud, parece restarles importancia, reflejando una posible desconexión con la realidad.
+El orador reflexiona sobre la necesidad de pensamiento crítico y sobre escuchar lo que se "tiene que oír", no solo lo que se "quiere oír", para evitar consecuencias desastrosas.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Crítica demoledora al 'culturismo experto' sin titulación <a href="https://www.youtube.com/watch?v=dOafBXTWxTg&amp;t=54" target="_blank">[00:54]</a></h3>
+
+<p>El video comienza leyendo un comentario que expone el peligro de poner la salud en manos de personas sin titulación médica que recomiendan sustancias químicas peligrosas. Se critica la normalización de que cualquiera revise analíticas y aconseje sobre dosis, comparándolo con la falta de conocimiento sobre las consecuencias globales.</p>
+
+<h3>El Culturismo Actual: ¿Deporte o Espectáculo Grotesco? <a href="https://www.youtube.com/watch?v=dOafBXTWxTg&amp;t=136" target="_blank">[02:16]</a></h3>
+
+<p>El orador declara que el culturismo actual es "una mierda y una mafia", criticando el cambio a partir de los años 80 con el uso de hormonas, insulina y diuréticos. Describe los físicos modernos como "grotescos" y un "concurso de freak", lamentando cómo se ha normalizado poner el cuerpo al límite de la muerte.</p>
+
+<h3>¿Destruir la Salud: ¿Moralmente Mejor por un Objetivo Competitivo? <a href="https://www.youtube.com/watch?v=dOafBXTWxTg&amp;t=279" target="_blank">[04:39]</a></h3>
+
+<p>Se plantea la pregunta de por qué destruir el cuerpo por un objetivo competitivo parece moralmente más aceptable que hacerlo por placer (como con el alcohol). Se argumenta que los deportistas de élite que llevan su cuerpo al límite lo hacen por sí mismos, no son necesariamente ejemplos para la sociedad en términos de salud y bienestar.</p>
+
+<h3>No Asumes Riesgos, Asumes Consecuencias <a href="https://www.youtube.com/watch?v=dOafBXTWxTg&amp;t=403" target="_blank">[06:43]</a></h3>
+
+<p>El video corrige la percepción de "asumir riesgos", explicando que en realidad se asumen las consecuencias, pero las personas actúan creyendo que el resultado negativo no les ocurrirá. Esto se relaciona con el consumo de sustancias peligrosas en el culturismo y la aparente desconexión con la realidad de los riesgos.</p>
+
+<h3>El Cuerpo Colapsa, ¿Y Nadie Te Dice Que Pares? <a href="https://www.youtube.com/watch?v=dOafBXTWxTg&amp;t=667" target="_blank">[11:07]</a></h3>
+
+<p>Se lee un comentario alarmante que describe síntomas graves en el deportista, como apnea, convulsiones y crisis epilépticas, a una edad temprana. El orador expresa profunda preocupación no solo por los signos físicos de colapso, sino también por la ausencia de voces en el entorno del atleta que le insten a detenerse.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=0" target="_blank" class="timestamp">[00:00]</a> Estoy muy contento de estar grabando también este vídeo y me está ayudando Marta, que está aquí. Y este comentario para mí es demoledor. Y el que no haga una lectura inteligente de esto y solo se vaya a los extremos, creo que no está entendiendo nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=22" target="_blank" class="timestamp">[00:22]</a> Dice, desde el momento en el que pones tu salud en manos de algún exculturista sin titulación médica que te recomienda terapias, entre comillas, de químicos que no se venden sin receta y juega con diuréticos, potasio, sodio, puntos suspensivos, como si fueran endocrinos expertos, desde ese momento ya está todo perdido. Se ha normalizado que cualquiera te revise una analítica y que te diga que todo está bien y que subas la dosis de la terapia otra vez, entre comillas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=54" target="_blank" class="timestamp">[00:54]</a> Si alguien no entiende que esta es la descripción más brillante que he leído de lo que es el culturismo de competición, si alguien quiere hacer caso omiso a esto, si alguien quiere pensar que una persona que no es médico puede saber muchísimo de un tema, sí, sin duda, puede saber muchísimo, pero no de las consecuencias globales. Esto no se trata de ser un experto de determinados fármacos y de cómo usarlos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=80" target="_blank" class="timestamp">[01:20]</a> Sino que muere gente por el uso de los diuréticos. Mueren personas. Deberíamos erradicar como fuese los diuréticos del culturismo. No vamos a poder evitar el uso de los derivados de la testosterona y de la propia testosterona, pero habría que hacer lo imposible por...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=98" target="_blank" class="timestamp">[01:38]</a> Suspender de por vida a las personas que consumieran estos fármacos antes de las competiciones. ¿Cómo se podría? Con analíticas expresas y si los organizadores quisieran. A los organizadores se la suda, a los competidores se la suda. Están tan absortos en ese sueño irreal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=116" target="_blank" class="timestamp">[01:56]</a> que van a hacer cualquier cosa con tal de ganar. Y estamos hablando de durante unos segundos de tu vida vas a tener una forma física en la cual has arriesgado totalmente tu salud. Habría que erradicarlo como fuera, así como los implantes, las infiltraciones, lo he dicho en muchos vídeos, se lleva un ecógrafo portátil, lo mira un técnico, persona con infiltración, persona que no compite nunca. Esto no le importa a nadie.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=136" target="_blank" class="timestamp">[02:16]</a> El culturismo actual siempre ha sido una mierda y siempre ha sido una mafia. Me crea contradicción porque me gusta el culturismo. A partir de los años 80 y pocos dejó de gustarme. Empezó el hormonal crecimiento, empezó la insulina, empezaron los diuréticos. Empecé a ver físicos ya con barrigas muy dilatadas y esas vascularizaciones horribles. Ahora llevado al extremo, ahora es grotesco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=156" target="_blank" class="timestamp">[02:36]</a> Es un concurso de freak, como si fuera un mono de circo de hace siglo y medio. Es grotesco todo lo que vemos en el culturismo y lo hemos normalizado. Hemos normalizado que estas personas estén a punto de morir, que envejezcan a una velocidad escandalosa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=174" target="_blank" class="timestamp">[02:54]</a> Lo hemos normalizado, ¿no? Afortunadamente, Joan Pradels está perfectamente de salud y aunque un pequeño contratiempo le impidió competir en el Arroz 3 Delicias Pro, nos cuenta en su canal que está feliz, que está contento, que todo está bien y que especialmente agradece el apoyo de todos sus seguidores. Vamos a leer algunos comentarios en su canal. Comentarios de ánimo, por supuesto. Cuídate mucho, Joan. Un abrazo para ti y para Marta. No tienes que demostrar nada. Eres un titán. A los que te seguimos nos da igual que compitas o no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=204" target="_blank" class="timestamp">[03:24]</a> Tienes tus negocios y tu vida. Me da muchísima fuerza para entrenar. Bueno, adelante. Gente que aprecia el trabajo, el esfuerzo. Me alegro de corazón que estés bien. Por supuesto, aquí no se trata de hacer una valoración sesgada. Se trata de ver un poco lo que hay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=222" target="_blank" class="timestamp">[03:42]</a> pero tratar de leer los comentarios analizando sociológicamente qué es lo que está pasando con el fitness, con esta industria de hacernos pensar que todo es posible, de que todo el mundo puede llegar a cualquier lado, de que la química no es tan mala. Ese es el concepto de blanquear. Cuando aquí hay personas que le dicen a alguien sigue, sigue, sigue, ¿os imagináis?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=243" target="_blank" class="timestamp">[04:03]</a> Que yo ahora mismo empiezo a beber alcohol todos los días en grandes cantidades y me lo paso muy bien y entonces estoy todo el día de buen humor. Hago cosas que no me atreví a hacer gracias al punto que me da el alcohol y cada vez me vais viendo peor. Me veis vomitando, me veis levantándome a las dos de la tarde porque no soy capaz de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=265" target="_blank" class="timestamp">[04:25]</a> dormir y entonces tengo que tomar pastillas para dormir y luego dosis muy altas de café u otros estimulantes y yo sigo contándoos mi vida y que me va muy bien y tal y me voy destruyendo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=279" target="_blank" class="timestamp">[04:39]</a> ¿Pensáis que alguien diría sigue con tus sueños Álvaro? ¿Por qué moralmente es mejor destruirse el cuerpo por un objetivo competitivo que por el placer? ¿Por qué? Que alguien me razone. Moralmente un culturista de competición o un ciclista que corre el Tour de Francia tiene más derecho a destruir su salud física y mental que el que lo hace de forma recreacional. ¿Por qué? Moralmente es mejor si al final el beneficio es para quien se destruye la vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=307" target="_blank" class="timestamp">[05:07]</a> Realmente no somos ejemplos de nada. Es como alguien que me diga, Nadal es mi ejemplo. Nadal se perjudicó su salud por él mismo. Yo me alegro que otras personas digan, a mí la capacidad de sacrificio de Nadal me ha inspirado fenomenal, pero Nadal…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=323" target="_blank" class="timestamp">[05:23]</a> no llevó a su cuerpo al límite por mí ni por ti, lo hizo por él. Yo respeto a Nadal, me encanta el tenis, pero que no es un ejemplo, no es un ejemplo de nada, es un ejemplo de una persona que por sus objetivos quiere llevar a su cuerpo al límite, nada más. Pero no está ayudando a la sociedad a mejorar en nada, no está dando ningún valor. El valor de destruirse nada tiene que ver con el valor de superar la frustración, de tener paciencia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=350" target="_blank" class="timestamp">[05:50]</a> Es como decirle a una persona, yo me quiero sacar la plaza de policía o de bombero o de juez o de técnico en la seguridad social y voy a hacer lo que sea, voy a tomar todo tipo de estimulantes, voy a renunciar a toda mi vida, voy a dejar de lado a mi familia, pero yo quiero la plaza.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=367" target="_blank" class="timestamp">[06:07]</a> Pues no creo que se le deba animar a una persona a que haga todo eso por tener una plaza. Habrá que animarle a que haga todo lo posible para tener la plaza, pero sin destruirse. Y yo creo que ese es el mensaje que se está confundiendo. Con tal de lograr tu sueño, te puedes destruir. Y aquí, ánimo, a por todas. Solo tú sabes, lucha. Solo tú sabes, sí, ya tú sabes. Aquí nos dicen, este vídeo tiene el tono para un niño de seis años. Hay que ser muy consciente de que es un adulto de casi 30 años. Y probablemente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=396" target="_blank" class="timestamp">[06:36]</a> Cuando decimos que alguien es adulto y que alguien es consciente, yo voy a decir algo que puede molestar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=403" target="_blank" class="timestamp">[06:43]</a> Los riesgos no se asumen. Lo que se asumen son las consecuencias. Cuando una persona va a toda velocidad con el coche por una zona en la que es peligroso hacerlo, lo que cree es que no le va a pasar. Aquí lo que ocurre cuando se consumen estas sustancias y se lleva este modelo de vida es que uno tiene la sensación de que no le va a pasar. No es que asuma el riesgo. Si de verdad tuvieran conciencia del riesgo, muchas cosas no se harían.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=429" target="_blank" class="timestamp">[07:09]</a> Bueno, seguimos viendo comentarios. Este no lo entiendo. Marta es la mamá de este niño que hasta nos habla como un nenito. Vamos, tío. Bueno, el cuerpo avisa y hay que hacerle caso. Todos tus seguidores te quieren mucho, como tú decías, y te lo están contando. Aquí, por ejemplo, estoy un poco desubicado. Ves los vídeos de varios días previos a la competición y estaba totalmente devorado por la ansiedad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=455" target="_blank" class="timestamp">[07:35]</a> Lo veías incluso deprimido. Y ahora cuenta esa experiencia tan grave de salud, casi feliz en tono anécdota. No entiendo absolutamente nada. Sigo pensando que hay un componente psicológico importante. Bueno, da esa sensación. Como que aquí no ha pasado nada o que quiere dar la imagen de normalidad en las redes. Yo creo que lo que ha pasado efectivamente es grave. Nos ha dado la versión que él nos quiere dar. No tengo por qué cuestionarla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=484" target="_blank" class="timestamp">[08:04]</a> Pero claro que ha pasado algo, ¿no? Este es otro comentario interesante. Yo tampoco entiendo este vídeo y el tono en el que cuenta las cosas. Creo que confunde positivismo con realidad. Efectivamente. Yo pienso que a veces la vida nos supera y vivimos en una burbuja. Recordad que un adulto inteligente tiene que decidir entre escuchar lo que quiere oír o escuchar lo que tiene que oír.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=511" target="_blank" class="timestamp">[08:31]</a> Vivimos en una sociedad en la que se nos dice que todos podemos hacer todo, que todo son enseñanzas. Recuerdo un político que hace años decía, me he equivocado, pido perdón, aprender es de sabios. Y le contestaron, sí, sí, caballero, pero es que se equivoca todos los días. Entonces, si todos los días tienes que pedir perdón…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=532" target="_blank" class="timestamp">[08:52]</a> el aprendizaje parece que no funciona. Hay cosas en la vida que, por desgracia, solo cambian cuando la hostia es verdaderamente grande. Dicen que las personas inteligentes paran antes de la hostia importante. Yo, por supuesto, no soy inteligente y me pasaría algo similar. Trato de aportar un poquito de sentido crítico</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=555" target="_blank" class="timestamp">[09:15]</a> Y de mentalidad adulta en las redes, que esto no sea hooligans, que esto no sea deporte, fútbol, que esto no sea o contra él o haga lo que haga nos parece bien. Pienso que hay espacio para la crítica. Y Prader nos dice en su vídeo que ha recibido muchísimas muestras de cariño y no lo cuestiono, pero hay un tono general en los comentarios y es no te estás dando cuenta, aunque digas que sí, de lo que está pasando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=581" target="_blank" class="timestamp">[09:41]</a> Bueno, aquí te dicen, por ejemplo, otra vez, que no se comprende este tono de anécdota, que hemos normalizado el poner el cuerpo al extremo, no solo física, sino mentalmente. Y bueno, si a eso se le añade química, pues no quiero ni pensarlo. Y te lo dicen muy claramente, creo que esta situación debe ser un punto de inflexión.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=601" target="_blank" class="timestamp">[10:01]</a> No solo sobre tu manera de competir, sino tu manera de ser. Esto es verdaderamente importante. Bueno, el tema de la comida, pues supongo que es un problema de inexperiencia. Es muy fácil decir que alguien ha hecho algo mal. Seguramente yo si me viese en una situación similar hubiera cometido errores también muy parecidos, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=624" target="_blank" class="timestamp">[10:24]</a> Acordaros, no se trata de machacar a nadie, se trata de que el contenido de alguna manera haga mejorar las cosas. El culturismo es un deporte terriblemente exigente para la salud física y mental, para el que pienso que no todo el mundo está preparado. De la misma manera que lo decía el otro día un alpinista que va a subir una montaña que es agreste, inhóspita, con cambios de temperatura y de climatología normales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=646" target="_blank" class="timestamp">[10:46]</a> radicales en muy poco tiempo, pues tiene que estar preparado para lo peor. No todo el mundo está preparado. Una cosa es que físicamente esté una persona preparada para hacer ese 8000 y otra cosa es que una persona esté preparada para afrontar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=659" target="_blank" class="timestamp">[10:59]</a> la realidad de lo que le va a venir. Pero como se nos ha dicho que querer es poder y que todo el mundo puede ser culturista, pues pasa lo que pasa, ¿no? Fíjate este, ¿no? Duermes con una máquina de apnea, convulsionas, tienes crisis epiléptica. En la cara ya tienes signos físicos de que estás empezando a colapsar y no sé qué es peor y no te das cuenta de que debes parar. Y lo peor es que nadie de tu entorno te lo dice.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=682" target="_blank" class="timestamp">[11:22]</a> No has cumplido ni los 30 y al ritmo que llegas no vas a llegar a los 35. Ojalá llegue a los 35 y a los 105. Ojalá cambie. Y lo que está pasando con Joan Pradels es el ejemplo de que no todo el mundo puede y de que los sueños, si se tratan de cumplir a toda costa, caiga quien caiga, casi siempre hay un drama.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=704" target="_blank" class="timestamp">[11:44]</a> Es que es constante. Mensajes de que el cuerpo te avisa, gente que te está diciendo que pares, pero probablemente has escuchado tantas veces que eres maravilloso, que eres increíble, que luches por tus sueños, que has perdido la percepción de la realidad. Te lo digo las veces que haga falta. Me pasaría a mí exactamente igual. Si a mí con tu edad...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=728" target="_blank" class="timestamp">[12:08]</a> de repente la vida me da muchísimo dinero, muchísima atención social, muchísima validación, pues probablemente perdería la cabeza. Es decir, las personas mayores no somos mejores. Yo estoy seguro que en mis 30 una situación como la tuya a mí me hubiera superado de la misma forma. Es verdad que cuando yo tenía 30 había gente muy cercana a mí que me hubiera dado...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=751" target="_blank" class="timestamp">[12:31]</a> una hostia como Dios manda y me hubiera hecho parar. Pero lo que más me asusta, y lo ves en muchos comentarios, es que nadie de tu entorno te diga que tienes que parar. Esta parte me preocupa mucho, ¿no? Gente que es muy crítica, intoxicación alimenticia y ahora epilepsia, no sabe qué inventar el cuentista. Bueno, no pasa nada, chavales, a seguir comprándole camisetas. Bueno, es un comentario crítico que viene a decir que a veces seguimos a personas y apoyamos a personas sin un criterio lógico, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=780" target="_blank" class="timestamp">[13:00]</a> Es buena reflexión por qué seguimos a determinadas personas, buscar respuestas a lo ocurrido. Yo creo que una persona inteligente, ante un hecho difícil en la vida, debe hacer un esfuerzo por buscar una lectura inteligente, no una lectura buenista, porque si lo dejamos en todo ese aprendizaje, el principio siempre es así, sí, perfecto, pero si a la siguiente vuelves a hacer lo mismo…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=804" target="_blank" class="timestamp">[13:24]</a> pues algo está fallando y no quiero alargarme más constantemente mensajes de que esto es un punto de inflexión donde debes dejar las competiciones bueno mensajes que te dicen que te mejores que se te apoya a muerte es que el mensaje de te apoyamos a muerte te puede llevar a la muerte en fin</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=829" target="_blank" class="timestamp">[13:49]</a> Trato de reflexionar. Estoy improvisando, leyendo los comentarios. No quería que fuera un vídeo en el cual yo veía todos los comentarios de antemano y los seleccionaba. Termino. Ánimo, chaval. Me quedé con ganas de verte competir. Todos. Y hemos visto una mejoría real a pesar de que haya cosas que pensamos muchos que no haces bien de entrenamiento y demás. Pero creo que ha habido una mejoría real. Bueno, te admiramos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dOafBXTWxTg&t=855" target="_blank" class="timestamp">[14:15]</a> En definitiva, uno de Dios te bendiga, ánimo, todo estará bien, te queremos mucho. Quiero terminar con esos mensajes positivos. Me quedo con este que dice al final del día lo más importante eres tú y tu bienestar. Recupérate pronto, arrasarás tarde o temprano. Un abrazo gigante. Vamos a quedarnos con lo positivo. Pero por favor, crítica para no caer en el buenismo. Un abrazo para todos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 26/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
