@@ -1,0 +1,356 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 27/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">27/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John_MH</strong>: <a href='#video-COux1VImf5U'>DEREK TIENE MOFLETES DE ARDILLA #culturismo #fitness #bodybuilding</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-COux1VImf5U">
+            <h2>DEREK TIENE MOFLETES DE ARDILLA #culturismo #fitness #bodybuilding</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John_MH</span>
+                <span class="date">Publicado: 27/06/2025 07:13</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=COux1VImf5U" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=COux1VImf5U" target="_blank">
+                    <img src="https://i.ytimg.com/vi/COux1VImf5U/hqdefault.jpg" alt="DEREK TIENE MOFLETES DE ARDILLA #culturismo #fitness #bodybuilding" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video consiste en un comentario sobre la apariencia física de varios culturistas, destacando su sequedad y la disciplina que esto implica.
+Se mencionan nombres como Calderón, Fede Guevara y Reldúnfor, comparando sus físicos en competición.
+El locutor admira el esfuerzo y sufrimiento visible en el cuerpo de Fede Guevara.
+Se concluye el breve comentario mencionando un detalle personal sobre Fede Guevara.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Comparación de Competición <a href="https://www.youtube.com/watch?v=COux1VImf5U&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El locutor comienza comparando el enfoque competitivo de culturistas como Calderón y Fede Guevara. Destaca la dedicación necesaria para competir y el impacto visual de ver a alguien "seco".</p>
+
+<h3>La Sequedad de Fede Guevara <a href="https://www.youtube.com/watch?v=COux1VImf5U&amp;t=29" target="_blank">[00:29]</a></h3>
+
+<p>Se enfoca en el físico de Fede Guevara, notando su extrema sequedad y las marcas visibles. Comenta humorísticamente sobre sus mofletes, asociándolos al culturismo "de verdad".</p>
+
+<h3>El Signo del Sufrimiento <a href="https://www.youtube.com/watch?v=COux1VImf5U&amp;t=40" target="_blank">[00:40]</a></h3>
+
+<p>El locutor interpreta la condición física del culturista como evidencia de gran esfuerzo y "sufrimiento". Refuerza la idea de que alcanzar ese nivel de definición requiere mucha disciplina y sacrificio.</p>
+
+<h3>Admiración por el Físico <a href="https://www.youtube.com/watch?v=COux1VImf5U&amp;t=50" target="_blank">[00:50]</a></h3>
+
+<p>Expresa admiración por el físico logrado, repitiendo que "mola, mola, mola". Se detiene brevemente en los detalles, como los coñillos pequeños.</p>
+
+<h3>Detalle Personal Sorpresa <a href="https://www.youtube.com/watch?v=COux1VImf5U&amp;t=58" target="_blank">[00:58]</a></h3>
+
+<p>Finaliza el fragmento mencionando un detalle personal sobre Fede Guevara. Señala que es padre de niñas pequeñas, añadiendo una dimensión humana al comentario sobre su físico.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=COux1VImf5U&t=0" target="_blank" class="timestamp">[00:00]</a> vas como calderón y decir bueno yo voy a competir y si no es esta va a ser en otra como Fede Guevara va a competir y pronto ostras que seco va este hombre en la última que he visto en las fotos estaba duro como una piedra no tiene un físico especialmente armonioso pero ostras mola ver gente que ha sufrido y que ha puesto tanto de su parte cuando ves el de Reldúnfor en competición que parece una ardilla que se ha llenado la boca de nueces sabes</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=COux1VImf5U&t=29" target="_blank" class="timestamp">[00:29]</a> de bellotas, bellotas con esos mofletes, tío. Eso es culturismo de verdad. Lo de Fede Guevara... No ha pasado ni un minuto. Y ves a este tío, ostras, que seco va, ¿eh? ¿Sabes? Con las marcas aquí... Cuando pides la grasa esta de la cara, dices, joder. Bueno, también puede ser un poco genético la cara, pero es que tú ves, el cuerpo está... Ah, ese tío ha sufrido. Ese tío ha sufrido. Seco, seco. Mola, mola, mola. Y coñillos pequeños, ¿eh? Ah, es padre...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=COux1VImf5U&t=58" target="_blank" class="timestamp">[00:58]</a> Tiene niñas pequeñas y es padre.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 27/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
