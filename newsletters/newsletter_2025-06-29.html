@@ -1,0 +1,353 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 29/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">29/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-NVh4okzHYTE'>NANDROLONI ERES UNA TORTURA #culturismo #fitness #influencer</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-NVh4okzHYTE">
+            <h2>NANDROLONI ERES UNA TORTURA #culturismo #fitness #influencer</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 29/06/2025 09:36</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=NVh4okzHYTE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=NVh4okzHYTE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/NVh4okzHYTE/hqdefault.jpg" alt="NANDROLONI ERES UNA TORTURA #culturismo #fitness #influencer" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video comienza con el presentador sintiéndose enfermo pero dispuesto a encontrar fortaleza en el sufrimiento. Utiliza citas filosóficas de Nietzsche y Fenelón para argumentar que la adversidad fortalece el espíritu y conduce al autoconocimiento. Menciona que ver videos de creadores como Andoni, aunque desagradables para algunos, sirve como prueba. El tema central es la superación a través del dolor y la búsqueda de sentido en las experiencias difíciles.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Sufrimiento como Fortalecedor del Espíritu <a href="https://www.youtube.com/watch?v=NVh4okzHYTE&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El presentador, visiblemente enfermo, introduce la idea de que el sufrimiento es beneficioso. Argumenta que pasar por momentos difíciles construye la fortaleza interior.</p>
+
+<h3>Nietzsche y la Resiliencia <a href="https://www.youtube.com/watch?v=NVh4okzHYTE&amp;t=20" target="_blank">[00:20]</a></h3>
+
+<p>Se cita la famosa frase de Nietzsche, "Lo que no mata, hace más fuerte". Esto refuerza la idea de que las experiencias adversas, si se superan, llevan a un estado de mayor resistencia.</p>
+
+<h3>Preparado para el Dolor (Audiovisual) <a href="https://www.youtube.com/watch?v=NVh4okzHYTE&amp;t=29" target="_blank">[00:29]</a></h3>
+
+<p>El presentador expresa estar listo para enfrentar el "sufrimiento" que le podría causar ver un video de Andoni. Lo ve como una prueba para su espíritu.</p>
+
+<h3>Contenido Desagradable para la Audiencia <a href="https://www.youtube.com/watch?v=NVh4okzHYTE&amp;t=40" target="_blank">[00:40]</a></h3>
+
+<p>Se menciona que algunos espectadores encuentran los videos de Andoni y Malsa "asquerosos" o "repugnantes". Esto subraya la naturaleza del contenido que el presentador está dispuesto a enfrentar.</p>
+
+<h3>Fenelón: El Sufrimiento como Conocimiento <a href="https://www.youtube.com/watch?v=NVh4okzHYTE&amp;t=47" target="_blank">[00:47]</a></h3>
+
+<p>Se cita a Fenelón, quien afirma que quien no ha sufrido no conoce nada. El sufrimiento se presenta no solo como fortalecedor, sino como una vía esencial para comprender la vida y a uno mismo.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=NVh4okzHYTE&t=0" target="_blank" class="timestamp">[00:00]</a> ¿Cómo estáis, comunidad? ¿Estáis bien? Yo tengo un gripazo que me estoy muriendo. Mira qué cara que tengo. Estoy peor que Andoni. Pero el sufrimiento es bueno, ¿sabes? Fortalece el espíritu. Nos voy a dar unas citas en razón al sufrimiento. Porque he dicho, estoy jodido, pero me voy a poner un vídeo de Andoni y estaré peor. Pero así, luego seré un tío más fuerte. Si no me vuelvo loco, porque como decía Nietzsche, lo que no mata, hace más fuerte. Andoni, tío, que me pones la prueba, decía, a ver, no hay razón para buscar el sufrimiento. Bueno, lo estoy buscando ahora, poniendo este vídeo, pero bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=NVh4okzHYTE&t=29" target="_blank" class="timestamp">[00:29]</a> Pero si este llega y trata de meterse en tu vida, no temas. Mira a la cara y con la frente bien levantada. Andoni, estoy preparado para sufrir viendo tu vídeo. Hay gente, en los comentarios, de los vídeos que recién Andoni, lo dicen. Dicen, John, tío, no puedo ver el vídeo, siento, no lo soporto, es asqueroso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=NVh4okzHYTE&t=47" target="_blank" class="timestamp">[00:47]</a> Sobre todo cuando se une con Malsa, que hacen como una sinergia a los dos, así repugnante. El que no ha sufrido no sabe nada, no conoce ni el bien ni el mal, ni conoce a los hombres ni se conoce a sí mismo. Joder, macho, esto lo dijo Fenelón.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 29/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
