@@ -1,0 +1,372 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 30/06/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">30/06/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>alvarobernalalejandre</strong>: <a href='#video-vlgWOA60HsQ'>LittleJohn en China. Culturismo de cristal.</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-vlgWOA60HsQ">
+            <h2>LittleJohn en China. Culturismo de cristal.</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: alvarobernalalejandre</span>
+                <span class="date">Publicado: 30/06/2025 13:13</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=vlgWOA60HsQ" target="_blank">
+                    <img src="https://i.ytimg.com/vi/vlgWOA60HsQ/hqdefault.jpg" alt="LittleJohn en China. Culturismo de cristal." loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video presenta una consulta médica surrealista donde una madre, Nutria, explica al doctor la extraña condición de su hijo culturista, PocoJuan, tras un viaje a China. Los síntomas parecen derivados de un biberón contaminado por un pangolín, mezclado con anís y proteínas, y administrado sin refrigeración. La situación se agrava por la negligencia de los cuidadores, que optan por consultar a un mecánico en lugar de un médico.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Biberón Contaminado por un Pangolín <a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&amp;t=74" target="_blank">[01:14]</a></h3>
+
+<p>Nutria explica cómo un pangolín chupó los biberones de proteína de PocoJuan antes de dárselos con anís. Este incidente es el aparente origen de los extraños síntomas del joven culturista.</p>
+
+<h3>Un Mecánico como 'Médico' <a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&amp;t=280" target="_blank">[04:40]</a></h3>
+
+<p>Ante los síntomas de PocoJuan, en lugar de llamar a un médico, deciden consultar a Gran Esfinter, un mecánico. Confían en él por sus conocimientos de culturismo y suplementos, a pesar de no tener formación médica.</p>
+
+<h3>Las 'Pruebas Médicas' Mecánicas <a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&amp;t=319" target="_blank">[05:19]</a></h3>
+
+<p>El mecánico Gran Esfinter realiza "pruebas" a PocoJuan que resultan ser reparaciones de coche. Le hicieron "el paralelo, reglaje de válvulas y le cambiaron el aceite", demostrando la total irresponsabilidad de los cuidadores.</p>
+
+<h3>Advertencia del Doctor sobre la Gravedad <a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&amp;t=342" target="_blank">[05:42]</a></h3>
+
+<p>El doctor, estupefacto, intenta hacer entender a Nutria y Benito la extrema gravedad de la situación. Les pregunta si son conscientes de que PocoJuan podría haber muerto debido a su negligencia.</p>
+
+<h3>El Peligro de los Diuréticos y Asesores No Médicos <a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&amp;t=541" target="_blank">[09:01]</a></h3>
+
+<p>Tras un segmento sobre la producción del video, el creador lanza una pregunta seria y directa. Reflexiona sobre cuántas tragedias deben ocurrir para que se dejen de usar diuréticos peligrosos y se deje de buscar asesoramiento farmacológico en personas sin cualificación médica.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=0" target="_blank" class="timestamp">[00:00]</a> ¿Y qué tal, PocoJuan? ¿Cómo te fue en el Mr. Arroz Tres Delicias? ¿Eh? ¿Me puede lepetir la pregunta? ¿Qué digo, PocoJuan, que cómo te fue en el Campeonato de Culturismo en China? ¡Ah! En el Arroz Tres Delicias Plus.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=27" target="_blank" class="timestamp">[00:27]</a> Es que ese tema lo lleva Nutria. Perdón, pero ¿por qué habla como si fuera chino? Es que hemos estado una semana en Japón. Y como Pocohuanes de altas capacidades, pues ya prácticamente bilingüe. Pero no han estado ustedes en China. Sí, sí. Si el Mr. Arroz 3 Delicias era en China. Pero era en el mismo centro de China, en la capital que es Japón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=47" target="_blank" class="timestamp">[00:47]</a> Tiene usted que viajar más, doctor. Japón, capital de China. ¿Cómo está cambiando el mundo? Por cierto, ¿qué le ha pasado a PocoJuan en la cabeza, que está enrojecido? Es que ha sido muy random todo, doctor. Es muy lioso de contar. Pues me lo tiene que contar en detalle, señora. Si no, no puedo ayudar a PocoJuan. Pues yo ya el mismo viernes noté a PocoJuan un poco raro y le dije, PocoJuan, cariño, bájate a la piscina de bolas a jugar con los otros culturistas que aquí viendo las redes sociales...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=74" target="_blank" class="timestamp">[01:14]</a> te sube el cintasol pero le dije espérate cariño que te preparo la merienda y ya te bajas merendao yo en Andorra preparé unos biberones de proteína de Ginecomaster Pro y leche de cabra para ir sobre la marcha para que PocoJuan tuviera algo que tomar porque nunca sabes lo que te vas a encontrar cuando viajas a China pero yo me fijé que se nos había colado un pangolín en la habitación y pillé al asqueroso del bicho chupando los biberones total que le di una patada y le dije vete a tomar por culo y los limpiase un poquito por encima porque el exceso de higiene baja el sistema impune total</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=104" target="_blank" class="timestamp">[01:44]</a> que le di el biberón a PocoJuan y la criatura se quedó dormidita. También es verdad que le eché medio litro de anís, porque ¿sabe qué pasa, doctor? Que las proteínas de Ginecomaster, pero usted nos dijo las de rabo de toro en salsa con toppings de gustrol, pues no le terminan de hacer mucho tirín a la criatura total. Con el anís y el dulce, quieras que no, le entra mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=122" target="_blank" class="timestamp">[02:02]</a> En fin, que se quedó dormido, como digo, y Benito y yo nos fuimos a la habitación de al lado para dejar descansar a la criatura. Perdón, ¿el joven que les acompaña es de la familia? ¿Quién dice usted? Pues la persona que está a su izquierda. ¡Ah, este! ¡Eh, Benito! No, no, no es familia. Benito es el becario, le tengo haciendo prácticas. Está haciendo un poco de todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=143" target="_blank" class="timestamp">[02:23]</a> Así, así, Benito. Empotrame el hocico en la madriguera. Como si fueras un cerdo buscando trufas. Así, así, así. Nutria, me voy a echar una copita de vino blanco para que acompañe. Que esto huele mucho a pescado. ¿Perdona? ¿Cómo que Nutria? Doña Nutria. ¿Pero qué confianza son esas? Descarado. Es que yo había pensado que, dadas las circunstancias, poca había confianza.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=171" target="_blank" class="timestamp">[02:51]</a> Pero entiendo que durante el viaje los biberones de PocoJuan iban refrigerados, ¿es así? Hombre, refrigerado, refrigerado es lo que se dice, refrigerado no. Yo de vez en cuando les iba haciendo así y los iba soplando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=199" target="_blank" class="timestamp">[03:19]</a> A ver, señora, si lo entiendo. Me está diciendo que PocoJuan se tomó un biberón que llevaba muchas horas sin refrigeración al que usted le había echado medio litro de anís y que lo había chupado un pangolín. ¿Es así? ¿Es correcto? Sí, sí, así fue. Siga contándome, por favor, qué pasó después con PocoJuan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=220" target="_blank" class="timestamp">[03:40]</a> Pues estábamos yo y Benito en la otra habitación planificando la carga de carbohidratos de PocoJuan. Así Benito, así. Llámame perra saranosa. Pero de tú o de usted. Joder Benito, un poquito de iniciativa por favor que pareces imbécil. Y entonces escuchamos un ruido muy fuerte, muy fuerte en la habitación de PocoJuan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=243" target="_blank" class="timestamp">[04:03]</a> Y cuando llegamos le vimos tirar al suelo como una cucaracha. ¿Y ustedes qué hicieron? ¿Llamarían a un médico, supongo, no? Es que como estaba hablando normal, pues no le dimos importancia. Dijimos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=268" target="_blank" class="timestamp">[04:28]</a> Pues lo de siempre. Yo es que pensé que estaba haciendo hipopresivos. Benito, por favor, cierra la boca. Sabes que por contrato no puedes hablar. Pero señora, tenían que haber llamado ustedes a un médico en ese mismo instante. La situación podía haber sido muy grave. Llamamos a Gran Esfinter. Señora, ¿pero quién es Gran Esfinter? Gran Esfinter es el primo de Benito. ¿Pero será médico? No, no. Mucho mejor que un médico. Gran Esfinter es mecánico en el norauto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=294" target="_blank" class="timestamp">[04:54]</a> Pero como tiene mucho tiempo libre, lleva haciendo culturismo toda la vida. Y de pastillas y de potingues y de esas cosas sabe un montón. Es un crack. Es que me quedo estupefacto, señora, de verdad. Esto es muy, muy inverosímil. Benito, usted que estaba allí, ¿tiene algo que aportar, por favor? Son las cinco y no he comido. ¿Pero le hicieron pruebas médicas o no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=319" target="_blank" class="timestamp">[05:19]</a> Sí, sí, le hicieron el paralelo, reglaje de válvulas y le cambiaron el aceite porque al parecer cuando se dio el golpe perdió mucho aceite. ¿Me puede dejar ver las pruebas médicas, por favor, y así hago una valoración? Uy, qué pena, doctor, no va a poder ser. Si es que me olvidé las pruebas en el aeropuerto, además que estaban en chino, no se iban a entender. ¿Son ustedes conscientes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=342" target="_blank" class="timestamp">[05:42]</a> de que PocoJuan podría haber muerto? ¿De verdad que entienden la entidad de los hechos? ¿Comprenden la gravedad de lo que podría haber ocurrido?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=386" target="_blank" class="timestamp">[06:26]</a> Acabo de terminar la edición del vídeo y os quiero contar algunas cositas técnicas del trabajo que hay detrás para hacer esto y luego me pongo 30 segundos al final del vídeo serio. Pero, en fin, yo creo que hay que buscar un equilibrio entre entretenimiento y divulgación. Mirad, la edición ha sido caótica. Todo esto son diferentes pistas en las que, claro, hay que ir insertando muchísimos elementos. Esta parte yo estaba tirado en el suelo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=416" target="_blank" class="timestamp">[06:56]</a> Me ponía el trípode, pero no encajaba. Es muy difícil hacer esto cuando estás completamente solo. Las escenas del sofá, de verdad, que son delirantes. No paraba de reírme. Pero como os digo, la edición tiene muchísimo, muchísimo trabajo, como veis aquí. Y algo que me ha ayudado mucho ha sido poder utilizar una plantilla con todas las escenas, porque las escenas están aquí. Las escenas, como estáis viendo aquí, las voy numerando, número de escena, el orden en la...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=445" target="_blank" class="timestamp">[07:25]</a> que la tengo que grabar, el personaje, el texto, anotaciones si son necesarias, si tengo que hacer insertos cuando habla uno, mira al otro. La verdad es que es un trabajo que requiere ser muy meticuloso y aún así siempre se me escapan cosas, como digo, para acabar con un producto muy cutre y muy roñoso, pero en fin, es creación de contenido. En breve utilizaré herramientas de inteligencia artificial para generar planos y demás, pero yo creo que va a perder esa esencia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=470" target="_blank" class="timestamp">[07:50]</a> De efectos de finales de los 80 que a mí me encantaban. ¿Qué hago? Como tengo tantas escenas es imposible ir grabando una por una. Entonces lo que hago es que, por ejemplo, cojo y digo, ordenamelas por el personaje determinado. Por ejemplo, el primer personaje que grabé era Nutria. Pues yo aquí tengo todas sus escenas. Yo me he tenido que memorizar y leer bien el guión a pesar de que cometa muchos errores y tenga que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=494" target="_blank" class="timestamp">[08:14]</a> repetir ciertas tomas pero yo tengo que tener una idea clara de lo que hace el personaje en el cine convencionalmente no se graba de forma lineal y continua es decir la primera escena y luego la segunda la tercera no se van juntando escenas por actores por localizaciones por recursos porque los costes son muy altos entonces</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=511" target="_blank" class="timestamp">[08:31]</a> Yo hago de la misma manera en pequeñito, pues digo, venga, todas las escenas de Nutria que están aquí. Después, pues siguiente trabajo, pues todas las escenas de, en este caso era de Poco Juan, así sucesivamente. Poco Juan y Benito tienen pocas escenas, los que más escenas tienen pues son lógicamente Nutria y el médico que están todas aquí, ¿no? La verdad es que es algo que para mí ha sido muy entretenido. Y para terminar os hago una pregunta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=vlgWOA60HsQ&t=541" target="_blank" class="timestamp">[09:01]</a> ¿Qué tiene que pasar para que se dejen de utilizar diuréticos en el culturismo? ¿Qué tiene que pasar para que personas que no son médicos no asesoren en fármacos que pueden causar la muerte de una persona en muy poco tiempo? ¿Qué tiene que pasar? ¿Qué opináis? Un abrazo para todos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 30/06/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
