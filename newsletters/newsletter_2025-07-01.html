@@ -1,0 +1,400 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 01/07/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">01/07/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Benlliure Reacciona</strong>: <a href='#video-ai-kZIs8dxA'>RUBIEL DA LA PAGA al RESTO y CLASIFICA | LOS JUECES NO LO QUIEREN VER</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-ai-kZIs8dxA">
+            <h2>RUBIEL DA LA PAGA al RESTO y CLASIFICA | LOS JUECES NO LO QUIEREN VER</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Benlliure Reacciona</span>
+                <span class="date">Publicado: 01/07/2025 12:52</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=ai-kZIs8dxA" target="_blank">
+                    <img src="https://i.ytimg.com/vi/ai-kZIs8dxA/hqdefault.jpg" alt="RUBIEL DA LA PAGA al RESTO y CLASIFICA | LOS JUECES NO LO QUIEREN VER" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video celebra la clasificación del culturista Rubiel Mosquera para el Mr. Olympia tras ganar un Pro Show.
+El presentador analiza y elogia intensamente el físico de Rubiel, destacando su excepcional masa muscular y calidad.
+Se critica el juicio de competiciones pasadas y la ajustada puntuación en su victoria reciente, defendiendo su clara superioridad.
+Se subraya el enorme potencial de Rubiel debido a su genética única y su juventud, augurando un gran futuro en la élite del culturismo.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>¡Rubiel Consigue su Pase al Olimpia! <a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El presentador inicia el video anunciando que Rubiel ha ganado finalmente un Pro Show, obteniendo así su clasificación al Mr. Olympia. Expresa su satisfacción porque considera que se ha hecho justicia con su físico.</p>
+
+<h3>Masa Muscular de Otro Nivel <a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&amp;t=140" target="_blank">[02:20]</a></h3>
+
+<p>Se examinan las piernas de Rubiel en comparación con las de otros atletas, calificándolas de enfermedad por su tamaño. Se afirma que Rubiel, después de Samson, posee la mayor masa muscular del culturismo mundial, destacando su físico como una pasada.</p>
+
+<h3>La Calidad y Redondez que Deberían Premiarse <a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&amp;t=238" target="_blank">[03:58]</a></h3>
+
+<p>El presentador elogia la calidad muscular, redondez y control abdominal de Rubiel. Insiste en que su masa muscular y condición son brutales y deberían ser premiadas, cuestionando por qué no ha quedado más alto en otras competiciones.</p>
+
+<h3>¿Un Punto de Diferencia? ¡Increíble! <a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&amp;t=529" target="_blank">[08:49]</a></h3>
+
+<p>Se muestra incredulidad ante la mínima diferencia de puntos (un punto) que hubo en la puntuación final entre Rubiel y Andrea Presti en la victoria de Rubiel. El presentador no se explica cómo el juicio pudo estar tan ajustado dada la clara superioridad de Rubiel.</p>
+
+<h3>Genética Pura y Potencial Iluminado <a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&amp;t=917" target="_blank">[15:17]</a></h3>
+
+<p>Se discute que Rubiel posee una genética increíble que le permite ganar masa muscular con facilidad, contrastándolo con el esfuerzo de otros. Se resalta su potencial dado que es joven y no lleva tantos años compitiendo al máximo nivel, prediciendo que dejará pequeños a otros en el Olimpia.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=0" target="_blank" class="timestamp">[00:00]</a> Muy buenas, aquí estamos en un nuevo vídeo para mi canal. Por fin se hace justicia desde mi punto de vista. Y bueno, no es que se haya hecho justicia, pero por fin Rubiel consigue el paja Olimpia. Sí que es cierto que los campeonatos que había ido siempre había sido en Praga, que era un nivel brutal. El año pasado Dubai y este año Dubai. Y obviamente solamente era cuestión de que fuera un pro show normal e iba a destacar y se lo iba a llevar. O sea que Rubiel ha conseguido el paja Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=29" target="_blank" class="timestamp">[00:29]</a> Y este fin de semana en Portugal lo va a volver a conseguir. Así que vamos a disfrutar, vamos a verlo competir, como digo, y... ¡Brutales! ¡Ponte cómodo!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=53" target="_blank" class="timestamp">[00:53]</a> ¿De qué? Se ha ido de fiesta, Olivia. Te has ido de fiesta y lo sabes. ¡Perro! Sí, estaba bonito o malo, ¿no? Bueno, de los cuatro que se ponen mal en verano, si no hay uno de ellos... Hombre, estás ahí todo el día con el aire enchufado ahí. Claro, te pones malo. A los pobres no nos pasa eso. Me pusieron lo que os dije, suelo refrescante, demasiado frío. Iba yo ahí con los esquís niño por casa y me he puesto malo, bacho. Así que, bueno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=82" target="_blank" class="timestamp">[01:22]</a> Eso no va a hacer que descaiga. Y por cierto, recordad que todos los meses hago dos sorteos de 150 euros en Live Pro con mi código JordiBen y pidiendo cualquier cosa ya entras en el sorteo. Pidiendo una simple crema de arroz ya entras directamente en el sorteo y no hace falta hacerle captura. A tope y cuelgo los ganadores siempre por Instagram. Estate pendiente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=110" target="_blank" class="timestamp">[01:50]</a> De entrada, lo que puedo decirte, así, a simple vista, los primeros segundos, es que creo que estaba claro. O sea... Tengo una cosa. Lo de la hernia se lo tiene que mirar, ¿eh? O sea, eso sí que es cierto y la hernia se lo tiene que operar. Vosotros veis a Rubiel y parece que de torso no esté tan fuerte. No. El torso es una puta locura. O sea, el físico de Rubiel es una pasada. A Rubiel le mide 57 centímetros el brazo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=140" target="_blank" class="timestamp">[02:20]</a> que las piernas y una enfermedad o sea fijaos las piernas de preste a su lado con las piernas de rubiel o sea es como fue la mitad la mitad de la pierna literal que prestig justamente tampoco es que tenga grandes piernas pero de verdad que rubiel después de samson te diría que es la persona con más masa muscular a nivel de culturismo del planeta vamos a ver si es que solamente hay que ver</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=166" target="_blank" class="timestamp">[02:46]</a> Esto fue un destrabando por parte de nuestro hombre aquí, Hugo. Great Potential es lo que he encontrado. ¿Sabes lo que te quiero decir?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=185" target="_blank" class="timestamp">[03:05]</a> Yo voy a ser completamente honesto. Ahora vamos a pasar a ver las imágenes un poquito más de cerca en Instagram con buena calidad. Pero yo, estos días atrás, después del Dubai Pro, yo he salido viendo a Rubiel y es que a mí me parece espectacular. La verdad que la gente, yo no sé qué narices. Rubiel, ya lo dije, para mí en Dubai tendría que haber quedado tercero o cuarto, como mucho. Y ha pesado...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=213" target="_blank" class="timestamp">[03:33]</a> cerca de 130 kilos en italia o incluso más programas de 30 kilos o sea que una persona que mide igual un 80 182 como mucho como de esa casa como está ahora unos cortes más profundos en las piernas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=238" target="_blank" class="timestamp">[03:58]</a> Es que la calidad muscular que tiene la redondez, tío, llega con un mazo buen punto. El abdomen metido para adentro. Tío, es un maldito mutante, tío. Es un maldito mutante. Estamos en la categoría de open. Los perfiles de Rubiel son increíbles. O sea, ese tríceps, esas poses de perfil con el abdomen bien metido, con los abdominales perfecto, cero dilatación. O sea, es una puta locura, tío. ¿Qué pasa? Yo no lo entiendo. O sea, están buscando otra línea, ¿ok?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=268" target="_blank" class="timestamp">[04:28]</a> la estructura no es tan buena porque no es tan ancho de clavículas pero esa masa muscular se tiene que premiar como sea de verdad de fijar las piernas de nosotros estamos hablando de que es que parecen amateurs aflo se aparecen parecen amateurs</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=297" target="_blank" class="timestamp">[04:57]</a> un poquito más cortadas la verdad es que no sé cómo tiene estas piernas que parece que se las han hinchado con una bombona si parece que es increíble perfiles muy buena calidad muscular fíjate</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=327" target="_blank" class="timestamp">[05:27]</a> Brutal el abdomen. Perfecto. Perfecto el abdomen, tío. Mira, el brazo estallado. Es que es lo que te digo, tío. O sea, Rubiel es un topo limpia. ¿Por qué? Te lo explico en un instante. Es decir, ahora mismo está con tres competidores al lado que parecen de otra categoría más baja. A ver, realmente... Presti ha ido la limpia varias veces. Los otros dos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=357" target="_blank" class="timestamp">[05:57]</a> No por nada, pero no sé quién son. No son conocidos. Tío, parece de una categoría más baja. Claro, este tío parece clásico. Clásico tampoco, te flipas. Y este tío realmente está grande, ¿no? Sí, sí está grande. Prestige enorme en persona. Pero enorme. Pero es que lo que te digo, tú ves esto. Y es otro nivel de masa muscular y densidad. O sea, fíjate los brazos. ¿Sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=389" target="_blank" class="timestamp">[06:29]</a> ¿Cuál es este o qué es este?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=406" target="_blank" class="timestamp">[06:46]</a> bueno pues esto es lo que fue un poquito para que viésemos las comparativas y si os fijáis en el campeonato había que era en italia y prestigitaliano y todos los aficionados a la gente del público prestig presa gritando a fuego parecían rollo los tifosi es inevitable también como juez te puede condicionar un poco pero no han sido han sido objetivos bueno han sido objetivos con pinzas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=443" target="_blank" class="timestamp">[07:23]</a> a ver no es nadie según con quien comparemos al fin al cabo es un atleta top</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=469" target="_blank" class="timestamp">[07:49]</a> dentro de la liga profesional, que ha ido varias veces a la Olimpia, pero obviamente no es un topo limpio. No sé. O sea, como tú lo quieras ver. Está Presti y la Olimpia. Voy a mirarla a ver si estoy metiendo la pata y luego al final si hay alguno que clasifica. Presti y la Olimpia, pero cuando ha clasificado creo que siempre ha quedado último. O de los últimos. Pues que lo mismo ni ha ido, ¿no? A ver. Pero que su mejor resultado fue en 2023, puesto 12.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=499" target="_blank" class="timestamp">[08:19]</a> lo único tío a mí lo que me raya de aquí es que un punto la diferencia o sea un punto es que no lo entiendo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=529" target="_blank" class="timestamp">[08:49]</a> sabes cómo puede ser que haya un punto de diferencia entre entre andrea presti y rubia mosquero sí que posee la gana prestia rubia pregunto que no lo explico no me lo explico o sea hay algo que falla no sé no sé no sé no sé igual soy yo que no realmente llevo llevo lentillas pero pero no entiendo no entiendo como hay un punto diferencias ha ganado rubiel pero yo creo que claramente ha ganado rubia si no estás en el top 8 no te quiero ni bien si no me importa</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=567" target="_blank" class="timestamp">[09:27]</a> Rubiel won pre-judging by a one point decision 4-5 over Andrea Presti and the exact same thing a finals 4-5 over Andrea Presti for a total score of 8-10 so a two point decision so it was relatively close but I think as far as Rubiel is concerned from going to a pretty disappointing 6th place at the Dubai Pro</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=597" target="_blank" class="timestamp">[09:57]</a> ganando la pre-judición y la finalidad de un Open Pro Olympia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=610" target="_blank" class="timestamp">[10:10]</a> no hay nadie en el planeta muy poca gente o lo que digo samson y ya está que tengas a más muscular sabes que es lo que digo es que me la suda que parezca un dinosaurio que no es que tiene asimetría con el torso es que me da exactamente igual es que esa masa muscular hay que premiarlo lo siento es que la condición es decir que la mala no pues a ver como todo se puede mejorar pero ha sido incondicionado ha sido brutal</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=639" target="_blank" class="timestamp">[10:39]</a> Tú te pones al lado de otros culturistas que son open y los dejas pequeños hosties. Cuidado, eh. Yo os digo que estoy casi al 100% convencido de que va a estar entre los seis primeros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=660" target="_blank" class="timestamp">[11:00]</a> Yo eso ya jugármela. Estamos hablando de que los cinco primeros está Chopin, está Samson, está Nick Walker, está Martin, está Andrew Jacket. ¿A quién te quitas de esos cinco? Está Gulpito. O sea, ¿a quién...? Hay que verlo, hay que verlo. Yo pienso que va a estar entre los diez primeros, eso sí. Pero top cinco y más el primer año...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=689" target="_blank" class="timestamp">[11:29]</a> Lo veo complicado. Pero vamos, tengo claro que al lado del resto les va a dejar pequeños. O sea, va a dejar pequeños a la gente de lo limpia. Y eso son palabras mayores.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=706" target="_blank" class="timestamp">[11:46]</a> Una persona que va en tercera, así de claro, o en segunda. O sea, puede meter la tercera, la cuarta, la quinta, la sexta. O sea, es una persona que es pura genética, tío. Es que es una bestia, tío. Es una pasada, tío. Este hombre ha nacido para esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=736" target="_blank" class="timestamp">[12:16]</a> es que solamente a las piernas que me parece animal lo he dicho lo de la hernés y que tiene que mirar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=766" target="_blank" class="timestamp">[12:46]</a> pero pero de calle brutal es que es que es que es que aquí hizo lo dejaba pequeño algunas poses es que de perfil o sea es que era una locura</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=796" target="_blank" class="timestamp">[13:16]</a> qué locura y es como una masa muscular por un grupo muscular este calificado mucho más alto y la condición pero vamos que me</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=824" target="_blank" class="timestamp">[13:44]</a> es el ciego para no verlo y aparte de rubiel es un físico que vende es un físico que eso vende para que a la gente le mola tío que es que se van dando por ahí por donde vaya y la peña lo va viendo porque es que va flipando y fuera coñas que lo tengamos entrenando en el gimnasio en donde yo entreno el lister crib o sea me parece</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=844" target="_blank" class="timestamp">[14:04]</a> locura tío yo yo lo tuyo cuando lo veo yo lo trato y le doy la mano y hablo con él un pavo súper majo súper normal súper simpático súper humilde o sea es que no esto también en partes lo que mola porque imaginaos cualquier persona de estas que va de tal va estrellita rubiel que podría ser</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=866" target="_blank" class="timestamp">[14:26]</a> El más creído, el más flipado y el más todo. Y es el más humilde, tío. Que obviamente es consciente del físico que tiene y obviamente es consciente de lo fuerte que está. Pero... Mola mucho. Mola mucho que una persona tan top sea tan de calle, tan normal y corriente. Súper top. Vamos a ver el Instagram. Vamos a ver las publicaciones que ha hecho. Este fue el momento, ¿no? Este fue el momento. Sí. Vamos a verlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=897" target="_blank" class="timestamp">[14:57]</a> Eso es. Qué guay, tío. En Dubai dieron 140.000 bolos, aquí 10.000. Que se estiró un poquito más, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=917" target="_blank" class="timestamp">[15:17]</a> cuando viene uno dice no pero es que está así porque usa química pues no flipas para que veáis la importancia que tiene la genética este hombre como digo va en tercera en segunda</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=932" target="_blank" class="timestamp">[15:32]</a> O sea, de mirar las mancuernas, gana masa muscular. Esto es genética. Esto es, como digo, haber nacido para esto. En cambio, luego vamos a Presti, por ponerse un ejemplo. Una persona que se le ha currado que flipas, que no le han regalado absolutamente nada y que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=949" target="_blank" class="timestamp">[15:49]</a> con la genética que tiene ha llegado a su puto prime. O sea, no puede dar más de sí. Es una persona que va a fuego, que quiere decir que al fin y al cabo, oye, pues tiene ya 37 años, no sé, 36 años los que tenga. Y ojito, ¿eh? O sea, ¿de dónde hay que firmar? Donde se ha posicionado Presti teniendo en cuenta de dónde viene.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=967" target="_blank" class="timestamp">[16:07]</a> que es una persona que ha llegado donde ha llegado, que vive de esto, que tiene la vida solucionada, que vamos, que ojito, ¿eh? Pero lo de Nexfila, a nivel de masa muscular, es que no tiene sentido. Que no tiene sentido. Y el resto, podemos hacer lo que queramos, que en nuestra puta vida vamos a tener la masa muscular que tiene. No, es que a mí no me gusta estar así, pero es que ni aunque quisiera estar así iba a estarlo. O sea, ni en ocho vidas iba a estar así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=994" target="_blank" class="timestamp">[16:34]</a> Mira el brazo, la separación. Y si no, como decía Tarraco, inténtalo. Va apretado, lleno. Mira los cortes agresivos del quad. Nada, es que fijaos, tío. ¿Estamos o no estamos? Estamos. Estamos, pero estamos flipando. The Champions. Nada, es que el potencial de Rubén es inmenso. Vamos a ver aquí. Muy tranquilo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=1025" target="_blank" class="timestamp">[17:05]</a> Te lo digo en serio Esos brazos Tienen una castaña de brazos Tienen unos brazos enormes O sea, de verdad Que es que no Es que, tío Es que si algún día Véis a Rubir en persona Vais a flipar Es que vais a flipar Si es que encima, tío Tiene una estética buenísima Es una locura, tío</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=1059" target="_blank" class="timestamp">[17:39]</a> Flipas, chaval. Qué barbaridad. Brutal, brutal, brutal. Es increíble. Es que va a estar el top 6 Olimpia, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=1076" target="_blank" class="timestamp">[17:56]</a> Ojalá, como digo, quedará top 6. Yo creo que no ha habido ningún colombiano en la historia que haya clasificado en Open. Es el segundo atleta, si no me equivoco, que Fran Spinn llevó a Olimpia en Open, porque el primero fue Ángel Calderón. O sea, bueno, mentira. Ángel lo clasificó en Open, pero ese año decidió ir a 12, pero podría haber ido a Open.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=1095" target="_blank" class="timestamp">[18:15]</a> Y lo dicho, de esta persona hay que disfrutarlo. Pensad que tiene 30 años. Y lo dicho, no son 30 años como los de Nick Walker. No son 30 años de una persona como Derek, que lleva años y años a fuego haciendo las cosas. No, esta persona, es que no sé si llevará... Igual llevará 8 años entrenando o 6 años entrenando. Y no sé ni cuánto tiempo llevará utilizado la macología. ¿Entonces la apretada que se le pueda pegar a este hombre? O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=1120" target="_blank" class="timestamp">[18:40]</a> Es que, o sea, los otros están ya a fuego a 200 por hora y el pavo va tranquilito, ¿sabes? Tranquilito. Que va a 200 también, pero es que su coche corre 600 y los otros, su coche igual corre a 300. O sea que, ojito con este hombre que, lo he dicho, eh...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=1141" target="_blank" class="timestamp">[19:01]</a> No, no, se le ve fresco. O sea, se le ve como un papel. Se le ve como un papel. Tranquilo. Ese abdomen que tienes, porque ese abdomen no ha forzado. No ha forzado el sistema digestivo. No ha forzado para llegar ahí. Porque ese peso lo ha venido porque lo ha venido. Porque es una persona que tiene el don. O sea, tiene la genética. Así que chicos, me alegro mucho por Rubiel. Ojalá...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=1164" target="_blank" class="timestamp">[19:24]</a> La gente, como digo, también le tome más en serio. Ojalá también a nivel económico le vaya mejor y aproveche todo esto. Y una vez más, vamos a disfrutarlo. Yo soy fan de Rubiel. Me gusta, realmente. O sea, lo dicho, es un cuerpo diferente, pero es que es un cuerpo que mola, tío. Que es un cuerpo que, como digo, hay que premiarlo. Y una vez más...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ai-kZIs8dxA&t=1184" target="_blank" class="timestamp">[19:44]</a> En Portugal. Va. A conseguir. O sea. Otra vez el pájaro limpia. Que ya lo tiene. Pero otra vez. Así que. O sea. Va a ganar otro pro show. Así que nada chicos. Espero. Que os haya gustado el vídeo. Nos vemos en siguientes. Y os leo en comentarios. Un saludo. Y nos vemos en siguientes vídeos. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 01/07/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
