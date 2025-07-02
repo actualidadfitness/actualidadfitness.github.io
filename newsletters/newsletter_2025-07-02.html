@@ -1,0 +1,359 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 02/07/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">02/07/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>alvarobernalalejandre</strong>: <a href='#video-7e7UGwY76No'>Ciclismo de cristal. Globeros patéticos.</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-7e7UGwY76No">
+            <h2>Ciclismo de cristal. Globeros patéticos.</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: alvarobernalalejandre</span>
+                <span class="date">Publicado: 02/07/2025 11:28</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=7e7UGwY76No" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=7e7UGwY76No" target="_blank">
+                    <img src="https://i.ytimg.com/vi/7e7UGwY76No/hqdefault.jpg" alt="Ciclismo de cristal. Globeros patéticos." loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video aborda con humor la dificultad de aceptar el paso del tiempo y la apariencia física, especialmente para aquellos que se consideran "feos". Utilizando ejemplos personales con gafas y equipamiento deportivo, el narrador critica cómo las personas intentan ocultar o mejorar su aspecto sin éxito. Se reflexiona sobre la vanidad y la comparación constante en la era digital.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Gafas Nuevas vs. Fealdad Perpetua <a href="https://www.youtube.com/watch?v=7e7UGwY76No&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El narrador compara sus gafas viejas y nuevas para ilustrar cómo los accesorios no cambian la fealdad inherente. Introduce el tema de la autoaceptación y la vanidad.</p>
+
+<h3>Dinero vs. Viejo Verde <a href="https://www.youtube.com/watch?v=7e7UGwY76No&amp;t=46" target="_blank">[00:46]</a></h3>
+
+<p>Se plantea que la diferencia entre un "madurito con chispa" y un "viejo verde" reside únicamente en el dinero. Subraya la cruda realidad de cómo la percepción social está ligada a la riqueza.</p>
+
+<h3>El Engaño de las Gafas de Sol <a href="https://www.youtube.com/watch?v=7e7UGwY76No&amp;t=78" target="_blank">[01:18]</a></h3>
+
+<p>Cuenta una anécdota sobre cómo las gafas de sol le tapan las arrugas ("cráteres") y critica a quienes las usan en fotos de perfil para parecer interesantes, ocultando su verdadera apariencia.</p>
+
+<h3>La Realidad Tras la Foto de Perfil <a href="https://www.youtube.com/watch?v=7e7UGwY76No&amp;t=94" target="_blank">[01:34]</a></h3>
+
+<p>Expone el contraste entre la foto de perfil retocada (ej. calvo con gorra) y la persona real. Reflexiona sobre lo mal que la gente lleva el envejecimiento y la constante comparación.</p>
+
+<h3>El Ridículo del Ciclista Equipado <a href="https://www.youtube.com/watch?v=7e7UGwY76No&amp;t=127" target="_blank">[02:07]</a></h3>
+
+<p>Critica a los ciclistas que gastan mucho dinero en equipamiento costoso (bicicleta, casco, gafas) pero que, al final, se ven "patéticos" sin la ropa y el equipo, haciendo el ridículo con su vanidad.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7e7UGwY76No&t=0" target="_blank" class="timestamp">[00:00]</a> Mira, te voy a contar una cosa que te va a doler. Esto te lo tenía que ver contra tu padre, pero no lo hizo. Mira, los que somos feos, porque nos pongamos cosas delante, seguimos siendo feos. Mira, yo tenía estas gafas. Estas son del 2011. Tienen más años ya que la Tana. Eran así un poco rollo Woody Allen. Y me he comprado hace poco estas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7e7UGwY76No&t=20" target="_blank" class="timestamp">[00:20]</a> ...que son así más grandes... ...ahora se llevan las gafas como televisiones de... ...cuatro tercios de 28 pulgadas... ...pues igual, es un poco grotesco... ...además que a mí con la cara a pito que tengo... ...pues me hace así, ¿no?... ...yo me compré unas diciendo... ...a ver si son unas gafas estilo directores de cine... ...de los años 70... ...de estos cines así alternativos... ...y yo decía, sí, que me dé un toque de hombre maduro... ...así pervertido, que eso gusta mucho a las mujeres...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7e7UGwY76No&t=46" target="_blank" class="timestamp">[00:46]</a> de mediana edad lo que son las mil de toda la vida las que están porque le van a comer los gatos de aquí a cinco o diez años</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7e7UGwY76No&t=53" target="_blank" class="timestamp">[00:53]</a> Pero no, me he dado cuenta que no, que no es verdad. Que este tipo de cosas, si no tienes dinero, lo que te hacen es viejo verde. O sea, la diferencia entre madurito con chispa y viejo verde lo da el dinero. Es que es la vida. Bueno, más cosas que te voy a contar que duelen. El otro día me dice una mujer bellísima. Me pongo yo esto, que vienen con este sistema de clip. No te estoy vendiendo nada, son las gafas normales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7e7UGwY76No&t=78" target="_blank" class="timestamp">[01:18]</a> Entonces me pongo yo así y me dice ella, oye, que bien te sientan las gafas de sol. No bonita. Mira, lo que pasa es que las gafas de sol me tapan los cráteres estos. No son arrugas, son cunetas lo que tengo ahí. Entonces, ¿habéis visto a esa gente que en su foto de perfil se pone las gafas de sol así?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7e7UGwY76No&t=94" target="_blank" class="timestamp">[01:34]</a> Y se pone como rollo interesante. O el que es calvo se clava la gorra hasta aquí y mirando así como al horizonte. Luego te lo encuentras en la vida real y dices, ¿qué le ha pasado a tu hijo? Dice, perdón, sí, sí, que tu hijo, el de la foto, ¿qué le ha pasado? Porque tú tienes que ser su padre. ¿Qué mal estamos llevando el paso del tiempo? ¿Qué mal estamos llevando...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7e7UGwY76No&t=115" target="_blank" class="timestamp">[01:55]</a> El estar comparándonos con todo el mundo. Pues las gafas de sol, si eres feo, pues te dejan feo. ¿Qué le vamos a hacer? Bueno, y ya no te cuento. Mira, esto te va a encantar. Esto es brutal. Mira.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7e7UGwY76No&t=127" target="_blank" class="timestamp">[02:07]</a> Los que montamos en bici. Somos muy feos, pero claro, vamos, hay vestidos que parecíamos vedetes, como se decía antiguamente. Luego se nos ve sin ropa y decimos, pero bueno, este señor con la bicicleta, los 10.000 pavos, el casco, las gafas... Somos patéticos. Atento, mira. El casco que me he comprado. Esto es brutal. Bueno, el cierre ya ni te cuento. Mira. Es que me pongo esto ahora sí. Mira. Buah, chaval. Me hago la foto así con la bici en plan pepinazo de la hostia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7e7UGwY76No&t=157" target="_blank" class="timestamp">[02:37]</a> Qué puto ridículo hacemos constantemente. Este tiene un sistema de estos de... Joder. Ahora. Es que no le he pillado todavía. Que somos patéticos. Un abrazo para todos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 02/07/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
