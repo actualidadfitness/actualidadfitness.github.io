@@ -1,0 +1,469 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 03/07/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">03/07/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-u60lQzIuUIQ'>EL EMPRENDEDOR FRACASADO QUE ENGAÑA A TODO EL MUNDO</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-u60lQzIuUIQ">
+            <h2>EL EMPRENDEDOR FRACASADO QUE ENGAÑA A TODO EL MUNDO</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 03/07/2025 12:55</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=u60lQzIuUIQ" target="_blank">
+                    <img src="https://i.ytimg.com/vi/u60lQzIuUIQ/hqdefault.jpg" alt="EL EMPRENDEDOR FRACASADO QUE ENGAÑA A TODO EL MUNDO" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video presenta la vida y los problemas legales de un personaje excéntrico y conflictivo, comentados por un narrador. Se detallan sus líos con la policía por falta de seguro en un Lamborghini y una moto, y una acusación de falsificación.
+Se exploran sus fallidos proyectos pasados, como una app de taxis y una consola retro, que supuestamente arruinaron a inversores.
+También se describen sus dificultades actuales, trabajando como vigilante de seguridad con condiciones precarias, y sus constantes problemas personales, incluyendo impagos y comportamientos problemáticos.
+El narrador critica duramente al personaje, retratándolo como una persona deshonesta y destructiva que deja un rastro de ruina a su paso.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Patrulla Llama a la Puerta <a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&amp;t=51" target="_blank">[00:51]</a></h3>
+
+<p>El personaje describe cómo la policía local lo busca para entregarle una notificación judicial. Espera su llegada en cualquier momento, especulando si subirán directamente o tocarán el timbre, mostrando una actitud desafiante.</p>
+
+<h3>Citado como Investigado <a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&amp;t=318" target="_blank">[05:18]</a></h3>
+
+<p>Explica que, tras intentar recurrir una multa por no tener seguro en un coche, ahora está citado en la policía local en calidad de investigado. El delito imputado es falsificación documental, relacionado con el seguro del vehículo.</p>
+
+<h3>La Filosofía del Desastre Financiero <a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&amp;t=789" target="_blank">[13:09]</a></h3>
+
+<p>El personaje reflexiona sobre sus ideales frente a la realidad, mencionando que mucha gente lo llama "estafador". Habla de haber manejado mucho dinero en el pasado, proveniente quizás de su familia, y de cómo ahora está en una situación económica crítica.</p>
+
+<h3>La Ruinosa Venta de la Licencia <a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&amp;t=950" target="_blank">[15:50]</a></h3>
+
+<p>Se comenta que el personaje vendió su licencia de taxi durante el confinamiento. El narrador critica esta decisión por el valor de las licencias y pregunta por cuánto la vendió, señalando su desorganización.</p>
+
+<h3>Enfrentamiento con la Policía por Sinpa <a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&amp;t=1247" target="_blank">[20:47]</a></h3>
+
+<p>Describe una situación donde se enfrenta a la policía por no tener seguro en la moto, algo que, según el narrador, es habitual en él. Se menciona que está "contra la policía" y no sabe qué hacer si no paga la multa.</p>
+
+<h3>El Patrón de los Impagos Crónicos <a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&amp;t=1776" target="_blank">[29:36]</a></h3>
+
+<p>El narrador lo describe como un "asco de pago" que nunca paga en los sitios y siempre causa problemas. Donde quiera que va, arma lío, es desagradable y ensucia, siendo alguien a "quitar de en medio".</p>
+
+<h3>El Vigilante que Roba en el Supermercado <a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&amp;t=1993" target="_blank">[33:13]</a></h3>
+
+<p>Se relatan incidentes en un supermercado donde el personaje, siendo vigilante de seguridad, supuestamente roba comida. Se describe cómo el vigilante del lugar lo vigila de cerca porque lo conoce de robos anteriores.</p>
+
+<h3>La Moto sin Gasolina y sin Grúa <a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&amp;t=2304" target="_blank">[38:24]</a></h3>
+
+<p>La moto del personaje se queda parada, supuestamente sin combustible. Además, aunque dice tener seguro, no tiene servicio de grúa, lo que complica la situación y demuestra una vez más su desidia y falta de previsión.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=0" target="_blank" class="timestamp">[00:00]</a> En diez minutos piqué a la policía y le habría sido llamada. Dios mío, irte a un sitio y contarte el tío este de vigilante de seguridad, el impresentable este. Y ahora mira que tengo aquí una carta. Dice usted Alejandro Martín.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=21" target="_blank" class="timestamp">[00:21]</a> Hemos pasado por la tarde y por la noche y usted no estaba. Digo, bueno, ¿y? Digo, ¿qué? ¿Vengo de servir al deber? ¿Usted tiene la notación? Digo, sí, para mañana. A las, ¿qué hora era? A las 13 y cuarto, ¿no es verdad? Sí, sí, pero confirmenos la hora. Entonces sacó la carta gratuaria en el WhatsApp. Digo, mira, citado por el letrado, no sé qué. Bueno, bueno, por temas burocráticos, tenemos que ir a mandarle la carta para que nos la firme y su puta, vale. Digo, al deber y al orden, que se presente a la patrulla. Digo, ¿qué tardará? Que es que vengo del trabajo, estoy muy cansado. No, no, ahora mismo me voy para allá a la patrulla y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=51" target="_blank" class="timestamp">[00:51]</a> Calcule 5 o 10 minutos. Que venga, que venga, que venga. Venga, como picará. Yo creo que no picarán. Que directamente subirán. No sé, vamos a ver. El coche no sabía que lo tenía seguro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=63" target="_blank" class="timestamp">[01:03]</a> Yo pensaba que sí, fui a poner recursos, me lo admitieron y luego... Entonces luego me doy cuenta que no tenía seguro y yo mismo fui, que más tengo el papel. Tienes que buscarlo mañana antes de ir a juicio. Tienes que pasar por el ayuntamiento y coger el papel. Para que vean que yo tres o cuatro días antes fui a decir, no, no, oiga, sigan con la multa porque el coche no está asegurado. Y eso se presentará jueves mañana para que vea que yo antes de la notificación... O sea, que aquí no hay ningún delito, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=88" target="_blank" class="timestamp">[01:28]</a> Y este tío tiene un Lamborghini Gallardo, sin asegurar, eso sí. Que es perpéntico, ¿eh? Esperamos que la película es que esto viene a tomar huevos. Mijor, ¿qué pasa? Es que te la vendo. Que este tío tiene un Lamborghini Gallardo, lo tiene sin seguro, y el juicio no sepa qué es, y la policía le tiene que traer la notificación o algo así. Un boqueta me va a llevar al culo, paró hasta que no tengo un chavo, y en el culo buscándola, y no, es que me la había dejado aquí. Y te la vendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=115" target="_blank" class="timestamp">[01:55]</a> Me he tirado un duro y el tío se graba snifando polvo colombiano, ¿sabes? En los directos que hace. Me he tirado un saludo. Y me viene a avisar, ahora último, ahora sí, ya salía la película. La segunda estrepa, no se enteran de la película. Además fui yo a comisaría policía local que a coger la cita.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=156" target="_blank" class="timestamp">[02:36]</a> Oiga, el culo, yo sé lo que me va a notificar, porque ya lo sigo también, ¿lo sabes? No lo he dedicado. Mañanas, hace dos semanas. Pero esto viene de un juzgado de... Exacto. Viene del Lamborghini, yo no tenía asegurado el coche, una pelita... ¿Aún no tiene el coche o no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=185" target="_blank" class="timestamp">[03:05]</a> Es un tipejo que parece sacado de Robocop. ¿Os acordáis al anuncio de Robocop del pervertido ese que dice ¡Te la compro por un dólar! ¿Te acuerdas? El viejo ese con gafas. Es igualito, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=207" target="_blank" class="timestamp">[03:27]</a> A ver la polla, queda por ahí, ¿no? ¿Dónde están? Ahí está, ahí está. A patrullar. A patrullar por la ciudad. Buenas noches con su coche. A patrullar los retrasados. Sobre las dos y media a una encendemos el directo. ¡Viva España, jefe! ¡Viva España! Hasta luego. Buenas noches. A patrullar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=232" target="_blank" class="timestamp">[03:52]</a> Me piden de dos meses, de tres meses, no, de seis meses a dos años y un día de cárcel. La película es que yo tenía que ir al coche para venderlo a Barcelona. Hice una parada por cerca del trabajo. Hago una pausa, una parada, dejo el coche aparcado y cuando vuelvo me encuentro noticias donde este coche no tiene seguro, por favor...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=256" target="_blank" class="timestamp">[04:16]</a> y me encajetan, pues el coche no es mío, el coche es de la empresa. Y la empresa tenemos tres, ¿vale? Y nos encajetan una monta de 1.500 pavos. Entonces yo llamo a mi socio, oye mira qué pasa esto, qué pasa, yo no estoy seguro que... Yo sabía que en unos días no había tenido seguro, porque sucio, seguro valor basta. Seguro hay que hacerlo por día sin un coche de estos porque un año te valen 6.000, 7.000 pavos y con, vamos, que lo voy a hacer todo rico, son seguros muy especiales, ¿vale? Los gallismos, mierda, yo con los gallismos nosotros todavía no me puedo sacar los pandillas, tengo una cara al menos que me voy a lavar en así, esto joder.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=283" target="_blank" class="timestamp">[04:43]</a> que el coche está segura y me pasan una documentación. Imagínate que esto fuera por ejemplo el día 1. Me estoy inventando, no recuerdo el día exacto. Y voy a presentar un recurso de delegación al ayuntamiento del Puebles y digo mira la multa que me han puesto de blablabla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=304" target="_blank" class="timestamp">[05:04]</a> tiene usted comprobante del seguro, ¿no? Vale, pasan los días y dicen, compañero, oye, no, no, que el seguro está mal, que en verdad ese seguro no es correcto, no tiene seguro el coche, no estaba asegurado. Como dices esto, tío, pues habrá que pagar la multa. Y digo que había puesto un número que lo desestiméis, que sigáis para adelante porque el coche efectivamente no tuvo seguro ese día. Poned la voz de correspondiente y eso digo. Me llama la policía local, esto es, voy a la policía local y me encuentro en la citación en calidad de investigado por un delito de profunda falsificación para...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=330" target="_blank" class="timestamp">[05:30]</a> Vaya un farlopá lleva, chaval. No se cae debajo del agua, ¿eh? Mañana. Y yo, hostia, pues menos mal que yo cinco días antes fui y presenté. Es que estoy diciendo que se llevan parando con la multa. Me citan el día, mañana, el día 18 de junio a las... Mañana a las 3.30. Sí, lo siento. Que no se me vea más que la cara porque me estoy bajando los pantalones que estoy muy encarnado. A ver, que no se te vea. Pues lo tengo bajado el que acabo de tener. Es que me pica la pierna y da mucho con la cara. ¡Pantalón! ¡Ah!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=360" target="_blank" class="timestamp">[06:00]</a> Una madriga por ahí. Que no se haga la pirula, eh, chicos. Si haga la pirula, me avisa rápidamente. Me sirváis. ¿Vitalicio, maestro? ¿A cuánto es vitalicio? No sé si llega eso. La birrilla en un barretón que la ha pagado. De hecho, no te pago lo que te hizo sin pa'yer, pero te pago la cerveza. Hizo un sin pa' 10 pa' 10, pero te ha pagado dos pa' y medio de hoy. Te dice aquí, si pierdes el juicio vas a talego. Lo peor es que me puedan quitar la tarjeta de seguridad, ¿sabes? Ya costado. Me echarán igualmente un día esto. Pero mira, ¿sabes qué? No hay...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=386" target="_blank" class="timestamp">[06:26]</a> Cuando salí del cuero, de hecho hoy me han vuelto a pegar dos bullas otra vez. Ayer me vieron como se acababan las botas, me sacaban las botas y... Están hechos polvo con las botas. Pero las tenía debajo en la torreta, que nada es... nada es... y el puto de la gente me las vio, no sé cómo las vio. O sea, mi control es muchísimo. Me dan 15 minutos para todo el puto día para almorzar lo que quieras.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=407" target="_blank" class="timestamp">[06:47]</a> Y yo como que está un poco tiempo digo, mira, voy a hacer una cosa. Me voy a, hago mi primera ronda, voy hasta un punto al otro y a la panadería digo, aviso al bar de frente y digo, vale, preparadme un bocadillo, déjame un queso. Vuelvo a hacer la ronda para atrás, llevo la torreta de control, me espero 10 minutos, vuelvo así el bocadillo estrecho y me lo zampo. Y disfruto mis 15 minutos de mierda, teniendo ser 20 y pagados, pues son 15 y no pagados. Pues me dice, oye, ¿qué te ha visto? Me dice el inspector, el jefe de equipo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=433" target="_blank" class="timestamp">[07:13]</a> El director del centro, que te ha visto, que no, que eso de que vas para allá, 10 minutos y para atrás, no, que tú vas joder. Y le explico, mira que pasa esto, que te agarran un gas al bar, hay gente que está pidiendo, tienes que esperarte, luego otros 7, 9 minutos para el bocadillo y claro, te saca y ya no tienes tiempo para comértelo, ¿no? Joder, cuando he ido al fin de la panadería, aviso al del bar, oye bar, prepara un bocadillo y luego vuelvo a hacer mi ronda, ¡eso es mi trabajo!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=456" target="_blank" class="timestamp">[07:36]</a> Me espero 10 minutos. La toque por eso. La toque porque por la noche, la última hora me saqué las botas. Las que tenías aquí, estas botas de aquí. Te cansan en el día hasta que ya hoy me compré estas de aquí. Son más cómodas, pero me vas a salir bien. O sea, esto. Y es que se están pasando un poco, tío. No me jodas. Y no presiones tanto, estés muy encima. Cojo la moto, pum, el casco, me pongo en la búsqueda, 200 pruebas. La moto con la porra, con las cosas así. Yo para verlo. ¡Viene la policía, Diego Masá! ¡Dense el puto!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=484" target="_blank" class="timestamp">[08:04]</a> Tarjeta vigilante jurado ahí con la policía nacional y... Está el soldado como primer Alejandro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=491" target="_blank" class="timestamp">[08:11]</a> Que una persona como yo, que tengo tantas idas en la cabeza y uso tantas cosas, me vas a un culo de mierda. Es normal, o sea, yo he hecho muchas cosas en la vida, muchas, muchas. Y algunas me han ido bien y otras tantas me han ido mal. Pero las que me han ido bien pues me han dado un dinerito y unas historias, ¿vale? Es que de repente vení aquí y ves que no hay un chavo y que el taxi no te quieren y que no tienes que jugar alguna historia. Y vas y lo pruebas y te hay chavo. Estás ahí trabajando y claro, es que yo no valgo para cocinar, yo no valgo. Yo no valgo en Japón ni para esto. Yo valgo para que mi cabeza de vuelta se empezara a programar, empecé a buscar gente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=522" target="_blank" class="timestamp">[08:42]</a> ¿Para qué vales, tío? ¿Para qué vales? ¿Hiciste una aplicación? Oh, ¿cómo se llamaba, tío? Se lo encuentro. ¿Hiciste una aplicación para móvil, para los taxistas? El tío hizo una aplicación para reservar taxis tipo Uber, pues hace más de 10 años. Pero es por una web, tío. Ah, por la app también. Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=547" target="_blank" class="timestamp">[09:07]</a> Y el tío para promocionar... Esto que hizo el tío este. Fíjate la tontería que hizo, eh. Bueno, fundó la pasta la empresa, pero loco, eh. Se salta el semáforo en rojo. Es que es un impresentable, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=595" target="_blank" class="timestamp">[09:55]</a> Vaya manera de promocionar la aplicación. Es que el tío es muy impresentable. Qué rastre tío. Vaya manera de promocionar la aplicación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=622" target="_blank" class="timestamp">[10:22]</a> El tío se debió fundir la pasta de la empresa, las tonterías estas. Mano rota este. Y con que el tío se que resultó a nivel de programador, pues supongo que fácilmente conseguía socios. Yo sé que financiarían, pero claro, todo lo que hace el tío es un desastre. Es un impresentable.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=649" target="_blank" class="timestamp">[10:49]</a> Y el propio pronuncio promocional de la aplicación se salta en el fondo rojo al principio de todo, tío. Es que es que de verdad que... No hay por dónde cogerlo, ¿eh? ¿Otra vez? ¿Qué promoción? ¿El coche o la aplicación, tío?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=674" target="_blank" class="timestamp">[11:14]</a> Que acabo de ver, tío. Que acabo de ver. Que lo revienta. Este es el típico desgraciado que va jodiendo a todo el mundo. Cualquiera que se le acerque lo arruina y encima no mata a nadie porque ellos no quieren.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=705" target="_blank" class="timestamp">[11:45]</a> ¿Y qué tal Green Shine en la aplicación? ¿Lo has visto o qué? Qué fuerte, tío. Te puedes interesar por la aplicación esta, pero cuando... Bueno, ya pasó la historia. Pero... Viendo anuncios te dices... No quiero saber nada. Por ejemplo, Otela de Barcelona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=731" target="_blank" class="timestamp">[12:11]</a> Vamos a intentar recuperar parte de esa clientela perdida con las multinacionales Uber Califly y además va a ser una herramienta de uso a diario. Vais a ver qué fácil es. Con este teléfono de aquí voy a hacer como si fuera un cliente con la aplicación instalada donde se encuentra él.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=751" target="_blank" class="timestamp">[12:31]</a> ¿Y dónde quiere ir? Los coge y se le muestre la ruta para cargar las tarifas. Porque ya se asignó un taxista, que es este de aquí, que está yendo para allá. Y si lo quieres cancelar, vamos, que le va a costar 7 euros. Cancelar con recargo. Recordad que siempre podéis llamar al cliente, pulsando desde vuestro aplicativo taxista, aquí llamar a, en este caso a Alejandro, que soy yo, y al cliente baja. Hacéis el servicio hasta donde... Qué desastre, tío. Fripante, ¿eh? Qué desastre, tío, macho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=780" target="_blank" class="timestamp">[13:00]</a> Lo que he hecho muchas veces, con CineMartin, con los autos de las motos, es, claro, meterte de camarero, meterte de segurato, meterte de pixero, es, claro, que hay ingeniería, ¿no? Sí, porque defiendo mis putos ideales, que la gente, muchos nos dicen de estafadores, y me van a comer la polla todos juntos, porque estoy pensando en el puto Lamborghini para callar la boca a mucha gente, ¿vale? ¡Ah, no tenga un f... Este era músico también, guitarrista, lo vi con un estudio de grabación, con ordenadores de Apple, con todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=808" target="_blank" class="timestamp">[13:28]</a> Este tío ha manejado mucho dinero. Me han dicho que viene de familia, del padre. Pero este pequeño no ha faltado de nada y ahora está en esta situación que el tío está deprimido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=817" target="_blank" class="timestamp">[13:37]</a> Fútbol CPK, quizás tenga una cosa o la otra, pero mira, ya me han invirtió los asiáticos de que sea un proyecto de riesgo y que quizás no se pueda conseguir. Y tengo que sacar mucha pasta, todas las bolsillas ahí para allá. Pero acá les acabo diciendo, el último mensaje fue la semana pasada, hoy martes, no sé, miércoles quizás. Le dije, mira, en unas semanas o pocos meses os enviaremos dinero. Confiamos en que si no se puede llegar a hacer una cosa, se hará otra. Que si no se consigue un monster, que un Red Bull, pues se consigue un monster, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=845" target="_blank" class="timestamp">[14:05]</a> que no se me consiga un día de eso para su vida tú imagínate haciendo vídeos además a los chinos porque este tío ha hecho una consola una FPGA de esta es compatible con todas las con todas las consolas SEGAS en una sola placa un buen rollo y dice que está con los chinos a ver que le hagan la producción de la consola</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=866" target="_blank" class="timestamp">[14:26]</a> Tú imagínate con los chinos ahí, los fabricantes y el tío ahí eructando ahí con un huevo fuera, cazoncillo todo gordo. Escúchame, los chinos ahí flipando, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=877" target="_blank" class="timestamp">[14:37]</a> Yo aquí hasta el final lo voy a hacer cada puto día, contándose mi puta vida a persona que es una desgracia. Hasta que se vende el puto Lamborghini y al final algo se conseguirá. No sé, al igual no será... A ver, ya os dije, ¿no? Que no será la auténtica supersea. ¿Pero cómo vas a vender Lamborghini? Debes estar embargado hasta la cogonilla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=896" target="_blank" class="timestamp">[14:56]</a> Harás un lanzamiento de bien si vas a ir a la cárcel, si lo vendes. Y te caes la pasta, quiero decir. Por toda la movida que hubo, que se tuvo que lanzar. Y la gente también decía que era cara, hijos de putas. ¿Pero qué quieren? Con ese puto chip que lleva, que vea, vale 250 pavos. El puto, la puta MDS que lleva. Que está ahí, la tengo ahí en la mano todavía. Que la gente se pide que la ha visto. Que sí, que este Joret, ese vecino mío. Usted tiene una Lamborghini naranja y tiene una Harley de estas de 40.000 euros. El tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=923" target="_blank" class="timestamp">[15:23]</a> Lo que pasa, el tío tuvo que vender... O no, tuvo que no, es un desorganizado. Vendió la licencia de taxi que tenía durante la enfermedad de Asia, el confinamiento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=950" target="_blank" class="timestamp">[15:50]</a> Y a ver por cuánto la vendió. Encima. Con lo cotiza que está una licencia de taxi. Y durante el confinamiento vender eso. A ver por cuánto la vendió. Flipa, ¿eh? Eso es el de la Supersega, sí. Y hay tiempo. Hasta ahí no se vende el Lambo. ¿Quieres un Lambo Gini? Pues te lo vendo. ¿Te da un buen precio? Te da un buen precio, joder. El tema es que yo pienso diferente. Yo estoy un poco loco. Porque cuando no pienses como los demás. Eres un loco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=979" target="_blank" class="timestamp">[16:19]</a> Vale, peña, peña, vale, ya lo tengo, ya lo tengo. ¿Donal? Sí, sí, un segundo. Un segundo, segundo. Ahí, ahí, ahí. Empezando. Yes, oui. Siguiente pregunta. ¿Tú quién eres? ¿Quién eres?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1008" target="_blank" class="timestamp">[16:48]</a> Pues yo soy el niño trifásico y no soy electricista. El niño trifásico. Somos de Extremadura. Yo hablé por WhatsApp con él y era bastante disfuncional el hombre, ¿eh? Imposible tener compensación, ¿eh? Bueno, pues aquí es zona turística que te cagas. Dices que vale medio millón de euros. Yo digo que con el confinamiento me parece que lo voy a vender por dos duros, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1034" target="_blank" class="timestamp">[17:14]</a> Trabajo de taxista, ya sin licencia como taxista. No sé, supongo que lo han echado porque iría todo borracho al trabajo seguro. Hay que ir hasta un ayuntamiento. En el ayuntamiento hay que coger unas pruebas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1059" target="_blank" class="timestamp">[17:39]</a> A mamarla. A mamarla. A mamarla. En el calabozo. ¿Paja o plomo? En la cárcel. ¿Paja o plomo? ¿Mama o plomo? ¿Mama o ano? Ya, tío. Ya, es que soy yo un maná también. Matío. ¡No! ¡Qué asco, tío! Ser inmundo, repugnante, monstruo de la sociedad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1088" target="_blank" class="timestamp">[18:08]</a> Pongo cinco. Ahora ponme tres euros. ¿Qué pasa? Es que todavía no lo he llegado. Ahora ponme un euro. Me pone... Ya está. Hasta ahí me voy.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1097" target="_blank" class="timestamp">[18:17]</a> Espérate, un segundo. No, no, no, no, no, no. No, no, no, no, no. Hasta aquí llego, eh. Oh, qué asco. He pasado en el lavabo, eh. Me dice, bueno, tú, Conuncio, pero seguro que si tú estuvieras ahí arriba, eh. Es que no aceptarías que una perica te comiera el rabo. Ah, cállate, qué se más asqueroso, tío. Es un monstruo, eh, de verdad, es horrible. Que apuesten, hagan sus apuestas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1124" target="_blank" class="timestamp">[18:44]</a> ¿Cómo? ¿Que fue desnudo? Vi... No... No... ¿El vídeo de la vecina iba desnudo el pavo? ¿En serio? ¿A la pobre rusa esa? ¿En serio? No puede ser, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1146" target="_blank" class="timestamp">[19:06]</a> ¡Y el tío me abrió! ¡Y la tarjeta funcionó! ¡Ay, qué pasa ahora! ¡Cállate ya! ¡Cállate ya! ¡Cállate! ¡Cállate! ¡Cállate! ¡Cállate! ¡Cállate! ¡Cállate! ¡Cállate! ¡Cállate! ¡Cállate! ¡Cállate! ¡Cállate! ¡Cállate!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1162" target="_blank" class="timestamp">[19:22]</a> Es de un diente que borró. Yo el vídeo lo he visto. Cuando va la vecina y le llama y dice, te quiero. No sé, que estaban pelotas la tía, la rusa. Por favor, déjame en paz. Es el típico tío que o le pegas o es que te hace bien posible. Te persigue, ¿eh? Vas aquí de la inocencia. Al quien respeta a todo el mundo, me gusta usted porque el otro día fui a no sé dónde a discapacidad y tal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1183" target="_blank" class="timestamp">[19:43]</a> Y digo, viste Cataluña. Y la chica me declaró pública antes que era el procés. Y digo, mira, yo soy de la otra banda, pero Ayrson se dice. Como tú, como usted muy bien ha dicho. Sí, pues es la otra. Exacto, que hay dos. Ya está. Pues lo tengo todo. Que su señoría decida que soy culpable de los cargos que se me imputan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1206" target="_blank" class="timestamp">[20:06]</a> ¿Estás juzgado? ¿Y tú y el rollo no ha funcionado y que no importa nada? A ver, o sea, es que me tengo la piafra que... Ah, bueno, y va con Gallumbo, Lolito, hombre. A ver... Hombre, claro que cambia, tío. Tú sabes lo ofensivo que es que un tío se presenta ahí con el que acabo de al aire, eh. No sé, Lolito, no será temagogo, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1224" target="_blank" class="timestamp">[20:24]</a> Bueno, el tío en el juzgado está como en su casa, realmente, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1247" target="_blank" class="timestamp">[20:47]</a> La ufomía española, hija de puta. Tendré que pagar aquí, porque está contra la policía. ¿Cómo hago un sinpañón y está contra la policía? Madre mía, tío. Va con la moto y un seguro. Es de hace meses, de verdad. El testigo me ha dicho que si no paga el alcalde, pero está contra la policía. Si no pago, me llevan para dentro. ¿Qué hago?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1272" target="_blank" class="timestamp">[21:12]</a> Que tipejo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1301" target="_blank" class="timestamp">[21:41]</a> No, no tengo ningún antecedente Declaración de investigador Bueno chicos, ¿qué pensáis?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1316" target="_blank" class="timestamp">[21:56]</a> Yo era chapo que me voy a curro. El abogado me decía que no dijera toda la verdad, que suelen contestar las preguntas y que no dijera eso de que sabía que era falsa la documentación, porque me entré luego, que no lo dijera y que ya lo diría en el juicio. Yo le insistí al abogado, se va con la verdad por delante, me gustaría y él con sus trece, yo con las mías, que no, que quiero decir la verdad y el tío que no. Y al final le dije, venga, pues tú manda. Al final le dije, no contesto, lo que tú digas. Y cuando hemos entrado al juicio...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1342" target="_blank" class="timestamp">[22:22]</a> Luego me ha hecho las preguntas que yo quería que me hiciera, que él decía que no. Me ha fijado y me di cuenta que algo es un delito de falsificación documental anal. ¡Qué maravilla! ¡Qué maravilla! ¡Ah, que sí! ¿Pero esto para quién es? ¿Para ti? ¿Para mí? ¿O para ti? ¿Para quién no? ¡De ahí lo compro! Es que me lo como. De momento hay cinco votos que dicen que soy inocente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1369" target="_blank" class="timestamp">[22:49]</a> Y 0 y 0 votos de que soy culpable. Piensen, yo creo que... Yo creo que me van a declarar culpable con menor cargo. Yo creo que... No sé. Ojalá. Sabéis que soy inocente por un delito que no había cometido. Creo que me van a declarar culpable con menor cargo. Mira, ahora hay dos que votan que es culpable con menor cargo. Pero eso es lo que yo pienso, chicos. Votad lo que penséis vosotros. Ahora sí dicen que soy inocente y dos que soy con menor cargo. Yo creo que me van a declarar algo. Tiene que ser un fugitivo de la ley.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1393" target="_blank" class="timestamp">[23:13]</a> Una persona dice que soy culpable de todos los cargos. Tres personas y voy a asumirme yo, yo soy el cuart, creo que me declararán culpable con menor que hago por la tenuación de la presidencia de prueba. Y la mayoría ha dicho que soy inocente de todos los cargos, ¿vale? Ahora que entraran directo a trabajar, que quedan diez minutos en tranquilidad. Y volveremos tomorro o no, tomorro o no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1421" target="_blank" class="timestamp">[23:41]</a> El tío se va a trabajar con la moto sin seguro. Es que es bestial, ¿eh? La acaban de meter 1500 euros por ahí con el hamburgis sin seguro. Dios mío... ¡Qué personaje, tío! ¡Uh, uh, uh, uh, uh!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1452" target="_blank" class="timestamp">[24:12]</a> Mira. Y canta rock. Que no será esto que me está sonando, ¿no? Suena de alt metal. Para ti todo es metal. ¿Qué música es eso? ¿Qué música es eso? ¿Me preguntas a mí o te guía el GPS? Y yo me cuesta el GPS. ¿Tú ves el GPS? Vale. ¿Está usted suspendido?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1480" target="_blank" class="timestamp">[24:40]</a> Caballero, está usted suspendido. No puede seguir conduciendo caballero. De ahí delante está el hospital de la psiquiatra y le vamos a tomar unas gallinas. Y lo compré tremendo. Cheers de madera. Está la bala ahí delante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1499" target="_blank" class="timestamp">[24:59]</a> El bar estallelante, no se puede esperar. A mi viejo le da la priva, le da mucho. Esto es peligrero. Esto de peligradito. Esto de motivación, confianza. La cónsola, la cónsola. Sí, padre, te la vendo. Mi padre, te la compro. Esto está ahí, quería fumar. Se entera que está aquí toquileando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1528" target="_blank" class="timestamp">[25:28]</a> ¿Vas a tocar la ventana otra vez en tu vida? Yo no. ¿Qué haces? ¿Vas a tocar la ventana otra vez en tu vida? Yo no. No, no te preocupes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1555" target="_blank" class="timestamp">[25:55]</a> Que ya te tengo una preparada. La próxima vez que la toques verás que no la toques más. Porque te vas a quedar sin mano. Te vas a quedar sin mano. Te tengo dicho que no toques la ventana. Tú siempre la misma mierda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1574" target="_blank" class="timestamp">[26:14]</a> es el vecino que tiene al lado y va a tocar los huevos cada día a su servicio lo que os decía lo tienes de vecino o le pegas o te amarra la vida</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1602" target="_blank" class="timestamp">[26:42]</a> Y se las compro. Ayer me ganaron 30 euros y... y he querido comprar comida. ¿Cómo pidan tanto las brazos? A las 4 de la mañana. ¡Ca! ¡Ca! ¡Ca! ¡Ca! ¡Ca! ¡Ca! La compro. Mierda, mierda. La llave está en casa. Otras para arriba. Joder.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1635" target="_blank" class="timestamp">[27:15]</a> Me he hecho unos currículums a determinadas empresas y una me ha respondido a las 5</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1657" target="_blank" class="timestamp">[27:37]</a> Una me ha respondido a las 5. Le voy a la ropa para devolver. Echando currículum, pues el que te contrate al de selección personal hay que hacerle, no sé, hay que preguntarle de qué fuma, ¿no? Sí, reconozco el sitio donde vives, sí, es donde es, sí. He respondido a las 5 y yo para que el mensaje lo he leído después de hacer las 6, a las 8 y media, y me dice envía un WhatsApp si quieres, según tu currículum.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1680" target="_blank" class="timestamp">[28:00]</a> Que asco el lío de babas, he pegado la boca. Me voy a quitar, tío. Te voy a ver, no lo sé. O igual pasa ante mí, no lo sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1696" target="_blank" class="timestamp">[28:16]</a> ¡Mierda, la llave! ¡Quieta! ¡Quieta! ¡Quieta! ¡Quieta el sensor! ¡Pero qué tonto! ¡Otra vez para abajo! ¡Otra vez para arriba! ¡Me he dejado la llave de la moto! ¡Si lo que iba a buscar! ¡Abre la puerta! Soy de Movie Records. Filmax presenta...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1718" target="_blank" class="timestamp">[28:38]</a> ¿Qué pasa usted, caballo? No, no... Usted... Usted... El rostro de Escuela Gallero, déjeme su traje de identificación, caballo. Ahí... Baje, reparta fisa ahí. Pero... Te has equivocado. Te has equivocado. Porque no quiero uno. ¿Cuánto? ¡Cincuenta!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1748" target="_blank" class="timestamp">[29:08]</a> Dos. ¡Cincuenta mil! Es que yo te los cumplo. Te los voy a parar, chaval. Aquí le mete una paliza a este tío por un favor de todo el mundo, ¿eh? De momento me lo llevo a la muchaca. Y a ver si pasa, ¿sabes qué? Ahí va. ¡Paraja! Si no va... Está luchado, veo. ¿Qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1776" target="_blank" class="timestamp">[29:36]</a> Qué asco de pago. Nunca paga en los sitios, tío. Aquí hay problemas ya. Aquí hay problemas, nen. Aquí hay problemas. Aquí hay problemas que esto... Bueno, si no vaya, vendré en otro momento a pagarte, ¿vale? Que... Venga, venga, vamos. Tío, voy a ver la puta muerta. Venga, vamos. Ya me cago en la puta. Qué asco de pago. Siempre ha estado mismo, tío. Nunca paga. Sí, sí, es el típico tío que donde va la tiene que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1805" target="_blank" class="timestamp">[30:05]</a> La tiene que liar y tiene que dar por saco, tiene que ser desagradable, ensuciar. Son gente para quitar de en medio, ¿verdad?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1823" target="_blank" class="timestamp">[30:23]</a> Si, toda esta zona la conozco. Aquí me he encontrado con mi mujer cuando eran los novios, más abajo. Que ya dormía en un hostal que estaba por ahí cerquita de aquí. Hola, me escucharán y... Y el delante es mío, o sea que vamos a esperar un poquito. A este le debo unos huevos. La gente es una mierda. A veces funciona, a veces no funciona. Ahora voy a preguntar lo que debo aquí porque aquí tengo una pasta pero no puedo... Oye, me quedan cien a las nueve.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1854" target="_blank" class="timestamp">[30:54]</a> Primero que pagar lo hago con tu boca. ¿Primiste? Primero pagar. 25 euros. ¿Debo 25? Pues hasta mañana puedo pagártelos. Lo sacan ahí, ¿no? ¿Quién es? Tiene más de 25. ¡Madre mía! 22, 85. A ver, es que tengo 30. Voy a pagar. Tengo 30 pagos. ¿Cuánto debo? ¿Cuánto debo ahí? ¿Cuánto?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1875" target="_blank" class="timestamp">[31:15]</a> Pues si te pago, mira, te pago 20 pavos, ¿vale? 20 euros. O sea, 20 euros. ¿Te voy a pagar? Aquí no, 22, 22, 22. Y aquí a ver si pasa. Aquí te he tirado. Aquí va. Aquí va. Aquí, aquí. O allá. ¿Cómo va? Sí, error de lectura. Bueno, ya empezamos, nene, error. Buenas, gente. Acabo de pagar 22 con 22. Unos centimeños. ¿Puedo confiar? Sí, ¿qué harías, tío? Bien, unos 350 euros. 500 euros. Con 64. Con una cervecita o algo de ver, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1905" target="_blank" class="timestamp">[31:45]</a> Que ser más inmundo, más creoso y mendigando y con la risita siempre, tío, qué asco, ¿eh? Te lo hago otro día, tal vez. Te lo vendo. Aquí la moto rápido, coge la moto y lárgase fumándonos, que te lo vendo. La acuática la tenemos en casa. O sea, la pelotaza hay en casa, pero que sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1921" target="_blank" class="timestamp">[32:01]</a> Y encima del tío es cocainómono. Alucina, ¿sabes? Son los directos de snifando a farra. Encima. Es que asco de ser. Si hay que buscar el oficial de la... Spoiler. Spoiler. A mí no me patrocina nadie. Es una puta madre. Es una de esas. Una está más. Y dos de esas más. Para abarajar un poquito, ¿sabes qué? Está lo que está muy carácter. Los géneros son carísimos. ¿Dónde está? De momento, sí. No, no, es una pipa, es una pipa. Si tengo, te pago.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1948" target="_blank" class="timestamp">[32:28]</a> Y cuando no tengo, no pago yo cómo comprar. Pero tú pides un crédito a plazo. ¿Dónde? ¿Por qué? Porque vas al banco y yo ya quiero dinero para comprar. ¿Para ti por qué no doy banco? Tú catalán. Yo catalán, yo español. Mira, yo ahora este otro lo voy a pagar, ¿verdad? Que lo pago todo el día. He ido indio. ¡Hasta luego! ¡Viva la India! ¡Viva la India! ¡Butan Fire!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1976" target="_blank" class="timestamp">[32:56]</a> india verdad viva la india y otro indio qué puñetazo tiene en la cara el pavo viva la india vamos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=1993" target="_blank" class="timestamp">[33:13]</a> Cada vez que entro aquí en el bar, tengo la costumbre de entrar como si fuera un... y me he capacitado medio cojo y tal, ¿sabes qué? Bim, boing. Toma la casitos. Bim, boing. Bocadilla de pan, sí señor. Hoy aquí he extraído más de una vez alguna cosilla. El otro me he quinchado dos veces, ¿sabes? ¿Tienen del bistec? Yo me dejo el precio del bistec. El dirigente es seguridad y dice que roba el supermercado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2015" target="_blank" class="timestamp">[33:35]</a> ¡Qué fuerte!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2043" target="_blank" class="timestamp">[34:03]</a> El vigilante no le quita el ojo porque le conoce robado otras veces. Está ahí el tipo ahí encontrando el vigilante de la playa. Yo no sé oír algo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2059" target="_blank" class="timestamp">[34:19]</a> Pero son de baja calidad. ¿Son hechas ahí por vosotros? Localmente, ¿verdad? Manualmente, ¿verdad? Te las compro. Te las compro y te las vendo luego. Si no me siento bien te las revendo. ¿Cuánto es? ¿Haces precio si me llevo las piezas enteras? ¿Haces precio? Dios, qué tío más cargante. Qué pesadilla para todo el mundo. Qué desgracia ser humano, tío. ¿Hay precio o no hay precio?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2090" target="_blank" class="timestamp">[34:50]</a> En este caprabo de Lloret hay dos, el de Fanals y el que está para otro lado. En uno, el de Fanals, me acuerdo un negro que iba con un chubasquero, que era ridículo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2100" target="_blank" class="timestamp">[35:00]</a> hicimos alto el tío que iba como los dibujos animados así hinchado de cosas que lleva dentro sin cómo se aguantaba y el cajero estaba ahí así con una con un agobio porque pitaba a pasar por arco y el cajero oye que la chaqueta que sí que sí por favor la chaqueta</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2123" target="_blank" class="timestamp">[35:23]</a> Y al final el del cajero lo dejó de estar. Y el negro se fue. Pero hinchado así de cosas, ¿eh? ¿Qué es el supermercado? ¿Tienen que robar tanto? La gente que hay, ya sabéis, de qué país es. Que yo veo a todos los empleados con una cara así de rayados. ¿Y qué pasan, tío? ¿Que me vengan a decir al chaval y yo tengo que pagar? Macho, tío, de verdad, ¿eh? Sí, sí, sí, sin simular. Y el negro riéndose.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2152" target="_blank" class="timestamp">[35:52]</a> Venga, entonces te lo has hecho. Sin niña ni eso. ¿Está libre eso? Me recuerda como Rock Up, que es ese futuro entristópico y apocalíptico que todo el mundo es un tipejo, un sinvergüenza, un drogadicto, un delincuente y un putero. Pues está este, Rock Up. ¿Os acordáis? Te la compro por un dólar. Igual, tío, es igualito, pero más asqueroso aún.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2183" target="_blank" class="timestamp">[36:23]</a> Paso por aquí. ¿La de aquí o allá? ¿Dónde era? Las dos. ¡Qué mala suerte! ¡Qué mala suerte, tío! Me vuelvo allá otra vez. O no, me vuelvo aquí. Venga, me vuelvo allá. Tengo más cambios que una piruleta. ¡Qué mala suerte! Siempre hay una película. Primero te la metes en la doblada si no te das cuenta y haces la donación, ¿sabes? Del mismo importe los tíos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2207" target="_blank" class="timestamp">[36:47]</a> Es que este personaje, este perfil me suena familiar. Tíos de estos que tienen la necesidad de creerse que son genios inventan barbaridades porque tienen mucha labia. Convencen a inversores, meten la pasta. El resultado es nada. O sea, una carcasa de carbono que no hay nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2228" target="_blank" class="timestamp">[37:08]</a> Y el tío va siempre así, haciendo pufos. Y este tipo de personas, estoy convencido de lo que digo, ¿eh? Por donde van, dejan un reguero de ruina. Este tío, estoy convencido que... Has hecho un montón de proyectos. Hizo una cámara de grabación la primera en 8K del mundo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2244" target="_blank" class="timestamp">[37:24]</a> Una consola FPGA que leía todos los cartuchos de todos los juegos de Sega. En una sola placa. Que llamó atención a todo el mundo del retro gaming. Una aplicación tipo Uber pero hace casi 20 años. Que hace 15 años. O sea, hacía música, canto autor. De todo. Y este tío seguro que convencía y tal. Arruinado a todo el mundo. Estafado a todo el mundo indirectamente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2276" target="_blank" class="timestamp">[37:56]</a> Y aquí está el tío que se cree listísimo. ¿Viste cómo va por la vida quedándose con todo el mundo? Se cree gracioso. Se cree que es como el Dalí, ¿sabes? Pero del streaming, del IRL. Que es el más asqueroso, de verdad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2304" target="_blank" class="timestamp">[38:24]</a> Hostia se ha parado la moto, se ha parado la moto, se ha parado la moto Se ha parado, le pasa algo a la moto, se ha parado, mierda Emergencia, le pasa algo a la moto, le pasa algo a la moto, nen No tiene combustible Se ha parado, se ha parado la moto Madre mía, que marrón, nen</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2321" target="_blank" class="timestamp">[38:41]</a> El seguro lo hizo mi viejo y como lo puso el nombre del viejo y es una puta compañía de mierda esa de... Sí, muy famosa, pero es una basura. Esto es un robot el que te atiende, te pide tu DNI, pongo el DNI y me dice que no me conoce. Y ahora mi viejo no me da su DNI, pues... Es como si no hubiera seguro. Venga, dejo aquí. Ah, bueno, él decía que no tiene seguro. Ha dicho que ha hecho un seguro el viejo, pero que no tiene servicio de grúa. Venga, hombre, cuéstate. El teléfono y se porta. Estoy de vuelta en unos minutos, un par de minutos por ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2354" target="_blank" class="timestamp">[39:14]</a> Oye, ¿no te suena un colchón por ahí? ¿Vas a tirar un colchón? Lo bueno que el tío tiene una pedaza de moto y va a ir a pasta, ¿eh? ¿Un colchón?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2360" target="_blank" class="timestamp">[39:20]</a> Yo por qué paso, pero el que, no sé, el que le gusta la moto es ir para allá al tío este e intentar negociar con este tío. Con este tío te mueres negociando, ¿eh? Pero intentar dar la pasta en mano y decirle, mira, si vamos a hacerle cambio de nombre a la gestoría, te doy el dinero, ¿eh? Pero dame los papeles, ¿eh? Y estar así con él, como si fuera la trampa esta de la calle de pescar y la sachicha con el perro, para convencerle. Porque está siempre con algo al cuello y es para comprar la moto por dos duros, ¿sabes? Porque estamos toda la pasta, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2390" target="_blank" class="timestamp">[39:50]</a> Tirarlo, estamos cambiando. Ah, vale, pues si no, te lo compro. O sea, es que me falta mucho la mitad y lo estoy un poco echado polvo, pero venga, todavía será. Te veo, hasta luego. Mateo. Que me ha tocado yo, la toco un poco. Porque sí, junto. Rompicón. Molestando, el vecino es el abuelo que tiene, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2417" target="_blank" class="timestamp">[40:17]</a> Pero ponle la madera encima en el márbon, hombre. Qué estrés ser humano. El tipo de persona no hace nada bien. Ah, el cuchillo. En orden, firmes. ¡Al!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2446" target="_blank" class="timestamp">[40:46]</a> Hay unos cuantos voluntarios y se van presentando al ejército de... Seguro que no se le limpien las manos, qué desgracia de ti, ¿verdad? Tres. Ahí va, la guarida municipal. Y por ahí, dos más. Mira. Y del sofá, otro dos más. ¿Qué hace? Se ha quedado uno. Y se ha quedado para adentro. ¿Por qué tiran los cigarros? Y también hay que guardar en la habitación, porque luego tengo el juego en el mono y no hay tabaco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2481" target="_blank" class="timestamp">[41:21]</a> ¡Qué asco de tío!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2517" target="_blank" class="timestamp">[41:57]</a> ¿Alguien me la compra? Chavales, si fuera a ti y media ya. Cerca de las 11, la madre nos parió. Estoy tumbado en un sofá o en una cama. Si estoy en un sofá. No aguanto más. Oh, qué asco das, tío. No aguanto más, tío. Fuera, fuera. Fuera, fuera, fuera. Hasta aquí llego el pavo este. Oh, qué ascazo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=u60lQzIuUIQ&t=2545" target="_blank" class="timestamp">[42:25]</a> Es vomitivo. Stalin vuelve y limpia el país, tío.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 03/07/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
