@@ -1,0 +1,382 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 04/07/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">04/07/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>alvarobernalalejandre</strong>: <a href='#video-3cGwARcwuS8'>Sobrecarga progresiva y genética</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-3cGwARcwuS8">
+            <h2>Sobrecarga progresiva y genética</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: alvarobernalalejandre</span>
+                <span class="date">Publicado: 04/07/2025 11:16</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=3cGwARcwuS8" target="_blank">
+                    <img src="https://i.ytimg.com/vi/3cGwARcwuS8/hqdefault.jpg" alt="Sobrecarga progresiva y genética" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video aborda tres temas clave en el entrenamiento: las lesiones, la sobrecarga progresiva y la genética.
+El presentador cuestiona la idea de progreso ilimitado y la necesidad constante de cambiar rutinas.
+Argumenta que la mayoría de las personas alcanzan su máximo potencial de fuerza/músculo en pocos años de entrenamiento metódico.
+Se invita a la reflexión y debate sobre estos puntos basados en la experiencia personal y la realidad biológica.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Los 3 Pilares del Debate: Lesiones, Sobrecarga y Genética <a href="https://www.youtube.com/watch?v=3cGwARcwuS8&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El presentador introduce los tres temas principales que quiere debatir: la causa de las lesiones en el gimnasio, la constante insistencia en la sobrecarga progresiva y la importancia de la genética en el progreso. Invita a la audiencia a compartir sus experiencias y opiniones sobre cada punto.</p>
+
+<h3>La Realidad de la Genética y el Progreso Limitado <a href="https://www.youtube.com/watch?v=3cGwARcwuS8&amp;t=101" target="_blank">[01:41]</a></h3>
+
+<p>Se discute cómo la genética sigue una campana de Gauss, con un pequeño porcentaje de "respondedores rápidos" y otro pequeño grupo con dificultades para progresar, mientras la mayoría está en el medio. Critica a quienes culpan a la falta de esfuerzo del resto, sin reconocer los límites genéticos naturales.</p>
+
+<h3>¿Monotonía o Disciplina? El Debate del Cambio de Rutinas <a href="https://www.youtube.com/watch?v=3cGwARcwuS8&amp;t=219" target="_blank">[03:39]</a></h3>
+
+<p>El presentador introduce el tercer tema: la necesidad de cambiar constantemente las rutinas de entrenamiento. Cuestiona si esto responde a una necesidad real para la hipertrofia o si es una excusa por aburrimiento o falta de disciplina, sugiriendo que la ciencia de la hipertrofia aún tiene incertidumbres.</p>
+
+<h3>Evita Lesiones Siendo Consciente y Cuestiona la Monotonía <a href="https://www.youtube.com/watch?v=3cGwARcwuS8&amp;t=288" target="_blank">[04:48]</a></h3>
+
+<p>Se aborda la salud articular, señalando que la mayoría sabe si está haciendo un ejercicio de forma perjudicial ("haciendo el bruto"). Luego, critica la idea de la monotonía, argumentando que los deportistas de élite repiten ejercicios y que cambiar por aburrimiento es una "actitud floja".</p>
+
+<h3>El Mito de la Sobrecarga Infinita: Alcanzar el Límite en Pocos Años <a href="https://www.youtube.com/watch?v=3cGwARcwuS8&amp;t=388" target="_blank">[06:28]</a></h3>
+
+<p>El punto central: la mayoría de las personas alcanzan su máximo potencial de fuerza y tamaño muscular en unos 4 o 5 años de entrenamiento constante. Contrasta esto con creadores de contenido que promueven la sobrecarga progresiva constante, pero no muestran progreso real después de años.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=0" target="_blank" class="timestamp">[00:00]</a> En este vídeo me gustaría debatir contigo sobre tres temas. El primero es sobre las lesiones en el gimnasio. ¿Qué opinas? Si tiene que ver con los ejercicios que hacemos, con la forma de hacerlos, con el volumen que hacemos semanal, con las frecuencias, todo este tipo de cosas. Me gustaría que me contases tu opinión y tu experiencia respecto a las lesiones. Espero que no hayas tenido lesiones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=21" target="_blank" class="timestamp">[00:21]</a> El segundo es el de la manida. Nos taladran el cerebro con la sobrecarga progresiva. Ahora verás en el comentario que yo hago a continuación cómo te digo que veo muchos creadores de contenido que están pico pala todos los días hablándonos de la importancia de la sobrecarga progresiva, de meter kilos a la barra, estas expresiones que ellos utilizan, pero a los que sigo hace tiempo no les veo que aumenten de forma...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=45" target="_blank" class="timestamp">[00:45]</a> evidente, sino que ya están en un punto en el que la fuerza se ha estabilizado. Por lo tanto, la pregunta que te querría hacer es ¿cuántos años llevas entrenando? Si lo llevas haciendo con regularidad, no te engañes, no me digas no, no, yo es que progreso, tengo 50 años y sigo progresando. Es que si nunca te has entrenado de forma organizada, como te digo más adelante,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=65" target="_blank" class="timestamp">[01:05]</a> pues entonces no tiene sentido. Dime, ¿cuántos años has entrenado seguidos de forma metódica, de dónde arrancabas y hasta dónde has llegado? Porque, oye, parece ser que el que no llegue a 200 en sentadilla, 250 en peso muerto y 150 en presa de banca, pues es un flojo, ¿no? Bueno, las personas como yo, que hemos sido flojos toda la vida...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=85" target="_blank" class="timestamp">[01:25]</a> Pues nos escudamos en el tema de la genética y ese es otro concepto que me gustaría charlar contigo. ¿Cuánto crees que importa la genética? Yo estoy preparando un vídeo recopilando todo lo que estoy encontrando sobre genética y ganancia de fuerza y masa muscular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=101" target="_blank" class="timestamp">[01:41]</a> Las conclusiones son básicamente que todo responde nuevamente a la campana de Gauss. Ya sabes que yo hago alusión constantemente a ese concepto. Pero de alguna forma, en torno a un 10-15% de las personas tienen una buena dotación genética y van a progresar muy rápido, que son los que en culturismo natural, porque sí que creo que hay un culturismo natural. No todos los culturistas naturales son naturales, pero sí que creo que hay un culturismo natural.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=122" target="_blank" class="timestamp">[02:02]</a> natural y gente que es admirable porque no engaña. Ya sabéis que mi relación con las drogas es respecto a la verdad y la mentira. Si a mí alguien me dice que se dopa, pues yo estoy encantado que haga con su vida lo que le dé la gana mientras sea consciente de las consecuencias y sepa la realidad, no la información que le dan los blanqueadores de la química.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=140" target="_blank" class="timestamp">[02:20]</a> ese porcentaje pequeño de personas que tienen una facilidad natural que además han entrenado y se han roto ahí el alma para entrenar y lo han hecho todo bien por desgracia nos dicen al resto que podemos lograrlo y se nos acusa pues que si somos unos flojos y no nos hemos puesto fuertes es que nunca hemos entrenado con dureza luego hay otro porcentaje de personas que es que hagan lo que hagan de verdad que progresan poquísimo y luego hay un grueso de la población que sí que tiene una relación directa entre cómo entrena cómo se cuida</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=168" target="_blank" class="timestamp">[02:48]</a> y el trabajo que va acumulando a lo largo de los años. Pero me gustaría que me dieras tu opinión y fueras muy concreto. Años entrenando de forma seguida y meticulosa de dónde arrancabas en fuerza con determinados ejercicios y dónde estás un tiempo después y si lograste un punto en el cual ya la fuerza era oscilante. Ya llegabas a unos puntos determinados.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=190" target="_blank" class="timestamp">[03:10]</a> y subías arriba o abajo. Ayer hablaba con un cliente que me decía, llegué a hacer pectoral cuatro repeticiones con 100 kilos, pero ahora estoy en 90 y más o menos sigo entrenando. Es decir, la fuerza es muy oscilante cuando llegas a tu límite. Cuando estás progresando vas muy rápido y es muy bonito el ver cómo vas acumulando peso a los ejercicios y demás. Entonces, por favor, cuéntame eso. Y el último tema que me gustaría debatir contigo, que también aquí hablamos, es el tema de estar cambiando las rutinas de la monotonía.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=219" target="_blank" class="timestamp">[03:39]</a> de si es que ahora mismo somos de cristal y hay que cambiar los ejercicios porque nos aburrimos y si tiene sentido cambiar las rutinas con tanta frecuencia que me des tu opinión porque tengo la sensación que la hipertrofia no da para tanto en el sentido de lo que la justifica y la explica</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=237" target="_blank" class="timestamp">[03:57]</a> A 2025, cuando estoy grabando este vídeo, en julio todavía no se puede conocer con exactitud el mecanismo de la hipertrofia. Se sabe muchísimo, se sabe todo lo que rodea la hipertrofia, pero no podemos garantizar que con un entramiento determinado toda la población va a responder. En cambio, con los fármacos para determinadas enfermedades podemos saber que un alto porcentaje de la población con una patología determinada responde a un fármaco. No estamos hablando de fármacos, no estamos hablando de industria...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=264" target="_blank" class="timestamp">[04:24]</a> simplemente estamos hablando de que hay estudios que pueden confirmar que algo en la mayor parte de las ocasiones va a ocurrir. Y con la hipertrofia pues no lo sabemos. Pero claro, los creadores de contenido que se basan en sistemáticamente decirnos lo mismo, pues parece ser que se sienten incómodos cuando los estudios científicos dicen que solo un porcentaje pequeño de la población va a lograr una gran hipertrofia en el tiempo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=288" target="_blank" class="timestamp">[04:48]</a> Pues nada, te pongo la intervención que tengo hablando de estos temas y me encantaría hacer un debate saludable contigo. Tú me matizas una cosa. Salud articular y no caer en la monotonía. Salud articular no haciendo el bruto, así de claro. Es que no hay que darle más vueltas. No haciendo el bruto. Todo el mundo sabe si en el peso muerto está dejando que la barra...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=308" target="_blank" class="timestamp">[05:08]</a> Los discos toquen el suelo. Sabe si se está encorvando. Sabe si está cogiendo el agarre invertido para poder hacer más fuerza. Sabe si está utilizando los straps. Todo el mundo sabe si está haciendo lo máximo posible para que la barra se despegue del suelo con unos kilos. Si es eso, asume lesiones. Todo el mundo sabe si se está echando muy para adelante la sentadilla. Todo el mundo sabe si está bajando y haciendo rebote, si se lo permiten sus articulaciones. Todo el mundo sabe eso. Todo el mundo sabe si está haciendo un cool de bíceps con impulso. Todo el mundo sabe si está...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=336" target="_blank" class="timestamp">[05:36]</a> Haciendo dominadas, dejándose descolgar fuerte para lograr la capacidad elástica de los tendones. Todo el mundo sabe si está haciendo pectoral y está rebotando. Todo el mundo lo sabe. Bueno, pues así te vas a joder antes o después. Y luego en cuanto a la monotonía, pues yo ahí en este aspecto soy crítico. Las personas mayores constantemente aludimos al pasado, pero yo era niño, es decir, no era ni siquiera un joven y ya veía a...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=360" target="_blank" class="timestamp">[06:00]</a> alterófilos y levantadores y gente del maratón y del ciclismo que no hablaban de monotonía hacían toda la vida lo mismo entonces lo de la monotonía pues pienso y que nadie se me enfade que es un poco de actitud floja es decir si a alguien le aburre hacer press de banca y lo que quiere es ponerse fuerte y el press de banca le funciona creo que se me entiende si alguien le aburre hacer los mismos ejercicios siempre</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=388" target="_blank" class="timestamp">[06:28]</a> pues tiene un problema de concepción de lo que está haciendo. Entonces, esa parte es así. Otra cosa es que tú digas, yo ya llevo unos años y ya no mejoro. ¿Por qué? Porque a nadie le gusta decir esto y es que en 4 o 5 años la mayor parte de los humanos hemos logrado nuestro máximo de fuerza y nuestro máximo de volumen muscular, menos los que crean contenido hablando de la sobrecarga progresiva. Es que a mí me encantaría verles...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=411" target="_blank" class="timestamp">[06:51]</a> Lo que han progresado, no voy a dar nombre porque ahora dan nombre si la gente se enfada, ¿no? Pero todos estos que están hablando de la sobrecarga progresiva, que yo me he visto sus vídeos desde que están en YouTube y algunos están hace 8 o 10 años, pues les veo manejando los mismos kilos, ¿vale? Pero te meten el vídeo de la sobrecarga progresiva. Bueno, pues la sobrecarga progresiva tiene un límite porque si no, los récords de halterofilia se batirían a los 70 años y no se batirían a los 25, 30, 35 años.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=434" target="_blank" class="timestamp">[07:14]</a> Por lo tanto, lo de la monotonía, si me dices que es que hay ejercicios que te molestan o que ya no te apañas con ellos, pues te duele o lo que sea, pues busca alternativas. Pero si no, yo no creo que hay que hablar de monotonía. Hace años se utilizaba, bueno, se sigue viendo, ¿no? Un término de los más ridículos que he visto, confusión muscular, confundir al músculo, ¿no? Como que le engañabas. Hoy hago press de banca con barra, pero la semana que viene lo hago con mancuernas y le confundo al músculo, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=460" target="_blank" class="timestamp">[07:40]</a> Son de esos términos de culturista de la riñonera que llevaba en el guistrol el arroz y el pollo, de ese estilo. ¿Cómo se va a confundir al músculo? El músculo recibe un estímulo y si el estímulo es recurrente y te recuperas y tiene intensidad, pues mejoras hasta donde te lleva la vida. Yo no cambiaría los ejercicios, salvo que hubiera causas objetivas para cambiarlos. Es decir, me he lesionado y ya no puedo hacer tal ejercicio. O ya me he cambiado de gimnasio y ya no tienen el no sé cuánto. Bueno, pues lo haría. Esa sería mi...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=488" target="_blank" class="timestamp">[08:08]</a> Mi opinión. Entonces, yo no estructuraría nada. Lo que sí que haría es que, si ya has llegado a tus límites de fuerza, y esta parte creo que es importante, trataría de trabajar otros sistemas. Por ejemplo, trataría de lograr la máxima capilarización. Haría periodos de series de muchísimas repeticiones buscando la máxima fatiga muscular para educar a tus músculos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=510" target="_blank" class="timestamp">[08:30]</a> a utilizar más oxígeno y todos los nutrientes. Eso sí que lo haría. Trataría de intentar generar nuevas vías para que lleguen recursos, nutrientes a los músculos que también se van a recuperar antes. Por ejemplo, ejemplos que me gusta comentar. Personas que han hecho mucho ciclismo de joven...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=528" target="_blank" class="timestamp">[08:48]</a> y se les ven las piernas fuertes, creedme, no es de hacer ciclismo, era de que tenían genética de piernas fuertes, o sea, cuando veis de cerca a los ciclistas están así, a lo mejor hiper congestionados, sudando, con la crema que se echan para el sol o lo que sea, hace años se echaban aceite, viéndoles muy delgados, cierta iluminación, parece que están muy fuertes los de carretera, coges los de pista y tienes tíos, hay un vídeo de un colega moviendo 2000 vatios, yo creo que debe ser...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=555" target="_blank" class="timestamp">[09:15]</a> Pues sí, un caballo, creo que son como 800 vatios, una burrada, o sea, casi como una vepina antigua, ¿no? Ves al tío las piernas y dices, sí, es natural, sí, natural de burgos. Ciclistas que se ponen a entrenar ya pesas normalmente y qué casualidad...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=572" target="_blank" class="timestamp">[09:32]</a> que siempre tienen una hipertrofia mayor en el tren inferior cuando han entrenado solo las fibras tipo 1 principalmente, aunque también en sprints y cosas así y ataques y demás trabajan fibras tipo 2. Ha generado tal capacidad de llevar sangre a los músculos que esas personas tienen más facilidad. O sea que yo creo que cualquier persona debería darse la oportunidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=590" target="_blank" class="timestamp">[09:50]</a> Si se siente estancado de entrenar potencia, alta velocidad intencional con cero fatiga, es decir, a rir muy largos, creo que todo el mundo debería hacer series de muchísimas repeticiones, máxima congestión y dejarlo como periodos de descanso para tratar de ver si puedes encontrar un pico de fuerza mayor un poquito más adelante. Pero bueno, sé que a mucha gente le molesta este mensaje y lo reitero una vez más que alguien me lo pongo aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=616" target="_blank" class="timestamp">[10:16]</a> Alguien que haya entrenado duro y regularmente de forma metódica, en 4 o 5 años ya no aumenta la fuerza. Si alguien me está escuchando aquí, que me diga si alguien que ha entrenado metódicamente ha encontrado el pico de fuerza a los 4 o 5 años. No me vale el que entrena 4 meses, lo deja...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=3cGwARcwuS8&t=632" target="_blank" class="timestamp">[10:32]</a> porque lo deja con la novia y entonces se deprime, deja al gimnasio, el que luego se echa a otra novia y vuelve al gimnasio, el que se hace un ciclito, el que ahora voy, el que vuelvo, el que entreno como el culo y no como, el que no duermo y tomo copas y pero entreno, no, ese no me vale, me vale el que con 25 años dijo yo me pongo a entrenar a muerte y que me diga si con 30 años está subiendo kilos todavía en el press de banca. En general, muy poquitos, ¿vale?</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 04/07/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
