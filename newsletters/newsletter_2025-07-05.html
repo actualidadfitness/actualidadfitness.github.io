@@ -1,0 +1,442 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 05/07/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">05/07/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John_MH</strong>: <a href='#video-7BQQV-ONLCk'>CHUZIMONGUER REVELA LOS SECRETOS DEL ENTRENO NATTY.</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-7BQQV-ONLCk">
+            <h2>CHUZIMONGUER REVELA LOS SECRETOS DEL ENTRENO NATTY.</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John_MH</span>
+                <span class="date">Publicado: 05/07/2025 09:15</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=7BQQV-ONLCk" target="_blank">
+                    <img src="https://i.ytimg.com/vi/7BQQV-ONLCk/hqdefault.jpg" alt="CHUZIMONGUER REVELA LOS SECRETOS DEL ENTRENO NATTY." loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video es una reacción airada a un culturista que se dice "natural" ("Chipimonger"), a quien el presentador acusa de usar química y mentir.
+Critica duramente sus consejos de entrenamiento y dieta para atletas naturales, calificándolos de excusas para vagos y victimismo.
+El presentador expone lo que considera la farsa de las federaciones de culturismo natural y sus controles antidopaje.
+Argumenta que los principios básicos de entrenamiento aplican a todos, y que la supuesta diferencia es una excusa para el engaño.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Mantenimiento del Mito "Natural" <a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&amp;t=49" target="_blank">[00:49]</a></h3>
+
+<p>El presentador introduce al "Chipimonger", un culturista que se autodenomina natural. Sugiere que la repetición constante de ser "natural" es una técnica para pasar polígrafos poco fiables. Compara esta insistencia con la de un vegano pesado.</p>
+
+<h3>Victimismo y Vagancia en el Entreno <a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&amp;t=331" target="_blank">[05:31]</a></h3>
+
+<p>El presentador critica la idea de que los atletas naturales no pueden entrenar o comer igual que quienes usan química. Califica este discurso como "victimista" y una excusa para la pereza. Insta a entrenar duro sin quejarse.</p>
+
+<h3>La Dogma del Bajo Volumen "Natural" <a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&amp;t=734" target="_blank">[12:14]</a></h3>
+
+<p>El culturista reaccionado afirma que un natural debe entrenar con poco volumen y alta intensidad. El presentador se burla de esta afirmación como un dogma desactualizado. Vuelve a usar la apariencia del culturista como prueba de uso de sustancias.</p>
+
+<h3>La Disciplina vs. el Engaño <a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&amp;t=1050" target="_blank">[17:30]</a></h3>
+
+<p>El presentador argumenta que los culturistas de élite (naturales o no) fiscalizan su entrenamiento mucho más que el sujeto criticado. Desmonta la idea de que los profesionales no saben cómo entrenar correctamente. Acusa al "Chipimonger" de ser un farsante con poca disciplina.</p>
+
+<h3>Desenmascarando Ejemplos "Naturales" <a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&amp;t=1253" target="_blank">[20:53]</a></h3>
+
+<p>El presentador muestra un ejemplo de un culturista que compite en federaciones "naturales". Señala características físicas (hombros, estructura) que, según él, son evidencia clara del uso de química. Critica a quienes se creen sus propias mentiras.</p>
+
+<h3>El Circo del Culturismo "Natural" <a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&amp;t=1501" target="_blank">[25:01]</a></h3>
+
+<p>El presentador concluye que el culturismo natural de competición es un negocio y un "circo". Afirma que la gran mayoría usa sustancias y los controles son ineficientes o inexistentes. Insiste en que los principios de entrenamiento son universales, la diferencia clave es la recuperación facilitada por la química.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=0" target="_blank" class="timestamp">[00:00]</a> Gente, ¿cómo estáis? He vuelto a reaccionar a nuestro querido Chipimonger, aunque no sé si llamarlo Chucimonger, ¿no? Porque es un chuzao y mentiroso, farsante, da mucha rabia. Claro, esta gente, para pasar polígrafo, como bien indica HGPT, el polígrafo es una prueba que hace la competición esta penosa donde va esta gente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=20" target="_blank" class="timestamp">[00:20]</a> donde si tienes reacciones a nivel nervioso por la inseguridad que te da soltar a una trola, lo detecta, supuestamente. Es una prueba que no se usa en ningún sitio porque no es fiable. Y una persona que se dedique a repetirse como un mongoner todo el día algo que es mentira y lo acaba asimilando como normal, puede pasar la prueba del polígrafo perfectamente. Por esto veréis que los falsos natis de la VNBF, como se llame esa federación asquerosa,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=49" target="_blank" class="timestamp">[00:49]</a> Creo que dirige la monosi, ¿verdad? Veréis que están todo el día con... ¡Sí, natural! ¡Sí, natural! Es más pesado que un vegano. Que te le saluda y te responde que es vegano, que no te importa. Pues estos son peores. Siempre están... ¡Natural, natural! Que sí, que sí, pesado es natural. Lo repiten siempre porque si no, pues, en el polígrafo no pasen la prueba, ¿no? Pues aquí está el monger con su cara de monger y unos pedazos de trapezo. Pero ¿dónde vas? O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=71" target="_blank" class="timestamp">[01:11]</a> Que sí, a ver si lo entendéis, que los trapézos no son muy grandes, pero entended que no tiene cuello, no tiene amplitud clavicular. Es que es un gnomo de jardín este tío. Es un estepilococo, es una bacteria, es un hongo, no es un culturista. Y aún así, con ese cuerpo que tiene, esa estructura ósea pequeñita que tiene...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=91" target="_blank" class="timestamp">[01:31]</a> Está el poco espacio entre hombro y cabeza, porque el tío no tiene cuello, lo tiene hinchado de trapecio. Es un tío farsante y ridículo. Y encima hace una prueba de sangre. Y sale un médico endocrino y se la desmonta completamente. Y su respuesta es chulear. Soy natural, gorila, soy natural. Porque no da para más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=110" target="_blank" class="timestamp">[01:50]</a> ¿Sabes? Es como los mongoners que le dan esos ataques de ansiedad y empiezan a morirse así como neuróticos. Pues a este le pasa lo mismo. Le llega la contraña. Natural, natural, natural, natural. Y no va para más, ¿no? Hay que ponerle un cone de plata y una piruleta para que haga ruido, para que se quite la ansiedad. Porque si no, el tío está ahí. Natural, natural. Y da igual, aunque se haga las pruebas. Es un farsante. Pero claro, no es solo porque sea mongoner. Es porque este discursito es diferenciador. ¿No? El...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=138" target="_blank" class="timestamp">[02:18]</a> cateto este, pretende venderte la moto de que es un crack, que hace las cosas súper bien, va a muerte, entrena, que da pena, chaval. Sacrificio lo justito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=149" target="_blank" class="timestamp">[02:29]</a> Dice el que va a muerte y entonces, claro, es que lo hago muy bien. Yo soy natural, fíjate cómo estoy y soy casi de lo mejor del mundo, natural. Eres un farsante. O sea, la gente que paga asesorías es este tío, que no sea tonta. Págale si quieres, pero no te crees el discurso que te está dando. A ver qué dice el Chucy Monger. Bueno, gorilas, en el día de hoy vamos a hablar de algo de lo que a veces se ha hablado, pero no mucho. Y creo que es importante que lo aprendáis porque vais a progresar mucho más. Gracias, Chucy Monger. Dame los consejos, venga.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=179" target="_blank" class="timestamp">[02:59]</a> Un culturista natural o cualquier persona que sea natural, no tiene por qué ser culturista, no puede ni entrenar ni a veces comer lo mismo que un culturista que utiliza química. Y me voy a explicar antes de que me empecéis a funar. En cuanto al entreno, en el entreno es donde más diferencia hay, ¿vale? Si os fijáis, muchos de vosotros que veis vídeos y ojo, no quiero ni tirar hate ni nada, simplemente es para poder comparar con algo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=207" target="_blank" class="timestamp">[03:27]</a> Bueno, esta vez has bajado la dosis de cloputerol, ¿no? Porque no tiemblas tanto, tío. Que a veces pareces una gelatina. Y que tengáis algo con que comparar. Si os fijáis, a la hora de entrenar, Joan Pradell, Kim Ángel... Ya empezamos, tío. ¿Has de poner ejemplo a Joan Pradell, que es el tío más criticado del mundo entero por cómo entrena?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=230" target="_blank" class="timestamp">[03:50]</a> Ah, es un ejemplo de entreno de chuzado, ¿no? De verdad, tío. Y gente de esta, que ahora mismo no me salen más nombres. Muy bien, Chuzimonger, muy bien. Gente que utiliza química, seguramente muchos olimpias también entrenan así. Hacen innumerables ejercicios y series.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=248" target="_blank" class="timestamp">[04:08]</a> Sí, eso, todo era en Yates también. Y José Madivis también. Y luego hay algo que me causa todavía más curiosidad y es que no llevan una estructura en cuanto a su entreno. Ah, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=262" target="_blank" class="timestamp">[04:22]</a> Es decir, hoy llegan al gimnasio, les toca espalda y empiezan por un jalón y al día siguiente empiezan con un remo y al día siguiente empiezan con otra cosa. No llevan un orden, no hay una progresión, no hay una sobrecara progresión. ¡Deja de tocarte la cara, hombre!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=281" target="_blank" class="timestamp">[04:41]</a> no apuntan nada. O sea, los chuzados son otra raza humana en que entrenan como quieren, son indisciplinados, no se estructuran el entreno, no lo apuntan y hacen el tonto como el Sean Paradise, que es el ejemplo paradigmático, ¿verdad? Pero este pavo es que me pone enfermo, te lo digo en serio, ¿eh? Encima, este tío es indirectamente un apologista de la química, ¿no? Porque te está diciendo que si te chuzas, da igual como lo hagas, que creces. Así mágicamente, ¿no? Al infinito y más allá, ¿no? Sin parar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=310" target="_blank" class="timestamp">[05:10]</a> ni los pesos que mueven, ni repeticiones, ni nada. Por lo tanto, aquí no podemos tener constancia de un progreso. Entonces, cuando vosotros queráis progresar, no podéis entrenar como una persona que utiliza química. No podéis hacer tantas series ni tantos ejercicios como la gente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=331" target="_blank" class="timestamp">[05:31]</a> Se está instalando en la sociedad un discurso victimista para todo. Cualquier cosa se recura al victimismo. Tú eres una víctima de todo. ¿Vas a entrenar? Es que nada, es que soy natural, entonces no puedo entrar muy fuerte. No puedo entrar demasiado. ¿Hablas de política? No, es que nuestros padres tienen la culpa. Y nuestros abuelos. Es que los jubilados llevan todo el dinero. Y yo no tengo dinero. Es que vosotros no entendéis lo mal que nos pasamos. Pues espabilate desgraciado. Deja quejarte, tío. Qué asco de gente, de verdad. Y este igual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=359" target="_blank" class="timestamp">[05:59]</a> Ahora no encuentro mucho. Es una cosa que antes no existía. Y de repente me empiezan a ir niñatos, pelo brócolis. Bro, tío, tú no sabes de entreno, John. Eres muy boomer. Y me lo dice un niño que dices, pero vamos a ver, te voy a tener un capón que te voy a dejar anestesiado. ¿Qué me estás contando? ¡Entrena, desgraciado! ¡Entrena! ¡Métete caña ya! Cuando cojas tu cuerpo sabrás hasta dónde llegas. Lo que eres es un vago. ¡Cerdo vago eres, tío! ¡Qué rabia! ¡Macho! Cuando éramos jóvenes yo y mi hermano, entrando como bestias...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=388" target="_blank" class="timestamp">[06:28]</a> Mi hermano más que yo siempre. Y el cuerpo aguanta, que eres el joven desgraciado. Eres el joven que no sabe sobreentrenar. Lo que pasa es que eres un vago. Eres un cerdo y un vago. Eso es el plan que tienes. Pero podías entrenar como un salvaje. Y el cuerpo lo aguanta, que tienes 20 años, chaval. ¿Qué me estás contando? Que no puedes entrenar como un chuzado. Si el 90% de los chuzados no sabe ni entrenar tampoco. Y son los vagos también, muchos de ellos. Pues que utiliza química en este caso. Ni os...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=413" target="_blank" class="timestamp">[06:53]</a> ¿Y tú qué utilizas? ¿Los cornflakes qué dices tú? ¿Los Kellogg's? ¿Qué farsante eres, tío, verdad, eh? Este es intestinal, claro, es la preparación, claro. Te castras, ¿no? Podéis fijar en sus entrenos y su manera de entrenar porque no os van a servir. Porque un culturista natural, la manera que tiene de progresar es el entreno, la dieta y el descanso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=436" target="_blank" class="timestamp">[07:16]</a> Si en el entreno, vamos ahí, nos plantamos en el gimnasio y decimos, hoy empiezo por laterales y a la semana siguiente empiezas por un press militar. Este vídeo es un insulto a la inteligencia y a todos los culturistas. Habría que dar una patada al culo al tío este y a toda la comunidad y decir, mira, tú eres culturista, tú eres mongólico secas, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=456" target="_blank" class="timestamp">[07:36]</a> y a la otra semana empiezas por unas elevaciones frontales no hay ningún tipo de progresión porque si cada día vas cambiando el ejercicio y las series, las repeticiones y empiezas también a meter 40.000 draw sets y respaus como hace John Prades ¿cómo hace John Prades? este es un jeta, un cara dura el típico listillo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=480" target="_blank" class="timestamp">[08:00]</a> que no llega a mucho, porque no da para más, pero poco que llega, lo usa de manera torticiera y cutre para intentar engañar y sacanarse la vida con cuatro incautos que empiezan con cuatro pelos brócolis que se creen que este es un crack, pero claro, te está contando que, cuidado, que si es natural, no progresas, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=504" target="_blank" class="timestamp">[08:24]</a> Porque un chuzado va ahí y se pone ahí a hacer cosas y ya está. Sí. Luego pasa lo que pasa. Que todos estos tíos que tú estás engañando, te de tipejo, luego se chuzan. Porque claro, depende del discurso, afinar a los niños estos si quieren chuzar porque dice gorila el...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=521" target="_blank" class="timestamp">[08:41]</a> El retromonger este, ¿cómo se llama? Bueno, mongólico este. Dice que si no, claro, natural. Es que es muy complicado. Me voy a chuzar y voy a crecer. ¿Y cómo creces, niño? Que te has puesto enorme, ¿verdad? De agua será. Claro, porque no sabes entrenar. Aprende a entrenar natural.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=537" target="_blank" class="timestamp">[08:57]</a> Y cuando eres un tío que se reviente en el gimnasio, pero de verdad, y sabes entrenar de verdad, sabes entrenar el pectoral, te crece el pectoral, te crecen los femorales, los glúteos, sabes entrenar todo, entonces toma química. Pero la química solo es un catalizador que te va a dar un 20, un 30, un 40%, yo que sé cuánto tío de beneficio de lo que tú haces. Pero si eres un inútil como este, pues la química no hace milagros. Porque fíjate tú, este piensa que toma poco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=566" target="_blank" class="timestamp">[09:26]</a> De química. Piensa que tomará 200 miligramos en su ciclo. Este se pone hasta culo. Lo que pasa es que se limpia y ya está. Y te repite ese mantra de una empresa privada que dice en mi federación te hacen test aleatorios y sí que te los pere, sí. Estos no hacen nada. Que tienen un negocio y no se van a cargar. Saben perfectamente que los todos van chuzados y les interesa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=590" target="_blank" class="timestamp">[09:50]</a> Van ahora a tu casa y aparecen ahí. ¡Hola! Vamos a hacer análisis de 500 o 800 euros. ¡Lo pago yo! Vale, vale. ¿Qué van a pagar, hombre? ¿Qué te crees? Si resulta que los cuatro análisis de orina que hacen ni los mandan al laboratorio para no pagar. Lo hacen para asustar. Ven aquí. Y cogen ahí y lo tiran al desagüe, tío. Farsante eres, de verdad. Ay, hormona crecimiento y todo esto. Venga, por un tubo, ¿eh? Y quemadores de grasa, clembuterol también, por supuesto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=614" target="_blank" class="timestamp">[10:14]</a> no va a haber ningún tipo de progresión. Y mucho menos cuando ya llevas años en el gimnasio, donde tienes que ser mucho más meticuloso, donde tienes que apuntarlo absolutamente todo para saber el progreso que estás teniendo, por si estamos progresando o no. Si no, ¿cómo vamos a cuantificar el progreso? Ya bastante difícil es progresar y mucho más difícil es si no apuntas nada ni llevas un orden ni nada. Por lo tanto, está muy bien...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=641" target="_blank" class="timestamp">[10:41]</a> Claro, ya es difícil, ¿eh? Para natural, qué difícil es, de verdad. Si queréis mirar vídeos de ellos, con tal de motivaros y tal, pero no os fijéis ni en la parte de entreno ni en la parte de nutrición. Y ojo, en la parte de nutrición aquí aparecerán seguramente muchos iluminados diciendo, ¿pero qué os pensáis que...? Iluminados, sí. Tú eres lestísimo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=663" target="_blank" class="timestamp">[11:03]</a> Un natural tiene que comer completamente diferente. A ver, si seguís la dieta de muchas de estas personas, veréis que son dietas bastante básicas. Es decir, hay mucho arroz y pollo, mucha merluza y espárragos, cuando realmente podrían comer mucho más variado y seguirían progresando de la hostia. De hecho, yo he bajado...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=686" target="_blank" class="timestamp">[11:26]</a> Qué desperdicio de memoria a los servidores de YouTube, eh, de verdad. Tres minutos, quedan cinco minutos más. ¿Qué coño hace de pago, tío? A un 3% de grasa. Como sabéis, llevo súper rajado a competición. Y yo por la mañana desayuno los típicos cereales. Cállate de asqueroso que te metes mandanga por un tubo. ¿Qué pasa si llega súper rajado? Si cuento a cerrar Kellogg's, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=709" target="_blank" class="timestamp">[11:49]</a> con su proteína, con su leche, comiendo patata, pollo, pasta, crema de arroz, no sé, pan, bocadillos de jamón serrano y no tiene por qué ser aburrida la dieta. De hecho, podéis ser súper, súper variada. Fruta también meto. O sea que puede ser súper, súper variada. Pero donde más se nota gente es en el tema del entreno. En el tema del entreno</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=734" target="_blank" class="timestamp">[12:14]</a> No os tenéis que fijar para nada porque es que es completamente diferente. Un natural tiene que utilizar pocas series, poco volumen. Qué asco de gente, tío. Qué asco de peña. Encima dogmático y te cagas. Un natural tiene que hacer pocas series, poco volumen. ¿Pero qué es la corriente que hay en el culturismo, tío? ¿Qué me estás contando? Esto tiene más de 40 años de historia ya que lo estás diciendo, mongolo. Míralo. Mira, mira. ¿Qué cosa más chuzada?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=763" target="_blank" class="timestamp">[12:43]</a> el muñeco deformado este mal hecho, que parece una gamba antropomorfa. Fíjate el cuello, cómo lo tiene, los trapecios, los hombros y esta basura espectacular que tiene. Es menudo farsante. No lo conozco de nada. Es la primera imagen que vería en caso hipotético y diría, este tío se chuza. ¿Es natural? Sí, es natural, sí. Y yo soy el Mao ese de China, ¿sabes? Por favor, qué poca vergüenza. Qué gentuza esto de los falsos natis, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=788" target="_blank" class="timestamp">[13:08]</a> máxima intensidad sobrecarga progresiva en el tiempo para poder tener esa sobrecarga progresiva tienes que apuntar en una libreta en un excel en el móvil donde sea en un blog de notas todo lo que vas haciendo y replicarlo semana a semana nada de cambiar rutinas ni ejercicios ni nada tenéis que ser constantes</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=805" target="_blank" class="timestamp">[13:25]</a> Este desgraciado no se mete a mandanga que se mete y tendría la mitad de volumen. Este es el típico físico cagarro que no tiene genética para el culturismo. Que puede competir, hacer lo que quiera, que está en su derecho, pero que no está engañando. Sería el típico físico muy ligero, pequeñito y delgadito, que no da para más. Pero vamos a ver, tío. Si estás más grande que Frank Zan, que era tres veces visto a Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=835" target="_blank" class="timestamp">[13:55]</a> Macho, es que son... Bueno, es que este tío se compara con Ceboom. Le gusta hacer vídeos comparándose con cultistas open o classic diciendo... Mirad, gorilas. Se puede natural también. Estoy como Ceboom. Igual de grande, igual de rajado. O más rajado incluso. No tiene vergüenza ninguna, de verdad. Y por eso es muy importante el tema del entreno. Para mí el tema del entreno es mucho más importante que el tema de la nutrición. Pero muchísimo más. De hecho...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=866" target="_blank" class="timestamp">[14:26]</a> Para poder progresar, como digo, tenéis que apuntar las cosas e ir aplicando esa sobrecarga progresiva. Porque cuando lleguéis al final del mesociclo, dentro de 4 o 5 meses, vais a ver que lo que estabais levantando hace 5 meses ahora mismo es casi el doble de peso. O estáis levantando 30 o 40 kilos más. Entonces ahí hay un progreso real y por lo tanto estáis ganando masa muscular. Si no lleváis un progreso, ¿cómo sabéis que estáis progresando? Si no apuntáis prácticamente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=894" target="_blank" class="timestamp">[14:54]</a> Mira, para meterte un 30-40% más de peso, 30-40 kilos más, tienes que entrenar duro. Dormir, comer. Y ya está. Déjate de ciencia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=906" target="_blank" class="timestamp">[15:06]</a> Esto que dices tú, vale para cualquier culturista, cualquiera. Hay otra cosa que le vaya bien o le guste, pero esto es la ciencia básica. Y no tiene nada que ver que si te chuzas o no te chuzas. Si te chuzas, pues tienes más capacidad de recuperación y más síntesis proteica, como se dice. No voy a entrar en tecnicismo porque no es algo que haya estudiado y no quiero dar pena, pero ya me entendéis. Más capacidad de generación, otro rollo. Pero entre no, es el mismo. Dormir es lo mismo y comer es lo mismo. ¿Vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=933" target="_blank" class="timestamp">[15:33]</a> Obviamente, alguien que toma química, sus ganancias se multiplican por 10. Entonces, imagina... No, si tomas química, sí. Las ganancias se multiplican por 10. Las ganancias del esfuerzo aplicado, de la intensidad que puedas alcanzar. No ir a gimnasio sin tarta máquina, ¿eh? Porque toda esta generación de inútiles que están saliendo ahora, de niñatos, pelo brócolis, que son victimistas porque no se toman química...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=961" target="_blank" class="timestamp">[16:01]</a> Se victimizan de eso. Fíjate que es desgraciado. Van y entrenan, pero como victimistas. Tío, son como charos, pero niñatos de 20 años. Como una charo de estas asquerosas, pero con 20 años. Y, tío, encima. Y están ahí con la polea. Venga, va. Poco volumen, ¿eh? Porque, claro, es que es natural. Si no... ¿Si no qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=979" target="_blank" class="timestamp">[16:19]</a> Y haces así. Y se queda clavado. No, tío. Sube arriba. Haz un poco de impulso. Haz un poco de trampa. Y clavas, tío. Y mete una rabia que te caga. No te quedes ahí. Y acaba la serie. Ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=993" target="_blank" class="timestamp">[16:33]</a> No comas porque, claro, tengo que hacer entreno corto. No, hombre, a ver, para hacer esta caca de serie te metes 20 series más, tío. La idea es que entrenes muy intenso. Por eso tienes que dividir el volumen. Pero para los entrenos que hacéis, guiñatos, vais a hacer un plan de química, aparte de que es imbécil, si no compites, pero bueno, si lo hicierais, tampoco vais a ganar nada. Vais a hinchar de agua, de granos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1014" target="_blank" class="timestamp">[16:54]</a> Efectos secundarios por un tubo, luego por ciclo. Lo perdéis todo y pasado un tiempo estáis igual que antes. Son más feos. Y os quedará la cara esta de pelota del Nutrimonger que tiene... Perdón, el Nutrimonger es el otro. Este es el Chipmonger que tiene la piel engrosada de la chasca que se mete, ¿sabes? Se está quedando la cara de Marco Rull. ¿Has visto Marco Rull retirado? Que parece que tiene la cara sin chala, dice enorme. Pues este tío de 15 años tendrá la piel gorda, la cara hinchada de toda chasca que se mete.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1042" target="_blank" class="timestamp">[17:22]</a> Y yo lo he dicho muchas veces, si alguien que utiliza química apuntar a todo y llevar a una buena estructura de entreno,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1050" target="_blank" class="timestamp">[17:30]</a> Pero este pavo, ¿cómo nos salen todos los culturistas a reírse de la cara del tipejo este, de este Mickey Mouse versión Syndrome Down? ¿Cómo nos salen todos a reírse de él? Y que sacan todos los culturistas que mangan todo esto y digan, pero chaval, ¿te piensas que yo no apunto el entreno? Estos tíos fiscalizan todo lo que hacen, cien mil veces más que tú, y tienen más precisión y disciplina que tú en la vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1075" target="_blank" class="timestamp">[17:55]</a> Tú eres una mosca con gafas que se ha chuzado a reventar y tiene aquí unos trapecillos que dan pena. ¿Qué es lo único que te caracteriza como culturista? ¿Qué le estás contando? ¿Qué es el discurso este? No sale de lo que hablas, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1090" target="_blank" class="timestamp">[18:10]</a> Es que el utilizar un volumen bajo y máxima intensidad y esa sobrecarga progresiva, yo creo que progresarían una barbaridad más. No lo saben. Roca Rasco, Hany Rambot, Fede Guevara, no lo saben. No saben, no saben. Es que no saben. Tienen que... El Fede, el Frank Spinn, que llamen al...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1111" target="_blank" class="timestamp">[18:31]</a> al mongoner este, ya, y le llaméis, llamadle, y dice, tú, un chipimonger, ¿cómo dices que lo haces? Claro, es que nosotros nos vamos a entrar, nos vamos a comer, nos vamos a hacer recetas, tampoco, y entramos, se hace que ahora, mira, yo a Joaquín Galán, ese, le digo que entrene tres días enteros seguidos sin dormir, ¿no? Y que te asesore el chipimonger, que te va a decir, esa cara que tiene mongólico, ya...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1135" target="_blank" class="timestamp">[18:55]</a> No, tienes que hacer series cortas, poco volumen, muy intenso, todo apuntas todo en un papel y verás que creces mucho más, ¿no? Y el Fede, pues le puede decir, o Fran Spire le puede decir, muchas gracias, Chipping Monger, tío. De verdad, me has abierto los ojos por el entreno, ¿eh? ¿Alguien se crea el pago este? ¿O es que el mundo este de Nati es un poco como él? De verdad, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1158" target="_blank" class="timestamp">[19:18]</a> He leído por comentarios en algún vídeo que he hecho, creo que Ruf Diesel y no sé qué alguien más, probó a entrenar de esta manera, así con volumen bajo, máxima intensidad y priorizando el descanso. Vio un comentario hablando de un culturista que entrenaba con poco volumen, ¿no? Anda, que sabes nada, chaval. Es que no sabe nada, es que es un cateto y no da vergüenza, ¿eh? Yo no sé si, bueno, está alfabetizado, lee mensajes, pero poco más, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1185" target="_blank" class="timestamp">[19:45]</a> Y subieron una barbaridad de kilos. Es decir, no solo es para un culturista natural, yo creo que si la gente que utiliza química entrenada de esta manera y no tan a lo loco, con tanta serie, tanto drop set, tanto respause... Pobrecito, tío, si piensa que el culturismo open o el culturismo profesional, perdón, es el... Joan Parabéis, ya está. No se ha enterado de nada, Chávez, no sabe la guerra que hay con todo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1211" target="_blank" class="timestamp">[20:11]</a> El mundo con el entrenador de John Paradise, la crítica que recibe. No se entera de nada, por cierto. Cambiando la rutina, cambiando el orden de los ejercicios, cambiando absolutamente todo. Si llevaran una pauta, un progreso, si priorizaran el descanso, aparte con la química, que es un multiplicador, como sabéis, yo creo que todavía progresarían muchísimo, pero muchísimo más. Entonces, la gran mayoría de aquí, que sois naturales,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1235" target="_blank" class="timestamp">[20:35]</a> Tenéis que fijaros en culturistas naturales si de verdad queréis progresar. Si simplemente queréis ver el vídeo para motivaros me parece muy bien ver vídeos de Cebum, de Ramón Dino, de Urs, de quien sea. Pero no os fijéis en su manera de entrenar. Un culturista natural tiene que entrenar de forma muy diferente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1253" target="_blank" class="timestamp">[20:53]</a> Sí, sí. Vamos a buscar un cultito natural que tu amigo. Vamos a ver. Aquí está. Vamos a ver. Dice el mongoner que miramos ejemplos de naturales. Natural. 24 años. 1,84 metros. Alucina. 90 kilazos. Casi 4. O sea, no llega ni a 4. Yo he traído entrenando, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1271" target="_blank" class="timestamp">[21:11]</a> competidor de cultivo natural, mira qué pedazo de hombros, no se nota nada, que es un chuzado, otra estructura típica que os digo, o sea, que no tiene cuello, que es un tío así, y queda, claro, con los receptores androgénicos de los hombros, crecen tanto con la chasca, es algo tan característico de los chuzados, que quedan ridículos, quedan como un triángulo, o sea, si no tienes una genética, un cuello largo, no es trapecio largos, quedas así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1301" target="_blank" class="timestamp">[21:41]</a> Es que hay gente más farsante y más patética. Robert Fernández se llama este. Podré ser el primer español en conseguir ser profesional de IFBB de forma natural. Esta peña, yo no sé si bordea la esquizofrenia, se cree en sus propias mentiras. Vive en una fantasía, una negación absoluta de la realidad, una disociación de la realidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1326" target="_blank" class="timestamp">[22:06]</a> Qué gente, tío. Qué embuste. Y encima nos quieren obligar a nosotros que nos traguemos la payasada esta. Te la llevan entrenando. Metro 82, 84. Y está hecho, vamos, un monstruo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1342" target="_blank" class="timestamp">[22:22]</a> se nos fue el físico justo antes de salir a tarima y estábamos depletadísimos se nos empezó a correr el tinte y eso que el tinte era el de cabina que habíamos pagado con pistola pero el físico se nos fue no sé qué pasó si fue la carga o qué pero</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1362" target="_blank" class="timestamp">[22:42]</a> Pues aquí el mongoner se compara con Cebur, ¿no? El cultista natural contra un chuzado, yo. ¡Qué gentuza! Ese no fue el físico justo antes de salir, ¿sabes? Desapareció. Y quedó tepletado. Pues esto, el mongoner dice que sigamos a los naturales, claro. Como eso, como hemos visto, ¿no? Como tú, ¿no? Pues aquí está, ya a punto de llorar otra vez.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1380" target="_blank" class="timestamp">[23:00]</a> De hecho, las preparaciones para culturismo las últimas semanas en cuanto a nutrición es muy diferente. La carga también es muy diferente. Por lo tanto, si además estáis pensando en competir, todavía es mucho más diferente y se acentúa mucho más el tema de la nutrición las últimas semanas. Luego también con la carga de agua y de sal es completamente diferente. Así que no vengáis por aquí a decir que un culturista natural...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1410" target="_blank" class="timestamp">[23:30]</a> Alguien se cree, de verdad te lo digo, alguien se cree, incluso los seguidores de cultistas naturales, que sois un poco retrasados pero no pasa nada, los aceptamos dentro de la comunidad de la gente normal. Alguien se cree que los cultistas que compiten natural y compiten la élite</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1426" target="_blank" class="timestamp">[23:46]</a> No van a tomar nada de química. Cuando perfectamente puedes tomar química y pasar los controles que te da gana. Pero es que apenas hay controles encima. Y el último interesado en hacer que te suspendan es la Federación del Culturismo Natural. Que solo suspenderá de vez en cuando alguno... Pero bueno, que tampoco querrán. No querrán que se caiga en una baja porque tampoco van sobradísimos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1449" target="_blank" class="timestamp">[24:09]</a> Pero bueno, al menos dan la imagen. Bueno, mira, este no ha pasado el polígrafo porque es tonto. Fíjate, creo que porque preguntaban si tomaba GH. Y ahí le pilló al tío. No estaba entrenado. No se pasa el día. No tomo GH, no tomo GH. Es natural. Sí, pasa la prueba, ¿no? Toma GH. No. Y hasta suspende, ¿no? Fíjate el nivel, ¿eh? Pues alguien se cree que no toman nada. Pues claro que toman.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1474" target="_blank" class="timestamp">[24:34]</a> Habrá uno que tomará, y porque no hay controles, y aunque se hace un control de orina, que da pena, y me río yo de que supuestamente te buscan a casa así un día que no te lo esperas y te sacan sangre, sí, claro, en tus fantasías. Si toma uno, tendrá ventaja. Y el surmano es así, normal, es competitivo, y dice, ah, ¿qué hace trampas? ¿No hay consecuencias? Pues yo también. Si hace trampas, yo también voy a hacer trampas, y no voy a ser menos, no voy a quedarme atrás. Entonces, ¿qué sucede? Que todos hacen trampas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1501" target="_blank" class="timestamp">[25:01]</a> Esta es la diferencia entre el cultismo natural y el que no es natural. Son dos negocios. Pero, hombre, el del cultismo natural es asqueroso. Porque es un circo, un teatro político donde dice, somos naturales, ¿eh? Y todo el mundo, sí, sí, soy natural. Hacemos pruebas, sí. ¿Qué pruebas? No sé. Pruebas hacemos, ¿no? El polígrafo. Por favor, eso no es serio. Si quisiera hacer pruebas de verdad, no pasa ni uno. Suspenderían todos. Aquí se cree de verdad. Os repito otra vez.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1529" target="_blank" class="timestamp">[25:29]</a> Que no toman nada, dirán algunos. ¿Alguno habrá natural? Por supuesto. Pero ese tío no tiene ambición de ganar. Lo acepta y punto. ¿Por qué va a competir natural si no toman nada? Si todos toman. Es que encima es increíble, tío. Porque es que se ve claramente cuando un tío toma química bien. Y este tío toma química ya hace años. Y se le ve a la milla. Los trapezos son ridículos. Tienen cuerpo típico chuzado. Lo que, repito...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1558" target="_blank" class="timestamp">[25:58]</a> Para algunos chavales dirán, hombre, pues yo no lo veo como Kim Angel o como Yopis, claro, porque no toma tanto, no entra tan duro ni en sueños, pero ni lejos, y su genética es un cagarro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1572" target="_blank" class="timestamp">[26:12]</a> porque yo piso un tío enorme y este chaval tiene la espalda como mi antebrazo de ancha, ¿no? Entonces que va a tener el músculo. Pero aún así, si tienes el ojo entrenado, tú ves que es lo que es la cruz esta entre hombro y hombro, cabeza y esternón, lo que es el cuello, que casi no tiene cuello, casi no tiene cuello, tiene el mentón aquí pegado. Es un cuerpo así el tío este.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1596" target="_blank" class="timestamp">[26:36]</a> Es un cuerpo muy pequeño y tenemos pesas trapecias que son imposibles de tener. Esto entrenando natural no lo tienes desbordado como tiene él ni de broma, tío. Es que es ridículo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1605" target="_blank" class="timestamp">[26:45]</a> Natural tiene que entrenar igual que alguien que usa química, pero a ver, que no tenemos la química, ¿cómo vamos a entrenar igual? ¿Cómo nos vamos a recuperar igual que ellos? ¿Cómo vamos a progresar igual que ellos? Tenemos que utilizar otras cosas y cuando eres natural, el arma más importante que tienes es el descanso. Tienes que poder descansar, por eso no puedes entrenar ni 6 días ni 7 de la semana. Necesitas el descanso</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1631" target="_blank" class="timestamp">[27:11]</a> para poder hacer esa sobrecarga progresiva que decía que es ir levantando cada vez más kilos en la barra. Si no, es que es imposible. Al final lo que harás será sobrecargar... Otro concepto absurdo, la sobrecarga progresiva. ¿Y qué sucede con esto?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1645" target="_blank" class="timestamp">[27:25]</a> Voy mejorando, mira, me pongo más peso. Sí, sí, sí, casi entras peor. Y al final, mira, es que he entrado súper pesado. He metido 20 kilos más en remo. Lo ves el tío haciendo unos malabares y dices, sí, sí. Pues como entrenes estricto, igual restas peso desde que empezaste. Oye, así entras tú, tío. Que haces un remo con la... Embarrate, que es ridículo, ¿verdad? Verte a hacer el remo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1670" target="_blank" class="timestamp">[27:50]</a> cargarte y no progresar y ojo no estoy diciendo que hagamos un volumen bajo por ser bajos sino porque es de lógica si lo que queremos es progresar y priorizar el descanso no podemos meter 40.000 series y progresar porque nos vamos a fatigar muy rápido y no nos dará tiempo a recuperarnos de cara a la próxima sesión por lo tanto gorilas no me llames gorila</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1695" target="_blank" class="timestamp">[28:15]</a> Dios, qué rabia, tío. Cómo te trata como si fuese un normal el esto. Tú cuando entrenas lo ves, tío, lo ves. Si tú acabas de entrar y estás muerto, pero muerto, que no quieres hacer nada más, te tiras en la cama y eso quieres sobar porque estás reventado y al día siguiente vas al gimnasio y estás aún arrastrando el cansancio y ves que no tienes fuerza, que no tienes el mismo peso de lo que deberías tirar...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1720" target="_blank" class="timestamp">[28:40]</a> Pues, evidentemente, tienes que descansar. Pero fuera de esto, son excusas. ¡Vagos! Apliquemos un poco la lógica. Si queréis progresar de verdad, fijaros en lo que hacen los culturistas naturales. Porque vais a progresar mucho más y no vais a perder el tiempo. Hacedme caso, gorilas. Apliquemos la lógica. Y eso, dadle like y suscribiros. Te voy a dar like, hombre. ¿Sabes qué? Mira...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1748" target="_blank" class="timestamp">[29:08]</a> Te voy a dar aquí un dislike bien gordo. ¡Hala! Dislike. ¡Qué jeta tienes, tío! Y nunca la dura, ¿eh? De verdad. En el vídeo que me contesta el chipimonger este, ¿eh? Escribe el doctor Cerezo Vidal, que es el endocrino, como ya sabéis, y dice... Otra vez. Bueno, el rollo este. Ya os lo dije el otro día, ¿no? Se lo explica muy bien. Y hice un directo con él donde él expone la farsa del gorila este. Vale, del pitufo gorila. Porque encima, el mongoner este, su argumentación, lo que hizo el médico...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1778" target="_blank" class="timestamp">[29:38]</a> Soy natural. Nunca he tomado nada. Eso no es el argumento, chaval. Da mucha vergüenza lo comentario que le estás diciendo, de verdad. Chaval, que le hablas a un médico endocrino. ¿Qué le estás diciendo tú, desgraciado? ¡Payaso! Que encima la gente... ¡Denuncia a John! ¡Denuncia a John! Y el... ¡Pues sí! ¡A lo mejor habría que hacerlo! Pues sí, sí. Estaría que me denunciaras. Porque encima voy yo con las declaraciones por escrito de varios médicos endocrinos y al final el que te ha expuesto eres tú. ¡Cara dura! ¡Crees un jeta, tío! ¡Tipejo!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1808" target="_blank" class="timestamp">[30:08]</a> ¿Eh? Que vives de engañar a la gente. Farsante. Que asqueroso es el pavo este, tío. No tiene la analítica completa delante el médico endocrino. Lo único en que se fija es el atesto baja. Pero vamos a leer. Retrasamental, ¿sabes leer? ¡Gilipollas! Las gonadotropinas. Que no sé si qué es eso, tío. Te está preguntando si tienes síndrome de calma. Si tienes tumor hipofisario. Que bien te lo tienes. Porque el médico no es imbécil. Sabe muy bien lo que eres tú.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1833" target="_blank" class="timestamp">[30:33]</a> ¡Qué jeta! ¡El pavo este, tío! ¡Lluco, mira el texto! ¡Qué morro tiene, tío! Este era el ser de tipejos, lo soporto. Tiene un morro que se lo pisan. Se hacen el tonto y con el cuento te van estafando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1846" target="_blank" class="timestamp">[30:46]</a> Y da igual, tío, porque siempre hay gente que le coma el discurso. Soy 100% natural y lo he demostrado mil veces. Pues ante un médico no has demostrado nada. Son gente que no está afina a las mendras, no puede ser. Se cree en lo que dicen. Claro, la gente hace un directo con el gorila que se ofrece. ¿Cómo voy hasta dos horas con el gorila y el médico endocrino al lado?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1867" target="_blank" class="timestamp">[31:07]</a> Y él dice, soy natural, lo juro, soy natural. ¿Tú qué sabes? Soy natural. Y así todo el rato. Y no tiene vergüenza de hacer ninguna. No tiene un morro el niño. Pero claro, fíjate, sale un médico endocrino y sale el Boris este. Doctor, lo de no ponerte fuerte, se pesa... Es un gorila pavo, ¿eh? Bueno, lo de no ponerte fuerte y tener que hacer de endocrino para que parezca que entrenas. De detrás toca el ego. O sea, claro, ha tenido que hacer endocrino como quien es lavaplatos o arrendero, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1897" target="_blank" class="timestamp">[31:37]</a> Pobre, fue frustrado y dice, pues bueno, pues me hago médico endocrino. Pero esta peña, tío, lo que escribe, o sea, ¿qué le pasa en el cerebro a esta gente? O sea, quiere humillar a un médico y le dice, pues esto te hiciste en médico, ¿no? Porque no vale para otra cosa, ¿no? Y dice, pero tú sabes lo que es tuya para ser médico endocrino. Es que es flipante, tío. El nivel de retraso mental, ¿eh? Detrás toca el ego ver que hay gente que ni soñabas poder llegar, ¿no? A vender coches, el chip y monger, con todo respeto, me parece muy bien, pero vamos, que como si fuera visto limpio al pago, ¿no? Increíble. Este es el nivel, gente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=7BQQV-ONLCk&t=1926" target="_blank" class="timestamp">[32:06]</a> Y hasta aquí el vídeo. ¡Nos vemos! ¡Un saludo!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 05/07/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
