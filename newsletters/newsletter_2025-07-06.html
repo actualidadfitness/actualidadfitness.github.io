@@ -1,0 +1,393 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 06/07/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">06/07/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John_MH</strong>: <a href='#video-9yFcQHv6Uzo'>CULTURISTAS PUBLICAN UN DOCUMENTO DE PROTESTA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-9yFcQHv6Uzo">
+            <h2>CULTURISTAS PUBLICAN UN DOCUMENTO DE PROTESTA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John_MH</span>
+                <span class="date">Publicado: 06/07/2025 07:47</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo" target="_blank">
+                    <img src="https://i.ytimg.com/vi/9yFcQHv6Uzo/hqdefault.jpg" alt="CULTURISTAS PUBLICAN UN DOCUMENTO DE PROTESTA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video critica duramente la cultura de apoyo "tóxico" y la negación de la realidad en el culturismo profesional.
+El orador defiende la importancia de la disciplina, la estabilidad mental y la crítica constructiva frente al victimismo y la complacencia.
+Se utilizan ejemplos de culturistas como Pradesh y Tabet para ilustrar la diferencia entre genética, voluntad y la influencia nociva del entorno.
+El video denuncia la hipocresía y la doble cara dentro de la comunidad, contrastando el apoyo público con la crítica a espaldas.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>¿Voluntad o Negación de la Realidad? El Caso Pradesh <a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&amp;t=23" target="_blank">[00:23]</a></h3>
+
+<p>El orador cuestiona la idoneidad mental y orgánica de Pradesh para el culturismo de élite, argumentando que no cumple con los mínimos psicoemocionales necesarios. Critica la inestabilidad emocional y la negación de la realidad, esenciales para ser un culturista serio.</p>
+
+<h3>La Peligrosa Trampa del "Apoyo Positivo" <a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&amp;t=169" target="_blank">[02:49]</a></h3>
+
+<p>Se ataca un texto de apoyo a culturistas que el orador considera estúpido e idealizado. Afirma que negar la realidad y justificar la debilidad mental bajo el pretexto de "disfrutar" está en realidad perjudicando al atleta.</p>
+
+<h3>El Hater es Más Honesto que el "Amigo" <a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&amp;t=380" target="_blank">[06:20]</a></h3>
+
+<p>El orador compara la supuesta toxicidad de los "haters" con la de los amigos que solo halagan y normalizan conductas anómalas. Sugiere que la crítica fundamentada de un detractor puede ser más útil que el falso apoyo de quienes "comen el culo".</p>
+
+<h3>Genética vs. Disciplina y Voluntad <a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&amp;t=566" target="_blank">[09:26]</a></h3>
+
+<p>Se diferencia entre la genética (como la falta de femoral de Tabet, que es inmutable) y la voluntad/disciplina. Critica a quienes desprecien a culturistas por su genética y enfatiza que la condición física extrema y la disciplina son lo verdaderamente admirable.</p>
+
+<h3>La Plaga de la Doble Cara y el Peligro de los Facilitadores <a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&amp;t=683" target="_blank">[11:23]</a></h3>
+
+<p>Se denuncia la hipocresía y la doble moral en el culturismo, donde públicamente se apoya a alguien pero a espaldas se le critica salvajemente. Se vincula esta actitud con la de los "amigos" que facilitan comportamientos autodestructivos, citando el trágico caso de "Villano".</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=0" target="_blank" class="timestamp">[00:00]</a> Sí, ahora hay un documento que gira por plan pasado, por Instagram, que sé que la han hecho varios cultistas, no lo sé. Estoy cansado de que la gente hable sin saber cuánto cuesta esto, cuánto hay que sacrificar social y personalmente. Muchos estáis dando poco por culo diciendo que si tabet, que si paradéis, no valen o tienen que demostrar algo para ir a Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=23" target="_blank" class="timestamp">[00:23]</a> Hombre, a ver... Tabet no. Tabeto es un tío que tiene mucha voluntad, no tiembla emocionalmente. No hay nada que decir. Pero Pradesh, que muchos dicen que no valen para Olimpia. Hombre, Pradesh, perdona. Llega un punto que es para decirle, por tu son mental y orgánica, déjalo. Porque es que hay un punto, tío, que dices, tío, hay que cumplir con unos mínimos. Es que tú no has hecho nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=53" target="_blank" class="timestamp">[00:53]</a> Vale, déjame. ¿Para qué me voy a meter en algo que igual no aguanto? ¿Me explico? Hay que valer. Y al final tienes que decirlo. Pradesh, tío, o te pones las pilas o es que el tiempo pasa. Y tu salud ya está resentida, que lo hemos visto todos. O sea, tienes que reunir las condiciones. Ya lo hablamos con los opositores hace casi más de medio año. Que el Hulk me preguntó... Dijo... ¿Tú qué opinas del Pradesh? ¿Que crees que puede llegar a la Olimpia? Y yo, hombre, tiene genética...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=83" target="_blank" class="timestamp">[01:23]</a> Y reúne muchas condiciones, pero no vale para el culturismo porque no reúne condiciones psicoemocionales para ello. Es un tío que no tiene resistencia mental. ¿Cómo va a ser culturista? Lo que decías tú. Lo básico es eso. Tienes que tener estabilidad emocional. Tú no puedes tener esa inestabilidad emocional y llorar, reír, llorar, reír, negación de la realidad, miedo escénico. Hombre, por favor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=109" target="_blank" class="timestamp">[01:49]</a> ellos por el mero hecho de ser IFE Pro han ganado lo que muchos quisiéramos. Bueno, felicidades. Muy bien. Pero bueno. Que pase IFE Pro ya sabes cómo está la cosa, ¿eh? Vale, vale. Dejad de meter presión a los competidores. Pues que no hago un vídeo cada día.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=130" target="_blank" class="timestamp">[02:10]</a> Se le ha puesto la presión. ¿Quién juega los vídeos? ¿Quién juega los vídeos? ¿Quién juega los vídeos todos los días hablando del tema? Es que es el victimismo, tío. Por mucho que ellos hablen o no, nunca han dicho que vayan a ganar de primeras ya que van con los pies en la tierra. ¿Pero si dijo que iba a ganar Cristo en el EMPRO? Es que de verdad, es que es para flipar. Es que todo esto se ha lució. Dejad de aplastarlos y criticarlos cuando están al más alto nivel y disfrutando de lo que tú y yo amamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=159" target="_blank" class="timestamp">[02:39]</a> Dios, señora. Con los emotivos y los sensibleros. Madre mía, tú. Es que cuando coges esta vía niegas la realidad totalmente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=169" target="_blank" class="timestamp">[02:49]</a> Dejad de aplastarlos y criticarlos cuando están a más alto nivel disfrutando de lo que tú llamamos el cultismo profesional. Si por ahí está disfrutando muchísimo. Lo hemos visto que hoy disfrutas. Mira, tú no tienes una crisis emocional y quiebras mentalmente disfrutando de algo. Voy a disfrutar, tío. Si parece que la han enviado a Vietnam y la han descargado con el helicóptero y la han echado ahí. ¡Venga! Y el tío se ha agarrado al helicóptero. ¡No! ¿Sabes? Y la han dado de baja por tema psiquiátrico. Al soldado. Le ha acabado roto. Macho, tío. Es que de verdad. ¡Qué chorra de texto!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=199" target="_blank" class="timestamp">[03:19]</a> Estos son los peores enemigos de Paradise Tenemos cultistas increíbles en este país Joaquín Galán Bueno, todos los que tiene Fede Guevara y tantos otros que están saliendo Tenemos cultistas increíbles en este país y solo hacéis que machacarlos en vez de aplaudirlos Aquí se le dan una terapia una conducta para que este tío pueda salvarse</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=229" target="_blank" class="timestamp">[03:49]</a> Tú, con este texto estúpido, idealizado, de que estés machacando, estás disfrutando lo que haces, estás negando la realidad, y estás cojando al tío, estoy cargándotelo, ¿vale? Ya estás ahí con tanta positividad y porquería, me pone enfermo, tío. Tenemos que apoyarnos, a ti, a ti, a mirarte todo por culo, hombre. Y a que las federaciones sean, ya sabemos cómo, bla, bla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=249" target="_blank" class="timestamp">[04:09]</a> Pero solo entre nosotros logramos sacar la mejor versión del culto español. Mira, lo que tienen que hacer es luchar contra las federaciones con el Tyler Minion ese y todo eso. Y dejar que os tomen el pelo, por favor. Y esto lo han firmado. Mira cuántos españoles tenemos representando el aquí en casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=267" target="_blank" class="timestamp">[04:27]</a> Esto no sé si es... Esto cita un montón de culturistas, pero no sé si son los que apoyan este mensaje o que no sé, no entiendo. Este texto, mira, muy bien. Que me cites a Paradise y sueltas este texto, es que es ridículo, de verdad. De verdad, es que es... Estos son los que te acompañan al precipicio. Sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=286" target="_blank" class="timestamp">[04:46]</a> es lamentable mira, cuando sea un culturista que tiene un problema psiquiátrico grave como el chico ese de clase física se le apoya, no se le critica y se da incluso a nivel personal por whatsapp, por instagram y estamos todos para ayudarle el ferrán porque a veces pasa hay momentos en que uno peta y hay que ayudarle</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=315" target="_blank" class="timestamp">[05:15]</a> hay que darle con un ánimo positivo, no criticándole. Pero hay uno, hay a veces personas que se están metiendo en un agujero voluntariamente por psicología positiva.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=329" target="_blank" class="timestamp">[05:29]</a> Porque todo el mundo que le rodea le lame el culo. Bro, tío, eres el mejor, bro. Y dices, no. Sí, bueno, puede ser el mejor si te lo curras. Pero deja de ser imbécil. Deja de negar la realidad. Deja de grabarte después de hincharte a llorar como si no se pasara nada. ¿Sabes? Hasta hay que criticarle y decirle, tío, para.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=353" target="_blank" class="timestamp">[05:53]</a> Él mismo lo hizo, ¿verdad? Bueno, las críticas, los haters, también hay que hacer algo bueno, claro. Mucho más, mucho más de la Marta que, bueno, que no te ocupa ella, pero que no te ayuda en el sentido de que te va a normalizar cualquier situación anómala. Mucho más que el paje 2 y el paje 1 que te van a decir bro, bro, y ya está. El contenido de calidad, de sus mensajes, bro. Y luego el Fred Spine, pues bueno, que sus problemas tiene.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=380" target="_blank" class="timestamp">[06:20]</a> el hater a lo mejor tiene más coherencia en lo que dice y te dice cosas con más fundamento que todos tus amiguitos que te comen el culo mira que no le quepa ninguna duda de que si encontrara alguien que aplicara las pautas que hemos comentado hoy le ayudarían enormemente y harían que gestionara mucho mejor las competiciones y que ese sufrimiento desapareciera</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=407" target="_blank" class="timestamp">[06:47]</a> pero estoy totalmente convencido. Lo he visto innumerables veces. Este es el camino, ¿vale? Y esto no es hate. Esto es la forma de gestionar estos contextos de forma óptima, sin efectos adversos emocionales, aceptando las dificultades y los problemas que vaya a encontrarse. Porque se los va a encontrar y has de estar preparado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=435" target="_blank" class="timestamp">[07:15]</a> y animarle y reforzar una conducta que es disfuncional y le está provocando sufrimiento no es ayudarle es postureo es quedar bien a veces están de decir lo que no te gusta escuchar por tu propio bien el que te quiere lo hará el que no te quiere te dará razón cuando tú te estás haciendo daño es muy sencillo es muy básico</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=466" target="_blank" class="timestamp">[07:46]</a> La crítica a los femorales de Jorge Tabet no es legítima porque es un factor genético. Si un culturista se presenta un año después, te saca 7 kilos de músculo, o 6 o 8 de igual, con una gran mejora física, sin perder el abdomen, sin perder cintura, sin sumar defectos estéticos, es decir, que haya hecho tonterías con la química o algo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=495" target="_blank" class="timestamp">[08:15]</a> Y la gente critica. Hombre, la femoral es femoral. Y es femoral, femoral, femoral. Y llaman la pierna. La pierna no está tan mal. No está tan mal. Falla femoral. Pero es genético. Deja algo. Entonces yo lo entiendo. Porque estás incidiendo en algo que el hombre no puede cambiar. Y estás despreciando la esencia del culturismo. Un tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=516" target="_blank" class="timestamp">[08:36]</a> que le gusta lo que hace, se esfuerza con verdadera disciplina, es un tío duro, se presenta seco, a lo mejor no por circunstancias, porque al final la preparación no es tan fácil, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=530" target="_blank" class="timestamp">[08:50]</a> Mira a Chipimon, que le falló la sal y quedó despletado. Se deshizo el tío. Un poco más y... Yo qué sé, ¿no? Pero bueno, dejando la broma, que puede presentarse mal por circunstancias. Pero el tío ha tenido disciplina y la cumple con todo. Dejarle machacar los femorales porque es un factor genético que 10 o no tienes. Porque al final, llegando a esta lógica, estirándola... ¿Sabes qué sucede? Despreciaría a monstruos cultistas que no pesan más de 120 kilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=555" target="_blank" class="timestamp">[09:15]</a> O sea, el tío que no es como Crizo, que no es como Ronnie Coleman o Kunter Schoerkampf o el Rubio Mosquera, ¿qué son? ¿Cacas? No, hay tíos pequeñitos, hay tíos ligeros, porque su genética no queda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=566" target="_blank" class="timestamp">[09:26]</a> pero lo bonito del culturismo es la condición. Todo el mundo puede presentar una condición extrema, porque eso es voluntad. La genética es genética. El cateto este de Roca puso una publicación que se llama Jorge Catabet, y se saca él, el mongolo, en su prime, como dicen ahora, y dice, ¡fuah! Hubiese estado interesante, ¿eh? Como diciendo, ¡fuah! Entré yo, y claro, todo el mundo se ha echado encima, porque dices, una cosa es la genética, que te dan tus padres, cateto, que tú tienes, mucho más que Tabet...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=594" target="_blank" class="timestamp">[09:54]</a> Y yo opino que tiene más, para veis, que Josema, para mí, claramente, para mí personalmente, tiene bastante mejor genética. Y otra cosa es la voluntad, el compromiso, la disciplina, la estabilidad, la seriedad, el formalismo. Lo que te hace ser un tío serio, admirable. Y en eso, Roca, no le llegas a los zapatos del Tabet, en lo que hay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=620" target="_blank" class="timestamp">[10:20]</a> Y para Days, hasta ahora has demostrado que no le llegas a suelo zapato a Josema. Es lo que hay. Ahora, si lo quieres cambiar... Esto es hate. Esto es destruir a la persona. Esto es la realidad objetiva de las cosas. Dejad de maquillar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=635" target="_blank" class="timestamp">[10:35]</a> Dejad de ser unos desgraciados y unos tóxicos. Esto sí que es toxicidad. ¿Sabéis? Sois como mujeres. ¿Sabes? Que de cara... Eh... Pradeis. Eres maravilloso. No, no. Tío. Esfuérzate. El José más joven que tú. Tiene un cuerpo más feo que tú. Y el tío está arrasando. Porque es un tío que se deja la piel.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=655" target="_blank" class="timestamp">[10:55]</a> ¿Vale? Eso sí, luego las espaldas... ¡Logo! De espaldas, todos estos moralistas que van de buenos... Luego de espaldas son la peor basura que te puedes tirar la cara. Lo decía antes de mamás hace un año y medio, cuando se fue a la olla. Ya lo estoy viendo. Me llega todo y digo, Dios, qué basura de gente, tío. Estos tíos que son tan positivos, que hablan del culturismo y tal. Y luego dices, a ver...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=683" target="_blank" class="timestamp">[11:23]</a> Me pasa que a tú estás que se puede verse una vez. Mira, mira, mira qué dice este. Mira qué dice el otro. Mira cómo raja de este. Uf, qué mala gente, tío. Hay que ser asqueroso para tener doble cara, soltarte estos discursos y tal, y luego por la espalda dices, ¿cómo habla del otro? ¿Cómo habla de ese? ¡Qué inmundicia ser humano! ¡Qué gente más cerda, tío!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=709" target="_blank" class="timestamp">[11:49]</a> que me choca, ¿eh? Aunque te lo explican, aunque te avisan, aunque cuando entras en el culturismo creo que te dicen algunos, John, este y este, este y este, son la peste. Y bueno, pero cuando lo ves, vas viendo y vas viendo realmente. Y Pico coge a cada uno y dices, oh, te das cuenta que dices, hostia, pues yo no voy rajando de la gente. Pero claro, con que la cosa digo la cara, con que no tengo filtros...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=736" target="_blank" class="timestamp">[12:16]</a> Me doy cuenta ahora, ¿sabes? Y dices, pero qué falso sois. Para mí, ser tan doble cara, para mí es una cosa que me choca. Tienes que ser muy sucio. ¿Qué opinas tú? Esta mentalidad es muy nociva. ¿Esto qué implica? Que a villano en vida le dijo, tío, te estás pasando. Cuidado. Cuidado, vas a acabar mal. Eso es hate, ¿no? Eso es hate. Le odias. Tienes envidia de él, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=766" target="_blank" class="timestamp">[12:46]</a> te quieres lo peor eso hate y el que le decía nombre no que tú controlas que la analítica la tienes bien tú tira para adelante no no llegó ni a los 30 creo que murió con 29 puede ser que anabólicos consumió cinco años o seis o tampoco estuvo y cuando ya no está otra cosa ya está ahora le voy a hacer la pelota al otro</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=795" target="_blank" class="timestamp">[13:15]</a> Tienes envidia. Eres un fracasado. El villano ha hecho lo que... Ha conseguido lo que tú no has conseguido en tu vida. Eso es cuando estaba vivo, ¿eh? Es millonario. Está forrado con el gangoso. Está fuerte. Es un tío listo. La gente le quiere y tú quieres. ¿Eh? Cabezón, cabeza pastilla. Pues ya está. No vamos a decir nada por el villano. Pues nada, que siga. Con su novia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=823" target="_blank" class="timestamp">[13:43]</a> Ya está. La negación total de la realidad. Y... Vale que ya no era adicto, pero es que al final se mata él solo, pero... También no matan a los amigos, ¿eh? ¿Verdad? Todo el mundo sabe que si tienes un amigo que acaba con el coche, se salta todo de stops y todo el semáforo en rojo, a fondo, y tú lo sabes, y no le dices nada, pues para no quedarme con él, sabes que si el tío se mata, tú tienes mucha responsabilidad en que se ha matado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=853" target="_blank" class="timestamp">[14:13]</a> Tú tienes mucha responsabilidad en eso. Y en el circo de villano mucha gente tuvo responsabilidad que ese tío se matara. Porque el tío le decía, no, yo experimento, me meto tal. Un día pues me ha marrón, me puse todo amarillo. Un día me ha pasado otro. Y bueno. ¿A quién le dice algo? No, pues ha muerto. Esto lo decía el finnico, ¿eh? Bastante triste, tío. Bastante triste. Cristina, a mí Tabet como cultista no me gusta nada. Bueno, cada uno tiene sus gustos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=882" target="_blank" class="timestamp">[14:42]</a> Pero Tabet te muestra una cosa. Se mete un batacazo gordísimo dentro de... Bueno, no sé. Él le olió. La gente pues lo expuso mucho. Pero ha vuelto, ha cumplido unos deberes y ha ganado un montón de kilos. Y se va a presentar, pues la condición ya veremos. Pero oye, está luchando. Y eso merece todo respeto en el mundo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=906" target="_blank" class="timestamp">[15:06]</a> Que espero que no me haga más fotitos con el condón ahí, con el calcetín, que qué asco. Qué asco. Pero bueno, dejando eso, hay que reconocerlo bueno. Y a mí, para ver, me hace mucha ilusión que es un tío que potencia su físico, porque podría triunfar mucho, pero con el circo que tiene, con mensajes como que acabo de leer...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=927" target="_blank" class="timestamp">[15:27]</a> de estos babosos, es imposible. Así no vas a ningún lado. Es imposible. Tú tienes un problema y te vienen los victimistas a victimizarte. Claro, es que con agentes que tienes criticándote es imposible. Vale, pues nada. El problema de Paradex es los reaccionadores que le criticamos. Claro. Esta es la conclusión que tenemos que sacar del texto este.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=9yFcQHv6Uzo&t=948" target="_blank" class="timestamp">[15:48]</a> ¿Sabes? Es que encima citan a Pradesh como víctima de los reaccionadores. Es que es increíble, tío. Ya si el domingo hablamos... Bueno, mañana. Así hacemos opositores y lo quiero exponer con el Hulk y el Scylla.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 06/07/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
