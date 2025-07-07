@@ -1,0 +1,399 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 07/07/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">07/07/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-XGulxvGfSOE'>MADELMAN SORPRENDE Y JORGE TABET QUEDA FUERA EN EL PORTUGAL PRO</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-XGulxvGfSOE">
+            <h2>MADELMAN SORPRENDE Y JORGE TABET QUEDA FUERA EN EL PORTUGAL PRO</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 07/07/2025 14:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=XGulxvGfSOE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/XGulxvGfSOE/hqdefault.jpg" alt="MADELMAN SORPRENDE Y JORGE TABET QUEDA FUERA EN EL PORTUGAL PRO" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza los resultados del Portugal Pro de culturismo, destacando la victoria de Madelman en la categoría 212 y su clasificación al Mr. Olympia en dos divisiones.
+Se revisan los ganadores de Classic (Jorge Marcelo) y Open (Nexila Rubiel Mosquera), comentando sus físicos y las controversias.
+Se mencionan otros atletas como Fabián Maír y su cambio de categoría inesperado, y se celebra la obtención de Pro Cards por parte de Joaquín Galán y Fede Guevara.
+El tono es entusiasta, mostrando alegría por los éxitos del culturismo español y analizando detalladamente las competiciones.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Desafío de la Pose de Espaldas de Madelman <a href="https://www.youtube.com/watch?v=XGulxvGfSOE&amp;t=23" target="_blank">[00:23]</a></h3>
+
+<p>El análisis inicial se centra en la pose de expansión dorsal de Madelman, señalando que no terminó de encontrar una posición cómoda. Se atribuye a problemas de brillo y resbalamiento, destacando su importancia.</p>
+
+<h3>Madelman Apunta al Top 5 del Olimpia <a href="https://www.youtube.com/watch?v=XGulxvGfSOE&amp;t=70" target="_blank">[01:10]</a></h3>
+
+<p>Se elogia el físico de Madelman, resaltando su línea, profundidad y separación muscular. El presentador expresa su fuerte creencia en que Madelman tiene el nivel para alcanzar un puesto en el Top 5 del Mr. Olympia.</p>
+
+<h3>Polémica y Abucheos en la Categoría Classic <a href="https://www.youtube.com/watch?v=XGulxvGfSOE&amp;t=399" target="_blank">[06:39]</a></h3>
+
+<p>Se reporta la victoria de Jorge Marcelo en Classic, pero se condena la actitud del público portugués que abucheó al ganador. Se menciona que Eduardo Duarte, el segundo, tuvo que pedir respeto al público.</p>
+
+<h3>Fabián Maír Falla el Peso... ¡Por la Altura! <a href="https://www.youtube.com/watch?v=XGulxvGfSOE&amp;t=537" target="_blank">[08:57]</a></h3>
+
+<p>Se explica que Fabián Maír tuvo que competir en Open en lugar de Classic porque no dio la altura mínima requerida para su peso. Esto ocurrió debido a la deshidratación que afecta la altura al reducir el agua en los discos vertebrales.</p>
+
+<h3>Victoria de Nexila y Nuevas Pro Cards Españolas <a href="https://www.youtube.com/watch?v=XGulxvGfSOE&amp;t=862" target="_blank">[14:22]</a></h3>
+
+<p>Se cubre la victoria de Nexila Rubiel Mosquera en Open, analizando su físico masivo. Se celebra la noticia de que Joaquín Galán y Fede Guevara obtuvieron sus Pro Cards, un gran logro para el culturismo español.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=0" target="_blank" class="timestamp">[00:00]</a> Bueno, ha habido culturismo este fin de semana. Mi amigo Madelman ha competido este fin de semana. Vamos a ver qué ha pasado. Vamos a ver lo de cara de Miguel. El corazón en un puño en las poses de espaldas y sobre todo en la pose de la expansión trasera. Fijaros aquí, a diferencia de lo que os enseñé antes, a la hora de abrir los dos atletas abren y él abre pero se echa hacia atrás. Uy, es verdad, tío. Termina de encontrarse cómodo. Uf…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=23" target="_blank" class="timestamp">[00:23]</a> Es verdad que en esta pose Madelman… Han dicho que nos ha llegado, ¿no? Es que con el tema del brillo y demás se resbalaba a la hora de hacer la pose y no terminaba de encontrar bien la posición. Es un poco lo que nos han comentado, pero es una pose muy importante, evidentemente, como todas, dentro de las comparativas y fijaros lo poco abierto que tiene la espalda en comparación, evidentemente, a sus rivales. O sea, era algo que cuando lo hemos visto… Ya es que la expansión dorsal de los otros dos es un espectáculo, ¿eh? Por favor, ¿por qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=49" target="_blank" class="timestamp">[00:49]</a> Estaba yendo todo fantásticamente bien, ¿verdad? Para, digamos, hablando mal y pronto, cagarla en lo más llano, ¿no? Por suerte, como digo... No, hermano. Yo pienso que es muy superior Madelman, ¿no? Se puede ver que Chema era profundamente superior. A nivel estético, era el mejor atleta de todos los que había en 2-12. Sí, mira.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=70" target="_blank" class="timestamp">[01:10]</a> Fijaros sobre todo en la línea de X. Hostia, tío. Creo que Madelman está a un nivel que en el Olimpia va a dar mucha guerra. Creo que en el Olimpia va a dar mucha, pero que mucha guerra. La profundidad que le da ese bombeo de cuádriceps, la separación que ha llevado este año, la zona… Es decir, la cintura que se le ha quedado. Ha sido una auténtica locura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=94" target="_blank" class="timestamp">[01:34]</a> La separación de los tacos, fijaros en el mag muscular y como digo, un Cheva que evidentemente cuanto lo hemos visto asomar sabíamos que iba a terminar donde ha terminado, en el medio y de hecho la comparativa pensábamos que iba a ser o el rival a Batir pensábamos que iba a ser Nasser y en concreto a Nasser, ahora luego lo veremos, lo han dejado en tercera posición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=113" target="_blank" class="timestamp">[01:53]</a> ¡Qué espectáculo! ¡Qué forma se le ven, tío! ¡Qué barbaridad! ¡Qué espectáculo, tío! ¡Qué espectáculo! Los jueces eran de frente muy superior a sus rivales, en los perfiles de caja igual. Y en la espalda lo único que ha pasado ha sido ese detalle que nos ha puesto el corazón en un puño. Dicho esto, los jueces lo han tenido bastante claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=134" target="_blank" class="timestamp">[02:14]</a> Han tenido bastante claro que querían o que veían, ¿no? En este caso, a Chema como… Nada, tiene un físico de los dioses, el puto Maderman. Tiene un físico espectacular, tíos. Mira, mira. Algunas de ellas sonadas, como las de la temporada pasada con las neveras.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=151" target="_blank" class="timestamp">[02:31]</a> se ha comido todas las críticas como un campeón, las críticas que ha recibido a partir de la europea… Es que ha hecho la del ninja, ¿eh? La del trabajo a lo callao, en silencio… Trabajo, trabajo, trabajo… Increíble, no te vas a dar mal. Y en este caso ha hecho de tripas corazón, se ha metido en su sala, se ha dedicado a trabajar. Lo único que ha subido en Instagram ha sido Reels de carácter…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=178" target="_blank" class="timestamp">[02:58]</a> informativo. Fijaos ahí el tema de la espalda que os comentaba. Cómo él hace la pose, abre. Esto lo tiene que mejorar, ¿eh, Maderman? Esto lo tiene que mejorar. La expansión dorsal, hermano, con los dorsales que lleva, que parece una tortuga. El capalazón. Aquí esto no se puede fallar, ¿eh? Más para adelante. Pero muy bien, Maderman, tío. Es que mirad. Mirad los</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=195" target="_blank" class="timestamp">[03:15]</a> corte. Mira la profundidad que tiene, tío. La separación muscular que me lleva el bicho. La zona media, tío. Es que es un espectáculo, eh. Presión de mucha introspección y de mucha evolución. Esto es una evidencia. El físico que hemos visto de Chema es un físico que… Es que es increíble, de verdad. Voy a tirarme un triplazo, pero lo veo en un top 5 Olympia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=214" target="_blank" class="timestamp">[03:34]</a> Top 5 Olimpia. De verdad lo digo. Top 5 Olimpia, lo veo. Con este triunfo, Madelman consigue algo que… Yo creo que en España, no sé si en alguna letra no habrá conseguido, que es conseguir el pase a la Olimpia en dos categorías diferentes, en Classic y en Open. Con la diferencia de que este año en Open sí que va a poder estar en Estados Unidos para poder competir, que es algo que nos hace una ilusión tremenda porque estamos en una situación en la que hay que ser honestos. Yo creo que Chema está…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=243" target="_blank" class="timestamp">[04:03]</a> para poder pelear por entrar en el top 6, top 7 de este Mr. Olympia. Cien por cien. Cien por cien. ¿Hay físico de sobra? No, cien por cien. Top 5, hermano. Top 5. Lo digo hoy. Hoy. Este vídeo lo subiré 8 de julio. Hoy, Julio. ¿Este hombre está para quedar entre los cinco mejores?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=261" target="_blank" class="timestamp">[04:21]</a> De la Olimpia. Un momento, un momento. Te vengo a decir y recordar rápido que la mejor proteína del mercado, la hidrolizada por Deprofis, tiene un descuento increíble si lo usas con mi código de descuento Antonio G. Proteína, creatina, todo lo que se te ocurra en suplementación deportiva. Y más. Así que ya sabes el código que tienes que usar para ponerte fuerte. ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=276" target="_blank" class="timestamp">[04:36]</a> a ser quedando tercero. Creo que un poco sorprendido. Y aquí llegaba el momento en el que los jueces dictaminaban que el vencedor de la categoría 2-12, que ha sido la noticia de esta jornada y una de las noticias del año… Qué jodida alegría, tío. Es que habrá poca gente que se lo merezca más que él. Fijaros aquí cómo terminan. Se saludan Nasser y Madelman. Aquí van a saludar a los ucranianos. Los ucranianos pasan el tema…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=297" target="_blank" class="timestamp">[04:57]</a> Está picado el ucraniano, aquí el Funko Pop. Yo no sé si se enteraba o no, pero aquí, fijaros, el ucraniano se va, parece que va a saludarle, no le saluda, se va por un lado… Bueno, hay gente que no tiene buen perder. Y es que Madelman ha llegado para quedarse y que Madelman ahora mismo con ese físico puede estar perfectamente para… Tío, yo no voy a cañaros, ¿no? Porque no voy a hacerme aquí el que no he visto… El vídeo este no lo he visto, pero…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=318" target="_blank" class="timestamp">[05:18]</a> Sí sabía porque ha sido esta tarde. Yo he hablado con él. Está muy ilusionado. Estuve hablando con él antes por Instagram. No voy a poner el audio aquí porque está feo. Y tiene las cosas claras. Cuidado, cuidado que creo que hay Madelman para rato. Creo que hay Madelman para rato. Os lo digo. De verdad que me hace especial alegría a ver que este hombre se vaya a la Olimpia porque este tío se lo merece. Este tío es una persona tan buena. De verdad, es tan buen tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=347" target="_blank" class="timestamp">[05:47]</a> Es un tío que no se lo tiene nada creído, que para ser quien es… Yo qué sé, de verdad, es un tío un 10. Se merece todo lo bueno que le pase, de corazón. Me cae tan bien… De verdad, cuando estuve en su casa me dio tan buena vibra, su chica, que lo cuida un montón… De verdad, cómo me alegro de que Chema se vaya a la Olimpia. Tengo muchas ganas de verlo peleando con ellos, con los top.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=376" target="_blank" class="timestamp">[06:16]</a> Es increíble. O sea, fijaros qué os digo. En Instagram se le ve de puta madre, ¿no? Quiero decir, como persona. En persona, más. Es un fenómeno, tío. Es un 10, tío. Desde nuestro amigo Alex YouTube, ¿vale? Se ha marcado otro videazo. ¿Qué ha pasado con Fabián? ¿Qué ha pasado con Jorsé? ¿Qué ha pasado con Nexila? ¿Con Nathan? ¿Con Jorge Tabet? En el vídeo de hoy lo vamos a ver. Empecemos por la categoría Classic.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=399" target="_blank" class="timestamp">[06:39]</a> El ganador ha sido Caballo Marcelo, Jorge Marcelo de Ángelis, el culturista brasileño que ha cambiado de Open a Classic. El brasileño ha ganado contra Eduardo Duarte, un culturista portugués. Y lo que ha pasado me parece vergonzoso porque en cuanto han dicho que el portugués quedaba segundo, el público, al final es el Portugal Pro, ¿no? Se ha puesto a buchear a Jorge y a decir... Incluso, al quedar segundo, este hombre ha tenido que ir diciendo no, no, no, no, aquí esto no. Ha tenido que llamar la atención al público y decirles que se callen, coja.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=428" target="_blank" class="timestamp">[07:08]</a> Jorge está mejor que este portugués, no me jodáis. Y mira que yo, Jorge, no lo trago. Es decir, oye, ha ganado, se lo merece aplaudirle ahora mismo a todos. Encima siendo brasileño, que son dos... Además, mira que yo siempre he dicho que Jorge es el culturista de Instagram. Coño, para una vez que sale de locos y que realmente es superior, coño, no se lo vamos a quitar, ¿no? No se lo vamos a quitar. Y mira que yo he dicho siempre que a mí Jorge me parece el típico culturista de Instagram. Porque es que el cabrón mentía con toda la foto que subía. Pero en esta no se lo podemos negar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=456" target="_blank" class="timestamp">[07:36]</a> Me parece una vergüenza la actitud del público. Y la victoria de Horsea ha sido más que merecida. Tampoco dejaban grabar a nadie, estaban muy estrictos, es una lástima. Lo único que os puedo enseñar es esto, es que no hay vídeos de más calidad que lo que estáis viendo. Este es de Beyond Stage. Que vaya patorras lleva Horsea. TV, una cuenta Instagram. Vaya patorras. Y aquí veis una comparación de Eduardo con Horsea. Que las piernas y Eduardo nada mal tampoco. Os tengo que decir que el nivel ha estado muy, muy alto. Porque ya, tranquilos, que ahora viene también, que ya sé que... Pero tengo que decir que el nivel ha estado muy...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=486" target="_blank" class="timestamp">[08:06]</a> alto eh en Classic en Classic ha estado realmente alto la verdad parece en un Open y un 2-12 literalmente el nivel que había en esta competición de Classic madre mía mira mira que femoral lleva el bicho era bastante bastante bajo viendo este top 2 creo que es evidente Jorge ha sido superior pero porque viene de Open no estoy de acuerdo ahora estoy ha tenido un montón de músculo para poder entrar en la categoría sus piernas siguen siendo gigantes aún así el doble que las del otro tío los brazos bastante buenos la cintura un poco ancha la espalda bastante eficiente</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=516" target="_blank" class="timestamp">[08:36]</a> A ver, Ares, con todo el respeto y todo el mundo, ¿vale? No todos los primeros y segundos de un pro show están para competir con un top 10 Olympia. Yo creo que también estamos perdiendo un poco el foco. Nos estamos flipando todos un poco con los físicos que queremos ver en Classic. Nos creemos que tiene que salir un CBAM en cada campeonato pro. Y no, eso no. No va a pasar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=537" target="_blank" class="timestamp">[08:57]</a> No importa, porque con eso ha podido ganar, ya que Fabián Maír ha fallado el peso y ha tenido que salir en Open. Y más que el peso es que ha fallado la altura, ha medido menos de lo esperado, con lo que no ha podido entrar en la categoría Classic y se ha ido a Open. Porque esto era una victoria fácil para Fabián, iba a ir y se iba a pasear. Ha dicho, ostras vaya nivel macho. Voy a darles una oportunidad y me voy a ir a Open. Grande Fabián, que humilde.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=558" target="_blank" class="timestamp">[09:18]</a> Quiero que alguien me explique cómo es posible esta transformación de Horsea, o sea, cómo ha hecho para perder tanto músculo. Este culturista ha pasado de 120 kilos en la tarima de Open y de ser un animal ha salido en Classic con creo que ha pesado 100, 200, 300, algo así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=575" target="_blank" class="timestamp">[09:35]</a> Pues muy sencillo, ya lo explico en un podcast, porque ha cortado toda la química. Tal cual. Perdón, toda no. Ha reducido la testosterona a muy poco, la hormona la ha dejado y no sé qué historia más. Sí, sí, ya lo dijo en clase, que cortó muchísimo. ¿Cómo que ha fallado la altura? Pues muy sencillo. Tú cuando te checas... A ver, tú... A ver cómo lo explico. En cada... Si tú vienes a un 80, tienes que pesar un máximo de X, ¿vale? Un 85X, ¿vale? Es como que, para que lo entendáis, hay unos límites de categoría, o sea, de altura por peso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=604" target="_blank" class="timestamp">[10:04]</a> Vale. ¿Qué ha pasado? Que supongo que este otro hombre, Fabián, mide casi como 1,85 por lo menos. O 1,90. No sé cuánto mide, pero mide muy alto. Y ha tenido que dar un peso para la altura que siempre ha dado. ¿Y qué ha pasado? Que ha dado menos altura. ¿Por qué puedes dar menos altura? Muy sencillo. Cuando tú haces una deshidratación, pensad que los discos vertebrales que tenemos en la columna son agua. Entonces, eso también pierde agua. Por lo tanto, pierdes altura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=632" target="_blank" class="timestamp">[10:32]</a> ¿Ok? Entre otras cosas. Y por eso ha medido menos de lo que él pensaba que iba a medir. Y ha medido 1,82 y medio. ¡Qué locura! O sea, ¿cuánto ha catabolizado? ¿Ha dejado los fármacos? ¿Ha estado haciendo dieta vegana, cardio y dándose a la perdición y a la mala vida? O sea, ¿cómo es posible? Él ya anunció que hace este cambio a Classic porque es una categoría que está más en auge, que le va a dar más fama. Y luego un motivo muy importante que según él es lo principal, la salud, quiere ser longevo, quiere vivir, no quiere forzar su cuerpo y no quiere esforzarse tanto. Es</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=660" target="_blank" class="timestamp">[11:00]</a> Que ser open amigos, esa categoría, esa categoría te quita la vida cada día que pasa, tío. Literalmente, ha preferido cambiar a Classic. Y en Classic le ha ido mejor que en Open. Ha tenido la suerte de su vida cambiando a Classic y encontrándose una categoría con tan bajo nivel. Yo no estoy de acuerdo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=676" target="_blank" class="timestamp">[11:16]</a> Claro, topo limpia, cabrón. Eso es lo que hay que remarcar. Ha quedado el número 11 de 18, creo que era, ¿no? El número 11 de 18. A ver, 11 de 17. ¿Qué os digo, tíos? O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=706" target="_blank" class="timestamp">[11:46]</a> ¿Ha mejorado? Sí, pero tiene que mejorar muchísimo. Es que vemos a Tabé y vemos a Horsey y compañía y dices tú, ¿pero compiten en la misma categoría? Es que parece que compiten en otra categoría, tío, tal cual. Tiene un cuerpo muy bonito, ya lo hemos dicho mil veces, pero las piernas... En esta línea de Classic, de este nivel, pues ha quedado fuera del top 10, ha quedado en una posición 11. Es que se le ve pequeño encima, tío. O sea, ya no es las piernas solo. Antes yo he visto una pose que estaba posando con otra gente al lado y se le ve pequeño. Ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=734" target="_blank" class="timestamp">[12:14]</a> No he podido encontrar por ahí. Y cuando estoy grabando esto todavía no han salido vídeos de él. Al final se suele grabar principalmente al que queda primero, segundo, tercero, pues a él no le han grabado. Cuando están entregando los premios sí que se le puede ver ahí en el escenario con los demás culturistas. Desde luego no se le ve muy contento. Han dado medalla a 13 de ellos y se supone que él es el 11 de 16, creo que eran, o 17.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=754" target="_blank" class="timestamp">[12:34]</a> Solo tenemos este vídeo del backstage. La condición parece que está bien, aunque siento que ha sido mejor otras veces. Y en cuanto a tamaño, pues no sé, este ángulo no le favorece, pero tampoco veo que haya una gran ganancia de músculo. Habrá que esperar a ver si sale algún vídeo de tarima.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=768" target="_blank" class="timestamp">[12:48]</a> A ver... Es que todo lo que pueda decir ahora yo... Me vais a decir hater... Me vais a decir todo... Simplemente... Le falta chicha... ¿Vale? No voy a decir nada más... Le falta chicha... Y yo... Y yo... Esto ya es una cosa mía personal... Que cada uno haga lo que quiera... Yo si fuera él...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=784" target="_blank" class="timestamp">[13:04]</a> En el vídeo de esta mañana de Madelman ganando la categoría 212, he mencionado que Joaquín Galán se ha hecho profesional, ha conseguido su Procard, pues es que Fede, su preparador...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=808" target="_blank" class="timestamp">[13:28]</a> También, también. Que por cierto, he hablado con él hace un momento por WhatsApp. Es un cabrón lo que me ha dicho. No lo voy a decir aquí. Bueno, sí, sí lo voy a decir aquí. Fede y Joaquín Galán son nuevos pros y FBB Pro. Y me dice el cabrón, me dice, no me lo creo, hermano. Bueno, no voy a decir lo segundo. No quiero meter polémica porque pasa. Es un fenómeno. Y me alegro muchísimo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=831" target="_blank" class="timestamp">[13:51]</a> al final es un tío que es un currante y de verdad si hay alguien que le molesta que Fede sea pro a joderse a joderse a joderse ha conseguido también la pro card pero en classic lleva tantísimo tiempo persiguiéndola luchando por ella ha competido en numerosas ocasiones este hombre no para de competir y al final quien la sigue la consigue lo ha logrado Fede Guevara ya es nuevo y FBB pro me alegro por él ya era hora ahora por favor Fede descansa come tómate unas vacaciones ya ves</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=862" target="_blank" class="timestamp">[14:22]</a> Se hace un off-season, pero no compitas más que te va a dar algo. Y vamos ahora con la categoría Open, la categoría del peso abierto, porque Nexila Rubiel Mosquera lo ha vuelto a hacer. Segunda competición consecutiva que gana. De quedar sexto en el Dubai, a ganar el Milan y ganar el Portugal. Ha sabido elegir...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=880" target="_blank" class="timestamp">[14:40]</a> Joder, con Rubiel. ...bastante bien las competiciones. En el Milan no tuvo muy fácil. En cambio, en este Portugal Pro sí que había más nivel. Estaba Nazan de Asa, un tío que quedó por delante de él en el Dubai. También estaba Fabián Maír después de no dar el peso. Estaba Bruno Santos, o sea que sí que había nivel en este Portugal. Nexil ha salido en su línea. Masivo, enorme, elefantíaco, o sea, vaya piernas. Muchísimo más grande que los demás competidores.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=907" target="_blank" class="timestamp">[15:07]</a> Anda que no se nota que a Ares le gusta el Nezquila este. Anda que no se le nota, ¿sabes? Ya está la categoría Open y luego está la categoría Nexila. Y lo que es la condición física la ha ido puliendo poco a poco desde el Dubai. En el Milan ya... No, no, las patas son de elefante, compadre. Ha salido bastante mejor y en este Portugal parece que ha salido parecido. O sea, la condición no es excelente, no nos vamos a engañar. No tiene muy buena condición, pero tiene una condición buena, decente, aceptable. La suficiente para ganar una competición de culturismo profesional.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=934" target="_blank" class="timestamp">[15:34]</a> ¿Es algo que todavía tiene que seguir mejorando? ¿Eso y el balance muscular? El balance muscular casi que más que la condición, seamos realistas. El balance muscular porque es que no parece un cuerpo de las piernas de una persona y el torso de otra. Pero tiene tal superioridad en cuanto a masa, en cuanto a tamaño, que se merece el primer lugar. Y esto es culturismo open, esto no es clásico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=954" target="_blank" class="timestamp">[15:54]</a> En segundo lugar ha quedado el culturista Bruno Santos. Me sorprende que haya posicionado por encima de Nathan de Asa, y mira que no soy fan de Asa, pero yo creía que iba a estar más alto. Bruno Santos también está muy grande, tiene un físico bastante estético para ser open. Por cierto, no sé el calor que hacía en esa competición que se les estaba yendo el tinte a todos. Y al final ha obtenido un segundo lugar y me parece bien. Aunque lo dicho, Nathan de Asa ha quedado en tercer lugar y yo pensaba... A mí es que Nathan de Asa no me gusta nada al cuerpo del tinte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=982" target="_blank" class="timestamp">[16:22]</a> Pensaba incluso que iba a posicionar segundo o que podría optar a llevarse la competición. Esta vez no se ha puesto a quejarse ni a gesticular ni a liarla en tarima. Luego ya en Instagram supongo que se pondrá a subir sus míticas publicaciones de merecía ganar yo, me han robado, los demás competidores son no sé qué y todo eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=1002" target="_blank" class="timestamp">[16:42]</a> Y lo de Fabián Maír quedando cuarto tiene un mérito de la hostia. En una competición de culturismo Open contra tíos de ese nivel, iba a salir en Classic dos días antes falla el peso, tiene que salir en Open y aún así queda cuarto. O sea, quedando cuarto en Open con esa gente que tenía delante, con Exila, Bruno Santos, De Asa... ¿Cómo de fácil le habría sido ganar en Classic?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=1023" target="_blank" class="timestamp">[17:03]</a> Yo me alegro mucho por todos estos. O sea, por Rubiel. Lo de siempre, ¿no? Nos encanta verlo, pero hay que verlo... Yo creo que le falta mucho todavía para poder pelear arriba. Pero bueno, no vamos a negar que está guapísimo ver un tío tan enorme. Pues muy bien, muy contento el resumen de hoy, ¿no? Muy contento. Madelman a la Olimpia. Joaquín Galán y Fede nuevo ICB Pro. Nezquila ha ganado. Y Horce...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XGulxvGfSOE&t=1047" target="_blank" class="timestamp">[17:27]</a> También, para la Olimpia. No os confundáis que ser pro no significa ir a la Olimpia, ¿vale? Joaquín Galán y Fede han ganado la Procar. Para ir a la Olimpia hay que ganar un pro show, ¿vale? Pero vamos, de locos. Qué alegría, qué buen día hoy en el culturismo, tío. Qué jodida alegría hoy.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 07/07/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
