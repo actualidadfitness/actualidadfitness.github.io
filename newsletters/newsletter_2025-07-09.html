@@ -1,0 +1,511 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 09/07/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">09/07/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-zjNUByWPc8M'>JOAN PRADELLS SE SINCERA CON LA QUÍMICA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-zjNUByWPc8M">
+            <h2>JOAN PRADELLS SE SINCERA CON LA QUÍMICA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 09/07/2025 14:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=zjNUByWPc8M" target="_blank">
+                    <img src="https://i.ytimg.com/vi/zjNUByWPc8M/hqdefault.jpg" alt="JOAN PRADELLS SE SINCERA CON LA QUÍMICA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video presenta una conversación con Joan Pradells sobre su reciente y traumática experiencia compitiendo en culturismo en China, que incluyó deshidratación severa, problemas de alimentación y un ataque epiléptico.
+Se discuten los riesgos extremos y las exigencias físicas y mentales de la categoría Open de culturismo, incluyendo el uso de sustancias.
+Antonio, el otro participante, reflexiona sobre la industria del fitness, los egos, la presión mediática y la transparencia necesaria.
+Joan comparte sus aprendizajes, cambios de mentalidad post-sustos y sus aspiraciones futuras en el deporte, aunque reconoce la dificultad.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Pesadilla en China: Ataque Epiléptico y Miedo <a href="https://www.youtube.com/watch?v=zjNUByWPc8M&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>Joan relata su reciente y aterradora experiencia en China, donde sufrió un ataque epiléptico. Describe el miedo y la inseguridad al estar en un país donde no entendía nada ni a los médicos. Menciona que verbalizó que creyó que iba a morir.</p>
+
+<h3>Peligros de la Deshidratación Extrema <a href="https://www.youtube.com/watch?v=zjNUByWPc8M&amp;t=150" target="_blank">[02:30]</a></h3>
+
+<p>Joan explica la agresiva deshidratación previa a la competición, perdiendo 3 kilos en 8 horas. Describe los síntomas como letargia, alucinaciones y mareos, comparándolos con estar borracho. Señala el riesgo de muerte por errores con los diuréticos.</p>
+
+<h3>Comida Podrida y Caos en China <a href="https://www.youtube.com/watch?v=zjNUByWPc8M&amp;t=323" target="_blank">[05:23]</a></h3>
+
+<p>Revela que tuvo una infección estomacal por comer comida podrida que había llevado de Andorra debido a la dificultad para encontrar alimentos adecuados y las restricciones tecnológicas (apps no funcionan) en China. Destaca la falta de seguridad y desorientación.</p>
+
+<h3>El Ataque Epiléptico en Plena Noche <a href="https://www.youtube.com/watch?v=zjNUByWPc8M&amp;t=539" target="_blank">[08:59]</a></h3>
+
+<p>Describe el momento exacto del ataque epiléptico a medianoche. Estaba hablando con un compañero cuando "se fue para atrás", echando espuma por la boca. Atribuye el ataque principalmente a la deshidratación y la falta de sueño.</p>
+
+<h3>Recuperación y Cambio de Mentalidad <a href="https://www.youtube.com/watch?v=zjNUByWPc8M&amp;t=811" target="_blank">[13:31]</a></h3>
+
+<p>Joan habla sobre el proceso de recuperación y cómo el susto le ha cambiado mentalmente. Siente más gratitud por la vida, la familia y los pequeños momentos. Ha decidido priorizar estar más relajado y disfrutar, dejando de sobrepensar tanto.</p>
+
+<h3>Egos y Falsedad en el Fitness <a href="https://www.youtube.com/watch?v=zjNUByWPc8M&amp;t=923" target="_blank">[15:23]</a></h3>
+
+<p>Antonio critica la hipocresía y los egos en la industria del fitness. Describe cómo muchos culturistas se "destripan" entre sí en privado para luego mostrarse como "hermanitos" públicamente. Le decepciona la falta de transparencia.</p>
+
+<h3>¿Presión Injustificada? <a href="https://www.youtube.com/watch?v=zjNUByWPc8M&amp;t=1111" target="_blank">[18:31]</a></h3>
+
+<p>Antonio cuestiona por qué Joan siente tanta presión al no tener una carrera consolidada en culturismo profesional, a diferencia de figuras como Calderón. Sugiere que esta autoexigencia excesiva podría venir de su propia personalidad y sobrepensamiento.</p>
+
+<h3>Estrategia y Sinceridad sobre China Pro <a href="https://www.youtube.com/watch?v=zjNUByWPc8M&amp;t=1354" target="_blank">[22:34]</a></h3>
+
+<p>Se debate la elección de competir en China. Inicialmente Joan lo presenta como una opción para abrir temporada, pero luego admite que también lo vio como una competición con "más opciones" (menos competidores de élite) que el Dubai Pro, reconociendo la estrategia.</p>
+
+<h3>La Cruda Realidad del Culturismo Open <a href="https://www.youtube.com/watch?v=zjNUByWPc8M&amp;t=1856" target="_blank">[30:56]</a></h3>
+
+<p>Discuten los riesgos extremos y el desgaste físico del culturismo Open, comparándolo con deportes de contacto pero señalando el daño interno. Antonio afirma que esta categoría puede "quitar 5 a 10 años de vida" debido a la cantidad de masa muscular y química.</p>
+
+<h3>Transparencia sobre Sustancias y Trembolona <a href="https://www.youtube.com/watch?v=zjNUByWPc8M&amp;t=2142" target="_blank">[35:42]</a></h3>
+
+<p>Joan habla con más transparencia sobre el uso de sustancias en el culturismo, distinguiendo entre orales (más tóxicos) e inyectables (dolorosos pero preferidos). Menciona la Trembolona como la sustancia más agresiva y con peores efectos secundarios anímicos.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=0" target="_blank" class="timestamp">[00:00]</a> Sí, Joan con René. Vamos a verlo, ¿no? Pensé que moría. Seguir compitiendo, cambios, a ver qué dicen. O sea, has ido a China a competir. He ido a China a competir. Culturismo. Culturismo. Y estuve allí pues hace nueve, diez días y me dio un ataque epiléptico. Yo verbalicé que me iba a morir. Yo allí no me sentía seguro, yo no entendía a nadie, no entendía a los médicos, no sabía bien qué estaba pasando. Qué asustado, me imagino. Muy asustado. Imaginarás algo en el suelo, yo tirado, es desagradable.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=24" target="_blank" class="timestamp">[00:24]</a> No salgo en tirantes a la calle nunca. Cosas así, ¿sabes? O a playa intentando ir mucho a la playa porque me da malo que me miren, no me gusta. Vale. Para mí lo más traumático es la parte de la inyección. ¿Sí? Sí, sin duda. Me parece súper traumático. Creo que no te acostumbras nunca a eso. Cada día es un suplicio. Como te equivoques con las pastillas de los diuréticos y te tomes más por algo, te mueres.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=46" target="_blank" class="timestamp">[00:46]</a> Es una locura. Ese día que yo llegué a tu casa, tú no podías ni subir las escaleras por el entrenamiento de pierna que te habías metido. Entrenáis como mega intenso. Yo te he visto llorar, te he visto... Y es real, en ese sentido, te diría que la parte que más me gusta del culturismo es el entrenamiento y yo soy un loco del entrenamiento. ¿Qué es lo que más te gustaría conseguir? Ahora mismo clasificarme a la Olimpia, sin ninguna duda. Porque siento que es algo que se puede dar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=73" target="_blank" class="timestamp">[01:13]</a> No voy a ver el podcast entero, para eso idos al canal de ZZN, ¿vale? De nuestro amigo ReneneZZ, que hace podcasts muy buenos. La verdad que es muy raro que haya dado un podcast después de China, ¿eh? Y... La verdad que es un poco raro, ¿eh? Sinceramente, raro, raro...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=91" target="_blank" class="timestamp">[01:31]</a> Raro. Un poco raro. No ha sido comprometido. Si queréis lo busco. René ha puesto en su canal agradecido a Joan que ha contactado conmigo diciéndome que estaba en Madrid y que si quería que nos veásemos para hacer la charlita. Ha sido Joan el que ha contactado a René. No René a Joan. Que no digo que René lo haya hecho hace meses. ¿Sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=112" target="_blank" class="timestamp">[01:52]</a> Un vuelo de tranquilamente 10-11 horas, ¿no? Wow, claro, es un vuelo largo. Directo, por suerte. O sea, vamos, por suerte, porque pillamos el único que había directo y valía la pasta y todo, pero para que fuera directo, ¿sabes? Para ir a China directamente. Entonces volamos Barcelona-China y luego Cochi y demás Andorra, pero... Yo es que todavía no entiendo por qué competió en China.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=134" target="_blank" class="timestamp">[02:14]</a> No lo entiendo. Recorrerte el mundo entero a un país que no sabes cómo funciona ni nada, es que te juro que lo entiendo. Lo digo porque diréis, bueno, ha ido por la competencia porque había menos, bueno, la polla había menos competencia. Anda que en el campeonato, o sea, a lo largo del mundo, con poca competencia como para tener que irte a China.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=150" target="_blank" class="timestamp">[02:30]</a> El viernes, sábado y el domingo competición. De la noche del viernes al sábado no dormí nada. Me deshidraté mucho. Perdí 3 kilos en 8 horas. Noche. Me deshidraté bastante, la verdad. Y de hecho la cama era un pastel. Vamos, eso estaba empapado, empapado. ¿No tienes muchísima sed? O sea, nunca he hecho una descarga de esas. No he exagerado. Yo lo que pasa también, la gente lo hace muchas veces muy agresivo y demás. Yo peso mucho. O sea, yo creas que no. Es como la parte de la...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=180" target="_blank" class="timestamp">[03:00]</a> Está rebotado, eh, Joan. Cuando defines o lo que sea, yo no me puedo quejar de lo que como, porque yo al final defino tomando 4.000 calorías o algo así. Qué locura. Claro. Entonces, al final, a nivel de saciedad y de comer, yo soy una persona... Se le nota muchísimo, eh, pega un buen rebote. Normal, lo que pasa es que mi cuerpo pues gasta mucho, gasta mucho y enseguida que bajas un poco, pues ya bajas de peso o lo que sea, o puedo permitirme tomar quizá más agua de la que toma...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=205" target="_blank" class="timestamp">[03:25]</a> Una persona que pese menos. Vale. Y bueno, pues la verdad que lo cuento sonriente y todo, porque además creo que no miro mucho las críticas ni nada. No, que va. Pero creo que me han dado caña porque el vídeo... No, que va, Joan, no te veis las críticas. Que va, que va, que va. No. Pero dice como... ¿Te has visto el vídeo? He visto y he visto los comentarios. No, no, no. Vale. Yo lo hago súper sonriente y todo porque yo sentía que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=229" target="_blank" class="timestamp">[03:49]</a> No voy a decir lo que pienso, porque vamos, se los come todo. Un momento, un momento, te vengo a decir y recordar rápido que la mejor proteína del mercado, hidronizada por Deprofix, tiene un descuento increíble si lo usas con mi código de descuento Antonio G. Proteína, creatina, todo lo que se te ocurra en suplementación deportiva y más. Así que ya sabes el código que tienes que usar para ponerte fuerte. ¡Vamos! Estaba a salvo. Que ya me había salvado. Que ya pasó todo. ¿Sabes? Yo entiendo que estaba ya en Andorra, que estaba tranquilo con mi gente, mi familia...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=256" target="_blank" class="timestamp">[04:16]</a> En un sitio seguro. Yo allí no me sentía seguro. Yo no entendía a nadie. No entendía a los médicos. No sabía bien qué estaba pasando. Estaba muy ido. Cuando te da eso, te desorientas mucho. Estás muy perdido. Y asustado, me imagino. Muy asustado. Sobre todo allí. Yo allí estaba mucho menos asustado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=276" target="_blank" class="timestamp">[04:36]</a> Es normal, ¿no? También en otro país que ni siquiera entienden. Estaba desubicado, pero estaba ya muy contento de estar aquí. Me sentía que me dolía mucho el cuerpo, pero sentía que estaba a salvo. Claro. Que allí no me sentía a salvo, es que es muy fuerte. Y bueno, pues perdí esos 3 kilos y cuando hay una deshidratación muy fuerte en el cuerpo, tú muchas veces sientes letargia, alucinaciones, mareos. Yo lo digo como...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=298" target="_blank" class="timestamp">[04:58]</a> para que la gente lo entienda, como que estás borracho. Vale. Es un poco esa sensación, ¿no? Hace mucho que no me pongo borracho, pero vamos, me he puesto de joven y es esa sensación. Entonces, yo sentía eso durante todo el día. Todo, todo el día. Y me iba encontrando muy mal. Cada toma de diuréticos era... No me lo quiero tomar, ¿sabes? Aunque bajamos la dosis todo, ya cambiamos un poco el patrón porque había perdido tres kilos, me encontraba muy mal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=323" target="_blank" class="timestamp">[05:23]</a> me encontraba fatal, me encontraba así. Y luego, además también, la comida estaba mala. Esa es otra cosa que quería. Tuve una infección estomacal. O sea, confirmado eso, sí, ¿no? Hombre, a ver, o sea, confirmado. Estaba podrida, podrida. En plan, que tú lo lias. Lo que más te ha llevado, te has encerrado en la habitación del hotel. Está ya un poco en ese entorno. O sea, está bastante desorientado que acabaste comiendo comida tuya podrida. Sí. Que habías traído de Andorra. De Andorra.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=351" target="_blank" class="timestamp">[05:51]</a> Claro, hay mucha gente que... Yo vi los comentarios y había gente que decía... Decían, has llevado arroz cocinado de Andorra a China. Pero estaba más al vacío, todo lo mejor hecho, evidentemente. Lo que pasa es que la nevera, esto es un poco movida. Y yo entiendo que la gente diga, eres gilipollas ya, pero luego cuando lo haces desde dentro y todo, estás en una situación de competición, es un poco diferente porque tú no sabes bien lo que te vas a encontrar allí. Luego hay...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=375" target="_blank" class="timestamp">[06:15]</a> y no había nada porque Marta y Tony que estaban ahí conmigo lo pasaron fatal a nivel de comida también porque no encontraban nada de comer imagínate si me tenía que poner yo las aplicaciones móviles no funcionan aquí la gente dice no me pillo un taxi no me pillo un Uber Eats me pillo no sé qué no existe allí en China no se puede utilizar esas cosas ya</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=392" target="_blank" class="timestamp">[06:32]</a> No existen. O sea, Google Maps no existe. Ya. En China no se puede entrar. ¿Tú sabes lo que me refiero? Sí, sí, sí, no he estado en China, pero entiendo que no, que no. Claro, que lo que se sabe, que allí funciona distinto todo y que tiene todo su capao. Claro, que está todo capao. Claro, claro, claro. Entonces, no es tan fácil ni tan accesible para nosotros. No habla de inglés tampoco. Ya. O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=409" target="_blank" class="timestamp">[06:49]</a> Entiendo que no se entienda, pero cuando estás allí te das cuenta de cómo están siendo las cosas. Y que entiendo la idea de voy a competir en algo muy serio, necesito que mi alimentación vaya cuadrada, entonces me llevo todo de aquí. Todo lo que yo uso. Porque luego si allí necesito algo, pues que sea lo mínimo. A ver, yo qué sé, yo no he estado en China nunca, pero hombre, un avión supermercado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=427" target="_blank" class="timestamp">[07:07]</a> Al final, yo entiendo la idea. Lo que pasa es que sí que me parece complicado. A mí me hace gracia el hecho de imaginarme llevar, aparte tú, 4.000 calorías, que te tuviste que llevar una maleta entera de tuppers. No, más, más. Es que yo me llevé muchísima comida porque cuando haces la carga, haces 8 comidas al día, ahí subes muchísimo los hidratos. Estás todo el día parado comiendo. 8 comidas. Ese es el día anterior o algo así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=448" target="_blank" class="timestamp">[07:28]</a> Los dos días previos. Dos días previos. El día de la competición justo, come bastantes y demás, pero también para que no se me inflame el estómago ni nada, no comemos mucho porque luego el vacío abdominal y tal, lo quiero hacer bien. Entonces siempre lo medimos un poco de ese modo. Entonces ese día me encontré muy muy mal, la infección, cada vez que comía se me ponía que se me hinchaba el estómago, yo estaba muy preocupado con eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=469" target="_blank" class="timestamp">[07:49]</a> y se me veía pues cada vez más duro y demás pero por ejemplo no podía posar que yo estaba súper preocupado porque yo compito mañana tengo que posar y no estoy pudiendo posar porque me caigo porque estoy súper mareado y me caigo no puedo hacer fuerza no puedes hacer tensión claro Marta súper enfadada también conmigo en plan loco que compites mañana que tienes que posar y Marta Marta Marta que me caigo en plan ¿sabes? me ponía a posar para pasar una revisión para lo que sea y me caía y o sea me tenía que apoyar me cogía</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=495" target="_blank" class="timestamp">[08:15]</a> Yo qué sé, tío. Es que todo es muy raro. No quiero decir que está mintiendo ni mucho menos, ¿no? Pero es que todo es raro. Guau. Sí, es un poco mierda. Pero ¿y la lógica de lo que tú has dicho? Me gustaría saber, los culturistas, si alguno ha pasado lo que está diciendo Joan. Porque yo puedo entender que en una diuresis hay un corte de agua y tal. Estéis más débiles, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=514" target="_blank" class="timestamp">[08:34]</a> Yo quería tener todas mis comidas, mis cosas y demás. La nevera era de vino. En Booking lo pillamos y demás. Era una nevera de vino. Entonces no estaba tan fría como una nevera. La comida se empezó a poner mala durante la semana. Ya el sábado eso era un show. Y durante el día... Yo nunca he escuchado eso. Ya por la tarde, sobre las 6 de la tarde o algo así, que hice la última toma de diuríticos y tal, creo que ya se fue toda la mierda. Y ya fue como, vale, hay que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=539" target="_blank" class="timestamp">[08:59]</a> rehidratar esto hay que salvarlo tengo que hacer algo ya hablando pues empezamos como a recuperar quitamos los diuréticos todo y estaba muy mal y a las 12 de la noche a tomar por culo ataque epileptico</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=555" target="_blank" class="timestamp">[09:15]</a> Y es lo último que me acuerdo, estar con Tony, que es un compañero mío que trabajamos juntos. Sí, yo lo conocía, Tony. Sí, es verdad. Un grande, además. Sí, sí, sí. Está muy fuerte también. Flipo, tío, cómo se está poniendo, Tony. Shout out. Está muy fuerte. Está muy estético, además. Está puto, puto el cabrón. Pues, bueno, estando con él porque le pedí que estuviera conmigo hablando, simplemente. Yo estaba muy inseguro de estar solo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=578" target="_blank" class="timestamp">[09:38]</a> Ya. Porque ellos me sentían muy mal y digo, me va a pasar algo, me va a pasar algo. Yo tuve muchos procesos esa tarde y me quedé con él hablando y demás y a las 12 de la noche, hablando con él así, me fui para atrás. Empezó a ser espuma por la boca y pues eso. Tuvo que flipar, ¿no? Sí. Tuve suerte que estaba sentado. Aún así tenía un chichón en la cabeza y digo, ¿qué usted me da?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=598" target="_blank" class="timestamp">[09:58]</a> ¿Sabes? Tengo cosas muy desagradables, de hecho. Esto al final solo lo sabe él, solo lo sabe Marta, solo lo sabe Toni, Fran y algún allegado, porque entonces ya está. También me han dicho en plan, se graba todo y no hay nada, ninguna prueba de eso. Y digo, sí, sí, que hay pruebas. O sea, me refiero, tengo una foto, no una foto porque Marta le hizo una foto a la sangre y salgo yo, salgo un poco del estómago y salgo tirado en el suelo. En plan desparramado totalmente. Súper triste la foto. O tengo alguna foto de la ambulancia porque tal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=627" target="_blank" class="timestamp">[10:27]</a> Ahí en la demografía estaba más conectado. Pero no quiero poner eso. Creo que es un poco desagradable. Ya lo pondré en otro momento. Dentro de un año, cuando gane o lo que sea, creo que es el momento de ponerlo. Sí, está bien tenerlo ahí. Pero claro, ahora igual es un poco violento. Cuando gane, os lo dije la otra vez de broma. Os aseguro que Joan va a hacer un vídeo rollo Ibai a los haters. Os lo aseguro ya. Ya os lo dije hace meses.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=655" target="_blank" class="timestamp">[10:55]</a> Está grabado. Pero os lo aseguro, vamos. Cien por cien. Cien por cien. Cien por cien, vamos. Cien por cien. Era un mal que yo nunca dije que nunca iba a clasificar a la Olimpia, pero capaz que saca algún extracto mío de... ¿Sabes? ¿No de eso he sacado de contexto? Sobre todo. Imaginarás algo en el suelo y yo tirado. Sí, en plan Zasca. En plan Zasca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=672" target="_blank" class="timestamp">[11:12]</a> No, no, en plan zaska, en plan base, no he conseguido. Como si... Creo que el 99,9% de la comunidad fitness, de creadores de contenido, queremos que Joan vaya a la Olimpia. Pero os aseguro que el tío va a hacer un vídeo así. Aseguro tampoco, no puedo asegurarlo, pero me da a mí que la cosa va a ir por ahí, ya veréis. Ah, es desagradable. Yo creo que a la gente en internet le pasa mucho que... Sí, como aquel vídeo que hicimos ahí, tú sabes, dando zaskas. Personaliza a la gente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=696" target="_blank" class="timestamp">[11:36]</a> Yo lo he dicho siempre. O sea, yo creo que este hombre tal vez temprano tiene que ir a la Olimpia. Pero la cosa... Yo siempre he tenido otro tipo de dudas. No tengo ninguna duda que puede pisar en la Olimpia. 100%. Lo que sí que tengo dudas es... Joan, ¿te renta? Joan, ¿realmente te gusta tanto el culturismo para lo que estás arriesgando y perdiendo? Esas son mis dudas. Su ego le mata. No lo sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=717" target="_blank" class="timestamp">[11:57]</a> el día que tal, y cuando venga a alguien que está acostumbrado a hacer cosas grandes, intenta, o sea, le da la sensación de, bueno, hombre, pero yo hubiese hecho, y es en plan, tú no hubieses hecho nada, tío. Te está dando un ataque epiléptico en China, a punto de competir en culturismo. O sea, no me quiero imaginar la sensación de malestar que tuviese que pasar pre, post y durante, tío. Yo no había... No, nada, nada, pero es que, en el caso de que yo no dudo de que se haya sido un ataque epiléptico o cualquier cosa chunga, que eso no tengo ninguna duda, eh...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=742" target="_blank" class="timestamp">[12:22]</a> competir no era una opción. ¿Cómo cojones vas a competir cuando te está pegando un chungo? O sea, es evidente que a llevar las definiciones le hacen mucho mal. Pero no esta. Todas siempre le han ido mal el punto final. Siempre. Es que es así. Y ya está. Y bueno, tendrá que ver. Y tendrá que ver una manera de hacerlo mejor o menos dañina. Que yo lo que pienso es todo lo que tenía encima acumulado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=766" target="_blank" class="timestamp">[12:46]</a> que le pasó la altura todo ese estrés que el estrés te revienta ir en China es muy raro o sea tú me entiendes lo que digo en plan creo que la gente no es consciente por ejemplo de irse a un hospital en China lo que es no habla de inglés no se entiende nada de lo que te hacen las pruebas están en chino tengo todas las pruebas que dices bueno y con esto que hago echar GPT y que te lo traduzca sí pero pero están en chino es todo muy turbio por eso encima les llega un valenciano de 120 kilos claro de repente ellos es que está pasando</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=793" target="_blank" class="timestamp">[13:13]</a> no creo que sea un regalo porque sí que siento tú si estás en la posición que estás ahora o si estás sentado ahí grabando un podcast y tienes un podcast y tienes una marca y tienes una empresa y tienes la posición que tengas en redes sociales porque te lo has currado durante mucho tiempo y has trabajado para que eso pase</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=809" target="_blank" class="timestamp">[13:29]</a> Entonces, no siento que sea un regalo, pero sí que siento que estamos en una posición privilegiada. Sí. Eso estás de acuerdo con... O sea, si soy epiléptico o si me ha dado un ataque epiléptico únicamente. Ya. ¿Me entiendes? Total. Si es crónico o si es casual. Exacto. Todo apunta a que es puntual. Todo apunta a que tenías el cuerpo... Por la deshidratación, por no dormir, es lo principal que me han dicho. Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=830" target="_blank" class="timestamp">[13:50]</a> Bueno, y creo que también al final lo del estómago pues afecta, ¿no? Al malestar general también y a todo. Pero en principio es por no dormir y por la deshidratación. Bueno, al final la deshidratación, lo que me dijo el neurólogo es que también te afecta muchísimo la deshidratación a temas sodio y electrolitos del cerebro. Claro. Y me lo dijo. Me quedan dos pruebas por hacerme aquí y ya en principio a partir de ahí también he decidido cómo va a ir la temporada. Y estoy con mi preparador pues hablando y todo. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=857" target="_blank" class="timestamp">[14:17]</a> Pues claro, tú ahora me has dicho que después de esa experiencia, a nivel mental, como que estás cambiado. Sí, muy cambiado. ¿En qué estás notando que estás cambiando después de eso? Pues yo siento que estamos agradecidos con la vida en general. Vale. Yo creo que es intentar estar agradecido con todo lo que me pasa, con lo que tengo, con la familia, con todo. De hecho...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=882" target="_blank" class="timestamp">[14:42]</a> Por eso, mucha gente me pregunta, ¿por qué estás en Valencia? ¿Por qué estás en Madrid? Y digo, estoy viendo a mi familia. O sea, llevaba como mucho tiempo muy rayado, que quizá yo creo que no estaba siendo del todo feliz. O, digamos, feliz muy ido, ¿no? Mucho estrés del trabajo. Pues lo que llevo diciendo, meses.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=898" target="_blank" class="timestamp">[14:58]</a> redes sociales, sabes, muy pensando las cosas siempre, muy midiéndolas y ahora estoy intentando estar relajado, distendido, haciendo las cosas, ¿sabes? Vengo aquí y quiero estar despreocupado y hablando contigo un rato y pasándomelo bien y disfrutando de la experiencia. Claro. Y luego también... Yo lo siento, Antonio, lo veo un falso de cojones, no lo aguanto. ¿Qué te digo, tío? Yo no te puedo decir si sí o si no porque es que no lo conozco de nada. No lo conozco más que tú. Pero tienes opinión, hombre, Nacho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=923" target="_blank" class="timestamp">[15:23]</a> Tengo opinión. Mi opinión... Me gustaría que fuese más transparente. Me gustaría... O sea, yo voy a ser sincero, pero no con Joan. Con todo el tema del mundo fitness, ¿vale? Yo me he dado cuenta que la mayoría no son personas normales. La mayoría tienen una tara, o sea, un ego gigantesco, un ego desmesurado y rajan hasta de su madre. ¿Vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=950" target="_blank" class="timestamp">[15:50]</a> Contra más trato con ellos, menos quiero trato con ellos. Porque yo soy un tío exactamente lo mismo que veis aquí. En persona y aquí. Y yo no puedo con esas cosas, ¿vale? No puedo con esa mierda. No puedes hablarme... O sea, hablarme de un tío puras salvajadas y luego...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=967" target="_blank" class="timestamp">[16:07]</a> Que yo mire un vídeo tuyo o un reel o una historia o un comentario. ¿Qué tal mi hermanito, mi bro, mi no sé qué? Hermano, lo acabas de destripar delante mía. Lo acabas de destripar. ¿Y ahora eres tu bro? No puedo, hermanitos. No puedo, señores. No puedo. Y la verdad que la mayoría son así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=986" target="_blank" class="timestamp">[16:26]</a> Tengo que elegirlo. La mayoría. Hay gente que se salva, ¿eh? Y puedo dar nombres que no son así, ¿vale? Dentro del fitness. Pero el porcentaje es mucho más alto de gente turbia, tío. Y yo creo que en el fitness en todos los sectores hay envidias y tal y egos. Pero en el fitness es más. ¿Por qué? Porque es el ego humano que todos tienen en todos los sectores sumado a el yo tengo mejor cuerpo, yo tengo mejor cara, yo tengo mejor tal... Siempre están así, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1015" target="_blank" class="timestamp">[16:55]</a> Siempre está así. Yo tengo más seguidores, yo valgo más, yo soy mejor. Me imagino, te has planteado que podrías haber muerto. Yo verbalizé que me iba a morir. ¿Sí? Sí, antes de que pasara. Pero es que a mí lo de la deshidratación me estaba pareciendo una locura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1031" target="_blank" class="timestamp">[17:11]</a> Y yo lo verbalice. Yo escribí una carta también. No era despedida, pero una carta superhido. Super, superhido. Y esa carta la tengo guardada. Voy al psicólogo y demás. Y me dijo que me la guardara. Y la leí con ella y me dijo, guárdate esta carta porque esta carta te sirve muchísimo de apoyo para en cualquier momento volver a leerla. Y la tengo guardada. A ver, yo supongo que hay cada uno más fuerte mentalmente, menos fuerte mentalmente. Pero os prometo que no entiendo nada de esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1058" target="_blank" class="timestamp">[17:38]</a> De verdad, tío, no entiendo... No entiendo. No entiendo esta presión, estos problemas mentales... No lo entiendo. Os os juro, no lo entiendo, de verdad. Quiero empatizar y tal, pero no lo entiendo. Y lo llevo diciendo meses, no lo entiendo. No entiendo que un tío que no tiene carrera en el culturismo tenga esa presión en temas de redes... No sé, a ver...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1081" target="_blank" class="timestamp">[18:01]</a> A lo mejor estoy hablando de más y pueden ser problemas suyos, personales, aparte. Cierto es. Cierto es. Y aquí me tengo que hallar la puta boca. ¿Vale? Porque yo no sé la vida de Joan. Yo no sé lo que vive Joan. Yo no sé la presión de su trabajo de Joan. ¿Vale? Claro. Pero... Pero en cuanto a lo que es culturismo, claro. Me ponen aquí. Lo más gracioso es lo que tú dices, Antonio. ¿Cómo puede tener esa presión si no tiene carrera de culturismo? Es que ese es el tema. ¿Qué presión puede tener Ángel Calderón? Madelman. Dios que ya mira lo limpia. Mauro. Pero es que Joan acaba de empezar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1111" target="_blank" class="timestamp">[18:31]</a> Entonces, no lo entiendo. ¿Qué es? Porque es Joan Paradez. Y, señores, ¿quién es Joan Paradez? Con todo el respeto del mundo. O sea, no sé si no me lo interpretéis. Por favor. ¿Quién es Joan Paradez? O sea, que es un influencer, fitness... Y ya. Y culturista, perdón. O sea, a ver. Y ya. Es que no sé. Como culturista no tiene carrera. Como influencer... Sí, es un tío que tiene un tirón y tal. Pero a ver, no es Auronplay. No, no. Yo intuyo que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1139" target="_blank" class="timestamp">[18:59]</a> La movida es de él, que es una persona que se exige y que sobrepiensa demasiado. Eso es lo que, con los años que llevo viéndolo en Internet, es la sensación que me da. Que es un tío que sobrepiensa y vuelve a sobrepensar y vuelve... Y es una persona, me da la impresión que es bastante intenso y por ahí la cabeza le hace malas pasadas. Y que además Joan, a día de hoy...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1163" target="_blank" class="timestamp">[19:23]</a> No es el Joan del 2023. Joan ahora mismo no está en su prime. Está lejos de su prime. Y a mí me encantan los números. Mirad sus números. No está en su prime. Está lejos de eso. O sea, entonces no hay hype. No hay nada. Es como por ejemplo ahora Atavet en estos días cuando ha competido. Chabalito ha quedado el once. Pues ya está. A otra cosa. ¿Le ha caído hate a Atavet?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1184" target="_blank" class="timestamp">[19:44]</a> Yo pienso que no. ¿Por qué? Porque Tabet no está en esa oleada de hype y tal. No, y Joan tampoco. La verdad, ahora mismo el único... Claro, ahora mismo los dos están en un punto de mejorar y ver qué pasa. Los dos. Tanto Joan como Tabet. Y ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1200" target="_blank" class="timestamp">[20:00]</a> Y no pasa nada. Y hay que tomárselo de esa manera. Le ha caído a Tabet porque le están diciendo que se marche a otra categoría. Hermano, eso se lo llevan diciendo desde hace años a Tabet. Y eso no es malo. Simplemente sabemos que Tabet, el hombre, si quiere tener nivel en clase, va a tener que pasar mucho tiempo y mucho trabajo. Y en men's puede ser un tío top. Es lo único. Y eso no es malo. Eso no es malo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1222" target="_blank" class="timestamp">[20:22]</a> Sí que al momento sí que no sabía si iba a poder volver a competir. Ahora siento que es 100% y que me apetece competir, pero si quiero conseguir no meterme tanta presión. Y creo que eso pasa por competir mucho y dejar de regarme con los resultados, sobre todo en estas primeras competiciones que vuelvo a competir. Es decir... Hermano, no quiero ser ególatra, ¿vale? Pero es que te juro que parece que... O sea, es que todo esto yo ya lo he dicho en vídeos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1247" target="_blank" class="timestamp">[20:47]</a> Es que todo esto yo ya lo he dicho en vídeos. Y muchas veces ahora. Y es que lo he dicho muchas veces, que es lo que tiene que hacer. Tiene que competir y que le sude el resultado. ¡Claro! Es que lo que tiene que hacer. ¿Por qué? Porque ese cuerpo necesita años. Ya está. Es que no... No sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1266" target="_blank" class="timestamp">[21:06]</a> Te lo juro que lo de la presión me sigue petando la cabeza. Yo he competido tres veces en mi vida en culturismo. La primera era... Es que os lo digo, nunca puedo entender la presión. Obligatoria y en un regional. Porque yo si fuera, por ejemplo, Calderón sí que hay presión. Compadre, ha quedado segundo en la Olimpia y cada vez que va a la Olimpia queda ante los tres primeros. Ese hombre sí tiene presión.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1289" target="_blank" class="timestamp">[21:29]</a> Ese hombre sí tiene presión. Que saben que bajar del top 3 es fracaso. Ese hombre sí tiene presión. Pero yo, ah, compadre. La segunda era un clasificatorio para hacerse profesional. Y me dice profesional. La gente no se hace profesional en la segunda competición. Es como la primera porque estaba obligado tres semanas antes. Entonces, luego fue el debut en profesional. No, no, a ver, a ver, a ver. He dicho fracaso. Quedar fuera del top 3 en Olympia no es fracaso, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1318" target="_blank" class="timestamp">[21:58]</a> Pues supongo que él, siendo Calderón, se lo tomará como un fracaso, ¿sabes? Pero ya no estoy diciendo que se ponemos que faltaría más. Quiero que sea cerca porque sí que es cierto que lo de China lo vio una muy buena opción. Luego fue una competición bastante más dura de lo que me esperaba, sinceramente. Pero estaba muy lejos y te descuadra mucho la vida, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1335" target="_blank" class="timestamp">[22:15]</a> Ya, ¿por qué elegiste China? Yo que no tengo ni idea del tema, dije, ¿qué haces en China? Pues mira. Ojo, ojo, venimos a ver qué dicen. De hecho, de eso sí que me criticaron un montón, que me parece súper gracioso, en el sentido de... Porque elegí una competición que era fácil. Pero él no ve nada, ¿eh? Ahora me dicen, vete a Kazajistán, Kazajistán Pro, jajaja.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1354" target="_blank" class="timestamp">[22:34]</a> Todas las competiciones de Open son difíciles, ¿vale? Eso es lo primero porque hay muy pocas en el año y una competición donde te pagan 20.000 dólares de premio no es fácil, ya te lo digo. Todo el mundo quiere ganar 20.000 dólares. Sí, pero Joan, no seamos hipócritas, porfa, tío. No seamos hipócritas. Te fuiste allí para ver si podías ganar. Me jodáis, tío, ¿verdad? Hacer una buena posición por lo menos. Ganar, no sé. Pero hacer una buena posición. Si no, no te vas al China Pro. A ver por qué te has ido al China Pro. De verdad, es que de verdad...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1380" target="_blank" class="timestamp">[23:00]</a> Es que... Es que de verdad, ¿eh? Es que yo no sé por qué manía de ocultar algo que lo está viendo todo el mundo, tío. Has ido allí, al igual que Kim, se fue a tu pelo pro a coger la clasificación. Y no pasa nada. Yo lo aplaudo. Yo soy yo el primero que lo aplaudo. ¿Por qué? Porque al final el objetivo es ir al jodido Limpiacomo como sea. Yo lo aplaudo. Pero es que no entiendo por qué mienten de esta manera, tío. O sea, te vas a ir a China a tomar por culo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1410" target="_blank" class="timestamp">[23:30]</a> ¿Por qué? ¡Anda ya, hombre! Que repito, ¿eh? Hubiera hecho un papel bueno, Joan. Yo lo veo en el top 5 de esa competición, ¿eh? 100%. Pero bueno, la verdad, es que de verdad... Vale, o sea, me refiero... Eso es evidente. Y a mí, en ese sentido, no me importa tanto el dinero. O sea, no fui por el dinero, ni de coña, porque te gastas un montón en China y todo. Pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1433" target="_blank" class="timestamp">[23:53]</a> podía abrir la temporada ahí, me parecía una buena opción. No estaba preparado de mucho tiempo atrás. O sea, yo sí que quería y la tenía vista, pero yo no estaba apuntando ni nada hasta una semana antes. Vale. Pero la tenía muy vista en el calendario. Yo sabía que estaba esa competición ahí y si cuadraban las fechas me molaría ir ahí, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1449" target="_blank" class="timestamp">[24:09]</a> entonces bueno era el mismo fin de semana que el Dubai Pro que pagaban 140.000 dólares al ganador entonces nunca hay competiciones open el mismo fin de semana dos en dos puntos diferentes porque hay muy pocas y esa se daba que sí que había creo que es la única en el año que había dije vale pues me voy a China y siento que puedo tener más opciones ¿qué pasa?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1468" target="_blank" class="timestamp">[24:28]</a> Menos mal. Lo ha reconocido. Luego salieron las listas y como lo pensé yo lo había pensado muchísima gente. ¿Sabes? Claro, claro, claro. Pero es que lo primero que ha dicho no tenía ningún sentido. ¿Ves cómo era estratégico? Es que es normal. Los tope gama para el Dubai. Los que no son tan tope gama pero son muy buenos al China Pro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1489" target="_blank" class="timestamp">[24:49]</a> Y no pasa nada. ¿Por qué? Porque esto es de primero de culturismo. Esto de primero de culturismo. También de verdad que es que, exacto, en el vídeo suyo negó lo de que fue a China Pro porque era más fácil. Es que lo negó, tío. Y no pasa nada, de verdad. Esto es lo que falta a Joan, tío. ¿Veis? Esto es lo fallo de Joan. Que en este vídeo, oye, por lo menos está siendo algo sincero. Transparencia, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1512" target="_blank" class="timestamp">[25:12]</a> ¡Realidad! ¡Ya está! ¡Es todo lo que le gusta a la gente! ¡Un tío claro! ¡Es que le gusta esto a la gente! ¡He ido aquí! ¡Pues porque lo he visto más fácil! ¡Ya está, tío! ¿Y qué? ¡Tiene menos valor!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1523" target="_blank" class="timestamp">[25:23]</a> Con lo que tú quieras, lo que tú digas. Pero yo voy a la Olimpia. ¿Sabes? ¡Claro! Es que es así. Y pues habían ahí pues cinco o seis europeos potentes. Dubái sí que el nivel era espectacular. Pero espectacular es espectacular. Pero en China hubo bastante, bastante nivel. Y yo quería hacer pues China, empezar por China. Y ya luego estaba Italia, Portugal y luego Estados Unidos, que era Tampa y Texas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1546" target="_blank" class="timestamp">[25:46]</a> eran mis 5 competencias así como que más tenía en el este ahora simplemente reubico la temporada y ya está no me importa joder pero quiero que esté más cerca tío</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1553" target="_blank" class="timestamp">[25:53]</a> Ya, ya, a ver, no, tiene lógica y de hecho me parece un buen enfoque porque claro, tú tienes este problema que al ser conocido en redes y al ser un referente como que la gente siempre está esperando algo, ¿no? No es como un culturista normal que tenga menos presencia en redes y que pueda ir a competir a un sitio y quedar de primero o de décimo octavo que es una experiencia que se lleva él a sí mismo y dice, wow, tengo que mejorar o no, tengo que ajustar esto. Tú estás constantemente en el foco y tenso por eso, me imagino.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1583" target="_blank" class="timestamp">[26:23]</a> Sí, de hecho lo pasé bastante mal allí, de ansiedad, estrés y todo. ¿Sí? Sí, muy raya. Es que te he escuchado en el vídeo, me quedé con una cosa que dijiste, he estado muy tenso todos los últimos meses, como que sentí que realmente habías estado jodido a nivel estrés o ansiedad. Sí, aparte me puse a hacer como hacía vídeos de la competición y todo, me puse a hacer como desde 90 días hasta la competición. O sea, 90 días también con el cacharro. Claro, vídeo diario y tal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1612" target="_blank" class="timestamp">[26:52]</a> Siento que es una locura y que es exponerse mucho y demás, no sé. Yo también se lo dije, no sé si lo acordaréis, pero yo también lo dije. Que no era necesario un montón de los pensamientos en alto que hacía, decía, un montón de debilidades que enseñaba en esos vídeos y claro, eso no lo iba a hacer bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1635" target="_blank" class="timestamp">[27:15]</a> Yo es que soy partidario de que hagas vídeos cuando te dé la gana, en el punto de ellos, quiero decir, de competición. Pero si tienes que hacer vídeo diario, una semana antes, ¿sabes? Porque si te cuesta tanto, una semana antes, como hacen todos. Al final es lo que todo el mundo quiere ver. La semana de pre-competición. Y eso tiene unos números espectaculares, porque va a tener vídeos. Ya te digo yo, Joan Pradels, 7 días antes de competir, esos 7 vídeos de media, 100.000 visitas no le va a bajar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1663" target="_blank" class="timestamp">[27:43]</a> Y el vídeo del campeonato, un montón. Y como gane, y es mejor que subir vídeo diario durante tres meses que había días que no sabes qué decir. Porque es normal, porque es que claro, al final si estás encerrado en tu casa, ¿qué cojones le vas a decir a la gente? Creo que eso fue un error, la verdad. Claro. Yo creo que es... Tío, es que ¿sabes qué opinas? Yo tengo muy poca idea de culturismo, sé cosas porque me interesa y me gusta. No, pero entrenas y te gusta. Sí, pero me parece un mundo... O sea, me parece de lo más duro...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1692" target="_blank" class="timestamp">[28:12]</a> que hay a nivel de cosas que una persona pueda... Es durísimo. El culturismo es durísimo. El culturismo es jodidísimo. Esa es la realidad. Y sí que voy a dar un pequeño toque de atención a toda la gente, ¿vale? Porque empecemos... De repente la gente exige Olimpia. Hablo del público. Y todo lo que no sea llegar a la Olimpia es fracaso. De verdad, replantearos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1718" target="_blank" class="timestamp">[28:38]</a> Ir a la Olimpia, aunque ahora sea, digamos, relativamente más fácil que antes, relativamente, es para privilegiados. Empezar a entender eso, tíos. Creo que no estáis siendo realistas. Creo que exigimos todos... Yo no, porque yo ya creo que ya antes psicografía, ahora ya no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1739" target="_blank" class="timestamp">[28:59]</a> Cosas que no debemos. Y de verdad, no le hacéis bien con ese pensamiento y esa actitud al culturismo. El culturismo es años. Años de trabajo. El culturismo es nacer. Que te elija el culturismo. Es así. ¿De verdad creéis que Tabet entrena menos o hace de las cosas peor que Josema, por ejemplo, por ponerlo a la palestra? Porque es nuestro número uno. No. Gracias, Chame.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1767" target="_blank" class="timestamp">[29:27]</a> No, no, no, no, no, no creáis que hay tanta diferencia de trabajo. No hay tanta diferencia de trabajo que no. Lo que pasa es que a uno le ha elegido el culturismo y a otro, pues no tanto. ¿Y ya está? ¿Por qué? Porque si no, Jordi Belliure sería el Mister Olimpia. ¿Habéis visto los entrenos salvajes de Jordi Belliure? ¿Lo habéis visto? ¿Hay alguien en España que entrene con esa intensidad y esos volúmenes? No existen, no hay nadie.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1794" target="_blank" class="timestamp">[29:54]</a> Por si fuera por entrenamiento, Jordi Villure sería el mejor. Hay que entender las cosas. Hay gente, hay culturismo, te eliges. Y llegar a la Olimpia es una locura. No es lo normal. Aunque de repente hayan aparecido un montón de españoles que van a la Olimpia. Madelman, Mauro, Kim Yaido, ojalá que vaya ahora. Joder, los clásicos. Josema, Calderón...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1824" target="_blank" class="timestamp">[30:24]</a> ¿Sabes? De repente, ahora es normal. Antes no era tan normal. Pero es que no es normal, amigos. No es... No tiene ningún sentido. El otro, el gallego también. Es que este año se van a juntar casi... Me parece que somos 8 o 10 españoles en la Olimpia. Es una locura. Y creo que tenemos que empezar a valorar un poco lo que es ir a la Olimpia. Y no normalizar. Y como no, si no vas a la Olimpia eres un fracasado. Hostia, cabrones, eso no va así, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1850" target="_blank" class="timestamp">[30:50]</a> ¿Sabes lo que te quieres decir? A mí los deportes de contacto me parecen más duros, te diría.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1856" target="_blank" class="timestamp">[30:56]</a> que te golpeen me parece súper duro. Y las descargas de agua tan agresivas que hacen me parecen también exageradas. Y siento que es la parte de más riesgo de esos deportes. El culturismo también. O sea, siento que como te equivoques con las pastillas de los diuréticos y te tomas más por algo, te mueres. Es una locura. Es que... Joan, no tiene razón. Y si te molesta lo que te voy a decir ahora, lo siento. Tú te estás quitando 10 años de encima. Perdón, de vida. Tú...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1884" target="_blank" class="timestamp">[31:24]</a> En Open te estás quitando 10 años de vida. 5 a 10 años de vida. Topuria no se está quitando nada. Topuria puede recibir un mal golpe y quedarse muñeco, tú sabes. Ojalá que nunca, ¿no? Y ojalá que tú tampoco lo pierdas. Pero Open es lo que tiene. Primero, la vida de un Open es una mierda. Porque no puede hacer prácticamente nada porque a nada que haga...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1905" target="_blank" class="timestamp">[31:45]</a> Pierde masa muscular. A nada que haga, se le jode todo. Se cansa el tripler. Su vida no es una vida plena del todo. Open es una categoría horrible y súper dura, súper agresiva para el cuerpo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1922" target="_blank" class="timestamp">[32:02]</a> Estamos hablando de, tío, de entre 120, 130 a 135 kilos de masa muscular, que no de gordo, porque todavía un gordo, un gordo de 130 kilos, todavía, digamos, que puede hacer más cosas porque no está tan limitado, porque, claro, ¿qué es lo que va a perder un gordo? Grasa, bueno. Peso, bueno. Pero es que un culturista de ese nivel no puede. Come un poco tal y pierde peso. A la mierda. ¿Entendéis? La cantidad de química que toma un Open es una salvajada. Tienes que saber que no lo vas a hacer con 18. No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1949" target="_blank" class="timestamp">[32:29]</a> Tienes que saber que lo vas a hacer de todos modos con 20 y muchos, 30 y muchos. Todo tiene un proceso. Estás quemando etapas si lo estás haciendo a esa edad. Tienes que pasar toda la etapa de decir, vale, ya llegará mi momento de, si quiero ser un superculturista, utilizar química si la tengo que utilizar y demás. Pero no es el momento ahora. Estoy quemando una etapa o lo estoy haciendo mal. Estoy intentando ahorrar tiempo a algo que no vale ahorrarle tiempo, que vale sumar tiempo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=1974" target="_blank" class="timestamp">[32:54]</a> de entrenamiento sin eso quema esa etapa llevar al máximo hasta donde te puedes desarrollar sin eso cuando ya has llegado a ese punto quizá tienes que si quieres si sigue siendo tu idea todo eso quizá tienes que hacerlo y probablemente si eres una persona con dos de frente te llevará una discusión moral muy grande en tu cabeza y será un trauma hacerlo al principio luego probablemente lo normalices un poco más porque lo acabas haciendo de forma recurrente o frecuente y demás</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2004" target="_blank" class="timestamp">[33:24]</a> Pero creo que es muy importante saber que si lo haces a los 16, para mi gusto, no tiene ningún tipo de sentido y lo estás haciendo mal y estás quemando una etapa. Y si tú quieres ser un gran culturista, estás quemando una etapa de ser un gran culturista. Lo estás haciendo mal. Ya, ya la estás cagando. Ya estás cerrando desde ese momento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2023" target="_blank" class="timestamp">[33:43]</a> A ver, señores. Lo que hay es lo que hay, ¿vale? Contra antes, sí. O sea, a ver. No te voy a decir que contra antes empiece mejor. Nunca voy a decir eso. O sea, sinceramente, si os digo que empecéis con 16 años, soy un psicópata. Pero, si os soy sincero, los mejores del mundo empezaron muy pronto. Pronto. Pronto ya cada uno que defina lo que es pronto. Jay Kudler, Josema... Muchos. Ya cada uno... ¿Sabes? Yo no voy a decir que hagáis eso. Nunca. Pero no voy a ser un hipócrita. Propio Cebam. Es la realidad. Urs. ¿Sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2053" target="_blank" class="timestamp">[34:13]</a> ¿Y qué es lo peor de utilizar química una vez ya estás metido en el meollo? Yo pienso que todo lo que... ¿Será sincero? Tienes parte oral, parte inyectable y demás, y la parte oral ya no se utiliza casi, porque está ya muy visto que todo lo que son en formato pastilla y demás, al final lo tiene que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2072" target="_blank" class="timestamp">[34:32]</a> Además tóxico. El riñón, tema hígado, riñón, todo eso. Y es mucho más... Que se pusieron muy de moda, ¿no? Sí. Eran los ARMS y todas estas cosas. Bueno, eso aparte... No, eso es otra cosa. Estaban también los ARMS, también. Sí, ¿no? Pero época Arnold y todo eso había mucho de anabólicos. Vale. Sustancias de ese estilo que eran orales. Escucho los nombres pero no sé ni lo que son, ¿sabes? Me imagino abstracciones en plan... Hay sustancias orales y otras inyectables. Vale. Al final, pues... Yo creo que tienes esas dos ramas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2100" target="_blank" class="timestamp">[35:00]</a> las orales al final son mucho más perjudiciales que las inyectales porque es una cosa intramuscular y nada, tiene que filtrar el riñón, el hígado. Ya. Entonces se está dejando utilizar todo el oral. Yo por lo menos, vamos, yo me dedico a esto. Estás enterado, ¿no? Muchas veces hay peña, no, es que los profesionales hacen no sé qué. Digo, pues,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2119" target="_blank" class="timestamp">[35:19]</a> Yo no lo hago. Yo no lo hago. Y le pregunto a algunos profesionales o tal, amigos o lo que sea, y me dicen, ¿tú haces esto? ¿Por qué están diciendo esto? No, pero los orales hace mucho tiempo que se dejaron de usar en el culturismo. Y yo no hago esto, ¿sabes? Pidas de olla, que la gente se inventa. Mítica gente de internet que sabe más que la gente que se supone que tiene que saber de eso. Exacto. O la gente que supuestamente está hablando que lo hace, pues muchas veces no es así. Ya, ya.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2142" target="_blank" class="timestamp">[35:42]</a> Vaya tirito sin roca, ¿no? Y bueno, luego está el formato de inyectable y para mí lo más traumático es la parte de la inyección. ¿Sí? Sí, sin duda. Bueno, espérate, espérate, espérate, espérate. Espérate porque está diciendo que el orales no. Bueno, a ver. No me...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2161" target="_blank" class="timestamp">[36:01]</a> Yo creo que el embuterol sí que usan, ¿eh? Sí que lo usan, sí. Yo creo que el clem sí que lo usan, sí. No voy a decir que todo el mundo, pero muchos. Para puentear, para secar, para muchas cosas. Sí, sí que lo usan, sí. Me parece súper traumático. Creo que no te acostumbras nunca a eso. Cada día es un suplicio. ¿En serio?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2177" target="_blank" class="timestamp">[36:17]</a> Pero claro, también te digo, ya pero es un oral, que el muterol es un oral. Pero claro, decir que no usan orales. A ver, si te vas a poner a usar 30 unidades de hormonas diarias, ¿para qué vas a usar el muterol, no? Claro, ese es el tema. He dicho 30 que vamos a usar al tripazo, pero bueno. Pero 10 y 20 sí. Sí, 100%.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2196" target="_blank" class="timestamp">[36:36]</a> Ah, pues fíjate que eso, mira que me imaginé que sería algo que al principio sí sería desagradable. Aparte a mí no me gustan las agujas, aunque tampoco parezca como demasiado evidente. A la gente le sorprende. A mí tampoco. Pero no me mola. A mí no me mola hacerme análisis, no me mola cuando me tiene que vacunar. Porque tatuaje es muy superficial. Es como que te rasquen por encima. Siempre lo explico. No es que te clave en una aguja y tal. Entonces siempre he pensado, el culturismo al principio se ha jodido, pero entonces nunca te acostumbras. No sientes el dolor del principio. Ya, al principio duele más, claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2223" target="_blank" class="timestamp">[37:03]</a> Sí, porque la zona se te queda como adormecida, como si fuera una vacuna. Vale, sí, esa sensación como de tirantez extraña interna. Sí, como si te hubieran pegado un calmante. Un calmante, un bocata. Sí, lo mismo, lo mismo. Pues esa sensación es un poco al principio, luego pues al final eso no lo tienes, pero la situación es desagradable. O sea, yo te lo digo esto en confianza, así súper tal, me da igual que lo vea, de verdad. Nadie nos va a escuchar. Sí, súper chill, o sea, no entra nada tal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2249" target="_blank" class="timestamp">[37:29]</a> No estás diciendo la malo, Joan. Por ejemplo, desde que volví de China, que me ha pasado todo esto de salud, vamos, no me he tomado nada de nada. Me da mucho asco y así, en plan, paro la temporada, pues la paro del todo, ¿sabes? En plan, no voy a entrenar, no voy a hacer dieta estos días, estoy de médicos, estoy tal. Mira, esto como ahorro, ¿sabes? Pues es una situación desagradable. Ya, ya, ya. No, me imagino, tío, me imagino. Aparte, claro, después de un susto. Hombre, asco, Joan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2274" target="_blank" class="timestamp">[37:54]</a> Esto sí, pues como que tampoco te quedarán muchas ganas de... No, y porque al final eso es para potenciar lo otro. Ya. Es un multiplicador. Claro. Pero si multiplicas cero, es cero. ¿Sabes? O sea, si no estoy entrenando ni comiendo bien, es cero, ¿sabes? Total, total. Y además que yo siento que si me puedo ahorrar eso, estos días me lo ahorro mucho mejor. Bien, bien, pero eso te lo habrá pautado, ¿no? Lo habrás elegido tú, ¿no, Joan? Te lo habrá pautado preparador. Y mira, un descanso también mental de una situación desagradable. Claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2303" target="_blank" class="timestamp">[38:23]</a> O ver, agradable no puede ser nunca el tomar química. O sea, el hecho de meterte un dardo en el hombro, en la pierna...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2309" target="_blank" class="timestamp">[38:29]</a> ¿Es la primera vez que descansas desde que empezaste? No, sí que he descansado. Lo que pasa es que ya cuando entras en el circuito profesional y tal, entiendes y también es un poco así, que al final de un modo u otro haces los TRT y demás, pero nunca paras del todo ya. TRT. A mí me hace gracia cuando dicen TRT, un culturista de 120 kilos, 130 kilos. TRT. TRT de 500, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2335" target="_blank" class="timestamp">[38:55]</a> Es la realidad. O sea, y el que te cuente otra cosa, de verdad. No, no, pero es que no puede parar. Esa es la realidad. No se puede parar. O sea, ¿cómo cojones va a parar? ¿Pierde todo? No es verdad. O sea, no es así. O sea, como que siempre se mantienen algunas cosas, ¿no? Digamos. Sí, texto. Testosterona, sí. La testosterona. Y luego se va... O sea, haces un reemplazo. Porque al final tu cuerpo deja de generar. Claro. Entonces, cuando estás fuera de temporada o lo que sea, y haces esas partes más de salud, de recuperarte y demás, que quizá también te puedes... Muchas veces...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2362" target="_blank" class="timestamp">[39:22]</a> Bueno, texto, HCG, ¿no? Un poquito de todo. Me hace gracia que esto hace boom lo sube un montón. De hecho, tiene una empresa de eso. Del tema de todos los goteros de belleza y tal, culturistas también lo usan como recuperación. Claro, los... ¿Cómo se llamaban los...? El glutatión. El glutatión para la sangre. Va muy bien. Yo creo que nunca me ciclaría. Ya no porque no me compensa, sino porque tener que pincharme. Aparte, cada... O sea, cada cuánto más o menos. Supongo que varía, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2386" target="_blank" class="timestamp">[39:46]</a> Según la fase de la temporada, cuando estás cerca de la competición... Nunca he hablado tanto de esto. Perdona. Nunca he hablado tanto de esto, ¿eso es cierto? Me gusta, Joan. Ni siquiera tenía pensado. No me importa, no me importa. Pues yo no soy ningún experto de esto, ni me gusta de nada. Esto es lo primero. Estás hablando de tu experiencia, ¿no? Bajo mi experiencia personal, sobre todo de estos temas, y creo que es importante decirlo. De hecho, tú eres natural, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2412" target="_blank" class="timestamp">[40:12]</a> De Valencia. Pues cerca de la temporada de las competiciones, mejor dicho, se utilizan sustancias más rápidas. Entonces te duran menos en el organismo. Entonces tienes que usarlo más. Ahí sí que... Acetatos, cipionatos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2430" target="_blank" class="timestamp">[40:30]</a> todos los días o más 10 a la semana, además. Quizá el domingo no. Yo os hablo con mucha transparencia. Compitiendo, cuando estás tope gama, todos los días. Todos los días toman algo. Y escuelas de temporada son sustancias más lentas, que son más densas. Vale. Sustanón, levantato, entre otras cosas. Ah, también quizá duelen más, ¿sabes? Pero son más densas. Eh...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2453" target="_blank" class="timestamp">[40:53]</a> Pero se utilizan mucho menos. Pues tres días a la semana, cosas así. Vale. Y última pregunta sobre este tema. Que tampoco... O sea, no te creas que... No, no me importa, no me importa. Pero sí que siempre me ha interesado porque es un mundo como muy desconocido. La más peligrosa, ¿no? Y yo sigo mucho, por ejemplo, a los Tren Twins, por ejemplo. Están muy locos. Están jodidamente locos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2472" target="_blank" class="timestamp">[41:12]</a> Estos están gilipollas, ¿no? Locos. Y me gustaría preguntarte qué es lo más bruto. Antonio, ¿existe la sobredosis de testo? Yo nunca lo he escuchado, pero bueno, pero... No, yo nunca lo he escuchado. Pero intuyo que si te pones a tomarte durante un año 6 gramos de testo, bueno, pues te morirás. Mirar a... Bueno, creo que a Roberto Castellano le dio un infarto por tomar 4 gramos, ¿no? A la semana, te morirás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2497" target="_blank" class="timestamp">[41:37]</a> O sea, ¿qué es lo peor? Porque estos chicos hablan, por ejemplo, de la tremolana, que dicen que es lo peor... O sea, a pesar de que se llaman tren tuyo, dicen que es el peor compuesto que se ha metido en el cuerpo nunca. Como que te da unos efectos terroríficos en el mood, en todo. Sí que a mí... Yo creo que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2512" target="_blank" class="timestamp">[41:52]</a> las cosas potencian lo que tú eres. Esa es, Joan. Ahí estoy contigo. Ahí estoy contigo. Eso es. Si estás como una mierda, eso va a potenciarlo. Ahí estoy contigo. Exacto. Soy una persona muy tranquila. Soy cero agresivo, soy muy chill, muy todo. Pero, por ejemplo, sí que me genera mucha ansiedad y mucho estrés. ¿Te lo puedo dar, por ejemplo? Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2533" target="_blank" class="timestamp">[42:13]</a> Sí que es la peor sustancia. Es la peor, ¿no? Sí. Es una sustancia rápida, bastante agresiva. La agresiva no me refiero a la agresiva partida, agresiva para el organismo. Ya, ya, ya. ¿Sabes? Sí, sí. Es que siempre que he escuchado hablar de ella es terrible. Y luego, encima, se toma en la parte de la temporada más cercana a la competición, en la que estás seguramente a dieta, más agresiva, más todo tienes hambre, pues te potencia ese malestar, esa ansiedad, ese todo, ¿sabes? Claro, claro. Es un poco eso. El resto es que es chill todo, tío. Ya. Yo no sé... Es que ahora me has hecho pensar, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2563" target="_blank" class="timestamp">[42:43]</a> Di lo que te hace la trembolona como te dé el chumbo de la trembolona que parece que te está dando un infarto en directo. Me gustaría que... Bueno, si no lo dice él, lo digo yo, ¿vale? La trembolona, cuando te pasas de la dosis, ¿vale? Depende de la persona. Imagínate, tú vas a tomar, pues eso, un... Digamos... Vamos a poner un número, una cantidad, ¿vale? 100. Pues si te metes 200 o 150, te pega un chumbo, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2591" target="_blank" class="timestamp">[43:11]</a> Tiene un nombre en inglés. Que te crees que te estás muriendo. Te crees que te estás muriendo. Te crees que te mueres. Una presión en el pecho. Una locura. Y una tos. Es que al final hay cuatro o cinco cosas. Es que totalmente la gente se piensa que hay una chispa...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2613" target="_blank" class="timestamp">[43:33]</a> que no decimos nada y es secreta y es en plan, bro, que yo tengo la acción a las mismas cosas que tú, ¿sabes? Que son cuatro cosas, ¿sabes? Que está la testosterona en diferentes, lo que te he dicho, pues más rápida, más lenta y demás. Está, pues... La hormona de crecimiento, ¿no? La hormona de crecimiento, pero es que eso es que es diferente. Eso es como lo premium, ¿no? Que dicen que es la... Aparte de que es lo premium, eso ya es bastante más premium. Muy caro, ¿no? Muy caro. Eso va en base de agua.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2640" target="_blank" class="timestamp">[44:00]</a> La hormona de crecimiento. Sí. Vale. Bueno, no sé si va a ser de agua. Es como agüilla. Eso sí que no duele ni nada del estilo. Y se utilizan como jeringuillas de sacinsulina. Vale, sí. ¿Sabes? Sí, sí, sí. Diabéticos. Lo otro sí que es en base de aceite y es súper denso y por eso te duele y todo. Vale, vale, vale. ¿Sabes? O sea, ¿cómo de cara es la hormona de crecimiento? ¿Cuánto vale una hormona de crecimiento? A ver, eso se mide por unidades. Por unidades. Tú te pones lo que sea al día.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2668" target="_blank" class="timestamp">[44:28]</a> A ver el precio que dice Joan. No creo que Joan no compre el mismo precio que lo puede comprar la persona de pie, pero bueno. No sé cuánto vale, según lo puro que sea eso. Ah, o sea, que es como... Hay distintos rangos, ¿no? Sí. Si la quieres pura pura... Hay diferentes rangos, sí. Hostia, qué nivel, qué nivel. Claro, el problema de la hormona es que te tienes que asegurar que sea hormona y que hay cantidad buena de hormona. Ese es el gran problema del mercado negro, ¿vale? Que te venden hormonas de esta china y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2695" target="_blank" class="timestamp">[44:55]</a> a dos duros y tú te crees que estás tomando hormonas y estás tomando agua. No estás tomando nada. Entonces, claro, si a ti te aseguran que es una hormona de farmacia con su sello, prepara para hoja. Vamos, no creo que te baje de 200 pavos la cajita. 200 pavos la cajita fácil. Te agradezco este...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2715" target="_blank" class="timestamp">[45:15]</a> He dicho que no creo que te bajes. Claro que las hay más caras. Digo de mínimo. Es muy cara, es muy cara. De verdad, ¿eh? Es que yo había escuchado que la dis... No sé si valdrá rollo a euro la unidad. Es que no tengo ni idea ahora mismo. Ahora me pillas un poco porque nunca me pongo a mirar tanto tan preciso. Yo me acuerdo de lo... Es que esto lo sé por el Lieberking, el famoso... Sí, ese... Que está como una regadera al pobre. O sea, sin ánimo de ser condescendiente ni nada, que le vaya genial. Pero que el tío como que perdió la cabeza y decía que eran...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2741" target="_blank" class="timestamp">[45:41]</a> No, no, Juan, está feo que yo lo diga, pero yo he conseguido 750 euros de hormona, ¿no? Natural. Y el tío que le había hecho, o sea, había un tío que le había contactado, un preparador, que le había hecho un ciclo y el tío cuando decía que no... El problema es que tomas tanta cantidad que con 200 euros de hormona tienes para la primera semana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2765" target="_blank" class="timestamp">[46:05]</a> Claro, ese es el problema, ese es el problema. Que terminas gastándote mil y pico pavos, dos mil pavos, solo en hormonas. Bueno, mil y pico, más que dos mil. Bueno, y depende quién seas. Claro, ese es el problema. Pero te hablo de un culturista a tope gama, no de un matao que se toma tres unidades de hormona al día. Que es lo que suelen tomar así los mataillos, tres unidades, cinco unidades, no toman más que eso. La gente normal, digamos, los culturistas pro...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2789" target="_blank" class="timestamp">[46:29]</a> Con tres unidades al día no tienen nada que hacer, ¿sabes? Nada que hacer. Me sabe mal decirlo así, porque yo no me meto en la vida de nadie ni nada. El tema normal de crecimiento y todo eso, eso lo utiliza muchísima gente más allá del culturismo. Las celebrities y todo eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2806" target="_blank" class="timestamp">[46:46]</a> pérdida de grasa, la ansiedad de masa muscular y tiene un factor también de rejuvenecimiento, ¿sabes? Son más de crecimiento. Y el daño es muy pequeño. Siempre va a salir la típica controversia de es que si tiene un cáncer también te va a hacer que crezca. Ya, bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2821" target="_blank" class="timestamp">[47:01]</a> Solo utilizas gente que no tiene nada que ver con el culturismo. Vale. Por ello, cerebritis y todo lo que te digo. ¿Sabes? Por tema belleza, por todo eso. Ya, ya, ya. No por musculación ni nada del estilo. Ya, ya, entiendo que... Se utiliza mucho más de lo que parece. Sí, sí, sí. Claro, claro. No, me imagino, porque al final sí tiene tantas... Si te ayuda a rejuvenecer, si te ayuda a recuperar mejor y a... Luego es muy fácil pincharte eso. Al final es pegarte un pilliz con la barriga y para adelante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2845" target="_blank" class="timestamp">[47:25]</a> O sea, que desde un punto de vista clínico tuyo, que estás dentro de la movida, se ve claramente las diferencias de calidad de unos culturistas. En algunas competiciones, René. En otras, ¿no? 100%. Y estoy seguro de que los jueces, no soy juez, pero filtran mucho ya viendo los nombres. Ya saben cuando salga no sé quién, qué es el número no sé qué, que ese va a ser el que va a ganar. Ah, yo eso no lo sabía, por ejemplo. 100%. Hombre, yo creo que para eso Joan no. Yo aquí no estoy de acuerdo con Joan. Yo sí creo, hablo de competiciones tochas, ¿vale? Que claro que seguían por el nombre para hacer el corte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2875" target="_blank" class="timestamp">[47:55]</a> Imaginaos el primer call out y tal. Dice, bueno, ni le voy a mirar. ¿Para qué voy a mirar a Derek?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2883" target="_blank" class="timestamp">[48:03]</a> Paso. Voy a dar rápido, ¿sabes? Los meto rápido para adentro y ya me fijo en los otros para ver quién los meto ahí de últimas. Con tanto competidor, yo entiendo que lo hacen así. Es normal. Vale. Me puede gustar más un físico u otro. Vale. Pero no sé decir cuál gana. Es imposible también. Creo que no está nunca tan... O sea, si está muy claro, está muy claro. Pero si está a la par, puede ganar cualquiera. De verdad. O sea, no siento que puedas saber tan... No, es que este no sé qué. No, que no, que no. Sí, sí, sí. Que no, que no flipe.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2911" target="_blank" class="timestamp">[48:31]</a> O sea, tienes razón, Joan, porque no creo que se rijan por... No, es que a este le falta dorsal. No, a este no. Habrá alguno que le guste los dorsales más amplitud y menos tal, más corto, más largo. Aquí no hay la razón. Aquí sí tiene razón. ¿Tú te ves ganando el Mr. Olympia algún día? ¡Qué pregunta, eh! Me imagino que eso para ti es como el sumum de todo, ¿no? Es como si me dices, ¿te ves ganando la Champions a un futbolista? Pues sí, me encantaría.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2939" target="_blank" class="timestamp">[48:59]</a> Es muy complicado, es muy complicado. Sí que siento que tengo... Siempre lo he dicho, que creo que me podría meter en un top 10 de la Olimpia dentro de muchos años y hacer unas cosas muy guay. No sé si ganar, pero sí que siento que hay gente que no era nadie, por así decirlo, y de repente aparece y Samsung Daudas ganó en la Olimpia y hace dos años y pico ni había ido a la Olimpia. O sea, que puedes aparecer de repente y que se te dé muy bien. Y yo siento ir a la Olimpia, por ejemplo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2967" target="_blank" class="timestamp">[49:27]</a> Tyler Mannion, que es el vicepresidente de la AFM, me lo dijo, me dijo, hostia, cuando me hice profesional, estuve ahí en Pittsburgh, en la sede y demás, y me dijo, en unos años podrías ir a la Olimpia si sigues, con esa línea sobre todo, ¿sabes? Porque al final también esto es un poco como si quieres ser jugador de básquet y vienes 1,50, pues es mucho más complicado que venir a 2 metros, ya de base.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=2988" target="_blank" class="timestamp">[49:48]</a> Yo sé que tengo la línea, y es lo que hablé con Tyler Mannion, por ejemplo, y demás. Yo sé que tengo la línea, es potenciar esa línea. Complicado. Tío, si no te digo... A ver, ¿tienen la línea? Sí, de frente. De frontal, sí. Pero de espaldas, no. De espaldas, hay grupos musculares que se te quedan muy atrás, tío. Y esa es la realidad...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=3011" target="_blank" class="timestamp">[50:11]</a> La realidad, compadre, es que moral no está al nivel. Tu espalda, le faltan cosas, tío. Entonces, yo qué sé. Ojalá que gane la Olimpia. Dios mío. Uf, qué locura. Pero yo no creo que solo sea la línea. Joan, para ganar en la Olimpia. Para ser un top 10, sí. Pero para ganar. Hostia, eh. Pero siento que sí que podría llegar a la Olimpia, seguro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=3035" target="_blank" class="timestamp">[50:35]</a> Yo creo que ahora, además, con este cambio de mentalidad, ¿no? Con este aprendizaje que has tenido. Yo creo que a veces intentamos hacer quizás las cosas demasiado rápido, ¿no? A ver, al fin y al cabo creo que está diciendo un sueño, un pensamiento en alto. Bueno, está bien. Un top 10. Esto es una puta locura, ¿eh? Top 10 de la Olimpia. Es una puta locura. Pero sí que es verdad que no lo veo tampoco algo que no se pueda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=3058" target="_blank" class="timestamp">[50:58]</a> Podría ser. Y seguramente, sinceramente, ¿vale? Esto es un pensamiento que tengo yo y os lo voy a decir en alto. Él piense que más que no un top 10. 100%. Lo que pasa es que, bueno, hay que decir un poquito, tú sabes. Pero vamos, 100%. Estoy convencido que él piensa que puede ser mucho más que un top 10. Mucho más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=3077" target="_blank" class="timestamp">[51:17]</a> Pasa que claro, estaría feo decirlo, ¿no? Es que es normal, Iker. Es lo normal. O sea, es más, Joan tiene que pensar en su interior de que puede llegar a ganar a la Olimpia. ¿Por qué? Porque si piensa... No, yo me conformo con un top 10.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=3091" target="_blank" class="timestamp">[51:31]</a> No vas a pelear igual. No vas a luchar igual. Tienes que pensar que sí, que puedes llegar a ganarlo. Para, oye, si te quedas corto, el objetivo era ganar. Si te quedas tercero, de puta madre. Pedazo de cañón, has llegado, ¿sabes? Pero si tú piensas que no es un 2-10, Joan no piensa eso. Joan piensa que él puede llegar a ganarlo. 100%. Y es un buen pensamiento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=zjNUByWPc8M&t=3110" target="_blank" class="timestamp">[51:50]</a> Lo que pasa es que lo tacharían de prepotente, ¿no? Os recomiendo que vayáis al canal de René ZZ. Hace podcasts espectaculares, el que hace un contenido espectacular, tanto en este canal como en el suyo personal. Y echad un mitazo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 09/07/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
