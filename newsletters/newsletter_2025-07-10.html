@@ -1,0 +1,424 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 10/07/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">10/07/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>El Nota</strong>: <a href='#video-BJdgIF6cS4E'>🔥 ¡VENGANZA DE NECKZILLA! Rubiel Mosquera ARRASA en el Big Evolution Pro 💪¿Fabian Mayr 2º?</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-BJdgIF6cS4E">
+            <h2>🔥 ¡VENGANZA DE NECKZILLA! Rubiel Mosquera ARRASA en el Big Evolution Pro 💪¿Fabian Mayr 2º?</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: El Nota</span>
+                <span class="date">Publicado: 10/07/2025 06:36</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=BJdgIF6cS4E" target="_blank">
+                    <img src="https://i.ytimg.com/vi/BJdgIF6cS4E/hqdefault.jpg" alt="🔥 ¡VENGANZA DE NECKZILLA! Rubiel Mosquera ARRASA en el Big Evolution Pro 💪¿Fabian Mayr 2º?" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video ofrece una crónica del campeonato de culturismo Big Evolution Pro, destacando la victoria de Rubieles en la categoría Open.
+El presentador comparte vivencias personales significativas del evento, incluyendo ser reconocido por figuras del culturismo que admira.
+Reflexiona sobre el valor del reconocimiento en contraste con las limitaciones y el apoyo fundamental de su comunidad de seguidores.
+Finalmente, realiza un análisis detallado y comparativo de los principales competidores de la categoría Open basándose en sus físicos y poses.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Ídolo Reconoce al "Nota" <a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&amp;t=225" target="_blank">[03:45]</a></h3>
+
+<p>El presentador relata el sorprendente y emotivo momento en que Patrick Tour, una figura a la que admira, se acerca a él. Patrick le expresa que sigue sus videos y valora su contenido crítico y honesto. Este encuentro es un punto álgido personal del campeonato.</p>
+
+<h3>La Validación Frente a las Limitaciones <a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&amp;t=311" target="_blank">[05:11]</a></h3>
+
+<p>Se profundiza en el significado personal del reconocimiento de Patrick Tour. El presentador contrasta esta validación externa con las experiencias de ser limitado o poco valorado en su entorno local. Resalta la importancia de este apoyo para creer en su trabajo.</p>
+
+<h3>Inicio del Análisis: Primeras Poses <a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&amp;t=540" target="_blank">[09:00]</a></h3>
+
+<p>El video transita hacia el análisis técnico de la categoría Open. El presentador compara las fortalezas y debilidades iniciales de Rubieles, Fabian Meir, Nathan Diasa y Bruno Santos en las primeras poses frontales. Destaca la masa de Rubieles y la calidad de las piernas de Fabian.</p>
+
+<h3>El Duelo en las Poses de Espalda <a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&amp;t=998" target="_blank">[16:38]</a></h3>
+
+<p>Se examinan detalladamente las poses de espalda de los competidores. Se analizan las mejoras en la espalda de Fabian, las asimetrías de Nathan, los problemas de pose de Bruno y la incomparable densidad dorsal de Rubieles, señalando también sus puntos a mejorar en la ejecución.</p>
+
+<h3>Condición Extrema y Poses Finales <a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&amp;t=1395" target="_blank">[23:15]</a></h3>
+
+<p>El análisis aborda las últimas poses, como tríceps y abdominales y piernas. El presentador subraya la impresionante condición física de Fabian Meir en la pose de abdominales. También discute los problemas de control abdominal de otros competidores y la particularidad física de Rubieles.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=0" target="_blank" class="timestamp">[00:00]</a> Muy buenas, mi gente. Aquí tenemos la continuación del vídeo de ayer y os digo, hoy toca hablar de la categoría Open. Por fin lo consiguió Rubiel. Me alegro muchísimo por él, por Fran Spinn, que lo necesitaba, yo creo, sobre todo porque ya se está tomando en cuenta lo que es el físico de Rubiel. Es algo bastante bueno. Le dije en un vídeo a Fran en los comentarios, tarde o temprano,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=27" target="_blank" class="timestamp">[00:27]</a> El físico de Rubiel, pese a lo que es su falta de proporción, su falta de estética, tendrá tanto músculo y tan bien condicionado, tan bien asentado, que eso puede romper las reglas de puntuación. Y sí, estoy seguro de ello. Ya lo están teniendo en cuenta, veremos a ver qué puesto hace el Mister Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=45" target="_blank" class="timestamp">[00:45]</a> y deseo de todo corazón que vaya para adelante. Conocí a su manager que está por detrás de todo el asunto este y un tío muy profesional que es parte también del éxito de Rubiel y quería reconocérselo también públicamente, que me pareció bastante majo. Una categoría Open complicada porque Fabian Meir no dio el peso en Classic y todos los que estaban allí pues había una lucha encarnizada. Estuve hablando con Nathan Diasa,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=74" target="_blank" class="timestamp">[01:14]</a> Al principio es alguien que marca mucho el territorio. Estás ahí y te mira y si no le entras, no le entras. Es un carácter bastante firme. Y luego también con otro que era Bruno Santos, encantador. Os lo digo, qué tío más encantador Bruno Santos. Buenísimo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=94" target="_blank" class="timestamp">[01:34]</a> Siempre incluso nosotros estábamos por las pintas que estábamos en la calle fuera en el gimnasio donde entrenábamos y nos vino a saludar él a nosotros. Hola, ¿qué tal en el campeonato? Bien, bien. Nos dio la mano y todo. Súper atento. Incluso quedando segundo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=112" target="_blank" class="timestamp">[01:52]</a> en el backstage haciéndose fotos con todo el mundo y esto esto es una lección sobre todo lo que había dicho en el anterior vídeo de cuando quieres fuego avivar también lo que es la leña pues esto es el cuidar esos detalles</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=127" target="_blank" class="timestamp">[02:07]</a> Esos detalles hacen que tu comunidad, gente que también lo ve de fuera, sepa la persona o qué tipo de persona eres. Y eso es muy importante dentro del mundo del futurismo y, bueno, para mí en la vida en general. Para mí, pues uno de los momentos más trascendentales que he tenido en este campeonato, que fue, diréis, es que esto solo le puede pasar al nota. Es que es verdad. Llego, estoy en el backstage...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=153" target="_blank" class="timestamp">[02:33]</a> ...y me encuentro con... ...con Fabian Meir... ...la madre que parió... ¡Oh, tía! Fabian Meir, macho... ...qué pasada, tío... ...o sea, es que estaba... ...flipándolo... ...yo cuando lo vi dije... ...qué locura, estaba absurdo... ...me gusta mucho el físico que tiene él... ...pero es que en persona, creedme... ...es impresionante... ...traía un puntazo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=182" target="_blank" class="timestamp">[03:02]</a> Y creo que puede tener de las mejores piernas de todo el Classic. Os lo digo, es impresionante las piernas que trae Fabian. Y bueno, yo flipándolo con Fabian, de repente llega alguien y me dice... ¡Es nota! Y yo... ¿Quién es? ¡Nota! Me viene alguien y yo claro, estando todavía en mi cabeza y flipándolo con Fabian... ¡Me encantan tus vídeos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=209" target="_blank" class="timestamp">[03:29]</a> Además, no te casas con nadie. Cuando alguien va mal, lo dices. Y no te cortes. Yo, hostia, qué guay. De verdad que te lo agradezco mucho. Y yo cuando ya le miro, digo... Hostia, pero si este tío me suena. Y encima me estaba hablando en español. Y le veo... Coño, pero si es Patrick Tur. ¿Pero si es Patrick Tur? Que a ver mis vídeos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=236" target="_blank" class="timestamp">[03:56]</a> ¿Toda por culo? Yo estaba ya entre que estaba flipando con Fabian Mayer y que luego llega Patrick Tull diciéndome, tío, que estoy viendo tus vídeos. Y me señala Fabian diciendo, ¿a qué este culturista te gusta? Yo, claro que sí. Increíble. O sea, lo flipé. Lo flipé. Os lo digo porque quizás</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=265" target="_blank" class="timestamp">[04:25]</a> algunos no sorprenda pero a mí esto me hizo muchísima ilusión mucha mucha mucha porque en mi vida incluso en el círculo más cercano vamos a decir hasta familiar lo que yo hacía nunca era suficiente o nunca era lo bueno había estado casi siempre muy muy muy limitado por lo que siempre he tenido</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=296" target="_blank" class="timestamp">[04:56]</a> Esos pensamientos de decir, ¿lo estaré haciendo bien? ¿Valdré para esto? Y que alguien que yo admiro, como es Patrick Tour, porque recordemos que un Keon Pearson, que es Mister Olimpia de 212,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=311" target="_blank" class="timestamp">[05:11]</a> un Fabian Mayer tenéis a Stefan Matala también lo prepara Logan Franklin con el punto que ha venido este año y otros muchísimos más de la longeva carrera que tiene Patrick Tour que son muchísimos culturistas y él como culturista también entonces para mí vale mucho que me diga eso en serio lo valoro muchísimo y estuve hablando con él por eso para mí fue muy importante</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=341" target="_blank" class="timestamp">[05:41]</a> Y aparte porque he estado acostumbrado aquí en Extremadura a que la gente te limite mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=348" target="_blank" class="timestamp">[05:48]</a> Por lo general en Extremadura o en Cáceres siempre se busca a lo de fuera. Lo de aquí no se tiene casi nunca en cuenta. Y cuando he colaborado con ciertas organizaciones, muchas veces te encuentras como gente, te pone la zancadilla, gente no le gusta que tú te desarrolles, no le gusta la gente que destaques, no le gusta que tengas cierto protagonismo. No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=377" target="_blank" class="timestamp">[06:17]</a> Y te lo intentan impedir de alguna manera, ¿no? Te ponen bastante trabas. Por eso, luego cuando sales fuera y ves un campeonato en Portugal, que yo tengo 31.000 o casi 32.000 seguidores, que me pidan hacerme fotos. A mí en Portugal, en un campeonato. ¿Estoy flipando? Si yo, para mí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=403" target="_blank" class="timestamp">[06:43]</a> ...vamos... ...no sé... ...os lo digo... ...es inverosímil... ...pero luego lo de Patrick Tour ya... ...es como... ...no me esperaba eso... ...fue una gran sorpresa Patrick... ...pues sé que verás el vídeo... ...pero es la verdad... ...entonces para mí es... ...importante lo que me has dicho... ...y sobre todo... ...que te gusten mis vídeos... ...pues es un honor... ...te voy a decir que no... ...alguien que yo admiro... ...por su trabajo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=431" target="_blank" class="timestamp">[07:11]</a> y me gustó mucho intercambiar opiniones contigo ya hablaremos de verdad por eso también quería deciros en este en este vídeo agradeceros a vosotros pues este esta parte del éxito porque los comentarios que decís sean buenos o sean malos esos comentarios a mí me sirven para hacer contenido para hacer autocrítica</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=461" target="_blank" class="timestamp">[07:41]</a> y también conoceros un poco. Hay gente que me sigue hace muchísimo tiempo. Veo casi siempre comentarios de Katana, de Raki, que siempre está ahí, de mucha gente que ahora mismo, es que ni me salen los nombres, que están al pie del cañón. Beverly, que son gente que te deja siempre un comentario y yo se lo agradezco mucho. Que vean los vídeos, que se entretengan y encima te apoyen. Y cuando algo no les parece así, también lo dicen.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=490" target="_blank" class="timestamp">[08:10]</a> y eso también viene bien porque muchas veces nosotros cuando hacemos contenido no nos damos cuenta de algunas cosas podemos llegar a tener ciertas intenciones que en mi caso pues casi siempre son buenas yo creo que todas pero claro si he llegado a algo si he mejorado día a día también ha sido por vosotros así que gracias de verdad y creo que este es el camino a seguir estoy feliz con lo que hago</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=519" target="_blank" class="timestamp">[08:39]</a> Estoy muy contento y sobre todo de este tipo de reconocimientos que a mí</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=524" target="_blank" class="timestamp">[08:44]</a> es lo que verdaderamente me sirve en serio gracias bien y después de este vídeo turra que os acabo de dar vamos con el análisis de la categoría open donde me ha flipado una barbaridad la disparidad de físicos que teníamos y las comparaciones porque a ver aquí nos tenemos que detener en muchísimas cosas yo estoy viendo aquí las piernas de fabián meire</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=551" target="_blank" class="timestamp">[09:11]</a> De frente, en serio, es increíble las pedazos de piernas que tiene. Luego, es que tiene incluso más piernas que Bruno Santos, que ya es decir, y tiene... Bueno, pero si hablamos de piernas, pues ahí está Rubiel. Luego, Nathan Diasa, me ha gustado la condición con la que ha venido. En serio, no estaba... Ya sabéis que, por ejemplo, no es un físico que a mí, por ejemplo, me guste mucho, pero que ahí tiene unos cuantos fallitos que yo creo que le han pasado factura, como por ejemplo el abdomen.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=580" target="_blank" class="timestamp">[09:40]</a> hay el abdomen y luego la diferencia entre una pierna y otra ya es más que aparente también las asimetrías que tienen los gemelos por lo tanto creo que hay cosas que le han pasado factura en este Big Evolution Pro por ejemplo de frente el que tenga el abdomen así plano porque estamos viendo a Fabian que se le nota un poco aunque yo elegiría otra pose también os digo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=605" target="_blank" class="timestamp">[10:05]</a> yo hubiera hecho un vacuum pero entiendo que quieran cambiar un poquito el posing al tema de open por lo demás os digo ya habéis visto la mirada de Nathan Diasa cuando lo mueven a un lado y en el doble bíceps pues lo mismo os puedo decir Nathan ya se le nota porque es alguien que lleva también mucho tiempo en competición y ya el bíceps este izquierdo está un poquito más pequeño y sobre todo la pierna ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=633" target="_blank" class="timestamp">[10:33]</a> El que posee así esta doble bíceps no creo que sea lo más apropiado. Pero bueno, Fabian Mayer en un doble bíceps excelente. Os digo que es que no se queda atrás de ninguno. Para mí está incluso en esta pose por delante de Nathan Diasa y de Bruno Santos también, puedo decirlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=655" target="_blank" class="timestamp">[10:55]</a> Porque Bruno Santos tiene el dorsal muy alto. Lo podéis ver aquí. Luego Rubiel porque no ha terminado la pose. Pero es que la diferencia de masa muscular con Rubiel ya es otra historia. Si nos centramos en lo que es la masa muscular de Rubiel y aquí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=670" target="_blank" class="timestamp">[11:10]</a> Rubén tiene una cosa, bueno, tiene muchas peculiaridades, ¿no? Pero, por ejemplo, esta parte del bíceps tan bajo a mí me sorprende mucho. Y es como si le quedara todavía un poquito de margen para seguir apretando más. Sí, ahí yo creo que ya es cuando ha llegado su 100%. Pero, ¿qué bajo tiene este bíceps? Es uno de los bíceps más raros que he visto. Pero bueno, es que el gemelo de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=698" target="_blank" class="timestamp">[11:38]</a> Rubiel, tío, es que es una locura, una locura. Y por masa muscular, pues bueno, brutal. Aquí estoy entre Rubiel y Fabian. Fabian, por supuesto, por lo completo que es, porque es un físico súper completo. Rubiel, la masa muscular y como culturismo, como culturismo de masa bestia y el grueso de lo que es el asunto de culturismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=722" target="_blank" class="timestamp">[12:02]</a> Obviamente se la daría Rubiel. Lo que pasa es que es tan buena estéticamente y tan completa de Fabián que se la podría dar perfectamente, ya os lo digo. Luego estaría Bruno y por último Nathan Diasa. Bruno aquí, por ejemplo, tiene buena pose, no tiene mala pose. Pero ese dorsal alto le perjudica. Yo creo que aquí podemos ver la carencia y el punto débil de Fabián, que es el dorsal. El dorsal yo creo, y os lo digo ya...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=752" target="_blank" class="timestamp">[12:32]</a> Algo que vaticino que esto va a ser lo que determine su posición en el Mister Olimpia. Porque creo, yo al menos os lo digo, veo a Fabian Meir dentro de un top 5. Y no es coña, dentro de un top 5. Pero cuando llegue la hora del dorsal y la espalda, ahí puede cambiar un poquito la cosa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=771" target="_blank" class="timestamp">[12:51]</a> Ya os comentaré, en esta expansión dorsal no hay duda que Rubiel es un animal. Es una bestia. Es que lo estáis viendo. Es que no hay competencia. Es irrisorio la cantidad de músculo que tiene. Y luego también Bruno Santos, pedazo de gemelo. Señores, pedazo de gemelo. Aquí, por ejemplo, el que sale perdiendo es Nathan y también con un dorsal muy alto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=794" target="_blank" class="timestamp">[13:14]</a> Pero yo sigo viendo un poquito mejor en cuestión de forma a Bruno y en cuestión de profundidad de algunos sitios a Nathan Diasa. Entonces están como empatados en esta pose. Y luego Fabian y Rubiel pues a su bola. Así os lo digo. Fabian se le nota un poquito de menos densidad dorsal, pero es que el resto de la pierna mejor que Bruno, mejor que Nathan. En el pectoral lo mismo, más rajado, más separado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=823" target="_blank" class="timestamp">[13:43]</a> No tanto como nazan en el hombro y el brazo, pero vamos, en el pack completo yo aquí le podría poner en segundo lugar tranquilamente. Así os lo digo, pero tranquilamente. Si seguimos con el tema del análisis... Bueno, es que estoy viendo a Rubiel, tío, y es que es exagerado. Luego os digo, otra peculiaridad de Rubiel, y que esto lo sacaré en Instagram, y es el pectoral. El pectoral en esta pose le hace una forma...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=849" target="_blank" class="timestamp">[14:09]</a> complicada y espero que no siga porque aquí tiene un pequeño vacío en el pectoral aquí y aquí y es algo que puede afear un poco si vemos la diferencia entre partes de arriba si Fabian carece de esa densidad característica de la categoría</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=868" target="_blank" class="timestamp">[14:28]</a> Y aparte también no le dio tiempo a cargar lo suficiente. Por lo tanto, bueno, pues queda un poquito menos de lo que es densidad. Pero como paz completo, vuelvo a repetir, yo le daría la segunda pose por detrás de Rubiel, sin ninguna duda. Si nos vamos a caja torácica, una de las mejores poses de Rubiel.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=888" target="_blank" class="timestamp">[14:48]</a> Antes de que lo veáis, esto es exagerado, señores. Esto es exagerado. Esto es brutal, brutal, brutal, brutal, brutal. Es que no puedo decir. Muy buena pose de Nathan Diasa. Y aquí el que veo por detrás es a Bruno Santos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=903" target="_blank" class="timestamp">[15:03]</a> Si veo por detrás a Fabian Mayer, por ejemplo, yo le veo muy bien, incluso aquí por la perspectiva, pero un pecho más levantado, un brazo también muy cinceado, un glúteo y una pierna que aunque no tenga esta profundidad, pero tiene esta estética. Entonces, bueno, yo aquí al último que pondría sería Bruno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=924" target="_blank" class="timestamp">[15:24]</a> Y eso que me cae de puta madre, tío. Me da cosa porque es que me cae bien el tío. Es que ha sido un encanto conmigo, os lo digo. Un auténtico encanto. Pero una cosa es lo personal y otra cosa también es cuando están encima del escenario. Y aquí, por ejemplo, Rubiel y Nathan están un pelín por encima. Aunque te digo que muy cerca de Nathan...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=945" target="_blank" class="timestamp">[15:45]</a> Fabián, muy, muy cerca. Me gusta mucho porque a pesar de que tenga un físico diferente, yo aquí estoy viendo unas estriaciones, tiene menos redondez, menos profundidad en algunas cosas. Por ejemplo, en el hombro ahí veis el mazacote, pero tiene también más separación. Son físicos diferentes. Dependiendo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=964" target="_blank" class="timestamp">[16:04]</a> Un poquito del criterio de los jueces se puede puntuar de una cosa y otra y luego lo que le ha jugado una mala pasada pues es esto que no es que sea tampoco un exceso de dilatación sino una falta de control abdominal por parte de Bruno y eso es lo que le lleva aquí en esta pose a la última posición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=983" target="_blank" class="timestamp">[16:23]</a> es más él se arquea mucho en la espalda y eso le pasa factura yo lo digo si nos vamos a la espalda pues en la espalda aquí vienen pues sí sí algunos puntos por ahí débiles y os voy a comentar lo primero</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=998" target="_blank" class="timestamp">[16:38]</a> Bastante mejora ha tenido Fabian en la espalda y yo la veo bien. ¿Qué es lo que yo cambiaría bajo lo que es mi opinión? Pues demasiada hiperlordosis lumbar y no deja ver los lumbares que tiene. Es más, creo que de esta manera posándolo desconecta lo que son sus isquiotibiales y no deja enseñarlos bien porque tiene buenos isquios. Sé que tiene buenos isquios y aquí es algo que él ha perdido un poco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1026" target="_blank" class="timestamp">[17:06]</a> bruno santos aquí no lo ha posado bien os lo digo porque en los anteriores vídeos os he dicho bueno habéis visto que la pose de la diferente manera tiene mejores cortes y se le ve mucho el trapecio por lo tanto bruno aquí yo le veo por detrás incluso de fabian tal y como lo está posando</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1047" target="_blank" class="timestamp">[17:27]</a> Porque de piernas de gemelo está muy a la par con Fabian. Aquí la forma de Fabian quizás es más agraciada. El glúteo es mejor y luego al inclinarse tanto hacia atrás ha perdido corte en lo que es la zona del trapecio medio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1064" target="_blank" class="timestamp">[17:44]</a> Entonces no se le ve tanta separación, se le ve más densidad que a Fabian, pero un poquito menos. Y aquí, por ejemplo, Nathan, a pesar de que tiene algunas cosillas, como hemos señalado, aquí podéis ver la simetría del brazo izquierdo y del brazo derecho, pero tiene una espalda...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1080" target="_blank" class="timestamp">[18:00]</a> a mi entender superior a pesar de algunas cosillas también estos bultos de los erectores pero tienen más profundidad más masa que Bruno y que Fabian Meir por lo tanto yo aquí sí le pondría segundo a Nathalie Asha en la de doble dices de espalda os lo digo luego estaría como en un empate</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1103" target="_blank" class="timestamp">[18:23]</a> Aunque tiraría más por Fabian, por la estética y por lo completo que es y que me nubla un poco el saber que Bruno Santos tiene otro tipo de espalda conforme a la pose. Rubiel, para mí, el ganador, pero por razones obvias, porque es que esto es una animalada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1119" target="_blank" class="timestamp">[18:39]</a> Esto es una animalada, sencillamente. ¿Qué problema estoy viendo yo aquí en Rubiel? Pues que hay un desnivel. Un desnivel que provoca que no se vea la pose correctamente. Por lo tanto, creo que esta pose le tiene que dar una vuelta porque no queda del todo fina.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1139" target="_blank" class="timestamp">[18:59]</a> Sí que va a enseñar los isquios, señala más los isquios y el glúteo, tiene más separación, pero no me convence la pose final porque se ve muy asimétrica en cuestión de estructura y también de muscularidad. A pesar que hay una gran diferencia de músculo respecto a los demás. Por eso Rubiel aquí es claro vencedor, a pesar que, como os digo, de esas cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1164" target="_blank" class="timestamp">[19:24]</a> Incluso Nathan Diasa en sus buenos tiempos yo creo que le podía dar incluso más guerra. Aquí en la expansión dorsal, yo por ejemplo aquí en la expansión dorsal he tenido mis dudas. Y sobre todo, vamos a ver, Rubiel puede quedar primero. Sí, porque es el que más músculo tiene aquí. Y también, bueno, lo de... ¿Qué os voy a decir? Nathan Diasa yo lo veo mejor tanto que a Bruno como a Fabian.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1192" target="_blank" class="timestamp">[19:52]</a> Le veo mejor a Nazan Diyasha en esta pose. Y vuelvo a repetir, es que me cae de puta madre Bruno, me fastidia. Pero el último que veo en esta pose es a Bruno. Porque incluso Fabian, que tiene menos densidad, aquí me está enseñando más cortes. Estáis viendo esta parte y quiero que os fijéis la zona del trapecio, cómo se le corta. Incluso los redondos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1218" target="_blank" class="timestamp">[20:18]</a> Y aquí el hombro se le ve estupendamente por detrás. Aparte, bueno, un poco del abductor y que desconecta un poco lo que son los ischios. Que tenga mucho cuidado con eso. Que sí, también es bastante importante. Si continuamos con el tema... Joder, macho. Fijaos la diferencia. Es que es pasmosa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1237" target="_blank" class="timestamp">[20:37]</a> La diferencia que hay en trapecio de rubiel y la densidad muscular. Y ya no hablo de las piernas, porque si hablo de las piernas ya lo flipamos. Pero es que es una diferencia muy grande referente a los otros competidores. Y es exagerado. En la de tríceps. Esta me va a gustar verla porque yo pensaba que Fabian la iba a posar peor. Y aquí sí hay una disparidad de opiniones. Os voy a comentar. Lo primero.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1263" target="_blank" class="timestamp">[21:03]</a> Para mí una de las mejores poses de la historia de tríceps. Así os lo digo. Increíble, increíble cómo se le ve a Rubiel. Es una auténtica bestialidad. Os lo digo. Una salvajada. Nathan Diasa, bien. Se le ve bien. ¿Qué pasa? Que el abdomen ahí lo está un poquito descontrolando. Al igual que Bruno Santos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1287" target="_blank" class="timestamp">[21:27]</a> Y si yo sigo los criterios de la NPC, siguiendo los criterios, no el mío, sino el de la NPC, aquí tendrían penalizaciones tanto uno como otro por no controlar la parte del abdomen. ¿Y quién se llevaría la peor parte aquí?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1303" target="_blank" class="timestamp">[21:43]</a> Pues Bruno al final la ha controlado un poquito, pero estáis viendo esa pequeña dilatación que no está controlando. Y eso sí pasa factura. Yo por lo tanto, si voy un poquito atrás y quiero quedarlo claro, aquí esta pose desde luego es para Rubiel, pero es que la segunda...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1324" target="_blank" class="timestamp">[22:04]</a> yo aquí se la podría dar perfectamente a fabian a pesar de que tengan menos brazo que los otros porque más control abdominal el pectoral se le ve bien el hombro mucho más limpio el tríceps más rajado más profundidad sólo me falta aquí apretar el glúteo yo está estoy entre en el segundo lugar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1345" target="_blank" class="timestamp">[22:25]</a> Bien Nathan, bien Fabian. Fabian lo que pasa es que la perspectiva no es muy buena y la pose en Classic no la hace. Por lo tanto, sé la dificultad que tiene. Y aquí pues a Nathan, a pesar de que tampoco es una pose 100% terminada, se le ve compacto, se le ve culturista. Por lo tanto, el segundo lugar se lo podría dar a Nathan o bien a Fabian.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1370" target="_blank" class="timestamp">[22:50]</a> indistintamente. Y Bruno tiene mejor tríceps, tiene un hombro también con buena separación, de perfil tiene más isquio que Nathan y el gran problema es el abdomen y el pectoral ahí, que no estaba... Pues vamos, esta pose de abdominales y piernas, ahí ya os digo que bueno... ¡Hostia!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1395" target="_blank" class="timestamp">[23:15]</a> Madre mía, tío, madre mía. Qué locura Fabian, macho. El puntazo, el puntazo que llevaba Fabian Meir. Pero bueno, a ver, pues vuelvo a insistir que me cae muy bien Bruno, pero es que le veo el último a pesar de que Nathan, pues bueno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1412" target="_blank" class="timestamp">[23:32]</a> tiene esos oblicuos que le quedan un poquito mal Rubiel pues podría ser primero o incluso segundo porque a mí Fabián bueno pues aunque tenga menos tamaño es más completa la pose y aparte pues esta hernia umbilical de Rubiel que me han dicho me ha confirmado creo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1432" target="_blank" class="timestamp">[23:52]</a> su manager que el año que viene ya se opera así que va y me parece bien que lo haga porque aparte de ser peligroso le corta un poquito lo que es la estética pero Fabian bueno Fabian ha sido una locura verlo aquí cuando veis que aprieta el abdomen este Fabian Mayer es otra historia veis esto esta condición no la trae ninguno ninguno</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1459" target="_blank" class="timestamp">[24:19]</a> estas piernas en las piernas compite y supera tanto a Nathan como a Bruno y en el abdomen igual o sea en el abdomen bueno quizás pueda tener un poquito más de profundidad Nathan pero le penalizan los oblicuos y luego Rubiel tiene más abdomen o sea más profundidad le falta la estética tiene más piernas Rubiel</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1483" target="_blank" class="timestamp">[24:43]</a> Por lo tanto, se la podría dar o bien a Rubiel o bien a Fabian Mair. Yo os lo digo por las siguientes razones. ¡Qué fuerte, macho! ¡Qué fuerte! Un mal muscular. El mal muscular de Fabian que me ha gustado y aquí no lo estamos viendo del todo bien. Pero sí que es cierto que queda un poquito por detrás. Y vuelvo a decir, probablemente os digo, ¿veis esta condición? Y esta condición con un tamaño bastante decente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1509" target="_blank" class="timestamp">[25:09]</a> Puede competir tanto con Bruno como con Nazan Diasa. Y luego aquí Rubiel es otra historia. Con él no puede competir, está claro. Pero sí que a lo mejor le pondría por detrás de Nazan Diasa porque este tiene mucha densidad, se le ve más culturista. Pero la condición de Fabian Meir, como estáis viendo, es que es asombrosa e impresiona. Y aquí Bruno ha aguantado muy poco las poses y no las ha hecho del todo bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1537" target="_blank" class="timestamp">[25:37]</a> Yo, como os digo, es más, veía más segundo a Fabian y Nathan que a Bruno. A pesar de que me cae estupendamente, lo vuelvo a decir, que os diga que es muy salado el tío. Y también os digo, Fabian Meir, cuando yo estuve en el backstage, él y su mujer, bueno, brutales, encantadores, todo el rato, thank you, thank you. Y me dijeron, oye, ¿vas a estar en el Mister Olimpia? Yo, ojalá, ojalá. Me gustaría verte por ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1565" target="_blank" class="timestamp">[26:05]</a> qué pedazo de fin de semana pasé en serio y esto es lo que puedo decir y bueno mi gente habéis tenido un videoturra total pero bueno que pasé un fin de semana estupendo os lo digo son cantidad de emociones que quería compartir con vosotros</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1583" target="_blank" class="timestamp">[26:23]</a> Que de verdad, una auténtica pasada este campeonato. Espero repetir el año que viene y seguir haciendo vídeos como siempre. Gracias por estar ahí y nos vemos en el siguiente vídeo. Y si necesitas algo de suplementación deportiva, vete a másmusculo.com, pon mi código ELNOTA, que te hará un descuento. A mí me darán una comisión y me ayudarás, tío, a ganarme la vida. Nota, hola. No tengo tropecientos mil seguidores. No tengo un físico de escándalo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=BJdgIF6cS4E&t=1606" target="_blank" class="timestamp">[26:46]</a> No soy un tipo adinerado. No vivo en Estados Unidos. Tampoco soy un Adonis. Solo soy el nota. Y sé muy bien de lo que hablo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 10/07/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
