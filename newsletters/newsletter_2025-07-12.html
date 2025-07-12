@@ -1,0 +1,499 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 12/07/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">12/07/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John_MH</strong>: <a href='#video-RvrKUnsC-B4'>PRADELLS “YO ME MORÍA, EN PLAAAN” #podcast #culturismo #fitness</a></li>
+<li><strong>John_MH</strong>: <a href='#video-ZySkfUaNbEw'>SROKA, EL MONGONER DEL FITNESS ATACA DE NUEVO.</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-RvrKUnsC-B4">
+            <h2>PRADELLS “YO ME MORÍA, EN PLAAAN” #podcast #culturismo #fitness</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John_MH</span>
+                <span class="date">Publicado: 12/07/2025 07:13</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=RvrKUnsC-B4" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=RvrKUnsC-B4" target="_blank">
+                    <img src="https://i.ytimg.com/vi/RvrKUnsC-B4/hqdefault.jpg" alt="PRADELLS “YO ME MORÍA, EN PLAAAN” #podcast #culturismo #fitness" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video narra la situación de un competidor que lucha contra una parálisis física antes de una prueba importante. A pesar de no poder posar y caerse, recibe una motivación intensa (y frustrante) de sus allegados. El orador contrasta su gran sufrimiento físico con una actitud sorprendentemente positiva y la capacidad de reírse de la situación. Al final, acepta que, aunque se siente muy mal, debe aguantar el dolor para competir.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La "Insensatez" de Competir con Parálisis <a href="https://www.youtube.com/watch?v=RvrKUnsC-B4&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El video comienza describiendo la situación como una "maravilla de la insensatez", donde el competidor tiene dificultad física para posar. Se presenta la frustración de Marta ante la inminencia de la competición y la incapacidad del otro.</p>
+
+<h3>Intentos Fallidos y Motivación Peculiar <a href="https://www.youtube.com/watch?v=RvrKUnsC-B4&amp;t=15" target="_blank">[00:15]</a></h3>
+
+<p>Se narra específicamente cómo el competidor se cae al intentar posar debido a su estado de parálisis. Se describe la motivación ruidosa y persistente de Marta y Mr. Barnes para que se levante y pose.</p>
+
+<h3>El Peso del Apoyo Exigente <a href="https://www.youtube.com/watch?v=RvrKUnsC-B4&amp;t=27" target="_blank">[00:27]</a></h3>
+
+<p>El orador exclama su imposibilidad de moverse y reflexiona con humor negro sobre el tipo de apoyo que recibe. Sugiere que con amigos y pareja tan exigentes, no necesita enemigos.</p>
+
+<h3>La Actitud Positiva Ante la Mierda <a href="https://www.youtube.com/watch?v=RvrKUnsC-B4&amp;t=38" target="_blank">[00:38]</a></h3>
+
+<p>A pesar de sentirse físicamente muy mal ("un poco mierda"), el orador destaca su capacidad para reírse. Se describe a sí mismo como una persona positiva y "happy", manteniendo un buen ánimo.</p>
+
+<h3>La Obligación de Aguantar el Dolor <a href="https://www.youtube.com/watch?v=RvrKUnsC-B4&amp;t=56" target="_blank">[00:56]</a></h3>
+
+<p>El video cierra con la admisión del intenso sufrimiento físico ("me estoy muriendo"). Sin embargo, concluye con la determinación de tener que aguantar y soportar el dolor para poder cumplir con la competición.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RvrKUnsC-B4&t=0" target="_blank" class="timestamp">[00:00]</a> Es que esto es una maravilla, tío. Una maravilla de la insensatez. Marta es súper enfadada también conmigo. En plan, loco, que compites mañana, que tienes que posar. Y Marta, Marta, Marta, que me caigo. En plan, ¿sabes? Me ponía a posar para pasar una revisión para lo que sea y me caía. Es que esto es brutal, tío. El tío tenía parálisis. No podía posar. Y la Marta. ¡Vamos, Juan! ¡Vamos! Con su joroba. Y el señor Barnes con coleta. ¡Vamos, Juan! ¡Vamos! ¡Que tienes que competir mañana! Y el tío. ¡Marta!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RvrKUnsC-B4&t=27" target="_blank" class="timestamp">[00:27]</a> ¡Que no me puedo mover, Marta! ¡Vamos a ver, tío! ¡Que tengo que mover, Marta! Y el tío muriéndose otra vez. Y la Marta... Es que la Marta, vamos... Con amigos y mujer así, no te hace falta enemigos ni haters, ¿eh? Y... Tiene que apoyarme, cogía las cosas. ¡Guau! Sí, es un poco mierda. Y el tío se ríe, es feliz. ¡Oh, es contento! Es un tío positivo el Paradiso, hay que decirlo, ¿eh? Es... Happy... Con un chill, un mood. Comienza ahora...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RvrKUnsC-B4&t=56" target="_blank" class="timestamp">[00:56]</a> Maravilloso. Me estoy muriendo, pero... O sea, me tengo que aguantar.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-ZySkfUaNbEw">
+            <h2>SROKA, EL MONGONER DEL FITNESS ATACA DE NUEVO.</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John_MH</span>
+                <span class="date">Publicado: 12/07/2025 13:09</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=ZySkfUaNbEw" target="_blank">
+                    <img src="https://i.ytimg.com/vi/ZySkfUaNbEw/hqdefault.jpg" alt="SROKA, EL MONGONER DEL FITNESS ATACA DE NUEVO." loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video es una crítica mordaz y personal hacia una figura pública del fitness llamada "Roca".
+El hablante defiende al culturista Jorge Tabet, destacando su esfuerzo y disciplina a pesar de quedar en un puesto bajo en una competición.
+Contrasta la dedicación de Tabet con el fracaso y la falta de ética de Roca, acusándolo de ser tóxico y superficial.
+Se debate la importancia del resultado vs. la mejora personal y el proceso en el culturismo.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Crítica Inicial al Resultado <a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&amp;t=22" target="_blank">[00:22]</a></h3>
+
+<p>El hablante reacciona a la 11ª posición de Jorge Tabet en una competición, criticando que "no vale para nada" deportivamente a pesar de estar contento, comparándolo con el fracaso del propio Roca en el ámbito amateur.</p>
+
+<h3>Introducción a "Roca", El Crítico <a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&amp;t=51" target="_blank">[00:51]</a></h3>
+
+<p>Se presenta a "Roca" como un "mongolo del fitness", acromegálico, con mala alimentación (donetes, Monster), que se atreve a criticar a Tabet, generando comentarios negativos por su enfoque rastrero.</p>
+
+<h3>La Falta de Disciplina y el Uso de Química <a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&amp;t=362" target="_blank">[06:02]</a></h3>
+
+<p>El hablante critica a Roca por su falta de disciplina incluso para hacer dieta y por contratar a un asesor para un gran ciclo de química, del que no aguantó, contrastando esto con la verdadera esencia del culturismo basada en esfuerzo y compromiso.</p>
+
+<h3>Tabet Queda 11º: Éxito o Fracaso? <a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&amp;t=576" target="_blank">[09:36]</a></h3>
+
+<p>Se confirma que Jorge Tabet quedó en la 11ª posición en el Portugal Pro 2025. El hablante reconoce su mejora física, pero insiste, desde la perspectiva crítica de Roca, que el puesto 11 es una "mierda", aunque otros valoren la progresión.</p>
+
+<h3>Roca como Arquetipo del Fracaso <a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&amp;t=870" target="_blank">[14:30]</a></h3>
+
+<p>El hablante etiqueta a Roca como "la receta del fracaso" y el arquetipo de lo que un culturista principiante <em>no</em> debe hacer o pensar. Sugiere que la gente debe verlo para saber qué evitar, convirtiéndose en un ejemplo negativo útil.</p>
+
+<h3>Genética sin Disciplina vs. Esfuerzo con Limitaciones <a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&amp;t=1508" target="_blank">[25:08]</a></h3>
+
+<p>Se compara la buena genética de Roca, que desaprovecha por falta de disciplina (incluso para ganar dinero que tanto valora), con la genética más normal de Tabet, quien logra mejoras significativas gracias a su esfuerzo, compromiso y seriedad.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=0" target="_blank" class="timestamp">[00:00]</a> No sé, tío. Me parece una mierda el resultado. Si es que había 20, ¿qué quieres que te diga, tío? Chaval, que es profesional, FBB. Este tío es profesional, está en la Liga Profesional. Es normal. Tú no eres nada. Fracasaste en la Liga Amater. ¿Qué me estás contando, tío? Eres disfuncional. No entiendes el culturismo. No entiendes, encima te ríes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=22" target="_blank" class="timestamp">[00:22]</a> Al final, en la práctica, ¿de qué le ha valido? Vale, está contento. Ok. A nivel de culturismo, culturísticamente hablando, no vale para nada. Porque ha quedado 11. Pero claro, tienes un tías en tu casa… ¿Para qué compites? Es un fracasao. ¿Ha ganado? No. ¿Eh? ¿Para qué compites? ¿Para perder? ¿Para perder? Si no ganas… ¿Para perder? He quedado 11. ¡11! ¡Eh! ¡Eh! Es que… Salvando la diferencia de que Tabet se ha competido y yo no. Pequeña diferencia, ¿no? ¿Y el Fede Guevara? Sí, Fede, bro. ¿Cuántas de cada segundo? No sé, 500.000. Bueno… ¿Y…?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=51" target="_blank" class="timestamp">[00:51]</a> ¿Qué tal, gente? Voy a ver el mongolo este del fitness, el acromegálico este que come donetes, quicha tarradillas de bacon y lo baja todo con Monster. Se alimenta con eso. Y este es culturista, ¿sabes? Flipa, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=65" target="_blank" class="timestamp">[01:05]</a> Jorge Tabet encuentra su guagua, ¿no? Vamos a ver este vídeo que no sé de qué va. Me han dicho que coge a Tabet y le ataca de manera bastante rastrera. Y los comentarios, pues... Los comentarios son un poco negativos, ¿no? A Roca le ha sido mal la jugada, me parece. Por algo nadie te toma en serio y solo eres un meme más, exactamente. Con estos comentarios se nota que no has competido en tu vida ni en ningún deporte. ¿Cómo se puede tener en cuenta la opinión de un tío que sale con una jeringa en la oreja?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=94" target="_blank" class="timestamp">[01:34]</a> Tabeta hace culturismo por pasión. Tú hiciste el intento de culturismo por dinero. Toma ya. Muy buena esta, ¿eh? ¿Prefieres no competir que quedar once? Mejor no intentarlo que intentarlo. Se haga mal, que es la mentalidad del pequeño Jimmy de Roca. Roca, por favor, intenta salir a tarima para callar bocas otra vez. Déjalo con sus tonetes, sus pizzas y el monster, tío. ¿Cómo va a ser culturista un tío que ha alimentado toda su vida de basura?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=122" target="_blank" class="timestamp">[02:02]</a> De comida rápida y procesada. No, es que se muere el tío este. Es adicto a comer basura. Cualquier persona un poco normal, un poco sana. Si tiene que comer lo que come este tío cae como normal y vomita, hombre. Bueno, vamos a ver que hizo un mongolo este de roca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=139" target="_blank" class="timestamp">[02:19]</a> Señores, no os lo vais a creer. Jorge Tabet ha encontrado su agua. Y vamos a ver cómo lo ha recuperado en este vídeo y cómo lo ha ido en su última competisao, que fue en el Portugal Pro. Ya sabéis. Portugal Pro 2025. Aquí os traigo ambas categorías. Ya han sido las finales. ¿Qué ha pasado con Fabián? ¿Qué ha pasado con Jorge?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=162" target="_blank" class="timestamp">[02:42]</a> Bueno, quien no sepa, este es un vídeo de Ares YouTube. Lo buscáis, que es un buen canal para el tema de análisis de culturista. A mí no me mola el desprecio que le tiene a Tabet. Tú lo puedes despreciar como persona por sus ideas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=179" target="_blank" class="timestamp">[02:59]</a> Por si es arrogante, yo qué sé, por lo que sea. Pero... ¿Reírte sus piernas? ¿Cuándo es un tío que has entrenado como un desesperado? Es asqueroso, no sé. Es como Fede Guevara, ¿no? A la gente le falta pierna. Todo esto entra pierna a Fede Guevara. Pero como una auténtica bestia. Es un tío genético y ya está. Respeto, tío. ¿Vas a reírte un tío porque es bajito o porque es alto? No, ¿verdad?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=201" target="_blank" class="timestamp">[03:21]</a> Hombre, se puede hacer mofa, pues que un tío tenga la cabeza que parece un melón, bromas que son por un poco de hacer broma. Pero no digo hacer bromas, me refiero al desprecio, despreciar a un culturista, negarle categoría de culturista, pues porque no tiene la masa muscular adecuada cuando se ve claramente que es un tema genético.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=223" target="_blank" class="timestamp">[03:43]</a> otra cosa que sea como el tríceps de Paradeis que ahora tiene un buen tríceps y antes era una vergüenza de tríceps un open, mira porque no entrenaba ahora tiene un tríceps que da gusto verlo es la diferencia, porque a la gente le gusta mucho hacer simbiosis similes comparaciones simplificando mucho y al final pues estás manipulando</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=244" target="_blank" class="timestamp">[04:04]</a> En mi opinión, tú te puedes reír del pedazo cabezón de roca, lo tonto que es, pero si tienes gemelo corto, tú no te puedes reír o decir, perdón, no te puedes despreciar como cultista a un tipo que no tiene gemelo. Mira, este con este gemelo, ¿dónde va? Este faisan, este papagayo, no sé qué. Oye, tío, si tienes corto gemelo, ¿qué quieres? Pero el cultismo no es eso, el cultismo es el compromiso y el esfuerzo y la disciplina, que no tiene nada que ver con la genética que uno tenga. Si no, todos seríamos como el rubí, el mosquera ese, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=274" target="_blank" class="timestamp">[04:34]</a> ¿Qué ha pasado con Nexila? ¿Con Nathan? ¿Con Jorge Tabet? En el vídeo de hoy lo vamos a ver. Empecemos por la categoría Classic. El ganador ha sido Caballo Marcelo. El brasileño ha ganado contra Eduardo Duarte. Internet también, ¿no? En las redes sociales, tío. A la gente le jode más. Las cosas que le pasan a la gente a la que siguen...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=296" target="_blank" class="timestamp">[04:56]</a> que a los que siguen en sí sabéis lo que os digo por ejemplo hubo movida con Jorge Tabet y conmigo por la foto esta que subí yo ¿no? de esa comparativa que hice que simplemente lo hice por los loles porque sabía que pues iba a dar que hablar mentiroso farsante lo hiciste por el ego que tienes y la ilusión que te hace compararte con otro</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=316" target="_blank" class="timestamp">[05:16]</a> Iba en el cante, que la gente iba a comentar y tal, ya sabéis, ¿no? Y ya está. Pero la gente, al ver mi foto esa, ¿no? Como que empieza a indignarse y a enfadarse y lo vive y... ¡Wow, Jim Rock, eres basura! ¡Cómo te atreves! ¡Cómo osas a compararte! ¡Wow! Hasta Dufort vino corriendo a la publicación ahí... ¡Wow, no, Jim Rock, a ti te falta algo más que el físico que tú no tienes! ¡Oh!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=344" target="_blank" class="timestamp">[05:44]</a> Que sí, mongolo, deja de ser payaso. Que tú te puedes comprar por genética, pero que no tienes disciplina. No tienes lo que hay que tener para ser culturista. Así que deja de despreciar a un culturista porque no tenga fe moral por genética, por mucho que lo entrene. Porque aunque tenga un defecto genético, a nivel culturista por supuesto...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=362" target="_blank" class="timestamp">[06:02]</a> te da 10.000 patas en todo lo demás. Porque tú no eres capaz ni de hacer dieta, así que déjate de chorradas. Y encima eres tan tonto que contratas al gangoso de Murcia, el asqueroso ese del gangoso, ya sabéis, el de Academia Tren, el pirata ese, el infiltrado del fitness ese, el listillo, porque eres tan tonto que es el mejor químico de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=387" target="_blank" class="timestamp">[06:27]</a> perdón, el mayor experto en química de España, ¿no? Y dices, sí, claro, en tus fantasías. Y te metió una carga de química, de tres, de hormona de crecimiento, creo que menos insulina, te metiste de todo y en grandes cantidades bastante buenas. Es que el culturismo es así. No, perdona, no, déjate. Y claro, no aguantaste. Podía ser hecho a cosas... Tío, es que ¿para qué contratas al tío ese? Para eso, ves tú solo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=416" target="_blank" class="timestamp">[06:56]</a> Necesitas pagar a un gangoso que no se entiende cuando habla, que es un pirata, que solo se mueve por dinero, que no tiene ni una ética personal, pero ni por asomo, excepto el dinero. Dicho por él mismo, las entrevistas. Para que te pase una pauta de química que es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=435" target="_blank" class="timestamp">[07:15]</a> Que no es aconsejable. Ni para competir. Si tú eres un cultista experimentado, pues bueno, ves cargando más si quieres. Pero tú, que eres un tío que tiene que demostrarse a sí mismo hasta la fuerza aumentada para ir a cagar, pues no te metas. Hay un gramo 300 o algo así. No sé cuánto de hormona de crecimiento. No sé cuánto de hormona de tiroidea. Cálmate, chaval. Ves poco a poco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=460" target="_blank" class="timestamp">[07:40]</a> De esa manera progresiva, ¿no? Venga, a comerse el mundo que tengo que demostrar que voy a ser profesional y fe de pro a la primera, a primer campeonato. ¿Qué pasó? Pues nada. Vos no llegaste. Para eso no paga nadie. Ves tú, por tu cuenta, vas aprendiendo, tío. ¿Para qué contratas un asesor que hicimos el peor de todos? Es que es increíble, tío. De verdad que más tonto que una piedra.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=482" target="_blank" class="timestamp">[08:02]</a> y cosas de esas, ¿no? Es como que les empieza ahí a brotar, ahí... Desde dentro, no sé, la bilis o lo que cojones sea que les pase en la cabeza a la gente y empieza a transformar por turismo como tal y ese tipo de cosas. Lo experimenté, no me gustó tomar por culo, pero me gusta joder la marrana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=504" target="_blank" class="timestamp">[08:24]</a> Igual de tonto que el Mejías, tío. Le gusta ir de listillo, ¿eh? Me gusta... No, que te comparaste es porque te gusta... Te crees que es una gran cosa y eres una mierda. Y todo el mundo te dijo, tú... Acuérdate que eres el tonto y el mierda del fin. Así que baja el ego, respeta al tío este. Hay una jerarquía, ¿vale? No te quieres poner encima de nadie. Ahora no lo disimules, tío. Que la gente te ha puesto en tu sitio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=527" target="_blank" class="timestamp">[08:47]</a> Ay, de verdad. Quiero que alguien me explique cómo es posita... Con entrenar menos y meterte menos química, ya está. He metido uno, ya está. Y ha entrenado menos, ya está. Y ahora os preguntaréis cómo ha quedado Jorge Tabet en esta línea de Classic de este nivel. Pues ha quedado fuera del top 10, ha quedado en una... A ver, este ángulo y este objetivo no le favorecen, no sé si es con el móvil o qué, pero se le ve las piernas como efecto pez y se le ve más pequeñas de lo normal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=555" target="_blank" class="timestamp">[09:15]</a> Posición 11, según he podido encontrar por ahí. Efectivamente, Jorge Tabet, a pesar de encontrar... Atención, que habla el sabio del fitness, la eminencia. Roca, estamos deseando escuchar la imbécilidad que puede producir tu mente de imbécil, sí. ...su agua...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=576" target="_blank" class="timestamp">[09:36]</a> Quedó decimoprimero, gente. Es lo que hay. Y a ver, yo voy a ser totalmente sincero con este tema. Es verdad que Jorge Tabet ha mejorado mucho del año pasado a este. Menos mal. El tío está contento con el resultado que ha tenido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=592" target="_blank" class="timestamp">[09:52]</a> Tío, en un año, ¿qué quieres? El basto externo del cuadriceps es una curva que flipas. Conserva la estética. Bueno, falla de gemelo y de efemoral, pero bueno, oye, que está muy bien. Y como vaya mejorando de manera muy escalonada cada año, hombre, nunca será un monstruo a la masa, pero siempre será un culturista con una estética que puede optar para posiciones, oye, bastante altas. No ser como Roca, que es un fracasado el culturismo. No sé qué pinta está aquí hablando, el que dice.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=621" target="_blank" class="timestamp">[10:21]</a> su preparador, Edufort y otra peña, dicen que el puesto no importa tanto, lo que importa es la mejora, no sé qué, no sé cuánto. Y yo, en mi opinión, pienso que unos cojones. Unos cojones. Me alegro de que el tío se alegre de su mejora, la cual es evidente, pero quedar 11 es una mierda. Fin. Y pensar lo contrario es engañarse. No va para más el tío. Es que realmente no va para más. Es sincero, porque no va para más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=651" target="_blank" class="timestamp">[10:51]</a> Ya está, es como un animal. Comer, cagar, dormir. Y ahora le sacas esa lógica, no entiende, no hay interés.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=662" target="_blank" class="timestamp">[11:02]</a> Yo compité para ganar, ¿vale? Pues ya está. Es que no se trata de eso. Tú compites, pues, por el placer de competir, para ponerte a prueba, para aprender y tomar un camino lento, ¿no? Él sigue aún con lo mismo, tío. Meterte lo máximo de química posible dentro de lo razonable, quiere decir que no te mueras ni que petes por el camino, tomar lo máximo de química...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=685" target="_blank" class="timestamp">[11:25]</a> ir a saco con la dieta, cardio a saco, entreno a saco, que entra como el culo, pero bueno, y todo a saco y competir una vez. Ganar IFPRO la primera, ya sea profesional, y bueno, y a segunda intentar ir a lo limpio, ¿no? Y su mente no va para mal. Y todo que no sea eso, fracaso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=704" target="_blank" class="timestamp">[11:44]</a> Pero tío, ¿qué te pasa en la cabeza? ¿Es para hacer retrasa mental? ¿Que no funciona sin las cosas? Bueno, pues nada. Recoge lo sembrado. Vives de hacer payaso y de recomendar anabólicos y de, bueno, vives de ese resquicio legal que te permite, si eres tan tonto o no tienes cúpulos, beneficiarte de ello. Esa situación alegal, que no es ilegal ni legal, está ahí como ese limbo y tú estás ahí rapiñando</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=733" target="_blank" class="timestamp">[12:13]</a> En algo que la mayoría de gente no quiere hacer por dignidad moral. Estás en el círculo de Dani Valhalla y toda esa basura. Y de... Bueno, el gangoso es asqueroso. Y por eso, pues bueno, estás ahí ganando un cierto dinero. Pero es que... No, ¿vale? Eres... Eres disfuncional. No entiendes el culturismo. Es que no lo entiendes y encima te ríes. Y te estás despreciando un tío que sí entiende el culturismo. Y saca beneficio de ello realmente, ¿no? Como tú. Sin tener que hacer esas guarradas que tú haces.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=763" target="_blank" class="timestamp">[12:43]</a> Es una mierda. Ya está. Punto. Entonces, ¿que tengas satisfacción porque has mejorado tu físico? Pues ok. Pero oye, ¿qué quieres que te diga? Yo, cuando hice la preparación, también tenía satisfacción por mejorar mi físico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=776" target="_blank" class="timestamp">[12:56]</a> ¿Y qué? No sé, o sea, es como, vale, estás contento, tú para ti mismo, vale. Pero luego, ¿qué? Yo no competí, por ejemplo. Entonces, ¿qué? Nada. Y esto es igual, vale, ha competido, pero ha quedado 11. Entonces, ¿qué? Nada. O sea, enhorabona por mejorar, sí, pero has quedado 11. Ya está. Pues yo igual. ¿Conseguí un físico impresionante con la química y estaba en mi prime increíble con 110 kilos ahí de puta madre, todo petado de venas y tal? Sí. ¿Conseguí un físico increíble con la química? Es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=807" target="_blank" class="timestamp">[13:27]</a> No da pa' más el chaval con la química. O sea, la química.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=811" target="_blank" class="timestamp">[13:31]</a> Pero, ¿tú te crees que es la química que te ha dado el físico, tío? Es que es de verdad increíble. Es... Claro, es que este tío lo tienes que exponer, lo tienes que atacar. Porque si hay un niño ahí, un tonto lava, que lo ve y no tiene sentido crítico, o no tiene idea, y tiene que formar una opinión de las cosas a través de este, pues pues, chaval, macho, qué mal va a ir, ¿eh? Claro, tú tienes 15, 18 años y mira, igual te crees el discurso. Ya tienes una edad, cualquiera del mundo del cine se ríe del tonto lava este.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=840" target="_blank" class="timestamp">[14:00]</a> Pero, ¿y qué? Si al 100 no ha competido. Entonces, es un poco lo mismo, ¿no? O sea, salvando la diferencia de que tal vez se ha competido y yo no. Pero, o sea... Pequeña diferencia, ¿no? Y el Fede Guevara es IFB Pro. ¿Y cuántas te queda en segundo? No sé, 500.000. Bueno, ¿y? ¿Pero tú te piensas que todo el mundo compite para ganar? ¿Que todo el mundo va a Olimpia para ganar? ¿Que todo el mundo intenta ser como tú que va a competir amateur para ser profesional en primer año? Nadie es tan tonto, excepto tú, claro. Pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=870" target="_blank" class="timestamp">[14:30]</a> Tú eres la receta del fracaso. Tú eres el arquetipo del fracaso. Cualquier culturista que empiece en competición tiene que verte a ti como lo que no hay que hacer, lo que no hay que decir, lo que no hay que pensar. Eres la hoja perfecta de ruta de lo que no hay que hacer. Y la gente tiene que verte y decir tengo que ser todo lo opuesto a la roca. Esto es lo bueno que tienes. Que la gente te interprete como lo negativo que eres para estar avisado de lo que no tienen que hacer. No sé. Al final, en la práctica, ¿de qué la ha valido?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=901" target="_blank" class="timestamp">[15:01]</a> Vale, está contento. Ok. Supongo que eso es importante, desde luego. Pero, salvo para eso, a nivel de culturismo, culturísticamente hablando, no le vale para nada. No vale para nada. Porque ya queda 11. Otra cosa es que ya, obviamente, siga mejorando y tal. Y, pues,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=915" target="_blank" class="timestamp">[15:15]</a> Gente negativa, aquí te trae tu vida. Un tío así en tu vida es que es absolutamente tóxico. Tú tienes un padre tan tonto como este y que lárguete de tu casa. Aunque tengas 15 años, vete de tu casa. Vete a la casa de tu abuelo o de quien sea. Pero con un tío así de tonto y negativo, tan simplista, te amarga la vida. Tú tienes unos ideales...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=936" target="_blank" class="timestamp">[15:36]</a> de participar en el culturismo, disfrutar de esa experiencia, de ser juzgado, de recoger el resultado de tu esfuerzo, siempre dentro de tu marco genético, lo que te permita, pero sentir que puedes mejorar la siguiente competición, sentir que los jueces te ven y dicen, tío, eres cabezón, pero mejoras, ver el sentido positivo del esfuerzo, recoger el fruto de tu trabajo, que se consigue poco a poco,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=963" target="_blank" class="timestamp">[16:03]</a> Pero claro, tú tienes un tías en tu casa, ¿para qué compites?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=966" target="_blank" class="timestamp">[16:06]</a> Es un fracasado. ¿Ha ganado? No. He quedado... ¿Eh? ¿Y para qué compites? ¿Para perder? ¿Para perder? Si no ganas, ¿para perder? He quedado once. ¡Once! ¡Eh! ¡Eh! O sea, es que es... Hay gente así, hay padres así. A ver si un día algún día te comes mal hablando del padre tóxico. De los que son los que anulan, los que proyectan, los negativos. Y que son gente que, vamos, destruye la vida, ¿sabes? Tener un error en tu casa o en tu vida o en tu ciclo de amigos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=993" target="_blank" class="timestamp">[16:33]</a> Ah, está aquí. Tiene cada YouTube. Él es Roca, ¿no? Es un tío tóxico. Negativo. Y lo bueno, que él es un nudo de defectos. Él es el ejemplo de lo que no tiene que ser. Él es el ejemplo del fracaso. Y menos mal que no compitió. Este va con la idea de quedar para ganar, para ser IF de pro a la primera, el mongolo este. Imagínate que lo dejan sexto. Este pide una depresión de caballo. Le pasa como al Paradise pide un trauma. Qué desgracia, tío, de verdad. Es tonto con una piedra y encima es tóxico, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1023" target="_blank" class="timestamp">[17:03]</a> consiga ya meter más músculo, consiga mejorar los puestos a nivel de resultados. Vale, eso es otra cosa. Pero bueno, yo hablo de lo de ahora. Entonces, por mucho que la gente diga que haya mejorado, que la gente le chupe la polla a Tabet, que su preparador diga que es que ha sido impresionante lo que han conseguido, no. Claro. Tú recomiendas a Tabet que le entrene el Mejías, ¿verdad? Es que de verdad que eres tonto. La gente, si lo entiendes, en el culturismo, por suerte,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1053" target="_blank" class="timestamp">[17:33]</a> Aún se respeta la gente que entrena, se esfuerza y se presenta en tarima con una condición extrema. Eso es lo respetable. ¿Que es pequeño? Bueno, el tío es pequeño, es pequeño. No todo el mundo es gigante. No todo el mundo es como el Kun Trechiorkamp, Marco Rull, Rubio Mosquera o yo qué sé. No todo el mundo es así. Incluso es respetable gente que no consigue la condición de José María de Bist. No todo el mundo tiene esa capacidad de abnegación y compromiso. Bueno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1082" target="_blank" class="timestamp">[18:02]</a> pero lo que es vergonzoso eres tú, tío. Tú eres una vergüenza. Y el Tabet, que a mí es un tío que me reparteaba, me caía como el culo, pero tengo que ver y tengo que decir, joder, ole él. Ole él, porque él hace una cosa que, joder, ya me gustaría a mí hacerla. Ya me gustaría a mí tener su fuerza o voluntad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1099" target="_blank" class="timestamp">[18:19]</a> Y tú, que no la tienes que... Bueno, tú estás más abajo que yo, eso seguro, pero que tengas esa similitud más o menos, no es reconocer el mérito, tío. No tienes vergüenza ninguna. Eres realmente basura, tío. En este sentido, no tengo cosas buenas, pero en esto no. Hay un tío que te pasa la mano por la cara en todos los sentidos como culturista y lo deprecias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1120" target="_blank" class="timestamp">[18:40]</a> No mereces ningún respeto a nivel de como personaje del fitness. Ha mejorado. Sí. Hay que estar alegre por ello. Sí, ¿por qué no? Tampoco se va... No va a estar triste, ¿no? He sido condescente, ¿no? Perdón de la vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1136" target="_blank" class="timestamp">[18:56]</a> Si mejoras no te vas a poner triste, evidentemente. Pero el resultado compitiendo es una mierda. Ya está. Fin. Y yo os digo una cosa. Entre quedar 11 y no competir, prefiero no competir, sinceramente. O sea, así os lo digo. Pero bueno, ¿qué sabré yo? Claro, al final aquí... Sí, claro. Que va a ser un fracasado. Un impotente, un tío que no es capaz de guardar su vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1158" target="_blank" class="timestamp">[19:18]</a> Es lo que tiene el mediocre. El mediocre tiene una característica muy típica. Que ve a un tío que es mejor que él y le vomita toda la porquería encima. Y tiene que verlo todo negativamente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1171" target="_blank" class="timestamp">[19:31]</a> ¿Vale? Que sí. Que alguno dirá, joder, pues tú criticas mucho a Tabet. Sí, sí, me he criticado mucho, pero bueno, puedo exponer mis razones, ¿no? Que puedo entender que hay gente que diga, es que tú tal vez eres negativo. Sí, no digo que no, ¿eh? No digo que no. Pero bueno, tío, hay derecho objetivo que el Tabet ha dejado el calcetín en su casa, se ha dejado de hacer, pues, payasadas, que a mí me parecen payasadas, a mí mucha gente, ¿eh? Se ha centrado, se ha obcecado, ha ganado seis kilazos de músculo, hazlo tú, listillo, hazlo tú.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1201" target="_blank" class="timestamp">[20:01]</a> Tú tienes tu... No vamos a decir el techo genético, pero sí el umbral donde tus beneficios se empiezan a ralentizar mucho. Polaco. Bueno, polaco lo digo no como desprecio, pero con una característica tuya de peculiaridad, que es de Polonia. No es un insulto que nadie me interprete. Bueno, cabezón. Y haz eso. Llega a un nivel y ahora, para el siguiente año, saca 6 kilos más de músculo. Pero no abuse de química. Entrenando, dieta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1229" target="_blank" class="timestamp">[20:29]</a> limpito, que tu cintura no se mueva, que tu vientre no se mueva, ¿vale? Pero con el mismo plan de química, como, no sé, si hace variaciones que no sea más que la disciplina, sácame 6 o 8 kilos más de músculo, que encima eres más grande, puedes sacar 2 kilos más. Ahí está el mérito, tío. Un respeto, tío, al esfuerzo de los demás, que es muy meritorio. Incluso lo dices tú, que eres un fracasado, que eres una vergüenza del culturismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1257" target="_blank" class="timestamp">[20:57]</a> Es que no se puede comprar estos discursos, lo siento, ¿eh? Yo no puedo salir aquí, yo, por ejemplo, a decir tal vez ¡Ah! ¡A qué edad 11! ¡Menú por acaso! ¿No? Y la gente normal diría ¡Pero tú qué vas a decir! ¿Tú qué has hecho el culturismo? Nada. Entonces, tiene toda razón el mundo. Yo no puedo criticar a un tío por el que edad 11. Pero vamos a ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1278" target="_blank" class="timestamp">[21:18]</a> Podría criticar la última competición de Tabet, que realmente fue todo fatal. Fue, no sé, se equivocó. Fue un poco, no sé si sobrado o qué. Pues igual, se equivocó. El vídeo que hice después de la competición fue, pues, en caliente, con excusas. Muy mal todo. Pero oye, ha tomado nota el tío, ha hecho los deberes y se ha presentado con 6 kilos más. Eso es para aplaudir, tío. Punto. Déjate de rollos. Que no tengo como tiene tu genética.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1304" target="_blank" class="timestamp">[21:44]</a> Ah, pero sí. Tú puedes tener genética, pero él tiene disciplina y compromiso y seriedad, cosa que no tú no tienes. Él es formal, es serio. Él tiene fuerza de voluntad, cosa que tú no tienes. ¿No te da vergüenza, tío? Encima hablando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1315" target="_blank" class="timestamp">[21:55]</a> Cada uno tiene su punto de vista. También es verdad que yo lo estoy diciendo desde el punto de vista de una persona a la que le suda toda la polla el culturismo. En el sentido de que, como dije en el vídeo de ayer, lo experimenté haciendo una preparación. Me pareció la mayor puta mierda que he hecho en mi vida y me fui corriendo. Y ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1334" target="_blank" class="timestamp">[22:14]</a> ¿Sabes lo que te digo? Entonces, claro, yo lo digo desde esa perspectiva. Entiendo que Tabet y Dufort y esta gente lo dicen desde la perspectiva de que el culturismo es maravilloso e impresionante y un sueño y bla, bla, bla. Ya sabéis. Sí, sí, sí. Un sueño y todos tenemos sueño. Vale, sí. Estupendo. Pues, claro, desde esa perspectiva entiendo que estén alegres, ¿no? Pero, a ver, viéndolo fríamente, ¿no? Los fríos datos, pues ha mejorado. Se alegra, ¿vale? Pero, once. Décimo primero.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1364" target="_blank" class="timestamp">[22:44]</a> No, no es que cultimos en la porquería, es que tú eres una persona que ha tenido una educación lamentable, por lo tanto eres muy débil, has comido siempre basura ultraprocesada, ultracalórica, cargadísima de azúcar y cuando has tenido que tener algo de disciplina, has tenido que hacer algo salubre, que es comer limpio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1389" target="_blank" class="timestamp">[23:09]</a> pues no lo has aceptado. Como niño pequeño, cuando le hace comer pescado, verduras, y no quiere, y le tienes que coger la cuchara y hacer avión. Mira, el trencito, chuchu, abra boca, y el niño dice, venga, va, porque te has currado, abra boca. Pues tú no eres igual. Eso sí, meterte droga, vamos, maravilloso. Hacer payaso, maravilloso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1409" target="_blank" class="timestamp">[23:29]</a> Pero hacer esfuerzo de lo que implica ser un tío serio con compromiso que tiene la capacidad de abstraerse a sí mismo y tener un objetivo, no, eso no. Yo soy un impresentable, yo soy un vago.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1424" target="_blank" class="timestamp">[23:44]</a> Yo quiero ser un gordo. Quiero ser vago. Quiero ser indisciplinado. Bueno, pues vale, pero no vayas con ese rollo en plan, no, es que a mí me da igual, no, es que no te da igual, es que no puedes. Eres un fracaso. Eres un fracasado del culturismo. Lo has intentado y no has podido hacer el mínimo esfuerzo. ¿Vale? Esta es la realidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1440" target="_blank" class="timestamp">[24:00]</a> No sé, tío. Me perda mierda el resultado. Es lo que hay. Si tú me dices que había 200 tíos y quedas el 11, no, estaba bien. Claro, ahí sí, pero había 20. Entonces, ¿qué quieres que te diga, tío? Chaval, que es profesional. Este tío es profesional. Está en la Liga Profesional. Es normal. Tú no eres nada. Fracasaste en la Liga Mater. ¿Qué me estás contando, tío?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1466" target="_blank" class="timestamp">[24:26]</a> Es que, ¿cómo puede ser un fracaso, un pseudo intento de culturista, que es un payaso de culturista, criticar a un tío que tiene una carrera en el culturismo, que ha demostrado suficiente, que lleva un montón de años en el tema, que es un tío que ha demostrado que durante un año ha trabajado duro, ha presentado una ganancia, pues con la gente que tiene, que es la que tiene, normalilla, o sea, este tío no es un suportado genético. ¿Lo puedes entender? Tú vives a Ronnie Coleman...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1495" target="_blank" class="timestamp">[24:55]</a> Cuando empezó el culturismo, cadera así de estrecha, cintura así de estrecha, músculos que parecían burbujas, un bici que salía como un chichón, unos cuádrices enormes. Y el tío cuando empezó...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1508" target="_blank" class="timestamp">[25:08]</a> lo puedes entender tú tienes buena genética en la roca pero qué pasa fallas en todo además se te han dado un regalo del cielo o sea lo que viene regalado lo tienes a diferencia de tablet pero es tan desgracia que lo puedes aprovechar mira sabes que si aprovechando esa genética con disciplina compromiso de seriedad y formalidad vas a ganar diez meses más dinero que ganas ahora y lo sabes</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1532" target="_blank" class="timestamp">[25:32]</a> Y ni aún así eres capaz. Eres un tío que manifiesta constantemente en Instagram, días y días también, el dinero lo es todo. Dices, el dinero te da la libertad y la libertad te da la felicidad. Lo repites siempre, dinero, dinero, dinero. Solo quieres dinero, dinero, dinero. Y aún así, ni así eres capaz de hacer dieta, ser disciplinado, ni así eres capaz.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1556" target="_blank" class="timestamp">[25:56]</a> Y entonces tienes que vivir una constante negación de la realidad. Para no ver lo desgraciado que eres. Que para ti todo es dinero y tienes una vía para ganar 10 veces más de lo que ganas y lo sabes. Y no puedes porque es que, tío, es que a ti el que te quiten el comer te mata. ¿Y entonces qué haces? Aunque es un fracasado y en el fondo lo sabes, proyectas negatividad y destruyes la imagen pública. No, no la imagen pública. Destruyes el valor de un atleta como Tabet.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1584" target="_blank" class="timestamp">[26:24]</a> A mí no me gusta la física. Bueno, no tiene por qué gustarte. No se trata de eso. Se trata de que es un tío que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1590" target="_blank" class="timestamp">[26:30]</a> puede hacer ganancia muscular sobre un físico que ya lo tiene bastante desarrollado dentro de genética, se presenta seco, condicionado y punto, tío. Eso es culturismo. Ya está. Y cuando estoy grabando esto todavía no han salido vídeos de él. Al final se suele grabar principalmente al que queda primero, segundo, tercero, pues a él no le han grabado. Cuando están entregando los premios sí que se le puede ver ahí en el escenario con los demás culturistas. Desde luego no se le ve muy contento. Han dado medalla a 13 de ellos y se supone que él es el 11 de 16, creo que eran, o 17.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1620" target="_blank" class="timestamp">[27:00]</a> pero ¿y por qué le dan medalla? no lo entiendo el Ares también tiene tierra ¿por qué? porque lo ha bloqueado en Instagram porque se nota que el Ares eso le afectó mucho te ha bloqueado pero bueno ¿por qué te bloquea? ¿qué te importa a ti tío? o sea ¿qué te debe el talento? es que no lo entiendo de verdad</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1635" target="_blank" class="timestamp">[27:15]</a> ¿Qué gilipolleces es esa, tío? O sea, ¿es como una medalla por participar o qué? No entiendo, tío. Entiendo que le des medalla al top 3. Bueno, ¿qué importa, tío? Claro, a top 5. ¿Pero qué otra cosa? En serio, tú, si te da una medalla...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1651" target="_blank" class="timestamp">[27:31]</a> del décimo primer puesto, vas a coger esa medalla y la vas a colgar en algún sitio. ¿En serio? O sea, ¿por qué? O sea, no sé, es como... ¡Sí! ¡Mirad todos! ¡Mirad, tengo una medalla! ¡Una medalla que demuestra el mal puesto que he quedado! ¡Mirad, sí! ¡Mi medalla! ¡Mi medalla de lo mal que lo he hecho! ¡Fantástico! No sé. ¡Ojo! Creo que he dicho un tío tóxico que en tu vida mejor, cuanto más lejos mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1679" target="_blank" class="timestamp">[27:59]</a> Vas humildemente a hacer trabajo. Eres IFEPRO. Quedas 11. Y la que si quieres coga, cuélgala. ¿Este qué va a hacer? Vaya a tu casa, se va a rir de ti. Pero tú de qué vas, desgraciado. ¿Tú qué eres? Eres... Eres una mierda. ¿Qué criticas? Es que tenía que coserte la boca. Eres muy fuerte, tío. O sea, es indignante que este payaso, que es un fracaso de sus propias intenciones, de sus propias motivaciones y expectativas,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1709" target="_blank" class="timestamp">[28:29]</a> tenga que despreciar al tío este que ya le gustaría a él, ya le gustaría al mongolo este tener la mitad de fuerza de voluntad que el tabet. Y ojo, me da mucho asco los discursos centrados en valorar a la persona por el dinero. Es asqueroso. Porque el dinero es, muchas veces, circunstancial. Tiene un componente de trabajo, de mérito, de talento, pero también muy circunstancial, ¿eh? Mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1738" target="_blank" class="timestamp">[28:58]</a> Y la gente dirá, ¿qué circunstancia? No tengo más de enrollarme. Eso Roca no lo entiende. Y a él le gusta y a Roca tiene la mitad dinero que tiene el tablet. Y eso le dice, no, sí, sí. Claro, porque tiene dinero. Porque tiene un compromiso con algo. Y lo va cumpliendo. Culturismo. Dejándolo a los negocios que tenga secundarios. Eso es objetivamente también una recompensa en su trabajo como culturista. Porque tú lo sabes. Tú, si te haces el fee de pro y vas compitiendo, aunque no ganes, claro, es que no puedes hacer algo que no te guste.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1767" target="_blank" class="timestamp">[29:27]</a> Tiene que gustar. Tienes que ser un tío muy serio. Y tú no lo eres. Entonces... Límpiate la boca para ver Tabet. Y ojo, es Tabet, que no te estoy diciendo aquí José Mevist, Ronnie Coleman, o Durayers. Tabet, que de repente, bueno, tampoco es que sea un cultista ahí. Que no va a ser una leyenda en España, ¿no? Pero bueno, igual te... Oye, un respeto, ¿no? Porque tú que eres. Vergüenza, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1793" target="_blank" class="timestamp">[29:53]</a> Ojo, mal hecho a nivel de resultados en la tarima, no a nivel de mejora en el físico. Como comento eso, bien. Pero si nos tenimos a los resultados, mal. Pero ya está. Medalla, tío. Este tío está insultado a todo el mundo que no queda, pues no sé, entre otros primeros en un campeonato y febro. Es que es impresionante, tío. Es más tonto que... En cuanto a tamaño, pues no sé, este ángulo no le favorece, pero tampoco...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ZySkfUaNbEw&t=1820" target="_blank" class="timestamp">[30:20]</a> No, el ángulo es malísimo. El ángulo es la cabeza enorme y el cuerpo es más pequeño de lo que es. Pero bueno. Porque se agrada con el móvil. Gente, hasta aquí el vídeo de hoy. Rocky, tío, eres un ejemplo de lo que no se debe ser en muchos sentidos. Quédate con la jeringa y que te haya muy bien. Un saludo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 12/07/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
