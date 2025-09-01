@@ -1,0 +1,539 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 01/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">01/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-aJjCAzf5Qu0'>Cenando sushi con el fitness España</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-aJjCAzf5Qu0">
+            <h2>Cenando sushi con el fitness España</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 01/09/2025 18:30</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0" target="_blank">
+                    <img src="https://i.ytimg.com/vi/aJjCAzf5Qu0/hqdefault.jpg" alt="Cenando sushi con el fitness España" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta un evento privado e informal entre creadores de contenido de fitness, discutiendo sus inicios y roles actuales en la industria. Los participantes comparten experiencias sobre la creación de contenido, viajes, competiciones y el futuro del fitness, la salud y el biohacking. La conversación aborda temas como la gestión del hate en redes y la búsqueda de un equilibrio entre la pasión y la vida personal. El encuentro culmina con reflexiones sobre la expansión profesional y momentos memorables de entrenamiento.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Origen de un Encuentro Exclusivo <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=48" target="_blank">[00:48]</a></h3>
+
+<p>El anfitrión explica cómo el éxito de un evento femenino anterior lo inspiró a organizar este encuentro para hombres. El concepto de gimnasio con sushi surgió como una idea disruptiva y exclusiva para agradecer la asistencia. La conversación arranca preguntando a los invitados sobre sus inicios en el fitness, mencionando referentes como Power Explosive y Fausto Murillo.</p>
+
+<h3>Del Campeonato a la Química Industrial <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=337" target="_blank">[05:37]</a></h3>
+
+<p>Un participante detalla su apretado calendario de competiciones de culturismo en España, Malasia y Los Ángeles, mostrando su dedicación. Otro invitado comparte su singular profesión como químico industrial, fabricando principios activos para medicamentos. Este contraste resalta la diversidad de caminos profesionales y pasiones dentro del grupo.</p>
+
+<h3>La Evolución Hacia la Creación de Contenido <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=631" target="_blank">[10:31]</a></h3>
+
+<p>Un entrenador online describe su cambio de enfocarse en asesorías delegadas a la creación de contenido de entrenamiento basado en ciencia. Discuten la importancia de una mentalidad empresarial en el fitness y cómo monetizar proyectos como podcasts. Se destaca la pasión por la creatividad y el disfrute del proceso de generar ideas.</p>
+
+<h3>El Salto de la Robótica al Fitness <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=877" target="_blank">[14:37]</a></h3>
+
+<p>Un joven revela su decisión de abandonar sus estudios de programación y robótica para dedicarse por completo al entrenamiento y la nutrición, superando la oposición familiar inicial. Otro, gestor comercial en una empresa láctea, comparte su gusto por su trabajo actual y su pasión por la competición, sin buscar vivir del fitness profesionalmente. Mencionan la figura del "posing coach" en EE.UU.</p>
+
+<h3>¿Empresario o Entrenador? La Dualidad del Fitness <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=1243" target="_blank">[20:43]</a></h3>
+
+<p>El anfitrión se define como un "empresario que entrena fuerte", disfrutando más el desarrollo de proyectos que la competición. Los invitados comparten sus hábitos de consumo de contenido, desde canales de culturismo y noticias hasta videos de viajes y supervivencia. Destacan el impacto de videos como el de Hong Kong de Clavero y podcasts de biohacking.</p>
+
+<h3>Desconectando del Fitness para Crecer <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=1430" target="_blank">[23:50]</a></h3>
+
+<p>Algunos participantes admiten no consumir contenido de fitness, prefiriendo temas de empresa y economía para su aprendizaje. Resaltan la importancia de la marca personal frente a la temática. Analizan críticamente el contenido de entrenamiento, prefiriendo los videos que muestran el día a día real de los atletas sobre los meros entrenamientos.</p>
+
+<h3>La Cruda Realidad del Culturismo Natural <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=2016" target="_blank">[33:36]</a></h3>
+
+<p>Los invitados debaten sus motivaciones para competir, desde la superación personal hasta la inspiración de referentes. Se abre una discusión sobre la salud en el culturismo, especialmente el natural, que consideran extremo por las condiciones fisiológicas exigidas. Comparten experiencias con análisis hormonales que ilustran los desafíos post-competición.</p>
+
+<h3>Enfrentando el Hate y el Compromiso Personal <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=2327" target="_blank">[38:47]</a></h3>
+
+<p>Un participante relata su transición del powerlifting al culturismo como un acto de autosuperación. La conversación deriva hacia cómo lidiar con el "hate" en redes sociales, con el anfitrión explicando su estrategia de silenciar contenido negativo. Subrayan que el ataque personal es lo más complicado de gestionar, aunque intentan tomárselo con filosofía.</p>
+
+<h3>De Haters Silenciados a Recetas Virales <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=2485" target="_blank">[41:25]</a></h3>
+
+<p>Los participantes discuten sus encuentros con "haters" en persona, concluyendo que no son comunes. La conversación cambia a anécdotas sobre la cantidad de pasos diarios y una divertida explicación de una receta de crema de arroz que "crece" en volumen. Se revela una técnica para aumentar la saciedad en épocas de preparación.</p>
+
+<h3>El Futuro del Fitness: Salud y Anti-Aging <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=2774" target="_blank">[46:14]</a></h3>
+
+<p>Debaten sobre el futuro del fitness, prediciendo un auge del culturismo natural y el fitness femenino, pero el verdadero crecimiento en salud, anti-aging y biohacking. Mencionan la estrategia de MyProtein de expandirse al público general y la creciente tendencia de los padres a entrenar. Comparten anécdotas familiares sobre el entrenamiento.</p>
+
+<h3>Sacrificios por la Competición y la Expansión <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=3016" target="_blank">[50:16]</a></h3>
+
+<p>Un participante expresa arrepentimiento por haber sacrificado aspectos de su vida diaria por las competiciones, destacando la importancia del equilibrio. El anfitrión reflexiona sobre cómo su período de "expansión" en 2023, aceptando múltiples colaboraciones y podcasts, fue crucial para su posición actual, aunque no lo repetiría tan intensamente.</p>
+
+<h3>¿Con Quién Entrenar? De Leyendas a Entrenamientos Épicos <a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&amp;t=3321" target="_blank">[55:21]</a></h3>
+
+<p>La conversación final se centra en con quién les gustaría entrenar, mencionando leyendas como Dorian Yates, Kevin Levrone o Lee Priest. El anfitrión rememora su épico y "feo" entrenamiento de pierna con Milos, una experiencia tan extrema como memorable. El video concluye agradeciendo a los invitados y al equipo de producción.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=0" target="_blank" class="timestamp">[00:00]</a> A los honores. Bueno, ¿os preguntaréis por qué os he reunido hoy aquí? No, no. Bueno, hemos estado entrenando en el evento privado de PBS. Yo, por mi parte, es el primer evento privado que hago. Ha sido espectacular, muchas gracias. Ah, gracias a ti. Muchas gracias a ti, pero sobre todo a todos los que están detrás de las cámaras, porque han hecho esto posible, todo bien ordenadito. La verdad que es espectacular. Por eso, porque ha sido...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=23" target="_blank" class="timestamp">[00:23]</a> Un día. Y gracias a vosotros por venir y por estar aquí con nosotros. De verdad. Os agradezco muchísimo. Que al final, joder, no hemos hecho esto con mucha antelación. Voy a contar realmente por qué lo hicimos. Presentamos el Drop de Chica hace dos semanas, si no me equivoco, en PBS. Y se encargó Marta de todo. Yo me fui a ayudarle. Un poco como está ella hoy. Pues estaba yo también un poco por detrás y demás. Y me entró muchísimo FOMO de ver...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=48" target="_blank" class="timestamp">[00:48]</a> al resto de creadoras y que se lo estaban pasando bien y estaban haciendo algo un poquito disruptivo. Y dije, hostia, estaba allí mismo, yo mientras estaba haciendo una clase de yoga, súper guay. Salía algún TikTok por ahí detrás. Salía algún TikTok, me dijeron que saliera, yo no quería. Pero bueno, el tema es que, joder, me gustó mucho el concepto y dije, vamos a hacer algo un poquito diferente para el drop de chicos, que estaba preparado el drop y demás, pero dije, no, vamos a hacer un evento, vamos a hacerlo también bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=72" target="_blank" class="timestamp">[01:12]</a> Y yo que siempre he ido a eventos privados y demás, pues yo qué sé, es intentar hacer un concepto un poco chulo, que sea un poquito exclusivo y que guste, ¿no? Y que se disfrute. Y bueno, pues hablamos del tema de un gimnasio, sushi, es un concepto, si no le digo poco, que Gucci y demás había hecho alguna vez, no sé, algunas marcas así premium, de hacer una pista de tenis, creo que... La Cos creo que le hizo una pista de tenis, una cena así muy guay y demás. Y dije, bueno, nos dedicamos al mundo del fitness, sushi y un gimnasio, tampoco hay mucho misterio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=98" target="_blank" class="timestamp">[01:38]</a> Pero creo que nadie ha hecho esto. No lo creo. Entonces dije, bueno, pues vamos a organizarlo. Y aquí estamos, chicos. Simplemente agradeceros que estéis aquí porque sé que ha sido bastante rápido todo y me apetecía. De todos modos, que sea más distendido esto. O sea, hemos hecho como la intro, ¿no? Pero queremos algo más distendido. Yo, mi pregunta es, ¿por quién empezasteis en el fitness? Yo, por ejemplo, con Power Explosive. Yo igual. Yo también. De 100%.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=126" target="_blank" class="timestamp">[02:06]</a> Yo empecé con un chico latino gero indomable. Imparable. Es que estaba en el mismo momento. Fausto Murillo. Yo te diría que fue de los primeros que empecé a ver. Ya, pero ¿tú has visto los vídeos de Iván con gero? Igual, ¿tú has visto vídeos con gero?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=150" target="_blank" class="timestamp">[02:30]</a> Te quedan muchas cosas por saber de Iván todavía, ¿eh? Me estoy dando cuenta. Desde entonces ya estabas por ahí encolado como una rata, ¿eh? Tengo que decir que también Iván nos ha ayudado con todo esto, también con vosotros y demás, que tiene mucho contacto con vosotros. Iván es brain builder, como lo queráis llamar, pero Iván es un buen dinosaurio de redes, está aquí por detrás. Y en parte también empecé por Power en toda esa época, evidentemente. Yo creo que todos empezamos un poco por Power. Y bueno, bastante guay. ¿Vosotros? En el caso Ernest de Fitness Boy. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=180" target="_blank" class="timestamp">[03:00]</a> ¡Ojo, eh! ¡Uf! ¡Duro, eh! ¡Duro y rápido! ¡Check! ¡Que ha gustado! ¡Check, de verdad! ¿Por qué? Yo, literalmente, lo acabo de decir él también. Fausto Murillo. Un negro chetadísimo. ¿Sí? Sí. Hacía rutinas, sobre todo, ejercicios en casa y así. Y como estaba en cuarentena, pues... Me dio por la derecha. Hacía 10 más baby, 10 más baby. No sé, ¿eh? ¿Qué edad tenéis? Yo, 21. Yo, 22. ¡21! Madre mía. ¡Oh, fuerte!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=208" target="_blank" class="timestamp">[03:28]</a> ¿Cuánto aparenta? Tú sé que tienes 27, ¿no? Tengo 30. 30 muy bien llevadas. ¿Cuánto dices? Tú eres mayor que yo, bro. 28, 28. 28, 28. ¿28 o 27 o...? 96. Joder. Hostia, ¿eh? Te ha jodido, ¿eh? Me ha jodido el bigote. Tú y yo 26, ¿verdad? Pero... Ayer fuimos a la clínica de anti-aging, así que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=237" target="_blank" class="timestamp">[03:57]</a> Hoy uno menos, ¿no? ¿Con lías? Sí, he dado lías. Muy buena, ¿no? ¿Ha gustado?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=254" target="_blank" class="timestamp">[04:14]</a> Yo tenía miedo de eso. Lo de golpes en el cuello. Sí. Yo he tenido un poco de lío, la verdad. Chao. ¿Quién de los que estamos aquí pide tenedor cuando va el sushi? Espero que nadie. Yo, Juancho. Yo. Siempre. ¿Tú quieres tenedor para ir al sushi? Sí, por sí. Yo la pedí ahora. Es que le pongo un poco cansado. Claro, estás hasta la polla, ¿eh? ¿Me pongo un tenedor? Yo voy para estar cómodo y disfrutar comiendo. Bien, cantidad. Siento que los palillos no dan cantidad. Es como el ritual, tío. Es como el... No sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=285" target="_blank" class="timestamp">[04:45]</a> Nada, yo no. Si vamos a Japón, que tenemos, justamente estábamos hablando de Japón, me voy a ir a un tenedor. Y lo tengo nada más clarísimo. 100%, 100%. Me tiran por ahí a guapo. Es que son dos tenedores que tienen pinza, eso sería... Claro, claro. No, no, lo digo 100%. Me voy a ir con tenedor, lo tengo claro. O sea, de hecho es... Bueno, eso. Vamos a ir, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=314" target="_blank" class="timestamp">[05:14]</a> Yo tengo mucho Haider del Japón, la verdad. Tú vas a viajar ahora. Conta dónde vas. Sí, bueno, a ver. Yo ahora tengo en noviembre... ¿Qué momento tú haces? Eh, no. Bueno, estarás sin días. ¿Dónde estás? No, pero yo solo te acabo de tomar. No jodas, ¿eh? No jodas que nos vamos a... Es que pongas. Bueno, usted sabe que está bien que no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=337" target="_blank" class="timestamp">[05:37]</a> Que yo voy ahora en noviembre, bueno, tengo campeonato a España el 19 de octubre. El 9 de noviembre tengo el Malasepro con Kuala Lumpur y el 22 en Los Ángeles. Y nunca he ido a Asia en general. Y estoy deseando ir porque además Kuala Lumpur es, por lo que tengo entendido, que no está nunca, es una megacidad y es ultra barato. Es el lujo más barato del mundo. Literal. Y estoy deseando ir además. Qué guapo. Es que ir a esa zona tiene que ser como ir a otro planetario.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=367" target="_blank" class="timestamp">[06:07]</a> Literalmente se muestran. Ya solo por las costumbres, ya no solo por el idioma, por todo, todo en general. Y el año que viene haré Japón, pero soy de vacas. Además, cuando te vean... Uno va a competir, como digan. Yo he dicho que voy a ir a Japón. Y si me apetece, compito. Por esa última temporada. Y voy por las vacaciones. Y si veo qué tal, compito. Tú has competido, ¿no? Sí, el año pasado. ¿Tú?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=395" target="_blank" class="timestamp">[06:35]</a> Ya sé que sí. Él y yo nos conocemos porque coincidimos en nuestra primera competición. En el debut. Y tú has dicho que tienes 21, ¿eh? ¿Cuándo competiste? ¿Cuántas tú, eh? No, no. Julio, Julio. ¿Tú? El único que no ha competido soy yo. Vamos a hacer una cosa que me gustaría. Esto es para mi canal. Contad un poco a qué os dedicáis cada uno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=419" target="_blank" class="timestamp">[06:59]</a> siempre digo lo mismo a pesar de ser nati en una planta química o principios activos de medicamentos de hecho yo ahora estoy haciendo metanizol que es el principio activo del nati</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=437" target="_blank" class="timestamp">[07:17]</a> Y bueno, hacemos medicamentos, estipientes, pantoprazol, que es como los de prezol, pero más potente y también más delicado. Muchos, muchos medicamentos. ¿Qué estudiaste? Química industrial. Y bueno, actualmente estoy dando lo duro al revés y luchando por intentar vivir esto. Qué guay. Mola. Mola mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=464" target="_blank" class="timestamp">[07:44]</a> Pues yo me dedico básicamente, soy entrenador online y tengo negocio de asesoría online, pero yo considero que actualmente mi rol, sobre todo, está en la parte de creación de contenido de entrenamiento basado en ciencia. Entonces me dedico a divulgar sobre entrenamiento basado en ciencia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=479" target="_blank" class="timestamp">[07:59]</a> Pero intento darle un toque diferente, que no sea pedante, como siempre se ha hecho. Para que no se ha ocurrido, básicamente. Y ahí estoy, tío, peleando para ver si me dedico a esto. ¿Pero te estás dedicando? Yo, básicamente, la mayor parte de mi energía en el trabajo la invierto en crear contenido. Y cada vez la parte de asesoría la tengo más delegada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=503" target="_blank" class="timestamp">[08:23]</a> O sea, realmente yo lo que quiero es delegar. ¿Quieres generar un negocio de verdad? Sí. O sea, quiero generar un negocio y yo centrarme en la parte que es menos delegable, que es la que me gusta también más. Poner la cara. ¿Eh? Poner la cara. Eso es. No, es la parte en la que... No, es verdad, es verdad. Y además es que me encanta. Me encanta. ¿Te gusta más eso que preparar un plan de entrenamiento, por ejemplo? Tío, antes...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=529" target="_blank" class="timestamp">[08:49]</a> Programar un entrenamiento me gusta mucho más, pero al final es como todo. Llega un momento que dices, tío, esto ya es muy operativo, muy sistemático, me apetece más desarrollarme. De hecho debe ser así para poder llevar a más gente. La única manera de escalar y la manera más fácil es crear contenido y seguir creciendo el contenido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=550" target="_blank" class="timestamp">[09:10]</a> Pero básicamente lo que más disfruto es la creación de contenido. A mí me flipa ir a una cafetería. Siempre digo lo mismo. Me meto tres cafés, me pongo a tope y empiezo yo a inventarme mi movida en la cabeza, tío. ¿En serio? Sí, sí. Y además soy muy creativo, tío. Tengo un TDH y me flipa esa parte. Es verdad. No, no, no. Es verdad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=572" target="_blank" class="timestamp">[09:32]</a> Yo me desenmuevo muy bien en ese aspecto y... Un poco por lo que estábamos hablando antes fuera de cámaras. Te está interesando mucho el sector empresa, ¿no? Pero desde hace mucho, tío. Desde que descubrí la economía y me apasionó la economía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=585" target="_blank" class="timestamp">[09:45]</a> Y empecé... También es que he seguido mucho la trayectoria de David Marchante, que es mi referente de toda la vida. Y claro, como David Marchante también se ha movido en esa parte más empresarial, pues yo también me entré a Cusanillo. Yo creo que es una tendencia bastante general en el fitness que te empieza a interesar un poco el mundo empresa. No sé por qué. Es que si no es complicado seguir viviendo el fitness. Además, por ejemplo, estar en una posición como la tuya es como...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=612" target="_blank" class="timestamp">[10:12]</a> Una gozada, ¿no? Porque estás poniendo... Me refiero... No, no, no, me refiero que tú puedes poner en práctica cosas bastante avanzadas a nivel de finanzas, a nivel de empresas. Sí, cabrón, pero lleva un poco de años ya en esto. Claro, claro, claro. Ejemplo de... Pongo un ejemplo. Que te surja. Por ejemplo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=631" target="_blank" class="timestamp">[10:31]</a> Bueno, tú me has comentado, no sé si lo puedes comentar, el proyecto del podcast. Vale, pues ahora tienes un proyecto del podcast, ¿no? Yo no tengo esa capacidad de capital como para invertir directamente en un podcast y hacerlo tan bien como tú, ¿no? Yo no estoy de acuerdo. O sea, cuando empiezas a generar capital, puedes hacer proyectos que te interesen y lo puedes hacer. No es fácil, pero tienes solvencia para ello. O sea, puedes ejecutarlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=659" target="_blank" class="timestamp">[10:59]</a> Sí, pero tampoco creo que haya que pegar. Yo soy mucho, y lo hablo con Tony, no me gusta pegar cañonazos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=665" target="_blank" class="timestamp">[11:05]</a> No, no, claro. En plan, a mí no me gusta porque puedas hacer algo que no sea rentable hacerlo, ¿sabes? A mí me gusta intentar sacarle la rentabilidad de todo. Es decir, vale, ¿esto lo puedo pagar? Sí, lo puedo pagar. ¿Pero va a salir rentable o no va a salir rentable? No, claro. ¿Sabes? Como siempre, paras un poco a ver ese punto también, ¿no? Yo siempre te lo digo. Y de todos modos, para que un podcast esté decente, evidentemente para montar la que tenemos aquí liada, pues hay cámaras que valen mucho dinero, micros y demás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=690" target="_blank" class="timestamp">[11:30]</a> pero para montar un podcast decente no vale tanto dinero. O sea, siempre se puede empezar con un producto mínimo viable y valorar si eres bueno realmente para... o te apetece. Muchas veces dices, es que no me apetece hacer un podcast, que no quiero... Con un móvil ahí enfrente, te pones a grabar con él y ya está. Yo el podcast a nivel visual lo grababa con un iPhone, el mío, y con iPhone del invitado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=711" target="_blank" class="timestamp">[11:51]</a> Realmente la parte más importante de un podcast es el audio. Y al audio sí que invertí. El micro normal vale 70 euros. Es una superinversión. Voy a meter un bif aquí brutal, que siempre te lo digo a ti. Odio los podcasts que se graban con micrófonos grandes. Creo que no tiene sentido. ¿Con micrófonos grandes? Creo que es simplemente por poner los huevos gordos encima. A veces decir, mira qué micro. Pero tú vas a la tele...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=736" target="_blank" class="timestamp">[12:16]</a> Y no se graba con micrófonos. O sea, vas microfonado, pero no se ve el micro. Y a mí esa tendencia que se vea un micro súper grande, que te tapa un montón el plan y demás... Mira qué bien, que llevas el Lavalier. A mí me gusta mucho más. Y ya si pudiera ser de estos que además te tiran el tiro que te hacen, te lo pillan por el otro lado, me parece perfecto. A ti no te gusta, por ejemplo, cuando has escuchado un Sure o un... No sé, pues en la otra marca. Sennheiser, ¿no? Un Rode.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=761" target="_blank" class="timestamp">[12:41]</a> ¿No te parece como envolvente ese sonido? Me parece que... De locutor, más de locutor. Sí, más de radio. Se busca un poco la radio. Con estos micrófonos que tenemos ya ha conseguido un buen sonido. No, pero no digo esto. Al final yo te digo la revuelta o todo eso. Son petacas. Son petacas que te llevan la petaca y te sacan simplemente micrófono por aquí. Y además te pierdas la vez aquí. Entonces no se ve que llevas un micrófono. Se escucha de puta madre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=786" target="_blank" class="timestamp">[13:06]</a> A mí me gusta ese concepto. Da igual, esto del tema de los podcasts. Pero, por ejemplo, un podcast, inviertes en micros y con un plano, con un 17 o algo así que te pide un buen plano y demás, puedes grabar un podcast. No te hace falta tres cámaras. No, literal. Pero lo que me refiero es como que, jueves, yo admiro ese poder ejecutar un proyecto que tenga en mente, que te hace ilusión.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=810" target="_blank" class="timestamp">[13:30]</a> No, no, me ha molado un montón. También con los podcasts... Tienes una arma, tío. Con los podcasts... Tienes una persona que no estás a ese nivel. Puedes ver, porque la rentabilidad no tiene por qué salir directamente del canal de YouTube. Eso es muy complicado. Pero tienes que ver otras fuentes de dónde viene la rentabilidad quizá del podcast, ¿no? A qué te enfocas o qué quieres vender. A largo plazo. Sí. Una inversión inmediata. Sí, si luego lo puedes monetizar de otros modos es importante, ¿no? Yo otro día hablaba con un creador y me decía yo saco 15.000 con YouTube.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=836" target="_blank" class="timestamp">[13:56]</a> Claro, pero no son 15.000 que vengan de YouTube. Es todo lo que genera YouTube. ¿Sabes a lo que me refiero, no? Pues patrocinios que salen en los vídeos de YouTube. Un ingreso. Todo eso. Pero bueno. ¿Qué contenido veis vosotros? O sea, que se sigan presentando, ¿no? Ah, vale, perdón. ¿Presenta ellos también? No, que sí. ¿Quiénes se van presentando? ¿Yo? Pues yo este año estaba estudiando...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=864" target="_blank" class="timestamp">[14:24]</a> Luego di programación y me quedaba un añito para acabarlo. Y me empezaba a moler muchísimo lo del fitness, entrenamiento y etc. Y cada vez saber más y más y más. Así que al final decidí meterme a estudiar entrenamiento y biomecánica.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=877" target="_blank" class="timestamp">[14:37]</a> y nutrición y dietética. ¿Qué acabó pasando? Al final, entre entrenamientos, trabajo, porque también trabajo a tiempo parcial en una tienda de zapas, tuve que elegir. Y la robótica y la programación se quedó ahí apartado y si en algún momento lo retomo, pues bienvenido sea. Pero estoy apostando por esto a largo plazo. Y la verdad que es un mundo que me encanta. También es poder conocer a gente que también le gusta hacer lo mismo que a mí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=905" target="_blank" class="timestamp">[15:05]</a> Y eso es una oportunidad que quiero aprovechar al 100%, así que apuesto por ello y balanceo. ¿Y tu entorno? ¿Qué opino sobre eso?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=917" target="_blank" class="timestamp">[15:17]</a> ¿Qué? ¿Tu entorno qué opinas sobre eso? Ah, bueno, me cayó por todos lados. Me imagino. Pero no pasa nada. Sobre todo, a ver, al principio mis padres eran plan, bueno, venga, ya se les pasará. Pero luego vieron que de verdad iba en serio y al final ahora me estamos apoyando los que más. Qué bueno. Muy bien. Y eso, vistas a ser entrenador online, como aquí mi coleguita Pedro, y a hacerlo lo mejor posible. Muy bien, ¿cómo va? Bueno, en mi caso soy Adri.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=947" target="_blank" class="timestamp">[15:47]</a> Y pues yo estudié marketing a este año que era el máster y yo me dedico, bueno, soy gestor comercial de yogures, la de SLEP, si queréis saberlo. Sí, sí. ¿En Cantabria? ¿En Cantabria? No, aquí. La principal de SLEP es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=962" target="_blank" class="timestamp">[16:02]</a> Pues en mi caso es Lactalis Nestlé, porque la parte de los yogures y postres lo adquirió Lactalis, que es una empresa francesa, que tiene Puleva, Forlasa, los quesos president, pues todo esto. Pues todo lo que es los yogures de Nestlé lo metieron ahí dentro y estoy ahí como gestor comercial desde este año.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=982" target="_blank" class="timestamp">[16:22]</a> Pero bueno, realmente no es comercial realmente lo que estoy haciendo, o para lo que he estudiado, sino para entrar al departamento de marketing, te hacen pasar un poco como el campo de batalla. Dice, bueno, tienes que ir a la calle y ya después subirás al departamento de trade marketing, pasarás un tiempecito aquí y después ya irás al marketing. Y sí que es cierto que yo estoy, soy lo contrario a vosotros, yo no tengo ningún proyecto relacionado con el fitness, sí que es cierto que me gusta la competición y me gusta competir y ya está. ¿Te gustaría dedicarte al fitness?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1012" target="_blank" class="timestamp">[16:52]</a> Es que me gusta mi trabajo. Eso es súper importante. Me parece increíble. Entonces, de momento no tengo el ansia de decir voy a ponerme a hacer algo, voy a ponerme a hacer algo. Sí que es cierto que ahora yo soy una persona de retos. Es decir, cuando estaba ahora para preparación estaba a mil minutos de tiempo. Estudiaba el máster y trabajaba preparándome y tenía el reto de la competición. Y este año siento que es todo muy lineal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1035" target="_blank" class="timestamp">[17:15]</a> pues ahora voy a estar en volumen, pues voy a trabajar y es como que no tengo ningún reto. Y me he propuesto quizás sacarme algún tipo de curso que te acredite a hacer asesoramiento y hago un reto mío de hacer algo. Pero es algo que tengo que compensarlo. Yo, tío, en mi caso, yo te cuento, yo pensé que estaba diseñado para ser un trabajador, porque me considero una persona muy trabajadora. Y pensé que estaba diseñado para trabajar en un... En mi caso, mi trabajo tiene muy buenas condiciones y estoy muy bien en él.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1065" target="_blank" class="timestamp">[17:45]</a> Y pensé que simplemente era conformista. Y me he dado cuenta que no. Me he dado cuenta que conforme vas avanzando en esto del fitness, en mi marca personal y demás... ¿Tienes más hambre? Mucho hambre. Tengo hambre. Empecé con la competición. Ahí empezó mi hambre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1083" target="_blank" class="timestamp">[18:03]</a> Cada vez fui, bueno, hambre un tanto literalmente. Y poco a poco se van abriendo caminos, se van abriendo vías de negocio, se van abriendo proyectos. Y me doy cuenta de que no estoy diseñado para ser un trabajador. Y yo pensé que sí, porque siempre he sido así. Pero con el tiempo, te digo porque yo he estado en tu situación. En mi trabajo me encanta y me gusta mi trabajo. De hecho, soy de los pocos aquí en España que trabajo de lo que estudié.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1112" target="_blank" class="timestamp">[18:32]</a> Pero cuando he empezado en este mundillo, cada vez tengo más hambre de esas cosas y se me van abriendo más cosas. Y estoy poniendo mucho foco y mucho esfuerzo en lograrlo. Sí que es cierto que ahora que yo, mi pareja sí que se dedica a redes y como que me anima muchísimo y mejor amigo también es dedicar a redes y vivir de ello. Es como que es tanto de Adriazzo, África y Azago. Y sí que es cierto que a mí el posting me gusta mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1137" target="_blank" class="timestamp">[18:57]</a> Y de hecho, para ser mi primera convicción, puse muy bien. Estuve nervioso. Y ahora voy a empezar a subir un poquito de vídeos por ser Joder Puzzles y a ver si... Y aquí en España es algo que está explotado. Me parece que hay dos conocidos, que son Gerard y Rubén. Y yo llevo cuatro novios. Y se está poniendo la pota, ¿eh? Sí, sí. Se está poniendo la pota. Sí, lo hacen muy bien. Habla muy bien. Habla espectacular. En Estados Unidos es bastante típica esa figura, ¿eh? Pero aparte hay un montón de gente en Estados Unidos y que tienen lo típico que estamos haciendo aquí de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1167" target="_blank" class="timestamp">[19:27]</a> El entrenador del entrenador de poses. Claro. Que ahora esto está en moda que, bueno, yo estoy un poco en contra, pero bueno. Yo he posado con Joey bastante tiempo. Sí. Y estaba bien, la verdad. Y se paga caro, o sea, eso es eso. Pero es que Estados Unidos es una locura. Pero es que los precios de Estados Unidos son... Joey va a la sala de post-inder en el Powerhouse. Bueno, sí. Cuando es en Las Vegas en... Sí, yo vi en el Powerhouse.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1192" target="_blank" class="timestamp">[19:52]</a> ¿El Dragon's Life es en Las Vegas? Es en Las Vegas. Porja, bueno, yo me acuerdo estar allí, que estaban todos los Olimpias, tal. ¿Me puedes ver? Y él decía, sí, sí, claro. Bien efectivo. Pum, pum, pum, pum, pum, pum. Y el pavo iba a entrenar, no iba, iba, se quedaba por la puerta, ¿sabes? A ver qué me decía. El pavo traía la billetera antes de lo que hacía. ¿Vacía? ¿Tú qué te dedicas? Yo me dedico al fitness.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1219" target="_blank" class="timestamp">[20:19]</a> A todo lo del fitness. Está bien. Grabar, editar. Desarrollar, contratar. Despedir no, ¿eh? ¿No? Aún. ¿Qué contratas me ha ido? Sí, es cierto. Y bueno, y acompañarte tú en tus locuras. En todas. Como en su caso, ¿eh? Hubo una época inicial en la que te bajaban...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1243" target="_blank" class="timestamp">[20:43]</a> A ver si eres válido. Perfecto. Poco a poco. La verdad que sí. Está bastante bien. ¿Y tú? Ha sido un poco incerto. ¿Qué te consideras tú realmente? Ahorita. Me ha dejado un poco ahí descolocado. Yo creo que soy empresario. Si no te doy alguna. ¿Bien?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1269" target="_blank" class="timestamp">[21:09]</a> Sí, yo creo que sí. Es lo que más quizás me llama la atención, no me gusta. ¿Eres un empresario que entrena fuerte? Sí, me gusta mucho entrenar. O sea, creo que es mi... Ligeramente muscular. Sí. No, me gusta mucho entrenar y disfruto mucho entrenando. Es cierto que la parte de competición, por ejemplo, no la disfruto tanto, pero desarrollar proyectos o tener ideas un poco locas y demás sí que es cierto que es la parte que más me llama la atención.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1293" target="_blank" class="timestamp">[21:33]</a> Bueno, que la serie de contenido creo que sé enfocarla muy bien, sé por lo que tal, quizás algo que ya no me llama tantísimo la atención. Pero bueno, aquí estamos. ¿No? Sí. ¿Qué veis en redes? Que es la pregunta, Tony. Me ha gustado ahora preguntar. Yo no tengo partido. El día de entreno puedo mirar el gimnasio, pero el día de descanso no miro nada de culturismo. ¿Y qué ves de culturismo por curiosidad?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1318" target="_blank" class="timestamp">[21:58]</a> Me mala mucho todo lo que son ahora el canal de Iron Road, por ejemplo, para el tema de noticias. Pero es que es un poco de todo, sinceramente, lo que hay en el día a día. Siempre intento estar al día.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1331" target="_blank" class="timestamp">[22:11]</a> Yo, generalmente, buen turismo. Iron Road también, de Alnota. Y, perdón, más de 100. A mí me parece un podcast muy guapo. Ah, más de 100 también de vez en cuando. Y viajes, tío. Contenido de viajes. ¿Cómo bien? Lavero. Y mi favorito, sin duda, que no sé qué hacer con su vida, porque no sé qué hay que ver, es Portillo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1350" target="_blank" class="timestamp">[22:30]</a> Me flipa, tío. Me flipa, pero el tío no sé a qué se dedica. Está en Japón, ¿verdad? Mira, está en Japón. Que lo he visto con Kaino Junse, ¿no? Este chico que es mitad español, mitad japonés. Kaino Junse, ¿no? He visto otro chico por tío grabando, pero que estaba por ahí de chill.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1370" target="_blank" class="timestamp">[22:50]</a> Para el día de descanso ahora me he acordado. Hay un chico que lo que hace es como supervivencia en el bosque, en la nieve. Y hace una noche ahí. Y a lo mejor el vídeo va de tratar de subir con los materiales más baratos o más caros y es la hostia. Ni idea, no me acuerdo del nombre. ¿Es Rubio? Sí. Es de Big Cat. Tiene una cara de buen chaval, tío. Cuando veo en sus vídeos me tengo ganas de matarle. Hay un tío en Alaska que hace eso, pero nivel Dios. En plan, se lleva a su hijo a menos 50 grados.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1399" target="_blank" class="timestamp">[23:19]</a> Locura, locura. Se hizo tan famoso, tan famoso, que dijo, mira, yo estoy teniendo problemas y mi familia está teniendo problemas porque me paran por la calle. Voy a dejar el canal de YouTube por esto, porque yo esto lo hago por pasión. Y el pavo, teniendo todo el éxito, estaba ganando y se apareció. Pensaba que ibas a decir que le iba a buscar la policía al hijo porque... No, no, no. No, no, no. Te lo pasaré, porque ahora que viene el invierno, te lo pones ahí, tú en la camita, y el pavo va ahí montando la tienda campana. Sí, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1430" target="_blank" class="timestamp">[23:50]</a> Que voy. ¿Y vosotros veis contenido creando contenido? Porque, por ejemplo, yo veía mucho también en Instagram. Cada vez veo menos porque estoy más centrado en creativo. Yo... Es cierto que fitness no veo nada, por ejemplo. Estoy muy desconectado, tanto internacional como nacional. O sea, no consumo fitness. Y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1457" target="_blank" class="timestamp">[24:17]</a> No sé muy bien qué consumo. Consumo cosas de empresa, la verdad, cosas de economía, pero no... ¿Cómo cuáles? ¿Juan Ramón Rayo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1466" target="_blank" class="timestamp">[24:26]</a> No, me parece muy denso, por ejemplo. No consigo ver ese tipo de perfil, tío, me parece demasiado denso. Por ejemplo, País y Fortuna se lo ve. Sí, sí, claro, sí, sí, 100% lo veo. De hecho, me acuerdo, tú no sé si estabas en casa, un día con Willy y demás hablando, le dije, tío, hay una cosa que no me está molando, estáis metiendo mucho en tema político, tal, no sé qué, y me dijo justo, lo vamos a cambiar, tal, porque fue la única vez que he dejado de ver un poco el podcast. Ya. Que de repente lo quitaba, no lo acababa. A masa, sí. No puede ser un aprendizaje.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1495" target="_blank" class="timestamp">[24:55]</a> Y justo lo cambiaron en ese punto y la verdad que súper enganchado otra vez. Sí, sí, no me acuerdo de ese momento en el cual hicieron punto de inflexión. ¿A que sí? Demasiado pasado de vuelta, quizás. Es porque tienen metados los temas de política y también tienen metados el tema de inteligencia artificial, porque Euge era muy pesado, pero ahora han vuelto un poco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1511" target="_blank" class="timestamp">[25:11]</a> Tocan un poquito de vez en cuando, pero sin pasarse. Pero es verdad que no estoy consumiendo mucho contenido. Sí que es cierto, a nivel analítico. Por ejemplo, yo ya estaba viendo cosas de Kiwi. Los vídeos de Marta a veces sí que me los veo. Y me gusta el concepto, porque me gusta mucho el concepto marca personal, que lo hablamos mucho. No tanto marca temática. Y me gusta reforzar un poco eso. Ahora luego explicamos el concepto. Vale. También... ¿A quién más?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1538" target="_blank" class="timestamp">[25:38]</a> El otro día le hablé a Marc Serrano, que es un chaval que está súper fuerte. Y le dije, qué gustazo de blog acabas de subir. Que no es que me interese el blog en exceso en el sentido de cómo yo tal, pero analíticamente lo veo, lo valoras. Y digo, hostia, este es el fitness del que yo me enamoré. Qué guay que haya un chaval subiendo esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1557" target="_blank" class="timestamp">[25:57]</a> ¿A ti no te pasa que ves vídeos, no de tu competencia, pero de perfiles que quizás están más o menos en tu punto, aunque sea de otros sectores, y analizas qué están haciendo y cómo lo están haciendo? ¿Cómo? ¿Quién? No sé, por ejemplo, un referente que tenga a nivel de Estados Unidos, por ejemplo. ¿Alguien que sea parecido a ti, pero en Estados Unidos? ¿Rion Grimes, quizás?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1580" target="_blank" class="timestamp">[26:20]</a> Es que no es gente que sienta... O sea, es que yo creo que justamente lo que yo he hecho, o a mí me ha funcionado mucho, no se ha hecho en exceso. Es decir, un culturista, que es lo que yo he transmitido siempre en redes y demás, o por lo menos en los últimos años, que grabe mucho su día a día de forma interna dentro de casa, creo que no se ha visto mucho. Sí que se ve un culturista cuando ha entrado por la puerta del gimnasio grabando un entrenamiento o grabando un entrenamiento con alguien y se acabó el vídeo. Que es lo que a mí no me gusta, porque no me interesa. Todas las semanas entrenan lo mismo, más o menos, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1609" target="_blank" class="timestamp">[26:49]</a> Entonces tienes un recorrido de seis vídeos, seis músculos diferentes y ya está. Entonces no es interesante. Yo siempre digo que un vídeo mío, por ejemplo, entrenamiento tiene que haber dos o tres minutos. Si es un vídeo daily normal. O sea, si es un entrenamiento en concreto con alguien puede ser más largo. Pero si es un entrenamiento del día a día y yo estoy enseñando mi día a día, aparte de entrenamiento, tiene que estar porque me dedico en parte a eso, con eso en redes, pero con dos o tres minutos sobra. Yo el derecho de entrenamiento, si se prolonga, lo paso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1638" target="_blank" class="timestamp">[27:18]</a> A ver, un press de banca plano, unas aperturas, un press inclinado en máquina, no sé qué. Vale, pues muy bien, pero yo qué sé, como lo hacemos todos más o menos, o sea, tampoco tiene mucho misterio. Además eso en el 2016 lo petaba, pero actualmente... Exacto, exacto. ¿Tú qué ves? Yo economía, rendimiento...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1659" target="_blank" class="timestamp">[27:39]</a> Es que yo veo de eso, tío. Sí. Mira, él interpreta el consumo de contenido como un tiempo para mejorar y aprender. Es una locura. O sea, es verdad que yo estoy un poco enfermo. O sea, bueno, de ahí te lo puedo decir. Veníamos para acá y estábamos escuchando un podcast de un chaval que está explicando cómo invertir en YouTube y lo tan rentable que era y cómo hacerlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1685" target="_blank" class="timestamp">[28:05]</a> Y entonces yo soy así. Es como que mi cabeza no... Me cuesta desconectar mucho, tío. Eso es lo siguiente. Te puedes desconectar. Yo desconecto muy poquito, tío. Estoy en un núcle infinito de aprendizaje. Qué guay. Nada, está bien. Es una época también de la vida, ¿no? Sí, te puedes quemar, pero si es lo que me pide el cuerpo, yo me dejo llevar bien. ¿Y cuál ha sido el último vídeo que os ha impactado que hayáis visto? Porque está complicado ahora mismo. Si te digo los últimos cinco TikToks que has visto, ¿no te acuerdas?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1715" target="_blank" class="timestamp">[28:35]</a> ¿Cuál es un video que llegas a hacer? Me acuerdo de este video que he visto y me ha impactado y es bueno. Yo os diría, de la saga que ha estado haciendo Clavero, uno de China, que justamente veníamos nosotros de China, una experiencia terrible, por cierto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1740" target="_blank" class="timestamp">[29:00]</a> Y contaba que el precio de... Es que no me acuerdo la ciudad exactamente. Pero que era el suelo más caro del mundo. Era súper caro un piso. Hong Kong, correcto. Hong Kong era.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1757" target="_blank" class="timestamp">[29:17]</a> Me impactó. Sí, ¿eh? Fue a dormir en una habitación muy pequeñita, que seguramente no pasaría ahí en la noche, pero bueno. Siempre, sí. Lo falsearía y tal. Yo creo que... No digo que siempre duerme en cosas... Sí, sí. Extrañas. Muy pequeñita y tal. Había chinches... Bueno, no contaba si...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1774" target="_blank" class="timestamp">[29:34]</a> Está mal. Yo te diría que hace unos días vi, preparando un podcast que también estábamos y demás, y porque fuimos a Murcia, un podcast de Titan, de Enfaz, con Dr. Aldo. Ah, mira. Me gustó. ¿Sabéis quién es el Dr. Aldo? No. Es el entrenador de rendimiento de Iliatopuria. Como el head coach de Iliatopuria.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1798" target="_blank" class="timestamp">[29:58]</a> Me gustó. Me gustó por... No tanto por el rendimiento, porque a mí tampoco es algo que esté como loquísimo con la parte de entrenamiento. Bueno, pero la parte de... Había mucho biohacking ahí. Sí, había mucho biohacking. Mucho de comida orgánica, mucho de terapia de recuperación y todo ese tipo de cosas. Que es verdad que es una cosa que me está interesando bastante últimamente. ¿Qué os interesa?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1824" target="_blank" class="timestamp">[30:24]</a> Y ahora mismo estoy fultins. O sea, pensad que yo llevo nada en esto. Y lo que igual entonces ya os aburre. Ya, correcto. Yo en cada comida, en cada cena.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1837" target="_blank" class="timestamp">[30:37]</a> Es un vídeo... Te frotan las manos de... ¿Han subido vídeo? Sí. ¿Qué ves? No te hemos preguntado. Un poquito de todo. Literalmente. Bueno, soy bastante parecido a Ander. O sea, es viajes y si quiero cambiar. Y si no, pues el entrenamiento de Kion a seis semanas. Sí, ¿eh? Lo que me salga, literalmente. Pero sí que a mí me gusta ver el propio entrenamiento del atleta. Me gusta como... Ya que el tío coge y se lo burro como nosotros que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1866" target="_blank" class="timestamp">[31:06]</a> Pues bueno, yo no. Pero vosotros, sobre todo, que tenéis contenido para YouTube, etcétera, y le metís empeñado a hacer el vídeo y subirlo, etcétera, pues propiamente ya ver ese vídeo. No el de algún reajenador o lo que sea. Porque eso me parece algo a valorar. Eso está muy bien, la verdad. Está muy bueno. Más noticias, ¿eh? Bueno, es que yo no tengo... veo los entrenamientos de Kion o los entrenamientos de Zosema. Yo veo más en plan noticias de contenido futurismo generado. Mola.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1895" target="_blank" class="timestamp">[31:35]</a> ¿Por qué todos habéis competido? En plan, ¿cuál fue el motivo de competir? Yo hago una foto de Jeremy Buendío. 2017, bañador azul. Pero realmente... Esa foto no me la quito de la cabeza. Es el último Olympia. Eso tampoco hace falta competir, ¿no? Sí. ¿El qué? Que eso realmente no hace falta competir para estar así, ¿no? O sea, tener la competición es ir a enfrentarte con otro. Yo ya te digo, lo vi y esa foto no me la quito de la cabeza nunca. Y es la foto... Y el típico edit de la cuenta de YouTube.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1924" target="_blank" class="timestamp">[32:04]</a> De ahí de Jeremy. Es que me acuerdo de Jeremy Buendía. Jim Motivation, una cosa así. Mamá, Jim Motivation. ¿Y la canción de No Copyright Sounds? De Netflix. Sí, algo de eso. Yo me voy a preguntar a olvidar eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1939" target="_blank" class="timestamp">[32:19]</a> Era una locura, me acuerdo que hicieron una quedada, no sé si era Evo Yen en ese momento o de que era, con Sadik también estaba, con Henry Rambo, Jeremy Buendía entrenando y demás. Me imagino, ¿no? Sí, puede ser. No lo sé, no lo sé, pero... Era de la marca, me acuerdo que era Evo Yen. Puede ser. Que Sadik no sé si ha bastado con Evo Yen, pero sí, sí, sí que sé lo que dices.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1963" target="_blank" class="timestamp">[32:43]</a> Un poco el que ha parecido, ¿no? ¿Sadic? Sí, pero no le fui medallando. Sí, compitió el año pasado, pues sí. ¿Sadic? Sí. Sí, yo entrené con él, además. Justo creo que cuando compitió. Pues no sé si... Ah, tuvo un problema. Me acuerdo, no contó. Él iba a competir también otra vez más en MENS. Compitió en Clásico un año, iba a competir más en MENS y cortó la AEST. Me acuerdo que lo estuvimos hablando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=1991" target="_blank" class="timestamp">[33:11]</a> problema. ¿Tú por qué competiste? Quería ver la experiencia, tío. Quería probarlo. Literalmente tampoco porque llevase mucho rogado ni nada, pero simplemente veía físicos acojonantes y quería decir, bueno, a ver si puedo... A ver si hay potencial. Y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2016" target="_blank" class="timestamp">[33:36]</a> La verdad es que es algo que me gustó mucho y que quiero seguir repitiendo, pero me quedó muy claro dónde está el nivel. Y más ahora que todo está en auge y el culturismo natural sobre todo está en auge y la gente va loquísima. Es una locura del físico que se está sacando últimamente. Es por probarme. ¿Crees que el culturismo natural es sano? No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2038" target="_blank" class="timestamp">[33:58]</a> Ningún culturismo, ningún deporte a nivel extremo es saludable. De hecho, si tú quieres enfocar tu vida a optimizar tu salud, no convives. Yo tengo que decir una cosa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2048" target="_blank" class="timestamp">[34:08]</a> Y no quiero que suene mal ni nada. El culturismo natural, que me parece que además está en la aguja que te cagas. Y me parece súper guay. Sí, sí, sí. No, 100% iba a pegar más. Pero me parece extremo el físico que saca los culturistas naturales. Mucho más que no naturales. Parece que se lleva mucho más... A nivel de condiciones. A nivel de condiciones. Oye, evidentemente. A nivel de evidencia científica.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2076" target="_blank" class="timestamp">[34:36]</a> Pero yo creo que la gente siempre tiene ese estigma con el culturismo no natural por el uso de sustancia y demás. Pero al final lo que no ven es que los naturales vamos literalmente sin rumores. O sea, vamos jodidísimos a competir. No, nada mítica tiene que ser curiosa, ¿eh? Tengo yo. Yo tengo... Post-competic. Post-competic. ¿Y qué tal? Y para que veáis una idea, no recuerdo si era de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2100" target="_blank" class="timestamp">[35:00]</a> libre o la total no recuerdo ni las unidades sé que el rango iba entre 2,8 y 28 y yo tenía 1,27</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2111" target="_blank" class="timestamp">[35:11]</a> Y, sin embargo, tres meses después ya tenía 14. Te quedas sin texto. Y no, es jodido. Es muy jodido porque se hacía una serie de mecanismos ya a nivel de modo supervivencia. Yo lo que quiero es que es más recuperable.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2130" target="_blank" class="timestamp">[35:30]</a> Lo que haces. Sí, pero tienes que respetar los tiempos que te marquen tu cuerpo. Sí, pero... Es decir, dos prepas seguidas y me he dado cuenta que me he saltado tiempos y he tenido que hacer barbaridades. Sí. Entre mil pasos, bajar las clavias muchísimo para poder llegar al punto de condición que llegue el pasado. Sí, pero lo que me refiero es que sí que pienso que el cultivo natural es mucho más sano en cuanto a... Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2152" target="_blank" class="timestamp">[35:52]</a> a que te jodes como en todo, pero acabas la competición y creo que puedes volver más rápido a un punto normal. Lo otro creo que hay cosas que te la estás reventando ahora. La investigación que tienes con... Exacto. No, yo en tres meses pasé de 97 a 14. Es que literalmente te estás envejeciendo. Sí, es una locura, es una locura. Pero bueno... La fiesta. ¿Tú por qué competiste? ¿Yo por qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2179" target="_blank" class="timestamp">[36:19]</a> Pues, sinceramente, he estado en un momento un poco extraño de mi vida. He estado muy focus, bastante alejado de lo social y muy foco en desarrollo personal. Y nada, me quise autosuperar, sobre todo porque dejé el power.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2193" target="_blank" class="timestamp">[36:33]</a> Y... Eso, tú tienes 300 muertos, eh. Sí, tío. Bandido. De hecho, tú lo dices, me gusta. ¿Sí? Porque tú... Te lo pasaría... Porque tú conoces... Te llamo un amigo en común. ¿Tú más? Sí. Pues te lo pasaría. Y me acuerdo que me dices, me gusta hacer... Qué guay, qué guay, qué guay. Y nada, hice atrás... Y no te hice ilusión, eh. ¿Qué? Y no te hice ilusión, es que me gusta. No, un chiquito. No, no, joder, llevo la valor un montón de esas cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2219" target="_blank" class="timestamp">[36:59]</a> Y eso, y simplemente hice la transición de power a culturismo. Me quise demostrar a mí mismo que podía competir culturismo. Lo hice y veremos a ver si lo hago de nuevo porque es complicado. Te cansaste del power mucho. Sí, tío. Quema muchísimo, tío. Quema. ¿Tú por qué lo dejaste, tío? Bueno, tampoco había competido nunca, pero es verdad que mi punto justamente también fue...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2244" target="_blank" class="timestamp">[37:24]</a> Que empecé en un momento que el peso corporal te empieza a restar en algunas cosas. Y a mí me empezó a restar mucho en el muerto, que era algo que me motivaba mucho. Empezaba a mejorar la sentadilla, pero me restaba en el peso muerto. Me empecé a desmotivar también un poco y quise cambiar y probar y demás. ¿Cuánto días te levantaste en el peso muerto? ¿3,70? 3,80.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2262" target="_blank" class="timestamp">[37:42]</a> 360. Pero es que ya no te quedaste muy atrás. 360. Con rodillas, ¿eh? Con rodilleras. Ah, bueno, cuidado, con rodilleras. No, no, no. Es al revés, o sea, es con... Sin vendas. Claro, sin vendas, sí. Pero... Sí, al final es un poco por eso. Yo competí porque me apetecía probar y disfrutar. Justo también nos íbamos a ir a Estados Unidos y... Bueno, ya que dije, vamos, el culturismo y tal, nos fuimos al powerhouse...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2289" target="_blank" class="timestamp">[38:09]</a> Empecé a prepararme con Fede, que preparaba el culturismo y demás, y pues competí. Sin más, ¿no? ¿Tú ya sabías que debajo, porque ahí estás un poquito pasadete, había cositas? Yo no sabía. Era complicado no saberlo. ¡No, no!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2306" target="_blank" class="timestamp">[38:26]</a> En aquel momento había hate, en plan, no existe nada bien el culturismo. Ya, ya, es por hatear. Todo literal. ¿Te afecta el hate? Porque yo soy una minucia comparada a ti, pero me tira más de hate y realmente me resbala, literalmente. ¿A ti te llega a afectar?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2327" target="_blank" class="timestamp">[38:47]</a> A ver, muchas veces es muy masivo. Y cuando es muy masivo a veces te das cuenta, pero estoy consiguiendo no enterarme de lo que va pasando, la verdad. Porque tengo un... No veo fitness, pero es porque tengo realmente silenciadas las cosas de fitness. O sea, tú le das la función esa de los tres botoncitos, no recomendarme el canal y no te vuelve a aparecer nunca más. Y no me busco yo a mí mismo nunca en Google ni nada. Porque ya es como un poco un compromiso conmigo mismo de esto te puede afectar, no te busques. Y además que sea algo muy gordo, que me acabo enterando por algo, no me entero. A ver, también te digo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2357" target="_blank" class="timestamp">[39:17]</a> Te dicen, es que no eres natural. Y tú dices, sí lo soy. Sí. Es que eso tampoco es un hate muy grande. Pero da igual. A mí me han besado a la muerte muchas veces. De hecho, eso estaba siendo lucida. Sí, natural va a ser el paro cardíaco que te va a dar. Pero, de verdad, me resuelva. Sí, pero... No da igual. Es que ese tío después de decirme eso compra una tostadora en Amazon.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2379" target="_blank" class="timestamp">[39:39]</a> Ni siquiera se acuerda de lo que me ha escrito. Ah, vale, o sea, porque la tosta de Amazon me ha acabado algo. No, quiero decir que, joder, yo lo enfoco de esa forma, no sé. Mira, lo estábamos hablando esta mañana, yo creo que es en el podcast justamente. También lo estábamos hablando y yo creo que es gente que muchas veces entiendo que es su modelo de negocio muchas veces, o su tipo de contenido. Su manera de tener audiencia. Y también pienso que muchas veces están muy jodidos ellos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2404" target="_blank" class="timestamp">[40:04]</a> O sea, porque no pienso... O sea, realmente pienso que muchas veces pueden tener problemas también y que por eso los plasman de ese modo. Sí. Entonces tampoco me lo tomo demasiado en serio, ¿sabes? Como si te insultan por la calle a veces y no sabes ni quién es y dices... Uy, sentir lástima. Lo que dice Paco de Pepe dice más de Paco que de Pepe. Literal. Sí, entonces intento cada vez que me influya menos. Y es verdad que lo estoy consiguiendo ahora más que nunca. Que me influya menos. Aún así, yo desde fuera veo que es muy fácil decir, tal, no hagas caso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2433" target="_blank" class="timestamp">[40:33]</a> Claro, cuando van tan a lo personal, cuando expones tanto tu vida y te atacan donde saben que jode, ahí es más complicado. Obviamente, si tú eres un fisicazo, dicen que no es natural, deseas la muerte, me suena tres cojones, ¿sabes? Pero cuando expones, por ejemplo, imagínate, expones a tus padres y hay algo de tus padres que a tú te duele y te atacan ahí, hostia, ahí da mucha rabia, por ejemplo. Sí, mira, me acabas de recordar ahora. Me sacaron en policía naturales, me suele sacar bastante...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2462" target="_blank" class="timestamp">[41:02]</a> Y uno de los comentarios fue, a este chico le aposté yo un análisis hormonal, le aposté 5.000 euros en un análisis hormonal y me bloqueó y no me volvió a hablar. Y digo, ¿quién eres? ¿Sabes? Obviamente no estaba ni bloqueado, ni en mí. Era todo bendiga. No, pero da igual. Yo he bloqueado a mucha gente y no pasa nada. Creo que es positivo para ti bloquear. Al final para qué quiere decir algo malo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2485" target="_blank" class="timestamp">[41:25]</a> Me refiero a inventarse eso es ser culero. La realidad es, ¿te ha pasado alguna vez a algún persona? Eh, no. Ya está. Yo creo que al final todo se resume a eso, que decir persona no te pasa. Yo me cruzo con mucha gente que me agacha la cabeza. Pero joder, claro, también es que tú eres...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2503" target="_blank" class="timestamp">[41:43]</a> No, pero que a mí tampoco me ha pasado nunca, entonces tampoco es tan real. Pero es un poco curioso porque luego te encuentras con gente de persona y dices, tío, ya que te mofas tanto conmigo, que no pasa nada, que yo soy súper tranquilo, tampoco le voy a decir nada a nadie, es que me da absolutamente igual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2523" target="_blank" class="timestamp">[42:03]</a> ¿Y Toni, tú, por qué no has competido? Principalmente porque... Hago 4.000 pasos diarios. Eso, eso es... ¿Cuántos pasos de pasos diarios no tienes ni nada? La media semanal está bajita. Está bajita la media semanal. ¿Has comprado la cinta? No he comprado la cinta. Hoy estamos de PR, chaval, 5.000. ¿5.000? Qué locos. Llevo yo ya. A ver, voy a mirarlo. La media semanal. Tío, vas a pegar 3.300 pasos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2553" target="_blank" class="timestamp">[42:33]</a> Llevo hoy ocho mil. ¿Qué dices? Ah, vale, porque has hecho caos trabajando siempre, pero... Veintiún mil yo creo. ¿Esto ocho mil pasó esto? No me acuerdo. Sí, pero no sé por qué es el día que más. No, es el anual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2568" target="_blank" class="timestamp">[42:48]</a> No, mira, hago 6.000 y pico de media. Yo 4.800 de media. Está mal, ¿no? Yo 14. Hay que hacer más. Hay que hacer más. Yo tengo que decir que a veces en la cinta no lo cojo. O sea, me refiero, está ahí escribiendo algo, a veces lo cojo o tal, o una llamada. O perdón. A ver, pero muchísimos más. Tampoco haces. O sea, tampoco hay... Hago 4.000 y pido con la cinta por las mañanas y luego lo que surja por casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2594" target="_blank" class="timestamp">[43:14]</a> Yo es que no podría, de verdad, ni aunque quisiera algo menos de mí. Solo yendo a mear o algo así, me sabe. Pero no me tienes el baño, tío. No sé. No podría. A mí igual es por Pepe, tío. Grande Pepe. Shout out para Pepe. Buen chaval.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2610" target="_blank" class="timestamp">[43:30]</a> Sí, sí, sí. Una pregunta. No estoy de coña. ¿Cómo coño te haces la crema de arroz esa que crece tanto? Brother. Lo estaba preguntando en el coche y luego se preguntó. ¿Tienes un grill en mi Instagram? Link en la bio. El tiesto, tío. Es una técnica de purón. El tiesto, ¿eh? Tienes el tiesto. La manta de canela por encima es muy burón de Ceylan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2628" target="_blank" class="timestamp">[43:48]</a> me han dicho antes en el coche luego se lo pregunto lo meto en la noche le meto impulsor de royal el de hornear para que coja así textura le meto al micro lo revuelvo y tal y lo dejo en la nevera lo puedes dejar dos horas por la noche antes lo pides, da trabajo pero en tu caso te da igual porque no pasas hambre pero si eres una roca hambrienta en preparación</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2655" target="_blank" class="timestamp">[44:15]</a> de comer cien gramitos de crema de arroz con cuatrocientos mililitros de agua a meterle un litro, un litro cien. Un litro. Pues cambia la película muchísimo, tío. A cien gramos de crema de arroz le meto un litro de líquido. Me parece una auténtica barbaridad. Y con la misma textura que si lo mezclas en frío. Entonces, en preparación, se agradece la ping a ti. Gracias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2682" target="_blank" class="timestamp">[44:42]</a> Te agradezco mucho. Una pregunta que me gusta. ¿Hacia dónde creéis que va el fitness? No lo tengo claro. Yo creo que el culturismo natural está despegando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2694" target="_blank" class="timestamp">[44:54]</a> ¿Lo digo en serio? No es porque sea mi sector y porque sea el pesado del culturismo natural. Yo también. Creo que estamos donde debemos y cuándo debemos y cada vez hay más. Y por eso quiero aprovechar este que es mi cuenta. Yo creo que va a cambiar y se va a ir toda el DPC, ¿eh? Por eso. Yo creo que no lo tiene. Emilio va a meter ahí... Yo creo que WDNF son los reyes y los higranse aquí. Yo opino que el culturismo no tiene mucho futuro. Yo soy agudo. Sí, tío. ¿Sabéis del evento este que hubo, que fue Joan, Ángel, Fede, Kim...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2724" target="_blank" class="timestamp">[45:24]</a> Madermann compitió. Ah, sí. En el ETH. Sí. Ah, sí. Mike Sommerfield fue de Guess Poser. Sí. Germán Pastor fue de Guess Poser. Literalmente los atletas más top de toda España. Y no es un evento que haya sido ni muy multitudinario ni que hayáis seguido todos muchos y tal. Me da que pensar. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2748" target="_blank" class="timestamp">[45:48]</a> porque si está lo mejor del país y no ha sido como ninguna locura, quizás que no van por ahí los tiros. No sé, mi opinión. Yo, de todos modos, sí que estoy de acuerdo que pienso que el culturismo natural está creciendo más de lo normal y a un buen ritmo. Pero sí que pienso que el fitness no va por ahí ya. Yo pienso que el culturismo natural, salud, gente mayor que tu canto. Yo creo que el culturismo natural y el fitness en chicas es el presente, sin duda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2774" target="_blank" class="timestamp">[46:14]</a> Pero el futuro yo lo veo enfocado a la salud, enfocado al anti-aging, al biohacking y ese tipo de cosas. Me parece muy bien, ¿eh? Es mi opinión, ¿eh? Quiero decir, no, yo no solo tu opinión o lo que vaya a pasar, sino que solo me parece una serie más buena, la verdad. De hecho, mira, entre la gente y la vida se está poniendo muy de mola. Cada vez más. Yo corro, yo corro. Sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2795" target="_blank" class="timestamp">[46:35]</a> Justamente esta mañana estábamos hablando del caso de Hirox. Un poco del caso de empresa, de cómo había surgido, de cómo lo habían gestionado y todo, que era bastante guay y llamativo. Mira, por ejemplo, MyPlotin, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2807" target="_blank" class="timestamp">[46:47]</a> ¿Tú lo has visto? De hecho, MyProtein hace unos años, que me acuerdo porque hicimos el rebranding y demás, cambió sus colores y su logo. De azul y blanco a naranja a blanco y un logo mucho más neutro, por así decirlo. Bueno, sí, un rebranding de logo también. Y fue porque ellos querían entrar a la venta más masiva, mucho más allá de la gente que compra suplementación para poder vender en supermercado, para poder todo eso. Que al final es irse ya al global.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2835" target="_blank" class="timestamp">[47:15]</a> Y hace unos años de eso. Pero evidentemente a nosotros no llega todo más tarde, pero sí. Pero bueno, y también tienes que ver un poco la tendencia de un Ibai que lleva un año y pico a tope y es el mainstream. Cuando nosotros estuvimos en la clínica de ITA y en esta de longevidad y demás, y ves los tickets que también se pueden pagar ahí y dices, hostia, es que el otro es mucho más flojo. Y el tema chica también es algo que creemos que está mucho más hacia arriba que el chico. ¿Vuestros padres entrenan? Qué bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2861" target="_blank" class="timestamp">[47:41]</a> ¿No? Mi madre hace zumba. Y a mí me va para gym. Gracias a mí, sí. Literalmente. La cara que vendió a mí, se la metía ahí sola la cabeza. Mi madre hace pilates. Muy bien. Mis padres ahora entraron los dos y al principio hace 10 años...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2880" target="_blank" class="timestamp">[48:00]</a> Era como una locura, me voy a entrenar, ¿sabes? Y te vas haciendo mayor, vas viendo cosas y como que se va normalizando. Entonces yo creo que la siguiente ola va a ser esa, la de esa generación que vuelva a entrenar, o sea, que empieza a entrenar y empieza a preocuparse de su salud. Mi madre entrena, ¿eh? Mi madre está muy fuerte. A algún lado tiene que salir. No, sí, mi madre entrena. Mucho mi madre hace peso muerto, hace sentadillas, todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2904" target="_blank" class="timestamp">[48:24]</a> Mi padre entrenó mucho, sí. Mi padre era muy rata de gimnasio también. No futuristamente, pero sí que me molaba mucho. Estuvo ahí. La verdad. ¿Cardio? ¿No levantaba piedras ahí? No, no, no. No, de hecho, no. Yo soy vasco por parte de madre. Ah, vale. Sea basurto, soy por parte de madre. Vale, vale. Mi madre está muy fuerte. Sí, es muy fuerte. Tiene 64 años y aún así...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2929" target="_blank" class="timestamp">[48:49]</a> Joder, me acuerdo, tengo un recuerdo desde pequeño que mi madre ganaba echando pulsos a los padres de entre mis amigos. Literal, como buena vasca. Bueno, Marta, ¿eh? Yo cuando me hacía Marta...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2942" target="_blank" class="timestamp">[49:02]</a> Yo tenía a mis amigos de Rube y demás y se los presenté un día. Y echando un pulso con uno, cuando salimos le dije, tía, es que haces esto, ¿eh? Ni de coña. O sea, en realidad, ha ganado. O sea, ha ganado, no vuelvas a quedar así, les acabas de conocer, ¿sabes? No me moló nada un pelo, ¿sabes? Y dije, no, no. Sí, sí. O sea, el 21 días de Neil también se jodió el hombro por echar pulso con ellos y el codo. Hay que tener cuidado con los pulsos, ¿eh? Sí, sí. Y se me ha dado bien, pero me ha dado...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2971" target="_blank" class="timestamp">[49:31]</a> Hay una parte de ego de saber que puedes hacerlo bien y tal. ¿Te echo un pulso? No, no. No, porque si es peligroso y encima se te dan bien, ¿para qué voy a perder? No, imagínate que me lesione. Imagínate. También creo que hay que disfrutar la vida. Yo estoy un poco en ese modo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=2990" target="_blank" class="timestamp">[49:50]</a> Yo he dejado de hacer muchas cosas por las competiciones y me arrepiento en gran parte. Hay tonterías así del día a día, que no digo, yo qué sé, saltar en paracaídas, pero echar un pulso, darle un puñetazo a la máquina de puñetazos. Deberías porque... Pero joder, yo también, sabes que pienso que hoy estás aquí sentado comiendo esto en una de las mejores etapas de tu vida por haber...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3016" target="_blank" class="timestamp">[50:16]</a> por haberte ahorrado hacer esas cosas. Por haber dejado hacerlas. Si hoy estás donde estás por todo lo bueno y lo malo que has hecho. Sí, puedo estar de acuerdo. Pero tú te rayaste demasiado. Sí, creo que hay cosas que no suman tanto como te quitan. Y creo que hay que saber dónde está el límite. Tú, por ejemplo, has venido a viajar aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3041" target="_blank" class="timestamp">[50:41]</a> Vale. Me ha dado con el cual dices que... Tú, por ejemplo, vienes aquí y haces tu dieta, perfecto, pero vienes al evento. Y yo, por ejemplo, hubiese dicho que no soy ese que me encajan cerrando. ¿Sabes? Entonces...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3057" target="_blank" class="timestamp">[50:57]</a> pero que según qué cosa puede rentar más o menos de hacerla o no hacerla. Hay muchas cosas de trabajo que he dejado de hacer por... Yo he dejado de hacer muchas cosas de trabajo por...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3073" target="_blank" class="timestamp">[51:13]</a> por el culturismo, por tal, y creo que no tenía sentido dejar de hacerlas. O sea, no me estaba sumando nada, me estaba quitando mucho más. Cosas de trabajo con las que ganas dinero, ganas experiencias, ganas networking, cosas pagadas. Claro, claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3089" target="_blank" class="timestamp">[51:29]</a> Por ejemplo, hubo una época que estabas en plena época de preparación, con competiciones y demás. Y me acuerdo que ibas a muchos podcasts, que hacías muchas colaboraciones. Por ejemplo, fuiste al de Alex Hauber. Sí, eso se hizo mítico. Y ahí te criticaron mucho, ¿verdad? Sí. Porque es como, o eres culturista o eres culturista. Mira, ya no es muy bien chico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3107" target="_blank" class="timestamp">[51:47]</a> En 2023 decidí que era un momento de expansión muy grande. Quizás sabiéndolo sin saberlo, pero sí que entendí que era el momento de expansión. Estaban surgiendo cosas muy interesantes y muy importantes. Y fue un momento de decir que sí a todo. Ahora no digo que sí a todo, pero en ese momento decía que sí a todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3125" target="_blank" class="timestamp">[52:05]</a> Ese año grave con Neal, con Neal Project, con La Resistencia. Tengo un plan. Tengo un plan. Wild Project, Alex Hawkers. Mil cosas que no me acordaré. WebPosite, no sé, Marta se acordará. Íbamos a eventos también, que no son podcast directamente, pero a eventos durante todo el año. Íbamos quizá a Madrid. Muchas semanas, dos veces.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3147" target="_blank" class="timestamp">[52:27]</a> Y de vuelta en el día. Y creo que merecía la pena. O sea, creo que mereció la pena. De eso sí que es, de eso que dices, todo eso te ha llevado aquí, pues esas cosas, decir que sí, esas cosas, sí que creo que es todo lo que me ha llevado aquí. Y no es ni ir y que morre. ¿Sabes? De verdad lo pienso. Pienso que eso sí que me ha llevado aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3166" target="_blank" class="timestamp">[52:46]</a> Lo creo honestamente. Y creo que hay muchas veces que hay que valorar realmente lo que te está aportando y lo que te está quitando algo. Ese año de repente está en todas partes. Sí. No lo puedes hacer siempre. Creo que saturas mucho si lo haces siempre. Pero ese año fue un año de expansión. 2024, por ejemplo, no aparece por ningún lado. ¿Sabes? Creo que es un poco saber la resistencia a la revuelta. O Miguel, creo que también dice una cosa. Cosas que no se pueden decir. Cosas que no se pueden decir con Ibai y cosas así. Pero mucho más medido. Pero ese año sí que era como todo, todo, todo loco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3194" target="_blank" class="timestamp">[53:14]</a> Yo creo que es positivo. Me iba de viajes a Estados Unidos con culturistas y demás. Ahora no lo hago porque no me apetece tanto. Claro. O no me interesa. Es que no me interesa. Suena etapa y entrenado al final también. Si surge bien, a veces, y te cuadra bien, pero en una Florida, entrenar con no sé quién, nada me apetece. Solo por entrenar con no sé quién. ¿Entrenas conmigo? Entrenar con un tío. ¿Con quién os gustaría entrenar? En una persona que llegáis. Ojalá entrenar con esa persona. Con Jeremy Buendía en 2016, el lacato del rato. 17. 17. Cuarto limpiar. No, no sé, no sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3225" target="_blank" class="timestamp">[53:45]</a> No sé. Pues... Demasiada gente. Da igual, ¿y un nombre de alguien que te venga a la cabeza, así rápido? Bueno, es que no tengo ni idea. Ahora me he bloqueado. Me he bloqueado. Yo no soy fanático de ningún culturista, en serio. Da igual, no tiene por qué ser un culturista. ¿Con qué te apetece ya pasar un rato entrenando? ¿No? Buena pregunta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3246" target="_blank" class="timestamp">[54:06]</a> ¿Con tu padre de joven? Joder. Mi padre me gustaría pasar una tarde mañana. Mi padre murió en 2020. Hostia, perdona. La llevo súper bien. No, no sabía esa. La llevo muy bien. Es algo que es lo que hablamos, igual que lo otro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3263" target="_blank" class="timestamp">[54:23]</a> Yo soy una afortunada, a pesar de que mi padre muere todo bien. Nunca me ha faltado de nada. Jamás me he faltado absolutamente de nada. Y es mucho peor nacer sin padres, con padres drogadictos. Peor con padres normales que pasen de ti. Y tener una familia grande, estructurada, buena. Un buen círculo de amistades. Una buena pareja. Un buen trabajo. Una buena estabilidad. Si muere tu padre con 53 años, pues es una puta así, pero... Joder.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3292" target="_blank" class="timestamp">[54:52]</a> Hay que ver el lado positivo. Y... No sé, estoy pensando en alguien con el que entrenaría. A mí eso ocurrió Dorian Yates. ¿Sí? ¿Ha actuado o en el 96? No entrenaría contigo, tío. Te pondría... Se pondría la capucha y así, claro. A lo mejor aparece fumado. Yo tengo que decir que creo que está mal mitificar cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3321" target="_blank" class="timestamp">[55:21]</a> Porque, yo qué sé, has visto tres vídeos de Rebe Coleman y te piensas que entrenaba así o tal, pero no lo sabes. Además, era una época en la que no había tanto contenido. Hay tres o cuatro vídeos de cada uno, más o menos, se han hecho virales con diferentes efectos y demás, pero no sabes lo que hacían. Kevin Lebron y me gustan mucho. Kevin Lebron y es puto ahora, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3338" target="_blank" class="timestamp">[55:38]</a> que es lo malo que dice que hay 4 o 5 copilations que son de la misma sesión literal es una pila de compilaciones que es el mismo entrenamiento que sale con el gorrito en la camisa tirante negra pegada haciendo el gañán en el culo de bíceps con los brazos de acá y con unas gorras de 50 kilos pero es que es puto ahora ahora es que sigue bonito subido guay</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3366" target="_blank" class="timestamp">[56:06]</a> Pues a mí sinceramente, igual no por el entrenamiento en sí, pero porque me parece un puto muñeco. Me encantaría ver en persona a Lee Priest en su... Ah, el físico de Lee Priest a mí me gusta mucho también. Me parece un puto muñeco, tío. O sea, es una locura. Es increíble. ¿Tú como quien te gustaría? Me gustaría.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3388" target="_blank" class="timestamp">[56:28]</a> La cueva de David Marchante de 200 kilómetros. ¿Qué me ha decidido David Marchante, tío? Que justo era el trípode para que entrase en el plano, ¿eh? Y retroacción escapular. Yo David Marchante de 100%. Sí, ¿eh? Y retroacción escapular. Además, yo sé que tú también eres muy fan, porque de hecho tiene un vídeo en tu canal, o tenías. Sí. Como acá antiguo, sí. Hace un montón. Que fuiste al centro de entrada. Sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3413" target="_blank" class="timestamp">[56:53]</a> A mí me encantaba, me encantaba. Y me sigue encantando en cierto modo y me sigue gustando mucho. ¿Y tú lo has conocido después de eso, en la parte más personal? No, no te diría. Sí que he estado con él algunas veces y demás, pero no te diría que lo he conocido demasiado personalmente. He tenido la posibilidad, la verdad, y me gustaría hacerlo. De hecho, también me lo dijo. Me gustaría conocerlo y podríamos ir. ¿Esa parte empresarial que te gusta también a ti?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3441" target="_blank" class="timestamp">[57:21]</a> Sí, sí. O sea, sí que he hablado con él a veces por teléfono alguna vez o alguna cosa hace unos años, pero es cierto que no me he sentado así a cenar con él y sí que creo que sería interesante muchas veces. ¿Tú has perdido la ilusión, eh? Pero no tiene por qué ser alguien de... Claro, tío. O sea, tú piensas que no tiene por qué ser un culturista y nada. Ya, ya. A mí se me acabó por ir Miguel Ángel, el entrenador, el antiguo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3466" target="_blank" class="timestamp">[57:46]</a> Si lo conocéis, todo el mundo explica que ha entrado con él, que te metía a través de su hablar, no de entrenar, que te metía un poco tan absurdamente grande. Algo súper raro y súper diferente a lo que estamos acostumbrados. A mí me dijo Dufour que me gustaría mucho entrenar con él. Y alguna vez pensaba en hablarle y demás para intentar gestionarlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3493" target="_blank" class="timestamp">[58:13]</a> El tío lo metía dentro del entrenamiento de una manera súper loca. Ni los es tan jodido como para hacer. ¿Cómo para qué? El entrenamiento de pierna mítico tuyo también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3503" target="_blank" class="timestamp">[58:23]</a> Siempre lo de entrenamiento de mi vida. Pero lo arrepentiría. Es el único vídeo de entrenamiento, fuera broma, no me explico aquí. El único vídeo de entrenamiento que he visto en Terra. Sí, ¿eh? De alguien entrenando que no ha de saltar el pecho. Es puto peñazo. El de pierna de hilos. Es cierto que has hecho algún otro con hilos. No me lo he visto. No me lo he visto. No me lo he visto. Pero el de pierna, que odio hacer pierna. ¿Te puede ser la cosa? Me lo distraga entero, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3528" target="_blank" class="timestamp">[58:48]</a> ¿Te puedes decir una cosa? Por favor. Se veía feo, ¿a que sí? Se veía muy feo. Pues era peor. Te lo prometo. Sí, sí, no, no. Es decir, es extremo. Muy, muy extremo. Jamás veía un nido de pierna, pero ese... Y me llama la atención porque, joder, ¿cómo coño me visto yo que lo ha visto? Miré en una hora un tío haciendo pierna. Ah.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3546" target="_blank" class="timestamp">[59:06]</a> Y me llamó la atención. Tengo que decir que estamos en el Apex Gym, en Barcelona, y aquí tienen las tres o cuatro máquinas que usé en ese entrenamiento. Las mismas. Te lo prometo. Quien quiera que lo daba. Quien quiera que lo daba. Quien quiera que lo repita. Si bajo yo. Hácédselo. No me lo sé. No tengo nada más. No tengo nada más. Fue muy duro, fue muy duro. Mola mucho, eh. O sea, me parece increíble. Yo, de hecho, si te tengo que decir con quién reharía es con Milos otra vez. Ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3575" target="_blank" class="timestamp">[59:35]</a> A nivel de disfrutar del entrenamiento es el concepto exactamente de lo que me gusta. Entrenar piernas así es lo que disfruto. Mola mucho. Sí, yo digo mucho el concepto. A mí me encantaría poder entrenar a la gente así de vez en cuando y tal. Es una experiencia increíble. ¿Qué comiste después del entrenamiento? ¿Te metiste un subjetivo enorme? No me acuerdo. ¿Tú te acuerdas, Marta? ¿Qué comí después del entrenamiento de Milos? Yo creo que ese día ya estuve jodido todo el día. Me acuerdo del apartamento y de todo lo que estuvimos. En el sofá tirado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3605" target="_blank" class="timestamp">[60:05]</a> Sí, no me acuerdo exacto. ¿El qué? No estaba tan reventado. No, no me acuerdo. O sea, estaba embotado un poco de las piernas y demás, pero es cierto que fue más en el momento. Ahí está... O sea, a mí lo de vomitar y eso es algo que me... Habitual. O sea, tengo una tendencia muy grande a vomitar. Y que tampoco es que te metiera cargas muy altas. A nivel...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3627" target="_blank" class="timestamp">[60:27]</a> No, no cargas al tanto. Tampoco estarías tan reventado. ¿La serie de 8 o 10 minutos? Eso es. La mítica extensión de pierna que era de poder pescar. Encima lo peor es que no sabes cuándo va a acabar. Sí. ¿Tú con quién? ¿Pero sabes lo que va a acabar? El podcast de hoy.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3650" target="_blank" class="timestamp">[60:50]</a> Ha sido un placer, ha estado muy bueno. Tengo que decir que... Me ha encantado su sitio. Sí, iba a hacerte bueno. Pero a veces hay que sacrificarse por un bien mayor. Así que nada, esperemos que sea el primero de muchos. Eso es. Espero que os haya gustado. Gracias por venir, chicos. De verdad, os lo agradezco muchísimo. Y me gusta haber hecho esto porque es la primera vez que hacemos un evento privado así de chicos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3671" target="_blank" class="timestamp">[61:11]</a> Quiero decir para todo el público que quiero hacer un evento a lo grande como hicimos en el Icon con, pues como la otra vez, 600 personas es de falta o las que sean. Cerraremos de todos modos el aforo como hicimos la otra vez por controlarlo, sobre todo por controlarlo, por saber la gente que queremos que venga en concreto y no pasarnos. Y que os quiero mucho, gracias por venir y gracias al gimnasio, gracias a la Apex Gym, de verdad. Si queréis venir vais a disfrutar mucho, mucho del gimnasio, del entrenamiento y todo y gracias a todo el equipo de PBS por hacer esto posible que ha salido de puta madre y estoy súper contento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=aJjCAzf5Qu0&t=3702" target="_blank" class="timestamp">[61:42]</a> ¡Hacia Marta! ¡Hacia Marta por el fomo que me diste por el evento de chica!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 01/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
