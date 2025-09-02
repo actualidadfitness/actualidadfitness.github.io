@@ -1,0 +1,415 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 02/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">02/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-iccmAWvPuXQ'>CUIDADO CON NUCLEO NACIONAL.</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-iccmAWvPuXQ">
+            <h2>CUIDADO CON NUCLEO NACIONAL.</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 02/09/2025 12:07</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=iccmAWvPuXQ" target="_blank">
+                    <img src="https://i.ytimg.com/vi/iccmAWvPuXQ/hqdefault.jpg" alt="CUIDADO CON NUCLEO NACIONAL." loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video critica la superficialidad y vacío ideológico de un movimiento político llamado "Núcleo Nacional", contrastándolo con la profundidad del proyecto social y cultural de Cruz Sequera. El presentador argumenta sobre la importancia de la coherencia, los valores personales y el liderazgo claro en cualquier cambio social. También aborda temas controvertidos como la remigración, la identidad nacional ligada a la genética y el mestizaje como herramienta de ingeniería social, defendiendo un orden natural de las cosas.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Vacío Ideológico del "Núcleo Nacional" <a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&amp;t=37" target="_blank">[00:37]</a></h3>
+
+<p>El orador critica duramente la supuesta sede del "Núcleo Nacional" por su carencia de simbología coherente y su "vacío ideológico". Lo describe como un "pastiche nazi cateto", sugiriendo que el movimiento carece de una base doctrinal seria y profunda.</p>
+
+<h3>Peligros del Activismo Superficial y la "Gente Tonta" <a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&amp;t=315" target="_blank">[05:15]</a></h3>
+
+<p>El presentador advierte sobre el riesgo de las personas "tontas que tienen mucha energía", comparándolas con gallinas sin cabeza que pueden quemar el edificio. Critica el enfoque "skinhead" por ser ineficaz y contraproducente para una lucha ideológica, pues solo lleva a problemas legales.</p>
+
+<h3>Liderazgo Coherente vs. Democracia Interna en Movimientos <a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&amp;t=809" target="_blank">[13:29]</a></h3>
+
+<p>El orador enfatiza la necesidad de aceptar un liderazgo claro y no cuestionar constantemente a quienes guían un proyecto cultural o político. Utiliza la analogía de un preparador físico para ilustrar que la obediencia y el estudio son clave, o de lo contrario, el individuo debe retirarse si no está de acuerdo.</p>
+
+<h3>El Coste de la Disidencia y la "Remigración Necesaria" <a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&amp;t=1015" target="_blank">[16:55]</a></h3>
+
+<p>Se subraya el sacrificio personal y profesional que implica alejarse de lo políticamente correcto para proponer un cambio real. Se defiende la necesidad de una "remigración" explicando que la asimilación masiva es inviable y que las personas deben regresar a sus países de origen con ayuda.</p>
+
+<h3>Identidad Nacional, Genética y el Mestizaje Forzado <a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&amp;t=1249" target="_blank">[20:49]</a></h3>
+
+<p>El video profundiza en cómo el perfil genético influye en el comportamiento y la afinidad entre personas, usando la frase de Le Pen para ilustrar grados de cercanía. Critica el mestizaje como "ingeniería social" cuando se utiliza como arma política, buscando diluir la identidad nacional y facilitar la gobernabilidad por parte de "el enemigo".</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=0" target="_blank" class="timestamp">[00:00]</a> Bueno, mi comentario no es muy constructivo, pero es que lo siento con esta gente. El Núcleo Nacional presenta su sede y bueno, os la enseño. Entiendo que, no sé, si está inaugurado, no sé por qué no quitan la cinta de papel de pintor, ¿sabes? La cinta de cortar la pintura. La puedes quitar, pero bueno, es igual. Aquí un trapo aquí del Arcagen San Miguel, que es el líder de las tropas celestiales contra los demonios y todo el rollo ese. Una pecera. Nancy.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=30" target="_blank" class="timestamp">[00:30]</a> Y claro, ya hay polémica porque dicen, hombre, no hay mucha simbología de nada excepto la foto aquí del pintado austriaco, ¿no? Que dices...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=37" target="_blank" class="timestamp">[00:37]</a> Y mi opinión, pero bueno, que es bastante despectiva, a lo mejor me ha pasado. Declaración de lo que son, ¿no? O sea, lo que ves aquí. Completo vacío ideológico y un pastiche en nazi cateto. Foto del pintor e icono de San Miguel. Y ya está. Nada más. Bueno, vamos a leer la polémica y luego justifico por qué digo esto. En vez de insultar, puedes invitar a gente de Nucle Nacional a tu canal, si los cojones. Y te cuentan proyectos. Es muy fácil relajar sin hacer nada, John. John, colega, deja un poco de lado tu contenido en superioridad moral que hay en caricaturas de NN...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=65" target="_blank" class="timestamp">[01:05]</a> Son enciclopeas andantes. No tendrías suficiente nivel ni para tan siquiera entrevistarlos. Y bueno, le he metido la torreada aquí. Pero es que, a ver, dice... No, no. De verdad es que ahí no hay ninguna enciclopea ambulante. ¿Vale? Porque si hubiese enciclopea ambulante... Si hubiese... El problema del núcleo nacional, lo que yo le he hecho en cara... Básicamente, así me entiendes, es un gilipollas que coge unas básicas, se va a la calle y dice ¡Mira papá! ¡Soy nazi! Eso es el núcleo nacional. ¿Lo entendéis?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=94" target="_blank" class="timestamp">[01:34]</a> Entonces esto, que es una sátira, aunque el tío me dice ¿Esta gente está metida en núcleo? Bueno, se habrán metido ya, supongo, ¿no? Porque esto es nucleacional, si enteráis. ¿Dónde está la cosmovisión del mundo, la doctrina espiritual, ideológica, filosófica del movimiento? Que no hay nada. Y encima se ponen... Toquien, deja todo de tonterías. Encima se ponen pasamontañas, ¿no? Que dices... Para reforzar la total desconfianza en ese proyecto político. Es que parece que no se lo creen ellos mismos, el proyecto político.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=124" target="_blank" class="timestamp">[02:04]</a> Es que no es ni eso. Esto es un proyecto de cambio. ¿De cambio de qué? Y entonces los entrevistan. La raza, la raza, la raza. ¿Por qué me estás contando la raza, tío? No tienes más que contar, que decir. Esto es una guerra cultural.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=138" target="_blank" class="timestamp">[02:18]</a> Una guerra... A ver, ¿pero qué quieres? Te estoy explicando, tío. Es que esto es un movimiento para sus normales. Si identificas con eso, pues dice poco que tú. Dice poco de ti, perdón. A ver, cálmate, cálmate con la mierda de este chiste de partido político, ¿vale? Hacen algo. ¿Qué? ¿Qué hacen? ¿Lo puedes contar? ¿Patrullar con cara tapada? ¿Sabes lo que más me toca las narices de esta gente? Bueno, luego me han citado...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=164" target="_blank" class="timestamp">[02:44]</a> Está bien. Y ahora os explicaré la segunda parte de por qué esto. Han puesto este extracto para decir que soy incongruente. Escuchad. Dejemos de sacarnos los ojos por tonterías, ¿no? Es que esto no me gusta porque este es Nancy. Es que esto no me gusta porque este es católico. Es que este dijo una vez que no sé qué. Entonces estamos muertos. Bueno, no sé si se ha entendido. Lo que digo es que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=190" target="_blank" class="timestamp">[03:10]</a> no tenemos que entrar en luchas intestinas porque al final entre nosotros solo nos matamos. Pero esto no quiere decir que nos tengamos que subir a un barco lleno de banderitas nansis que no tiene nada más que eso para que luego lo hundan con todos nosotros dentro. Esta gente, ¿sabes para qué sirven los del núcleo nacional? Estos hacen para que tú al acercarte ellos digan aquí, aquí, aquí y te ponen la mirilla</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=220" target="_blank" class="timestamp">[03:40]</a> Aquí, la diana. Para que te disparen aquí. Es que es ridículo, tío. Para hacer la lucha ideológica, cultural y espiritual contra este sistema, te vistes de skinhead y tienes un discurso de skinhead.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=233" target="_blank" class="timestamp">[03:53]</a> Vas a convencer mucha gente, ¿eh? Ah, por favor, hombre. Es que es increíble, tío. De verdad que... Tío, hay que ser muy idiota, ¿eh? Pero no te lo digas. Hay que ser gilipollas, ¿eh? Que no te digo que la gente que quiera que se afilíe, no sé qué, pero a mí no me metáis en ese brollo. Son idiotamente pobres. He entrevistado a un tío este que sí, que a mí la rana basada, baneada, perdón, la rana baneada, el canal que YouTube, bueno, los 50 de la canal que YouTube, yo lo veía. Me gustaba.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=260" target="_blank" class="timestamp">[04:20]</a> pero como un youtuber muy bueno, muy bueno, pero bueno, mira. ¿Pero qué le ha pasado a una baneada? ¿Cuánto hace le ha baneado ya el tío ese? Pues eso. Mira, incluso Pedro Varela, que tengo muy poco en común con él, la verdad, ya te dije, porque es... Mira, León de Grel era un tío que era católico y nacionalista. Balón, ¿no? Bueno, a ver, que es igual. Yo creo que era balón. No me acuerdo ahora. Nacionalista y católico. Vale, pero no era un...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=289" target="_blank" class="timestamp">[04:49]</a> un Nancy por si acaso Varela es que es nazi y es católico son dos cosmovisiones radicalmente opuestas y la gente no quiere entenderlo pues igual no entramos vale bueno o sea me parece la mitad de su ideología bueno perdón de su cosmovisión yo la quemaría ahí en la hoguera pero bueno da igual pero bueno este tío ha hecho cosas sospechosas también</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=315" target="_blank" class="timestamp">[05:15]</a> Que yo le ayudo, que yo le apoyo porque es una víctima de este sistema. Pero claro, es que ha hecho cosas que dices... Me acuerdo de un amigo que me dijo, no me creo que sea tan tonto. Porque podía haber eludido la cárcel y quiso ir a la cárcel. Dejando un presente que afecta a todo el mundo. Por algo que era ilegal, ¿no? Por ejemplo, cuida con los tontos. Cuida con los tontos que tienen mucha energía, muchas ganas de hacer cosas. Porque estos, al final, acaban quemando el edificio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=344" target="_blank" class="timestamp">[05:44]</a> Sin querer, hacen lo mismo que el que tiene intenciones perversas. Lo voy a decir muy intencionalmente. Tú haces un grupo que son todo gallinas sin cabeza, no vas a ningún lado. Y más, vas a tener problemas. Esto es como, acuéstate con niños y te levantarás mojado. Acuéstate con tontolabas de estos skinheads y acabarás detenido. Hombre, por favor. Y lo que es la verdad orgánica, esencial, de la realidad humana, social, de las situaciones, de las culturas, se puede defender</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=374" target="_blank" class="timestamp">[06:14]</a> Y ser un puto Nancy Skinhead. ¿Lo puedes entender? Si esta base doctrinal que ellos tienen, la poca cosa que hay, te la puedes encontrar en el cielo de oro por... Frente Obrero, Frente Obrero. Frente Obrero, ¿qué es? Vosotros tenéis la pelea con Frente Obrero y me queréis meter en la pelea. No, a mí me meten la pelea Frente Obrero. Entrevisté a Dufour porque es culturista y es compañero de... Bueno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=397" target="_blank" class="timestamp">[06:37]</a> compañero de profesión, y nada, y no le entreviste porque fue a Frente Obrero, le entreviste porque es a Dufort y tiene una visión peculiar, y ya está, y ya está, no tiene más secreto, tío. Frente Obrero, bueno, Frente Obrero, sí, es, pues bueno, otro tomado de pelo. Tiene una gran tía, que es la Carmen, no sé cómo se llama el apellido, que es una gran mujer porque hace una gran función social, que es ir a los sitios donde se han hecho violinizaciones, ¿correcto?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=424" target="_blank" class="timestamp">[07:04]</a> Y lo denuncia y genera mucha conciencia social. Es una gran mujer. Pero lo del núcleo nacional, que en España... Carmen López puede ser, Rubanco, gracias. Que, vamos, que da mil patadas a esa especie de imagen generada por IA con discurso IA, que es el vaquero. Pero el núcleo nacional, vamos, que tenemos antecedentes en España de gente de esta, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=447" target="_blank" class="timestamp">[07:27]</a> que son dissención controlada, pero completamente. ¿Os acordáis de Blas Piñar? Me refiero a que tú generas algo por ya, no tiene esencia ninguna. Y es vacuo. Pedro Vaquero igual. Pedro Vaquero es un vaso de agua ideológicamente hablando. Un vaso de leche. Lo que te decía. ¿Os acordáis de Blas Piñar?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=467" target="_blank" class="timestamp">[07:47]</a> En su momento, ya habría gente que debía denunciar a Blas Piñar. Y claro, cuidado con este, que esto es un elemento. Y entonces, saldrían ahí todos los defensores de ultranza. ¡No! ¡Blas Piñar! ¡Es la oportunidad! ¡El cambio! ¡Viva pa' allá! Y ese era un hijo de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=485" target="_blank" class="timestamp">[08:05]</a> un hijo de peda por especie de Blas Piñar. Además que se ve. Era un tío que lo escuchabas hablar y dices, hostia, era un pretencioso bocazas que se enabra la boca. Es más, se le veía interpretando. O sea, era actor el tío ese. Era un tío, Blas Piñar, que movilizaba. Ese impetu de la juventud, esa fuerza...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=505" target="_blank" class="timestamp">[08:25]</a> para que esa fuerza la moviera y la cansara y la extenuara y le hicieran encima pagar judicialmente todo ese activismo que el tío los hacía mover como tontos y no hizo nada. No hizo nada. Blas Piñar fue la misma mierda que todos estos franquistas y franjistas del movimiento que se pasaron a la tradición como el Alfa Suárez.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=533" target="_blank" class="timestamp">[08:53]</a> Santiago Carrillo, Manuel Fraga, todos tenían un papel. ¿Entendéis? Porque si Blas Piñar, primero todo que Sevilla en su momento, pero si Blas Piñar fuera algo realmente revolucionario, hubiesen matado como todos los generales militares y todo el mundo que eran no controlables. Que eran eliminados por organizaciones terroristas que estaban todas controladas por Estados Unidos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=560" target="_blank" class="timestamp">[09:20]</a> Y esto del núcleo nacional, eso huele capesta. Hemos pasado del solo nos queda Vox a ahora del núcleo nacional. Venga, por favor. Tú eres un boomer rojipardo, tranquilo, que tú estás con el Cruz Sequera comiendo el culo. Pues tú te vas afuera a perpetuidad. Tengo que decir una cosa clarísima. Aquí nadie insulta a Cruz Sequera. ¿Lo entendéis? Se le respeta. Porque yo apoyo el proyecto social que hace este hombre al 100%.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=585" target="_blank" class="timestamp">[09:45]</a> Y es la solución a los problemas. Porque la solución a los problemas no viene con hacer como una charo, que es lo que hacéis muchos de vosotros y muchos españoles. ¿Qué hacemos? ¿Y John? Bueno, John, yo no os puedo decir nada, pero... La solución, la solución, la solución. ¿A quién votamos? Muy bien, pues a ti la solución es a quién votamos, ¿no? Espérate, que me he quedado... Mira, que se ha cortado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=611" target="_blank" class="timestamp">[10:11]</a> La solución. No sé a quién vota. La solución primero está dentro de ti. ¿Qué propones? Dentro de ti. Si tú... No hablo de nadie, en general. Si tú eres un imbécil, eres corrupto. Y estás vacío, no hay solución. Primero tiene una serie de valores. Tiene una coherencia. Tus valores es familia, España y tus valores espirituales, como español.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=636" target="_blank" class="timestamp">[10:36]</a> Y entonces, en base de eso, busca un movimiento social o cultural que te sienta respaldado con estos valores. Pero claro, si tú eres una mierda, o estás vacío, o tu ignorancia es tan grande que no tienes nada para que te dé una coherencia en tu ser, no sirve para nada. No sirve para nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=662" target="_blank" class="timestamp">[11:02]</a> Por eso el proyecto Cusequera tiene la coherencia de una intelectualidad, de un orden filosófico espiritual y una realidad orgánica de lo que es la existencia humana, lo que son las naciones y las civilizaciones. Entonces, este hombre es el camino, no lo es el núcleo nacional. El núcleo nacional es una explosión de voluntad, de celebrada, parece hecho por adolescentes, pues fanatizados por la ideología Nancy,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=692" target="_blank" class="timestamp">[11:32]</a> Cuando está muy bien algunas cosas de la ideología esa, pero es que no aporta nada nuevo. Es que cuando me dicen a mí... Es que eres un Nancy. ¿Por qué? Porque estoy dando de cera a la estrella azul. Pues, perdona. A la estrella azul se le daba caña...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=709" target="_blank" class="timestamp">[11:49]</a> no empezó en el año 1933 el tema. Son ya unos cuantos miles de años. ¿Vale? Entonces, siguiendo con el hilo, a nivel social y político, estamos muy mal educados. Tú, en el trabajo, le dices a tu jefe, jefe, ¿qué hago hoy? ¿Vas a hacer eso? Pues no sé. ¿Y por qué? ¿Por qué? No sé. No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=731" target="_blank" class="timestamp">[12:11]</a> Se obedece. ¿Os acordáis cuando... Bueno, un culturista, para que no lo sepa, que se llama Joan Pradesh, contrató a un preparador, que es el Fede Guevara, y el Fede Guevara le decía al culturista, este fin de semana te echan a nigiris, porque estaba perdiendo kilos por días, ¿no? Y el Pradesh le decía, hey, seguro, seguro, y con la novia al lado. Y el preparador con la cara así. Ahora...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=757" target="_blank" class="timestamp">[12:37]</a> Tú has contratado a un preparador, que es tu jefe. Lo que diga va a misa. No se discute. Tú a tu jefe, a tu preparador o a tu maestro, le puedes decir perdone o perdón. Y le puedes preguntar. ¿Por qué hago esto? Es que no sé si me irá bien. Y él te puede explicar por qué. Tú no puedes decirle ¿y por qué? No puedes poner en duda a tu preparador, a tu maestro...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=784" target="_blank" class="timestamp">[13:04]</a> O a tu jefe, porque si no, plegas, te vas. Porque si no eres un imbécil. En este caso, porque estás pagando a un tío, ¿para qué? ¿Para discutir con él? Hombre, por favor. Pues bueno. Entonces, si aquí se respalda un proyecto cultural de función política, se acepta el liderazgo de alguien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=809" target="_blank" class="timestamp">[13:29]</a> Y se va con él a muerte. Hasta el momento en que tú digas, me bajo el barco, no me interesa. ¿Lo entendéis? ¿Por dónde voy? Por eso que usé que eran los directos. Dice, no se discute lo que digo. Y no debato con nadie. Bueno, debato con un amigo. Pero no debato con nadie. ¿Lo entendéis? Que la gente es que no quiere entenderlo. Ah, no, pues yo creo. ¿Y por qué? No, no. Si no entiendes algo, lee. Estudia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=835" target="_blank" class="timestamp">[13:55]</a> No somos demócratas. ¿Qué pasa? Que cuando empiezas un proyecto, cuando empiezas un proyecto de este tipo, pues todos los que te siguen... Ah, ¿y por qué? ¿Por qué? Pues yo quiero votar. ¿Haremos un partido político? Ah, pues yo quiero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=849" target="_blank" class="timestamp">[14:09]</a> ¿Y por qué? ¿Y por qué no puedo ser católico? Pues yo quiero la cruz de San Pepito. Pero... Pero... ¿Y el pintor? ¡Cállate ya, hombre! Joder, ¿esto qué es, tío? Una reunión de patos aquí diciendo cuac, cuac, cuac, cuac todo el rato. Al líder se le obedece y si no te vas. Por eso, aquí, a la cruz sequera se le respeta. Porque yo apoyo lo que hace el hombre ese al 100%. Y no es por nada. No es que me haya enamorado de su calva.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=873" target="_blank" class="timestamp">[14:33]</a> sencillamente es la coherencia. Y es un discurso único el que da. Es de la verdad, objetiva. De verdad, basada en el orden natural de las cosas. Y yo no opuesto ni por el Frente Obrero, ni por el Núcleo Nacional, ni de coña. ¿Entendéis? Ni por Vox, ni por Podemos. Y en la lucha se acepta lo que hay. Hombre, evidentemente, pues se podría hablar con el tema del dirilazgo y decir, pero oiga, pues tampoco lo hacemos. Bueno, porque tienes que entender, ¿no? Lo que no puede ser es ir allí. ¿Voy esto por qué? A mí no quiero.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=902" target="_blank" class="timestamp">[15:02]</a> ¿Sabes? Es que... No, tío. Maldita rubrita, ¿no se puede pedir fe ciega a sequera? No. ¿Cómo que fe ciega? Tú eres el especial de grupito, ¿eh, maldita rubrita? Tú eres el especial especial. Vamos a ver. El tío te pone un directo cada día de tres horas. Todos los días del año. Donde tienes un contenido de un nivel intelectual y cultural sin parangón. Es que no puedo seguirle con fe ciega.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=930" target="_blank" class="timestamp">[15:30]</a> no lo quieres, es un puto vago, tío. Porque si tú quieres seguir a quien se quiera... Bueno, a ver. Si tú quieres seguirle como suscriptor de canal, es porque quieres. Y si tú quieres seguirle en el proyecto cultural o social que quiera hacer, que no sea nada, pero da igual, pues es porque tú quieres. Porque, a ver, si tú no entiendes nada...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=953" target="_blank" class="timestamp">[15:53]</a> Y le vas a seguir sin entender nada. Hombre, hay que ser muy subnormal, ¿no crees? O sea, si es un caso desconocido de imbecidad humana. Tiene material en forma de vídeo de libro a patadas. Lo suelo estudiarlo y criticarlo. Y claro. En el caso que haya que criticarlo. No. Vamos a ver. Si tú tienes que criticar, es que no estás de acuerdo con él. Entonces, tú no tienes que seguir a este hombre. Hombre. Evidentemente, claro que aquí puedes criticar. Criticar en el sentido...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=983" target="_blank" class="timestamp">[16:23]</a> de decir, no estoy de acuerdo con eso. Pero cuando tú no puedes decir que esto es un facha, entonces te vas a la calle. Porque se le respeta, ¿lo entendéis? Porque yo los de núcleo nacional yo no sé lo que hay detrás. Pero esto me ha desabogado en la lista. Y lo que hace... Mira, y su canal, Declaro Geopolítico, lo habéis visto todos, iba muy bien y ahora está empezando a tocar temas que no son propios del canal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1012" target="_blank" class="timestamp">[16:52]</a> ¿Por qué? Porque quiere hacer lo que os he comentado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1015" target="_blank" class="timestamp">[16:55]</a> Y esto, sabemos todos que el que lo hace paga un precio. Para empezar, de todos los que son los síndromes de Estocolmo del sistema, del régimen. Que dicen que quieren que se cambie la situación, las cosas, las injusticias, pero luego cuando hay la propuesta del cambio real con toda la integridad filosófica y espiritual de lo que realmente puede hacer un cambio en el país, estos son los peores que atacan. Ya que el hombre este hace este sacrificio. Porque todos vemos lo que es, que es un abogado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1043" target="_blank" class="timestamp">[17:23]</a> que está dedicando cada día horas en el canal y ha dejado lo que es la geopolítica objetiva para entrar ya en lo que es el discurso ideológico totalmente, pues, púdicate incorrecto, en vista de poder reunir un grupo de personas intelectualmente y espiritualmente válidas, pues esto tiene un coste a nivel social y a nivel de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1072" target="_blank" class="timestamp">[17:52]</a> dinero, por supuesto, de recaudación. Entonces hay que apoyarle. Mira, AB93 eran usuarios desde hace un porrón de tiempo. Pero ¿con qué autoridad este tío insulta a Cruzequera? ¿En base de qué? Es que es muy fuerte. No solo es eso, la categoría de su carrera profesional y personal le respalda el discurso y sobre todo da fe en el que el nuevo proyecto sea factible.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1096" target="_blank" class="timestamp">[18:16]</a> Sí, me tengo constancia que es un abogado con una vocación social que muchas veces ha tenido que palmar de su bolsillo y dicho de un abogado es mucho, ¿eh? Porque todo el mundo en su trabajo pues trabaja para ganar dinero. Todos queremos un cambio, ¿no? Todos queremos que este país se salve. Todos queremos que haya remigración. Tratando a la gente como seres humanos, que es lo que son, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1120" target="_blank" class="timestamp">[18:40]</a> Son personas, pero hay que explicarles, mire, usted tiene un país de origen, usted es boliviano, usted es congoleño, ¿cuál es su arraigo social aquí? Bueno, y no te lo justifica, pues le dices, mire, ya se le paga el avión, se le da un cheque de dinero y se le intenta ayudar como pueda, pero váyase, porque tienen que entender.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1144" target="_blank" class="timestamp">[19:04]</a> que no se puede asimilar a millones y millones y millones y millones de personas de Iberoamérica, pero mucho menos millones y millones de africanos que están del norte o del centro de África. Lo puedes entender, ¿no? Lo de la exogamia, que hay gente que no entiende. La exogamia, lo que es el mestizaje, no es un problema cuando es un movimiento natural. En España ya había...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1174" target="_blank" class="timestamp">[19:34]</a> Teníamos los compañeros de la llena ecuatorial que pertenecían a España. Hablan español perfecto. Bueno, pues si hay matrimonios mixtos no pasa nada. Pero claro, si haces un plan de ingeniería social donde acorrala la selección español y la mujer, sobre todo, de tal manera que no pueden tener hijos, es muy, muy difícil...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1199" target="_blank" class="timestamp">[19:59]</a> Por temas material y también por un tema de moralidad en el que están los ciudadanos españoles. Estudantes moralizados. Hay una guerra de sexos encima. Y encima promueve muchísimo lo que es el mestizaje. Claro, entonces se convierte en un problema. Pues hacer que sustituyas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1220" target="_blank" class="timestamp">[20:20]</a> la mujer española por la mujer colombiana en el hombre español. Y no puedes hacer que sustituyas el hombre español por el hombre magrebí en la mujer española. ¿Lo entendéis? Es el perfil genético que determina el comportamiento, lo que son los gustos, las tendencias naturales de un ser humano, en gran medida. Lo siento mucho. Por eso, tu hermano es tu hermano. Y por eso tú tienes más afinidad, como decía Jean-Marie Le Pen, lo dijo muy bien,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1249" target="_blank" class="timestamp">[20:49]</a> Él decía, yo amo más a mi hija que a mi sobrina. Pero amo más a mi sobrina que al vecino. Amo más a mi vecino a una persona de otro país, de España. Y amo más a un español que a un magrebí. Y amaré más a un magrebí que a un aburrigen australiano. Lo podéis entender. ¿Por qué? Porque todo viene determinado por el perfil genético. Que determina la similitud entre personas. Y el grado de entendimiento mutuo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1278" target="_blank" class="timestamp">[21:18]</a> Y al punto que se puede crear lo que decía Carl Gustav Jung, el inconsciente colectivo, ¿no? Y todo ese rollo, ¿vale? Entonces, un poco de vestizaje, no pasa nada. Lo que es la tendencia natural a los seres humanos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1289" target="_blank" class="timestamp">[21:29]</a> pero cuando conviertes en arma política de inmigración y la ingeniería social, el amistitaje como ingeniería social, a través de toda la publicidad comercial, siempre mostrando al hombre negro como un ideal sexual, ya sabes cómo funciona todo esto, pues entonces estás forzando una situación anómala</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1310" target="_blank" class="timestamp">[21:50]</a> con la intención de cambiar el carácter de tu país, que pierda la identidad y se convierta en algo que no tenga ninguna resonancia con su pueblo pasado. Y vamos mal, por supuesto, porque luego es un país más fácil de gobernar por el enemigo. Lo explico porque mucha gente no entiende esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1329" target="_blank" class="timestamp">[22:09]</a> Lo que se entiende, ¿no? ¿Qué quiero decir? Que nos haga uno que diga, pero yo estoy casando a una peruana. No pasa nada. No es el tema, tío. No se trata de juzgar a los individuos. No hay que juzgar a nadie. Sencillamente hay que gobernar el país bajo unas ideas que tengan un sentido natural de las cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1347" target="_blank" class="timestamp">[22:27]</a> No un sentido basado en modas políticas o en conspiraciones políticas, peor. ¿Tú que tu carúculo nacional se puede criticar que no tiene nada sólido ideológico? Bueno, y todo lo anterior que he contado, creo yo. Tolkien, no se puede insultar a un erudito. Te puede parecer errado, pero sacas más de él que un tonto con pasamontañas. Bueno, a ver... Que el que va a pasar montañas no son tontos tampoco, creo yo. Pero vamos... ¿Coste a Cruzequera? Ninguno. Está en la plataforma liberal. Vende libros en la plataforma liberal. Vive una economía liberal, pues ¿cómo lo va a joder?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1376" target="_blank" class="timestamp">[22:56]</a> Guau, Dujal, tío, estás muy lejos del ecosistema donde vive la gente normal, ¿eh? ¿Tú sabes dónde vives, tío? ¿Tú sabes la realidad política de dónde vives?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1387" target="_blank" class="timestamp">[23:07]</a> ¿Tú no sabes que cuando tú eres una persona con cierto prestigio social o influencia social a la que te empiezas a alejar de lo que es lo políticamente correcto, te empiezas a poner en riesgo y luego te cancelan? ¿Y si te sigues empeñado en alejarte del centro político y también te meten a cárcel o te matan? Tolkien, no considero que los europeos tengan esos valores que tienen por los genes. Esos valores pueden estar en el mundo árabe, pero hay demasiados dogmas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1416" target="_blank" class="timestamp">[23:36]</a> Mira, la naturaleza humana determina tanto, por el tema de lo que es la naturaleza cada individuo, tanto las cosas que a nivel empresarial, a nivel artesanía, a nivel de cultura, lo que es producción de arte, de películas, libros, se refleja el origen étnico, no el étnico, perdón, me he equivocado, no el étnico, que es muy general. ¿El tío de dónde es? No por cultura, es que son así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1447" target="_blank" class="timestamp">[24:07]</a> La tendencia de los japoneses a la visceralidad. Al impacto de esa sensación orgánica que hacen los japoneses. El sentido poético, etc. No es cultural. Es características de un pueblo que tiene mucha homogeneidad genética. Los españoles no es cultural que seamos así. Porque si fue cultural ya hubiese desaparecido...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1473" target="_blank" class="timestamp">[24:33]</a> pues con los cambios culturales en España. Tú te lees las obras del siglo del español, te lees el Quijote, o incluso te vas ahora, bueno, hace 100 años, bueno, 80 años, te lees el Embajador del Infierno, de Torcuato Luca de Tena, que habla de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1490" target="_blank" class="timestamp">[24:50]</a> lo que le pasó al Capitán Palacios que es una obra pues igual prácticamente a un americano en el gulat de Alexander Dugin que es lo mismo que lo que tuvo que pasar prácticamente y ves la esencia española es esa manera cómica es que los españoles son muy cómicos el espíritu torrentiano te lo encuentran en Quijote y hace cinco siglos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1517" target="_blank" class="timestamp">[25:17]</a> cuatro siglos, perdón, he pasado. Lo encuentras hace cuatro siglos, te lo explico. Es la esencia de los pueblos. Y si tú quieres ir a un sitio y disfrutar de la esencia romana de la Italia de Roma o de Nápoles, lo encontrarás si están... Si los pobladores de ahí son los originarios. Indistintamente de modas... Puede haber cambios culturales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=iccmAWvPuXQ&t=1546" target="_blank" class="timestamp">[25:46]</a> venidos de Estados Unidos. ¿Se adaptarán a la esencia de las personas que están ahí? Pero, tío, si en España lo ves con los gallegos, los vascos, los catalanes, los andaluces, que vale, que hay mucha mezcla y tal, pero es que hay una idiosincrasia, tío. Es decir, un vasco no es un vasco, tío. Son más peculiares que la hostia. No veo tanta diferencia entre un moro y un europeo. Pero bueno, porque hay los bereberes en Marruecos y porque las cosas no son blanco y negro.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 02/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
