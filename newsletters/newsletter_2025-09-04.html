@@ -1,0 +1,413 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 04/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">04/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Miguel Navarro</strong>: <a href='#video-XTu-Ygn3r6Y'>"PODRÍAN NO VOLVER MÁS" ¡BOMBAZO con las NUEVAS REGLAS para IR AL OLYMPIA! ¿Quién SALE PERJUDICADO?</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-XTu-Ygn3r6Y">
+            <h2>"PODRÍAN NO VOLVER MÁS" ¡BOMBAZO con las NUEVAS REGLAS para IR AL OLYMPIA! ¿Quién SALE PERJUDICADO?</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 04/09/2025 12:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y" target="_blank">
+                    <img src="https://i.ytimg.com/vi/XTu-Ygn3r6Y/hqdefault.jpg" alt=""PODRÍAN NO VOLVER MÁS" ¡BOMBAZO con las NUEVAS REGLAS para IR AL OLYMPIA! ¿Quién SALE PERJUDICADO?" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la reinstauración del sistema por puntos de la IFBB Pro League para la clasificación al Mr. Olympia, buscando reducir la masificación de atletas. Esta nueva normativa exige a los competidores, especialmente en Classic, Men's, Bikini y Wellness, ganar dos pro shows o acumular puntos para clasificar. La medida prolongará las temporadas de los atletas y redefinirá las estrategias de competición. Beneficia a la IFBB y al seguimiento del deporte, pero complica el sueño olímpico para muchos.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Regreso del Sistema por Puntos: ¿Beneficio o Desgracia? <a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&amp;t=2" target="_blank">[00:02]</a></h3>
+
+<p>El video introduce la decisión de la IFBB Pro League de reinstaurar el sistema por puntos para clasificar al Mr. Olympia. Se explica que la medida busca evitar la masificación de atletas en tarima, planteando la pregunta de si beneficiará o perjudicará a los competidores.</p>
+
+<h3>Desglose de Clasificación: Dos Victorias o Puntos Estratégicos <a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&amp;t=194" target="_blank">[03:14]</a></h3>
+
+<p>Se detallan las nuevas normativas, que exigen a los atletas de Classic Physique, Men's Physique, Bikini y Wellness ganar dos pro shows para asegurar el pase al Olympia. También se explican los valores de puntos para diferentes tipos de campeonatos, destacando la inclusión del Rumanía Pro como un torneo de "primera".</p>
+
+<h3>Temporadas Más Largas y Cambios de Categoría Forzados <a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&amp;t=579" target="_blank">[09:39]</a></h3>
+
+<p>Se analiza cómo las nuevas reglas obligarán a los atletas a extender sus temporadas de competición, un desafío significativo para categorías con límite de peso como Classic Physique. Esto podría forzar a algunos a considerar cambiar de categoría debido al desgaste físico y la dificultad de mantener el peso.</p>
+
+<h3>Josema y King Ángel: Redefiniendo el Camino al Olympia <a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&amp;t=918" target="_blank">[15:18]</a></h3>
+
+<p>El video examina las estrategias que atletas clave como Josema o King Ángel podrían adoptar para clasificar al Olympia bajo las nuevas normas. Se especula sobre la posibilidad de competir en torneos específicos, como el Rumanía Pro, para asegurar el pase directo o acumular puntos cruciales.</p>
+
+<h3>IFBB Pro League Gana, Atletas Sufren: El Impacto Económico y Deportivo <a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&amp;t=1298" target="_blank">[21:38]</a></h3>
+
+<p>Se concluye el análisis identificando a los principales beneficiados y perjudicados por el nuevo sistema. La IFBB Pro League y los creadores de contenido ganan visibilidad y valor, mientras que los atletas se enfrentan a mayores desafíos económicos, físicos y estratégicos para alcanzar el Mr. Olympia.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno que tal chicos y chicas, bienvenidos a un nuevo video en el canal y tenemos que analizar en profundidad porque esto va a tener y va a traer mucha mucha mucha cola la nueva decisión de la IFBB Pro League de instaurar o mejor dicho reinstaurar el sistema por puntos, algo que desde luego</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=21" target="_blank" class="timestamp">[00:21]</a> A muchos atletas les va a tocar lo más grande porque va a suponer probablemente el final de sus posibilidades para competir en el Mister Olimpia. Para otros va a ser incluso un relax porque van a poder ser más mirados por parte de los jueces porque son atletas que como norma general van a poder conseguir clasificar en dos pro shows. Vamos a ver las reglas, vamos a ver a quién les afecte y sobre todo la gran pregunta de todo esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=46" target="_blank" class="timestamp">[00:46]</a> ¿Beneficio o putada? Es decir, ¿a quién beneficia esto? Esto beneficia a la IFBB Pro League. Ya sabéis que durante mucho tiempo han estado dándole vueltas a la idea de ejecutar algo, alguna medida, para poder evitar que se den en la tarima grupos de 65, incluso 70 atletas por división. Esto lo hemos visto en bikini, lo hemos visto en men's, lo hemos visto en classic y también lo hemos visto en wellness. Desde luego, algo había que hacer. No era normal el hecho de llegar a un torneo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=74" target="_blank" class="timestamp">[01:14]</a> de la importancia de un Mr. Olympia y con el objetivo de que ese, digamos, gran campeonato del mundo del culturismo no pudiera ser ameno. Es imposible que pueda ser algo ameno con categorías que se van a dos horas. Es imposible el seguimiento. Y desde luego, algo también ha tenido que apurar el tema del Arnold. Como sabéis, en el tema del Arnold suelen ser 10, 12, 15 como mucho los atletas que participan. Son por invitación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=97" target="_blank" class="timestamp">[01:37]</a> y en este caso desde luego se hacía un show mucho más ameno, mucho más dinámico, yo creo que era algo que en este caso la IFB Pro League tomó nota de que lo tenía en el debe. Se hablaba, y lo recordaréis si seguís el canal, se hablaba de la posibilidad de instaurar un sistema en Las Vegas para hacer una especie de criba, es decir, que clasificaran 65-70 no quiere decir que luego al, digamos, el show final,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=121" target="_blank" class="timestamp">[02:01]</a> llegaran esa cantidad de atletas, hacer una especie de clima, etc. Finalmente se ha optado por esto, lo que estaba claro, y esto ya lo dije, es que la IFB Pro League no iba a recortar el número de campeonatos, eso lo teníamos bastante claro, y yo creo que la decisión del sistema por puntos es una decisión, y luego lo matizaré y lo contextualizaré, muy acertada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=141" target="_blank" class="timestamp">[02:21]</a> Así que como digo chicos y chicas vamos a pasar a analizar todo lo que ha pasado en el mundo del culturismo porque se va a traer una cola tremenda. Por supuesto rápidamente recordaros los códigos de descuento. Código de descuento Iron Road en toda la web de Big para que tengáis la mejor suplementación al mejor precio. Y por supuesto recordaros el código Iron Road en toda la web de Agonjin para que tengáis también ese 10% de descuento en toda la ropa deportiva. Además aprovechad porque Agonjin está con descuentos muy espectaculares en la web. Como digo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=170" target="_blank" class="timestamp">[02:50]</a> La noticia, o mejor dicho, el mundo del culturismo saltaba por los aires cuando se hacía oficial pues esta nota, ¿no? Una nota breve, una nota concisa, pero una nota que desde luego ha marcado un antes y un después en los últimos años a la hora de poder estar o poder llegar o poder cumplir el sueño, que esto también lo hablaremos ahora luego de participar en el Mister Olimpia. Como podéis ver, vamos a hacer un poquito un pequeño zoom</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=194" target="_blank" class="timestamp">[03:14]</a> Y vamos a pararnos en las decisiones más importantes, ¿vale? Sistema de clasificación para el Classic Physique, Men's Physique, Bikini y Wellness Top 25 para clasificar al Olympia, es decir, solamente va a haber 25 atletas por categoría</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=210" target="_blank" class="timestamp">[03:30]</a> Y la clasificación automática para el Olimpia si se ganan dos campeonatos, es decir, a día de hoy, por poner un ejemplo, ¿vale? Que no está instaurado esto, pero que ha ocurrido, pues a día de hoy solamente habrían clasificado para el Olimpia Quín Ángel y Germán Pastor, que son los únicos que han ganado dos prosub, por ejemplo, Josema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=228" target="_blank" class="timestamp">[03:48]</a> No habría clasificado a la Olimpia. No va a tener ningún problema para clasificar a la Olimpia. Solo faltaba y ahora vamos a ver por qué. Pero en este caso necesitas, para poder entrar, ganar dos prosows. ¿Hay más maneras de entrar? Hay muchas más maneras de entrar. De hecho tenemos la siguiente. Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=244" target="_blank" class="timestamp">[04:04]</a> El primero, el segundo y el tercero clasificados automáticamente. Por ejemplo, sin ir más lejos, en la categoría Classic, Zeban. Bueno, Zeban porque directamente si ha ganado, pues está clasificado de por vida. Pero Zeban, en este caso Mike Sommerfeld y Urs estarían clasificados de manera automática. Luego, cuarto y quinto puesto, 10 y 12 puntos. Que luego veremos hasta qué nivel el quedar quinto del Olympia 10 puntos. Es bastante poquito, pero bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=269" target="_blank" class="timestamp">[04:29]</a> Vamos a ir avanzando porque aquí es donde viene la chicha. Aquí es donde la IFE Pro League establece cuáles son los campeonatos de primera y los campeonatos de segunda. Esto me resulta bastante importante. ¿Por qué? Porque puedo estar de acuerdo en prácticamente todos menos en el Rumanía. No sé la verdad por qué han puesto el Rumanía más que el FES, que es el evento que se realiza justo después del Olympia en Rumanía, como un campeonato de primera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=294" target="_blank" class="timestamp">[04:54]</a> Y ahora voy a decir el porqué de todo esto. Como podéis ver, quien gana el Arnold, el Pittsburgh, el Nueva York, Rumanía o Dubai, si lo gana solamente con ganar uno de esos torneos, está clasificado automáticamente. Segundo 14 puntos, tercero 11, cuarto 9 y quinto 7 puntos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=312" target="_blank" class="timestamp">[05:12]</a> Y si ganas otros IFBB Pro Shows, ahí lo tenéis, 10, 4, 3, 2 y 1. Si ganaras, por poner un ejemplo, lo pongo por el caso, el Empro y el Big Man, por poner un ejemplo, o quizá no sea el mejor ejemplo porque el Big Man sea para la temporada siguiente, pero bueno, para considerar eso de la California y el Empro, que suelen estar más o menos relativamente juntitos, irías a la Olimpia. Sin ir más lejos, esto fue lo que ocurrió con Mustafa Gilmiz, os acordaréis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=334" target="_blank" class="timestamp">[05:34]</a> ganó estos dos pro shows, él ya estaría clasificado. Pero no te valdría con ganar él en pro solo o no te valdría con ganar el California solo. Sin embargo, si sí ganas el Rumanía, sí que vas para adentro. ¿Por qué se mete el Rumanía aquí? Yo quiero pensar que es un tema de dinero, porque no hay otra explicación. No es un campeonato que está a la altura del nivel de todos los que están alrededor. Ni tiene el nivel del Pittsburgh, no suele tenerlo, ni suele tener el nivel del New York Pro ni del Dubai Pro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=360" target="_blank" class="timestamp">[06:00]</a> ¿Qué va a ocurrir? Recordaréis que el año pasado la final fue entre, y de hecho no hicimos el vídeo hace nada, hace un día, de Rafael Brandao y Akin Williams. Yo dudo mucho que Rafael, en este caso en Classic, dudo mucho que no vaya a haber nivel. Esto va a elevar muchísimo el nivel. ¿Por qué? Porque van a decir la gente, bueno, compito en el Olympia y me voy a Rumanía a sacar la plaza como sea.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=381" target="_blank" class="timestamp">[06:21]</a> porque es lo que más se invita. Entonces vamos a ver un nivel esta temporada en el Rumanía Pro que no va a ser ni medio normal. Insisto que todo esto es categoría Classic, Men's, Bikini y Wellness, ¿vale? Porque ahora nos vamos a ir, evidentemente, a el culturismo, que está aquí. En el culturismo cambia bastante poco, es decir, se van a volver a intentar tener también esos 25 atletas, pero el top 3 del Mister Olimpia está clasificado entero, por supuesto,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=409" target="_blank" class="timestamp">[06:49]</a> Y el ganador de cada campeonato, con ganar un campeonato, tú ya tienes tu plaza asegurada. Esto, como digo, en 212, culturismo, figure, etc. Nos venimos aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=424" target="_blank" class="timestamp">[07:04]</a> Como hemos dicho, un poco lo que os estaba comentando, el ganador de cada tal, y luego el top 5 de los eventos, de este tipo de eventos, de todos, están también clasificados, ¿vale? El resto, pues como podéis ver, ya tiene ahí su sistema de puntos. ¿Qué es lo que realmente importa aquí? Que no ha cambiado gran cosa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=446" target="_blank" class="timestamp">[07:26]</a> porque es un poco lo que se estaba comentando, es decir, si tú como culturista ópera o como culturista 212 ganas un torneo, estás clasificado para el Ministerio Olimpia, Maderman estaría clasificado, por ejemplo, no va a ser alguien que tenga problemas para clasificar ni mucho menos. En el caso, por ejemplo, de Joan Pradel, si consigue ganar un torneo profesional está dentro, algo que ocurría ahora y que va a seguir ocurriendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=464" target="_blank" class="timestamp">[07:44]</a> Por eso digo, pero ya no en Classic, en Men's, etc. Es ahí donde quieren acotar. Importante esto. Este tipo de normas se empiezan a establecer a partir del 15 de septiembre. El 15 de septiembre es la última fecha que tienen los atletas para poder clasificar a este Mr. Olimpia. A partir del 15 de septiembre hasta el 30 de agosto, con lo cual se debe de acercar la fecha del Mr. Olimpia sí o sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=487" target="_blank" class="timestamp">[08:07]</a> Yo creo que el Mr. Olimpia es fácil que no sea en septiembre, si no ya lo veremos. Pero como digo, el 30 de agosto se termina. ¿Qué quiere decir esto? Porque esto también lo hemos visto en el mundo del fútbol, que se acorta. Se acorta todo. Es decir, a partir de ahora el 30 de agosto es la fecha límite. Antes era el 15 de septiembre, eran 15 días más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=506" target="_blank" class="timestamp">[08:26]</a> Y había algún campeonato más. Entonces, ¿a dónde vamos con todo esto? ¿Qué es donde realmente quiero ir yo? Y además me gustaría ir, y me da igual que se vaya el vídeo un poquito largo, pero quiero ir también un poquito caso por caso, ¿no? Porque yo creo que cada uno tiene su implicación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=523" target="_blank" class="timestamp">[08:43]</a> Vamos a ponernos en el punto de vista, en este caso por poner un ejemplo, de este señor que es Ángel Calderón, que es un atleta que este año no va a poder participar, por lo tanto no va a poder quedar dentro de ese top 5 de su categoría, no va a tener el pase asegurado y va a tener que buscar la clasificación. En su caso no hay ningún problema, tiene que ganar un campeonato de 2012, no creo que sea un gran problema ni mucho menos para Ángel.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=549" target="_blank" class="timestamp">[09:09]</a> y estaría en ese caso dentro de la participación vamos a seguir más adelante lo digo porque además es que los tengo por orden alfabético si nos venimos por ejemplo al caso poner una idea sin ir más lejos de Ferran Ferran como todos sabéis que esta temporada está con Raúl Carrasco ha finalizado en dos campeonatos profesionales en segunda posición para poder entrar a la Olimpia ya no le va a valer con ganar uno va a tener que ganar dos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=579" target="_blank" class="timestamp">[09:39]</a> Entonces, en esos dos campeonatos se nos queda el segundo. Si consiguiera quedar el primero, pues tendría su pase al Mr. Olympia. ¿Es más difícil? Sí, es más difícil, obviamente. Tienes que hacerlo dos veces. Y esto va a implicar algo que va a ser muy interesante. Y es que estamos hablando de categorías con un límite del peso para muchos. No en el caso de Ferran, pero sí para otros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=597" target="_blank" class="timestamp">[09:57]</a> bastante difícil de mantener en el tiempo y se van a tener que hacer preparaciones de competición más largas porque en la hoja de ruta va a estar no ganar en un sitio sin hacer una planificación para ganar en dos porque va a ser difícil y ya lo estáis viendo por los puntajes que hay que dan bastante pocos puntos por quedar tercero, cuarto o quinto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=615" target="_blank" class="timestamp">[10:15]</a> Va a ser difícil el hecho de clasificar única y exclusivamente con por puntos. Se puede hacer, se puede hacer, pero para poder tener puntos también tienes que competir. Con lo cual, todo eso va a hacer que las temporadas de los atletas sean más longevas. Y eso en el Classic Physique va a obligar a muchos atletas a tomar la decisión de cambiar de categoría.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=634" target="_blank" class="timestamp">[10:34]</a> Lo vais a ver. ¿Por qué? Porque muchos atletas que van muy constreñidos con el límite del peso, ellos cogen, hacen su campeonato, clasifican y descansan y luego vuelven a bajar para competir a la Olimpia y sin embargo ahora la hoja de ruta va a tener que ser mucho más larga, va a tener que estar mucho más tiempo a dieta, mucho más tiempo controlando ese peso y eso obviamente se va a perjudicar. Insisto, no es el caso de Ferran todavía porque no tiene el límite del peso ahí, pero sí que es cierto que obviamente eso va a dilatar mucho las preparaciones y va a castigar bastante el físico, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=663" target="_blank" class="timestamp">[11:03]</a> Por otro lado, Germán Pastor. Germán Pastor que la temporada pasada, bueno, esta misma temporada, sin ir más lejos, consiguió doble pasa al Olympia. En este caso, con las reglas actuales estaría dentro. Pero ¿qué ocurre si Germán no hubiera conseguido eso y hubiera tenido que buscar, hubiera tenido que hacer una temporada mucho más larga? Recordemos que Germán compitió en California, compitió en Irlanda, compitió, si no me falla la memoria, no sé si en Alemania o en Polonia, que creo que fue cuando ganó, creo que fue en Alemania.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=691" target="_blank" class="timestamp">[11:31]</a> Por eso digo que vamos a ver temporadas más largas. Esto evidentemente para los creadores de contenido nos frotamos las manos. ¿Por qué? Porque vamos a tener a los protagonistas mucho más tiempo en liza y mucho más tiempo compitiendo. Pero para la salud de los atletas, cuidadito. Cuidadito porque se vienen preparaciones y sobre todo competiciones mucho más longevas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=712" target="_blank" class="timestamp">[11:52]</a> Nos vamos en este caso a otro de los atletas que por este sistema no estaría clasificado a la Olimpia, pero que ha estado a punto, o podría haber estado a punto, que es el caso, sin el mal de Jorge, de este señor, de Jesús. Jesús está clasificado, ganó aquí en Madrid su pase a la Olimpia y quedó segundo en la Nutriyumi. Si hubiera ganado la Nutriyumi, si hubiera ganado el pase en Madrid, pues habría tenido su pase directo, si no directamente también podría haberlo conseguido a lo mejor por puntos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=738" target="_blank" class="timestamp">[12:18]</a> ¿Pero dónde vamos? Que es algo muy importante. Ahora va a haber tortas después de la Olimpia para clasificar. ¿Por qué? Porque si la gente dice, bueno, yo intento hacer o bien Rumanía, como os decía, que va a ser un foco muy principal de eso. Que a mí me sorprende que haya sido Rumanía y no Praga. Pero bueno, esta es otra película. Pero si yo voy y lo consigo en Rumanía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=757" target="_blank" class="timestamp">[12:37]</a> y ahora por lo pronto me hago una NutriYumi o me hago un campeonato de este tipo periférico incluso en casa pues obviamente ya tengo a lo mejor los puntos que me pueda llevar de Rumanía si es que no lo gano y si lo gano ya estoy dentro pero si no lo gano puedo conseguir ganando aquí en España a lo mejor</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=774" target="_blank" class="timestamp">[12:54]</a> pues tener un proceso ganado y muchos puntos acumulados con lo que haga en Rumanía. Al final vais a ver estrategias, vais a ver números tirados para arriba, para abajo, escuadra y cartabón, porque si lo de antes era una pasada, el tema de las estrategias y lo estratégico que fueras eligiendo el campeonato, pues ahora paga y vámonos. Nos vamos al siguiente en la lista, porque evidentemente, como todos sabréis,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=801" target="_blank" class="timestamp">[13:21]</a> Por Jota viene este hombre, Joan Pradels, no cambia nada, tiene que ganar un ProShow. Empezar tiene que competir, pero bueno, tiene que ganar un ProShow, con lo cual yo no le veo cambios a que Joan pueda o no pueda estar en Olympia. Tiene que hacer lo mismo que tenía que hacer esta temporada, que podríamos catalogarlo como la temporada pasada en cuanto a estas reglas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=823" target="_blank" class="timestamp">[13:43]</a> El que sí que se ha metido en algún que otro, bueno, pues no voy a decir problema porque tampoco es esa la situación, pero si antes lo tenía bastante complicado para entrar en el míster Olimpia para cumplir ese sueño.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=838" target="_blank" class="timestamp">[13:58]</a> que es el de estar en un Mister Olimpia, pues es el caso de Jorge Tabet. Jorge Tabet, que viene a haber quedado quinto en su debut en Men's Physique. Imaginemos que todo va bien con el tema burocrático, consiguen darle un mayor margen de peso, etc.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=854" target="_blank" class="timestamp">[14:14]</a> Pero ahora va a tener que ganar dos pro shows para poder clasificar a la Olimpia. Cierto es que las preparaciones de men suelen ser menos agresivas que a medida que vamos subiendo Classic y por supuesto ya 2.12 y Open. Quizá las de Classic sean hasta más agresivas, sobre todo cuando hay un límite del peso bastante ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=874" target="_blank" class="timestamp">[14:34]</a> Pero claro, en el caso de Jorge todo se complica. Y no solamente el caso de Jorge, podemos hablar también de Álvaro Ríos, atletas que han estado ahí prácticamente tocando pelo. Se complica bastante porque ahora yo no hay que hacerlo una vez y ser estratégico y a lo mejor irte incluso al culo del mundo a competir. Es que ahora hay que hacerlo dos veces. Yo, si antes veía bastante improbable que Jorge tal vez pudiera estar algún tiempo en el Mister Olimpia,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=894" target="_blank" class="timestamp">[14:54]</a> Ahora ya directamente me parece algo cercano a la ciencia ficción, porque es algo muy improbable. Por otro lado, seguimos con la gran Jota y en este caso, si hay alguien que es, como digo yo, tres Jotas, pues es este señor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=918" target="_blank" class="timestamp">[15:18]</a> Josema, ¿no? Yo creo que Josema, en primer lugar, va a pelear duramente por no tener ni que competir. ¿Por qué lo digo? Porque puede perfectamente entrar dentro del top 3 Olimpia. Si entra dentro del top 3 Olimpia estaría clasificado, podría ya pegarse el año sabático si le diera la gana y no competirá hasta la Olimpia del año siguiente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=934" target="_blank" class="timestamp">[15:34]</a> Pero, ¿qué ocurriría si Josema no participara, o mejor dicho, no quedara dentro de estos tres? ¿Quedará cuarto, quinto? ¿Qué ocurriría, no? Evidentemente, él ya partiría con una serie de puntos, porque te los dan. Y el objetivo, y esto lo hemos escuchado y se lo escuchamos a Raúl, fue intentar hacer una competición después del Olimpia para conseguir el pase. Pero esto ya no va a valer, ya no va a valer con una. Van a tener que ser dos. ¿Podría Josema, y esto es importante, podría Josema presentarse al Rumanía Pro?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=959" target="_blank" class="timestamp">[15:59]</a> de presentarse a Rumanía Pro sería prácticamente el gran favorito. Y consiguiendo ese Rumanía Pro, estás dentro del Olimpia. Yo creo que es una estrategia que estoy convencido de que se va a poner en estos días encima de la mesa. Si no quedamos dentro del top 3 Olimpia, salir en un Rumanía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=977" target="_blank" class="timestamp">[16:17]</a> Ver quién sale en el Rumanía, ver cómo se nos da, yo creo que sería el gran favorito. Me extrañaría que ninguno del top 3 va a estar en Rumanía, eso seguro. Y yo creo que si no entra dentro del top 3, él va a ser el cuarto o el quinto. O sea, no se va a ir más para atrás. Con lo cual, aunque se presentara el cuarto o el quinto, va a estar ahí. O sea, quiero decir, va a ser el gran favorito para el evento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=997" target="_blank" class="timestamp">[16:37]</a> Con lo cual, a mí me extrañaría mucho que José Mann a lo mejor no piensen a partir de ahora decir, oye, vamos a hacer el Rumanía porque ganando este nos lo quitamos de en medio y vamos a hacer un evento que en principio iba a ser la NutriYumi, iba a ser en España. Vamos a hacer un evento para conseguir el pase, pero claro, ahora ya...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1015" target="_blank" class="timestamp">[16:55]</a> nos obliga evidentemente a tener que cambiar un poco la hoja de ruta. Es algo importante y es algo que me encantará hablar en estos días y lo tendréis en el canal con Raúl, porque todo esto evidentemente ha cambiado un poquito la estrategia que se quiera tomar. En este caso tenemos que irnos directos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1036" target="_blank" class="timestamp">[17:16]</a> Pues nada más y nada menos que a este señor, ¿no? A alguien que este año, pues de una u otra manera, pues ha metido una palmada encima de la mesa como es King Ángel. King Ángel con el baremo actual estaría dentro. Ha ganado en este caso en tu pelo, ha ganado en Atlanta dos pro shows y fuera. Pero claro, nadie le obligaba a ganar dos pro shows. Ahora sí que te van a obligar a ganar dos pro shows.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1059" target="_blank" class="timestamp">[17:39]</a> ¿Lo podrá conseguir? Pues yo creo que tiene potencial para poder conseguir dos prosows. Hay que ser evidentemente estratégico. Evidentemente, si Kim se presentara a un New York Pro o a un Pittsburgh, a competiciones de estas que dan el pase directo, pues yo creo que lo tendría muy difícil para poder ganar. Pero por otro lado, si se presenta a lo mejor dos prosows estratégicos que puedan dar el pase al Mr. Olympia,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1080" target="_blank" class="timestamp">[18:00]</a> Pues yo creo que lo podría conseguir como lo ha conseguido este año, con lo cual Kim es otro de los que puede perfectamente seguir estando dentro del Mister Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1091" target="_blank" class="timestamp">[18:11]</a> En el caso de Madelman, que yo creo que también es importante destacarlo. Esto es muy sencillito para Madelman. A Madelman no le cambia nada. Tiene que ganar un pro show y ganando un pro show está dentro. Entonces yo veo complicado que a Chema le puedan incomodar a alguien para poder ganar un pro show. De hecho este año ha ganado tres.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1117" target="_blank" class="timestamp">[18:37]</a> O sea, nada cambia. El panorama de Madelman yo creo que no cambia absolutamente nada y es todo bastante igual. Se mantiene todo bastante en su sitio. Y ya para terminar, tenemos aquí varias opciones más, pero evidentemente yo creo que la que interesa más hablar no es otra que en este caso de la de Mauro. Yo creo que Mauro evidentemente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1144" target="_blank" class="timestamp">[19:04]</a> Se va a tener que reestructurar esta estrategia. Ya de por sí le es complicado entrar en un Mr. Olympia, aunque yo creo que Mauro ha elevado bastante su propio nivel. Esto también hay que decirlo. El nivel con el que Mauro salió en el EMPRO de este año, en el EMPRO del 2025...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1159" target="_blank" class="timestamp">[19:19]</a> Yo creo que es un nivel muy alto, es un nivel muy alto, lo digo sinceramente, y yo creo que es un nivel que puede perfectamente meterse en esa terna para poder pelear y para poder estar en lo que es nada más y nada menos que un Mr. Olympia. Yo insisto, ahora la cosa evidentemente se ha puesto compleja. Esto se ha puesto complejo. Fijaros en la evolución que tuvo Mauro de Polonia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1186" target="_blank" class="timestamp">[19:46]</a> yo creo que Mauro va a tener que hacer junto con Raúl una estrategia importante porque evidentemente como digo todo se alarga se puede hacer incluso a lo mejor planificar primera y segunda parte de la temporada para conseguir un pro show en una y otro pro show en otra se puede hacer yo creo que lo más normal es intentar hacerlo todo de una pero evidentemente va a ser una preparación que se va a alargar se va a alargar y hay que ver cómo el físico responde</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1208" target="_blank" class="timestamp">[20:08]</a> Pero, desde luego, en el caso de Mauro y de Raúl, evidentemente esto es una putada, claro. Porque antes con un pro show ya estaba adentro y ahora con dos se complica bastante. Pero yo creo que Mauro lo puede conseguir porque, bueno, nada más y nada menos que ha conseguido quedar primero en el EMPRO. Que esto son palabras mayores y yo creo que lo puede perfectamente conseguir. Más allá de eso, insisto, tenemos los casos de Álvaro Ríos, que es otro de los atletas españoles de Men's que ha quedado ahí peleando por entrar en el Olympia este año. Evidentemente se complica.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1238" target="_blank" class="timestamp">[20:38]</a> Y luego, aparte, quiero hablaros de un tema interesante ya para cerrar el vídeo, y es el tema económico, ¿no? Porque todo esto ya lo hablamos con Ferran, cómo las marcas, evidentemente, pagan más y pagan menos en virtud de si eres atleta olimpia o no. Ahora también os digo, los atletas olimpia van a poder pelear con tratos importantes de decir, oye, que yo estoy clasificado en la olimpia y estoy entre los 25 mejores de mi disciplina. Ahora ya no es entre los 65 o los 70, no, no. Estoy entre los 25 mejores del mundo en lo mío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1267" target="_blank" class="timestamp">[21:07]</a> O sea que evidentemente van a poder pelear contra tomas sugerentes. Eso evidentemente para atletas tipo Madelman, José, etcétera, pues da un poco igual porque ya están en ese foco y ya están peleando por cosas importantes. Pero por atletas que están entrando en el Olimpia y que por muchos momentos incluso parece que están entrando por la puerta de atrás, cosa que no es así, ahora ya no hay puerta de atrás. Ahora ya el que entra en el Olimpia entra, vamos, le abre la puerta a San Pedro como si fuera el cielo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1292" target="_blank" class="timestamp">[21:32]</a> Con lo cual obviamente eso va a permitir que puedan negociar cantidades mucho más importantes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1298" target="_blank" class="timestamp">[21:38]</a> ¿Quién se beneficia de todo esto? Sin ninguna duda la IFV Pro League, mantiene campeonatos y mantiene ese nivel económico y ese nivel de, sobre todo, de seguimiento a sus campeonatos y además van a estar en muchos más campeonatos, va a haber muchos más atletas importantes porque se la están jugando y porque hay una competición por puntos que les va a obligar a competir cada vez más, perjudicados obviamente los atletas, esto no cabe ninguna duda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1324" target="_blank" class="timestamp">[22:04]</a> De hecho, si los atletas quisieran revertir esta situación tendrían que juntarse como asociación y provocar un cierre patronal, cosa que lo veo bastante improbable porque no se ponen de acuerdo los dos ni para entrenar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XTu-Ygn3r6Y&t=1335" target="_blank" class="timestamp">[22:15]</a> Y evidentemente, gran beneficiado, sin ningún lugar a la duda, los canales de reacción, seguimiento, información del mundo del culturismo, etc. Porque vamos a tener a los protagonistas durante más tiempo. Van a estar mucho más tiempo en liza y va a haber un mayor seguimiento. De eso no me cabe ninguna duda. Así que, como digo, dejadme en la caja de comentarios si opináis. Fuerte like al vídeo, suscribíos al canal y como siempre digo chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 04/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
