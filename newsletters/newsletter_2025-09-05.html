@@ -1,0 +1,392 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 05/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">05/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Miguel Navarro</strong>: <a href='#video-igZDANldvDE'>ULTIMAHORA| ¡ES OFICIAL, CHOOPAN ESTARÁ EN EL OLYMPIA! Así CONFIRMAN los Manion el VISADO del IRANÍ</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-igZDANldvDE">
+            <h2>ULTIMAHORA| ¡ES OFICIAL, CHOOPAN ESTARÁ EN EL OLYMPIA! Así CONFIRMAN los Manion el VISADO del IRANÍ</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 05/09/2025 09:47</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=igZDANldvDE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=igZDANldvDE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/igZDANldvDE/hqdefault.jpg" alt="ULTIMAHORA| ¡ES OFICIAL, CHOOPAN ESTARÁ EN EL OLYMPIA! Así CONFIRMAN los Manion el VISADO del IRANÍ" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video confirma oficialmente que el culturista Hadi Chopin ha obtenido su visa y participará en el Mr. Olympia 2025, superando obstáculos geopolíticos. Se analiza su derrota anterior, sus quejas sobre el criterio de los jueces y la estrategia de preparación que ha seguido. Expertos evalúan su físico y sugieren que un acondicionamiento impecable, más que el tamaño, será clave para su éxito. La competencia se anticipa como una emocionante batalla a tres vías entre Hadi, Samson Dauda y Derek Lunsford.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>¡Hadi Chopin Estará en el Mr. Olympia 2025! <a href="https://www.youtube.com/watch?v=igZDANldvDE&amp;t=67" target="_blank">[01:07]</a></h3>
+
+<p>El presentador anuncia la confirmación oficial de que Hadi Chopin ha conseguido su visa y competirá en el Mr. Olympia 2025. Se destaca lo improbable que parecía esto debido a la tensa situación geopolítica entre Irán y Estados Unidos, marcando el inicio de un anticipado debate sobre la competición.</p>
+
+<h3>La Queja de Hadi: ¿Qué Buscan los Jueces? <a href="https://www.youtube.com/watch?v=igZDANldvDE&amp;t=211" target="_blank">[03:31]</a></h3>
+
+<p>Tras su derrota en el Mr. Olympia anterior, se reproducen las declaraciones de Hadi Chopin, donde expresa su confusión y frustración con el criterio de los jueces. Manifiesta no comprender si se busca tamaño, simetría o condicionamiento, sintiéndose "perdido" sobre qué mejorar para futuras competiciones.</p>
+
+<h3>La Visión de los Jueces y la Estrategia de Silencio de Hadi <a href="https://www.youtube.com/watch?v=igZDANldvDE&amp;t=332" target="_blank">[05:32]</a></h3>
+
+<p>Un juez central, Terry Kelguindi, explica la victoria de Samson Dauda en el Mr. Olympia anterior por su mejora en el condicionamiento. También revela la decisión de Hadi de no competir en otros eventos durante 2024, optando por una preparación exclusiva para el Mr. Olympia 2025 con el objetivo de consolidar su legado.</p>
+
+<h3>Claves para el Regreso al Trono de Hadi <a href="https://www.youtube.com/watch?v=igZDANldvDE&amp;t=517" target="_blank">[08:37]</a></h3>
+
+<p>Se profundiza en el análisis técnico del físico de Hadi Chopin, señalando áreas de mejora específicas para el Mr. Olympia 2025. Expertos como Terry Kelguindi y Chris Cormier discuten la necesidad de una mejor definición en los isquiotibiales y glúteos, un posado más preciso en la espalda y un condicionamiento impecable para superar a sus principales rivales.</p>
+
+<h3>La Confirmación Final y el "Mejor Físico" de Hadi <a href="https://www.youtube.com/watch?v=igZDANldvDE&amp;t=757" target="_blank">[12:37]</a></h3>
+
+<p>Jay Manion, en entrevista con Martin Figuoter, confirma oficialmente la participación de Hadi Chopin en el Mr. Olympia 2025. El presentador, además, destaca la versión de Hadi vista en el Arnold Classic 2024 como su mejor físico hasta la fecha, enfatizando que la clave para la victoria será el acondicionamiento extremo sobre el tamaño.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno, ¿qué tal chicos y chicas? Bienvenidos a un nuevo vídeo en el canal y tenemos noticia, confirmación oficial de última hora. Jane Manion en una entrevista a Martin Figuoter en los servicios, en los cuarteles generales, podemos decir, de la IFB Pro League en Pittsburgh, ha afirmado, ha confirmado que Hadi Chopin tiene la visa, que Hadi Chopin va a estar en el Mister Olimpia. Un debate que, como todos sabéis, yo me posicioné, lo veía bastante, bastante difícil. Ya sabéis la situación tan tensa que hay</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=32" target="_blank" class="timestamp">[00:32]</a> actualmente entre Irán, Irak, Estados Unidos, Israel de por medio, en fin, ya sabéis, toda esta situación geopolítica que ponía en bastantes complicaciones el tema de Jadí Chopin. De hecho, salió Donald Trump afirmando que iba a haber bastantes problemas para dar visados...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=48" target="_blank" class="timestamp">[00:48]</a> y para poder garantizar la entrada al país de gente que proviniera de una serie de países, entre los cuales estaba Irán, entre los cuales estaba el país de Hadi Chopin. De hecho, tenemos ahí la correlación en este caso con Beirutabani, que no ha tenido la visa y que lleva años peleando esa visa y que nunca la consigue tener. Pues en el caso de Hadi Chopin se ve que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=67" target="_blank" class="timestamp">[01:07]</a> O bien los abogados o bien los trámites. Quién sabe si Harry Rambot, que aunque no es oficialmente su preparador, pues parece que no se ha ido nunca de esa guía, de esa ayuda. Puede ser que entre unos y otros se hayan conseguido lo que parecía al menos, o al menos a mí me parecía algo bastante improbable. Y es que Hadi Chopin pueda estar en el Olimpia del año 2025. Vamos a repasar cómo venimos con Hadi, porque la situación...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=89" target="_blank" class="timestamp">[01:29]</a> Está un poquito difícil de entender porque tampoco hay grandes checks de Hadi, tampoco lo hemos tomado las últimas y yo el primero en las últimas semanas muy en serio por esta situación, pensábamos de hecho que no iba a poder estar, pero bueno, por fin al menos tenemos una gran noticia que es la confirmación por parte de Marion de que Hadi va a estar en la Olimpia y ojo, porque ahí ya sí que se va a producir...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=109" target="_blank" class="timestamp">[01:49]</a> esa pelea a tres, esa pelea de nuevo entre Sansón, Hadi y Derek, cada uno con un Olimpia, cada uno con un Arnold y desde luego una competición perfecta para determinar quién es el mejor culturista de los tres. Así que como digo, vamos a pasar a analizar toda la actualidad de Hadi Chopin, por supuesto recordad los códigos de descuento, ya los conocéis, Código Iron Road en toda la web de Big, agradeceros el apoyo que le estáis dando al código porque gracias a ese apoyo, a esa fuerza,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=134" target="_blank" class="timestamp">[02:14]</a> pues el canal puede seguir hacia adelante y con crecimiento y por supuesto el código de descuento Iron Road en toda la web de Agonjin. Como digo, vamos a ir poquito a poco y lo vamos a ir desgranando y sobre todo vamos a escuchar esas declaraciones de Jay Manion con Martin Fidwater, otro de los candidatos perfectamente a poder estar, a poder entrar en esa pelea 3. Como digo, terminábamos así, terminamos esta situación del Mr. Olympia con un Javi Chopin que venía de haber hecho una temporada espectacular con la que para mí al menos es su mejor versión en el Arnold Sport de Ohio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=164" target="_blank" class="timestamp">[02:44]</a> pero que en esta ocasión se plantaba en el Olimpia, quizá un poquito más difuminado, no con tanta condición y quizá eso fue lo que permitió a Sansón Dauda ganar el título. En este caso, Hadi no pudo conseguirlo. Sí que es cierto que él tuvo unas declaraciones bastante fuertes, bastante fuertes para lo que suele ser Hadi Chopin, que generalmente también hay que recordar que no tiene pelos en la lengua, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=189" target="_blank" class="timestamp">[03:09]</a> Sí que es verdad que suele ser comedido cuando él considera que no se ha sido del todo justo. Vamos a escuchar lo que dijo justo después de bajarse de la tarima del Olimpia el año pasado porque son muy sintomáticas de lo que él considera que ocurrió en la tarima.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=211" target="_blank" class="timestamp">[03:31]</a> Nosotros somos como el Olimpíada, un maldito y un maldito. Yo no sabía que hay que ser más grande y que hay que ser más grande. Pero desde el punto de vista del Olimpíada,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=227" target="_blank" class="timestamp">[03:47]</a> Entonces, ¿qué hacemos ahora, coach? ¿Hadi Chupan? ¿Cómo regresamos más?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=252" target="_blank" class="timestamp">[04:12]</a> Ahora, ¿qué es lo que quieres hacer? ¿Puedes hacer lo más grande? ¿Qué es lo que quieres hacer?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=278" target="_blank" class="timestamp">[04:38]</a> He's always worked on conditioning and completeness, and now things have changed, obviously, with what they've chosen. So what he's going to do is think about how he's going to go forward with deciding what kind of look to try to...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=291" target="_blank" class="timestamp">[04:51]</a> Pues ahí teníamos la queja de Chopin, ¿no? Un poquito incrédulo, no sabía muy bien por dónde o qué es lo que pedían los jueces, siendo críticos, evidentemente, con el dictamen de los jueces, al fin y al cabo, y diciendo, bueno, no sé si quieren un cuerpo simétrico, estético, con condicionamiento, si lo quieren más grande, etcétera, etcétera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=311" target="_blank" class="timestamp">[05:11]</a> Un poquito perdido en cuanto a eso. A raíz de estas declaraciones salió uno de los jueces centrales, que no es otro que Terry Kelguindi, que suele estar bastante relacionado con el tema mediático. Un poquito a dar explicaciones. Vamos a escuchar lo que decía. Antes sobre todo vamos a ir cocinando un poquito el ambiente antes de llegar a las declaraciones, como digo, esa confirmación oficial de Jim Manning. Vamos a escucharlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=332" target="_blank" class="timestamp">[05:32]</a> En el año 2024, Mr. Olympia, fue realmente sobre Samson Dauda, ¿no? Samson Dauda siempre ha tenido tremendo size y los mejores lines. El problema con Samson era el condicionamiento. No era el condicionamiento suficiente para superar algunos de estos chicos. Él improvedó ese criterio y, por lo tanto, surpassó esos chicos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=354" target="_blank" class="timestamp">[05:54]</a> Now, it is a great question, Tim, if we had Hadi Chupin 2022 against Samson Dowda 2024 against Derek Lunsford 2023. Hadi Chupin, right after the Olympia placing second, he said, I'm not going to do any other show. I'm going to prepare myself for the 2025 Mr. Olympia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=377" target="_blank" class="timestamp">[06:17]</a> I fully believe Hadi Chupin believes he can beat Sam Sandowder and Derek. And he knows his legacy will be defined by how many Olympias he has won. If he wins one, he joins a great selection of people. Samir Banu, Chris Dickerson, Sean Roden, Brandon Curry.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=402" target="_blank" class="timestamp">[06:42]</a> But he wants to be with the two and three guys. He wants to be with Franco Colombo, Frank Zane, Sergio Leiva, Big Rami. That makes a difference when you're talking about the history of bodybuilding. And that's why he said, I'm not doing the New York Pro. I'm not doing the Arnold. I'm not doing any other shows. I want to be Mr. Olympia again.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=426" target="_blank" class="timestamp">[07:06]</a> Pues ahí tenemos la opinión de uno de los jueces del Minister Olimpia, del por qué ganó Sansón, del por qué Hadi no lo hizo y sobre todo algo que se ha cumplido. Hadi Chopin no ha competido en toda la temporada. No suele ser lo habitual, aunque sí que es verdad que cuando ganó el Olimpia lo hizo así, le salió bien. Pero en otras ediciones, bueno, pues ha participado el Arnold o ha hecho incluso algún guest posing. Nada de esto se ha producido este año, no ha salido de Irán.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=449" target="_blank" class="timestamp">[07:29]</a> Y eso es un poco lo que la tónica, digamos, que ha seguido en este caso el gran campeón. Vamos a escuchar por último lo que decía Terrique El Guindy sobre qué es lo que necesita Javi Chopin para volver a reinar. Vamos a escucharlo porque es interesante y a partir de ahí llegamos a las declaraciones de James Manning.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=467" target="_blank" class="timestamp">[07:47]</a> Ahora, después de la batalla, se fue blamed en 2021 por haber el brazo de los brazos tan prominentes, ¿no? Tampoco de la balanza. No se ve este problema aquí. Mira esa vacuna, es fantástica. Los flaringes de los quads. Los más musculares, sin embargo, incluso en el pecho. Mira, lo hizo el brazo, ¿no? Mira, lo hizo el brazo, ¿no? Lo hizo el brazo, ¿no? Lo hizo el brazo, ¿no? Lo hizo el brazo, lo hizo el brazo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=500" target="_blank" class="timestamp">[08:20]</a> ¡Vamos a ver! ¡Vamos a ver! ¡Vamos a ver! ¡Vamos a ver!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=517" target="_blank" class="timestamp">[08:37]</a> Just by bending the legs more... Now, stop right here, Carter. I have seen Hadi a little bit sharper hamstrings and glutes. A little bit sharper. 2022, right here, he was diced to the bone. And that oblique needs to be really lined up right there. If you over contract that oblique, then you're going to mess up the striations there. I think you went down too low. Roll the tape, Carter.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=547" target="_blank" class="timestamp">[09:07]</a> Ahora aquí es donde Derrick se hizo en el año 2023 y donde Sampson ha cambiado mucho y closed el gap en este lado. La parte de la parte de Hadichupin necesitaba ser más fuerte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=565" target="_blank" class="timestamp">[09:25]</a> Y Chris, es una cosa que se va a poner en el siguiente paso, que no se va a poner los hielos de los hielos de los hielos de los hielos de los hielos de los hielos de los hielos de los hielos de los hielos de los hielos de los hielos de los hielos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=579" target="_blank" class="timestamp">[09:39]</a> y en la playa que se toucha que se vea aquí ya se posen porque si se puede draw a line en tu mente de la pincel a la hora de la insertion y se puede hacer un pression a la hora de la presión y se puede poplar a la hora de la insertion y se puede dar a la hora de la insertion y se puede dar a la separación de la parte de la parte de la parte de abajo de la parte de abajo de abajo de abajo de abajo de abajo de abajo de abajo de abajo de abajo de abajo de abajo de abajo de abajo de abajo de abajo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=608" target="_blank" class="timestamp">[10:08]</a> Pero si ves a Hottie Trane haciendo 500 lbs smith machine squats y 500 lbs 600 lbs deadlifts, en algún momento hay solo mucho mas que vas a poner en un frame que size. ¿No puede mencionar que es 38 now?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=624" target="_blank" class="timestamp">[10:24]</a> No, creo que es 35, 35 años. No, no, no, no. 35. Pero, tú sabes, Tim, te bringe un buen punto. Si quieres ganar size, vas a tener que levantar heavy, ¿verdad? Y si quieres, tienes que tener en consideración, estos chicos estaban chasing Big Rami, ¿verdad? Cuando estaba en tercero, cuando estaba en tercero, no estaba en tercero. No, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=653" target="_blank" class="timestamp">[10:53]</a> Now, they were chasing Big Rami, Derek and all these guys. He needed to get bigger to become Mr. Olympia, and he did that. And when you become bigger, obviously, the waist starts expanding a little bit. But because he has such prominent quads, still has a good illusion. My issue is this. If you want to beat Samson Dauda, you're going to have to be perfect on the conditioning. From the front, he's lights out. From the back, he wasn't.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=683" target="_blank" class="timestamp">[11:23]</a> Porque ahora estás tratando contra Samson Dauda, quien tiene más, más líneas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=688" target="_blank" class="timestamp">[11:28]</a> Pues ahí lo estábamos viendo, ¿no? Una reflexión bastante interesante entre Terrique El Guindy, Chris Cormier, un poquito hablando, mejorar el posting, mejorar ese bad post y sobre todo salir tan condicionado como salió o en 2022 o como en el Arnold Classic del año 2024, donde Hadi Chopin, sin duda para mí al menos, y luego lo veremos, mostró el mejor físico que yo he visto a Hadi Chopin desde que prácticamente lo sigo. Pues bien, vamos a escuchar estas declaraciones</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=717" target="_blank" class="timestamp">[11:57]</a> de Jay Manion, que es el que lo avanza, y Martin Feewater, que también lo comenta. Se ve que además Martin Feewater dice que ha hablado con él y demás, así que parece que está todo bastante bien atado. Es oficial, Hadi Chopin estará en el Olimpia de este mismo año, en tan solo 5-6 semanas aproximadamente en Las Vegas. Vamos a escucharlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=736" target="_blank" class="timestamp">[12:16]</a> ¡Suscríbete al canal!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=757" target="_blank" class="timestamp">[12:37]</a> We have Hadi, who's another Mr. Olympia. We have Brandon Curry, who's another Mr. Olympia. And Derek also, who's another Mr. Olympia. So we have this list of on-and-on guys. And we have some up-and-coming guys that are hopefully looking to take some of their spots. I'm happy that Hadi was able to get here too. Yes, yes. No, that's been big. It just wouldn't be the same, you know.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=776" target="_blank" class="timestamp">[12:56]</a> Ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=799" target="_blank" class="timestamp">[13:19]</a> Pues ahí lo teníamos, ¿no? Confirmación oficial en este caso de Jay Manion en esa entrevista a Martin Fikwater. Martin que también lo asevera, que afirma que ha hablado con él y demás. Así que desde luego que la noticia está bastante, bastante contrastada. Y ya para terminar quería dejaros el que para mí ha sido, yo me gustaría dejaros en la caja de comentarios, pero para mí ha sido la mejor versión, al menos que yo recuerdo, de Hadi Chopin para mí en su vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=827" target="_blank" class="timestamp">[13:47]</a> Lo digo así de claro. Para mí, esta versión de Jadid Chopin, que de hecho se impuso con bastante claridad a nada más y nada menos que Sansón Dauda, que ese mismo año, el año pasado, año 2024, iba a hacerse con el campeonato del Mister Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=842" target="_blank" class="timestamp">[14:02]</a> Para mí esta versión de Hadi es la mejor. Para mí no debe obcecarse tanto en el tamaño, es evidente que Sansón va a tener más tamaño, pero él no va a poder conseguir el tamaño de Sansón y donde tiene que ganarle y donde tiene que dejarle en evidencia es en esa condición. Así lo hizo en el Arnold. En el Arnold la diferencia de condicionamiento fue muy grande.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=858" target="_blank" class="timestamp">[14:18]</a> Es evidente que Sansón también es más grande que Jadichopal, pero saliendo muy condicionado, al final la diferencia de tamaño no resalta tanto como la diferencia de condición. Y la diferencia de condición fue, como digo, muy alarmante, muy clara, muy notoria. De hecho, lo voy a volver a poner aquí para que un poco veáis. Es evidente que las poses en el back post tienen elementos para perder Jadichopal. ¿Por qué? Porque no es una espalda, por ejemplo, similar a la de Sansón. Pero vuelvo a repetir, si sale condicionado, sale muy duro, muy apretado,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=885" target="_blank" class="timestamp">[14:45]</a> Desde luego que va a tener posibilidades de medirse ante Sansón siempre y cuando Sansón no salga apretado. Porque ya lo hemos dicho muchas veces, si Sansón sale apretado con la cantidad de tamaño que tiene y la belleza estética que tiene y esa simetría, ese equilibrio, pues es prácticamente imposible meterle mano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=igZDANldvDE&t=902" target="_blank" class="timestamp">[15:02]</a> Así que como digo chicos y chicas, esta es la noticia, esta es la confirmación de última hora, Jay Manion, Marty Figuoter, los dos lo avanzan, Hadi Chopin tiene la visa y estará en el Mister Olimpia del año 2025 en tan solo 6 semanitas en Las Vegas. Así que como digo, dejadme en la caja de comentarios si opináis, fuerte like al vídeo, suscribíos al canal y como siempre digo chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 05/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
