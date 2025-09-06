@@ -1,0 +1,383 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 06/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">06/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Strongman Tarrako</strong>: <a href='#video-I-5n-7Zx_e0'>NUTRICIÓN ENGAÑOSA Y ENSALADAS MUTANTES</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-I-5n-7Zx_e0">
+            <h2>NUTRICIÓN ENGAÑOSA Y ENSALADAS MUTANTES</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Strongman Tarrako</span>
+                <span class="date">Publicado: 06/09/2025 10:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0" target="_blank">
+                    <img src="https://i.ytimg.com/vi/I-5n-7Zx_e0/hqdefault.jpg" alt="NUTRICIÓN ENGAÑOSA Y ENSALADAS MUTANTES" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video aborda la "nutrición engañosa", donde el consumo ilimitado de alimentos individualmente saludables, como los incorporados en las "ensaladas mutantes", puede generar un superávit calórico y sobrepeso. El presentador subraya que la clave para la pérdida de peso es el déficit calórico, no simplemente comer "limpio" o "saludable" sin control. Se critica la falta de contextualización y el exceso de grasas saludables en la dieta, lo que anula los beneficios para la salud. El mensaje central es que la cantidad y el balance calórico son fundamentales, más allá de la percepción de salubridad de los alimentos.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Trampa de Confundir Saludable con Ilimitado <a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&amp;t=66" target="_blank">[01:06]</a></h3>
+
+<p>El presentador introduce el concepto de "nutrición engañosa", explicando cómo se confunde erróneamente que un alimento sea saludable con la idea de que puede consumirse sin control. Esta percepción es un obstáculo fundamental para quienes buscan perder peso.</p>
+
+<h3>Ensaladas Mutantes: El Superávit Escondido <a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&amp;t=188" target="_blank">[03:08]</a></h3>
+
+<p>Se define la "nutrición engañosa" ilustrando cómo la combinación excesiva de alimentos supuestamente saludables en ensaladas puede generar un superávit calórico. Esto lleva a ganar peso y perder salud, a pesar de consumir ingredientes individualmente nutritivos.</p>
+
+<h3>El Peligro de las Grasas Saludables en Exceso <a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&amp;t=303" target="_blank">[05:03]</a></h3>
+
+<p>El orador detalla cómo ingredientes como grandes aguacates, nueces y abundante aceite de oliva virgen extra, aunque saludables por sí mismos, al combinarse en una sola ensalada pueden anular la pérdida de peso. Esta sobrecarga de grasas, incluso "buenas", promueve el aumento de peso.</p>
+
+<h3>Déficit Calórico: La Regla Innegociable para Perder Peso <a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&amp;t=482" target="_blank">[08:02]</a></h3>
+
+<p>Se recalca que "saludable no es acalórico" y que la única forma indispensable para perder grasa y peso corporal es el déficit calórico. Se critica la creencia de que comer "saludable" exime de controlar las cantidades de los alimentos.</p>
+
+<h3>Contexto y Cantidad: Desmontando Mitos Nutricionales <a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&amp;t=624" target="_blank">[10:24]</a></h3>
+
+<p>El video concluye enfatizando que la nutrición no es absoluta y debe contextualizarse según cada individuo y sus objetivos. Se advierte que, paradójicamente, un exceso de alimentos saludables puede tener más calorías que cierta "comida basura", destacando la supremacía de las cantidades y el balance calórico.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=9" target="_blank" class="timestamp">[00:09]</a> Buenas amigos y amigas, nos encontramos en nuestro canal de YouTube Strongman Tarraco y hoy hablaremos de nutrición. Hemos titulado el vídeo Nutrición engañosa y ensaladas mutantes. La realidad es que creo que el tema de la nutrición coge tintes dramáticos porque creo que hay mucha gente que no quiere entender ciertas cosas porque tiene un sesgo el cual, bueno, digamos que se autoengaña.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=36" target="_blank" class="timestamp">[00:36]</a> Esto pasa constantemente en el entrenamiento y también en la nutrición. La realidad es que la persona que no pierde peso es porque calóricamente no está en déficit. A partir de aquí hay múltiples motivos y factores por los cuales una persona no genera déficit. Estados emocionales y demás, yo muchas veces lo he dicho, perdón, yo me ocupo de la parte de nutrición y de entrenamiento, de la parte física de la persona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=66" target="_blank" class="timestamp">[01:06]</a> A partir de allí otros profesionales se ocupan de otros temas. Digo nutrición engañosa porque últimamente ya de forma creo que demasiado preocupante se confunden términos tan sencillos como que un alimento sea saludable y ese alimento pueda ser consumido sin control sin ningún problema. Dice ese problema</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=96" target="_blank" class="timestamp">[01:36]</a> deshacer un supuesto déficit calórico. Ya hace muchos años alerté de la mutación o transformación que estaban sufriendo las ensaladas. Al final cuando un nutricionista pauta una ensalada se refiere a unos ingredientes vegetales</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=133" target="_blank" class="timestamp">[02:13]</a> A partir de aquí, pimientos crudos. A partir de aquí, pues bueno, se pueden añadir más o menos cosas. Ya en la época, las ensaladas se empezaban con los picatostes de pan, con una especie de mix para ensaladas, que era un combinado de frutos secos en los cuales destacaban las pasas, queso de rulo de cabra, claro. Entonces, la persona te decía, no hombre, estoy comiendo ensalada y no pierdo peso. No, no, ni lo perderás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=162" target="_blank" class="timestamp">[02:42]</a> porque el sentido en sí de la ensalada vegetal perdía ciertamente el por qué el nutricionista la había pautado. Con la evolución de la nutrición, de la sociedad, se ha virado hacia una mutación más saludable.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=188" target="_blank" class="timestamp">[03:08]</a> ¿Por qué digo entonces que la nutrición acaba siendo engañosa por las ensaladas mutantes? Porque si tú coges una serie de alimentos que supuestamente son saludables por separado y con un control de su ingesta, los juntas todos y te generan un superávit y ganas kilos y acabas en sobrepeso, todos esos alimentos saludables, nutricionalmente hablando, han dado con una nutrición engañosa</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=216" target="_blank" class="timestamp">[03:36]</a> porque tú estás perdiendo salud consumiendo alimentos saludables. El problema es que la amargama, la selección en su totalidad que has elegido da un superávit calórico. Y por mucho que el superávit sea de alimentos saludables, el sobrepeso no está siendo beneficioso para ti. Por lo tanto,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=244" target="_blank" class="timestamp">[04:04]</a> La nutrición saludable es engañosa debido, como ejemplo, entre otras muchas cosas, a las ensaladas mutantes. ¿Qué sucede ahora? Que esos alimentos saludables, por ejemplo, son incluidos en las ensaladas que han mutado, del queso de cabra, las pasas y demás, a unas ensaladas mutantes con alimentos supuestamente mutantes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=274" target="_blank" class="timestamp">[04:34]</a> más saludables. Porque si tú a la ensalada vegetal que ha pautado tu nutricionista, yo ya viendo venir cuando la pauto especifico, especifico. Y hay que especificar bien, porque a alguien le puedes decir ingredientes vegetales y decir, el aguacate es vegetal. Ahí vamos al primero. Si tú le metes a tu ensalada un aguacate como tu cabeza, si luego le metes nueces, porque los frutos secos también son súper saludables, con grasas buenas, igual que el aguacate, y le metes tres puñados</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=303" target="_blank" class="timestamp">[05:03]</a> Y encima el AV, como se dice ahora, aceite de oliva virgen extra, alfaño. Tú tienes una ensalada vegetal con grasas saludables. Sí. ¿Esa ensalada te va a ayudar a perder peso? No. Normalmente, porque la nutrición evidentemente depende del contexto, normalmente te va a ayudar a ganar peso. ¿Y qué pasará al final? Que acabará siendo perjudicial.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=333" target="_blank" class="timestamp">[05:33]</a> Porque ese exceso de peso y de grasa corporal te va a acabar llevando a problemas equis. Pero es que dime a esas personas en muchos casos, ¿qué han oído? El salmón cojonudo, de segundo salmón. ¿Cuántos gramos de grasas saludables te has arreado en esa ensalada y ese pescado al horno? Súper saludable. Incontables. Entonces se ha convertido...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=362" target="_blank" class="timestamp">[06:02]</a> unos ingredientes o alimentos saludables, los juntan todos y claro, tanta grasa saludable acaba dando grasa a la máxima potencia. Y eso es lo que la gente no entiende. Hay gente que me preguntaba el otro día, oye, ¿recomiendas el aguacate? La nutrición no es absoluta, pues depende del contexto. En un contexto en el que tú tienes que tener un control calórico</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=394" target="_blank" class="timestamp">[06:34]</a> creo que hay formas de consumir esa grasa saludable mejores. Por ejemplo, el salmón, el pescado azul. Porque te va a aportar también grasa saludable, pero una cantidad de proteína muy importante. Cosa que el aguacate no va a hacer. Entonces, la realidad es que hay que sentarse y decir, bueno, yo no puedo coger todos los alimentos saludables del mundo,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=424" target="_blank" class="timestamp">[07:04]</a> Y menos los que destacan por un componente de grasa saludable, pero una densidad calórica brutal. No sabéis las calorías que es eso. Los del aguacate como su cabeza, el chorro de aceite al fallo de oliva, A.V. Y luego los frutos secos, una maravilla. Pero claro, es que aquella ensalada te metes las calorías solo en grasas que necesitas para el día.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=453" target="_blank" class="timestamp">[07:33]</a> Eso sí, hidratos no que... Bien, ya faltaría que te metieras un plato de espagueti de primero. Porque hay gente que escapando no, pues la patata es saludable y ya juntas todo ya, hidratos, grasas, calorías... Saludable todo, la patata es saludable. Sí, ¿recomiendas la patata? Sí. Es un muy buen carbohidrato y se puede comer más cantidad con menos calorías que, por ejemplo, el arroz o la pasta. Y normalmente tiene mejor digestibilidad. Eso dependrá de la persona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=482" target="_blank" class="timestamp">[08:02]</a> Pero hay que ser consciente que saludable no es acalórico, que aunque sean saludables también tienen calorías. ¿Y qué es lo indispensable para perder grasa corporal y peso corporal? Evidentemente, seguidamente, el déficit calórico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=504" target="_blank" class="timestamp">[08:24]</a> A nivel nutricional es dramático. Es que no entiendo por qué no pierdo peso. No lo entiendes, te lo diré yo, porque comes demasiado para lo que te mueves. ¡Ostras! ¡Esto es imposible! Bueno, pues a Gandalf es cosa de magos ya. Porque esa es otra. ¿Necesitas tú ese nivel de grasa saludable para hacer qué? ¡Que me da energía!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=537" target="_blank" class="timestamp">[08:57]</a> Mucha energía necesitas. ¿Qué pasará con eso? Almacenado. Y no en músculo. Claro, entonces la nutrición, todas las preguntas que me llegan de clientes, de gente que viene al club, son todas una serie de dudas. Bueno, ¿qué me recomiendas? ¿Qué no? La nutrición no es absoluta. Depende del contexto. En un contexto unos alimentos pueden ser beneficiosos para una persona y no para otra. Pero sobre todo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=566" target="_blank" class="timestamp">[09:26]</a> No es el alimento. Evidentemente hay que evitar ultra azucarados, ultra procesados, alimentos con grasas no saludables en exceso. Vale. Cuestión de hincharse a fritos y de hincharse a... No. Pero sobre todo las cantidades. Al final, para mí la procedencia de los alimentos es indispensable. Y no es lo mismo ganar peso de grasas saludables que cenar patatas fritas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=596" target="_blank" class="timestamp">[09:56]</a> de cadena rápida y de todo sin la mínima calidad y refrito con aceite vegetal que lleva ya infinitos kilómetros, evidentemente es mejor la ensalada que he dicho. Pero es que muchas veces esa comida basura tiene menos calorías que la ensalada saludable que te estás trincando. Porque hay gente que mete ensaladas que más sale a cuenta meterse 15 hamburguesas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=624" target="_blank" class="timestamp">[10:24]</a> De ahí la gente que va perdida dice, pues aquel come a veces guarradas y está mejor que yo. Es que si aquel lleva una dieta más equilibrada o balanceada y un par de días hace una comida trampa, guarra de procesados y un helado porque le gusta y tú te metes cada día tu ensalada saludable, es que al final de la semana le multiplicas por 8 las calorías. Y esa es otra. Esas ensaladas saludables muchas veces no están bien a nivel de macro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=655" target="_blank" class="timestamp">[10:55]</a> Porque si metes el contenido fibroso, los micronutrientes de los vegetales, pero luego le metes 200.000 calorías procedentes única y exclusivamente, que muy saludables, pero de la grasa, luego tienes que complementarlo con proteína. Luego métete salmón. Por ejemplo, luego habrá que buscar una proteína más limpia en grasas, habrá que buscar una compensación, pollo, pescado blanco, sepia, pavo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=681" target="_blank" class="timestamp">[11:21]</a> La gente lo junta todo. Esto me han recomendado. Uno, el aguacate. Otro, las nueces. Otro, el ahobe. El otro, el salmón. Lo meto todo. Y al fallo que tengo hambre. Claro, entonces ahí la nutrición ya pierde su sentido. Siempre y cuando es para salud. Porque por muy saludable que sea el alimento, sí es cierto que he visto gente que come saludable, lo que se llamaría limpio,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=711" target="_blank" class="timestamp">[11:51]</a> pero a nivel de cantidades va desbocado, porque por ejemplo las legumbres son un buen alimento, pero se gente que las legumbres se las mete al fallo también. Si por la noche ensalada montante, por mediodía legumbres al fallo, con tal, con frutos secos también, a media mañana lo otro, muy saludable, pero cuando te pasas 30 kilos tus centímetros y resulta que apenas entrenas y tu nivel de grasa corporal de masa muscular es bajo, tú comes saludable.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=740" target="_blank" class="timestamp">[12:20]</a> Pero esa nutrición no es saludable. Porque a ti te está llevando una nutrición con ingredientes saludables a una mala salud por sobrepeso. Ahí es cuando la nutrición es engañosa. Y para mí, de lo que veo últimamente, las ensaladas mutantes con mutación hacia esa modernidad de alimentos y grasas saludables, que las grasas saludables son necesarias, sí necesarias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=770" target="_blank" class="timestamp">[12:50]</a> explota la grasa saludable. Hay una recomendación en función de los objetivos y de la persona, de su contexto. No es alfayoto. Entonces, a nivel nutricional, los que trabajamos en esto, hay un momento que es desesperante porque las personas no entienden eso. Porque despegas este discurso. Creo que relativamente bien explicado en la medida de lo posible.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=799" target="_blank" class="timestamp">[13:19]</a> y sujeto a error por mi parte, y te dicen, entonces, pues claro, si es saludable, ¿por qué no lo puedo comer? Si no digo que no lo puedas comer, digo que comer sin límite y juntando todas las grasas saludables que te han dicho todas las personas que te has encontrado en los últimos 15 años, te va a llevar a engordarte, ¿sí o no? Claro, entonces, bueno, que quizás no quiere entenderlo. Entonces, cuidado con relacionar ingredientes saludables</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=828" target="_blank" class="timestamp">[13:48]</a> Con salud y sobre todo con pérdida de peso por déficit calórico, que es indispensable. Y cuidado con recomendar alimentos. ¿Recomiendas el salmón? Sí. ¿Para una persona que quiere perder peso y que ya en la ensalada anterior al salmón tiene suficientes grasas para subir al EBD tres días seguidos y hacer sentadillas diez por diez arriba? No. Buscaría...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=854" target="_blank" class="timestamp">[14:14]</a> una fuente proteica con menos grasas saludables, porque hago el sobrado. Las grasas saludables le salen por la oreja. Entonces, la nutrición hay que contextualizarla. ¿Qué has comido? ¿Qué has desayunado? ¿Has desayunado intermitente? ¿Comes 14 veces? ¿Cómo va esto? Porque la gente sigue, igual que los frutos secos. ¿Son saludables? Sí. Hay gente que es capaz de meterse 250 gramos de arancarnos después de cenar. ¿Cuántas calorías son? Me los cojo fritos y saladitos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=888" target="_blank" class="timestamp">[14:48]</a> Ahí ya ni saludable. Pero bueno, los que se nos meten tostados o crudos. 250 gramos. Un paquete. Y se han metido antes el aove, el aguacate y el salmón. Sí, sí. Has cogido todo lo saludable. Pero vas a explotar. Comiendo saludable vas a explotar. Y os diré un secreto. Explotar nunca genera salud. Así que espero que se haya entendido porque a nivel nutricional llevo una semana...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=917" target="_blank" class="timestamp">[15:17]</a> que estoy, reconozco, desbordada. Esto rozaría el desahogo. Porque además, esta semana, un par o tres de clientes me han dicho, no, no, a la ensalada le meto un aguacate. Es vegetal, ¿no? Hombre, sí, técnicamente sí, pero los macros se parecen un poco al tomate, compañero, que es una fruta. Pero no tiene macros de fruta. Un poco de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=I-5n-7Zx_e0&t=944" target="_blank" class="timestamp">[15:44]</a> Sentarse y situarse. Y otra cosa muy importante, si llevas comiendo ensaladas mutantes y todos los alimentos maravillosamente saludables que has encontrado y te han recomendado los últimos 34 años y sigues ganando peso en vez de perderlo, algo estás</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 06/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
