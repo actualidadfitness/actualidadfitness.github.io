@@ -1,0 +1,386 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 08/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">08/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-pmsazCtw6qo'>URS MUTA SORPRENDE Y GANA A TODOS CON UN FÍSICO MASIVO EN EL ITALIA PRO</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-pmsazCtw6qo">
+            <h2>URS MUTA SORPRENDE Y GANA A TODOS CON UN FÍSICO MASIVO EN EL ITALIA PRO</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 08/09/2025 14:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=pmsazCtw6qo" target="_blank">
+                    <img src="https://i.ytimg.com/vi/pmsazCtw6qo/hqdefault.jpg" alt="URS MUTA SORPRENDE Y GANA A TODOS CON UN FÍSICO MASIVO EN EL ITALIA PRO" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video es un análisis de una competición de culturismo en la categoría Open, con un enfoque principal en el debut del atleta Ursh. El comentarista evalúa su impresionante condición física y sequedad muscular, comparándolo con otros competidores de alto nivel como Kint. A lo largo del video, se discuten las fortalezas y debilidades de cada atleta en diversas poses, culminando en un debate sobre el polémico resultado final. El presentador sugiere que la decisión de los jueces pudo haber sido influenciada por la reputación del atleta.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Impresionante Debut de Ursh en Open <a href="https://www.youtube.com/watch?v=pmsazCtw6qo&amp;t=30" target="_blank">[00:30]</a></h3>
+
+<p>El comentarista inicia el análisis destacando el gran tamaño y la excepcional sequedad muscular de Ursh, especialmente en la espalda y glúteos. Se subraya que este es su primer campeonato en la categoría Open, mostrando un potencial notable a pesar de su debut.</p>
+
+<h3>Aumenta la Competencia: Entran los Contendientes Clave <a href="https://www.youtube.com/watch?v=pmsazCtw6qo&amp;t=127" target="_blank">[02:07]</a></h3>
+
+<p>El nivel de la competición se eleva considerablemente con la aparición de otros atletas de alto calibre, descritos como "increíbles". Se identifica a Kint, un fuerte contendiente asociado con Samson, y el comentarista anticipa que la lucha por el top 3 será muy reñida.</p>
+
+<h3>Ursh: El Rey de la Condición Muscular <a href="https://www.youtube.com/watch?v=pmsazCtw6qo&amp;t=365" target="_blank">[06:05]</a></h3>
+
+<p>Se realiza un análisis detallado de la condición física de Ursh, afirmando que es el mejor condicionado del campeonato, destacando la extrema estriación de sus glúteos. Sin embargo, se señala una posible falta de amplitud en su físico en comparación con otros competidores Open.</p>
+
+<h3>Ursh Se Mantiene Firme en el Centro del Escenario <a href="https://www.youtube.com/watch?v=pmsazCtw6qo&amp;t=465" target="_blank">[07:45]</a></h3>
+
+<p>Durante las comparaciones en el escenario, Ursh es consistentemente posicionado en el centro por los jueces, un indicativo positivo de su rendimiento. El comentarista observa que no lo mueven de esta posición, sugiriendo que está firmemente asegurado entre los mejores.</p>
+
+<h3>La Controversia del Podio: ¿Pesó el Nombre? <a href="https://www.youtube.com/watch?v=pmsazCtw6qo&amp;t=765" target="_blank">[12:45]</a></h3>
+
+<p>Tras el anuncio de los resultados finales, el comentarista expresa su desacuerdo y sorpresa con la victoria de Ursh, a quien él veía en una posición inferior. Sugiere que el "nombre" del atleta pudo haber influido en la decisión de los jueces, considerando que otros, como Kint, presentaban un físico superior.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=0" target="_blank" class="timestamp">[00:00]</a> Vamos a ver lo que ha pasado con Ursh. Bueno, se le ve grande, ¿eh? Se le ve grande. No se le ve con la profundidad y los cortes que se le veía en Classic, pero se le ve grande.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=30" target="_blank" class="timestamp">[00:30]</a> Bien. Hostia, buen brazo, ¿eh? Buen brazo, tú. Vamos a ver la espalda. Hostia, sale rajado, rajado el cabrón. Sale bien rajado. Mira el glúteo como lo tiene seco, ¿eh? Mira, mira, mira, mira. Hostia, como tiembla tú de hacer fuerza, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=60" target="_blank" class="timestamp">[01:00]</a> Bueno, esa amplitud se puede trabajar todavía. No tiene la amplitud de los Open. Todavía no tiene esa amplitud que... Bueno, pero la pillará. Eso es tiempo. Tiempo de trabajo, sí. Pero el culo lo tiene súper estriado, ¿eh? Y el brazo muy mejorado, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=79" target="_blank" class="timestamp">[01:19]</a> Y es que se le ve. Se le ve bien, ¿eh? Oye, recordad que este hombre va a acabar ya. Es su debut en Open, ¿eh? Es su puto debut en Open. También creo que... Me parece a mí que este campeonato era a un nivel bajito, ¿eh? No sé, no sé. Este es un poco raro, ¿no? Pero se le ve grande a este. A este se le ve mejor. A este se le ve mejor. Sí que es verdad que las piernas tienen un pelín rara. La pintura un poco ancha, pero bueno, son Open. ¿Qué quieres que haya aquí, no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=110" target="_blank" class="timestamp">[01:50]</a> La verdad que igualito que... Este es Sergio Oliva. Igualito que el padre, ¿sabes? Este tiene un cuerpo raro. ¿Verdad? Está como extraño el cuerpo, no sé. No me gusta este hombre. No, no, la barriga la tiene rara, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=127" target="_blank" class="timestamp">[02:07]</a> Como pasado, ¿sabes? Vale. Vale. Vale. Vale. La cosa ha cambiado aquí, ¿eh? Uy, uy. Espérate, tú. Esto ya es otra cosa. Hostia, ¿eh? Cuidado. Aquí el nivel, ¿eh? Buah. Los dos. Estos dos los veo yo increíbles, tú. Estos los dos increíbles.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=150" target="_blank" class="timestamp">[02:30]</a> Pero, tío, veo a Ursh… Veo a Ursh para hacer un top 3, ¿eh? ¿Verdad? Veo a Ursh para hacer un top 3. Lo digo en serio. No sería ninguna locura. Los dos negros están increíbles. Los dos negros están increíbles, chaval. Buah, buah, buah, buah, buah, buah, buah, buah, buah, buah, buah.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=167" target="_blank" class="timestamp">[02:47]</a> Buah, el King está impresionante, tú. Este es el que sale con... El que sale con... Samson, ¿verdad? Es él, ¿no? El que han tenido con Samson es este, si no me equivoco. Sí, ¿no? ¿Verdad? Hostia, espectacular, ¿eh? Espectacular, ¿eh? El Kington se llama, ¿no? Uy, este y el otro igual, ¿eh? Este me parece que tiene un nivelazo, los dos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=188" target="_blank" class="timestamp">[03:08]</a> Los dos tienen un nivelazo. Si tuviera que decir… Bueno, no sé, no sé. Es que veo a los dos… A los dos, al quinto y al otro los veo con mucho nivel. Pero bueno, yo creo que URSS… Top 3, top 4… Fácil, ¿eh? De momento. De momento. Vale, este es el… Este es el… Hostia, este tiene… Mira la cintura que lleva el bicho. ¡Señores! ¡Shh! ¿Quién he tomado ahí? Escúchame.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=211" target="_blank" class="timestamp">[03:31]</a> Vengo a enseñarte la mejor proteína de mercado, la hidrolizada de Procis de vainilla. El 28 % de pureza no lo encuentro en ningún lado. ¿Sabes cómo te hace más efecto? Con mi código de descuento Antonio G en Procis. Y ya está. Hostia, me parece que la cosa va a estar entre los negros. Me parece que la cosa va a estar entre los dos. Está espectacular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=233" target="_blank" class="timestamp">[03:53]</a> Este es el king de este. Este está espectacular. Este está espectacular. Me gusta mucho tú. Y tiene pinta de tener mucho margen todavía. Este me gusta mucho tú el nivel que tiene. Cuidado si no gana este. Madre mía de mi vida. Madre mía de mi vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=259" target="_blank" class="timestamp">[04:19]</a> Vaya brazo, mira. Mirad el tamaño del brazo. Y el hombro. Sí que es verdad que no tiene ninguno la sequedad de Urs. Fijaros en el glúteo que no termina de estriarse como se le estría a Urs. Ahora tienen unas formas espectaculares los dos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=278" target="_blank" class="timestamp">[04:38]</a> Este está muy bien, ¿eh? Este está para ganar, ¿eh? Sí que creo que no sale con el punto... No sale con el punto de Ursh. No, no, no para nada. No sale con el punto de Ursh. Se le nota aquí que le falta un poquito... Tiene un poquito de aguilla. A ver el culo. Bueno, bueno, bueno. Bueno, bueno, eh. Cuidado, eh. Cuidado, sí que se le ve rarillo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=303" target="_blank" class="timestamp">[05:03]</a> Sí, quizá eso. Quizá Víctor... Sí, verdad. Quizá un poco blando. Quizá. Quizá. Necesito ver a Ursh de nuevo. Quizá. Sí. No le veo con el punto de condición. No le veo con el punto de Ursh. Pero le veo con unas formas espectaculares. Le veo con unas formas increíbles. Vamos. Este tío está para ganar. Lo digo en serio. Top 3 mínimo. Y Ursh tiene que salir. Vamos a ver de nuevo a Ursh. Si nos parece mal. Claro, es que miradlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=334" target="_blank" class="timestamp">[05:34]</a> Miradlo. Ay, es que se le ve apretado al cabrón. Y mira que no se le ve como siempre. Buah. Buah. Buah. Mirad la zona media, tú. Buah. Mirad. A ver. A ver de lado. A ver de lado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=365" target="_blank" class="timestamp">[06:05]</a> Dios… Es que creo que es el mejor condicionado, ¿eh? ¡Buah, tío! ¡Mira, mira, mira! ¡Mira el culo! ¡Mira el glute, tú! Es que es el mejor condicionado, tío. De condición es el mejor del campeonato. El mejor. El mejor. No, no, en serio, ¿eh? Quizás si le tengo algo que… De verdad, si le tengo algo que reclamar es amplitud. Amplitud, la verdad. Esa amplitud…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=392" target="_blank" class="timestamp">[06:32]</a> Que la amplitud la va a ganar con el tiempo. Sí que es verdad, amigos, que yo sé que vais a decir, Antonio, se le queda aquí como unos pliegues aquí. Pero es que yo me acuerdo que cuando era Classic, cuando hacía esta pose, también le salían los pliegues. Lo digo en serio. Los pliegues de aquí, justo encima, no aquí abajo, como para ver, aquí arriba, le salían. Yo me acuerdo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=416" target="_blank" class="timestamp">[06:56]</a> O sea, podemos buscar fotos del Olympia con Cebam y compañía y él salía con el pliegue aquí arriba. O sea, que será algo que no termina de poder. Y menos ahora, claro. Sí, hay que… A ver… A ver… Tienen mejor detalle. Otros tienen mejor detalle que él en la espalda. Eso es una realidad. Eso es una realidad. Pero bueno… Recordad que es el primer Open de él. El primer campeonato Open. Sí, sí. Por supuesto que la expansión dorsal es la peor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=443" target="_blank" class="timestamp">[07:23]</a> A ver esta. ¡Madre mía! En esta es ganador, ¿eh? En esta es ganador, ¿eh? ¡Madre mía, tú! Cuidao con Ursh. Cuidao, cuidao que no gane Ursh. Uy, Ursh en el centro de momento, ¿no? Vamos a ver. Empieza bien Ursh, ¿eh? Empieza muy bien Ursh. Uy, sí cambian a los otros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=465" target="_blank" class="timestamp">[07:45]</a> No cambian a Ursch del centro. Esto es muy bueno para Ursch. ¡No cambian a Ursch! ¡Ojo que se mete entre los tres! Mejor es seguro. No lo has movido del centro, tú.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=481" target="_blank" class="timestamp">[08:01]</a> A ver, yo pienso, pienso, eh. De corazón. Yo veo, o sea, veo al... Sobre todo a este, al... Se llama Kling, hemos dicho, ¿no? Kling, ¿no? Se llama Kling o algo así. El que entrena Kling. El que entrena con Samson. Lo veo... Para mí lo veo... O sea, lo veo muy bien, eh. Así que es verdad que los cortes y la profundidad que tiene el cabrón de Lulz no lo tienen ellos, eh. No lo tienen. A ver esta pose...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=509" target="_blank" class="timestamp">[08:29]</a> Uy, en esta pose me gusta Urs, ¿eh? Me gusta Urs, ¿eh? En esta pose me gusta Urs. Me gusta mucho Urs en esta pose. Aquí no, aquí va a pinchar. Aquí va a pinchar. Pero claro, fijaros la estriación que lleva el glúteo, tú. Uy, no le dejan, no le dejan. No caben. No caben. Bueno, en esta pose sí que le ganan. Este me gusta más, ¿eh? Y este también, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=539" target="_blank" class="timestamp">[08:59]</a> Es que las espaldas tienen unos nivelazos todos que flipan. Las espaldas tienen unos nivelazos todos. Sí que es verdad que la sequedad del glúteo de Ursch no tiene ningún tipo de sentido. Estoy contigo, Víctor. Creo que Quinton está para ganar. Quinton está para ganar. ¡Qué bien esta pose para Ursch, tío! Fijaros, es que aquí... ¡Ursch, aquí me flipa! Me flipa Ursch.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=569" target="_blank" class="timestamp">[09:29]</a> Pua, eh. Yo creo que no hay duda. Para mí, ahora mismo, viendo todos, estos tres tienen que ser top tres. Tienen que ser top tres, los tres. Vamos, seguro. Aquí no puede haber debate. Estos tres están para quedar… No, no, no. No me bajo, eh. Urs no me va bajo del top tres. Imposible. Y los dos… Y el Kint y el otro tampoco, eh. Estos tres tienen que ser el uno, el dos y el tres. Me da igual. No, no, 100 %. Pase lo que pase, vamos. ¡Y sigue Urs en el centro!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=600" target="_blank" class="timestamp">[10:00]</a> ¡Y sigue Ursh en el centro! Uy, se está quejando Ursh, que no hay espacio. En esta de frente es increíble Ursh también. Este está también... Es que están impresionantes. Los dos negros están impresionantes, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=636" target="_blank" class="timestamp">[10:36]</a> Vale, vamos a darle para adelante a ver quién ha ganado, ¿no? Bueno, bien. Pero este tiene un cuerpo... Me parece que tiene un cuerpo increíble, pero muy vieja escuela del culturismo open, ¿verdad? El físico, quiero decir, no él. Vamos a ver quién son los demás. Me parece demasiado. Cuarto el Sergio Oliva me parece hasta demasiado, sinceramente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=664" target="_blank" class="timestamp">[11:04]</a> Me parece demasiado, sinceramente. No me gusta nada a ti, Oliva. No me gusta nada. Lo que hemos dicho. Top 3 URSS. Estaba claro, ¿no? Hasta el momento. A ver… A ver, sinceramente, que gane URSS… Podría ser. Podría ser. Pero para mí creo que Kint está para ganar. Para mí Kint está para ganar. Mark Héctor III.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=694" target="_blank" class="timestamp">[11:34]</a> ¿En serio?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=703" target="_blank" class="timestamp">[11:43]</a> ¿En serio? Sinceramente, yo lo veía tercero a Urs. Pero bueno, yo lo veía tercero. No, primero o segundo. Primero o segundo. Para ganar, no está, cabrones. No me jodáis. Yo lo hubiera visto tercero de corazón. Pero bueno, mira, yo no soy experto en culturismo, está claro. Segundo puesto. Segundo puesto. Ya, uno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=733" target="_blank" class="timestamp">[12:13]</a> A ver, yo me callo la boca. A ver, jajaja. Ok, ok. Ok, ok, ok.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=742" target="_blank" class="timestamp">[12:22]</a> A ver, bueno, sin más. Sin más. Sin más. Lo siento, sin más. No me... Bueno, yo veo a Quinton mejor. Para mí. Para mí Quinton y el otro también. Sinceramente, para mí... Sí que es verdad que mejor condicionado va. Mejor condicionado va. Pero... Pero no. No, hombre, no. Aquí... Mira que a mí no me gusta decirlo, pero aquí ha pesado el nombre. Y lo sabéis...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=772" target="_blank" class="timestamp">[12:52]</a> Por mucho que os guste Ursch. A mí me flipa, ¿eh? Pero no me jodáis. Aquí ha pesado nombre, tíos. Ha pesado nombre. No... No está mejor que estos dos. Para mí no, para mí no. Para mí están los dos. El Kind y el otro está mucho mejor. Mucho tampoco, pero mejor. Sí que es verdad que al Kind me parece que le falta un poquito más. Me parece que le falta un poquito más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=794" target="_blank" class="timestamp">[13:14]</a> Pero tanto la línea, todo. A mí me gusta. Me parece mejor físico. A mí. Pero a mí no me tiene que parecer mejor físico. Tiene que parecer mejor físico a los jueces. Bueno, pues un campeón, tío. Es fuerte esto, ¿eh? Mira, esto es él como Classic y él como Open.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=814" target="_blank" class="timestamp">[13:34]</a> Es que fijaros la condición. ¿Veis como los pliegues que os he dicho antes? ¿Veis? Mira, aquí está como Classic. ¿Veis? Los pliegues que os he dicho. Como sí que tiene unos pliegues aquí hasta de Classic. Esto es algo genético, yo creo. Esto... Si ni cuando era Classic no lo quitó en Open, olvidaros. No sé, será exceso de piel, lo que sea. Pero la condición ha sido espectacular, la verdad. Yo qué sé, por más que lo miro, tío...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=838" target="_blank" class="timestamp">[13:58]</a> No le tengo que mirar mucho. Campeón y punto. ¿En Open se gana por condición? No sabía… No, no se gana en Open con condición. Suma. Por supuesto que suma. Pero yo tampoco… A ver, en verdad es que acabas de decir una verdad. No sé si lo has dicho con ironía o… Es verdad que… Es que es verdad. Acaba de decir una verdad. No, no, no. Acaba de decir una verdad. Acaba de decir una verdad, chaval. No, no, es verdad. Es que tiene razón. Claro, en Open se gana con… con… con condición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pmsazCtw6qo&t=867" target="_blank" class="timestamp">[14:27]</a> Yo creía que ya no, pero supongo que he visto lo vi... A ver, compadres. Yo pienso igual que vosotros. No seamos hipócritas. ¿Iba mejor condicionado que ninguno? Sí, pero no. Estaba para ganar el quinto. Para mí el quinto... Es que ni siquiera el segundo. Yo lo ponía tercero, tío. Yo a Urs lo ponía tercero, pero bueno. Ya está, oye. Yo también pienso que gana el amigo de Sansón. Yo también lo pienso, tío. A mí este hombre no lo veo. Es que no lo veo, tío. No lo veo, pero bueno. ¿Quién soy yo?</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 08/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
