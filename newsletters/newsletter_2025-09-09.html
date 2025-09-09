@@ -1,0 +1,429 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 09/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">09/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Benlliure Reacciona</strong>: <a href='#video-glE748J5u7U'>URS SORPRENDE Y GANA INJUSTAMENTE EN OPEN | MI OPINIÓN</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-glE748J5u7U">
+            <h2>URS SORPRENDE Y GANA INJUSTAMENTE EN OPEN | MI OPINIÓN</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Benlliure Reacciona</span>
+                <span class="date">Publicado: 09/09/2025 13:09</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=glE748J5u7U" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=glE748J5u7U" target="_blank">
+                    <img src="https://i.ytimg.com/vi/glE748J5u7U/hqdefault.jpg" alt="URS SORPRENDE Y GANA INJUSTAMENTE EN OPEN | MI OPINIÓN" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza de forma crítica el campeonato donde Urs ganó en la categoría Open, a pesar de la opinión del presentador de que Quinton debería haber sido el vencedor. Se comparan ambos físicos pose por pose, destacando la increíble transformación de Urs desde Classic y el impacto que esto generó. El presentador argumenta que, si bien Urs mostró una condición superior en ciertas áreas, Quinton poseía un físico más completo y estético. Se concluye con el inesperado veredicto y sus implicaciones para el culturismo.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Debate Inicial: ¿Fama o Físico? <a href="https://www.youtube.com/watch?v=glE748J5u7U&amp;t=54" target="_blank">[00:54]</a></h3>
+
+<p>El presentador inicia el video expresando su desacuerdo con la victoria de Urs, sugiriendo que su progreso meteórico, su impacto y su gran número de seguidores influyeron en la decisión de los jueces, más allá de la pura evaluación física.</p>
+
+<h3>Quinton: El Favorito Estético del Presentador <a href="https://www.youtube.com/watch?v=glE748J5u7U&amp;t=105" target="_blank">[01:45]</a></h3>
+
+<p>Se presenta a Quinton como el competidor que, según el presentador, debió ganar. Se describe su físico como "espectacular", con una "X brutal" y una estética impresionante, considerándolo el "físico favorito de la noche".</p>
+
+<h3>La Transformación Impactante de Urs y sus Defectos <a href="https://www.youtube.com/watch?v=glE748J5u7U&amp;t=376" target="_blank">[06:16]</a></h3>
+
+<p>El presentador analiza la sorpresa de ver a Urs compitiendo en Open tras su categoría Classic, destacando el "impacto" de su cambio. Sin embargo, también señala problemas en su espalda (pliegues) y la conexión neuromuscular de sus gemelos.</p>
+
+<h3>Batalla Pose a Pose: La Perspectiva del Presentador <a href="https://www.youtube.com/watch?v=glE748J5u7U&amp;t=566" target="_blank">[09:26]</a></h3>
+
+<p>Comienza una exhaustiva comparación pose por pose entre Urs y Quinton. El presentador argumenta a favor de Quinton en la mayoría de las poses, resaltando la profundidad de sus cortes en las piernas y su amplitud general.</p>
+
+<h3>La Condición de Urs Siembra Dudas <a href="https://www.youtube.com/watch?v=glE748J5u7U&amp;t=1187" target="_blank">[19:47]</a></h3>
+
+<p>A medida que avanza el análisis detallado, el presentador empieza a tener más dudas, reconociendo que la condición de Urs en el torso y la estriación de su cuádriceps es "muy superior" a la de Quinton, añadiendo complejidad al juicio.</p>
+
+<h3>Urs Vencedor: Una Victoria con Implicaciones <a href="https://www.youtube.com/watch?v=glE748J5u7U&amp;t=1651" target="_blank">[27:31]</a></h3>
+
+<p>Se anuncia la victoria de Urs, un resultado que el presentador considera "historia" por ser su primer campeonato Open. Reflexiona sobre cómo esta victoria envía un mensaje a los culturistas Classic, abriéndoles las puertas a la categoría Open.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=0" target="_blank" class="timestamp">[00:00]</a> muy bueno a todos chicos aquí estamos en un nuevo vídeo para mi canal hoy vamos a ver la victoria de burs en open que yo lo digo para mí yo no estoy de acuerdo y ahora voy a dar mis motivos desde mi punto de vista para mí quinto debería haber ganado y pienso lo primero de todo vale y voy a ser realista</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=24" target="_blank" class="timestamp">[00:24]</a> La mutada que ha pegado es espectacular y es indiscutible, por lo menos de frente. De espaldas, pues bueno, yo ahora comentaré un poco, pero de espaldas realmente no se le ve igual que de frente. Los kilos por fin y al cabo están ahí y creo que el hecho de que jugar, o sea, participar en Classic, competir en Classic y luego pasar a Open y meter esos kilos también metidos, además a muscular, es muy impactante. Y principalmente lo que ha primado y lo que ha premiado es eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=54" target="_blank" class="timestamp">[00:54]</a> ¿vale? Si, pienso que si URSS, el progreso hubiera sido más paulatino y hubiera sido un open más, un open más, no hubiera estado donde está y no hubiera quedado primero, ¿vale? Pero el hecho de tener ese impacto, el hecho de llamarse URSS, el hecho de tener 1,7 millones de seguidores, pienso que ha influido bastante. Así que, yo ahora voy a decir realmente los motivos, voy a dar mi opinión.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=75" target="_blank" class="timestamp">[01:15]</a> Y lo dicho, esto es culturismo. O sea, no hay nada claro. Esto es totalmente subjetivo. Pero yo voy a explicar mis motivos y voy a justificarlo. Así que empezamos. Lo dije. Lo que ha conseguido en Classic y lo sigo manteniendo no lo va a conseguir en Open. Pero sí que es cierto que haya conseguido Clasificada Olimpia ya es un logro. Para mí, como digo, no es lo más justo. Pero la clasificación la tiene a pesar de que para mí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=105" target="_blank" class="timestamp">[01:45]</a> No sea como te digo justo. Empezamos y comentamos un poquito todo. Este es Kington, que para mí es el chico que debería haber ganado. Y vamos a verlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=119" target="_blank" class="timestamp">[01:59]</a> El bombeo del pectoral, del hombro, yo diría hasta que este es mi físico favorito de la noche. Tengo muchas ganas, insisto. Este pavo es una especie de Andrew Jacket, es una especie de Samson Dauda. De hecho también justamente le pasa algo similar a Andrew Jacket, que el femoral, los cortes en la pierna, sobre todo más a nivel de espaldas, no está. De arriba es un muñeco y es una pasada. Y lo dicho para mí, era el que debería haber ganado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=142" target="_blank" class="timestamp">[02:22]</a> Aún se a su lado porque no sé si va a competir a nivel de tamaño. En espaldas, mira el abdomen también, súper estético, para nada distensionado. Mira, mira los hombros, el pedazo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=155" target="_blank" class="timestamp">[02:35]</a> Quinton es una puta pasada Y por físicos bonitos es el de Quinton O sea, esto es un classic, ¿vale? Pasado a open, pero literal Es una especie de Samson Dauda O sea, es un bicho, ya me entendéis, ¿vale? Con una X brutal y una estética espectacular Los brazos mega llenos, pero llenos de verdad, ¿vale? De que el brazo es suyo ¿Qué potencial tiene este hombre? ¿Qué potencial tiene ganas de verlo el Mr. Olympia a esperar por las comparativas?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=186" target="_blank" class="timestamp">[03:06]</a> Mark Héctor era el tercero y a mí particularmente me ha defraudado, sobre todo porque veo que está roto por bastantes lados, el abdomen en general muy mal, lo único que es mucho músculo y va muy seco. Pero yo me lo esperaba mejor. Yo no dije nada de Mark Héctor pero hablábamos en el gimnasio y la verdad que me esperaba que sacara un físico mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=207" target="_blank" class="timestamp">[03:27]</a> Pecho estriado. Veía mejor las piernas de Kington, la verdad. Otro de los rivales que va a estar ahí en el top. Bueno, sale el oso alemán, señores. Y aquí tenemos a August. De frente, espectacular. O sea, de frente, espectacular. Pero ahora vamos a compararlo pose con pose con Kington. De frente, espectacular. Los brazos, lo dicho, yo no sé lo que ha hecho en los brazos. No sé lo que ha hecho en los brazos. Pero locura. Lo que ha hecho, por favor...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=236" target="_blank" class="timestamp">[03:56]</a> Que me lo diga. ¿Vale? Porque eso... No sé. Ahí... No sé quién me diga lo que ha hecho en los brazos. Eso no es de hacer press francés. Pero lo que ha hecho... Que lo siga haciendo... Porque espectacular. O sea... Brutal. Brutal. Los brazos que era un punto débil... Ahora se ha mejorado. Lo dicho. No sé qué ha hecho... Pero que lo siga haciendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=258" target="_blank" class="timestamp">[04:18]</a> Madre mía, qué condición que me trae de frente. Mira ahí en la pierna. El abdomen perfecto, los cortes en las piernas increíble también. El bombeo del pectoral, el bombeo del pectoral. Este hombre parece que lleva tres años preparándose para Open. Y por cierto, recordad que todos los meses hago dos sorteos de 150 euros en Live Pro con mi código JordiBen y pidiendo cualquier cosa ya entras en el sorteo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=287" target="_blank" class="timestamp">[04:47]</a> Pidiendo una simple crema de arroz, ya entras directamente en el sorteo y no hace falta hacerle captura. A tope y cuelgo los ganadores siempre por Instagram. Estate pendiente. En la dorsal, pero en cuanto a tamaño no se le puede reprochar nada. El músculo que ha metido. Aquí, por ejemplo, el glúteo femoral, la verdad que se le ve bastante bien. Y la espalda realmente es de donde vienen los problemas, que ahora os iré comentando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=311" target="_blank" class="timestamp">[05:11]</a> este tío y aquí de espaldas la pierna bien pero bueno después de ver a quinto creo que esta espalda se va a quedar un poquito planas las comparativas de 100% 100% que la espalda no está a la altura ha sorprendido gratamente mirad esto el potencial que tiene el abdomen de frente abdominales y frente y pierna muy bien lo que te digo encima los dorsales sale de frente espectacular o sea muy muy bien y de perfiles también muy bien</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=338" target="_blank" class="timestamp">[05:38]</a> En Open Wars es bueno, es muy bueno. Qué estética, es de las mejores condiciones del campeonato. Y a mí, llamadme loco... La mejor competición del campeonato para mí fue Brelewis, si no me equivoco. Ese chico, la condición que llevaba es brutal. Lo único que no tiene la estética que tiene esta gente. El tren superior de frente me recuerda mucho a Doria. Hasta por el punto de... De frente, de frente. ¿Vale? Porque de espaldas no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=361" target="_blank" class="timestamp">[06:01]</a> Son los brazos, fíjate. Era justamente también el de Dorian, ¿no? Hay que decir que verlo entrar así y sorprende, ups, ¿eh? Sorprende. Mira, mira, mira, mira. Es que hace la pose de Dorian, además. Y yo veo esto y digo, ojo, que en el top 5 va a estar. En el top 5 va a estar. Y el bombeo del pectoral. Es cierto que,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=376" target="_blank" class="timestamp">[06:16]</a> Esto, esto impresiona mucho, sobre todo porque la gente está acostumbrada a verlo en Classic. Entonces, ver algo así de una persona que está acostumbrada a verla en otra categoría es impactante. Es como si Josema ahora compite en Open y lo ves con 115 kilos. Puede competir con 115 kilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=394" target="_blank" class="timestamp">[06:34]</a> Al igual que Ramondino y esta gente. Obviamente es súper impactante, tú no estás acostumbrado a verlo. Y eso te llama mucho la atención. Y eso es algo que prima mucho. Hay que ser sinceros. Si Urs hubiera estado competiendo en Open toda la vida, sería un Open más. Que bueno, que va a ser un Open más, pero bueno, ya me entendéis. El impacto, lo que genera ese cambio tan brusco, eso inevitablemente llama la atención. Y hay que tenerlo en cuenta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=422" target="_blank" class="timestamp">[07:02]</a> Hay que tener mucho nivel para competir con las piernas de un ouro. Pero mira, el side chest la verdad es que es brutal en la masa muscular que ha metido y el torso. Y espaldas demuestra que trae buena condición pero creo que aquí es donde va a perder. Aquí, ¿vale? Aquí lo vemos, esos pliegues y también vemos el tema del abdomen del gemelo. Tiene problemas a nivel de conexión neuromusculares. O sea, le pasa algo similar a lo que le pasa a Ian Valier. Ian Valier por eso se dejó</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=452" target="_blank" class="timestamp">[07:32]</a> El culturismo y Birrami y esta gente inevitablemente tiene más esa zona retraído. Entonces serán obviamente problemas nerviosos que por eso tiene sus pliegues en la espalda y por eso no tiene esa conexión en el gemelo. Cuando ves que tiene el gemelo retraído te fijas y la zona lumbar está igual. Y obviamente es un punto en contra de Bush pero bastante en contra y que hay que tenerlo en cuenta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=478" target="_blank" class="timestamp">[07:58]</a> Y lo dicho, no tengo nada en contra de Ursa. O sea, su polla, enhorabuena y top. Pero... No lo veo. No lo veo. O sea, no lo veo justo. Empieza lo bueno. Aquí se le ve muy bien. Lo que te digo, de frente es espectacular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=499" target="_blank" class="timestamp">[08:19]</a> Se ve que compiten tamaño al resto, ¿eh? Y así a priori, a mí la vista se me está yendo a bursa, ¿eh? Ese vacío abdominal nos llama la atención. Y ojo porque viendo aquí las piernas no vistan de tamaño respecto a las de Marquet.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=512" target="_blank" class="timestamp">[08:32]</a> O las de Quinto. ¡Ojo, eh! Y no sé qué se ha hecho en los hombros, pero parece que tiene dos... Yo a Sergio Oliva, lo siento, pero no lo veo tampoco. Es que no sé. Es que... No sé, no sé, no sé. No lo veo. A Holloway, por ejemplo, aquí de frente lo veo muy bien. Lo único que las piernas son un poco más pequeñas. Aquí, no sé si Sergio Oliva la pose, pero yo aquí, no sé, no lo veo, no lo veo, no lo veo, no lo veo. Fijaos, Quinton. Es que, tío... ¿En serio, tío? ¿En serio? ¿Este hombre? ¿De verdad, tío?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=540" target="_blank" class="timestamp">[09:00]</a> Si es que es el más grande de todos, tío. Va. Sí, claro que sí. Muy bien. Vale, vamos a analizar pose por pose. Esta pose. ¿A quién se la dais?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=566" target="_blank" class="timestamp">[09:26]</a> Urs versus Quinton. ¿Quién se la dais? Y no se ve nada mal. En estética que les gana todo. ¿Quién se la dais? Honestamente. Yo se la doy a Quinton. Los cortes en la pierna se le ven más profundos. Aquí sí que es cierto que Quinton se ve un poco más flat. Se ve duro, pero para mí... Yo aquí veo más grande a Quinton y la X la tiene. Yo se la doy a Quinton.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=592" target="_blank" class="timestamp">[09:52]</a> Expansión. Aquí también se la doy a Quinton. De arriba, del pecho, del hombro, del brazo, más lleno. Y lo veo más grande. ¿Qué quieres que te diga?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=606" target="_blank" class="timestamp">[10:06]</a> o sea esto es una batalla de quinto contra un seguramente y mira aquí aquí quinto gana el campeonato mira esta pierna de lado mira esta maldita pierna de lado aquí también gana quinto para mí es más amplio un la posa más clásica el abdomen no lo tiene tan controlado es cierto que deslado se le ve el femoral y el glúteo muy bien pero para mí se la lleva quinto de lado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=630" target="_blank" class="timestamp">[10:30]</a> Es que no sé dónde está la duda. El buche que lleva Sergio Oliva, increíble. Marqueto se le ve muy lleno, pero no tiene profundidad tampoco en las piernas. No sé. Para mí, de momento, 3 de 3 para Quinton. Lo dicho, estoy en el streaming. O sea, igual en persona es algo diferente, pero 3 de 3.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=648" target="_blank" class="timestamp">[10:48]</a> cortes sin embargo la de bus está mucho más plana y no cuelga tanto el celular eso sí el bombeo que me trae de pectoral para reflexionar vamos a esta pose que aquí realmente son de quinto tiene el problema pero claro justamente se suma que bus también el tema de los pliegues del lumbar el problema el tema de la espalda baja y el gemelo principalmente la espalda baja la tiene retraída vamos por partes</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=673" target="_blank" class="timestamp">[11:13]</a> Todo lo que estoy diciendo es pensando en la liga profesional, ¿vale? Ya me gustaría ser un pedo de dos huevos esta gente. No os confundáis, ¿vale? Nada de coña, pero es que ahora ya se está enfadando, ¿eh? No hay espacio, amigos. No hay espacio. Tenéis que sacar a un tío del call-out. Y de aquí, Marc Héctor, es que se nota que tiene un problema en la dorsal. Sí, Marc Héctor tiene un problema en la dorsal, tocho. Pero tocho, tocho, tocho, tocho, ¿eh? Hay una simetría clarísima. Y mira, la condición en las piernas de bursa, amigos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=699" target="_blank" class="timestamp">[11:39]</a> Aquí lo que vemos, las piernas de Kington se quedan muy delgadas, o sea, no hay ningún tipo de bombeo en el basto, están totalmente planas, en femoral, no sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=715" target="_blank" class="timestamp">[11:55]</a> las piernas de lo que te digo, de Ursh son una puta pasada, el gluto y el femoral muy bien, pero de espaldas, pues es que está dudosa, está dudosa la verdad, o sea, yo veo mejor un poco la espalda de Kington, pero estos pliegues también a nivel de esto, tampoco tiene tanta amplitud, no sé, para mí dudosa, la verdad dudosa, y aquí no sé, habría que verla, pero claro, lo que flojea uno por el lumbar, el otro flojea del femoral,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=744" target="_blank" class="timestamp">[12:24]</a> Tengo dudas, la verdad, tengo dudas. Trae los pliegues en la espalda, pero es que la espalda del resto tampoco... Sí, exacto, tampoco es que sea tal, entonces... Uff... No sé, esa pose tengo dudas. Pero bueno, por el momento vamos... No sé...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=759" target="_blank" class="timestamp">[12:39]</a> 4-1, vamos a poner que se empate la pose. Aquí tengo dudas, la verdad, tengo dudas, tengo dudas, porque lo he dicho, por una parte veo la espalda mejor al otro, el lumbar, no sé, historias. El femoral de Quinton no está bien, tengo dudas. Para mí, expansión clara de Quinton.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=784" target="_blank" class="timestamp">[13:04]</a> desde mi punto de vista. Se le quedaba bastante plana, pero mira... Se queda plana, este tiene mayor amplitud, no sé, se le ve más mochila, para mí se la lleva quinto. ...plana que la de Sergio Oliva Jr. y en cuanto a amplitud, quinto, aquí ganan muchos puntos, pero tampoco es la espalda de Derek Lansford, ¿eh? No, obviamente, la espalda de Derek no. Va Derek ahí y vamos. Él sí que queda primero, pero sin duda. ¡Qué ojito! ¡Ojito! Porque estoy convencido que esto es batalla entre los dos del centro. No hay que rotar Mars.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=815" target="_blank" class="timestamp">[13:35]</a> Mira, aquí... El problema... Una cosa también a favor de Urs es que el abdomen, por ejemplo, lo lleva mejor. Quinton, a pesar de que el abdomen lo lleve bien, pero está como borrado, tío. Está, que dices, tío, que no se te ve bien el abdomen. El abdomen de Mark Hector ruina total, pero ruina, ruina.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=835" target="_blank" class="timestamp">[13:55]</a> Entonces, no sé. Yo no sé, yo aún así se lo daría incluso a Quinton, ¿sabes? A pesar de que el abdomen esté algo más borrado, no sé, se lo daría incluso a Quinton.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=853" target="_blank" class="timestamp">[14:13]</a> Esta pose yo, en cambio, se la doy a URSS. Abdominales y piernas se la doy a URSS. Aparte el dorsal le sale mucho más. El abdomen súper bonito. Incluso te hace el vacío. Yo esa pose se la doy a URSS. No sé ni cuánto vamos, la verdad ya. Pero no sé. Creo que prácticamente ha ganado todas las poses Kinton. Excepto...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=872" target="_blank" class="timestamp">[14:32]</a> Las dos de espaldas que tengo dudas. Pero vamos, la expansión se la daría a él de espaldas también. Y esta, esta se la doy a Urs. Aquí no hay duda. Aquí se la doy a Urs porque esta pose de Urs es muy buena. Mirad que abdomen. Aquí mantiene todos los cortes de la pierna. Ya le cuesta un poquito más a Urs. Pero me ha sorprendido el tamaño de Urs porque no se ha visto pequeño. Las piernas ya compiten. Y más muscula. Otra vez más se está...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=900" target="_blank" class="timestamp">[15:00]</a> Enfadando, Urse. Se está enfadando porque nadie te deja posar. La cara de estreñimiento de Oliva Jr. y Mark Héctor que tiene aquí dos pelotas de baloncesto. Madre mía, señores. No ha rotado nada. Miren, el más muscular es... ¿En serio? ¿En serio aquí no gana Quinton tampoco? ¿No gana Quinton? ¿De verdad? ¿En el más muscular? Bah, tío. ¿En serio no gana Quinton? Espectacular. No me jodas, tío. No me jodas, bro. Salvando las distancias. Pero por la forma de las piernas, incluso... Para mí se la lleva Quinton el más muscular. O sea, enorme.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=930" target="_blank" class="timestamp">[15:30]</a> La forma del abdomen hasta los brazos me recuerda bastante. Creo que Urs llega un poquito mejor de condición que Kington. Mira, ahí sacan a Kington para afuera. Meten a Mark Hector para el centro. Interesante esto. Xisto, creo que llega un poquito mejor de condición Urs respecto a Kington. Pero... Pero en tamaño... ¿Qué son estos bíceps de Kington, señores? Mira estos bíceps. Mira estas piernas. Es lo suyo, ¿eh? Ese brazo es suyo. Sacan fuera, ¿eh? Mira, Sergio Oliva Jr. creo que está tirando un poco de agua por cómo se está ahí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=959" target="_blank" class="timestamp">[15:59]</a> llega bien de condición pero... Pero el abdomen, tío. El abdomen le queda muy... Es que está roto. Fijaos el dorsal izquierdo como lo abre y el dorsal derecho no. Poco raro, tío. Creo que las piernas se le quedan un poco pequeñas, ¿eh? De frente. Aquí la pose de lado, para mí así... Eso sí, el brazo que tiene el Mark Héctor. ¡Madre mía!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=976" target="_blank" class="timestamp">[16:16]</a> los cortes en la pierna el femoral que yo lo siento pero es que no lo acabo de ver tío no lo acabo de ver no sé nada no tengo nada en contra el chaval que es súper positivo es para obtener sea mucho más positivo que hay clasificados que quinto pero yo no lo veo justo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=996" target="_blank" class="timestamp">[16:36]</a> Señores, lo que decimos siempre, los campeonatos se ganan de espaldas, ¿no? Pues vamos a ver cuál es la mejor espalda. Yo, de todas estas poses, sin duda me quedo con la de Kington. Yo también. Y eso que tampoco, Nana, es que tampoco la acabo de ver. Tampoco acabo de ver. No la acabo, no la acabo. Pero no, pero si me tuviera que quedar con alguno, me quedo con Kington. Y luego es que me tengo que quedar con la de Urs por condición. Es que es así, la condición de Urs es muy buena de espaldas a pesar de estos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1026" target="_blank" class="timestamp">[17:06]</a> Aquí Sergio Oliva está tirando agua. Fíjate, tiene la espalda encharcada. Para mí es la noticia de la noche. El tamaño de URSS que está al nivel ya de un pedazo de campeonato Open como es este. A mí aquí es donde se acaba el campeonato. Luego la expansión. Es que estás a la dolla. A Quinton también, lo siento. A la dolla de Quinton. ¿Qué quieres que te diga? Amplitud de Quinton y amplitud del resto. Es un duelo a muerte. Ojo, esta es mi opinión.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1049" target="_blank" class="timestamp">[17:29]</a> Yo estoy de acuerdo, te lo juro. Este chaval. He puesto tal y digo, va, para no relacionar a Antonio Magma, que siempre estoy relacionando a él, vamos a ver a este chico. Digo, 30.000 visitas, pues allá vamos. Bro, es que estoy de acuerdo con él. De verdad, y no sé ni quién es. En serio, tío. Claro, aquí con fuera, porque tiene claro que es el top 1. Recordemos, entonces vamos a hacer recuento. Fíjate que esta pose hasta podría</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1083" target="_blank" class="timestamp">[18:03]</a> que mejor posa sus eso es cierto el que mejor posa es sus la corio la de us este quinto posa y pongo hacia arriba así que mejor posa no hay duda que sus eso cien por cien cien per cent hundred percent por ser agarra quinto el doble bíceps por estructura y estética por si tú lo del dorsal de marx réctor es locura</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1108" target="_blank" class="timestamp">[18:28]</a> las piernas de Quinton las veo mejor. En el side chest, aquí creo que sí que... Aquí side chest, fijaos que a Urs le va un poco el buche. Vamos a ser realistas, tío. No hay ninguna duda. Que esta pose va, pero de calle, para Quinton. Por bombeo, por tamaño del brazo, los cortes en la pierna de lado. No hay duda que esta es para Quinton. Luego de espalda,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1134" target="_blank" class="timestamp">[18:54]</a> mucho peor yo aquí con esta pose la doy a Quinton lo siento se la doy a Quinton se vio en la pose individual pero si no está tan mal la espalda de Urs en comparación porque Quinton también presenta los mismos problemas hay pliegues en la lumbar no hay problemas porque él realmente es que la espalda baja la tiene retraída lo de Quinton no es problema de que la espalda está retraída</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1157" target="_blank" class="timestamp">[19:17]</a> más grandes que los de Ursa. Pero es que Ursa se ve más separación, menos aguado, mejor condición y mira cómo sobresale el cuádriceps de Ursa frente al de Quinton. Pese a tener mejores piernas Quinton, ojo. Entonces, cuidadito, ¿eh? Cuidadito que... Esto está más reñido de lo que pasa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1176" target="_blank" class="timestamp">[19:36]</a> Para mí en la expansión, Quinton se hace más grande, pero es cierto que se ve algo retenido en la espalda. Hasta se ve más definición en la espalda de Mark Hector, pese a tener la Quinton mejor. Entonces... ¡Ojo, eh! ¡Ojo! Porque aquí, yendo pose por pose, me están entrando más dudas que al principio, amigos. La pose de tríceps sucede una cosa. Claramente, la condición de Urs en el torso es muy superior a la de Quinton. Pese a que le gana en tamaño y demás, la condición de Urs, señores, es la mejor del campeonato.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1203" target="_blank" class="timestamp">[20:03]</a> Calma, porque... La conjunción de Urs... A lo mejor el campeonato es la de Brille Wich que está aquí a la izquierda yo creo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1217" target="_blank" class="timestamp">[20:17]</a> Sí, sí, es Sartorio. Es Sartorio. Es muy difícil quedarse con una. Pero es que a nivel de condición veo a Sartorio mejor. Sí, sí, Sartorio. Mirad cómo se ve aquí el serrato, el oblicuo, también la separación en el pecho, las piernas Quinton las tiene muy bien. Es que las de Sartor no están mal. Mirad ahí lo pronunciado que se ve en el Sartorio. Uf, uf, complicado esto, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1242" target="_blank" class="timestamp">[20:42]</a> Y el most muscular hasta me quedo con el de Mark Héctor frente al del resto. Pero es que Bustio está en otro nivel de condición. Está en otro nivel de condición. No es el más grande, no. Pero trae la mejor condición de todos, amigos. Nadie marca de esta forma ni tiene tan estrellado el quadriceps. A medida que vuelvo a ver las imágenes, voy reconsiderando mi opinión. Aquí es cuando ya meten a Mark Héctor para el centro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1264" target="_blank" class="timestamp">[21:04]</a> Bueno, amigos, ahí vamos ya. Comparaciones finales. De aquí vamos a sacar todas las conclusiones, ¿eh? Urs, muy bien. No hay un problema de tamaño. Cada vez lo veo más claro. Ahí meten a Mark Héctor para el centro. Es que está muy así. Bueno, Mark Héctor, esto lo veo, ostracadio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1280" target="_blank" class="timestamp">[21:20]</a> Mira, aquí ya lo meten para el centro. Sergio Oliva ahí en la derecha. Y no termina de posar bien la pose quinto. Es como que tiene un hombro más elevado. Mira, tiene un hombro por encima del otro. Y estas cosas se tienen en cuenta. Aquí, en la pose lateral, es donde se nota que Urs pierde en cuanto a tamaño. Pero en espaldas... Es que el boot es elevado, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1298" target="_blank" class="timestamp">[21:38]</a> no se dejan tirar la pose, macho. Es que pese a los pliegues, la posa mucho mejor que quinto. O sea, tendré que ver la puntuación aparte, pero espero que si ha ganado Wurst, que tenga que ser muy, muy igualado. O sea, tiene que ser rollo por un punto. Que si no, no me lo explico. Se ve más la separación muscular. Amigos, a medida que va pasando el campeonato, me doy cuenta que veo más posibilidades de Wurst por una cuestión de condición. Aquí la posa de</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1323" target="_blank" class="timestamp">[22:03]</a> es la diferencia que quinton tiene un abdomen impecable pero mirad no se marca tanto como el de urs porque es que llega con una condición mejor urs en la pierna la estriación del cuádriceps lo doblan tamaño hombre tanto como doblarlo no es la cosa está realmente reñida interés este chico es el que tiene muy buena condición después de sí pero claro es una nevera creo que ya está claro son estos dos y mira aquí relajado a mí el físico de urs donde me</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1355" target="_blank" class="timestamp">[22:35]</a> Vemos que tiene problemitas en la cintura. Eso sí, muy buenos brazos de Oliva Jr. haciendo homenaje al padre. Y mirad, aquí es donde se nota la falta de condición de Quinto. Porque veis la separación que hay en los brazos de Oliva, la piel y ahora la de Quinto. Cómo se nota que aún tiene una capita de agua recubriendo el físico. Cuidado, porque si los jueces tiran por ahí, tiran por esa condición de frente, Urs se lo puede llevar. Así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1381" target="_blank" class="timestamp">[23:01]</a> la expansión de frente urs ahí hay ciertas cosas que las veo bien también la verdad pero no sé tío es que no te lo digo va a depender mucho del criterio de los jueces la esposa abdomen y yo insisto que a mí se le van los ojos a urs haciendo un recuerdo doble bíceps doble bíceps quinto expansión vamos a la urs sánchez quinto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1411" target="_blank" class="timestamp">[23:31]</a> dobles de espaldas para mi quinto expansión quinto si quieres el side tríceps y abdominales y piernas lo us y el más muscular quinto sería para mí un 5-3</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1428" target="_blank" class="timestamp">[23:48]</a> La verdad. O sea, no sé que al final que ha pasado, pero 5-3. Y lo que te digo, teniendo en cuenta que lo de la expansión igual es conforme van posando cada vez más. Al principio incluso la expansión se la ve la daba a Quinton. Es mi perspectiva y es mi sensación. Vamos a ver cómo digo el cambio de categoría también que ha tenido de Classic a Open. Me recuerda demasiado a Dorian Yates, pero se ve mucho a ti. Yo, si me vas a elegir, prefiero el físico de Classic que el físico de Open. Mi perspectiva y mi sensación. A mí me gusta más el físico de Classic.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1457" target="_blank" class="timestamp">[24:17]</a> Está claro que a nivel de tamaño ha evolucionado. Ha perdido separación en las piernas. Ya es como aquí se marcaba mucho más el lagrimal, el sartorio. El bíceps algo ha tenido que hacer. Porque es que esto se ha doblado en tamaño. Sí, sí, sí. El bíceps, lo dicho, lo que esté haciendo, que lo siga haciendo. El bíceps no es normal. De espaldas... De espaldas es lo que te digo. Fijaos que el gemelo cada vez está peor. Y aquí se nota esa...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1485" target="_blank" class="timestamp">[24:45]</a> Es que esa espalda está retraída. Aquí obviamente el glúteo me imagino que no lo estará apretando porque parece que tenga más glúteo y más condición que aquí. Aquí claramente no tenía tanto pliegue como ahora sí tiene. La zona escapular claramente estaba más marcada cuando era Classic pero coño que es su primera temporada como Open es normal. Ha metido más de 10 kilos y el precio de haber</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1511" target="_blank" class="timestamp">[25:11]</a> No, o sea, es que aquí no... Tiene... Va a parecer que tenga dos pelotas de béisbol. El tendón, que sabéis que esto es genético. Si tu tendón es largo, es irremediable. Esto se va a ver vacío. En cambio, ahora se ve completamente relleno. Y creo que la forma de tirar la pose es la misma. Tiene el antebrazo igual de semiflexional. Ahora bien, la masa muscular que ha metido en el pectoral también es reseñable. Y aquí he visto un comentario hablando de los gemelos. Y es cierto. No sé si es el ángulo de la foto, pero es que se veían mejor los gemelos en Classic que ahora en Open.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1552" target="_blank" class="timestamp">[25:52]</a> los brazos este tipo. De frente es lo que te digo. De frente la mejora es muy buena. De frente es espectacular la mejora. En un año a mí no me jodas pero no se consigue. Guau. Guau. Pedazo pose. Ver esto. Ahí muy bien. Los perfiles y todo muy bien. Esta estética es de aplaudir. El control ahí en el abdomen. Nos falta ver más tamaño y más cortes en la pierna. Pero qué pose. Cómo se estria ahí todo el pectoral. El luto rajado. Y aquí cuarto de lado. Esta la tira peor. No sé si yo voy a ver la foto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1581" target="_blank" class="timestamp">[26:21]</a> una pose pero que voy a decir señores yo a medida que he ido viendo más y más más me ha ido convenciendo esta pose es brutal a lo Doria no me parecería descabellado que los jueces le diesen el campeonato sobre todo por condición porque su máximo rival no trae la misma condición me parece un físico mucho más desarrollado el de quinto mucho más open es que si</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1602" target="_blank" class="timestamp">[26:42]</a> las últimas comparativas después de esto vamos a conocer al ganador urs y gallegas vamos a dar un poquito vamos a ver los premios porque ya realmente estos realmente son las finales la rutina de poses de urs tiene que ser brutal siendo claros ha cambiado la rutina de pose ya no es tanto classic sino que hemos visto ahí varios copos que se ha tirado a los dorian james fíjate esa también era muy de doria y el doble bíceps y es que este hombre ha cambiado este hombre ya no es el mismo ya no es el mismo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1637" target="_blank" class="timestamp">[27:17]</a> Y quinto, y madre mía, señores, uno de los momentos del año va a ser este, ¿eh? Como URSS, gane su primer campeonato Open y se vaya a la Olimpia, ojo. Este chico es el que digo que tenía muy, muy buena condición. Lo único que es eso, que son físicos diferentes los que se tienen ahora.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1651" target="_blank" class="timestamp">[27:31]</a> Señores, se lo ha llevado Urs. Se lo ha llevado Urs Kalevinsky. Esto es historia. Esto es historia. Se tira al suelo. Madre mía. Y sigue con su sonrisita. Que nunca la deja. Pero en estos momentos... Madre mía. Se lo ha llevado Urs. Y le ha ganado...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1667" target="_blank" class="timestamp">[27:47]</a> Quinton, señores. Le ha ganado a un pedazo de culturista Open. Urs Kalevinsky en su primer campeonato. Fija, ahí está. Atrás está que no se lo cree. Esto es una hazaña tremenda. Han preferido esa condición. Esto es una hazaña. Esto es un mensaje diciendo a todos los culturistas classic que sepáis que tenéis aquí cabida. Meted tamaño como lo acaban de hacer Urs. Y tenéis futuro. Pues esto pone el triple de interesante en la categoría Open en el Olimpia. Y ahí le ponen la medallita a Urs. Ya hemos visto toda su trayectoria</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1697" target="_blank" class="timestamp">[28:17]</a> Pues bueno, chicos, esto es un poquito lo que hay. Yo ya he dado mi opinión. Lo he dicho, la mejora de frente es espectacular. Yo sigo pensando que me gustaba más el físico en Classic y no sé, igual hay alguna cosa que me estoy perdiendo, que igual en persona se ve mejor, pero no, lo sigo sin ver y ya he explicado un poco mis opiniones y un poco cómo lo he visto. A ver, realmente, ya que le quiten lo bailado, ha clasificado a Classic, o sea, este año puedo decidir si va a Open o a Classic o a Olympia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1726" target="_blank" class="timestamp">[28:46]</a> obviamente va a ir a open y nada a ver un poco como como de para y bueno lo dicho yo sí que pienso que en el olimpia lo tiene lo tiene ya jodido pero ya es que solamente que haya de la olimpia ya es una locura o sea que ahora ya luchar con con los top top top top de los top o sea con los mejores del mundo literal y a ver un poco como</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1751" target="_blank" class="timestamp">[29:11]</a> cómo evoluciona, pero bueno, es mi sensación, mi pensamiento y veremos un poco el margen que tiene y cómo evoluciona también todo el tema de la espalda, el gemelo y todo eso que hemos estado comentando. Así que, lo dicho, es mi opinión, lo sigo pensando, sigo pensando que, como digo, lo que ha hecho en Classic es muy complicado que la haga Open y aún así, pues bueno, es un brutal para él y veremos si sale este fin de semana a Alemania que en un principio dijo que iba a competir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=glE748J5u7U&t=1780" target="_blank" class="timestamp">[29:40]</a> Así que, eso es todo chicos, espero que os haya gustado el vídeo y dándome opinión y mojándome. Suscribiros y nos vemos en siguientes. Un saludo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 09/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
