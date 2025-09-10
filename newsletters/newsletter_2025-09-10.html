@@ -1,0 +1,384 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 10/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">10/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-V6w--s1HHMU'>URS EN SU PEOR MOMENTO Y MIKE SOMMERFELD METE MIEDO A DINO</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-V6w--s1HHMU">
+            <h2>URS EN SU PEOR MOMENTO Y MIKE SOMMERFELD METE MIEDO A DINO</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 10/09/2025 14:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=V6w--s1HHMU" target="_blank">
+                    <img src="https://i.ytimg.com/vi/V6w--s1HHMU/hqdefault.jpg" alt="URS EN SU PEOR MOMENTO Y MIKE SOMMERFELD METE MIEDO A DINO" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video ofrece un análisis detallado de varios culturistas profesionales y sus físicos, centrándose en el potencial de Urs en la categoría Open y comparándolo con otros atletas. El presentador examina sus poses, detalles musculares y la evolución de las categorías Classic y Open, así como el impacto de los límites de peso. Se discute la posible transición de competidores clave de Classic a Open y se anticipa un Olympia de alta intensidad con un campeón Classic casi imbatible.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Físico "Peor" de Urs: ¿Un Futuro Gigante en Open? <a href="https://www.youtube.com/watch?v=V6w--s1HHMU&amp;t=61" target="_blank">[01:01]</a></h3>
+
+<p>El presentador expresa su asombro ante el físico actual de Urs, considerándolo su "peor" estado pero con un inmenso potencial de mejora. A pesar de inicialmente verlo pequeño para la categoría Open, reconoce que en tarima su tamaño fue impactante, pronosticando un gran futuro.</p>
+
+<h3>Detallando la Perfección (e Imperfección) de Urs <a href="https://www.youtube.com/watch?v=V6w--s1HHMU&amp;t=148" target="_blank">[02:28]</a></h3>
+
+<p>Se realiza un análisis minucioso del físico de Urs, destacando la calidad de su femoral, el control abdominal y la separación del cuádriceps. Se compara su espalda en backstage con la de la tarima, sugiriendo que las diferencias se deben a posturas o ángulos.</p>
+
+<h3>¿Urs Marcará un Antes y Después en Open? <a href="https://www.youtube.com/watch?v=V6w--s1HHMU&amp;t=225" target="_blank">[03:45]</a></h3>
+
+<p>El video aborda el gran "hype" que rodea a Urs y la expectativa de que pueda revolucionar la categoría Open. Aunque el presentador se muestra algo escéptico de momento, reconoce el enorme potencial de mejora de Urs y discute el impacto de los cambios en las reglas de peso para Classic Physique.</p>
+
+<h3>La Invasión de Classic Physique al Open <a href="https://www.youtube.com/watch?v=V6w--s1HHMU&amp;t=530" target="_blank">[08:50]</a></h3>
+
+<p>Se revela una tendencia creciente donde figuras destacadas de Classic Physique como Dino, Logan Franklin y Summerfield, están considerando o se espera que pasen a la categoría Open. Se admira el impresionante físico de Dino y se anticipa una fuerte competencia en la nueva categoría.</p>
+
+<h3>El Campeón Insuperable y el Éxodo del Olympia <a href="https://www.youtube.com/watch?v=V6w--s1HHMU&amp;t=735" target="_blank">[12:15]</a></h3>
+
+<p>El presentador presenta al actual campeón de Classic Physique como un atleta sin rival y predice su victoria ineludible en el próximo Olympia. Se anticipa un "éxodo" masivo de competidores de Classic debido a la dificultad para mantener el peso, lo que promete un Olympia muy emocionante.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=0" target="_blank" class="timestamp">[00:00]</a> Vemos lo que no se vio de URSS detrás de las cámaras. Cota. Fíjate cómo se ve, tío. Fíjate cómo se ve, de verdad. Es espectacular porque… Pensad, amigos, que este es el peor físico con el que vamos a ver a URSS. Literalmente va a ser el peor físico. De aquí en adelante, todo va a ser mejoras. Cota.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=30" target="_blank" class="timestamp">[00:30]</a> Y ha ganado un pro show. Yes, buddy. Unterrücken es besser wieder. Quarter. Ah, es que es increíble. Ups, excuse. Insurgents von Satorios, seitlicher Bauch, Brustchen, Druck, Schub. Richtig geil.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=61" target="_blank" class="timestamp">[01:01]</a> Sí que es verdad que sigo pensando que para Open... Hostia, pues creo que todavía puede mejorar muchísimo. ¿Alguien sabe el peso que dio en báscula? No, no, es impresionante. Se le ve increíble. Yo para Open le veo pequeño, la verdad. Pero el caso es que luego en tarima no se le vio pequeño.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=95" target="_blank" class="timestamp">[01:35]</a> Es que es increíble, tío. Y bueno, espera. Y ahora vamos a comentar otra cosilla que se viene, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=118" target="_blank" class="timestamp">[01:58]</a> Hostia, me gusta más la espalda aquí que en la tarima. Aquí se le ve más detalle. No se le nota tanto el pliegue, ¿verdad? El pliegue casi ni se le nota, este de aquí. Los bultos, me gusta mucho más aquí que en competición. Hostia, es que hasta la expansión dorsal me gusta más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=148" target="_blank" class="timestamp">[02:28]</a> Aquí se ve espectacular. Hostia. En esta pose el femoral se le ve muy bien. Pero cuando se da la vuelta el femoral no se le ve tan bien, tío. De espaldas no se le ve tan bien el femoral. Es que el control que tiene del abdomen este hombre... Así que de brazo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=178" target="_blank" class="timestamp">[02:58]</a> Me parece que de brazo va bastante pequeño. ¡Señores! ¡Quieto parao ahí! Escúchame, vengo a enseñarte la mejor proteína del mercado, la hidronizada paro de Prozzi de vainilla. El 98 % de pureza no lo encuentro en ningún lado. ¿Sabes cómo te hace más efecto? Con mi código de descuento Antonio G en Prozzi. Ya está. De corazón. Mirad cómo se le estría el cuádriceps.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=210" target="_blank" class="timestamp">[03:30]</a> espectacular increíble espectacular</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=225" target="_blank" class="timestamp">[03:45]</a> Es que... No me quiero pensar, porque por ahí muchos dicen que va a ser un tío que puede llegar a marcar un antes y un después en open. Yo creo que se están flipando un poco, creo. De momento, porque para lo que hemos visto... Pero sí que es verdad que, claro, es que este cuerpo puede mejorar muchísimo. Muchísimo. Top. Top, top. Top, top.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=250" target="_blank" class="timestamp">[04:10]</a> A este cabrón, como le aguanta el pelo, este cabrón es muy joven.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=264" target="_blank" class="timestamp">[04:24]</a> Es que se ve increíble Dios. No, no, no, no, no, no, no, no, no, no, no, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=293" target="_blank" class="timestamp">[04:53]</a> Es que en esta pose se ve increíble. En esta pose se ve espectacular. Y la separación que tienen los cuádriceps no es ni medio normal. O sea, la separación que tienes es un espectáculo, tío. Es un jodido espectáculo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=328" target="_blank" class="timestamp">[05:28]</a> En esta pose me flipa. Esta pose me encanta de URSS. En esta pose me flipa. ¡Vamos! ¡Vamos! ¡Genial! ¡Y ahora está terminado, KG! ¡Perfecto! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=362" target="_blank" class="timestamp">[06:02]</a> Es que no es normal. No es normal. El caso es que luego todas las poses estas que está haciendo las hizo raras. Las hizo como más para... posando más para atrás. Por eso es el pliegue que se le veía tanto. No, medio pollo. Esta gente toma cantidades fuertes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=392" target="_blank" class="timestamp">[06:32]</a> No, esto es porque no he podido aumentar de peso porque la categoría de antes tenía que dar un peso respecto a la altura. Ahora dicen que van a mutar porque ahora no hay límite de peso. Ahora puede pesar lo que quiera. Y sí, esta gente va a tope de química. ¡Qué no!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=420" target="_blank" class="timestamp">[07:00]</a> Mira cómo se le estrían los cuádrices, ¿eh? El basto externo y el interno, ¿eh? Mira cómo se le estrían, tú. Uff. Uff. Uff. Uff. Uff. Uff. Uff. Uff.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=448" target="_blank" class="timestamp">[07:28]</a> Es que, si os fijáis... Posando con los otros... Tampoco desentonaba tanto, tío. O sea, a ver, ¿hay diferencias? Sí. Pero... Está claro que están más grandes que él. Todos están más grandes que él. Pero... Sí, sí. Más seco que ninguno está. Eso sí. Y las formas más bonitas también las tiene. Pero, hombre, es open, ¿eh? Recordemos que es open. Entonces... Yo qué sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=475" target="_blank" class="timestamp">[07:55]</a> Y el de la izquierda, este tiene un fisicazo, lo que pasa que tiene la barriga súper dilatada. O sea, mirad el femoral cómo lo lleva. Este también va seco, seco, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=483" target="_blank" class="timestamp">[08:03]</a> O sea, que tiene un cuerpo muy trallado, este de aquí. Tiene un cuerpo muy, muy trallado. Igualmente, sigo pensando que esto es por crear puro hype. Porque yo pienso que Urs no estaba para ganar. Urs no estaba para ganar. Yo es lo que pienso. Sigo pensándolo igual. ¿Que tiene un físico increíble? Sí. ¿Que va a ser extraordinario? Sí. ¿Veis como el pliegue ahora sí que lo tiene? Otra vez. Y antes no lo tenía. En la pose de esta mañana, ¿veis? Yo creo que se está echando muy para atrás o algo así. Sigo pensando que por la mañana estaba mejor que en la tarima.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=523" target="_blank" class="timestamp">[08:43]</a> En esta pose, por ejemplo, el brazo se le queda pequeño al lado del de lo demás. Si os fijáis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=530" target="_blank" class="timestamp">[08:50]</a> Se le queda pequeño. Tiene un muy buen... No tiene mal brazos. A ver, al lado de lo demás se le queda muy pequeño. ¿Pero qué pasa ahora? Por lo que se dice... Bueno, se dice no, lo ha dicho Dino. Dino también se va a pasar a Open después de lo limpia, por lo que están diciendo. Pero es que yo creo que no solo Dino. Me parece a mí que la mayoría de los Classic se van a pasar a Open. Y Sommerfield vale también detrás. Es que mirad cómo está Dino.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=553" target="_blank" class="timestamp">[09:13]</a> Dino, amigos. Cuidado cómo está Dino, tíos. No es normal, ¿eh? No es normal. Quiero verlo. Dino creo que ha salido en el guest posing. Bueno, en Logan Franklin también. Cuidado. Cuidado con este, ¿eh? Cuidado con este, que este va a lo callado, pero tiene un físico también espectacular, ¿eh? Cuidado con Logan Franklin.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=581" target="_blank" class="timestamp">[09:41]</a> Cuidado. Otro que va seco no. Lo siguiente. Fijaros. Qué espectáculo tú.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=587" target="_blank" class="timestamp">[09:47]</a> Aunque es verdad que están dando favorito a este. Lo digo en serio. Están dando favorito a Ruff. Están dando favorito a Ruff. Sí, sí. Están dando favorito a Ruff. Más de uno. Yo es que ya sabía lo que pienso de las personas bajitas en Classic. Por muy físico o estético que tenga. Por supuesto es el físico más estético que hay junto con Summerfield. Aunque Summerfield ya se pasa de todo Classic. De los top. Pero yo... Ya, pero es que mide 1,65. Ese es el problema. Que mide 1,65. Y para eso está 2,12.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=617" target="_blank" class="timestamp">[10:17]</a> pero aquí está el guest posing de ramón vino vale sin pintar veis que ahora mismo lo veo aquí y digo sabes estará porque yo viéndolo aquí</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=642" target="_blank" class="timestamp">[10:42]</a> Lo veo bien, pero veo mejor a Somerfield. Y el otro día os lo dije. Yo pensaba que estaba mejor Dino. ¿Sabes? Yo no sé cómo estará para... De verdad lo digo. A ver. Yo es que creo que Somerfield los va a dejar hasta pequeños, tíos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=671" target="_blank" class="timestamp">[11:11]</a> Yo es que lo creo, ¿eh? Y es que yo no sé qué les pasa a los brasileños, tío. Que los brasileños en Instagram son campeones del mundo, de Marte y de Saturno. Pero luego llega la competición y todo es diferente. Ah, y se rumorea, se rumorea que Estefan Matala se supone que van a coincidir, porque creo que dicen, no sé si será verdad, que Urs va a competir también, ¿eh? Contra Matala. O sea, él en Francia. Yo no sé si Urs...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=698" target="_blank" class="timestamp">[11:38]</a> le renta meterse en este berenjenal. No tengo ni idea. Matara se ve increíble también. Lo de la fibra y los brazos es que no es normal este chaval. Así, a simple vista, parece... En foto y en vídeos deja a Urs enano. Ahora hay que verlo al lado. Al final lo de siempre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=718" target="_blank" class="timestamp">[11:58]</a> Hay que verlo al lado. Yo ya no me creo nada hasta que lo vea al lado. Bueno, las piernas. Espectáculo, ¿eh? Qué bonito va a estar el Olympia. Bueno, y veamos a... Hay que verlo, ¿no? Al que se supone que es el actual mejor. Classic. Mira, hace siete horas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=735" target="_blank" class="timestamp">[12:15]</a> Está para ganar, tío. Está para ganar. Las cosas como son. Está para ganar, compadre. Algunos, si os estáis liando, recordad que Ursch ya no compite en Classic, ¿vale? Para los que no sepáis, Ursch va a competir contra el chico negro que acabamos de ver ahí. Que esos los dos los quitamos. Pero Ramón Dino, José Ema y el primero, que es Logan Franklin, van a competir contra este. Y yo es que a este le veo superior, tío. Esa es la cosa. ¿Cómo coño puede dar el peso este hombre, tío? ¿Cómo mierdas puede dar el peso? Mira, mira, mira, mira, mira, mira, mira.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=767" target="_blank" class="timestamp">[12:47]</a> Qué salvajaba, tío. Es una locura lo de este chaval. Es una jodida locura. Y todavía le queda... Que todavía secará más. Que todavía le queda apretar más aún. Y mira cómo va ya. Es que no es normal. Dará el peso. Yo creo que sí. Pero ya no es el peso. Es que miradlo. Es que no va a poder perder. Es que no puede perder. No puede. Y esta es la realidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=814" target="_blank" class="timestamp">[13:34]</a> Es una puta locura, tío. Y la espalda no es normal, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=845" target="_blank" class="timestamp">[14:05]</a> Yo es que creo que este hombre no se le puede ganar. Este hombre no puede perder. Para mí Nino no está mejor que este. Lo veremos en tarima. Lo veremos en tarima, pero para mí no. Yo pensaba que sí hace unas semanas. Yo creo que lo de este no tiene sentido ninguno. No hay quien le gane. Mira eso, tío. Es que no es normal. Es que literal que la espalda es de Open. No es de Classic. Es de Open. Es que no, de verdad que no tiene ningún sentido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=V6w--s1HHMU&t=873" target="_blank" class="timestamp">[14:33]</a> Tengo muchísimas ganas de ver este año el Olympia. Va a ser una locura, tío. Y también tengo muchas ganas de ver qué pasa, qué va a pasar después del Olympia. Porque van a abandonar muchísimos Clásics, tío. Muchísimos Clásics se van a ir. Muchísimos. Tengo muchas ganas de ver quién. Quién se va y quién se queda. Hay que verlo, ¿eh? Porque a Dino le lleva costando dar el peso años. Porque no dan el peso. Les cuesta mucho dar el peso ya. A este... A este le cuesta dar el peso también lo más grande a Summerfield. Va a estar muy guapo, tíos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 10/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
