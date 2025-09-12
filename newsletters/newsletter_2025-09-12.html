@@ -1,0 +1,435 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 12/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">12/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-1y-L_3cfRwg'>JORGE TABET NOS MUESTRA LA DURA REALIDAD DE CULTURISMO Y SUS CONSECUENCIAS</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-1y-L_3cfRwg">
+            <h2>JORGE TABET NOS MUESTRA LA DURA REALIDAD DE CULTURISMO Y SUS CONSECUENCIAS</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 12/09/2025 14:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=1y-L_3cfRwg" target="_blank">
+                    <img src="https://i.ytimg.com/vi/1y-L_3cfRwg/hqdefault.jpg" alt="JORGE TABET NOS MUESTRA LA DURA REALIDAD DE CULTURISMO Y SUS CONSECUENCIAS" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video explora la cruda realidad del culturismo de competición, mostrando las implicaciones negativas para la salud que a menudo se ocultan. El presentador comparte su experiencia personal con chequeos médicos post-competición, incluyendo analíticas y ecografías, para evidenciar los riesgos. Subraya la importancia de abordar el deporte con respeto y una perspectiva conservadora para minimizar daños a largo plazo. Invita a la reflexión sobre cómo esta pasión, aunque enriquecedora, exige una profunda conciencia de sus consecuencias físicas.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Cruda Realidad del Culturismo <a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&amp;t=85" target="_blank">[01:25]</a></h3>
+
+<p>El presentador inicia el video compartiendo su camino hacia una serie de pruebas médicas post-competición. Explica que su objetivo es mostrar la "parte oscura" del culturismo de élite, reconociendo que, a pesar de la pasión, el deporte puede arrebatar la salud.</p>
+
+<h3>Primeros Resultados y Riesgos Digestivos <a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&amp;t=325" target="_blank">[05:25]</a></h3>
+
+<p>Se obtienen rápidamente los resultados de la analítica de sangre y ecografía abdominal. El presentador revela su preocupación por posibles problemas digestivos comunes en culturistas, anticipando más pruebas para un chequeo exhaustivo de su sistema digestivo.</p>
+
+<h3>Alarmas en Riñones y Colesterol <a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&amp;t=685" target="_blank">[11:25]</a></h3>
+
+<p>Se comparten detalles específicos de los resultados: un colesterol total favorable, pero HDL bajo y señales de que los riñones están "debutando una nefropatía". Se menciona la necesidad de regulación y suplementación para mitigar estos riesgos.</p>
+
+<h3>La Batalla con el CPAP y Nuevos Objetivos <a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&amp;t=1079" target="_blank">[17:59]</a></h3>
+
+<p>El culturista explica que usa una máquina CPAP para la apnea del sueño, otra consecuencia del exceso de masa muscular. Habla sobre sus objetivos futuros, enfatizando el disfrute y la felicidad en la tarima por encima de la victoria, aprendiendo de experiencias pasadas.</p>
+
+<h3>Lecciones de una "Carnicería" Pasada <a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&amp;t=1448" target="_blank">[24:08]</a></h3>
+
+<p>Se aborda una polémica pasada donde el presentador fue criticado por su rendimiento y comentarios sobre su preparador. Reflexiona sobre la ignorancia de la gente que opina sin conocer las circunstancias personales detrás del desempeño de un atleta.</p>
+
+<h3>La Mejor Preparación: Salud y Paz Interior <a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&amp;t=1720" target="_blank">[28:40]</a></h3>
+
+<p>El presentador concluye que su preparación actual es la mejor, no solo físicamente, sino por el enfoque en su salud y bienestar mental. Destaca la importancia de la tranquilidad, la familia y los seres queridos, priorizando estos valores por encima de la ambición ciega.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=0" target="_blank" class="timestamp">[00:00]</a> Lo que nos enseña es el culturismo, la realidad de mi salud. Señores, vídeo un poquito diferente, vídeo un poquito que quizá pues alguno lo vea de una forma que yo no quiero enfocarlo. Habéis visto, yo os he enseñado durante todo mi canal lo bonito que tiene la competición, lo bonito que es el culturismo. Este vídeo no va a ser ni mucho menos para intentar convencer a la gente de que no practique el culturismo. De hecho, yo invito a todo el mundo que compita porque creo que es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=28" target="_blank" class="timestamp">[00:28]</a> una de las experiencias más bonitas que tienes de de retroinspección podríamos decir de conocerte a uno mismo de superar tus límites y definitiva pero yo tengo que añadir algo yo no recomiendo que compitas pero si compites en culturismo o en cualquier formato de nivel que tengas que usar química</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=54" target="_blank" class="timestamp">[00:54]</a> piensa muy bien y lee mucho y aprende mucho sobre lo que te puede llegar a pasar. Y después, si decides hacerlo, de puta madre. Pero primero, mira bien todo lo que te puede llegar a pasar, aunque no te pase. Es lo que te recomiendo. Bueno, pues ya que estoy haciéndome justo en este momento la etapa post-competición,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=74" target="_blank" class="timestamp">[01:14]</a> Quiero también mostraros un poquito la realidad de lo que es el culturismo, el culturismo de competición sobre todo, ¿vale?, y el culturismo de competición de IFBB, ¿no?, de NPC IFBB.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=85" target="_blank" class="timestamp">[01:25]</a> Vamos camino al médico, ¿vale? Tengo diferentes pruebas. Tengo analítica, ecografía abdominal, sistema digestivo, también me lo van a ver. Bueno, en definitiva, tengo neumólogo. Tengo 12.000 millones de pruebas que hacerme hoy. Así que nada, señores, acompáñame un poquito al día de hoy. También tendremos brazo después de hacer las pruebas. También lo grabaremos para el vídeo, ¿vale? Lentamiento de brazo. Y nada, sabéis, como os digo, es simplemente enseñaros un poquito que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=113" target="_blank" class="timestamp">[01:53]</a> Pues bueno, el culturismo también tiene su parte negativa, como en todo en la vida, que también tiene sus riesgos, que también tiene su parte más oscura, que por desgracia es que te arrebata un poquito la salud y no hay que ser hipócritas, ¿vale? Por muy bien que lo hagas o por muy mal que lo hagas, pues te arrebata un poquito la salud. Un poquito, cabrón. Un poquito con suerte, ¿no? Con mucha suerte. Una competición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=137" target="_blank" class="timestamp">[02:17]</a> Y nada, simplemente quería enseñaros un poquito también respecto de este, porque señores, vamos a ello. Primero analítica de sangre y luego ecografía abdominal, que por cierto, según he preguntado, esta tarde tenemos ya los resultados. O sea que me parece espectacular que en horas me vayan a dar los resultados de todo. Así ya lo puedo pasar a Sergio y en definitiva hacer una regulación como Dios manda, con valores de analítica, con valores, digamos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=160" target="_blank" class="timestamp">[02:40]</a> de salud y no puedes hacer una post competición random a ver lo que ocurre y meter medicina por meter medicina siempre pues tenemos que ver un poquito que valores hay que retocar, que valores tenemos mal, que valores tenemos bien y en base a eso hacer una post competición que es como se debería hacer o al menos el concepto que tengo yo de post competición vale siempre pues intentar minimizar los riesgos y pues cuidar tu salud dentro de lo que cabe lo máximo posible</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=181" target="_blank" class="timestamp">[03:01]</a> Dicho escabaliz, vamos a ello y os veo después. Vamos a pasar por la segunda prueba del día, ecografía abdominal, ¿vale? A ver un poquito cómo están en temas riñones, tema hígado, tema páncreas, bueno en definitiva, pues un poquito todo. Disculpad la imagen, es que es un poquito pequeño lo que es la sala. Y nada, a ver, toma todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=203" target="_blank" class="timestamp">[03:23]</a> Bueno, señores, mucho más rápido de lo que me esperaba. Realmente me han dicho, oye, si te esperas 30 minutos, tenemos ya todo listo. Esto ha sido ecografía abdominal, ¿vale? Prácticamente lo que queremos ver aquí es cómo está su tamaño de los órganos y todo eso, ¿no? Todo de tamaño, el tema de hígado, riñones, páncreas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=221" target="_blank" class="timestamp">[03:41]</a> Bueno, está todo en catarán cerrado. De hecho, yo sé valenciano, sé hablar valenciano, pero la Melsa no sé lo que es. Lo único que sé que pone de dimensión normal y homogénea, es decir, de dimensión normal y homogénea, es lo único que os puedo decir. Pero bueno, señores, lo tengo listo. Esta tarde me dan los datos de la analítica.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=242" target="_blank" class="timestamp">[04:02]</a> y neumologías para el tema de las maneras del sueño y demás, que también os contaré por la tarde para el tema de CPAPs y todo eso, ¿vale? Repito, una vez más, soy un poco pesado y, bueno, pues lo quiero decir y ya está, ¿vale? Este vídeo no es para meter miedo. O sea, el tío usa la máquina del sueño, la CPAP, y es un tío de 100 kilos. 110, 105. Hostia, ¿eh? Eso es un clásico, ¿eh? Bueno, ahora menos, pero... Señores, quieto para ahí. Escúchame, ve igual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=268" target="_blank" class="timestamp">[04:28]</a> Voy a enseñarte la mejor proteína de mercado, la hidronizada palo de Profis de vainilla. 98% de pureza no lo encuentres en ningún lado. ¿Y sabes cómo te hace más efecto? Con mi código de descuento Antonio G en Profis. Y ya está. No, ni para nada. Simplemente es para enseñaros un poquito la realidad que vivimos todos los culturistas, ¿vale? Y quien nos diga que no, nos miente. Es decir, esto es la realidad de todos los culturistas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=291" target="_blank" class="timestamp">[04:51]</a> que quieren hacer las cosas bien es decir que se preocupan por salud por su longevidad y por tener un futuro pues quizá tener nietos ¿vale? entonces es así como se hacen las cosas y por eso os quería mostrar dicho eso nos vamos al gimnasio hoy toca brazo por suerte es un día bastante fácil no es un día de pierna o de espalda pero hay que cumplir con lo que se tiene que cumplir estamos aún en rebote así que el pampeo es bonito y nada como veis ya tengo un poquito más de mofletes un poquito más de ánimo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=319" target="_blank" class="timestamp">[05:19]</a> que no siempre viene bien. Vamos al gimnasio, brazo y luego supongo que nos darán ya por mail las analíticas. Con eso os cuento en casa. Vale, jabalís, como os he comentado esta mañanita, tenemos resultados. La verdad han sido extremadamente rápidos, literalmente en menos de 24 horas. Ya tenemos la analítica de sangre, tenemos también la ecografía abdominal, que han dado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=346" target="_blank" class="timestamp">[05:46]</a> Lo que aún tenemos, que de hecho esto es algo que... Bueno, lo voy a esperar a los resultados, ¿vale? Porque quiero saber realmente qué me ocurre. Ya os... Joder, parece que esté... Esperemos que no. Puede ser que sí, pero esperemos que no. Que esté realmente enfermo de lo que es el sistema digestivo. Porque yo voy a... Bueno, ya os contaré más de cuántos resultados porque me he dicho también...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=365" target="_blank" class="timestamp">[06:05]</a> Hostia, poco se habla de esto, ¿eh? La cantidad de problemas del sistema digestivo que tienen los culturistas, ¿eh? Hostia, ¿eh? Yo no sé si es por la química, por la cantidad de comida que tienen que comer, por lo que sea, pero hay un montón de culturistas con problemas de estomacales, bueno, digestivos, que se les hincha el estómago...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=385" target="_blank" class="timestamp">[06:25]</a> muestreo de heces, muestreo del sistema digestivo y demás para ver si tengo algo adhesivo, algo de licorato del pilori, tenemos que al médico digestivo para ver si tengo algo en el colon o en definitiva que me hagan un chequeo realmente exhaustivo del sistema digestivo porque llevo ya un añito incluso un poquito más con el sistema digestivo un poquito jodido con mucha inflamación abdominal y demás y no sé qué ocurre pero bueno</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=412" target="_blank" class="timestamp">[06:52]</a> Eso es algo que ya os contaré en un futuro Espero que esté todo bien, tío Espero que esté todo bien, coño Señores</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=421" target="_blank" class="timestamp">[07:01]</a> Este vídeo parece que esté haciendo que vaya en contra del culturismo, ni mucho menos. Es mi pasión, es lo que más me gusta hacer del mundo. Y de hecho, como os he dicho antes, invito a todo aquel que lo quiera experimentar, que al menos lo haga una vez, porque descubres muchísimas cosas sobre ti. Es un deporte que te da...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=448" target="_blank" class="timestamp">[07:28]</a> Te quita mucho, ¿vale? Y hablamos de que te quita, pues, salud en este caso, ¿vale? Te quita años de vida. Pero esto hay que decirlo, y esto está muy bien que tal vez lo diga. ¿Por qué? Porque parece que hay una cosa en el culturismo de decir, hostia, que el culturismo es dañino, tíos. Que el culturismo es dañino. Ya está. De competición. No hay más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=466" target="_blank" class="timestamp">[07:46]</a> hay que decirlo ¿sabes por qué? tiene tanto miedo es una realidad es que de verdad me choca tío me choca mucho que haya gente que es que no es que hay manera segura de competir compadre compadre hay manera segura no porque llevo he competido durante 30 años 40 años pues eres un matado seguro que has sido un matado y como has sido un matado seguramente porque es así porque si tú haces lo que tienes que hacer para ser modo competitivo te estás quitando años de vida</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=495" target="_blank" class="timestamp">[08:15]</a> No, es que yo llevo 30 años haciendo culturismo. Tú eres un matao. Esta es la realidad. Esta es la realidad. Ningún culturista pro, o sea, pro de nivel dura 30 años. Esta es la realidad. Compitiendo. Ninguno. Ya os lo digo yo. Ninguno. Algún matao. Mataos. Los culturistas de nivel no duran 30 años compitiendo. Ninguno. A hacerme caso. Ninguno. Yo no os voy a decir que yo soy el culturista que mejor hace las cosas. Mucho menos, ¿vale? Yo voy a hacer las cosas siempre, con cabeza, con respeto por lo que hago. Y pues...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=526" target="_blank" class="timestamp">[08:46]</a> ¿Ahora me desperto en muerte de culturistas? Joder, macho. Min puta madre, tío. Este es el nivel, compadre. Lo que no soy en embustero, ¿vale? En embustero no. Y me gusta que digan la verdad. No... ¿O de qué ha muerto el chavalito con 22 años, 23 años del otro día? El pro. ¿De qué ha muerto? Dime. Dímelo tú. ¿De qué ha muerto ese chaval? O la culturista del otro día. Muerte natural, ¿verdad?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=550" target="_blank" class="timestamp">[09:10]</a> Porque es normal volverse con 20 y pocos años, duro infarto. Es lo normal, claro. De verdad que hipócritas, que hipócritas algunos. Una palabra un poquito conservador. Yo soy muy conservador en cómo tengo un acercamiento al culturismo. Yo quiero que mi carrera dure al máximo posible. Quiero tener mis hijos, quiero tener mis nietos, quiero tener mi familia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=575" target="_blank" class="timestamp">[09:35]</a> Y esa es una manera muy bien de enfocar el culturismo, Tabet. Muy buena. E intento que dentro de lo que es el culturismo, que todos sabemos lo que es, hacer las cosas con cabeza, hacer las cosas con respeto de lo que haces. Minimizar los daños, ¿no? No con miedo, con respeto de lo que haces. Minimizar los daños, eso está muy bien. Siendo consecuente de lo que puede llegar a ocurrir y siendo un poquito conservador, ¿vale? Porque para mí esto no es un sprint, es una maratón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=603" target="_blank" class="timestamp">[10:03]</a> ¿Se puede llegar antes siendo nuevo conservador? Bueno, se puede llegar antes. ¿Se puede llegar a no tener nietos en un futuro? También se puede llegar a no tener nietos en un futuro. Y eso para mí, pues cuanto menos papeletas compres, menos posibilidad tienes de que toque la lotería, ¿verdad? Yo estoy comprando papeletas, como todo culturista, pero cuantas menos compre, pues muchísimo mejor. En este caso, señores, tengo analítica y sinceramente ya se ha pasado a Dufour y estamos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=632" target="_blank" class="timestamp">[10:32]</a> que ha ido. No os miento, creo que este vídeo es justo para esto, ¿vale? Para deciros lo malo y lo bueno. Lo bueno que tiene Andorra, por lo que entiendo que todos los médicos del mundo en general, es que me dan las pruebas, las mismas pruebas, ¿vale? Por ejemplo, me dan la prueba del 17 del 7 de 2024, me dan la prueba del 23 del 8 de 2024 y me dan la prueba de ahora. Es decir, tengo varias pruebas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=655" target="_blank" class="timestamp">[10:55]</a> Para compararlas, ¿no? Para comparar un poquito cómo estábamos, ¿vale? Justo me hice una, pues justo en el momento en el que estoy ahora, ¿no? Post-competición me hice una para ver qué valores tengo en rango, qué valores no tengo en rango y en base a eso qué tocar en el post-competición, ¿no? Pues como ya os he dicho al principio de esta mañana,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=670" target="_blank" class="timestamp">[11:10]</a> lanzar datos por lanzar no tiene sentido así que hay que ver qué tienes y qué no tienes y en base a eso pues planificar un poquito el postcompetición y en este caso la verdad he sido en comparación con el año pasado extremadamente bien y estoy muy muy contento por ello yo peco mucho sobre todo por así llamarlo de riñones y de colesterol suelen ser los valores que más sufren en mí en este caso el colesterol total lo tengo muy bien</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=698" target="_blank" class="timestamp">[11:38]</a> Los riñones pueden ser por los diuréticos, ¿no? Pero sí es cierto que el HDL, el bueno, lo tengo un poquito bajo. Mucho más alto que el año pasado, pero un poquito bajo. Entonces eso, pues habrá que regularlo con diferente suplementación, con diferentes medicinas y demás. Y por otro lado, tengo los riñones no con insuficiencia, porque estoy bien, pero sí que está tanto en la analítica como en la...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=725" target="_blank" class="timestamp">[12:05]</a> en la ecografía que los riñones aunque están bien sí que están llegando un poquito pues que si sigo por este camino van a llegar un poquito al límite y por eso mismo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=739" target="_blank" class="timestamp">[12:19]</a> comprando papeletas. En este caso, en la ecografía, todo bien, hígado, veas biliares, veanahorta, vesículas, páncreas, bazo, riñones, todo bien. Simplemente que los riñones se está viendo como que está debutando una nefropatía. Es decir, si sigues por este camino va a ocurrir algo. Bueno, puede ser un poquito por ahí, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=767" target="_blank" class="timestamp">[12:47]</a> Puede ser que sea un poquito también eso, la diuresis y tal, y bueno, no sé, en general todo, ¿no? He hablado con el médico de Andorra, por suerte parece ser que todo está bien, simplemente pues que hay que ser conscientes de lo que tenemos y que a partir de ahí tomar cartas en el asunto. Dicho esto, ¿por qué os estoy mostrando esto? Pues bueno, porque esto es la parte negativa del culturismo, es una parte que, como os he dicho al principio de esta mañana, todos, cuando os digo todos,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=791" target="_blank" class="timestamp">[13:11]</a> Todos los culturistas sufrimos, no solo yo, y de hecho yo me enorgullece de decir que posiblemente seré uno de los primeros que no sufren por mi acercamiento al culturismo, repito, yo no sé aquí ni el que mejor lo hace ni el que peor, simplemente un acercamiento un punto más conservador.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=808" target="_blank" class="timestamp">[13:28]</a> Pero bueno, también os quiero mostrar un poquito lo bueno que tiene esto, que es mi pasión, es lo que amo y lo voy a hacer toda mi vida o al menos lo que me permita mi salud hacerlo, pero pues también tiene sus cosas malas, que por cierto, dadme 10 segundos. Que por cierto, aquí no lo he sacado antes, aquí os muestro otra de las cosas malas que tiene el culturismo. Tienes que dormir con cepa. ¿Por qué? Porque tienes tanto peso y tanta masa muscular en lo que es la zona del cuello, pues generas apneas del sueño y</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=836" target="_blank" class="timestamp">[13:56]</a> Bueno, esto lo tienen no solo los culturistas, pero sí que es verdad que los culturistas tienden a ser más propensos a tenerlo, por lo que dice Jorge, ¿no? Mucha más masa muscular en el cuello, mucha masa muscular en general, al final no deja de ser un sobrepeso, aunque tú estés petadísimo, fuertísimo, es un sobrepeso para el cuerpo, ¿vale? Y es así, entonces, bueno, pues los pulmones no entienden de masa muscular o de grasa, no entienden, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=861" target="_blank" class="timestamp">[14:21]</a> Y... Bueno, pues sí. Lo que me choca es que tal vez necesite una CEPAP, tío. Me choca un montón. Porque tal vez no es un tío inmenso, ¿sabes? No es inmenso. Y me choca, tío. De verdad que me choca. Pues poco a poco...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=877" target="_blank" class="timestamp">[14:37]</a> Es mucho para tu salud, ¿vale? Para tu descanso, para tu sueño, para el tema de patocitos... Definitivamente tiene bastantes... Y que te puedes morir, ¿eh? Una media del sueño te puedes quedarse ahí en la cama, ¿vale? Entonces, esta es una que me dejó Joan, ¿vale? Para que la probase. Es una, pues digamos, de baja gama, ¿vale? Y actualmente ya he pedido la de alta gama, que bueno, si os interesa, simplemente os lo dejaré por la pantalla para...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=900" target="_blank" class="timestamp">[15:00]</a> Mr. Marquino también tiene... C-Pup. Tiene moneas. Para que la veáis, tenéis el link en la descripción. Yo no me gano ni un duro con esto, que lo sepáis. Simplemente pues que... Creo que es fundamental para los culturistas tener una de estas de... Ah, por eso bien. ...buena calidad, ¿vale? En lo que algo que no tenéis que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=918" target="_blank" class="timestamp">[15:18]</a> que ahorrar en vuestra salud y si podéis permitiros algo de buena calidad, pues comprarla, ¿vale? Os lo dejaré por la pantalla y también en el link de la descripción, pero que sepáis que yo todas las noches, como muchos culturistas y como prácticamente todos deberíamos hacer, con esto conectado a la máquina y con la muestra, que parezco Darth Vader, ¿vale? Que también es una parte mala del culturismo, pues bueno, no les voy a enseñar, pero que ahí está. Dicho esto, jabalís,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=945" target="_blank" class="timestamp">[15:45]</a> Nada, muy contento sinceramente Aunque esté aquí Tío, yo tengo un problema con la cepa Que no puedo dormir con ella O sea Me empieza a dar un hilo de aire Por aquí, suelto el ojo Se me sale Es horrible, tío No he conseguido dormir una noche bien La mitad de la noche no la uso Porque es horrible, tío No puedo respirar con ella Yo no sé si hace falta meterle más potencia O yo que sé, tío No sé</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=973" target="_blank" class="timestamp">[16:13]</a> Es horrible. Yo no puedo dormir con ello. Me han dicho colegas que a ellos les cambió la vida. A mí me deja dormir. No me deja dormir, tío. Me la apretaré a muerte. Voy a probarla cuando llegue a casa apretándome la muerte. No es apretar fuerte, es que no haya fugas. Es que las hay. Cuando te las pones no las hay, pero se te mueve y ya empieza a salirse el aire. Es una mierda eso. Muy contento. Las pruebas han ido muy bien. Tengo que ponerlas bien porque es cierto que últimamente duermo muy mal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1003" target="_blank" class="timestamp">[16:43]</a> Últimamente no descanso nada y lo noto, tío. Y muchas veces entre el estrés mío ya que tengo con mi historia y mis cosas, tal, lo que sea, muchas veces me leí los directos con los ojos que parecen que me he fumado 44 canutos y no es eso, es simplemente que no he descansado bien, tío. Bien. También el cardiólogo Echeverry Zasua del corazón también ha ido muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1027" target="_blank" class="timestamp">[17:07]</a> Muy bien, sinceramente, al menos me gusta ver que es acercamiento un poco más conservador, pues me da los estafones. Bueno, pues bien, Tabet lo está haciendo bien, tío, por lo menos se preocupa de su salud. Veme un poquito lo que me habéis dicho que mire de que Miguel ha enseñado no sé qué historia de Tabet antiguo, creo que lo enseñó ayer. Nos vemos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1046" target="_blank" class="timestamp">[17:26]</a> Y sinceramente espero eso. Si eso llega, sé que lo demás va a llegar. Entonces lo que suena un poco raro decir, joder, tontería acaba de decirte chaval, ¿no? Pero es algo que se me arrebató el año pasado por diversos puestos, experiencias y demás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1062" target="_blank" class="timestamp">[17:42]</a> Y al final no deja de ser algo que me apasiona, algo que amo. Entonces, salir de la tarima sin sonreír, sin disfrutar, sin estar contento, sin ser feliz, ¿para qué voy a estar en la tarima? Entonces lo que quiero buscar este año es bajarme en la tarima y ser una persona feliz de haber estado arriba.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1079" target="_blank" class="timestamp">[17:59]</a> ¿Tienes algún objetivo o simplemente es disfrutar y lo que salga? No. A ver, por supuesto, la cabeza del competidor es ambiciosa. Exacto. Creo que nadie va a un campeonato para perder, ¿vale? Pero hay que saber, pues bueno, que vengo de una etapa mala, entonces ahora mismo quizá...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1095" target="_blank" class="timestamp">[18:15]</a> Obviamente, mi objetivo final es ir al Mistro Olimpia. Cualquier culturista tiene dos objetivos. Cuando eres amateur, hacerse pro. Cuando eres pro, ir a la Olimpia. No hay más objetivos. Si eres profesional, tu objetivo principal es ir a la Olimpia. Pero para mí va a llevar unos pasos. Diversos motivos, para mí va a llevar unos pasos. Decirte que no estoy en la cabeza de que quiero ganar… ¿Estaba dando a entender como si tuviera la salud mal o qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1122" target="_blank" class="timestamp">[18:42]</a> en mentirte. O sea, es el objetivo primario y es lo que quiero hacer. Yo ahora me subo a una tarima, estoy seis meses de preparación para quedar octavo. Aunque baje feliz, he quedado octavo. Quiero quedar primero. Pero, viendo un poquito en perspectiva, no todo, lo que busco principalmente es ese disfrute de mi pasión</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1140" target="_blank" class="timestamp">[19:00]</a> Si quedo primero, pues mucho mejor, obviamente, ¿no? Pero disfrutar, tío. Para que la cabeza viciosa de alguien, pues tío, tú cuando vas a la Champions quieres ganar. No jugar bien en el fútbol, ¿sabes? Salud, el hecho de estar en un deporte de élite, como es el culturismo, y puede ser otros, ¿eh? Pero nunca te ha dado miedo el impacto que tiene. Por ejemplo, justo hace pocos días hemos recibido la noticia de que Joan ha sufrido, creo que fue un ataque epiléptico en una competición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1164" target="_blank" class="timestamp">[19:24]</a> que también se debe a las condiciones extremas a las que está expuesto un culturista, que son normales en cualquier deporte de élite. Pero bueno, ¿nunca te ha dado miedo esa exposición a situaciones malas para la salud? No, miedo no. Miedo no, porque si no lo haría. Le doy el respeto que se merece, que es muy distinto. Yo le doy el respeto que se merece a lo que estoy haciendo. ¿Sabes? Sé lo que estoy haciendo, sé lo que puede ocurrir, soy consciente y apechugaré. Bueno, ojalá nunca ocurra, pero apechugaré y si ocurre algo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1190" target="_blank" class="timestamp">[19:50]</a> Pero miedo no, porque si no, no lo haría. Pero hay que tener un respeto muy grande de lo que se hace. Porque no estamos jugando con chicles. ¿Recomendarías a tu hijo el culturismo? Imagínate que un día tienes hijos. ¿No lo recomendarías?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1208" target="_blank" class="timestamp">[20:08]</a> Vaya marrón, ¿eh? Es que yo no le recomendaría nada. Que descubra su pasión y ahí estaré yo para apoyarle. Y si le apasiona el culturismo, dirías, oye, pues me gusta para mi hijo este deporte. O sea, yo lo he vivido, es muy duro. Pues ojalá, tío. Yo seré el primero que le acompañe al gimnasio y explicarle cómo tiene que hacer todo. Sí, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1224" target="_blank" class="timestamp">[20:24]</a> Nunca sabes. Por mí genial, por mí genial. Y si decides ser culturista profesional, bueno, primero sea culturista y luego ya hablamos de profesional, ¿sabes? Genial, genial. No tendría ningún trauma con ello. Pero tanto como recomendar, no sé, a lo mejor le gusta...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1244" target="_blank" class="timestamp">[20:44]</a> El cricket, ¿sabes? Le tendré que animar desde la grada sin saber nada de cricket y ya está. Nunca hay una preparación mental, además de física, porque... Si un culturista no tiene la cabeza bien...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1256" target="_blank" class="timestamp">[20:56]</a> cero, cero, cero, cero. O sea, no puede competir un culturista porque le va a causar demasiados problemas en todos los niveles. En todos los niveles. El estrés, el cortisol... El sistema digestivo es un segundo cerebro. Todo se somatiza en el sistema digestivo. Entonces...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1276" target="_blank" class="timestamp">[21:16]</a> Tío, que es una tarima, ¿sabes? Que no es operar de vida o muerte a mi madre, ¿sabes qué te quiero decir? Sí, sí. Para empezar, me pongo delante de cinco tíos en tanga. Eso ya es un poquito cuestionable, ¿sabes? Hay gente que lo hace cobrando por OnlyFans, ¿sabes? Sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1293" target="_blank" class="timestamp">[21:33]</a> Tío, quítale un poquito de hierro al asunto, ¿sabes? Disfruta. Nadie me pone una pistola en la cabeza. Te veo tranquilo, me gusta. Tío, bueno, tú lo sabes, porque te he contado lo que hay. Hay cosas muy importantes en mi vida ahora mismo. Entonces, el culturismo es mi pasión, es lo que amo. Hazlo porque lo amas. No hazlo por el que dirán. Sí que van a decir algo malo. Si yo quedo primero, van a decir que el trabalhador era una mierda y que eran todos cojos y mangos. Si quedo último, van a decir que yo soy el cojo y el mango.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1323" target="_blank" class="timestamp">[22:03]</a> Si me voy a China… Bueno, China no, que no han tenido una mala experiencia. Voy a poner otro ejemplo, perdón. Si me voy a Sri Lanka… Ah, que se iba a Sri Lanka para poder llegar mejor. Si me voy a Europa… No, justo en el momento de Europa no había nivel. Ah, en Estados Unidos, en la cuna del culturismo. No, en Estados Unidos te vas para… Justo mal momento. Entonces… Bueno, ya con el sistema nuevo de puntuaciones vas a tener que ganar dos ProShow si quieres ir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1346" target="_blank" class="timestamp">[22:26]</a> Es lo que hay. Ahí ya no va a haber tu tía. Eso competir 20 veces. Si alguien compite 20 veces y clasifica, claro que lo van a criticar. Es normal. Eso es lo que hay. Pero claro, si ganas tú dos pro shows correspondientes, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1360" target="_blank" class="timestamp">[22:40]</a> O tú vas a competir y quieras entre los primeros siempre, pues nadie va a criticar nada. A ver, que yo criticarlo no entiendo la crítica. Pero sí que es verdad que, hombre, es realidad que hay maneras y maneras de entrar a la Olimpia. Para mí todas son buenas, ¿eh? Para mí todas son buenas. Todas son buenas. Pero yo qué sé, yo es que creo que cuando tú estás compitiendo a nivel profesional te tiene que sudar lo que opinan de ti. Y yo creo que tanto este hombre como él, como Joan, están demasiado pendientes de lo que opinan de ellos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1386" target="_blank" class="timestamp">[23:06]</a> Lo digo de corazón. Están demasiado pendientes de lo que opinan de ellos. Saber que no. Tienes que saber que no. Relájate. Haz tu trabajo, tío. Y el trabajo está siendo perfecto, ya te digo. O sea, yo estoy contentísimo con Sergio Dufour, tío. Desde aquí te mando un abrazo gigante. El año pasado te cambias de preparador. ¿Qué tal con Sergio?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1405" target="_blank" class="timestamp">[23:25]</a> 10. Porque compartimos una visión no del culturismo, que también, sino de fuera, en la vida. Y muy bien, tío, conecto muy bien con él. Hay mucha comunicación. Me escucha, que eso es muy importante. Yo le escucho a él, que es más importante aún. Y entre los dos decidimos. Entre los dos decidimos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1426" target="_blank" class="timestamp">[23:46]</a> que es algo que, pues bueno, creo que es de valorar. Se preocupa, tiene un acercamiento muy saludable a esto, entre comillas, y estoy muy bien, muy a gusto, de verdad, muy muy a gusto. O sea, no porque esté ahora con él, si mañana no competimos, diría lo mismo. Un tío de 10 en lo personal y de 10 en lo laboral.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1448" target="_blank" class="timestamp">[24:08]</a> de lo que él entiende que fue una auténtica carnicería y de por qué no quiere hablar del tema, por qué no pretende revivar cierta guerra. Vamos a escucharlo. El año pasado tú competiste y te cayeron críticas porque, en opinión de mucha gente, no saliste con el físico con el que tenías que salir por estar a demasiadas cosas. ¿Qué le dirías a esa gente? Lo mismo, eso no es ignorante. ¿Qué pasó? Te voy a dar un ejemplo que hemos hablado antes. ¿Cuántas empresas tiene Chris Bumsted?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1479" target="_blank" class="timestamp">[24:39]</a> colaboraciones, no las cuentas, desde luego. El tío tiene la octava marca de nutrición más grande del mundo. El tío es bandjet privado por ahí. Literalmente. Se ha hecho multimillonario. Pero claro, como es Chris Bustin, nadie dice nada. El tío tiene un equipo gigante detrás. Que le hacen todo. El problema, creo yo, que no es Tabet. Es que la pregunta que le acaba de hacer el presentador es un poco... Que le criticaron a Tabet...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1509" target="_blank" class="timestamp">[25:09]</a> Que no estaba... Que estaba a demasiadas cosas, no. A tal vez le criticaron que tuvo la lengua larga y le echó prácticamente las culpas al preparador. Ya está, seamos realistas. Es así. Claro, le echó las culpas al preparador. Y el preparador se la echó a él. Ya está, esa fue la polémica que hubo. O que es mentira. Eso es lo único que hubo. Nadie, nadie, nadie, nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1531" target="_blank" class="timestamp">[25:31]</a> ¿Sabes lo que quiero decir? Sí. La falacia de autoridad, tío, es muy grande. Entonces, en este caso, tío, yo el año pasado salí mal por ciertas circunstancias que no voy a remover porque ni siquiera me he pronunciado al respecto, quizá algún día, pero bueno, ya es mierda pasada y tampoco vale la pena...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1548" target="_blank" class="timestamp">[25:48]</a> y remover la mierda del pasado. No, pero yo creo que sí que no te tienes a... Igual si soy yo que me gusta decir, oye, tío, que se sepa que la razón por la que yo salí mal es esta y caeros la puta boca porque igual no lo entendíais. Ya, pero si digo la razón por la que salí mal, tenemos un problema. Ah, vale. De cara adelante. Entonces...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1565" target="_blank" class="timestamp">[26:05]</a> Tío, ya te digo, la gente es muy ignorante y la gente es muy atrevida, sobre todo. La gente es muy, muy atrevida. Y no sabe lo que le pasa a alguien. Tú ves que yo subo una foto en el gimnasio, pero a lo mejor un familiar mío se está muriendo. Tú ves que tal, pero a lo mejor acabo de reñir con mi mujer y me acaba de dejar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1584" target="_blank" class="timestamp">[26:24]</a> Claro, pero es que el problema es que la gente no tiene que entender nada. La gente opina y dice de lo que enseñas. Que no justifico nada, pero esta es la realidad. Esta es la realidad, amigos. Pero tú y cualquiera. Es que es lo que hay. Y opinan de lo que están viendo con sus ojos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1599" target="_blank" class="timestamp">[26:39]</a> Si tú das una explicación del por qué no ha salido en tu mejor forma, pues la gente te va a entender. Oye, no he salido bien porque ha pasado esto, esto y esto y ya está. Y la gente va a decir, bueno, pues no pasa nada, tal vez, tío, ya está. Claro, pero es que si tú andas con ese misterio y esa cosa y ese no sé qué, pues la gente va a hablar y ya está. Si me explico, ¿sabes? La realidad social es que se muestra lo que se quiere ver. Entonces, lejos de eso. Pues, y de lo que se ve, se opina. Es así. Claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1628" target="_blank" class="timestamp">[27:08]</a> Habla de las redes sociales. Es que es tu deporte, muchacho. Es que tu deporte es eso. Opinar de un físico. Está. Es que no va... El culturismo no va de otra cosa. Es que de verdad que yo creo que no entendéis en el deporte en el que estáis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1646" target="_blank" class="timestamp">[27:26]</a> Yo sé que el año pasado salió fatal. Fue una experiencia a olvidar. Creo que se hizo una carnicería brutal de aquello que parece ser que les molestase más a ellos mi clasificación que a mí. Yo soy el primero que me molesta salir. No, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1662" target="_blank" class="timestamp">[27:42]</a> No, no. A nadie le molestó tu clasificación. Le molestó que tiene que... Bueno, tus comentarios... Carrasco dijo lo suyo, tú dijiste lo tuyo, ¿vale? Y luego, pues eso. No hay más. Es que no lo hicisteis bien. Ya está. Y no hablo de a nivel competitivo. No lo hicisteis bien de cara a la galería. No lo hicisteis. Lo hicisteis muy mal. Lo hicisteis horrible. Y ya está. Para mí, ¿eh? Mal, ¿sabes? Después de seis meses de preparación, salir mal a la tarima, tócame los huevos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1690" target="_blank" class="timestamp">[28:10]</a> Y encima te comes la carnicería. Claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1693" target="_blank" class="timestamp">[28:13]</a> Entonces, ya está, tío. Yo lo tomo como un aprendizaje de, vale, sé lo que no tengo que hacer, sé alejarme de X personas, vamos a seguir. Mirar atrás no vale la pena, tío. O sea, el pasado pasado está y sinceramente me ha abierto un poquito los ojos de cara al futuro. Por ejemplo, lo que comentábamos arriba tomando un café, esta ha sido la mejor preparación que he tenido de lejos. No físicamente, que también estoy 9 kilos por encima del año pasado. ¡Ostras! Que se dice pronto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1720" target="_blank" class="timestamp">[28:40]</a> A punto de competir. Que se dice, pronto, 9 kilos. Pero no por eso, no físicamente, sino el año pasado me abrió los ojos a importancia y lo importante. Y lo demás, tío, tranquilo. ¿Qué es lo importante en una preparación? Los tuyos, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1737" target="_blank" class="timestamp">[28:57]</a> y ser feliz, tío. O sea, no feliz de, ah, Yuppie Pandey, qué feliz estoy, no, sino estar tranquilo, tío. Para mí la felicidad es estar tranquilo, es sonreír en el gimnasio, es ver a mis colegas, ver a mi chica, estar con mi perro, ¿sabes? Salir a cenar, por desgracia de no, porque no puedo cenar. Pero... Eso ya llegará. Lo importante, lo importante, tío. Lo importante, lo importante. Ah, ¿no puedes clasificar a la Olimpia este año? Bueno, tío, pues solo van 50, ¿sabes? No eres el elegido. Pues bueno, tío. Muy estoico, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=1y-L_3cfRwg&t=1767" target="_blank" class="timestamp">[29:27]</a> Pues ya lo teníamos, ¿eh? Para mí frases contundentes. Insisto que todo esto es previo, que quede bastante claro. Yo no sé qué opinas, sinceramente no sé qué opinas. De verdad, que le vaya a lo mejor posible a este hombre, lo que le deseo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 12/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
