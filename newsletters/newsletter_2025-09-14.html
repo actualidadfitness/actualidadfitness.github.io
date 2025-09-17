@@ -1,0 +1,1031 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 14/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">14/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>El Nota</strong>: <a href='#video-36FZSVDcgWk'>🚨De la POLÉMICA al perdón 💥 Mi respuesta a Miguel Navarro”</a></li>
+<li><strong>Strongman Tarrako</strong>: <a href='#video-tfe96CuV9GM'>CHEAT MEAL TARRAKIANO 2025</a></li>
+<li><strong>John opina </strong>: <a href='#video-XBChDQXiNKs'>SALEN MAS PRUEBAS DE LA IMPLICACIÓN SIxNISTA</a></li>
+<li><strong>Joan Pradells</strong>: <a href='#video-dQfkx2iHcVY'>CAMBIO MI ENTRENAMIENTO (solo hago 1 serie)</a></li>
+<li><strong>Kim Angel</strong>: <a href='#video-cdihzZo_-Fw'>💥 EL PUSH DAY MÁS DURO RUMBO AL OLYMPIA | Ep.3  MR OLYMPIA SERIES</a></li>
+<li><strong>Miguel Navarro</strong>: <a href='#video-dpI_8UmlSK4'>¡ESTO NO SE PUEDE SOSTENER! Urs VENCE con POLÉMICA en el European. Las IMÁGENES del POSIBLE ROBO</a></li>
+<li><strong>Victor Valdivia</strong>: <a href='#video-xN5UzgsuALM'>FINAL OPEN | URS SIN TONTERÍAS VUELVE A IMPACTAR AL CULTURISMO MUNDIAL - Victor Valdivia</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-36FZSVDcgWk">
+            <h2>🚨De la POLÉMICA al perdón 💥 Mi respuesta a Miguel Navarro”</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: El Nota</span>
+                <span class="date">Publicado: 14/09/2025 16:08</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=36FZSVDcgWk" target="_blank">
+                    <img src="https://i.ytimg.com/vi/36FZSVDcgWk/hqdefault.jpg" alt="🚨De la POLÉMICA al perdón 💥 Mi respuesta a Miguel Navarro”" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video detalla un conflicto personal y profesional entre el presentador, "El Nota", y Miguel Navarro, originado por la retransmisión de campeonatos de culturismo y acusaciones de competencia desleal. "El Nota" explica cómo las acciones de Navarro le causaron problemas en sus redes, como strikes y la eliminación de contenido, a pesar de previas colaboraciones. El punto central es la rectificación de Navarro al disculparse públicamente por su comportamiento. Finalmente, "El Nota" acepta las disculpas, reflexiona sobre sus propios errores similares y aboga por la resolución de conflictos en la comunidad.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Origen de la Fricción con Miguel Navarro <a href="https://www.youtube.com/watch?v=36FZSVDcgWk&amp;t=25" target="_blank">[00:25]</a></h3>
+
+<p>El presentador explica que no odia a Miguel Navarro, pero sí hubo un "desencuentro personal" y profesional. Se sintió dolido por ser señalado como competencia después de haber colaborado en el programa de Navarro, a pesar de su apoyo.</p>
+
+<h3>Retransmitir el Olimpia: ¿Derecho o Prohibición? <a href="https://www.youtube.com/watch?v=36FZSVDcgWk&amp;t=145" target="_blank">[02:25]</a></h3>
+
+<p>"El Nota" detalla la controversia en torno a la retransmisión de campeonatos de culturismo como el Mister Olympia. Explica que, aunque no está de acuerdo con los altos precios y la baja calidad, comprende el derecho de autor de las organizaciones, pero también lo usaba como forma de protesta.</p>
+
+<h3>La Traición de la Denuncia y el Sorteo Copiado <a href="https://www.youtube.com/watch?v=36FZSVDcgWk&amp;t=255" target="_blank">[04:15]</a></h3>
+
+<p>El presentador relata cómo Miguel Navarro, al no poder retransmitir, lo señaló a él y a otros como competencia, lo que resultó en strikes y la eliminación de su publicación en Instagram. El incidente se agrava al ver a Navarro replicar un sorteo idéntico poco después.</p>
+
+<h3>Miguel Navarro Pide Perdón: Un Giro Inesperado <a href="https://www.youtube.com/watch?v=36FZSVDcgWk&amp;t=568" target="_blank">[09:28]</a></h3>
+
+<p>El video presenta un extracto donde Miguel Navarro se disculpa públicamente con "El Nota" por su conducta pasada. Navarro reconoce que se equivocó al concebir la relación entre ellos como competencia, expresando su respeto profesional.</p>
+
+<h3>Perdón Concedido y Lecciones Aprendidas <a href="https://www.youtube.com/watch?v=36FZSVDcgWk&amp;t=734" target="_blank">[12:14]</a></h3>
+
+<p>"El Nota" acepta las disculpas de Miguel Navarro, señalando la importancia de rectificar los errores. Reflexiona sobre sus propias equivocaciones pasadas con otros youtubers, enfatizando que lo importante es el contenido y el carisma personal, no el formato, y aboga por evitar conflictos.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=0" target="_blank" class="timestamp">[00:00]</a> bienvenido colega al canal del nota siéntate acóplate y ponte cómodo ya sabes que esta es tu casa compañero hoy he querido hacer un vídeo a miguel navarro sí porque ya se lo hice hace tiempo señalando unas cuantas cosas que no me gustaron que fueron para mí bastante negativa y que tuvo cierta repercusión negativa en lo que era pues mi cuenta de instagram y también en youtube lo que pasa que en youtube pues ahí cada uno nos la jugamos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=25" target="_blank" class="timestamp">[00:25]</a> Para ponernos en contexto y demás, le hicieron una pregunta ayer y luego él tuvo una contestación que me ha llamado mucho la atención. Aquí tenéis la pregunta. MVFX, ¿por qué él no te odia tanto? A ver, esta es buena. Porque no creo que en este caso Luis me odie. Sinceramente, no lo creo. Yo creo que Luis lo que tuvo conmigo fue un desencuentro, una decepción personal, si lo queremos llamar así o tal, por una conducta que él considera que yo hice...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=54" target="_blank" class="timestamp">[00:54]</a> Pues no, no odio a Miguel Navarro. Yo no odio a nadie. O sea, solo quizás a Andrew Jacket cuando posa, ya está, pero solo a ese. ¿Algún otro quizás? O cuando no gana a Hollingshead. Bueno, el caso que no odio a Miguel Navarro, pero sí que me dolió en terreno personal, algo también profesional, no es que tenga una relación personal con él estupenda ni nada de eso, pero que cuando yo he ido a tu programa...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=82" target="_blank" class="timestamp">[01:22]</a> he ido pues a colaborar contigo es como también una manera de apoyarte y que luego me señales como competencia eso pues no no no es plato de buen gusto os voy a decir qué pasa aquí porque me señaló como competencia porque</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=97" target="_blank" class="timestamp">[01:37]</a> Cada uno, los que nosotros nos dedicamos en parte a los canales de YouTube y retransmitimos los campeonatos, que hay algunos que se pueden retransmitir y otros no. O sea, nosotros nos arriesgamos muchas veces a retransmitir el Mister Olympian Abierto, que yo me he llevado strikes por eso. O sea, me he llevado por sí, por acercarlo a vosotros. No, pero oye, que no solo es por eso, sino que también queremos seguidores, queremos rédito, todo el rollo ese, ¿no? Pero yo a veces me la he jugado incluso sin beneficio. Ya lo sabéis muchos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=127" target="_blank" class="timestamp">[02:07]</a> ¿Pero por qué? Porque, coño, yo los campeonatos los vivo. Es que en los campeonatos yo estoy en mi salsa. Ya lo digo. Empiezo a contestar vuestras preguntas. Hablamos de mogollón de cosas, no solo de culturismo. Incluso hago reseñas de perfumes, tío. En medio de un campeonato de culturismo. Si es que soy un nota.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=145" target="_blank" class="timestamp">[02:25]</a> Bien, pues claro, en esos campeonatos, quieras o no, hay veces que las organizaciones gastan su dinero en eso, ponen mucha pasta y claro, no es lícito hacer una retransmisión de esos campeonatos. Aunque yo no he estado de acuerdo ni con los precios, ni con las calidades, ni con cantidad de cosas. Y también era una manera mía de protestar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=169" target="_blank" class="timestamp">[02:49]</a> respecto a eso porque joder macho a veces son unas clavadas que te cagas tenemos el Mister Olimpia a 80 pavos y con una calidad que incluso aquí un regional de aquí puede tener más calidad que el Mister Olimpia cosa no es que me parezca vergonzosa es que no es admisible en un campeonato en el que pagas tanto dinero y es el campeonato más importante de el fisicoculturismo a nivel mundial</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=194" target="_blank" class="timestamp">[03:14]</a> Y que no me cuide Celestín, tío. Es que tiene delito, ¿no? Vale. Y ahora nosotros no podemos retransmitirlo. Es normal. Quieren tener su beneficio. Que no va a pasar nada porque lo retransmitamos. Porque la organización no creo que vaya a perder dinero con eso. O mucho dinero. Pero en sí es su derecho de autor, su derecho de imagen. Y ya está. Y nosotros lo tenemos que aceptar, compañero. Entonces, ¿qué pasó aquí?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=219" target="_blank" class="timestamp">[03:39]</a> Pasó que yo antes del Mister Olimpia, no en el Mister Olimpia, sino antes había publicado un sorteo de 200 euros para la gente. Que yo hablé con más músculo y dije, mira tío, voy a hacer un directo del Mister Olimpia y quiero regalarle algo a la peña. Entonces accedió más músculo y dijo, venga, vamos a hacer ese directito guapo con este sorteo y para quien le toque.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=243" target="_blank" class="timestamp">[04:03]</a> Pues nada, resulta que Miguel Navarro no pudo retransmitir bajo unas circunstancias que eran favorables para él, pero habló con Emilio Martínez, creo, y le dijo que así no se podía hacer las cosas. Entonces, este nos señaló a nosotros diciendo, hostia, es que tenéis a estos, a estos y a estos, que son mi competencia, que sí lo hacen con las imágenes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=267" target="_blank" class="timestamp">[04:27]</a> tú aceptas una serie de normas de la NPC para trabajar como periodista o participar como periodista con ellos o generar contenido, pero luego, por otro lado, estás un poco en contra incluso. Eso puede afectar a otros streamers. Es decir, cuando a ti te hicieron el strike, tú sabías que eso no se podía hacer, reportaste que otros streamers lo iban a hacer</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=288" target="_blank" class="timestamp">[04:48]</a> Sí. Me acusaron a mí, en este caso, Emilio Martínez, me acusó a mí de que yo no podía hacer eso con el contenido, del tema de dar los directos y dije, escucha, que yo no soy el único, Emilio, que lo hace más gente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=299" target="_blank" class="timestamp">[04:59]</a> Ahí yo no tenía que haber hecho eso, el decir eso, el decir que lo hace más gente, no, no. Te lo están diciendo a ti, tú cómetela como quieras y al resto déjalo en paz, ¿no? Entonces ahí es cuando viene la movida. Digo, tío, vamos a ver, si tú no puedes hacerlo, no nos señales a nosotros, al menos la estamos jugando. ¿Y qué pasó en ese momento? Pues pasó que la publicación de Instagram me la eliminaron por completo. Y luego vi en la cuenta de Instagram de Miguel cómo hacía ese mismo sorteo por 200 euros. Que podía haber coincidido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=328" target="_blank" class="timestamp">[05:28]</a> También. Pero dices, hostia, qué puto detalle más feo, ¿no? Y eso sí afectó a lo que era mi cuenta de Instagram. Aunque no es muy tocha, no es muy grande y tampoco creáis que yo estoy muy pendiente de Instagram. Es más, sabéis que soy un puñetero desastre. Total, aquí viene lo que me molesta. Es que si yo tengo un trato, al menos cordial contigo, si voy a tu programa, si estamos dentro de la comunidad del fitness o del culturismo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=353" target="_blank" class="timestamp">[05:53]</a> ¿A qué coño me señalas, tío? ¿Sabes? O sea, no tienes que señalar a nadie. Tú tienes que hacer tu contenido. Tú eres libre de hacer el contenido que tú quieras. La gente te va a seguir por quien tú eres. Por lo que haces. Por tu carisma. Por tu trabajo. Que trabajas como un cabrón. ¿Sabes? O sea, una cosa no quita la otra cuando he dicho, pues me jodió esto de Navarro, pero no me puedo meter en el terreno profesional porque es un currante. Porque es un tío que está publicando dos o tres vídeos al día.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=381" target="_blank" class="timestamp">[06:21]</a> Y hablando con mogollón de gente, informándose. O sea, que el tío curra que te cagas si se merece vivir de lo que hace. Pero claro, ahí la actitud me jodió por las cosas que os digo. Lo primero, las colaboraciones que yo he tenido con él. Coño, si colabora contigo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=396" target="_blank" class="timestamp">[06:36]</a> Bueno, Lota, te tenemos otra vez en el canal. La gente me lo pedía, eh. La gente me pide que... Sí, sí, totalmente. La gente me pide que te pasen por aquí porque, como digo, a la gente le gustan muchísimo los análisis que haces en tu canal. Un canal del que, como digo, siempre se puede aprender un poquito más. Y para mí es un auténtico placer el hecho de que estés aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=415" target="_blank" class="timestamp">[06:55]</a> ¿Cómo me señalas luego para que me puteen? ¿Sabes? Porque aunque él no lo crea y no tenga el poder de, todo tiene una consecuencia. Todo es una cadena. Si tú llegas y te quejas a alguien, a un promotor o a alguien de lo que es la organización de la NPC, ese luego va a una marca. La marca va a la otra organización. La organización dice, ah, mira, estos son los encargados de que no hagan esto. Y ya, nos afecta. A mí me afectó.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=441" target="_blank" class="timestamp">[07:21]</a> Y luego, en el canal de YouTube, yo no retransmití el Mister Olimpia por vídeo. Pero, te digo, en la previa, en la conferencia, que han sido siempre muy laxos con el tema de la conferencia y no están enseñando, no están compitiendo, yo lo retransmití. Y ahí, a los 5 o 10 minutos, me fulminaron. Y supe, incluso me hicieron saber, de algunas maneras, que iban a estar muy pendientes de lo que yo hiciera. Así me lo dijeron.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=471" target="_blank" class="timestamp">[07:51]</a> ¿Qué quieres que te diga? Es una putada. ¿Por qué? No por lo que ya no puedes hacer, que sabes lo que no puedes hacer, sino te condiciona el qué puedes hacer y con qué puedes hacerlo. Porque ya están pendientes de ti. ¿Sabes? Y si tú, por ejemplo, tienes el streaming, al día siguiente vas a publicar imágenes y ellos te quieren denunciar, pueden denunciarlo. ¿Por qué? Porque tienen los derechos de autor. Entonces, ese es el gran problema. Por eso es una consecuencia de hechos el que tú señales a alguien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=501" target="_blank" class="timestamp">[08:21]</a> Aunque tú luego no tengas el poder de llegar y de eliminar vídeos, poner strikes o cosas. Yo te digo, poner strikes es muy fácil. Incluso yo podía haberte puesto un strike. ¿Sí? ¿Por qué? Por algo muy sencillo, para que tú veas. Tenías contenido mío, ¿sabes? Yo sí quiero y te hubieras jodido el canal, pero no soy así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=521" target="_blank" class="timestamp">[08:41]</a> ¿Sabes? En serio, no quiero terminar ni mal con nadie ni quiero tener problemas con nadie. Simplemente vengo aquí a hacer mi contenido, a estar con mi gente y ya está. Eso era lo que yo quería. Y claro, me encontré con esta situación y no me gustó en absoluto. Es por eso que yo te hice el otro vídeo. Y ahora, con esta contestación que tú me has dado, pues han cambiado las cosas y he dicho, mira, has rectificado. Me parece de puta madre. Aquí tenéis el vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=548" target="_blank" class="timestamp">[09:08]</a> para que a él le jodieran el canal, cuando a mí me lo jodieron primero con dos strikes o primero, o después, no lo sé. Pero vamos, a mí fue uno de los primeros que me tiraron en el directo, no sé si a él se lo tiraron antes, a mí después, no tengo ni idea. Tampoco tengo yo fuerza para poder tirar canales, esto también quiero dejarlo bastante claro, pero sí que es verdad que yo tengo que pedirle perdón a Luis en una cosa, y esto también me quiero poner aquí serio. Tengo que pedirle perdón públicamente a Luis, al nota...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=573" target="_blank" class="timestamp">[09:33]</a> Porque yo el año pasado la conducta que tuve, sobre todo viéndola con la perspectiva del tiempo, no fue la más adecuada a la hora de entender que si estamos los dos dando un mismo contenido, él es competencia mía y yo soy competencia suya. Yo creo que esto con el tiempo he ido comprendiendo que no, que no. Cada uno hace su contenido, la gente elige dónde quiere estar, elige dónde quiere ir y a partir de ahí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=599" target="_blank" class="timestamp">[09:59]</a> Punto. O sea, no hay más. Yo le guardo un gran respeto profesional a Luis. La verdad es que solamente lo he visto una vez en mi vida, que creo que fue en el Verónica Gallego cuando vino Ronnie Coleman. Nos saludamos bastante bien y no he tenido ningún problema yo al menos con él. Él sí lo ha tenido conmigo y ojalá, ojalá en este caso que le lleguen esas disculpas mías porque creo que me equivoqué. Lo digo sinceramente, creo que me equivoqué.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=620" target="_blank" class="timestamp">[10:20]</a> en esa manera de entender, sobre todo de entender, porque al fin y al cabo hacer no hice nada. Me acusaron a mí, en este caso, Emilio Martínez, me acusó a mí de que yo no podía hacer eso con el contenido, del tema de dar los directos y dije, escucha, que yo no soy el único, Emilio, que lo hace más gente. Ahí yo no tenía que haber hecho eso, el decir eso, el decir que lo hace más gente, no, no, te lo están diciendo a ti, tú cómetela como quieras y al resto déjalo en paz, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=644" target="_blank" class="timestamp">[10:44]</a> Y por tal de defenderme yo diciendo que no soy el único, yo creo que ahí me equivoqué, lo tengo que decir públicamente, me equivoqué y como digo, yo respeto mucho a Luis, el contenido es un contenido fantástico, siempre lo he dicho, siempre he dicho que el contenido de Luis es un contenido de mucha calidad y que le deseo lo mejor en ese sentido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=663" target="_blank" class="timestamp">[11:03]</a> Entiendo que él haya querido zanjar totalmente, no quiera saber absolutamente nada de mi existencia y me parece totalmente respetable, pero yo sí que quería hacer público eso, que me equivoqué en la manera de concebir todo esto y demás, que evidentemente uno aprenda a base de hostias y esta fue una, sobre todo pues a raíz del vídeo que hice de más, fue una hostia buena.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=685" target="_blank" class="timestamp">[11:25]</a> y nada, a partir de ahí pues lo dicho ojalá que algún día pues pueda él, bueno, podamos hablar y pueda manifestarle esto que lo estoy haciendo públicamente pero que sí que es verdad que en ese sentido pues me equivoqué en la manera de concebir, ¿no? concebir YouTube o concebir que los dos estemos dando lo mismo y que seamos competencia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=705" target="_blank" class="timestamp">[11:45]</a> Entonces, bueno, pues es una manera de entenderlo mala por mi parte y que en ese sentido pues me jugó una mala pasada con Luis y desde aquí pues le pido disculpas por mi proceder y por si en algún momento pues algo derivado de esa actitud mía pues le pudo perjudicar que ya digo que no tengo la posibilidad de tirar canales ni de decir ve a por este, ve a por aquel. No lo hice, simplemente dije que yo no soy el único que hace esto y en ese sentido pues me equivoqué incluso haciendo eso. Así que en ese sentido Luis te pido disculpas y ojalá que te llegue este vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=734" target="_blank" class="timestamp">[12:14]</a> ...si has rectificado... ...si veo que son unas disculpas... ...pues obviamente acepto tus disculpas... ...veo que nosotros como humanos nos confundimos... ...yo también me he confundido... ...y una vez... ...en más... ...lo he hecho públicamente... ...yo me confundí con Vibra... ...y con Silla en dos aspectos... ...en que vi análisis que hacían como yo... ...con el bolígrafo, con las flechitas y tal... ...y yo fui muy receloso con ese contenido... ...porque decía... ...joder tío, están utilizando mi estilo... ...mis historias, mis frases, mis cosas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=763" target="_blank" class="timestamp">[12:43]</a> Y en realidad eso no tiene nada que ver porque quien te sigue, te sigue a ti por lo que dices, por cómo lo dices, por todo. No por la forma en sí, aunque hay algunos que sí. Pero lo que no vi es que era una influencia bastante positiva a la gente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=781" target="_blank" class="timestamp">[13:01]</a> Dos youtubers que además son muy fuertes, tío. Entonces, joder, yo lo vi así y dije, tío, me he confundido. Le pedí disculpas a ellos, mira, lo he enfocado mal, te pido disculpas y ya está, tío, y sin problema. Creo que la próxima vez si tengo alguna movida así, pues lo mejor va a ser hablarlo o enfocarlo también en otra historia y tal. Entonces creo que ha sido un paso hacia adelante, sobre todo en la comunidad, para estar un poquito bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=807" target="_blank" class="timestamp">[13:27]</a> Yo desde luego ya sabes lo que me ha molestado, sabes lo que me ha jodido a mí, también las cosas que han repercutido, no porque tú tuvieses el poder de hacerlas, sino luego la cadena que se crea cuando señalas a alguien. Entonces eso es lo que fastidia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=824" target="_blank" class="timestamp">[13:44]</a> Por lo demás, como digo, mira, yo no soy de guardar rencor a nadie ni, hostia, es que eso gasta mucha energía. Prefiero estar bien. Hay veces que hay conflictos porque, coño, somos humanos. Tenemos que tener conflictos, pero, desde luego, prefiero evitarlos. Yo prefiero ir a mi bola, estar aquí con mi análisis, mis historias, mis directos, tío, y no tener ningún tipo de conflicto que está bien. Así que, no hay problema, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=849" target="_blank" class="timestamp">[14:09]</a> Y bien, he publicado este vídeo porque al haber hecho el otro y haber señalado muchas cosas que no me parecieron buenas, creo que también hay que señalar las cosas buenas, ¿no? O sea, que cuando alguien se da cuenta de sus errores, rectifica y pide disculpas, pues creo que es lo correcto y es lo justo también para que la gente pueda ver una versión y esta versión actual de los vídeos, en vez de decírtelo por privado que no tengo ningún tipo de problema, aunque te bloqueé, pero bueno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=878" target="_blank" class="timestamp">[14:38]</a> Espero que no hay problema, ¿de acuerdo? Venga. Bueno, ya sabes que ahora llega el momento de la publicidad, del apoyo y de todo el rollo ese. Lo que os puedo decir es que día tras día trabajo para que personas puedan lograr su objetivo, se sientan mejor con su físico y también puedan enseñarlo bien. Además, me patrocina para mí la mejor marca de suplementación española que hay. Si necesitas algo, utiliza mi código ELNOTA que te harán hasta un 10% de descuento. Las protes de más músculo os digo que tienen unos sabores brutales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=36FZSVDcgWk&t=907" target="_blank" class="timestamp">[15:07]</a> Nos vemos en el próximo vídeo, colega. No tengo tropecientos mil seguidores. No tengo un físico de escándalo. No soy un tipo adinerado. No vivo en Estados Unidos. Tampoco soy un Adonis. Solo soy el Nota. Y sé muy bien de lo que hablo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-tfe96CuV9GM">
+            <h2>CHEAT MEAL TARRAKIANO 2025</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Strongman Tarrako</span>
+                <span class="date">Publicado: 14/09/2025 17:26</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=tfe96CuV9GM" target="_blank">
+                    <img src="https://i.ytimg.com/vi/tfe96CuV9GM/hqdefault.jpg" alt="CHEAT MEAL TARRAKIANO 2025" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video detalla la "comida trampa tarraquiana 2025" de un strongman, explicando su definición de este tipo de comida. Describe los ingredientes de una comida abundante (tortilla, torrenos, jamón, queso, pan y helado) y su alto contenido calórico. El presentador enfatiza que el objetivo es disfrutar la comida sin excesos que causen malestar o culpa. Finalmente, comparte las calorías ingeridas y la importancia de un enfoque saludable del "cheat meal".</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Polémica Definición de Comida Trampa y su Menú Gigante <a href="https://www.youtube.com/watch?v=tfe96CuV9GM&amp;t=37" target="_blank">[00:37]</a></h3>
+
+<p>El presentador introduce su "comida trampa" o chetmill, destacando que su definición difiere de lo común. Luego, detalla los ingredientes principales de su festín: una enorme tortilla de patatas, torrenos, queso curado, jamón ibérico y una barra de pan.</p>
+
+<h3>¿Qué es Realmente una "Comida Trampa"? Su Conteo Calórico <a href="https://www.youtube.com/watch?v=tfe96CuV9GM&amp;t=149" target="_blank">[02:29]</a></h3>
+
+<p>Se define una "comida trampa" como aquella que, por su combinación de ingredientes o contenido calórico, no encaja con los objetivos diarios de una persona. Se presenta el desglose calórico inicial de la comida planificada, superando las 5.000 calorías.</p>
+
+<h3>La Clave: Disfrutar sin Culpabilidad ni Malestar <a href="https://www.youtube.com/watch?v=tfe96CuV9GM&amp;t=270" target="_blank">[04:30]</a></h3>
+
+<p>El video enfatiza la importancia de que la comida trampa siente bien y sea para disfrutar, no para un atracón que cause malestar físico o culpabilidad. Es un momento de placer y socialización que no debe afectar la vida normal.</p>
+
+<h3>El Veredicto Final: Calorías Ingeridas y Disfrute Responsable <a href="https://www.youtube.com/watch?v=tfe96CuV9GM&amp;t=569" target="_blank">[09:29]</a></h3>
+
+<p>Tras la comida, el presentador revela que las calorías totales de la comida completa eran 6.500, pero él ingirió menos de lo planeado. Comió unas 5.100-5.200 calorías, destacando el equilibrio entre saciarse y disfrutar.</p>
+
+<h3>La Diferencia entre Disfrutar y el Exceso Nocivo <a href="https://www.youtube.com/watch?v=tfe96CuV9GM&amp;t=611" target="_blank">[10:11]</a></h3>
+
+<p>Se recalca que, aunque 5.100-5.200 calorías es una barbaridad, en su contexto se siente bien. La clave es no reventar o acabar mal, lo cual convertiría una comida de disfrute en algo perjudicial para la salud física y mental.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=9" target="_blank" class="timestamp">[00:09]</a> Buenas amigos y amigas, nos encontramos en nuestro canal de YouTube Strongman Tarraco y haremos la comida trampa 2025 tarraquiana detallada. En algunas otras publicaciones he dicho más o menos lo que suelo comer en el llamado chetmill o comida trampa. Y como todos, siempre tiene cierta dosis de polémica, mucha gente te dice, ostras, esa comida no es trampa, esa comida es perfectamente encajable. Bueno,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=37" target="_blank" class="timestamp">[00:37]</a> Cada uno evidentemente tiene sus objetivos y cada persona es un mundo. A partir de aquí hay alimentos que se pueden introducir semanal, diariamente y otros que prefiero dejarlos un poco más como excepcionales. En este caso la comida que lo tengo apuntado es una tortilla de patatas que me encanta que lleva 12 huevos y 2 kilos de patata. Lógicamente con un buen aceite de oliva bien fritita</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=67" target="_blank" class="timestamp">[01:07]</a> Luego torrenos de soya, 100 gramos de queso curado, 100 gramos de jamón ibérico y 220 gramos de una barra de pan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=79" target="_blank" class="timestamp">[01:19]</a> Hoy, agua. ¿De acuerdo? El agua de mar la dejo para otros momentos y cada uno tiene que buscar su equilibrio. Claro, evidentemente es una comida que es buena, que es comida lo que se le llama real, que no hay ultraprocesados, etc. Pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=99" target="_blank" class="timestamp">[01:39]</a> Evidentemente esta comida más el helado que comeré después, que ya lo veréis porque veréis cómo intento comérmelo todo y luego diremos cuántas calorías tenía, no es encajable en mis objetivos del día a día. ¿Digo que alguien no puede comer entonces jamón, queso, tortilla, torrenos o pan entre semana o cuando le dé la gana? No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=123" target="_blank" class="timestamp">[02:03]</a> Digo que en mi contexto actual de vida, este tipo de torrenos, el jamón, que podría ponerlo si no lo hago, el queso utilizo otros entre semana y como huevos y como patata, pero no con esta maravillosa combinación. Entonces mucha gente dice, ostras, es que esto es comida normal y esto no tiene por qué ser comida trampa. Una comida trampa es aquella.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=149" target="_blank" class="timestamp">[02:29]</a> que por la combinación de los ingredientes o por su contenido calórico, no encaja con vuestros objetivos diarios. Ya está. No tiene que ser una comida trampa solo, pizzas, hamburguesas, ultra procesados, ultra azucarados, no. Es simplemente una comida que para tus objetivos no encaja. Esta comida tiene la tortilla 3.500 calorías, los torrenos 600 calorías,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=178" target="_blank" class="timestamp">[02:58]</a> 5.50 al pan, 400 el queso, 400 el jamón. ¿De acuerdo? Y el helado que lo veréis luego, 600 calorías. Veremos lo que como y diremos al final cuál es el conteo final, si me lo acabo, si no y cuál es. Pero esto acabado tendría más de 5.000 calorías. Luego diremos cuántas exactamente. Con lo cual, este tipo de comida no encaja</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=205" target="_blank" class="timestamp">[03:25]</a> con el físico actual que tengo o que pretendo seguir mejorando. Así de sencillo. A partir de aquí todo el mundo puede comer lo que quiera, cuando quiera. También hay veces que utilizo el agua de mar en las comidas trampa, nunca a diario y hoy es de río y superficial. Agua.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=224" target="_blank" class="timestamp">[03:44]</a> Entonces cada uno va ajustándose como mejor le conviene. Pero ese argumento de esta comida no es trampa porque es comida real y buena, para mí los torrendos que son maravillosos no pueden estar introducidos diariamente en depende de qué contextos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=240" target="_blank" class="timestamp">[04:00]</a> El queso curado, el nivel de sodio, por ejemplo, del jamón, me da mucha sed, no me acaba de llevar para el día a día. Y lo diferente con otras comidas trampa que hemos visto cuando comí una cena de unas cantidades bestiales de comida, es que la clave para una buena relación con la comida es que siente bien. Yo ahora tengo hambre, he tenido mucha actividad durante el día de hoy, mucha actividad durante la semana y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=270" target="_blank" class="timestamp">[04:30]</a> hago una comida para disfrutar, pero dentro de un contexto de que me siente bien. En el momento que necesitáis pegaros un atracón y reventar a comer y os acaba sentando mal, tenéis culpabilidad, etc., ya no es una comida trampa sana. Esta es una comida para disfrutar de mi vida, no de la de los demás, y para sociabilizar y para disfrutar, pero que me siente bien y que luego pueda seguir mi vida normal sin ningún problema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=298" target="_blank" class="timestamp">[04:58]</a> No que tenga que estar dos días sin comer con dolores de barriga. Ese es el primer concepto que tenéis que tener claro a lo que es un chenmiel. Simplemente un cambio de una nutrición habitual a algo diferente. Normalmente más calórico, más sabroso, que os haga disfrutar. ¿De acuerdo? Así que vamos a ver cómo va la comida trampa y al final diremos cuántas calorías he ingerido sin morir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=325" target="_blank" class="timestamp">[05:25]</a> El objetivo no es reventar, es disfrutar. La comida inicial es esta, pero es probable que no me la cabe. Aquí tenemos apuntados los gramos que hay, más el helado y las calorías. Y al acabar, pues diremos concretamente cuántas han sido las calorías ingeridas en la comida tarraqueana trampa 2025. ¿De acuerdo? Pues bueno, buen provecho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=569" target="_blank" class="timestamp">[09:29]</a> Bueno, amigos y amigas del canal de YouTube, como ya hemos comentado, un punto clave es comer, saciarse, disfrutar, pero intentar que siente bien y no buscar un objetivo prácticamente de reventar. Entonces, los datos claros es que toda la comida tenía unas 6500 calorías. El helado, la mitad, por lo que hay que restar 300, de pan,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=596" target="_blank" class="timestamp">[09:56]</a> que eran 550 calorías, he comido unas 200 y me he dejado un poco de torretnos y he comido tres cuartos un poco más de tortilla. Por lo que al final son unas 5.000...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=611" target="_blank" class="timestamp">[10:11]</a> 100, 5200 calorías en una comida. Es una barbaridad para una comida, pero en mi contexto me sienta bien, estoy bien, ahora he hecho una siesta y sigo con mi vida perfectamente. ¿Esto no puede ser algo diario? No. Pero puntualmente para disfrutar, sí. ¿Que podría haberme acabado la tortilla y el helado y encontrarme mal toda la tarde? También.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tfe96CuV9GM&t=634" target="_blank" class="timestamp">[10:34]</a> Pero ahí es donde el objetivo de una comida saludable, de disfrute, ya cambia a pasar a ser algo nocivo para la salud y sobre todo para la mente. ¿De acuerdo? Así que nada, ha sido un placer compartir esta cena de domingo con vosotros y como siempre, si queréis, nos vemos en próximos vídeos. Muchísimas gracias.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-XBChDQXiNKs">
+            <h2>SALEN MAS PRUEBAS DE LA IMPLICACIÓN SIxNISTA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 14/09/2025 17:34</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=XBChDQXiNKs" target="_blank">
+                    <img src="https://i.ytimg.com/vi/XBChDQXiNKs/hqdefault.jpg" alt="SALEN MAS PRUEBAS DE LA IMPLICACIÓN SIxNISTA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video presenta una teoría de conspiración sobre el asesinato de Charlie Kirk, argumentando que su muerte fue un acto premeditado debido a su creciente crítica a Israel y al sionismo. El presentador cuestiona la narrativa oficial, señalando numerosas inconsistencias en la investigación, desde la identificación del tirador hasta el hallazgo del arma. Se sugiere que fue una advertencia para otros disidentes y se acusa a intereses sionistas de estar detrás del crimen. El video expone cómo Kirk pasó de ser prosionista a un crítico, lo que le habría costado la vida.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Sospechosa Identidad del Tirador: ¿Son el Mismo Hombre? <a href="https://www.youtube.com/watch?v=XBChDQXiNKs&amp;t=40" target="_blank">[00:40]</a></h3>
+
+<p>El video inicia cuestionando la identidad del presunto tirador, mostrando imágenes que revelan notorias diferencias físicas entre el sospechoso captado en video y el detenido. Se enfatiza la falta de parecido en rasgos faciales clave como los labios y la nariz, sugiriendo un engaño o chapuza en la identificación.</p>
+
+<h3>El Arma del Crimen: Un Montaje Imposible en el Bosque <a href="https://www.youtube.com/watch?v=XBChDQXiNKs&amp;t=115" target="_blank">[01:55]</a></h3>
+
+<p>Se critica la inverosímil aparición del fusil del crimen, encontrado perfectamente ensamblado en una caja de cartón en un bosque, a 600 yardas del lugar. El presentador subraya las dificultades de armar y desarmar un rifle de cerrojo rápidamente y que este cupiera en la pequeña mochila del tirador.</p>
+
+<h3>Un Tirador "Izquierdista" a la Medida Política <a href="https://www.youtube.com/watch?v=XBChDQXiNKs&amp;t=258" target="_blank">[04:18]</a></h3>
+
+<p>El video expone cómo el perfil ideológico del joven sospechoso, supuestamente desviado a la izquierda radical antes del tiroteo, encaja con la narrativa de la administración Trump. Se insinúa que esta construcción beneficia a agendas políticas específicas, usando el "muerto como quiere".</p>
+
+<h3>Charlie Kirk: De Leal a Crítico de Israel, Sentencia de Muerte <a href="https://www.youtube.com/watch?v=XBChDQXiNKs&amp;t=438" target="_blank">[07:18]</a></h3>
+
+<p>Se detalla la evolución de Charlie Kirk de ser leal a Israel a un crítico abierto, mencionando su temor a ser asesinado y sus críticas a Epstein como agente del Mossad. Esto culmina en su trágico asesinato, con una rápida reacción de Netanyahu que genera aún más sospechas sobre el motivo.</p>
+
+<h3>El Avión de Huida y la Repetición de Purim: Un Asesinato Mafioso <a href="https://www.youtube.com/watch?v=XBChDQXiNKs&amp;t=959" target="_blank">[15:59]</a></h3>
+
+<p>El presentador concluye que la muerte de Kirk fue un asesinato "mafioso" por ser un patriota que se oponía a los intereses sionistas, comparándolo con la fiesta del Purim. Se revela que el supuesto asesino huyó en un avión propiedad de un donante de una secta ultraortodoxa, que desactivó su sistema de monitoreo.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=0" target="_blank" class="timestamp">[00:00]</a> ¿Qué tal, gente? ¿Sabéis que hice este vídeo en el canal secundario? Tengo varios canales de YouTube, para que lo sepáis. Hice este vídeo y Israel lo volvió a hacer y mucha gente se ha enfadado, muchas respuestas. Aproximadamente ha tenido un 8% de dislikes, no es una burrada. Pero sí, mucha gente venía a los comentarios diciendo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=20" target="_blank" class="timestamp">[00:20]</a> John, que se ha demostrado ya que era un tío de Sagitario, ¿no es un fascista y un imbécil antisemita, John? Un montón de comentarios de ese tipo que he ido bloqueando porque encima insultan los normales estos. Hombre, te puedo insultar yo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=32" target="_blank" class="timestamp">[00:32]</a> Pero Tommy no, un poquito de bloqueo. Y básicamente era este síndrome de Estocolmo basado en eso de... Escucha que me han dicho mi papá que el Papá Noel existe. Y todos tienen que creerlo, ¿no? Los medias dicen que ha sido un tirador. Que bueno, que me tasas de verdad. Pero todo pinta que es más falso, más mentira. A ver, es todo muy raro, ¿no? Porque este era el sospechoso. Difundieron estas imágenes. Este es el tirador. Este es el hombre...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=55" target="_blank" class="timestamp">[00:55]</a> que grabaron que accedía al edificio, subió a la azotea, disparó y luego saltó de la azotea hacia el suelo. Un salto que dices, bueno, un pedazo de salto, pero bueno. Y este es el detenido. Y no han desmentido nada en relación a la información. A uno de hoy está confirmado que este fue el tirador y este es el tirador que han detenido, que se entregó. Bueno, le entregan los padres, que para eso cobran los 100.000 dólares de recompensa. Y claro, es por eso que le han entregado al niño.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=86" target="_blank" class="timestamp">[01:26]</a> Pero vamos a ver, ¿cómo me dices que son el mismo, tío? Si no se parecen en nada. Tú ves los labios, que no tiene nada que ver. Uno tiene labio ninguno que parece... No sé, que no tiene labio y otro tiene un labio gordo como el mío. ¿Veis la nariz que no tiene nada que ver? El agujero que tiene especialmente izquierdo, bueno, su derecho, que es muy amplio. Y el chico, esto tiene prácticamente cerrado. Con el dedique desviado. Sí, sí, tiene gafas de sol para que no se vean los ojos. Tío, por favor. Dejándola a la mandíbula, que parece bastante más grande.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=115" target="_blank" class="timestamp">[01:55]</a> Pero, hostia, los labios. ¿A quién quiere engañar? La chapuza. Luego tenemos esta información que encontraron el fusil en un bosque totalmente ensamblado. Atención que esta es la foto de la policía, ¿eh? Cuando llegaron al sitio dijeron ¡Oh! Hemos encontrado fusil ensamblado en una caja de cartón. Detalle, ¿no? Faltaba el lacito ahí de... Y una nota así muy... Pues muy educado, ¿no? Con los agentes y dicen ¡Mira ese agente! Le dejo aquí el fusil. No lo rompa. No saca daño, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=142" target="_blank" class="timestamp">[02:22]</a> Pero bueno, aquí el supuesto tirador no llevaba fusil. Bueno, llevaba desmontado en la mochila, se supone. Subió arriba y lo montó. Muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=151" target="_blank" class="timestamp">[02:31]</a> Aquí tenemos este usuario ultrafascista, neocomunista y todo eso. Bueno, es Stalin, versión tránido, que dice lo siguiente. Hay tantos agujeros en esta trama que esto es una locura. Dicen que era un rifle Mauser de cerrojo, bla, bla, bla, bla, que no es fácil desmontar ni volver a montar. A ver, gente, habrá que confirmar si realmente es un Mauser de cerrojo o qué es. Yo, ya sabéis qué armas, no tengo ni idea. Bueno, sé un poco porque juego Call of Duty, pero no creo que sea referencia válida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=181" target="_blank" class="timestamp">[03:01]</a> Se necesitan herramientas, par de apriete, experiencia y tiempo. Esto no es un set de Lego. Desconozco, ya me confirmáis qué opináis vosotros. Incluso desarmado, este rifle no cabía en la pequeña mochila que llevaba el tirador, ni de cerca. Luego se le ve huyendo el lugar, sin rifle visible. Cierto, esto es verdad. Nada en sus manos. Sin embargo, el rifle aparece mágicamente a 600 yardas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=206" target="_blank" class="timestamp">[03:26]</a> que no sé cuánto es, puede ser bastante. Completamente ensamblado, guardado una caja en el bosque. Es un tío, pues bueno, el detalle de dejarlo ahí ensamblado, en la caja. Faltaba la nota. Dirijados a agentes para que lo encontraran. Debemos de creer que volvió a montar el rifle en el techo. Tomó la foto. Lo desmontó de nuevo. Escapó mientras todos estaban en pánico. Y en el bosque lo montó de nuevo. Lo abandonó limpiamente, sin ser visto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=233" target="_blank" class="timestamp">[03:53]</a> Tenemos dos chivos expiatorios entre la multitud que distraen a la seguridad mientras escapa. Sí, lo del anciano judío ese es un poco raro, ¿eh? El hombre ese gritando ahí ¡Mátame, mátame! Según informan, este hombre que digo yo es un habichuelo de más de 60 años, lo digo así para que YouTube no se enfade, que apareció en un documental sobre el 11S. ¡Qué raro, tío! La huella del disparador en redes sociales. ¿Borrada? Esto no entiendo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=258" target="_blank" class="timestamp">[04:18]</a> Bueno, aquí pues razona el perfil de la familia, que no cuadra según este usuario, que era una familia conservadora, militar, republicana, padre policía, pero que el joven se desvió hacia la izquierda justo antes del tiroteo, ¿no? Y encima dice, no, no, te conocí a un tránido. Sí, es una prueba muy importante también, es un perfil ideológico. Encaja a perfección con el mensaje de la administración Trump que dice que la izquierda radical es peligrosa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=288" target="_blank" class="timestamp">[04:48]</a> Voy a Trump a detenerla. Bueno, a mí me parece más que aquí todo el mundo se aprovecha de su negocio, de sus intereses y cada uno con el muerto lo usa como quiere y Trump también. No digo que sea el motivo del asesinato pero sí que todo el mundo está haciendo su negocio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=306" target="_blank" class="timestamp">[05:06]</a> No pueden faltar nuestros amigos espirituales hermanos espirituales perdón</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=335" target="_blank" class="timestamp">[05:35]</a> El señor Pancho diciendo que... Diciendo que fue una persona que estaba de espaldas con una micropistola superpotente y lo mató de espaldas. Como si fuera Ronaldinho marcando un gol. Bueno, tonterías de estas. Siempre pasa lo mismo. Siempre sale gente diciendo tonterías, que si era un holograma, que si era un zombie y tonterías de estas. Ni caso. La gente está haciendo memes sarcásticos, ¿no? Comparándolo con...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=360" target="_blank" class="timestamp">[06:00]</a> Lee Harvey Oswald, que le atribuyó un asesinato de Kennedy. En este caso no hay una bala mágica, que va rebotando. Un tiro directo. Pone que decir que la Stalin mujer tiene un punto de guapa. Aquí tenemos el ex miembro del gobierno de la primera administración de Trump diciendo al Bannon ¿Puede un chico como ese subir las cales con un arma, armarla y disparar? Según él...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=382" target="_blank" class="timestamp">[06:22]</a> Yo no lo sé, pero bueno, este tiro es muy difícil para un asesino profesional. ¿Dónde está la información? ¿Dónde está el informe? ¿Nos van a engañar? ¿Algo se está gestando? Y es más grande que todos nosotros. Bueno, aquí dice este hombre que es un tiro muy difícil. Ya sabemos que en sí ya salen tiradores profesionales en internet, en mi comunidad, diciendo que ellos hacen este tiro, pero haciendo un tirabuzón con patada giratoria y sin mirar, con el joven dado, te pecan cuatro tiros, uno en cada ojo del...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=408" target="_blank" class="timestamp">[06:48]</a> Yo veo que hay muchos chocos por la vida, así que realmente no creo que sea tan fácil matar a Sharky como dicen. Hay otra teoría, que pasa que no quiero poner las imágenes del pobre hombre como lo matan, en el que la bala rebota en el chaleco y se incrusta en el cuello. No tengo ni idea si es verdad o no, porque realmente pega un impacto en el pecho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=429" target="_blank" class="timestamp">[07:09]</a> Y parece que realmente le rebote, ¿no? Parece que por cómo le golpea el pecho. Pero por otro lado también pienso, hombre, si te dan el chacado antibalas en el pecho, la hostia que te pega para atrás te tumba al suelo, ¿no? No sé, muy raro. No lo puedo saber. Que alguien muy cercano a Charlie Kirk me dijo que Charlie piensa que Israel lo va a matar. Mira lo que dice Jackson Hink, que le hace un resumen más o menos de los últimos meses de Charlie Kirk. Dice, solía ser leal a Israel.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=459" target="_blank" class="timestamp">[07:39]</a> Luego dijo él, porque él hablaba mucho y salía mucho en podcast y tal, temía que Israel lo mataría. Después dice, empezó a criticar levemente a Israel. Después dijo que Epstein era un agente del Mossad. Luego dejó que antisionistas hablaran en sus eventos. Los medios sionistas comenzaron a atacarlo. Alguien le disparó a su yugular a 200 metros de distancia. Netanyahu tuitea en cuestión de minutos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=488" target="_blank" class="timestamp">[08:08]</a> Un chivo expiatorio es arrestado y se hace el culpable. El asesino escapa sin dejar rastro. Netanyahu tuitea un mensaje más largo. Algo me dice que no nos van a decir la verdad sobre quién mató a Charlie Kirk. Además, Netanyahu dijo, rezando por Charlie Kirk, tiene en este momento 50 millones de vistas y casi 15 mil comentarios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=509" target="_blank" class="timestamp">[08:29]</a> Ahí está. 50 millones de vistas, 13.000 comentarios en este momento, todos atacando a Netanyahu diciendo tú mataste a Charlie Kirk. Es lamentable, lamentable el asesinato de este joven pro-arma, un tipo que defendía que la gente tenga armas libremente en su país. Bueno, este es otro tema, ¿no? Mucha gente dice Peayán, pero acusas, haces lo mismo que criticas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=533" target="_blank" class="timestamp">[08:53]</a> No hay indicios para acusar a Israel. Hombre, yo creo que te estoy dando bastantes indicios y muchos más que cuando hice el vídeo anterior donde yo decía lo que dije y vosotros decíais que no hay indicios para afirmar que a Israel. Hombre, había muchos indicios para afirmar que a Israel y no había ningún indicio para afirmar que era pues un...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=554" target="_blank" class="timestamp">[09:14]</a> Lobo solitario radicalizado de la izquierda. Ahora ya hay, porque evidentemente están construyendo las pruebas, bastante patrañas las pruebas, hay que decirlo. Antes tenía un personaje y van diciendo cosas como pruebas impepinables, como que tuvo contacto con un tránido, ya que es una prueba definitiva de que es radical izquierda. Pero hasta cuando yo puse el vídeo no sabía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=579" target="_blank" class="timestamp">[09:39]</a> encontrado nada o no habían construido las pruebas o no habían presentado las pruebas y no había nada que pudiera inducir a creer que fuera por motivos ideológicos de izquierdas. La realidad, y lo podéis comprar vosotros, que Charles Kirk se fue, no se puede decir radicalizando, fue perdiendo fe en Israel, volviéndose muy crítico con la situación política en Estados Unidos y</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=607" target="_blank" class="timestamp">[10:07]</a> Se fue dando cuenta que Estados Unidos estaba totalmente vendido a Israel a una manera que él no imaginaba. Todo estalló con la guerra con Irán, donde, ahora lo veremos, tuvo una confrontación con Trump. Y lo más triste de todo esto, para mí, es que han asesinado, aparte que objetivamente sería buena persona, un chico joven, recordad que tenía 31 años. Y aunque es una vida...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=634" target="_blank" class="timestamp">[10:34]</a> Tengo que decirla. Hace poco era un veinteañero. La gente aquí está juzgando y parece que no quiere entender que hace poco este tío tenía veinte años. Un veinteañero. Y está claro que a veces decía cosas con muy poca visión estratégica. Y eso sí. Puedes sacar miles de chico porque lo que hacía era hablar todos los días en público. Era un tío que hablaba, hablaba, hablaba. Debatía, debatía, debatía.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=663" target="_blank" class="timestamp">[11:03]</a> Y al negociador, al que hacía los debates, el que dialogaba, lo han matado. Pero lo triste es que han matado un patriota, una persona que cuando empezó a darse cuenta de lo vendida que estaba la clase política al interés sionista. Primero, confrontación con Donald Trump. Segundo, inmediatamente, los donantes de los partidos, los jerarcas sionistas, atacándole en privado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=694" target="_blank" class="timestamp">[11:34]</a> Luego él ya empezó a temer por su propia vida debido a la agresividad de los sionistas contra él, como ha explicado gente cercana. Y finalmente, de una manera absolutamente mafiosa, lo han asesinado. Primero, es triste que maten a un tío por ser patriota, recordando la fiesta del Purín, cuando el pueblo de Israel asesinó al consejero del rey Asuero, Alamón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=726" target="_blank" class="timestamp">[12:06]</a> por ser un hombre incorruptible, fiel a su pueblo, que defendía sus intereses. Y lo mataron. Así que básicamente estamos viendo un poco la repetición del Purim. Han matado a Charles Kirk porque era el único que empezaba a abrir los ojos y el único que empezaba a mostrar una actitud crítica contra el supremacismo sionista que tiene sus tentáculos infiltrados en todos Estados Unidos y en todos los congresistas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=753" target="_blank" class="timestamp">[12:33]</a> Y no lo repitáis más veces en los comentarios. ¿Por qué lo matan? No hay sentido. Habrá que matar a otros. Cállate, hombre. Tú antes lógico lo estoy diciendo. ¿No lo entiendes, Caceto? Uy, qué tonto más tonto, tío. Coño, que este tío tiene un futuro político. Este tío era de los políticos más activos, más activistas, muy joven y aunque tiene un futuro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=774" target="_blank" class="timestamp">[12:54]</a> Y era muy influyente. Citando a Fepost, según un amigo de mucho tiempo, Charles Kirk rechazó una oferta de financiación de Bibi Netanyahu en sus últimos días, llegando a ver a Netanyahu como un matón que buscaba arrastrar a Estados Unidos a conflictos extranjeros. Hombre, pues sí, porque con el 11-S en Netanyahu no se cortó un pelo en mostrar prácticamente euforia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=797" target="_blank" class="timestamp">[13:17]</a> Y luego fue al Congreso Netanyahu a vender la moto diciéndoles la guerra en Irak es una cosa que os interesa mucho, de verdad, os lo garantizo. Ya estuve que sirvió. Bueno, para Israel, sí. Cuando Kirk advirtió personalmente al presidente Trump sobre atacar a Irán, por supuesto que está tanto en contra, Trump le ladró, quiere decir que le pegó cuatro gritos y cerró conversación de manera inflexible, sin negociar nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=823" target="_blank" class="timestamp">[13:43]</a> Kirk quedó asustado por la respuesta de los líderes y partes interesadas, se refiere a judíos, sobre la oposición que tenía Kirk respecto a la intervención en Irán. Después de que Kirk recibió a Dave Smith, Megalyn Kelly, Tucker Carlson en el SAS de TPUSA, quienes criticaron duramente la campaña de Israel en Gaza y vincularon a Epstein con el Mossad, Kirk fue inundado con mensajes de texto furioso de donantes sionistas. Recibió verdadero acoso de los donantes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=853" target="_blank" class="timestamp">[14:13]</a> los peces gordos, básicamente. Esto lo confirma el Tucker Carlson, este más vale que se busque también seguridad, aunque este no es político, este no tiene futuro como político, entonces no es tan importante ni tan aleccionador a su muerte si lo hicieran.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=869" target="_blank" class="timestamp">[14:29]</a> Carson dijo que después de que Charlie Kirk fuera a Casablanca para instar al presidente Trump a no atacar Irán, recibió insultos masivos y mensajes intensos de sus donantes y se ganó muchos enemigos reales. Se convirtió automáticamente en un apestado en el Partido Republicano. Seguimos con las fuentes que confirman que Kirk quedó impresionado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=886" target="_blank" class="timestamp">[14:46]</a> cuando intentó confrontar a Trump de que era un pelele o que estaba sometido a una enorme presión de una potencia extranjera como a un nivel nunca antes visto. Se dio cuenta que Estados Unidos era un satélite de Israel. Atención a este vídeo. La misma gente que nos dijo que Irak era una amenaza, que los talibanes eran una amenaza, es la misma gente que nos dice que Irán es una gran amenaza. Charlie Kirk.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=910" target="_blank" class="timestamp">[15:10]</a> Todos sabemos, cuando dice la gente, como decía él, todos sabemos muy bien a quién se refieren. Se refieren a los judíos sionistas. Fijaos el contraste como el perfil político de Charles Kirk pasó de ser un prosionista. Como son todos los estadounidenses, perdón, todos los políticos estadounidenses, me diréis, no, Bernie Sanders no es sionista.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=933" target="_blank" class="timestamp">[15:33]</a> ese tío es pura fachada, a la hora de verdad, lo han confrontado en actos públicos para obligar que condenar al genocidio de Gaza y él titubeando no lo es. Lo han puesto a veces entre la espada y la pared a Bernie Sanders y en el fondo es un sionista, solo que hace un papel para darle un aspecto de democracia a Estados Unidos. Bueno, él es un jodido y probablemente sea también un sionista.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=959" target="_blank" class="timestamp">[15:59]</a> Esta información habré que contrastarla, pero aparece en varios medios de comunicación. El avión de escape del presunto asesino de Charlie Kirk es propiedad de un donante, Shabat Lubavitch. El Shabat Lubavitch, bueno, es un movimiento ultraortodoxo que nació en Ucrania y que tiene muchísimo peso en Estados Unidos y que Javier Milley también tiene mucha fe con esta gente. Fue el fundador, Schneur Zalman Del Yadi, como se pronuncie...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=985" target="_blank" class="timestamp">[16:25]</a> Este rabino el que explicaba que el movimiento pélvico que se hace al rezar, según este rabino fundador, es cuando se fornica con la emanación femenina de Dios, que es la Shekinah. Para que veáis que, según cómo se interpreta esta religión, es bastante deleznable todo eso, ¿no? Todo tiene un tono así pornográfico, sexual y material. Bueno, un poco chungo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1014" target="_blank" class="timestamp">[16:54]</a> Pues según esta fuente, que se está haciendo mirar esta información, el asesino huyó en un avión propiedad de esta secta ultraortodoxa que inmediatamente desactivó su sistema de monitoreo de ubicación. El avión es propiedad de Derek Maxfield, rico ronante del Shabbat Luavich de Utah. Joder. Pues si es verdad. Pero vosotros fijaros lo que os decía. Aquí está el presunto asesino. Fíjate tú la altura de la que salta el tío, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1041" target="_blank" class="timestamp">[17:21]</a> que este no es un sojas o un furro de estos frikis que está todo el día jugando a la consola como ese chico ese que no tiene perfil militar y baja con el pie aquí y salta aquí que hay o dos hay tres metros no tres metros y medio creo que hay o qué contáis cuatro metros vosotros joder yo hago eso y me salen las tibias por las orejas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1068" target="_blank" class="timestamp">[17:48]</a> Corre, corre, que tienes que montar otra vez el fusil y dejarlo en el bosque con la cajita y el acito, no te olvides. No es perpento, madre mía. Y os quiero dejar un mensaje del Pedro Retretes, que aunque tenga nombre de Inodoro y es un poco abraza farolas, todo lo que conocemos ya, pues creo que tiene mucha razón en lo que dice, porque entiendo que Tonto no tiene un pelo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1089" target="_blank" class="timestamp">[18:09]</a> Y si es militar, de algo sabe de lo que habla, creo yo. Si se quiere hacer desaparecer a alguien, primero le puedes provocar un infarto. Luego le puedes provocar un accidente de automóvil. O simplemente decir que le han intentado robar y que le matan. Vale, le han pegado dos tiros. No, no. Esto ha sido hecho público para que precisamente recorriera todo el mundo. Y que a muchos de estos que tenemos voces alternativas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1113" target="_blank" class="timestamp">[18:33]</a> A gente le dé miedo. Y oye, si lo han hecho con este hombre, que tenía 6 millones de seguidores solamente en Twitter, ¿qué no pueden hacer con cualquiera otro? Y claro, es que este hombre últimamente estaba haciendo declaraciones en vídeos que yo entiendo que empezaban a preocupar a mucha gente. No ha habido ninguna reacción en las calles. ¿Tú te imaginas que esto hubiera pasado contra uno de los grandes dirigentes del movimiento MeToo o Black Lives Matter? Ahora mismo estarían quemando las calles de todo Estados Unidos. No te pierdas el vídeo completo en el enlace.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1143" target="_blank" class="timestamp">[19:03]</a> Las hojas, no me pongas la cara de Flanders que me pones enfermo. Bueno, ¿qué estaba diciendo? Eso sí es asqueroso, es triste cómo se utiliza esto políticamente y cómo todos los tontos y la basura progres que son escoria celebran que maten al pobre hombre este. Toda esta inmundicia progres son tan tontos que no entienden que aplaudiendo porque maten a un tío lo que están haciendo es que para el asesino, para las élites...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1171" target="_blank" class="timestamp">[19:31]</a> Matar disidentes no es que suponga barato. Es que resulta impune y encima es aplaudido. Mañana pueden matar otro político porque no se ajuste a la agenda de ellos y la gente va a aplaudir. Bien, es que era un facha. Y luego mataron a otro. Bien, es que eran comunistas. Era un bolivariano. No entienden que lo que están haciendo es favorecer intereses de globalistas que quieren gobernar países</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1201" target="_blank" class="timestamp">[20:01]</a> Siempre en contra de los intereses de los pobres trabajadores, de las familias, de la buena gente. Aquí se ve la calidad humana de tanta gente que son prescindibles para la sociedad directamente o sencillamente les tienen que coser la boca para que dejen de hablar, quitarse privilegio y cortar la lengua. Charlie Kirk, mentiroso, racista y de magojo. Bueno, ¿y tú? Habría que juzgarte. ¿Y qué eres tú como ser humano? Igual es peor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1224" target="_blank" class="timestamp">[20:24]</a> Y en vez de un tiro en el cuello habría que despejarte vivo y darte como de comer a los perros con tu carne, ¿no? Es que esta gente no sé de qué va, de verdad. Encima, el Charlie Kirk era un moderado conservador. Eso sí. Supremacistas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1240" target="_blank" class="timestamp">[20:40]</a> De Israel, del gobierno, que siempre están hablando del exterminio, del gazatíes y que con un morbo pornográfico sobre la muerte, no veo que dediquen vídeos. Ya sé que a comparación son estúpidas, pero me indigna que existan políticos que tengan impunidad a la hora de hacer polología de genocidio. Bueno, aquí pone...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1257" target="_blank" class="timestamp">[20:57]</a> Charlie Kirk tenía una opinión bajísima de los mexicanos. Pues te jodes. Haber nacido finandés, qué que te diga, tío. Hostia, este egocentrismo de verdad cansa. A vosotros que hay bien los estadounidenses, no, a verdad. Pues ya está, tío, que es mutuo. Y aquí está esa cita que sacan de contexto siempre, que decía Charlie Kirk...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1274" target="_blank" class="timestamp">[21:14]</a> desafortunadamente, es decir, pese, vale la pena asumir el costo de algunas muertes por tener armas de fuego. Y entonces todo el mundo, defendía armas, pues toma muerto por las armas, ¿no? O sea, no va a empamar la gentuza esta. No hay que tener tanta empatía o ser tan inteligente para entender.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=XBChDQXiNKs&t=1289" target="_blank" class="timestamp">[21:29]</a> que él creía que la gente es libre si tiene armas, ¿no? Y si muere gente por armas, pues igual que los coches provocan muertes. Hostia, la gente es verdaderamente basura, una gran proporción. Por eso, bueno, esta es una filosofía más extensa, un pensamiento extenso, pero por eso no soy demócrata, y también por otros motivos. Nada, gente, esta es mi opinión. Hasta aquí el vídeo. Un saludo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-dQfkx2iHcVY">
+            <h2>CAMBIO MI ENTRENAMIENTO (solo hago 1 serie)</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 14/09/2025 17:42</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=dQfkx2iHcVY" target="_blank">
+                    <img src="https://i.ytimg.com/vi/dQfkx2iHcVY/hqdefault.jpg" alt="CAMBIO MI ENTRENAMIENTO (solo hago 1 serie)" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video documenta un ambicioso desafío de entrenamiento de piernas, centrado en una serie continua de 30 minutos en la máquina de prensa. El creador se prepara mental y físicamente, realizando otros ejercicios y calculando repeticiones antes de afrontar este reto personal. Tras completar la extenuante serie, comparte sus sensaciones de agotamiento y satisfacción por haber superado la prueba. Finalmente, el video cierra con una escena inesperada cuidando a una de sus gallinas.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Reto Extremo: 30 Minutos de Prensa <a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&amp;t=64" target="_blank">[01:04]</a></h3>
+
+<p>El creador del video revela su ambicioso desafío: completar una serie ininterrumpida de 30 minutos en la máquina de prensa de piernas. Explica la estrategia de ajuste de peso inicial y la importancia de la preparación física con electrolitos para la exigencia del reto. Anticipa la dureza mental y física de la prueba, que será una experiencia personal.</p>
+
+<h3>¿Cuántas Repeticiones en 30 Minutos? <a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&amp;t=280" target="_blank">[04:40]</a></h3>
+
+<p>Antes de iniciar la extenuante serie principal, el equipo discute el número estimado de repeticiones que el creador logrará en 30 minutos. Se plantean cifras entre 500 y 900, destacando la dificultad de mantener la cuenta y el ritmo durante tanto tiempo. El creador estima unas 600-750 repeticiones.</p>
+
+<h3>¡La Locura Comienza! 30 Minutos en la Prensa <a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&amp;t=429" target="_blank">[07:09]</a></h3>
+
+<p>Tras una preparación minuciosa y visiblemente nervioso, el creador inicia la serie de 30 minutos en la prensa de piernas. El cronómetro arranca y se observa su concentración y el esfuerzo inicial para mover el peso, marcando el inicio de un desafío mental y físico brutal.</p>
+
+<h3>El Final Agonizante: Victoria en la Prensa <a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&amp;t=686" target="_blank">[11:26]</a></h3>
+
+<p>Después de un esfuerzo sobrehumano, el creador finaliza la serie de 30 minutos, mostrando claros signos de agotamiento extremo y sudoración profusa. Se celebra la consecución del reto, destacando el alivio y la satisfacción por haber superado la barrera mental y física, aunque menciona que fue "súper largo".</p>
+
+<h3>Del Gym a las Gallinas: Curando a Blanquita <a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&amp;t=840" target="_blank">[14:00]</a></h3>
+
+<p>Tras reflexionar sobre la agotadora experiencia del reto, el video cambia abruptamente de tema para mostrar al creador cuidando a una de sus gallinas, "Blanquita", que está enferma. Se le aplica antibióticos en sus patas hinchadas y se discuten los detalles de su recuperación, incluyendo la necesidad de desechar sus huevos.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=0" target="_blank" class="timestamp">[00:00]</a> He dormido mal y todo por esto que vamos a hacer. Y esto lo hago por puro disfrute. Vale, vale. Estoy cagadísimo, tío. Una puta. Tres, dos, uno. La sauna me ha molado mucho. Está... Madre mía.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=28" target="_blank" class="timestamp">[00:28]</a> Muy buenas a todos chicos, estamos en un nuevo vídeo, estamos en el gimnasio. Me toca pierna, luego toca sauna. De hecho estoy muy rabia con la sauna, luego lo cuento bien también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=36" target="_blank" class="timestamp">[00:36]</a> De hecho, bueno, sigo procesando. Tenemos al Nuno. ¿Qué tal? Siempre. Ahora vendrá Tony, estaba acabando unas gestiones. Toca pierna. Tengo que decir una cosa. Siempre estaba con él. Guau, quiero hacer una serie de 40 minutos. Quiero hacer una serie de 40 minutos. Lo primero es que disfrutéis entrenando, ¿vale? Y esto lo hago por puro disfrute. Me gusta siempre entrenar series muy largas. Siempre estaba con... No la coña, pero eso que lo dices, pero no sabes cuándo lo vas a hacer tal. Y dije, tío, si lo hacemos esta semana... Yo en ningún momento que lo tome como coña, la verdad. Ya, pero no es como coña. Es de eso, que lo quieres hacer, pero nunca lo sitúas en el tiempo, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=64" target="_blank" class="timestamp">[01:04]</a> Y le dije, tío, ¿si lo hacemos? Le dije, pero 40 minutos no quiero hacer la serie. Le dije, 30. Vamos a hacer 30 y vemos cómo va. De hecho, él ha estado pensando en el tema de los pesos, cómo ajustarlos, porque no es igual que una serie normal, quizá como... Como sabemos que va a ser una serie muy larga, no tiene tanto sentido su... O sea, queremos hacer con, al principio, poco peso, entre comillas, para alargar más con peso. Porque va a haber un momento que a partir del minuto 3 no va a haber peso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=87" target="_blank" class="timestamp">[01:27]</a> Entonces vamos hasta el minuto 5. Claro, al menos. Y luego él me puede forzar las excéntricas y más. Lo que vamos a hacer es, me he preparado electrolitos de maniproteín, ¿vale? Me he preparado sal, me he preparado agua. Conforme acabe, me voy a tomar porque si no me va a quedar acalambrado totalmente y me va a quedar seco, ¿vale? Entonces, eso es uno de los puntos muy importantes de esto. Y vamos a hacer todo lo previo, todos los accesorios los vamos a hacer previamente. Es decir, todo lo que son ejercicios...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=110" target="_blank" class="timestamp">[01:50]</a> Extensión de Quaid dice, disculpe, ahora el adductor gemelo. Lo vamos a hacer antes y luego hacemos una única serie de prensa. ¿Vale? Vamos a hacer dos series de cada. Sí. Y luego una única serie de prensa. Literalmente una. Va a durar 30 minutos. Ahora lo vamos a hacer con un cronómetro. A mí me hace ilusión. O sea, esto ya es por jugar. Nunca he hecho una serie tan larga. Yo creo que lo más largo que he hecho han sido 10-12 minutos de serie con Milos. Que ya son mofe. Es una puta locura. No, pero ¿sabes lo que pasa? Lo que pasa es que hacíamos superseries. Yo creo que cuando fue tan larga era superseries. Entonces, como combinábamos con Extensión de Quaid dice, cosas así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=140" target="_blank" class="timestamp">[02:20]</a> es de prensa pero que igualmente una serie de cinco minutos ya es un mozo. Tienes que hacer esos cinco minutos de serio, que ya es. De eso sí, lo hemos hecho de forma más habitual y más o menos tenemos calculado que cinco minutos todavía puedes tener peso porque si no, ya no tiene tanto sentido. Pero ahí vamos a probar, vamos a jugar, vamos a disfrutar. A mí me gusta este tipo de retos como un poco personales. Y también le paso a revisar a Fran. Estaba nervioso y todo esta noche. He dormido mal y todo por esto que vamos a hacer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=166" target="_blank" class="timestamp">[02:46]</a> No nervioso, pero de ganas. Por cierto, una de mis casitas favoritas esta. Muy guapa, el nuevo drop. Yo lo dejo por ahí para que lo sepáis. Vamos para abajo. Ah, bueno. Y sal. Importante. Ahora vamos a hacer. Adductor, femoral, extension coices y luego ya la prensa. Cinco discos en un lado y cuatro en otro. No, meteré cuatro. Estaba acá descargándolo, pero justo has bajado y tal. Tenemos cuatro y cuatro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=194" target="_blank" class="timestamp">[03:14]</a> ¿Por qué? Porque el otro día lo hicimos con seis, cuando hicimos las drop sets. Las primeras repeticiones salieron 8 o 10, si no me equivoco. No nos interesa eso, ¿sabes? Que te fundas y cada dos minutos ya estemos sin peso, hasta hacer 30 minutos sin peso. Mejor hacer 30 repesos, ¿sí? Claro. Alargar cada dropeada todo lo que podamos dentro de la locura que vamos a hacer. Pues intentar meter un poco de cabeza. Se me está haciendo el brazo de pincharnos, lo juro. Es un nofero.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=219" target="_blank" class="timestamp">[03:39]</a> Pero lo estábamos hablando fuera de cámaras, que yo me comprometo a hacerlo, 100%. Sí, sí, le he dicho que, porque él me ha dicho, wow, bien mola esto, le he dicho, si quieres un día te lo hago yo, tío. Claro, esto al final necesitas una persona que trabaje 100%. Ojalá hacemos lo que haríamos quizá luego, o otros ejercicios, que es que realmente luego no vamos a poder hacerlos ni de coña.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=238" target="_blank" class="timestamp">[03:58]</a> O sea, gemelos siempre lo hacemos al final. Pero si hacemos esto, luego no voy a rendir nada en lo otro. Y en cambio, sí que hacer lo otro me lo va a preparar un poco para esto. Me lo va a calentar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=277" target="_blank" class="timestamp">[04:37]</a> Una serie más de gemelo y empezamos. Te voy a hacer una pregunta y quiero que todos, por favor, tejéis en los comentarios antes de que pase cuánto es, ¿vale? ¿Cuántas repeticiones dices que voy a hacer? Repeticiones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=289" target="_blank" class="timestamp">[04:49]</a> Fuá. A ver, aprox por minuto. Las primeras van a ser menos. Ponle unas veinte de media, quitando que luego vas a parar, tal, no sé qué. Contando que luego vas a parar, que habrán algunos minutos que serán menos, tal. O sea, hablas de series. Veinte series. No, no, no. Repeticiones, repeticiones. Ah, vale. Yo digo… Voy a poner una de esto. Yo digo entre ochocientas y nuevecientas. ¿Tú? Quinientas ochocientas, por ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=318" target="_blank" class="timestamp">[05:18]</a> Joder, sí que me da la escala más grande. 500-800. Bro, es que depende si vamos a parar tanto o no. Porque yo cuento eso, que la media van a ser de 20 por minuto. O sea, las primeras van a salir más por minuto. Y ahora estoy picando. O sea, carayos. O sea, las primeras van a salir más por minuto. Pero luego, entre el campanegos y tal, habrá minutos que... Al igual, ¿sabes? Entonces, la media, creo que van a ser entre 20 y 30 por minuto. Ya veo pocas, tío. Pero juegas de sonre. Sí. De hecho, te voy a calcular exactamente cuántas repeticiones vas a hacer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=350" target="_blank" class="timestamp">[05:50]</a> Es muy complicado. Tranquilo. Yo… Lo voy a contar. Las… Las que falle no las cuentes. O sea, el fallar que es fallar para ti. Ya, no sé. Yo contaré las… ¡Cabrón! Una media de 25 repeticiones por minuto son 750 repeticiones. Ah, bueno. Entre 700 y 750 repeticiones. Eric, te toca contar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=374" target="_blank" class="timestamp">[06:14]</a> Bueno, yo confío en ti, porque como no lo voy a revisar… Y creo que nadie se ponga a revisarlo. ¿Sabes? Yo no. Te lo puedes inventar, casi. Le hago cinco calcetillos y ya está. Ah, no, sí, sí, está. Sí. Esto estoy cagadísimo, tío. ¿Ready o no? No, nada, tío. Pero cuando estás pensando hay que estar ready. No pensártelo mucho… Y pa'lantes. A ver, aquí…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=401" target="_blank" class="timestamp">[06:41]</a> Le vas a poner un crono ahí, ¿no? Sí. Para que le de más ansiedad. Para que controles. Sí, prefiero saberlo. Sí. Yo prefiero saberlo. Ya yo tampoco. Pero 100% eh. Bueno, ahora le doy por otros. Sí. ¿Vas a hacer un arrepente? Un arrepente para ver si no me extiendes. Quiero mucho a todos. Gracias por tantos años de contenido. Tanto apoyo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=429" target="_blank" class="timestamp">[07:09]</a> Let's go. Tres, dos, uno… ¡Va! ¡Va! ¡Arriba!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=462" target="_blank" class="timestamp">[07:42]</a> ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! Tienes base. ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=493" target="_blank" class="timestamp">[08:13]</a> ¡Sigue! ¡Vamos! ¡Tres! ¡Vamos! ¡Dos! ¡Dos! ¡Vamos! ¡Ya! ¡Me llevo! ¡Me llevo! ¡Sigue! ¡Sigue! ¡Sigue! ¡Sigue! ¡Sigue! ¡Arriba! ¡Bien!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=525" target="_blank" class="timestamp">[08:45]</a> ¡Vamos! ¡Vuelte Joan! ¡Va! ¡No te caigas ahora! ¡Vamos! ¡Va! ¡Va! ¡Ya! ¡Diez!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=559" target="_blank" class="timestamp">[09:19]</a> ¡Arriba, arriba, arriba! ¡Vamos, cinco minutos más con este peso! ¡Vamos! ¡Va! ¡Que sea infernal! ¡Ahí sí! ¡Ahí sí, con esa rabia, tío! ¡Ahí te quiero ver! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=589" target="_blank" class="timestamp">[09:49]</a> ¡Vamos! ¡Vamos! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=619" target="_blank" class="timestamp">[10:19]</a> No es nada, tío. No es nada. Esto es por la mitad. Baja, baja. Sigues. Sigues. ¡Ahí! ¡Súper! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=647" target="_blank" class="timestamp">[10:47]</a> ¡Que arda! ¡Ritmo! ¡Ritmo! ¡Ritmo! ¡Vamos! ¡Ya estamos! ¡Va, va, va! ¡No pares! ¡No pares! ¡Estás! ¡Estás! ¡Estás! ¡Cinco! ¡Vamos! ¡Cuatro! ¡Tres! ¡Tres! ¡Dos! ¡Uno! ¡Lo tenemos! ¡Ya está, bro!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=686" target="_blank" class="timestamp">[11:26]</a> Qué bien, tío. Qué buena, tío. Qué buena, tío. ¿Sí? Sí. La verdad que llevas, chaval. Mira, es que yo subo... Eso es del Nuno. Todo en su lado del Nuno. No, yo he hecho remue. No, sí, yo soy de sudar rápido siempre. Siempre. Es más que vengo a estar un poco enfermo. ¿Qué sientes, chaval? ¿Qué? Nada, bien, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=712" target="_blank" class="timestamp">[11:52]</a> Muy largo. Mentalmente es súper largo. Está guapo. Electrolitos. Dos de sal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=741" target="_blank" class="timestamp">[12:21]</a> las penas que da bien, ¿sabes lo que más tengo? los últimos 15 minutos se te ha abierto ahí la cadera sí, está la superficie más cómoda claro, y más la pasificación locura tío 30 minutos de serie, qué locura joder qué locura una experiencia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=770" target="_blank" class="timestamp">[12:50]</a> no es pendiente voto salvo te ocurre a ver mañana como estipulados también es mucha tolerancia a todos no hay por todo este tipo de entrenamiento a las series largas tengo mucha tolerancia, mucha mucha mi estimación de rp son 600</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=786" target="_blank" class="timestamp">[13:06]</a> porque más o menos cuando va con cadencia son unas 30 por minuto, pero ha habido como minutos de descanso y tal, así que estimo 600. Entonces, si vas a hacer la misma media que he dicho yo, de 20-25 por minuto, son 700, ¿eh? 20 por 30 son 600, 25 son 750, y la derivada de una función en un punto es igual pendiente de la recta tangente de esa función en ese punto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=811" target="_blank" class="timestamp">[13:31]</a> La única frase que me acuerdo de bachillerato. Ya la fui. Vale. Marta, sé que no estás viendo este vídeo, pero te lo voy a pasar a la derecha.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=840" target="_blank" class="timestamp">[14:00]</a> Estamos aquí curando a tus gallinas. Un poquito. Tiene como tiene ahí incrustada también, ¿sabes? ¿Tiene las patas hinchadas? Sí, sí, flipadas, eh. Dos de ellas. Pero la tiene mejor esta, ¿eh? Sí. Respecto a ella y tal. Es que tiene ahí como algo metido. Tanta que como me pique ahí. Ahí es. Vale, vale. Ya está, ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=867" target="_blank" class="timestamp">[14:27]</a> Vale, no le voy a borrar más. Sí, no lo toques más. No lo toques más. Esto es increíble. Dos veces al día ha tomado antibiótico y todo. Pero todavía se la lleva Marta al veterinario. Le da un transportín de gatos y eso. Y le dice, ah, que toca un gatito. Hijo. Casi. No. Ahí. Ya le vamos a poner el antibiótico. Y lo que no sabe la gente es que esa zona...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=897" target="_blank" class="timestamp">[14:57]</a> Está a mitad construcción, pero van tres patos ahí. Tres, ¿eh? Tres patos. Tío, tengo muchas ganas de probar los huevos de pato. Están fuertes, ¿eh? Están fuertes, sí. Sí. Para romperlo, flipas. Sí, sí, sí. Vale, vamos. Y muy importante, de estos días, los huevos que pone Blanquita, que es esta gallina, como está tomado antibiótico, los tenemos que tirar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=922" target="_blank" class="timestamp">[15:22]</a> Claro. Sí, sí, nos estamos tirando por ahí por el barranco. Claro. No, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=944" target="_blank" class="timestamp">[15:44]</a> Está muy chulo, tío. O sea, quiero que lo tengamos en casa. Y lo bueno es que la bañera fría en casa, en Andorra, está siempre fría. O sea, que ahí no tienes que gastarte dinero. De hecho, tengo la CPBS. Bueno, ¿qué tal? Muy bien, ¿eh? ¿Estaciones? Muy guay. Con ganas de tener la educación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=962" target="_blank" class="timestamp">[16:02]</a> Está bien el entrenamiento de piernas que te has pegado. Está bien el entrenamiento de piernas, tío. Bueno, chicos. Ahora voy a comer. El entrenamiento de piernas, sinceramente, me ha gustado mucho. Sensaciones bastante diferentes. En plan, es una sensación muy diferente. No sé cómo explicarlo. Pero sensación como el entrenamiento de milos totalmente. Sensación de tenerlas embotadas y demás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dQfkx2iHcVY&t=980" target="_blank" class="timestamp">[16:20]</a> Pero fatiga diferente. Pero me ha gustado, pero es un challenge. O sea, al final me gusta como poner un reto. Ah, pues es que quiero hacer esto, pues hago esto, ¿sabes? Sea más o menos eficiente. Me gusta ir probando cosas así. Quiero ver la sensación de mañana, así que mañana os contaré bien. Pero os haya gustado, la verdad. Pues sé que es un poco diferente, pero os espero que os haya gustado. Además estamos ya grabando más. Tengo ganas de grabar el día a día. Y nos vemos mañana. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-cdihzZo_-Fw">
+            <h2>💥 EL PUSH DAY MÁS DURO RUMBO AL OLYMPIA | Ep.3  MR OLYMPIA SERIES</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Kim Angel</span>
+                <span class="date">Publicado: 14/09/2025 18:48</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=cdihzZo_-Fw" target="_blank">
+                    <img src="https://i.ytimg.com/vi/cdihzZo_-Fw/hqdefault.jpg" alt="💥 EL PUSH DAY MÁS DURO RUMBO AL OLYMPIA | Ep.3  MR OLYMPIA SERIES" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta la intensa preparación de un bodybuilder a cuatro semanas y media del Mr. Olympia. El atleta comparte su estado físico y mental actual, detallando una exigente sesión de entrenamiento de empujes (pecho, hombro y tríceps). Revela su nueva colaboración con la marca Pumping Paradise y su filosofía de entrenar con eficiencia. El contenido enfatiza la importancia de la técnica, la prevención de lesiones y la adaptación estratégica del plan para alcanzar el máximo rendimiento.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Nueva Colaboración y Descuentos para Fans <a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&amp;t=116" target="_blank">[01:56]</a></h3>
+
+<p>El atleta anuncia su patrocinio con la marca de ropa Pumping Paradise, destacando sus prendas de edición limitada. Ofrece un cupón de descuento del 10% para sus seguidores, que lo acompañará hasta el Mr. Olympia.</p>
+
+<h3>Entrenar con "Cabeza" para la Cima <a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&amp;t=329" target="_blank">[05:29]</a></h3>
+
+<p>El bodybuilder comparte su filosofía de entrenamiento, enfocándose en la eficiencia y la estimulación máxima con mínima fatiga. Subraya la importancia de evitar lesiones y el exceso de volumen, priorizando la recuperación.</p>
+
+<h3>Técnicas Avanzadas para la Fatiga Muscular <a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&amp;t=685" target="_blank">[11:25]</a></h3>
+
+<p>Durante los ejercicios de aislamiento, se explica cómo usar repeticiones parciales al final de una serie para una "quema" total del músculo. Se enfatiza la importancia de mantener la contracción y el ritmo.</p>
+
+<h3>Estrategias de Press: Drop Sets y Bombeo <a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&amp;t=963" target="_blank">[16:03]</a></h3>
+
+<p>Se discuten las diferencias entre máquinas y cómo adaptar la técnica, como drop sets o series de bombeo rápido. Se busca maximizar la contracción y el estímulo adaptándose a las características del equipo.</p>
+
+<h3>Ajustando el Plan: Prioridad al Hombro Lateral <a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&amp;t=1235" target="_blank">[20:35]</a></h3>
+
+<p>El atleta modifica su plan de entrenamiento en tiempo real, optando por una segunda ronda de elevaciones laterales. Esto es para priorizar una sección específica del hombro antes de la superserie final.</p>
+
+<h3>El "Remate" Final: Superserie de Pecho y Hombro <a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&amp;t=1635" target="_blank">[27:15]</a></h3>
+
+<p>El entrenamiento de empujes culmina con una superserie de cruces y press de hombro, buscando un bombeo muscular intenso. El objetivo es llevar la máxima sangre al músculo con un tempo rápido y altas repeticiones.</p>
+
+<h3>Estrategia de Tríceps y Descanso Post-Entreno <a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&amp;t=1935" target="_blank">[32:15]</a></h3>
+
+<p>Se añade un bloque de cuatro series efectivas de tríceps al entrenamiento de empujes, ya que esta semana incluye tres días de descanso. Esta decisión estratégica es para compensar la ausencia de un día de brazo.</p>
+
+<h3>Sorprendente Crecimiento de Glúteos y Futuro Off-Season <a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&amp;t=2101" target="_blank">[35:01]</a></h3>
+
+<p>Se destaca el notable desarrollo de los glúteos del atleta, una mejora reciente en su preparación. Se discute la progresión de carga y la visión para la fase de volumen post-competición.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=19" target="_blank" class="timestamp">[00:19]</a> volumen porque más es mejor no y lo que hay que hacer es lo justo necesario para llevarse la máxima estimulación posible dentro de minimizar una facilidad bueno chicos bienvenidos a un nuevo vídeo cuatro semanas y media del míster olimpia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=46" target="_blank" class="timestamp">[00:46]</a> No sé si se me verá cara muy chupada, pero la dead face por dentro la llevo 100%. O sea, estoy reventado. Ayer fue uno de los días más complicados de la prepa. Noto que ya está siendo esta última semana. Creo que a partir de la semana que viene, según lo que voy hablando con Raúl, va a ser ya pasar a la segunda fase de desexhalación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=66" target="_blank" class="timestamp">[01:06]</a> Sinceramente, chicos, os transmito todo. El peso se mantiene y no se mueve. No creo que haya grasa que quitar, no creo que haya mucha descarga que hacer porque ya estaré descargado. Obviamente, retención de líquidos siempre se puede bajar, pero de manera natural mi cuerpo está probando de mantenerlos y eso es muy bueno porque me mantiene un look</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=87" target="_blank" class="timestamp">[01:27]</a> un poquito más lleno me mantiene un músculo más hidratado y eso cara a la fase de desaceleración va a hacer que se vean cada vez más cortes entonces estamos en un punto perfecto aparte de que mi estado anímico es una mierda él lo puede notar soy un poquito más duro con él soy un poquito más duro en general tengo el ánimo un poquito más bajo veréis hoy en el entreno que hablaré un poquito menos a lo mejor cascos etcétera porque llega un momento que necesito estar muy centrado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=116" target="_blank" class="timestamp">[01:56]</a> Estamos de acuerdo, semanas. Y bueno chicos, noticia importante. Empiezo a hacer parte y colaboración con Thumping Paradise. Como podéis ver la camiseta súper chula. Con la espalda también aquí diseños de locos y bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=135" target="_blank" class="timestamp">[02:15]</a> Los que ya habéis llevado Punk in Paradise, sabéis que las caídas son súper, súper, súper buenas. Me vais a ver en todo momento llevarlo, sea en el gimnasio o sea afuera, porque a mí me encanta. A nivel de variedad,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=150" target="_blank" class="timestamp">[02:30]</a> Son camisetas, os lo digo, por si veis alguna camiseta como esta que os guste o la que llevo, tened cuidado porque son stocks limitados. Nunca hay mucha cantidad. Entonces, si queréis alguna en el momento que la veáis, id a por ella porque se acaban rápido. CUPON KIM desde ya. Tenéis descuento en la web con mi cupón 10%. O sea que chicos, aprovechad las piezas. Yo iré enseñando en cada vídeo, cada pieza.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=179" target="_blank" class="timestamp">[02:59]</a> Por ejemplo, esta stringer la vais a ver hoy en el gimnasio, ya os digo, es increíble. O sea que chicos, nada, quería anunciaros esto. Empiezo a hacer colaboración con Pumping Paradise. Voy a ser imagen general de la marca y sobre todo me van a acompañar durante todo el trayecto hasta la Olimpia. O sea que chicos, estad atentos. Cada vez que saque una prenda, id a por ella porque se acaba muy rápido, ya os lo digo. Y bueno chicos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=206" target="_blank" class="timestamp">[03:26]</a> Me tomo mi suplementación y vamos a empezar hoy entreno de pecho con José, como siempre. Pecho, hombro y un poquito de frices porque esta semana es un poco diferente, entonces habrá un poquito más de volumen. O sea que nada chicos, vamos al lío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=247" target="_blank" class="timestamp">[04:07]</a> Aproximaciones, dos, tres, tres, vamos a hacer tres, ya que es el primer ejercicio. Tres aproximaciones. Desde que Raúl me lo dijo empecé a usar el Apple Watch para monetizar el ritmo cardíaco, el tiempo de entreno, las calorías usadas. Ya sabéis que a Raúl le gusta tener toda la información posible y la verdad es que mola porque así tengo un poquito más de control sobre el descanso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=275" target="_blank" class="timestamp">[04:35]</a> y me ayuda, aunque me gusta tener sensaciones, me ayuda a respetar un poquito más el descanso que muchas veces tiro demasiado pronto y pierdo rendimiento. Sobre todo ahora cuesta un poquito más la recuperación. Solo haremos dos series efectivas, entonces así ya entra un poquito de trabajo. Estimulación ya hay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=306" target="_blank" class="timestamp">[05:06]</a> Sinceramente, estando como estoy físicamente y al tiempo que estoy, hay que saber no perder la cabeza. Estoy listo. Ya competí hace cuatro semanas. No he tenido una fase de mejora muscular, de volumen. Tuve simplemente una semana de relax. Entonces, ya con un cuerpo listo,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=329" target="_blank" class="timestamp">[05:29]</a> lo único que podrías cagarla es querer hacer más más de la cuenta subir cortisol subir estrés provocar lesiones entonces hay que tener conciencia y entrenar con cabeza la estimulación evitando de hacer el bestia o queriendo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=349" target="_blank" class="timestamp">[05:49]</a> hacer mucho volumen porque más es mejor, no. Y lo que hay que hacer es lo justo necesario para llevarse la máxima estimulación posible dentro de minimizar una fatiga. Ahora mismo ser lo más efectivo posible. Exacto. Eficiencia, como diría Raúl. Ah, pues mira, es más peso de lo que pensaba.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=373" target="_blank" class="timestamp">[06:13]</a> Sí. Yo creo que ponemos para la máquina para los efectivos. Y dando saltos de 20-20. ¿Cuánta gente es capaz de hacer esta técnica con máxima? Con el máximo peso. Maximizando máquinas y además estando con la dieta que estoy y con el cansado que estoy. Ya verán la dieta. Pero eso es porque entrenamos preciso. Ya. Ir asentando también con el peso. Pronto me veis con la libreta. Yo que lo critiqué mucho. No, a ver. ¿Quién sabe? Tiene su sentido. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=413" target="_blank" class="timestamp">[06:53]</a> Muy bien. Va muy bien. Va bien la máquina. Es una locura. Aún estás metiendo un poco de hombro. No quieras cerrar tocar mano con mano. Busca solo al contraer pecho. ¿Ves la diferencia? Vale, ya.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=443" target="_blank" class="timestamp">[07:23]</a> Es una locura cómo se siente. Una. Esa es. Muy buena. Dos. Muy bien. Continúa. Tres. Perfecto. Sigue así. Vamos. Muy buena. Cinco. Eso es. Vamos. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=473" target="_blank" class="timestamp">[07:53]</a> Aprieta, aprieta. Buena. Continúa. Fuerte. Vamos, vamos, vamos. Esa es. Otra más, otra más. Fuerte, fuerte, fuerte, fuerte, fuerte. Una, una. Vamos, vamos, vamos, vamos, vamos, vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=499" target="_blank" class="timestamp">[08:19]</a> A veces me da miedo que se rompa el pecho. Con tanta contracción que tienes. Por eso que en el estiramiento no voy al punto que podría porque donde se suele romper es en el cambio de sentido. Si estás muy estirado, ese golpe... Por eso que no estiro al 100%. Podría estirar un poco más, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=521" target="_blank" class="timestamp">[08:41]</a> El beneficio sería bajo por el riesgo que estás tomando. Pero es verdad que tampoco, cuando vamos nosotros, no es que soltamos de golpes ni encontremos de golpes. Pero aún así, ¿eh? Intentamos generar. Ya. Una. Esa es. Dos. ¡Muy bien! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=548" target="_blank" class="timestamp">[09:08]</a> Tres. Perfecto. Vamos. Vamos. Tú puedes. Vamos. Vamos. Eso es. Pecho. Pecho. Pecho. Vamos. Vamos. Vamos. Vamos. Eso es. Dame dos más. Dame dos más. Vamos. Puedes. Puedes. Vamos. Eso es. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=574" target="_blank" class="timestamp">[09:34]</a> Aprieta, aprieta. Vamos, vamos, vamos. Eso es. Continúa. Vamos, bro. Vamos, bro. Pecho arriba. Pecho arriba. Vamos. Increíble, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=604" target="_blank" class="timestamp">[10:04]</a> Bueno chicos, segundo ejercicio vamos a ir alternando. Primero hacemos aislamiento de pecho con aperturas, ahora aislamiento de hombro lateral con elevaciones laterales y luego ya ponemos dos preses. Y vamos a ir también dos aproximaciones, dos efectivas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=623" target="_blank" class="timestamp">[10:23]</a> Otra es efectiva, ya veremos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=655" target="_blank" class="timestamp">[10:55]</a> Eso es Vamos Sigue Perfecto Vamos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=685" target="_blank" class="timestamp">[11:25]</a> Cuando ya fatigas, mantienes la misma contracción, pero mantienes ahí con menos rango.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=708" target="_blank" class="timestamp">[11:48]</a> Una vez que ya lo tienes localizado, haces las cortitas al final para terminar de quemar. Pero es un impulso, ¿ah? Sí, sí, sí. Con el mismo tempo que empiezas. Vamos. No, no, me estás haciendo mucho. Sueltas mucho el peso ahí. Vamos. Vamos, vamos. Coge un pedín de ritmo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=737" target="_blank" class="timestamp">[12:17]</a> Dos. Cinco. Cuatro. Tres. Dos. Una. Deja a ver. Dos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=768" target="_blank" class="timestamp">[12:48]</a> Vamos. Eso es. Eso es. Vamos. Muy buena. Vamos. Eso es.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=797" target="_blank" class="timestamp">[13:17]</a> Voy contigo. Vamos. Cortas. Cortas. Mantienes 15, ¿no? No voy a bajar a... Mejor elección. Ahí. Ahí. Y podéis contraer un poco más, aunque se pide el trapecio. Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=824" target="_blank" class="timestamp">[13:44]</a> Y a partir de las dos próximas, lentito, controlado. Y ahora coge un pelín de ritmo para poder ir a contraer. Porque si no haya menos ritmo. Ahí. Contrae. Mantén la contracción. No sueltes el dorsal. Mantén la contracción. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=850" target="_blank" class="timestamp">[14:10]</a> Hemos acabado los dos ejercicios principales de aislamiento, que eran aperturas planas y acciones laterales. Ahora vamos a hacer preses, tanto uno para pecho y otro para hombro. Así que nos conviene hacer un pres plano, ¿sabes? ¿Me entiendes? Porque si hacemos un pres de hombro, ya coge parte del superior, ¿no? Sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=878" target="_blank" class="timestamp">[14:38]</a> Estaría bien un press rollo así, ¿sabes? La que está justo enfrente del inclinado. Ah, plano, tumbado. Yo decía en plan recto. Ah, más sentado, ¿no? Sí. Vale, mismo. Ahí creo que es un press recto. ¿La del fondo? Vamos a probar. Vamos viendo. Ni entro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=905" target="_blank" class="timestamp">[15:05]</a> Mira en el espejo, bro. ¡Vamos! Eso es. ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=933" target="_blank" class="timestamp">[15:33]</a> Vamos, vamos, vamos. Perfecto. El peso ideal. Perfecto. Para este tempo, contracción perfecta. En la segunda serie vamos a hacer</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=963" target="_blank" class="timestamp">[16:03]</a> Un respost. Bueno, una descendente y coger un poco de ritmo, ¿sabes? Más a bombeo. Me falta un poco eso en mis entrenamientos. Ya, ya, ya. En esta metemos entonces tres series. Yo creo que puedes tirar este peso para... No, dos series. Vale. Creo que puedes tirar este peso a... Seis a ocho. Sí, sí que entra. Hay máquinas que son cortas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=991" target="_blank" class="timestamp">[16:31]</a> Y tú puedes darle bombeo y se mantiene. Hay máquinas como esta que es de palanca larga. Sí. Que si quieres ir rápido, ¿cómo qué? Vas a bloquear. Sí, no es lo idóneo. Por ejemplo, aquí de placas cortitas sí que veo. Se puede hacer, pero no es lo mismo. Ya, ya, ya. No te genera la misma asociación. No. Hay máquinas que están hechas para poder hacer ese pequeño baby reps, recorrido corto, bombeo. Y hay máquinas que no, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1018" target="_blank" class="timestamp">[16:58]</a> Esta es más para... ¿Cómo explicarlo? No lo sé. Lo notas y ya está. Por ejemplo, elevaciones laterales. O bombeo, con polea o mancuerna mal. En una máquina como esta, le puedes dar a ir. Es la máquina realmente. Buah, chaval.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1050" target="_blank" class="timestamp">[17:30]</a> Muy bien. ¡Dios! Ha sido buena elección quitar los 10. ¿A cuánto has llegado? 9. Como vamos a hacer la drop, no pasa nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1072" target="_blank" class="timestamp">[17:52]</a> Lo que sí es que para posicionarnos mejor no cambia la inclinación. Lo bajaría para poder meterme mejor. ¿En la siguiente? Ahora. Ah, vale. ¿Me entiendes, no? Sí, sí, sí. Que al final la inclinación se queda igual. Es solo para que tengas un poquito más de margen. Puedes bajar más, creo. No, ya es todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1097" target="_blank" class="timestamp">[18:17]</a> Eso es. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1120" target="_blank" class="timestamp">[18:40]</a> Continúa. ¡Ayuda! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Eso es! ¡Vamos! ¡Arriba! ¡Arriba! ¡Arriba! ¡Arriba! ¡Arriba! Menos 15. Coge aire. ¡Vamos! Da una. ¡Yet!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1151" target="_blank" class="timestamp">[19:11]</a> Ok. Respira tres veces hondo. Y... Cuidado que no te vea. Vamos. Bombeo. Vamos. Dos. Vamos. Tres. Vamos. Cuatro. Vamos. Cinco. Seis. Bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1181" target="_blank" class="timestamp">[19:41]</a> Está entrando un hambre. Aquí puedes subir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1206" target="_blank" class="timestamp">[20:06]</a> Porque al ser rotativo, no te hace hacer esto. No te obliga a meter el trapecio. Muy bien. Puedes tener buena contracción ahí. Vale, yo ya sé mi peso, el que ponía antes. 75. Y puedes subir. ¿Lo ves? Se nota. Lo siento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1235" target="_blank" class="timestamp">[20:35]</a> bueno chicos normalmente vamos a hacer press de pecho press de hombro pero luego me acordé que me gustó mucho la sensación que tuve haciendo inferior pecho y hombro press de hombro como no quiero hacer un press de hombro demasiado pesado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1253" target="_blank" class="timestamp">[20:53]</a> ya que no es el momento de hacer tanto peso en dos preses seguidos prefiero meter primero el segundo ejercicio de laterales también a dos series y luego ya haremos bueno dos series cuando digo dos series son dos series al fallo luego hacemos entrar una serie donde nos quedamos a un reel tres cinco digo eso por decir pero para que lo entendáis que no la llegamos a ser para mí no es efectiva aunque para muchos lo sería bueno y luego haremos super serie</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1284" target="_blank" class="timestamp">[21:24]</a> Ahora vemos aquí lateral y luego superserie de press de hombro con aperturas. Con cruces. Cruces de pole alto. 75. Vale, primera serie efectiva. Dale. Vale, espera. No, es que pierde arranco. Te tendrías que mover un poquito aquí. Tengo que meter yo un poquito aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1311" target="_blank" class="timestamp">[21:51]</a> Porque quiero estirar, ¿sabes? Ya. Eso es. Vamos. Bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1342" target="_blank" class="timestamp">[22:22]</a> ¡Vamos! ¡Vamos! ¡Sigue, sigue! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1370" target="_blank" class="timestamp">[22:50]</a> ¡Eso es! ¡Vamos! ¡Vamos! ¡Vamos! ¡Eso es! ¡Sigue! ¡Sigue! ¡Sigue! ¡Sigue! ¡Madre mía! ¡Cómo quema! A ver, si ves que es demasiado peso, baja. Pero no creo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1402" target="_blank" class="timestamp">[23:22]</a> Vale, ahí. Controla. Prueba de estirar al máximo. Le da el trapecio y en vez de buscar tanto arriba, busca ahí. La unión de la pared con el pecho. Bien. Cuidado el trapecio. No te vayas para atrás. Si te vas para atrás, contra el trapecio. ¿Ves? Ahí quieres usar el trapecio, pero si no vas para atrás no puedes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1433" target="_blank" class="timestamp">[23:53]</a> Vamos. Ya. Ya. Ya. Ya. Ya. Ya.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1462" target="_blank" class="timestamp">[24:22]</a> Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1493" target="_blank" class="timestamp">[24:53]</a> Cortas, cortas. Esa es. Vamos. Hombro. Dios. Ay, cansancio, chaval.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1518" target="_blank" class="timestamp">[25:18]</a> Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1548" target="_blank" class="timestamp">[25:48]</a> Sigue. Tres. Dios. Vale, finito. Te toca. Finalish. Mejor que antes. Clava la mano hacia abajo. Bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1580" target="_blank" class="timestamp">[26:20]</a> Vamos. Vamos. Vamos. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1609" target="_blank" class="timestamp">[26:49]</a> Bien. ¡Joder! Vale, pres de hombro con aperturas. Aperturas con pres de hombro. Aperturas y pres. Bueno chicos, vamos a finalizar el entreno de empujes, al menos pecho-hombro. Luego haremos tríceps con una superserie de cruces más</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1635" target="_blank" class="timestamp">[27:15]</a> Fresh de hombro, ¿vale? Objetivo aquí, acabar de llevar la poca sangre al músculo. Yo ya estoy perdiendo el bombeo, ya lo noto, ya no estoy tan, ya no sudo. Entonces, hay que acabar eso. Rango de repeticiones superior a 10-100%. Si puede ser de 12 a 15, mejor aún. Entonces, son series donde es un tempo un poquito más rápido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1664" target="_blank" class="timestamp">[27:44]</a> Más a efecto bombeo, pero con contracción muscular. Y finito pecho-hombro. Nada. Se vienen super series para acabar de rematar. ¡Vamos! Eso es.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1692" target="_blank" class="timestamp">[28:12]</a> Cuatro. Vamos. Buena. Siete. Sigue. Vamos, vamos, vamos. Diez. Sigue. Vamos. Vamos. Eso es. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1720" target="_blank" class="timestamp">[28:40]</a> ¡Una! ¡Una!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1750" target="_blank" class="timestamp">[29:10]</a> Ya ni sudo ni nada. El cuerpo ya no tiene leña. El cuerpo ya no tiene leña. No genera calor. El carbohidrato es un combustible al final. Si hay poco combustible ya no sudas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1778" target="_blank" class="timestamp">[29:38]</a> Hoy normalmente tengo las manos frías entrenando. Hoy aún tira que te va. Vamos, José. Yo he llegado a 12. ¿Te quito un poco? Sí. Eso es. Perfecta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1807" target="_blank" class="timestamp">[30:07]</a> Bien. Vamos. Vamos. Sigue. Vamos. No, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1854" target="_blank" class="timestamp">[30:54]</a> No me he empezado en que hago las cosas a menos. Es que en el cuerpo no me da más, tío. Vamos, le toca a José último. Vamos. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1884" target="_blank" class="timestamp">[31:24]</a> vamos vamos 2 1</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1924" target="_blank" class="timestamp">[32:04]</a> Quinto o sexto ejercicio finalizado que ha sido en super serie. Entonces vamos a por el séptimo que será tríceps. Podrían ser dos o sea cuatro series efectivas totales de tríceps. Dos y dos. Pero vamos a hacer cuatro. Aquí cuatro series del mismo ejercicio infinito. Esta semana es un poco diferente porque voy a hacer tres días de descanso seguidos que va a ser viernes, sábado o domingo antes de atacar la próxima fase</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1954" target="_blank" class="timestamp">[32:34]</a> de desexperación justo acá y teniendo un mes por delante donde ya habrá que ir</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=1962" target="_blank" class="timestamp">[32:42]</a> comiendo más, etc. Es el momento de aprovechar y descansar en ese cambio de fase. Esta semana no hay entreno de brazo. Normalmente solo hago el día de empujes hombro y pecho, pero como no habrá entreno de brazo, metemos cuatro series efectivas de tríceps y ya está. Tampoco es que sea obligatorio, pero para quedarme tranquilo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2005" target="_blank" class="timestamp">[33:25]</a> ¿Sabes que aún tengo agujetas del entrenador de brazo? ¿Del viernes? Sí. Vamos, José. Aproxima una, solo una. Vale. Y te puedes ver en ese espejo. ¿Lo ves? Sí. Te ayuda a contraer mejor. ¿Tú me das manos para dentro o para fuera?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2038" target="_blank" class="timestamp">[33:58]</a> Esa es. Las fibras del tríceps.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2067" target="_blank" class="timestamp">[34:27]</a> ¡Vamos! Eso es. Continúa. Continúa. ¡Vamos! ¡Esa es! ¡Muy buena! ¡Vamos! ¡Sí! Demasiado esa opeta. Ya te cansas de hablar, ¿no? Qué loco, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2101" target="_blank" class="timestamp">[35:01]</a> Mira, hasta te puedo decir que el glúteo te ha crecido. ¿Ah? Te puedo decir hasta que el glúteo te ha crecido. Sí. El glúteo ha crecido este año. Se te nota porque al contraer notas el pum. Se te queda como bombeado, ¿sabes? Aún le falta tamaño. Sí, hombre. A ver, no hemos hecho nada como tal después de la competición. El tiempo de off-season cuando subí ahora 115 fue corto. Claro, fue muy corto. El glúteo es muy nuevo. Necesita más tiempo. Como men, yo no entrenaba glúteo en mi vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2132" target="_blank" class="timestamp">[35:32]</a> Bueno, haces prensa y todo, pero el entreno de glúteo se empezó a incrementar. Es específico, no sé. Se empezó a poner al final de la prepa de 2024. Solo al final, ¿te acuerdas? Sí, sí, sí. Que ya había pasado realmente el... O sea, ya estábamos en déficit fuerte y venga, hay que hacer glúteo. Pero aún así...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2157" target="_blank" class="timestamp">[35:57]</a> Pero porque durante la fase de definición generamos conexión. Y luego cuando entramos en fase de volumen ya teníamos conexión presa. Bien con el guto. Pero ha ido mejorando mucho. La progresión de carga sobre todo. Sí. O sea, tú ten en cuenta empezábamos con tres discos, cuatro discos. Y ahora tiramos seis discos y son más repes. Pero calidad. En la segunda. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2188" target="_blank" class="timestamp">[36:28]</a> Esta es la última. Ah, no. Son cuatro. Vamos. Eso es. Vamos. Total. El hecho de haber contraído el glúteo me duele ahora. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2217" target="_blank" class="timestamp">[36:57]</a> Cualquier contracción ahora mismo estás... Flipas. Pensar en este off-season va a estar guapo, eh. Ahora hay que tener el cambio de chip ese para hacer un poquito más... Sí. ...salbestia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2251" target="_blank" class="timestamp">[37:31]</a> ¡Ah! ¡Ah! ¡Ah!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2272" target="_blank" class="timestamp">[37:52]</a> Bueno, chicos, os recuerdo, tenéis mi camiseta Olimpia Own It. Chicos, ya ha quedado muy poco. Nos estamos acercando a la fecha y os recuerdo que tenéis 10% con mi cupón KIM en la web. O sea que aprovechad porque el Olimpia llega ya. Let's fucking go.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2326" target="_blank" class="timestamp">[38:46]</a> Bueno chicos, hasta aquí el vídeo de hoy. Ha sido un vídeo larguito. Entreno eficaz. Un poquito de posing. Y sinceramente ya no sé ni lo que digo. No tengo energía ni nada. Simplemente os recuerdo Coupon Kim para todos mis patrocinadores. Y también, chicos, está la camiseta de la Olimpia. Aprovechad 10% con el Coupon Kim. Igualmente os dejo todos los enlaces abajo. Y nada, José y yo nos despedimos de este vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=cdihzZo_-Fw&t=2355" target="_blank" class="timestamp">[39:15]</a> Cuatro semanas y media de inicio limpia. Lo vamos a dar todo. O sea que apoyarnos dejando un buen like, comentando, compartiendo con vuestra peña. Y nos vemos en el próximo vídeo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-dpI_8UmlSK4">
+            <h2>¡ESTO NO SE PUEDE SOSTENER! Urs VENCE con POLÉMICA en el European. Las IMÁGENES del POSIBLE ROBO</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 14/09/2025 19:07</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=dpI_8UmlSK4" target="_blank">
+                    <img src="https://i.ytimg.com/vi/dpI_8UmlSK4/hqdefault.jpg" alt="¡ESTO NO SE PUEDE SOSTENER! Urs VENCE con POLÉMICA en el European. Las IMÁGENES del POSIBLE ROBO" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video analiza la controvertida victoria de Urs en el European de Alemania, comparando su condición física con la de Quinton, quien para el presentador, debió haber ganado. Se examinan detalladamente las poses y la separación muscular de ambos atletas, señalando la superioridad de Quinton en varias categorías. El presentador también comenta brevemente sobre los resultados de las categorías 2-12 y Classic, donde Roman y Pior destacaron. Se cuestiona la decisión de los jueces y se reflexiona sobre posibles sesgos.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Victoria Polémica en el European Open <a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&amp;t=28" target="_blank">[00:28]</a></h3>
+
+<p>El presentador abre el video anunciando la controversial victoria de Urs en el European de Alemania. Argumenta que Urs no mostró su mejor condición, mientras que Quinton merecía el triunfo.</p>
+
+<h3>Quinton Brilla en Poses de Perfil <a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&amp;t=289" target="_blank">[04:49]</a></h3>
+
+<p>Se inicia un análisis pose por pose, donde el presentador destaca la gran separación en las piernas de Quinton en las poses de frente. Afirma que Quinton fue abrumadoramente superior en las poses de perfil, mostrando mayor amplitud y estriación muscular.</p>
+
+<h3>La Espalda de Quinton Desafía a los Jueces <a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&amp;t=332" target="_blank">[05:32]</a></h3>
+
+<p>Continuando con la comparación, se critica la falta de densidad y separación en la espalda de Urs, contrastándola con la densidad muscular y el acondicionamiento de Quinton. El presentador expresa su desconcierto ante la decisión de los jueces, creyendo que Quinton ganó la mayoría de las poses clave.</p>
+
+<h3>Urs: ¿Menos Acondicionado que en Italia? <a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&amp;t=635" target="_blank">[10:35]</a></h3>
+
+<p>Se compara la condición actual de Urs con su presentación en Italia, sugiriendo que en Alemania llegó menos definido, especialmente en el femoral y el glúteo. El presentador cuestiona si la decisión de los jueces tuvo un sesgo local.</p>
+
+<h3>Los Triunfos de Roman y Pior en Otras Categorías <a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&amp;t=794" target="_blank">[13:14]</a></h3>
+
+<p>El video concluye destacando los resultados en otras categorías: Roman Friis gana en 2-12, asegurando su pase al Olympia. En la categoría Classic, Pior se lleva la victoria con una línea clásica y un físico prometedor.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno, ¿qué tal chicos y chicas? Bienvenidos a un nuevo vídeo del canal y tenemos que hablar de la noticia de última hora que es lo que se está produciendo o lo que se acaba de producir en el European de Alemania. Victoria una vez más de URSS, en este caso vuelve otra vez a ganar en la partida Quinton, pero en esta ocasión tenemos que hablar porque sí que ha habido bastante controversia o al menos yo lo entiendo así. Creo que no hemos visto al mejor URSS, de hecho vamos a ver comparativas de su participación en Italia con la participación</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=28" target="_blank" class="timestamp">[00:28]</a> en Alemania y para mi gusto no ha salido tan acondicionado y saliendo sin ese punto de condición para mí sin duda el campeonato se lo tenía que haber llevado Quinton. Lo vamos a ver en imágenes, lo vamos a ver en fotos comparativas, vamos a ver a los dos en tarima y desde luego vamos a debatirlo y por supuesto también dejadme en la caja de comentarios qué opináis. También vamos a hablar de lo que ocurrió en 2-12. Victoria de Roman, la primera de la temporada parece que necesitaba en este caso pues que Madelman no estuviera porque es un poco lo que le había pasado. Estaba en Portugal quedando segundo, quedó también en España...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=57" target="_blank" class="timestamp">[00:57]</a> Segundo, en este caso en Holanda también, segundo otra vez Y en este caso faltaba ese torneo en Alemania Volver otra vez a Centro Europa y en este caso que no estuviera Madelman Eso es lo más importante para él y de esta manera consigue su pase a la Olimpia Vamos a hablar también de lo ocurrido en Classic porque hemos visto un Classic espectacular Ahora lo vais a ver, acaba de clasificar a la Olimpia, además es un chaval bastante joven Así que todo ello lo vamos a analizar en el siguiente vídeo Como digo, fuerte like y vamos hacia adelante</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=85" target="_blank" class="timestamp">[01:25]</a> Porque tenemos mucho de lo que hablar, ¿eh? Aquí tenemos las imágenes de la discordia, las imágenes de las comparativas Ese top 2, ahora luego analizaremos un poquito como ha ido el resto del top Pero como digo, nos tenemos que centrar sobre todo en este top 2 Que es el mismo que hace una semana en Italia Pero con una salvedad, y eso es un poco donde yo realmente quiero ahondar No hemos visto al mejor URSS, o al menos ahora sobre todo con las imágenes de alta calidad y la foto lo vais a ver</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=112" target="_blank" class="timestamp">[01:52]</a> No hemos visto al mejor Ursh, no hemos visto esa versión, digamos, granítica de Ursh y es algo que para mí, en Open, siendo su principal baluarte, el punto de condiciones de separación, creo que ha optado por salir un poquito más lleno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=129" target="_blank" class="timestamp">[02:09]</a> y creo que eso también ha sido un poco lo que le ha hecho no verse tan bien. Creo que ha ganado evidentemente en ese llenácego muscular, vamos a decirlo así, pero eso le ha hecho perder esa separación que yo creo que es clave. Como digo, vamos a ir si os parece, porque al fin y al cabo estas imágenes son imágenes con una calidad complicada, ya lo sabéis, además de hecho en european tenía supuestamente, supuestamente,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=153" target="_blank" class="timestamp">[02:33]</a> prohibición de que se grabara nada pero yo quiero que nos vayamos en este caso a las comparativas en vídeo de alta calidad y luego de aquí vamos a sacar 4 o 5 poses porque al fin y al cabo no repite lo mismo esto es una presentación individual 4 o 5 poses que si repiten y que si que se puede comparar de un poco de lo que estamos hablando yo creo que Quinton ha salido muy bien para mi creo que ha sido el mejor aspecto de Quinton en toda la temporada con sus cosas que evidentemente las tiene es un físico todavía por hacer en cuanto a crecimiento muscular con una línea</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=182" target="_blank" class="timestamp">[03:02]</a> simple y llanamente espectacular si mantiene esa línea pues va a ser un tipo que va a ser un fijo del Olympia seguro pero que obviamente en este caso en la comparativa con Ursch sí que es cierto que en el anterior torneo en Italia el punto de condición para mí fue clave y sobre todo las poses de frente de Ursch marcaron mucho la diferencia pero en este caso vais a ver que en cuanto a las poses de frente tampoco es que hay una grandísima diferencia entre uno y otro de hecho me atrevería a decir que Quinton con ese punto ese revés que le ha dado en esta semana ese apretón</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=210" target="_blank" class="timestamp">[03:30]</a> Creo que le ha sentado muy bien para conseguir y para que se pueda ver esa separación y es que las poses de perfiles de caja y de espaldas, de verdad, no hay por dónde coger el hecho de que le hayan dado ganador a Burs. Como digo, vamos a ir directos a donde yo creo que más lo vamos a poder ver que son las comparativas en imágenes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=227" target="_blank" class="timestamp">[03:47]</a> porque aquí más o menos sí que podemos ya sacar alguna que otra conclusión de lo que está pasando, ¿vale? Si os dais cuenta, por ejemplo, en estas poses de frente, que es donde realmente fue muy dominador Urs en Italia, yo sí que veo una separación en el caso de Quinton en las piernas, sobre todo, que no le va tan a la zaga a las de Urs. De hecho, son tan separadas y acondicionadas como las de Urs, y además es que para mi gusto son un poco más grandes. Sí que es verdad que puede que haya un poco más de bombeo en la zona de Urs, como que da una sensación más de ese bombeo,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=257" target="_blank" class="timestamp">[04:17]</a> pero es que las paredes de Quinton también son brutales, y si nos fijamos ya en el tren superior, mucho más amplio Quinton, cosa que es una cosa normal, que ocurría también en Italia, porque a nivel estructural es más grande, pero es que veo el pectoral de Urs sí que es verdad, lo veo un poquito más estriado que el de Quinton, pero es que en la pared abdominal, sinceramente, sí que es también verdad que Urs para mí convence bastante más,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=280" target="_blank" class="timestamp">[04:40]</a> Pero me cuesta, me cuesta darle esa superioridad tan clara con respecto a cómo fue la pasada temporada. Una si en estas poses de frente, como digo, Quinton batalla y al menos Quinton no queda, digamos, tan atrás como podría parecer. Pero si nos vamos, en este caso, a las poses ya del perfil de caja, yo creo que la victoria es abrumadora en el caso de Quinton. ¿Dónde está la separación en las piernas de Gursk?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=304" target="_blank" class="timestamp">[05:04]</a> ¿Dónde está esa estriación en el gluto que había en Italia y que en este caso, al menos en la pose de perfil, parece que cuesta que haya? Y luego, por ejemplo, la amplitud de Quinton, ¿qué decir? Yo creo que está fuera de toda duda. La separación y sobre todo ese redondeo que tiene en cuanto al brazo, en cuanto a lo que es el hombro y el brazo, de Quinton a mí personalmente me gusta bastante y además incluso hasta como la posa me gusta también mucho en el caso de Quinton. No sé vosotros qué opináis. Como digo, dejadme en la caja de comentarios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=332" target="_blank" class="timestamp">[05:32]</a> Y en la pose de espalda yo creo que poco que decir. Volvemos una vez más a los pliegues en la zona de la espalda baja de Urs, que en este caso yo creo que son hasta más notorios que en Italia. Falta de densidad, evidentemente en esa espalda. Fijaros, la espalda de Quinton, la densidad muscular que tiene y esa separación, cómo marca perfectamente la zona alta de la espalda. La separación en los brazos, que me parece algo también bastante indicativo. Y luego qué decir del tren inferior. O sea, dónde está la separación en el femoral de Urs.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=362" target="_blank" class="timestamp">[06:02]</a> Porque al menos en estas imágenes no se ven. Y en el caso de Quinton sí que se ven. Se ve buena extracción en el glúteo, separación en el femoral, en los dos femorales. Y en el caso de Urs, yo no sé, pero vamos, no parece que haya llegado con esa separación que por otro lado, insisto, fue lo que le dio la victoria. Es que fue lo que le salvó las poses de espaldas, el tren inferior. Y luego en esta pose la expansión dorsal de espaldas yo creo que llama mucho la atención</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=389" target="_blank" class="timestamp">[06:29]</a> Como digo, la amplitud de Quinton con esa buena zona, digamos, lumbar. Sí que es verdad que aquí en esta posa al menos parece que hay menos capacidad de pliegue, por así decirlo en el caso de Urs, pero vuelvo a lo mismo, fijaros el femoral. Es que fijaros el femoral de Quinton y el femoral de Urs. Yo creo que hay mucha diferencia en cuanto al punto de condicionamiento y esa separación, con lo cual...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=409" target="_blank" class="timestamp">[06:49]</a> Insisto, estas poses, tanto el perfil de caja como las dos de espaldas, para mí, claro ganador Quinton. Y en el más muscular tengo que decir que también. Es verdad que Quinton tiene un poquito de diástasis y es verdad que la zona media de Quinton, pues no es lo que más vamos a destacar, pero fijaros...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=425" target="_blank" class="timestamp">[07:05]</a> la separación en las piernas de Quinton y sobre todo esa amplitud con esa redondeza en los hombros y incluso el pectoral que no es digamos un punto muy claro de Quinton pero aún así muestra una buena estrigación y los brazos son poderosísimos o sea es que no tienen nada que ver los brazos de Quinton a los brazos de Gurs sobre todo en materia open ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=445" target="_blank" class="timestamp">[07:25]</a> Entonces, estamos hablando ya de cuatro poses en las que Quinton es ampliamente favorito. Evidentemente aquí faltan poses. Me falta el doble bíceps de frente, me falta también, por ejemplo, que creo que se lo podría llevar Us perfectamente. Me falta el perfil de trices, cosa que ya os digo que tampoco, y lo vais a ver aquí, no creo que lo perdiera Quinton. Entonces, por eso digo, no me parece una buena decisión la que han tomado los jueces. Vamos a ver aquí el perfil de trices, aquí lo tenéis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=475" target="_blank" class="timestamp">[07:55]</a> Yo no veo para nada perdedor a Quinton en esta pose. De hecho, insisto, los perfiles para mí eran muy superior. Y fijaros la estriación, incluso siendo imágenes de mala calidad, pero es imagen de mala calidad para los dos. Fijaros la estriación en las piernas que lleva Quinton, esa separación en correspondencia con lo que lleva Urs.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=492" target="_blank" class="timestamp">[08:12]</a> me parece muchísimo más, muchísimo, muy superior, muy superior, Quinton, sinceramente, ya estamos hablando de cuatro poses, las dos poses de perfil, las dos poses de espaldas y el más muscular, o sea, son cinco poses en las que gana, para mi gusto, Quinton y podríamos darle como perdedor las dos poses, porque bueno, no entramos aquí en el abdomen y pierna, pero en el abdomen y pierna también podemos, si queréis entrar,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=515" target="_blank" class="timestamp">[08:35]</a> Si queréis esta se la podemos dar a Urs, pero aún así fijaros que tampoco es que Quinton se quede muy atrás. Estamos hablando de un 5-3, una cosa así en cuanto a pose, con lo cual me sorprende bastante la decisión de los jueces. Por otro lado, quería también comentaros, porque ha habido evidentemente más competidores en Liza...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=537" target="_blank" class="timestamp">[08:57]</a> Y me gustaría quedarme sobre todo con un poquito que se ha cumplido al menos la dinámica que veníamos tratando en este caso en los últimos campeonatos, en este sentido, con el resto de atletas. Aquí tenemos a Marektor, un poco más de lo mismo, es verdad que él tiene muchos problemas, tiene un dorsal que directamente está roto, por eso hay que decirlo así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=563" target="_blank" class="timestamp">[09:23]</a> Pero aún así a mí es un atleta que me encanta. Es un atleta muy denso. Es un atleta muy open. Y es un atleta que sale como en punto de condición. Sí que es verdad que evidentemente le penalizan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=571" target="_blank" class="timestamp">[09:31]</a> pues esos problemas musculares. Por otro lado, tenemos aquí a Lewis Breed, que un poco salió más o menos similar, al final Lewis sale con los deberes hechos teniendo en cuenta que su estructura, pues no es una estructura más bien tirando a fea, obviamente muy tosca. Y por otro lado también teníamos aquí a Emil Omerajic, que a mí es un atleta que al que todavía me falta que pegue ese, digamos, petardazo, por así decirlo,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=594" target="_blank" class="timestamp">[09:54]</a> Y que pueda salir un campeonato a un gran nivel, ¿no? También quería destacar que esto es importante. Que para mí ha sido un campeonato en el que Roman Friis ha pegado un topetazo tremendo. Voy a ver si lo encuentro por aquí porque creo que lo tenía. En este caso el campeonato de Roman Friis. Voy a buscarlo por aquí. Creo que sí que lo tengo. Aquí lo tenemos en las comparativas y demás. A ver si lo encuentro porque a mí me ha sorprendido bastante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=624" target="_blank" class="timestamp">[10:24]</a> que haya quedado bastante atrás, ¿no? Y es algo que no me lo esperaba, la verdad, no me lo esperaba porque sí que es cierto que yo no sé, Roman tenía unas expectativas importantes con él. De hecho, pensaba que ese que iba a estar dentro del top 5. Y aquí tenemos algo que también quiero hablar de ello, ¿eh? Quiero hablar de esto porque es interesante hablar de ello y creo que... Pues es un poco donde Urs ha perdido para mí la batalla. Esto hay que decirlo así. Fijaros las imágenes de la izquierda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=654" target="_blank" class="timestamp">[10:54]</a> El punto de condición que lleva y sobre todo el buen juego que hicieron, sobre todo creo yo en la puesta a punto a la hora de determinar punto de condición con llenar, con cargar el cuerpo. Yo creo que en este sentido a Ur se lo ve bastante mejor. Fijaros el femoral, es que el femoral parece otro directamente. Sé que las imágenes es difícil de comparar unas y otras y todo lo que queramos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=676" target="_blank" class="timestamp">[11:16]</a> Pero fijaros la separación que lleva en el femoral, que ya es mayor, tiene un mayor nivel de detalle. El glúteo marca mucho la diferencia. Sí que es verdad que mantiene, como digo, el tema de los pliegues en la zona de la espalda baja. Pero aún así, o sea, yo creo que salió, salió para mi gusto, mejor en Italia. Y para mí fue eso lo que le dio la victoria, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=695" target="_blank" class="timestamp">[11:35]</a> Entonces, no sé muy bien cómo catalogar esta decisión por parte de los jueces. No quiero pensar que estamos en Alemania y hay que favorecer al alemán. Quiero no pensarlo, de verdad. Sobre todo porque ya hemos tenido algún ejemplo que otro en el que esto no ha ocurrido con otros atletas. Y no creo que sea el caso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=712" target="_blank" class="timestamp">[11:52]</a> Pero sí que es verdad que a mí me sorprende bastante esta decisión y que me encantaría que en la caja de comentarios me dejéis vuestras impresiones. Insisto, estamos analizando también las imágenes que nos llegan, que esa es otra. Estamos valorando la decisión de los jueces sin tener en cuenta, que es un poco lo que se estaba comentando, sin tener en cuenta imágenes de buena calidad. O sea, son buena calidad pero todavía evidentemente nos faltan mucha mejor calidad para poder analizar las cosas como realmente se debe. Pero como tienen esa cerrazón por parte de algunos promotores de no querer</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=740" target="_blank" class="timestamp">[12:20]</a> poco más que haya ni una sola cámara, pues evidentemente hablamos en virtud a lo que nos estamos encontrando, ¿no? Entonces, pues eso es un poco lo que tenemos encima de la mesa, ¿no? Una decisión controvertida, desde luego que va a traer cola, porque yo insisto que Urs está por debajo de su nivel, y un Quinton que tiene que estar tirándose, voy a decir, de los pelos, aunque no los tiene, pero desde luego que tiene que estar bastante...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=766" target="_blank" class="timestamp">[12:46]</a> Bastante enfadado, bastante enfadado debería de estar por esta decisión, porque yo insisto, creo que hoy se le ha tenido un poquito, en fin, un poquito fuera de rango el cómo ha salido él, el premier cómo ha salido él y sobre todo castigar en este sentido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=785" target="_blank" class="timestamp">[13:05]</a> Pues cómo ha salido Burs. Así que como digo chicos y chicas. Esta es la impresión. Ah bueno. Antes de nada. No vamos otra vez aquí. Porque se me estaba olvidando. Quiero tratar rápidamente. Quiero tratar rápidamente. Lo que ha ocurrido en este sentido también. En la categoría 2-12. En la categoría Classic. En la categoría 2-12. Victoria en este caso. Como digo de Roman. Por delante de Nasser. Que volvía. Parecía que iba a salir en este caso en España. Y al final no salió.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=810" target="_blank" class="timestamp">[13:30]</a> Un Nasser que se queda sin la participación para esta temporada en el Olimpia, creo recordar, creo que no tenía la clasificación de antes. Y sobre todo me sorprende bastante lo de Muzi. Me sorprende bastante lo de Muzi, el nivel y sobre todo el bajón que ha pegado Muzi en este tiempo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=828" target="_blank" class="timestamp">[13:48]</a> Porque haber quedado por detrás de estos dos, que son, ojo, atletas de primerísimo nivel, pero haber quedado por detrás de estos dos, a mí me sorprende mucho, me sorprende mucho tratándose de un atleta, que no nos engañemos, el año pasado fue top 10 olímpico y campeón del europeo. O sea, veníamos así. De hecho, Buzzi venía para revalidar, por así decirlo, el campeonato que consiguió el año pasado en Inglaterra y que este año se celebraba en Europa. Bueno, se celebraba en Alemania. Con lo cual, me sorprende bastante y por supuesto destacar en este sentido...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=853" target="_blank" class="timestamp">[14:13]</a> El espectacular nivel de Muzi que ha estado brillante, ha estado brillante, estoy que decirlo así, porque como digo, la verdad es que Román a mí me ha llamado la atención el hecho de cómo ha ido persiguiéndose para la Olimpia una y otra vez hasta que lo ha conseguido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=873" target="_blank" class="timestamp">[14:33]</a> Y también quería destacar, como digo, para finalizar, porque me parece también muy importante, el hecho de lo que ha pasado en este sentido en la categoría Classic.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=887" target="_blank" class="timestamp">[14:47]</a> porque yo creo que es interesante el ver lo que ha ocurrido y a ver si lo tenemos por aquí aquí está la victoria en este caso de Pior que es el atleta que ha ganado y que a mí personalmente me ha llamado la atención porque fijaros la línea una línea muy clásica me recuerda mucho a Nihal Darwin ese Nihal Darwin incipiente aunque aún así tiene bastante carne me sorprende también el tamaño de los brazos en comparación con el resto del cuerpo va a tener que meterle carne sobre todo también a las piernas para poder compaginar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=918" target="_blank" class="timestamp">[15:18]</a> ese físico, pero sí que es verdad que es un físico que me ha llamado mucho la atención y que me ha gustado enormemente y bastante. Así que como digo chicos y chicas, esta es la información, esto es lo que ha pasado en el European, evidentemente mañana tendréis contenido absolutamente de todo, Chris Pajares ha ganado su segundo torneo en Estados Unidos, lo vais a tener todo, como digo, mañana en el programa...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=dpI_8UmlSK4&t=939" target="_blank" class="timestamp">[15:39]</a> de Iron Road y comentaremos un poquito también, pues qué le parece en esta decisión, tanto Alexis, Rodri y el resto del equipo. Así que como digo, dejadme en la caja de comentarios si opináis, fuerte like al vídeo, suscribíos al canal y como siempre digo chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-xN5UzgsuALM">
+            <h2>FINAL OPEN | URS SIN TONTERÍAS VUELVE A IMPACTAR AL CULTURISMO MUNDIAL - Victor Valdivia</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Victor Valdivia</span>
+                <span class="date">Publicado: 14/09/2025 20:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=xN5UzgsuALM" target="_blank">
+                    <img src="https://i.ytimg.com/vi/xN5UzgsuALM/hqdefault.jpg" alt="FINAL OPEN | URS SIN TONTERÍAS VUELVE A IMPACTAR AL CULTURISMO MUNDIAL - Victor Valdivia" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza una competición de culturismo, centrándose en el desempeño de Urs Kalamnikov-Kalensky.
+El comentarista compara el físico de Urs con el de otros competidores, destacando su condición y bombeo muscular.
+A pesar de algunas críticas sobre su masa, se le considera superior estéticamente a Queen Wishwood.
+Urs finalmente se alza con la victoria, consolidándose como una promesa en la categoría Open.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Promesa de Queen y el Ascenso de Urs <a href="https://www.youtube.com/watch?v=xN5UzgsuALM&amp;t=137" target="_blank">[02:17]</a></h3>
+
+<p>El comentarista presenta a Queen como el futuro de la categoría, elogiando sus formas pero señalando la falta de masa muscular. Luego, introduce a Urs, destacando su físico cargado y su potencial impresionante.</p>
+
+<h3>Duelo de Físicos: Estética vs. Dureza <a href="https://www.youtube.com/watch?v=xN5UzgsuALM&amp;t=349" target="_blank">[05:49]</a></h3>
+
+<p>Se establece una comparación directa entre Urs y Queen, enfatizando la superioridad de Urs en la condición física y su "sequedad" muscular. El comentarista subraya que la estética y las formas de Urs prevalecen sobre el volumen de otros.</p>
+
+<h3>Urs Conquista el Escenario y su Futuro <a href="https://www.youtube.com/watch?v=xN5UzgsuALM&amp;t=763" target="_blank">[12:43]</a></h3>
+
+<p>Urs se proclama ganador de la competición, consolidando su victoria en la categoría Open. El comentarista proyecta un futuro prometedor para él y anticipa su evolución en el culturismo profesional.</p>
+
+<h3>Análisis Post-Victoria: Cortes y Redondez <a href="https://www.youtube.com/watch?v=xN5UzgsuALM&amp;t=983" target="_blank">[16:23]</a></h3>
+
+<p>Se realiza un análisis detallado del físico de Urs, elogiando su cintura definida y su "pedazo de bombeo" que parece irreal. En contraste, se insiste en la falta de dureza, separación y rocosidad en el físico de Queen.</p>
+
+<h3>Urs: Doble Victoria y Camino a la Élite <a href="https://www.youtube.com/watch?v=xN5UzgsuALM&amp;t=1217" target="_blank">[20:17]</a></h3>
+
+<p>Urs celebra su segunda victoria consecutiva en la categoría Open, destacando su exitoso ascenso desde Classic. El presentador subraya su potencial para medirse con la élite del culturismo en los próximos años.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=0" target="_blank" class="timestamp">[00:00]</a> bueno amigos vamos con ellos un día más de domingo a altas horas de la noche prácticamente las 10 de la noche pero es que nuestro hombre de mira que el bir urs kalamnikov kalenski ha vuelto a competir y es lo que vamos a ver a continuación vamos a ver un poquito qué es lo que ha sucedido así que pónganse cómodos noche de competición aquí en el canal apoyenlo mucho suscríbanse un licazo y vamos con ello de momento tenemos aquí de entrada ya queen señores espera</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=27" target="_blank" class="timestamp">[00:27]</a> No, de entrada no. De entrada vamos a tener lo que viene siendo un poco los lineups. Vamos allá. Cuidado con la música de fondo que me salta aquí. He visto la verdad que muy poco, ¿vale? Muy poco por encima. Y este tío la verdad es que llegaba realmente bien. Lo he visto al lado de URSS y me suena pero no sé mucho más. Vamos a ver los giros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=58" target="_blank" class="timestamp">[00:58]</a> Si mal no recuerdo, la cosa estuvo en el campeonato anterior entre Quinn y Urs. No sé quién había de tercero. Que también se la puso re complicada el tipo. Vamos a ver. Ostras, no, vaya tanqueta aquí el amigo. El gran ternero. Muy estético, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=85" target="_blank" class="timestamp">[01:25]</a> Aquí el hermano pequeño de Blessing Agudigu. Vale, este es Mark Héctor, ¿no? Mark Héctor, ¿cómo quedó finalmente? La verdad. Pues que, es que fíjate el nombre, ¿eh? O sea, fíjate el nombre. Es que, o sea, te puedes llamar de muchas maneras. Pero Mark Héctor, o sea, es como, ¿no? Es como, no, no me llamo Mark Héctor. O sea, es como que suena, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=109" target="_blank" class="timestamp">[01:49]</a> Bastante forzado. Con dificultades. Bueno, chavales, dicho esto, aquí tenemos lo que viene siendo el 1v1. Ahora vamos a pasar a verlo. Después veremos múltiples clips que andan por Instagram. Y el resultado final. Aquí de entrada ya podemos ver que estos dos se han ido para atrás. Pero vamos a ver...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=137" target="_blank" class="timestamp">[02:17]</a> Vamos a ver las individuales. Vamos a ver cómo sale Queen. La verdad es que una cosa está clara. Este tío es el futuro de la categoría. Fíjate las formas. Es espectacular. Pero sí que es cierto que falta un poquito de masa. Un poquito de masa muscular. Pero la verdad es que el bombeo es legendario.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=170" target="_blank" class="timestamp">[02:50]</a> Tengo ganas de ver a Urs. Volverá a salir super cargado. Más que la competición anterior. ¡Qué buena la separación y los brazos! ¡Qué maldita maravilla de físico! Lo único que al final es que le ves y dices... Ahora mismo este tío está a un 60% de su potencial.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=196" target="_blank" class="timestamp">[03:16]</a> Ok, nada mal. Vamos a ver. Es que sale demasiado estallado. O sea, es que va a explotar. Hay mucha gente que ha dicho que ha utilizado un poquito de ácido de aspartico para conseguir las ganancias. ¿Yo qué queréis que os diga?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=226" target="_blank" class="timestamp">[03:46]</a> Aquí ha habido algún truco que otro. O sea, Marcus en Rulas no se ha andado con tonterías. Le ha llevado al cuarto oscuro. Le ha enseñado el PDF y le ha dicho, mira, Urs. Aquí es donde tengo toda la información. ¿Qué te parece? Es que mira los hombros, ¿eh? Y la espalda. Es que mira la piernaca, tío. Los desplazamientos de los cuádriceps.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=257" target="_blank" class="timestamp">[04:17]</a> Pero sí que lo que realmente sorprende son los brazos, ¿eh? Ahí es donde te da que pensar si ha habido un poquito de ácido sulfúrico. Es que es demasiado, ¿eh? O sea, es que aprieta el brazo, tío, y sale ahí una bombona. Ok. Vamos a ver. Vamos al resto de competidores, chavales. Madre mía, cómo le ha temblado la teta al tío este.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=291" target="_blank" class="timestamp">[04:51]</a> Es que fijaos que realmente son físicos que vienen más cargados que Ursa en cuanto a masa muscular y tal. Pero es que la estética, tío. ¿Cuánto hace la estética? ¿Cuánto hacen las formas? Los ratios. Ahí lo tenemos, señores. Comparativas. Hostias, cuidadito. Cuidadito este tío que se la está tirando aquí como si fuese el mapache imperial. O sea, fíjate. Tiene la barbilla en la mitad del pectoral. Tranquilo. Cuadito el hermano pequeño a ver si en agudigo, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=320" target="_blank" class="timestamp">[05:20]</a> Que no anda nada mal. La verdad es que el físico de Mark Hector no lo recordaba. O sea, lo veo... De hecho, tiene un problema en la dorsal, ¿no? O sea, es como que le han quitado un cacho, ¿no? ¿Alguien sabe algo? ¿Estuvo por ahí bañándose en Maldivas y le pegaron un bocado a algún tiburón?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=349" target="_blank" class="timestamp">[05:49]</a> Bueno, vamos a centrarnos en lo importante, ¿no, chavales? Queen versus Kalamnikov-Kalensky. A ver, yo es que vuelvo a lo del campeonato anterior. Es que Urs va mucho más condicionado. O sea, simplemente ver la sequedad y cómo los músculos están a punto de estallar y que luego al final a nivel de tamaño es que no se queda para nada atrás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=378" target="_blank" class="timestamp">[06:18]</a> Ahora te digo otra cosa. Si Queen llega a llegar con esta separación, se queda así dureza... No... O sea... Ganaría Ursh. Vamos a ver la pierna. Es que fíjate, tío. El trabajo de Ursh. En cuanto al final...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=405" target="_blank" class="timestamp">[06:45]</a> Las formas musculares. O sea, es que fíjate la redondez en el cuádriceps, en el glúteo, en el... Sí, en el cuádriceps. El cuádriceps lo tienes aquí abajo. Mira, este es el cuádriceps, este es el tríceps. No. Femoral. Colgante. ¿Vale? Colgante. Buen glúteo. Cuádriceps. La redondez. En cambio, ves a Quinn y ves... No hay esa redondez. No hay esa inserción que al final hace que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=435" target="_blank" class="timestamp">[07:15]</a> Que se vea tan increíble a Urs. Pero, joder, eh. Cuidadito el side chest, eh. Fíjate la cantidad de músculo que carga y lo ancho que se le ve. Ya te digo, Queen Wishwood se hace llamar el tipo. No lo pudo poner más difícil. ¿Cómo te llamas? Queen Wishwood. Ok. ¿Algo más? Algo más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=463" target="_blank" class="timestamp">[07:43]</a> Realmente creo que ese no es su nombre, ¿no? La verdad es que la espalda de Urs me parece descomunal, ¿eh? O sea, tiene un lomo macho para partir una vara de hierro ahí en... Y que ni se inmute. También te digo una cosa, ¿eh? Viendo a Urs nuevamente ya no es tan impactante, ¿eh? O sea, cómo hace realmente el factor...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=492" target="_blank" class="timestamp">[08:12]</a> del primer look. La verdad es que es de side triceps realmente bien, ¿eh? O sea, fíjate, tío, dónde tiene la cintura. O sea, estamos hablando... Estamos hablando de que para el tamaño que carga... Bien apretadito, pero... Cuidadito con Queen, ¿eh? Le veo muy bien, tío. O sea, le veo que el único fallo es la condición física, pero si no... Pienso que estaría por delante de Dusk. O sea, realmente está más musculado. Pero es que se le ve aguado, tío. O sea, se le ve...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=522" target="_blank" class="timestamp">[08:42]</a> Parece una acuarela el tipo. La verdad es que me he enfocado mucho aquí en estos dos. He dejado pasar aquí al tipo este. Que tenía un doble bíceps de frente. Del gran mapache. Este no me ha dado mal, ¿eh? Es lo que os digo. Pero no le conozco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=549" target="_blank" class="timestamp">[09:09]</a> Por cierto, chavales, que es de la leyenda, Antonio Burton. ¿Alguien sabe algo? Le echo de menos. Este es segundo cada uno. Vale, pues vamos a ver el 1v1, ¿no, chavales? Vamos a ver el 1v1.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=577" target="_blank" class="timestamp">[09:37]</a> Y ya de aquí vamos a ver el resultado final. Cuidadito, Urs. Haciendo lo propio. Cortando el aire. La carga. Es que, tío. Es que son bombas. O sea, yo lo veo... Es que... Es que no sé qué deciros, ¿eh? O sea, aquí... Es que algo de truco debe de haber, ¿eh? Marcos el Rulas... No es de fiar, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=607" target="_blank" class="timestamp">[10:07]</a> O sea... Porque, tío, estos hombros... Es que son impepinables. Pero es que sí que es cierto que Ur siempre ha tenido este nivel de bombeo, ¿no? Front double biceps. Front double biceps.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=638" target="_blank" class="timestamp">[10:38]</a> Fue, es que no veas, chaval. Y todo por el desayuno de la comida de pájaros. Incontables especias las que le echó ese día. Tú decías, no puede ser. No puede ser, le está echando orégano a la avena. Se pensaba que era una cuatro quesos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=670" target="_blank" class="timestamp">[11:10]</a> A ver, vamos a ser honestos. Sí que es cierto que las piernas para mí mejor las de Ur que las de Queen. Pero el tren superior si Queen llega a salir seco y duro le veo por encima. Vamos a ver esta expansión de espaldas. Me quedo con la de Ur. De espaldas mejor Ur.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=703" target="_blank" class="timestamp">[11:43]</a> Bueno, es que en general está mejor Ursh. O sea, al final... Te quiero decir. Es que el bombeo que trae, tío... Es lo que le falla a Quinn. Que necesitaba traer los músculos ahí más estallados. Buah, es que, tío... La maldita pose de abs, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=731" target="_blank" class="timestamp">[12:11]</a> Mira, tío, el cuadrito es rayado. Es que los cortes, fíjate. Y fíjate que el tamaño que trae Quinn es descomunal. O sea, se ha estirado un bombeo. Madre mía, qué redondez. Pero falta dureza, falta corte. Bueno, chavales, vamos a ver el momento de la victoria. ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=763" target="_blank" class="timestamp">[12:43]</a> Qué bien se le ve, chavales. Otra cosa no, pero vamos. Se lo vuelve a llevar. Se lo vuelve a llevar, señores. No sé si esta vez ha estado más apretada que la anterior, pero yo diría que sí. No sé vosotros qué opináis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=795" target="_blank" class="timestamp">[13:15]</a> Aquí está el momento de sacarse la win. La verdad es que promete mucho Ursa en la categoría, tío. Eso es lo que realmente mola. O sea, debe este físico y decir, tío, déjele. Déjele cocinar. Bueno, no. Cocinar no. Es un cuadro, cocinando a este tío. Se le mete de todo. Dejen que haga lo suyo. Dejen que coja esos kilogramos y ahí ya vamos a hablar de cosas serias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=827" target="_blank" class="timestamp">[13:47]</a> imágenes en mejor calidad. La verdad es que me gusta ver estas cosas porque el día de mañana marquen mis palabras. Cuidadito estos dos en Open. Cuidadito dentro de un año. Dos. ¿Sabes? O sea que al final es como por ejemplo Samson. Samson le pillamos de ternerito. Era ternerito. Ni siquiera era ternero más... No era ni gran ternero ni mucho menos ternero mayor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=856" target="_blank" class="timestamp">[14:16]</a> Piamos ternerito y ahora eso limpia. O sea que esto va a ser más de lo mismo. Va a ser más de lo mismo. Cuidadito, ¿eh? Estoy en mejor calidad. Me gusta. Me gustaría saber si ha habido alguna diferencia de peso, si ha habido algo nuevo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=889" target="_blank" class="timestamp">[14:49]</a> Yo creo que URSS no va a hacer ya ninguna competición más, supongo, ¿no? ¿O qué opináis vosotros? O sea, te quiero decir, tampoco es que vaya a tener margen de hacer piruetas, ¿no? En un mes que queda para la Olimpia, pero oye. Yo es que, siendo completamente honesto, en este mundillo del culturismo, o sea, es que nunca van a dejar de sorprenderme, ¿no? O sea, te quiero decir, pueden venir con alguna triquiñuela nueva.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=924" target="_blank" class="timestamp">[15:24]</a> ¡Qué espectáculo, tío! ¡Qué espectáculo! ¡Fíjate la salida stage, tío! ¡Madre mía, tú!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=954" target="_blank" class="timestamp">[15:54]</a> Es que lo de los dorsales. Fíjate el pedazo de corte en las piernas. Bueno, chavales, esto sería el Europa Pro y la victoria nuevamente en la categoría de Open desde Merakalver. Vamos a seguir aquí viendo cositas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=983" target="_blank" class="timestamp">[16:23]</a> La verdad es que me flick mal el físico de bus, tío. O sea, la cintura, cómo se le mete para adentro y el pedazo de bombeo que tiene arriba parece de mentira, macho. Fíjate, fíjate el abdomen, ¿eh? Qué apretado lo lleva, tío. Qué cabrón. Ya se podría pasar un poquito, ¿eh? Solo un poquito, no le pido tanto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1015" target="_blank" class="timestamp">[16:55]</a> Madre mía, chaval. A ver. Aquí sí que lo tenemos en buena calidad. Aquí sí que lo tenemos en buena calidad, chavales. Fíjate. Buah.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1049" target="_blank" class="timestamp">[17:29]</a> yo creo que lo que más tiene que mejorar es la condición de la espalda pero esto le lleva pasando desde que está en classic</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1074" target="_blank" class="timestamp">[17:54]</a> Yo es que no sé si ha querido. Fíjate lo que te digo. No sé si salió con mejor condición en la anterior. Aunque el abdomen no. Pero los brazos. Tremendo. Vamos a ver a Queen. En buena calidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1100" target="_blank" class="timestamp">[18:20]</a> Cuidadito las piernas. Buenos cortes. Lo que pasa que me falla el bombeo. ¿Sabes? Me falta aquí el bombeo muscular. De unos cuadros un poquito más bombeados, pero... Nada mal los cortes. Pero la condición no. Es que no está ahí, tío. Es que no está ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1131" target="_blank" class="timestamp">[18:51]</a> Muy bombeado, pero falta dureza, falta separación. No me acaba de gustar del todo, ¿sabes? En comparación a Ur. Es que Ur le veo músculo magro, tío, ¿sabes? Aunque luego haya algún truco que otro. Pero a esto yo lo veo aguado, ¿sabes? Lo veo como si le hubiesen... Pues eso, parecen globos, tío. ¿Sabes? No se ven...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1160" target="_blank" class="timestamp">[19:20]</a> No se ve rocoso. Y mira, de espaldas, tío. De espaldas flaquea mucho. Es que Queen, por mucho que quieras, no está por encima de Urs. O sea... Que podría estarlo, sí. Pero bajo el papel, no. O sea... A ver... Que aquí ha habido, ¿no? Ha habido un toquecito. Había un detalle sobre el terreno del juego que no creo que nos queramos perder.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1193" target="_blank" class="timestamp">[19:53]</a> Ahí va. Palmadita. Joder, es que qué seco, tío. Por nada, chavales. No tendría mucha más historia. Déjenme simplemente... Vale, pues para terminar un poquito de cómo fue la entrega de premios y así lo celebraba URSS. Segunda victoria en Open. Nada mal, ¿no? Subiendo del clásico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1222" target="_blank" class="timestamp">[20:22]</a> Se saca doble win en Open, ¿eh? Se dice pronto. Se dice pronto. Sí que es cierto que al final no ha salido con... con ningún top. Que eso también al final hace mucho. Sino con grandes aspirantes a llegarlo limpia, pero... con ninguno limpia. Cuidado, Dennis James...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1260" target="_blank" class="timestamp">[21:00]</a> ¿Qué pasa?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1286" target="_blank" class="timestamp">[21:26]</a> Bueno, si alguien explica en comentarios nos enteramos. Yo la verdad es que aquí ando perdido. Chavales, nada más por el día de hoy. Espero que os haya gustado. Bueno, para acabar diciendo, quien quiera hacer compras en MyProtein...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=xN5UzgsuALM&t=1309" target="_blank" class="timestamp">[21:49]</a> Puedo utilizar el código Víctor, 10% de descuento. Bueno, si estáis viendo esto, tendréis un 15 para el lunes, así que aprovechadlo. Nada más, en el día de hoy me despido. Seguimos felices. Nos vemos en el próximo. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 14/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
