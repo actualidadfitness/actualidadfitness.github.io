@@ -1,0 +1,399 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 17/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">17/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Miguel Navarro</strong>: <a href='#video-gUXyPJUVw4w'>"TENÍA ATRACONES y PASÉ por una ENFERMEDAD MENTAL" ¡Urs DESVELA el GRAN MOTIVO detrás de su CAMBIO</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-gUXyPJUVw4w">
+            <h2>"TENÍA ATRACONES y PASÉ por una ENFERMEDAD MENTAL" ¡Urs DESVELA el GRAN MOTIVO detrás de su CAMBIO</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 17/09/2025 14:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=gUXyPJUVw4w" target="_blank">
+                    <img src="https://i.ytimg.com/vi/gUXyPJUVw4w/hqdefault.jpg" alt=""TENÍA ATRACONES y PASÉ por una ENFERMEDAD MENTAL" ¡Urs DESVELA el GRAN MOTIVO detrás de su CAMBIO" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la impactante transición del culturista Urs Kalesinski de la categoría Classic a Open. Se revela que esta decisión fue impulsada por problemas de peso y un severo trastorno de la conducta alimentaria (TCA) que comprometía su salud. El presentador detalla cómo Urs ha encontrado éxito y felicidad en la nueva categoría, discutiendo sus estrategias de competición y su perspectiva sobre las comparaciones con leyendas del culturismo. El cambio ha marcado una nueva etapa de bienestar físico y mental para el atleta.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Impactante Cambio de Categoría de Urs <a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&amp;t=19" target="_blank">[00:19]</a></h3>
+
+<p>El presentador introduce a Urs Kalesinski y su controvertida decisión de pasar de Classic a Open, donde era top 3. Se adelanta que la razón principal no es solo la gestión del peso, sino un severo TCA que comprometía su salud.</p>
+
+<h3>Urs, el Estratega del Posing <a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&amp;t=326" target="_blank">[05:26]</a></h3>
+
+<p>Urs revela cómo estudió meticulosamente a sus rivales en las competiciones previas, analizando sus poses para encontrar debilidades. Explica cómo ajustó su propio posing para resaltar sus fortalezas y explotar las de su oponente Quinton, logrando una victoria sorprendente.</p>
+
+<h3>Rechazando las Comparaciones Legendarias <a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&amp;t=639" target="_blank">[10:39]</a></h3>
+
+<p>Urs Kalesinski aborda las constantes comparaciones que le hacen con leyendas del culturismo como Dorian Yates y Dennis Wolf. Expresa su deseo de forjar su propio legado, ser único y la mejor versión de sí mismo, sin querer imitar a nadie.</p>
+
+<h3>La Cruda Verdad: Un Trastorno Alimentario <a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&amp;t=849" target="_blank">[14:09]</a></h3>
+
+<p>Urs confiesa su intensa lucha con un TCA grave debido a las restricciones de peso en Classic, incluyendo atracones y sesiones extenuantes de Stairmaster. Describe el impacto devastador que esta situación tenía en su salud mental y física.</p>
+
+<h3>Renacer en la Categoría Open <a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&amp;t=972" target="_blank">[16:12]</a></h3>
+
+<p>Se explica cómo el cambio a la categoría Open ha liberado a Urs de la presión del peso, permitiéndole crecer muscularmente y disfrutar plenamente del culturismo. Esta nueva etapa ha traído no solo triunfos, sino también una notable mejora en su felicidad y bienestar mental.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno, ¿qué tal chicos y chicas? Bienvenidos a un nuevo vídeo en el canal y tenemos que hablar de las declaraciones de Urs Kalesinski, que ha sido el gran protagonista del programa oficial del Mister Olimpia con Terrik El Guindi. También están por allí auténticas leyendas, ¿no? Como Milos Sarcev y también Ayan Balier.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=19" target="_blank" class="timestamp">[00:19]</a> que ya está retirado y ha querido entrar en el programa. Y vamos a analizar un poco y a escuchar a Urs, porque ha sido el gran protagonista y en este sentido ha dicho o ha desvelado cosas que explican bastante mejor el por qué tomó esa decisión de pasar de Classic, donde él era top 3, grandísimo atleta, un tipo evidentemente muy reconocido, porque decidió cambiar a la categoría Open. Y esto ya no es solamente una necesidad por la cuestión del peso, sino incluso porque estábamos ya incurriendo, y lo vais a escuchar en el caso de Urs,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=48" target="_blank" class="timestamp">[00:48]</a> en un TCA de primerísimo nivel. Vais a ver declaraciones bastante potentes de URSS</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=55" target="_blank" class="timestamp">[00:55]</a> que desde luego sorprenden, no porque no ocurran, sino porque evidentemente todos sabemos que entrar en la categoría Classic y con el peso no es nada fácil, no es nada fácil, y hacen auténticas locuras con el objetivo de conseguir eso. Ahora evidentemente se lo ve en otro mood totalmente diferente, ya no hay una báscula que batir, hay una serie de atletas importantes que batir, de hecho en Europa ya lo ha hecho, y ahora queda el asalto al Mr. Olympia. Así que como digo vamos a escucharlo porque tiene mucho para decir</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=82" target="_blank" class="timestamp">[01:22]</a> Así que lo vamos a ver ahora, por supuesto recordad los códigos de descuento, código de descuento Iron Road en toda la web de Big para que tengáis la mejor suplementación al mejor precio y recordaros también el código Iron Road en toda la web de Agonjin para que tengáis la ropa al 10% de descuento también. Además aprovechad porque Agonjin está a punto de estrenar nuevo drop, así que pasaros por la web y vais a tener más información porque se viene un nuevo drop con hoodies y demás, auténticamente espectacular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=108" target="_blank" class="timestamp">[01:48]</a> Así que como digo, vamos a pasar en este sentido a ver al gran campeón, porque lo es, es el gran campeón, es el nombre del momento. Esto es así, no solamente es que lo digamos nosotros tranquilamente, sino que es que encima así ha repercutido en sus redes sociales. Está siendo el hombre del que todo el mundo habla. Hay gente y lo vamos a escuchar porque también vais a ver cómo se moja él sobre la comparación que le está haciendo con Dorian Yates, con Dennis Wolf, etcétera, etcétera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=134" target="_blank" class="timestamp">[02:14]</a> pero desde luego que es, como digo, el hombre del momento. Y vamos a empezar, si os parece, porque ahí he sacado varios extractos de esa entrevista, la tenéis en el canal oficial del Mister Olimpia. Es una entrevista, como digo, larga, es una entrevista interesante, pero me he querido destacar, he sacado cinco clips, para mi gusto, muy importantes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=152" target="_blank" class="timestamp">[02:32]</a> Y el primero de ellos habla sobre la posible polémica sobre si debería o no debería haber ganado en este caso a Quinton, que parece evocar más una especie de imagen más open de lo que a lo mejor él podría traer. Vamos a escucharlo porque no tiene desperdicio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=182" target="_blank" class="timestamp">[03:02]</a> y eso es lo que yo pensé, porque llegamos mucho más fuerte y desde la parte de atrás, especialmente en Italia, me puso un poco, diría, porque queríamos intentar llegar a lo mejor posible y aprender a mi cuerpo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=204" target="_blank" class="timestamp">[03:24]</a> para encontrar la perfecta mezcla de todo. Y ahora, con todos los detalles y separaciones que tengo, nunca veo bien en esos videos y en las fotos. Y como dije, en el día de la show, todos los que estaban en esa arena</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=224" target="_blank" class="timestamp">[03:44]</a> No hay duda que yo tomé la victoria. Es siempre divertido mirar en los videos después. Es también lo mismo con lo que hablamos hace unos minutos con Chris y Martín en Prado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=242" target="_blank" class="timestamp">[04:02]</a> Cuando miré las fotos, fue muy claro para mí que Fittswater won. Pero yo estaba allí en el primer rato y eso cambió todo. Y creo que todos podemos concordar que solo puedes juzgarlo 100% cuando estás allí en persona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=263" target="_blank" class="timestamp">[04:23]</a> Pues ahí lo teníamos, ¿no? Defendiendo evidentemente su victoria, esto ya lo hizo, tenéis hecho el vídeo en el canal, defendiendo que no es lo mismo verlo por imágenes o por fotos, donde incluso él puede entrar un poco a debatir, o que se puede debatir quién podía haber ganado, sino que el hecho de estar ahí y ver de primera fila, de primera mano, como por cierto lo han hecho evidentemente los jueces, que le han dado unánime...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=286" target="_blank" class="timestamp">[04:46]</a> El hecho de estar ahí y verlo, pues marca bastante la diferencia. También me sorprende el hecho, y esto es importante, de que hable de que en Italia salió demasiado lleno. Esto ya lo hablamos también. Yo creo que él quiso, junto con Stefan, evidentemente salir lo más lleno posible, lo más grande posible para no desentonar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=304" target="_blank" class="timestamp">[05:04]</a> y luego se dieron cuenta de que quizás se habían pasado. Tenía pliegues en el lumbar, sobre todo en el back post se notaba bastante que se habían pasado y eso evidentemente les llevó a tomar una estrategia diferente en el caso de Alemania, donde se lo vio un poquito más apretado. Vamos a pasar ahora a algo que para mí es interesantísimo lo que dice, porque esto vais a alucinar con ello.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=326" target="_blank" class="timestamp">[05:26]</a> que es un URSS que estudió a todos sus rivales o a todos los rivales que iba a tener en Italia y los estudió desde lo ocurrido en verano, desde lo ocurrido en Tampa y desde lo ocurrido en Texas y en concreto con Quinton. Vamos a escucharlo porque lo tenía bastante estudiado sobre cómo variar el supósito, cómo mostrar el zonas en las que Quinton podía quedar en evidencia y él podía quedar por delante. Vamos a escucharlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=348" target="_blank" class="timestamp">[05:48]</a> Cuando te hit tu piezas, la primera cosa que te hit es tu piezas, ¿no? Te ajustes tu piezas primero. Los jueces tienen un tiempo limitado para mirar tu piezas. Así que, de nuevo, la primera cosa que estamos mirando, mientras que estás tratando de hit y contractar tu piezas, es tu piezas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=373" target="_blank" class="timestamp">[06:13]</a> I guarantee you, every single judge was looking at the legs first before they actually contracted the upper body. Because that's the nature of side chest. They set the legs, we look at them, so we don't waste time. And right off the bat, Urs Kalichinski is winning this pose on the lower half. Undoubtedly. I think Quentin could pose a little bit better here.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=399" target="_blank" class="timestamp">[06:39]</a> en los brazos, por supuesto. En el topo, todavía me gusta Ury Skalachinsky. ¿Por qué? Porque parece que tiene más densidad en el pecho. La pose es llamada el lado del pecho. En realidad creo que Quentin está haciendo un error aquí, por poner su espalda hacia atrás. Está haciendo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=423" target="_blank" class="timestamp">[07:03]</a> y su cuerpo está amplificando su weakness, que es que el cuerpo no se veía tan densidad como Erz Kalachinsky. Yo realmente recomiendo que Quinten le traje y mostrar un poco más densidad en el cuerpo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=443" target="_blank" class="timestamp">[07:23]</a> Y incluso si puede escoger un poco de su width. Sabemos que es muy wide. Se va a parecer más wider que Kalechinsky si trae él, pero ahora está ayudando a su chest. Así que tratando de enfatizar su width,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=460" target="_blank" class="timestamp">[07:40]</a> no estaba en favor. Si se poseía exactamente como Erz, todavía sería más amplio que Erz, pero ahora su densidad de la pieza podría estar en la pieza con Erz Kalachinsky. Eso es lo que yo pensé. Y tú eres correcto. En esta pieza, Erz Kalachinsky está ganando el top y el bottom.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=484" target="_blank" class="timestamp">[08:04]</a> I mean I looked at every single little detail and took notes on my phone from Tampa and Texas and how he posed to really like have every competitor and then how he do in his pose and then I see okay I get into the corner with this guy and this guy and that's the way how I can expose him. That's why I never do like a crab pose against Quintin for example but I would maybe against another guy and I thought</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=514" target="_blank" class="timestamp">[08:34]</a> con cómo se atrapó su espalda. Eso fue mejor, porque Milos, después de prejudiciar, me trajiste o fue el fan que debería volver más con mi espalda. No creo que sea una buena idea. Pues ahí lo tenemos, eh. Podemos extraer de aquí de todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=534" target="_blank" class="timestamp">[08:54]</a> Desde el típico debate de uno nunca tiene que fijarse en los demás porque lo que tiene que hacer es estar confiado de que lo que tiene es suficientemente bueno para ganar y no ajustarse a los rivales. Bueno, pues ya estáis viendo que nada más lejos de la realidad. De hecho, llevaba entre comillas espiándole al bueno de Quinton todas esas poses, anotando cada detalle, siendo estratégico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=555" target="_blank" class="timestamp">[09:15]</a> y es algo que evidentemente en esta pose donde perfectamente podría haber salido mal en el sentido de que Quinton al final muestra mucha amplitud clavicular y es un tipo muy grande, pues aún así ha conseguido darle la vuelta, sacarle buen partido a ese tren inferior que es súper poderosísimo en el caso de Urs y además en la pose</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=573" target="_blank" class="timestamp">[09:33]</a> ajustarla para que realce mucho más el pectoral y en este sentido pues sobra decir que era una pose en la que en principio tenía todas las papeletas para perderla y que de hecho ha salido victorioso de la misma. Además me gusta bastante el hecho de que incluso Milo le dijera algo de otra manera y dijera no, por aquí va a ser que no. Así que eso también es bastante interesante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=597" target="_blank" class="timestamp">[09:57]</a> Vamos a ir a la comparación que le han hecho ya esta semana bastantes veces con Dorian y demás. Danny Wall también ha salido por ahí en la papeleta. Incluso Marco Rull. Tuvimos un poquito en el programa la idea de que a lo mejor Marco Rull. Jake Adler llega a escuchar. Bueno, vamos a escuchar lo que él opina.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=611" target="_blank" class="timestamp">[10:11]</a> Based on their name and where they were going to place, if Nick Walker was going to be next to them, if Samson, Ian, Rafael Brendon, they kind of knew it. So, you know, the list is going to come out and you can make some assumptions. Obviously, Samson is going to be the last guy who you're going to be on that first comparison round. Talk to me about your mental state.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=639" target="_blank" class="timestamp">[10:39]</a> According to your mom, you were a skinny kid in the classic and now the entire world thinks you're the next Dorian Yates. What's going on with your mind? Honestly, I'm just happy to do bodybuilding the way I always loved it to do. I'm training full-blown right now. I have super fun with the whole process and really enjoying it for the first time after</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=665" target="_blank" class="timestamp">[11:05]</a> After many years of just starving down and looking on a weight scale. So actually it's just amazing to do bodybuilding right now. And can't wait for the Olympia in four weeks.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=681" target="_blank" class="timestamp">[11:21]</a> Just the whole team and the whole vibe and the full circle moment. I mean, hell yeah, I'm going to train my last leg workout with Ian as well in Vegas. So that's what we did three years ago. And it's just cool to do bodybuilding now. That's everything that's in my mind. If they want to compare me to</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=703" target="_blank" class="timestamp">[11:43]</a> Dorian o Dennis Wolff, pueden hacerlo, pero quiero ser hermosa y no Dorian y no Dennis. Quiero ser mi propia physique especial y es genial para las personas que dicen eso. Y, por supuesto, es genial escuchar eso también, pero quiero ser la mejor versión de mí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=730" target="_blank" class="timestamp">[12:10]</a> Pues ahí lo teníamos, ¿no? Intentando un poquito despejarse, yo creo que hace bien. Despejándose un poquito de cualquier tipo de comparativa con esas leyendas, porque al final son unas leyendas brutales, tipo Han conseguido el Olympia varias veces, como en el caso de Dorian, y que no interesa tampoco meterse en ese berenjenal. Vamos directos al motivo principal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=748" target="_blank" class="timestamp">[12:28]</a> Porque vamos a ver primero lo que suponía el hecho de entrar en Classic y cómo se mermaban esas capacidades y después vamos a ver cómo directamente lo que tenía un TCA de... pero vamos, como un camión. Así que vamos a escuchar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=777" target="_blank" class="timestamp">[12:57]</a> I just lost like back and arms and a little bit of legs so just all my weaknesses I had just got got weaker and that's that pissed me off so I I didn't want to do it anymore</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=792" target="_blank" class="timestamp">[13:12]</a> Pues ahí lo teníamos, ¿no? Como ese físico no terminaba de llegar, como incluso las partes o aquellas zonas musculares, esto por ejemplo lo hemos vivido bastante de lleno nosotros en carres propios, por así decirlo, con Josema, ¿no? Como esos músculos rezagados son músculos más débiles con respecto a los otros, pues evidentemente cuando tienen que entrar en un peso, obviamente son los primeros que se van a ver condicionados. Y vamos a ir directamente al tema, como digo, de la alimentación, que es el que a mí más me ha sorprendido y el que menos esperaba. Vamos a escucharlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=820" target="_blank" class="timestamp">[13:40]</a> Were you having to limit yourself in terms of food and pushing your weight up? Were you really trying to keep the reins on it? Or were you just kind of letting it do its thing and eat and try and make progressions and then dealing with it on the back end during the prep? Or were you having that in the back of your mind of like, okay, I can't get to 290 pounds because I got to make 230 here in 10 months? Where was your kind of mindset with that in the off seasons? So with that, it's basically I don't...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=849" target="_blank" class="timestamp">[14:09]</a> Necesito comer mucho para crecer, así que con 3500 calorías, ya estoy creciendo y creciendo hasta...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=858" target="_blank" class="timestamp">[14:18]</a> 250, 255. And I just started to get so hungry that I got really sick from the mind perspective and had some crazy binge eating attacks and stuff like this. And then I was pissed on myself and went on the Stairmaster for three hours straight. And yeah, that just...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=886" target="_blank" class="timestamp">[14:46]</a> Fue super texting for my mind, but with that up and downs, I ended up like... My biggest was 280, and it wasn't super fat, so... And yeah, with all supplements, we already just stayed out, you know, to just try to limit the growth in the off-season. But then also my coach saw like, okay...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=917" target="_blank" class="timestamp">[15:17]</a> No hay manera, no solo para el cuerpo, sino para la mente. Necesito ser abiertos y obtener todas las fronteras para empezar a crecer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=932" target="_blank" class="timestamp">[15:32]</a> Pues ahí lo teníamos, una situación que se alarga la serie de años, en la que tiene que estar jugando bastante con el tema de la dieta, estando muchos meses a dieta, eso no solamente implica un impacto en lo que es a nivel orgánico, vamos a decirlo así, sino también a nivel mental.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=947" target="_blank" class="timestamp">[15:47]</a> un estrés constante de tener que comer lo que tienes que comer, de que no te pases, de que termine viendo comida y genere un estrés y una ansiedad, por así decirlo ansiedad, aunque en realidad gula, por comer y eso lleva evidentemente a situaciones como la que él ha comentado, que es el típico caso de un TCA, o sea, tracones a muerte, situación incontrolable,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=972" target="_blank" class="timestamp">[16:12]</a> Y llega un punto en el que se vio con 280 libras y su preparador le dijo, con esto no podemos hacer absolutamente nada para entrar en el peso que tienes que entrar. Hay que cambiar, va a ser bueno para tu cabeza, también va a ser bueno para tu físico porque tenía que quemar directamente y lo habéis escuchado músculo para poder entrar en Classic. Y desde luego una nueva etapa que se ha abierto de la mejor manera para Urs, no solamente por los triunfos, que sobra decirlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=995" target="_blank" class="timestamp">[16:35]</a> sino porque creo que a todos los niveles, a nivel de marca personal, lo que ha crecido en estas últimas dos o tres semanas, a nivel de felicidad también, porque ya no solamente el hecho de ver en tarima cómo se ha encontrado, el físico que ha mostrado, sino también porque lo hemos visto sonreír y de qué manera en tarima disfrutar y no salir medio muerto, porque es la realidad, y él lo comentaba, es que salía medio muerto a la tarima. A mí me recuerda un poco también el caso de Madelman, que se quejaba a la gente de que no apretaba, claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=1025" target="_blank" class="timestamp">[17:05]</a> ¿Cómo va a apretar? Si está ahí en tarima, gracias a Dios que está, como el que dice, y no está yendo de rodillas. Entonces, por eso digo que en este sentido entiendo perfectamente la marcha de URSS. Ya la comentamos, que era un movimiento bastante lógico, que no iba a ser el único.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=1044" target="_blank" class="timestamp">[17:24]</a> Y en este sentido, pues ya lo habéis visto, ¿no? Un trastorno alimentario que se iba desarrollando a lo largo de los años, a lo largo de las preparaciones y que ya llegaba a un punto donde no había manera de sostenerlo. Y más vale, y creo que ha hecho bien URSS, en el hecho de cambiar rápido porque seguir manteniendo esa pauta a lo largo de los años podría haber implicado no solamente un trastorno a nivel médico, orgánico, etc., sino sobre todo a nivel mental y quién sabe si no hubiera tenido que tomar la decisión de dejar el mundo del culturismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=gUXyPJUVw4w&t=1073" target="_blank" class="timestamp">[17:53]</a> Así que como digo chicos y chicas, esta es la última hora, estos son los fragmentos más importantes de la entrevista de Urs, en la entrevista al Mister Olimpia, gran protagonista, gran protagonista, de hecho le preguntaría a Ian Valier en la entrevista cómo lo ve y él lo ve dentro del top 10 peleando para entrar top 7, top 8, así que todo eso, dejadme en la caja de comentarios lo que opináis, fuerte like al vídeo, suscribíos al canal y como siempre digo, chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 17/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
