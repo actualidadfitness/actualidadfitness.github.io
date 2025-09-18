@@ -1,0 +1,409 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 18/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">18/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>alvarobernalalejandre</strong>: <a href='#video-nPy2KzzIXnY'>¿Por qué te interesa saber de fisiología del ejercicio?</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-nPy2KzzIXnY">
+            <h2>¿Por qué te interesa saber de fisiología del ejercicio?</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: alvarobernalalejandre</span>
+                <span class="date">Publicado: 18/09/2025 06:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=nPy2KzzIXnY" target="_blank">
+                    <img src="https://i.ytimg.com/vi/nPy2KzzIXnY/hqdefault.jpg" alt="¿Por qué te interesa saber de fisiología del ejercicio?" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video analiza una entrevista con el Dr. López Calvet sobre fisiología del ejercicio, destacando la importancia del conocimiento científico. Se abordan temas como la memoria muscular, la influencia genética en el rendimiento y la efectividad de métodos de entrenamiento. El presentador enfatiza la necesidad de dudar de verdades absolutas y basar el entrenamiento en evidencia, no en "vendehumos". También explora el futuro de los sensores biométricos y la IA en el deporte y la salud.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Desafíos a la "Memoria Muscular" y la Humildad Científica <a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&amp;t=146" target="_blank">[02:26]</a></h3>
+
+<p>Se discute la teoría de los mionúcleos sobre la memoria muscular, revelando que investigaciones recientes cuestionan su permanencia. El presentador resalta la humildad de los verdaderos expertos frente a la vehemencia de los "gurús" del fitness, enfatizando que muchas verdades aún no son absolutas.</p>
+
+<h3>Genética, Rendimiento Élite y el Debate HIIT vs. LISS <a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&amp;t=375" target="_blank">[06:15]</a></h3>
+
+<p>Se enfatiza la importancia crucial de la genética en el rendimiento deportivo de élite, desmintiendo la narrativa aspiracional del fitness. También se analiza el debate entre el entrenamiento HIIT y LISS, sugiriendo que una base cardiovascular sólida es fundamental antes de explotar altas intensidades.</p>
+
+<h3>Sensores Biométricos del Futuro: Eficiencia Energética y Salud Personalizada <a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&amp;t=748" target="_blank">[12:28]</a></h3>
+
+<p>Se introduce la prometedora tecnología del sensor de flujo térmico para medir la eficiencia energética y la demanda glucolítica. Se discute el desarrollo de sensores no invasivos de lactato en sudor y saturación de oxígeno muscular, destacando su potencial transformador para el rendimiento élite y la gestión de la salud.</p>
+
+<h3>Mitos del Entrenamiento y la Complejidad de la Fisiología <a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&amp;t=914" target="_blank">[15:14]</a></h3>
+
+<p>El video advierte sobre los peligros del entrenamiento con restricción de flujo sanguíneo (BFRT) sin supervisión profesional. Se destaca la dificultad de realizar estudios con deportistas de élite y se critica la sobresimplificación de la biología molecular en el deporte, enfatizando la intrincada red de procesos fisiológicos.</p>
+
+<h3>Glucógeno Muscular y Estrategias de Rendimiento Extremo <a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&amp;t=1200" target="_blank">[20:00]</a></h3>
+
+<p>Se aborda cómo el cerebro puede inhibir el rendimiento si los niveles de glucógeno muscular son muy bajos. Calvet explica que deportistas como velocistas pueden beneficiarse de depósitos de glucógeno ligeramente por debajo del máximo para reducir peso corporal, una estrategia de "ganancia marginal" de élite no aplicable a la población general.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=0" target="_blank" class="timestamp">[00:00]</a> Si tienes conocimientos básicos de fisiología del ejercicio, vas a entrenar mejor, vas a evitar lesiones y sobre todo vas a poder hacer que tu entrenamiento sea sostenible en el tiempo. Mira, hoy te comento en el podcast del doctor José Luis Chicharro que entrevista al doctor López Calvet. De verdad, es una auténtica maravilla. Este contenido es para personas inteligentes, para personas que valoran</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=22" target="_blank" class="timestamp">[00:22]</a> el esfuerzo y la trayectoria de los investigadores. Yo soy un random, soy un divulgador, pero me lo paso verdaderamente bien reciclándome y aprendiendo cosas nuevas. Yo hago formaciones con Chicharro en su plataforma y con otros investigadores que os iré contando en distintos vídeos, pero en este en particular he podido sacar información que yo intuía o que había escuchado en otros lados, pero no terminaba de encontrar el origen de esa información.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=49" target="_blank" class="timestamp">[00:49]</a> Como siempre, cojo el enlace de esa entrevista de un vídeo de YouTube y lo pongo en notebook.lm. Mi proceso siempre es primero me lo escucho entero. Bueno, hay veces que tengo que parar y echar para atrás varias veces porque me están cantando lo que están contando y digo, es que si no lo entiendo no quiero seguir. Y a veces pues me despisto y me voy a una IA para profundizar. Pero en general me lo veo entero y una vez que me lo he visto o lo he escuchado generalmente en los viajes o cuando voy caminando por las tardes...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=75" target="_blank" class="timestamp">[01:15]</a> Después ya voy viéndolo poco a poco, parando, tomando alguna nota, me hago capturas de pantalla para saber en qué minuto del vídeo estoy y ya finalmente lo meto aquí en Notebook LM y le pido, en este caso le he pedido que me haga una lista de los conceptos que se tratan. Hay una primera parte donde se presenta la trayectoria de la persona que es maravillosa, pero bueno, que para la parte anterior</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=99" target="_blank" class="timestamp">[01:39]</a> de este vídeo no es muy relevante. En mis vídeos, por favor, no esperéis una receta, una solución simple, rápida a un problema complejo. Pero a medida que uno se va formando y va teniendo conocimiento, se va volviendo inmune a los vendehumos, a las personas que dan respuestas rápidas. Entonces, fijaros, primero empieza hablando de la biopsia muscular. Básicamente, pues tenemos que intervenir de una forma...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=125" target="_blank" class="timestamp">[02:05]</a> en la que hay daño para poder acceder a esa fibra muscular y analizarla. Esto habitualmente se suele hacer en animales de laboratorio, pero ahí nos va contando cómo gracias a las biopsias musculares se pudo saber muchísimo más del metabolismo de las fibras musculares y de todos los procesos energéticos en definitiva. Estoy simplificando mucho, pero merece la pena escuchar esa parte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=146" target="_blank" class="timestamp">[02:26]</a> Después, me encanta cuando entran en el debate de la memoria muscular. Eso que todos intuimos y de hecho lo vemos. Oye, alguien entrena, coge cierta masa muscular, deja de entrenar y luego cuando lo retoma lo recupera mucho antes. Hasta hace muy poquito la teoría de los mionúcleos. Oye, entrenas durante un periodo largo. Hay estudios ya que con solo seis semanas se ve que hay mayor...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=170" target="_blank" class="timestamp">[02:50]</a> Creación de mio núcleo dentro de la fibra muscular. Esta parte es interesante. La fibra muscular en ese sentido es singular. Bueno, pues dejabas de entrenar y se pensaba que los mio núcleos permanecían y entonces eso permitía sintetizar proteínas más rápido y tal. Pero ahora están viendo que no necesariamente es así y dices, joder Álvaro. Seguro que hay alguien que dice, no me des problemas, dame soluciones. Si es que esto es de lo que se trata.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=193" target="_blank" class="timestamp">[03:13]</a> De que los canales fitness convencionales tienes a gente con una formación muy limitada diciéndote cosas como si fueran verdades.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=202" target="_blank" class="timestamp">[03:22]</a> que son para toda la vida, que son incuestionables, aseverando cosas con una vehemencia como si supieran del tema. Y de hecho, cuando sabes mucho del tema, ves que estas personas son muy humildes y siempre están diciendo, oye, pues creemos que sí, creemos que no. O sea, que ni siquiera a fecha de hoy se conoce con exactitud y de forma aplicable a toda la población un mecanismo de la hipertrofia. Se saben muchísimas cosas, la sobrecarga progresiva, la recuperación, ta, ta, ta. Todo eso no lo sabemos. Y mucho de eso funciona en una buena parte de la población siempre,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=230" target="_blank" class="timestamp">[03:50]</a> en el contexto de la campana de Gauss, que yo hago mucha alusión, pero es que es así. Gente que no responde prácticamente nada, gente que responde muy fácilmente y un grueso de la población que responde de una manera más o menos dosis dependiente al estímulo y a la recuperación, ¿verdad? Bien, pues un investigador de máximo nivel te dice, tenemos muchas dudas al respecto y solo eso a mí ya me aporta para no tener esa sensación de certidumbre y ser capaz de decir, no lo sé, no lo sé, solo sé hasta aquí y aún así ser útil, porque en definitiva lo que sabemos de hipertrofia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=259" target="_blank" class="timestamp">[04:19]</a> De forma general ya es útil, pero creo que hay un matiz entre creer que te lo sabes todo y dudar de que tienes muchísimas cosas por aprender. No recuerdo qué filósofo decía, daría todo lo que sé por la mitad de lo que no sé. Y es un ejemplo perfecto donde tú tienes un conocimiento que ya es útil para tus clientes, pero no tienes por qué tener respuestas a todo. Y además que hay que estar abierto a los cambios y a nuevos resultados de la investigación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=284" target="_blank" class="timestamp">[04:44]</a> Me encanta cuando Chicharro le pregunta a Calvet sobre los limitantes en la actividad física de resistencia. Oye, ¿cuál es la limitación? El que llegue sangre a los músculos con oxígeno o que los tejidos, el músculo extraiga el oxígeno. Y Calvet dice claramente que es el llevar sangre a los músculos. Y pone unos ejemplos muy sencillos. A una persona se le hace una transfusión de 500 mililitros</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=313" target="_blank" class="timestamp">[05:13]</a> De sangre y ya directamente la persona tiene un mayor rendimiento. Eso por desgracia lo hemos visto en ciclismo y en esquí de fondo entre otros deportes de una manera vergonzosa. Pero lo que viene a decir es que si tu corazón ya no puede latir más veces ya no puede mandar más sangre. Con lo cual ya hay una propia limitación en el volumen del corazón como bomba que impulsa la sangre y en los latidos. Luego cuenta cosas preciosas que vamos a ver de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=336" target="_blank" class="timestamp">[05:36]</a> pruebas que se hacen en chavales jóvenes, en esquí de fondo. El esquí de fondo es uno de los deportes más demandantes en el ámbito de la resistencia a la fuerza. Tremendamente demandante, donde se ven los consumos de oxígeno más altos. Ahora lo vamos a comentar. Y entonces, bueno, pues dice que cuáles son las limitaciones realmente. Y te dice claramente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=355" target="_blank" class="timestamp">[05:55]</a> Que el consumo de oxígeno viene muy determinado por la genética, que el volumen, el tamaño del corazón también. Y cuando ven chavales de 12-13 años que ya tienen un consumo con esa edad de 70 ml por minuto y kilo, pues claro, dice, en esos 300-400 chavales que están en Oslo, pues van a salir 3 o 4 medallistas olímpicos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=375" target="_blank" class="timestamp">[06:15]</a> Y en el ámbito del fitness se habla de la genética siempre matizando mucho. ¿Por qué? Porque hay una venta aspiracional. Oye, esa persona, ese divulgador está muy fuerte y entonces te hace pensar que tú te puedes poner razonablemente así y siempre se alude al mantra de pero es que en la práctica la gente no entrena duro. Que sí, que tú puedes entrenar muy duro, que como la genética no sea buena, pues vas a tener unos resultados limitados que nadie cuestiona los resultados, que nadie está diciendo que si no tienes una genética favorable para la hipertrofia no entrenes, nadie está diciendo eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=404" target="_blank" class="timestamp">[06:44]</a> Pero que hay que reconocer que en la élite de muchísimos deportes el rendimiento que logra un atleta de élite duplica y a veces 2,5 veces el rendimiento de una persona con una genética normal dándolo todo y entrenando en las mejores condiciones tanto de entrenamiento como de recuperación. Y eso hay que decirlo alto y claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=423" target="_blank" class="timestamp">[07:03]</a> Cualquier persona que esté muy entrenada en bicicleta, que tenga 28 o 30 años, que no entra en profesionales, pero que tenga una genética buena y que sea el que gana todos en su club y queda bien en las marchas, está yendo aproximadamente como mucho al 60% de los profesionales. A medida que vas bajando un poco el nivel, personas que estén dando, por ejemplo, 3,5 vatios por kilo en su FTP, pues ya están en la mitad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=445" target="_blank" class="timestamp">[07:25]</a> Y yo, por ejemplo, en este momento de mi vida, pues probablemente yo llevo en bicicleta el rendimiento del 40% de lo que hace un profesional. Que eso no quiere decir que yo no entrene, que yo no sea feliz, pero esa realidad está ahí. En mi etapa...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=458" target="_blank" class="timestamp">[07:38]</a> Cuando yo era joven, mi consumo máximo de oxígeno era 52. Sin entrar en valoraciones, no hay nadie. En competiciones profesionales, por debajo de 70-75, los que están ganando, nadie está por debajo de 80-85. Entonces, la genética importa mucho y lo explica muy bien. Me gusta también cuando habla de si hay que decidir entre entrenamiento de largo tiempo y bajos niveles de lactato, el famoso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=485" target="_blank" class="timestamp">[08:05]</a> entrenamiento en zona 2, ya sabéis que a mí me gusta hablar de bajos niveles de lactato, niveles moderados de lactato, altos niveles de lactato, niveles de lactato que ya uno no soporta y tiene que parar. Bueno, pues en</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=497" target="_blank" class="timestamp">[08:17]</a> En este momento de la vida donde todo queremos que sea rápido, fácil y demás, pues el HIIT se ha popularizado mucho. Pues oye, en vez de estar yo hora y media en bicicleta para mejorar mi eficiencia a la hora de utilizar las grasas como sustrato energético principal o mejorar mil cualidades cardiovasculares y todo esto, pues nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=518" target="_blank" class="timestamp">[08:38]</a> Dame algo que en 10 minutos esté hecho. Bueno, pues ¿qué ocurre? Pues la gran mayoría de las personas desentrenadas sedentarias no aprovechan el potencial del HIIT porque no llegan a intensidades suficientemente altas. Claro que se le dispara el corazón, pero no quiere decir que esté mejorando más que si estuviera trabajando en un entorno de…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=538" target="_blank" class="timestamp">[08:58]</a> bajo estado de intensidad pero larga duración. Lo habréis oído como Liss o como Hit, ¿verdad? Entonces, ¿es malo el Hit? No es malo el Hit, pero probablemente, y ahí Calvez lo dice, la base debería ser un entramiento prolongado de una intensidad perfectamente tolerable. Pero en este modelo de vida queremos las cosas rápidas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=556" target="_blank" class="timestamp">[09:16]</a> Y claro que hay estudios en los que se comparan intensidades de HIIT, intensidades de LIS, pero que abramos la mente y que pensemos que no es todo tan sencillo. Que porque aparezca un estudio diciendo X personas con obesidad mejoraron más en la resistencia a la insulina haciendo HIIT que haciendo tal...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=575" target="_blank" class="timestamp">[09:35]</a> Todo eso puede tener un sentido pero en la práctica lo que cualquier persona tendría que tener es una buena base cardiovascular a intensidades moderadas y por supuesto trabajar las intensidades altas porque es parte de la vida el poder reaccionar a diferentes estímulos y situaciones vitales. Pero que no haya que estar eligiendo o fuerza o cardio y dentro del cardio o LIS o HIIT. Que entendamos la fisiología y qué es lo que pasa en cada uno de los estímulos. Eso es muy interesante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=604" target="_blank" class="timestamp">[10:04]</a> Hay una parte que a mí me encanta, porque yo he hecho esquí de fondo muchos años, y hablaba de cómo el entrenamiento de los brazos genera adaptaciones locales, obviamente en los miembros superiores, pero también tiene transferencia a los miembros inferiores y no al contrario, y lo explica. Es decir, una persona que haga mucha bicicleta, si de repente se pone a ir a hacer esquí de fondo y se pone que hay que remar muchísimo, aquí os pongo una imagen de algo parecido...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=632" target="_blank" class="timestamp">[10:32]</a> Al esquí de fondo, bueno, en el gesto deportivo es prácticamente lo mismo. El patín, digamos que tiene una pequeña diferencia a los esquís, pesa más, no se suelta del talón, no es idéntico, pero la demanda energética y la demanda biomecánica es la misma. Bueno, pues cuando esos ciclistas van a hacer esquí de fondo tienen una gran limitación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=653" target="_blank" class="timestamp">[10:53]</a> Y yo he experimentado durante muchos años y lo veo con clientes a los que les doy clase de estos patines y que hemos ido a cursos de esquí de fondo hace años, como estaban todo el mes de enero y febrero sin tocar la bicicleta haciendo este tipo de ejercicios, volvían a la bicicleta y decían, bueno, me raza un poco el culo, un poco la posición que la he perdido, pero es que voy como un cohete. De hecho, es que claro, cuantas más masas musculares involucras en el gesto deportivo y además grandes masas musculares, pues el corazón tiene que latir más. También explica</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=682" target="_blank" class="timestamp">[11:22]</a> El tamaño de los vasos que llevan la sangre a los miembros superiores que lógicamente requiere más pulsaciones para llegar a una cantidad de sangre comparable con el tren inferior y todo eso hace que explique que lo dice muy bonito en esta parte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=697" target="_blank" class="timestamp">[11:37]</a> que aunque los miembros superiores extraen menos oxígeno que los miembros inferiores, tienen menos densidad mitocondrial en los esquiadores de fondo que están trabajando muchísimo con los brazos. De hecho, en un estilo que se llama, hay dos estilos en competición actual, uno que se llama clásico, otro se llama patinador. En clásico, pues es que hay carreras que prácticamente se hacen enteras remando con los brazos. Por lo tanto, son esquiadores que tienen un tono muscular muy relevante en el tren superior al igual que el tren inferior.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=726" target="_blank" class="timestamp">[12:06]</a> Bueno, pues esos esquiadores tenían una densidad mitocondrial similar a las piernas, aun a pesar de que no eran capaces de extraer tanto oxígeno porque explica muy bien Calvet que hay una circulación periférica que roba sangre a esa circulación que llegaría a los músculos. Pero de verdad que está muy bonito y muy bien explicado. Ya donde a mí me encantó es cuando habla de que están...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=748" target="_blank" class="timestamp">[12:28]</a> investigando y están con la patente y, bueno, pues quizá en un tiempo corto lo tengamos, el sensor de flujo térmico para medir, como pongo aquí, la eficiencia energética. Es espectacular. Al final algo tan simple como un sensor que está termostatizado, es decir, es capaz de entender la temperatura que le llega con independencia de la temperatura ambiente. Eso dicho así parece muy simple, pero según cuentas complejísimo y nos permite saber la eficiencia energética.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=774" target="_blank" class="timestamp">[12:54]</a> El chicharro lógicamente le dice, se deduce que si hay más calor es que hay más demanda glucolítica, hay más desgaste. Efectivamente, es precioso eso cuando se junte, que yo os doy siempre la tabarra con esto, con los sensores de lactato a través del sudor o de otro fluido, cualquier cosa que no sea invasiva, cuando sean económicos o al menos económicos al precio de los pulsómetros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=795" target="_blank" class="timestamp">[13:15]</a> y estables porque todavía no lo son pero ya hay patentes españolas ya se está vendiendo pero como digo estamos todavía en esa fase en la que no es me lo pongo salgo y veo los niveles de lactato sobre la marcha todavía no es tan simple pero llegamos a esto igual que los sensores de saturación de oxígeno muscular estamos en ese punto tan bonito en el que la élite va a poder utilizar el cuerpo humano como la fórmula 1 yo sé que hay gente que está en contra de eso pero en el ámbito de la enfermedad y de la salud</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=823" target="_blank" class="timestamp">[13:43]</a> va a ser muy relevante porque, oye, si yo tengo una persona que está pasando por una enfermedad autoinmune, como es mi caso, y estoy con las defensas bajas y me paso de rosca, pues en el deporte me va a perjudicar más aún más en mi enfermedad o una persona con un cáncer o un postoperatorio o cualquier cosa. Es decir, esos sensores bien utilizados van a ser maravillosos porque nos van a dar una información útil. Lo digo en todos los vídeos. Siempre vendrá el submental obsesionado que sin los datos no sepa hacer nada. Pues oye, hijo mío, selección natural. No es mi responsabilidad. Pero que los datos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=852" target="_blank" class="timestamp">[14:12]</a> Cada vez van a ser más cercanos, más económicos y más competentes. Y no os digo nada, ya cuando se mezclen con la inteligencia artificial, que no para de mejorar cada día, veremos dónde nos lleva en el lado bueno y en el lado malo. Esto va a ser maravilloso, ¿no? Y gente de este nivel es la que nos cuenta estas cosas. Cuando yo respondo en los directos a ciertas preguntas o genero vídeos de temas serios, cuando no hago el tonto, pues yo ¿de dónde aprendo? Pues de esta gente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=875" target="_blank" class="timestamp">[14:35]</a> De chicharro, de calvez que estoy mencionando ahora, pero iré sacando más vídeos de esto, ¿no? Habla de un tema muy interesante. Los que sigáis el ciclismo, pues ya sabéis que en el Bisma se hablaba, pues si hacían la inhalación de monóxido de carbono, lo explica muy bien y al final viene a decir que no hay evidencias de que se mejore.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=894" target="_blank" class="timestamp">[14:54]</a> Es un tema que también menciona que la Guada lo está investigando. Desde el Bisma se dijo que era simplemente para evaluar el rendimiento, es decir, que se utilizaba para un test. Es coherente la explicación desde el punto de vista científico. Desconozco las razones de fondo, pero lo explica muy bien y merece la pena. Si os gusta el ciclismo y estas cosas de la fisiología y el máximo rendimiento, que lo veáis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=914" target="_blank" class="timestamp">[15:14]</a> Ya digo, le metéis el enlace, le preguntáis a Google Notebook LM que os haga un resumen y tan ricamente. Me encanta cuando habla del entrenamiento con flujo sanguíneo restringido. Por favor, cuando vemos a estos culturistas ponerse las bandas a apretar, banda de gañanes, banda de irresponsables, puedes tener un daño vascular y te jodes la vida con una estupidez de esta. No tiene evidencia que sea beneficioso respecto a los riesgos potenciales, que tiene que haber técnicos cualificados con unos manguitos que puedan controlar...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=944" target="_blank" class="timestamp">[15:44]</a> realmente la restricción del flujo sanguíneo y ahí lo explica muy bien y es una explicación que nos puede interesar muchas veces aprendemos cosas que no vamos a aplicar en nuestra vida pero tener ese conocimiento y entender ese proceso nos va a permitir a lo mejor más adelante entender otros procesos y procedimientos en los que sí nos vamos a beneficiar o sea que el placer de aprender tenemos un tiempo equis limitado al ocio pues hombre está bien ver vídeos de gatos y cosas que yo lo hago</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=972" target="_blank" class="timestamp">[16:12]</a> Pero cuando empezamos a perder tiempo viendo vídeos de política, viendo vídeos de problemáticas sociales que no vamos a poder cambiar, que en el fondo nos están guiando a pensar de una manera, estamos renunciando al placer de documentarnos, aprender y ser mejores personas y aportar algo a nuestro entorno. Me encanta documentarme con esta gente preparada. Mira, me asusta decir esto, pero este vídeo lleva ya una semana, perdón, un mes, que creo que lo escuché...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=998" target="_blank" class="timestamp">[16:38]</a> El canal tiene 11.000 suscriptores con este nivel. Es bestial. O sea, que un random como yo tenga 20, que no soy nadie y que una persona de este nivel tenga 11, pues espero yo que crezca y yo voy a intentar apoyar. No me une nada a Chicharro, no le conozco de nada más que de que estoy suscrito a una plataforma de formación y he hecho cursos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1016" target="_blank" class="timestamp">[16:56]</a> Pero es que me duele que haya gente con un millón de seguidores y una actividad brutal hablando de cosas que muchas veces utilizan con la IA sus conocimientos, no tienen ni el honor ni la humildad de citarlos. Pues gracias a esta gente yo por responder y crear contenido. Entonces creo que es muy justo mencionar con quién yo me formo. Bueno, vamos acabando. Habla de algo que me gusta muchísimo porque...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1041" target="_blank" class="timestamp">[17:21]</a> En el deporte de élite queremos saber muchas cosas, pero los deportistas no se tienen por qué prestar. No me veo yo apogachar participando en un estudio que dos veces a la semana le obligan a hacer ciertas cosas. Pues no lo van a hacer. Entonces decía Chicharro que en su experiencia ha visto que es que las personas de élite respondedoras es que responden casi con cualquier cosa. Entonces muchas veces lo que se estudia en población saludable, entrenada, pero que no es élite, pues no queda claro que luego tenga...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1067" target="_blank" class="timestamp">[17:47]</a> una aplicación en los deportistas de élite por eso a veces les vemos hacer cosas delirantes a los de élite y les funciona y entonces si nos vamos al ámbito del fitness alguien se inventa hacer unas dominadas random con no sé qué carga con no sé qué movimiento modificado y el tío está súper fuerte o la tía está súper fuerte y pues oye montones de sud mentales por diciendo si está así de fuerte será porque hace eso pues aquí lo explica muy claramente y me gusta mucho</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1093" target="_blank" class="timestamp">[18:13]</a> El hecho de que es muy difícil tener a deportistas de élites en estudios. Y finalmente habla de si está sobredimensionada la biología molecular en el deporte. Habla de las rutas a MPK, MTOR y dice es que yo tengo la sensación de que si no estás hablando de esto parece como que no sabes. Y entonces tienes a divulgadores que cogen una ruta y dicen yo quiero ganar masa muscular, es importante la ruta muscular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1118" target="_blank" class="timestamp">[18:38]</a> y obvia que el cuerpo es un interruptor en el que está constantemente pasando de un estado a otro y que claro que tiene que haber anabolismo y catabolismo. No podemos estar en un estado permanente de anabolismo. Ahí se ven las consecuencias de lo que ocurre. Entonces, que se nos explican las cosas como si fuéramos niños pequeños y sobre todo aseverando cosas que no saben. Y esta persona te está explicando todo, tiene una importancia, pero finalmente dice que una de sus profesoras le dijo que al final las rutas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1146" target="_blank" class="timestamp">[19:06]</a> fisiológicas tienen la complejidad de una maraña de cables que si conectas uno, desconectas el otro, que es todo más complejo. Pero no porque sea muy complejo y no lleguemos a entenderlo del todo, estamos yendo para atrás. Todo lo contrario. Cuando algo lo teníamos claro y ahora vemos que no era tan simple y que hay muchos más factores en juego, lo que estamos haciendo es crecer como personas y en mi caso como divulgador también. Habla del entrenamiento en ayunas y aquí Calvez lo deja muy claro. Persona con exceso de grasa corporal,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1176" target="_blank" class="timestamp">[19:36]</a> Se puede beneficiar de entrenar en ayunas y posponer la ingesta de alimentos. Habla de una hora, dos horas incluso. Ahora, yo siempre me deberéis decir que si luego todo eso, que es una intervención coherente, lo estropeamos comiendo una cantidad...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1193" target="_blank" class="timestamp">[19:53]</a> exagerada de ultraprocesados y que aportan unas calorías superiores al cómputo total pues no estamos haciendo nada coherente pero sí dice que puede ser coherente y ya termino con el tema del nivel glucógeno muscular y el rendimiento y me encantó porque Chicharro le preguntaba oye el cerebro percibe los niveles de glucógeno en el músculo y si los nota bajos podría llegar a inhibir</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1215" target="_blank" class="timestamp">[20:15]</a> ciertas motoneuronas en definitiva no rendir al máximo y pues Calvet dice una cosa muy interesante dice si los depósitos están muy bajos efectivamente puede ser pero una persona que tenga que competir en algo en el que desplaza su cuerpo a gran velocidad por ejemplo un saltador o un velocista que va a hacer 100 metros claro imagínate un tío de 1,90 que está pesando 84 kilos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1239" target="_blank" class="timestamp">[20:39]</a> músculo puro, porcentaje de grasa bajísimo, esos velocistas que todos tenemos en mente. Claro, si tienen los músculos llenos de glucógeno, por cada gramo de glucógeno tenemos entre dos, tres, a veces incluso más, de agua. Por lo tanto, dice, oye, que esa persona pueda correr con un kilo y medio o dos,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1257" target="_blank" class="timestamp">[20:57]</a> que no está en depresión de glucógeno, simplemente es que no los tiene los depósitos a tope, pues oye, se está quitando dos kilos en algo que salta o en algo que corre. Luego en el entrenamiento normal, pues tendrán una dieta rica en hidratos de carbono de calidad a razón del gasto. Pero en ese momento les beneficia. Yo recuerdo en no sé qué tour, si 2013 o 14, que se hablaba de Chris Froome, que llegaban a grados de deshidratación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1280" target="_blank" class="timestamp">[21:20]</a> Porque habían visto que 400-500 gramos, en este caso centímetros cúbicos de pérdida de líquidos, podía ser la diferencia entre dar más vatios. Ya sé que esto es una locura, pero al final el deporte de élite es como la Fórmula 1. Se va buscando la mejora marginal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1295" target="_blank" class="timestamp">[21:35]</a> Porque todo depende de eso. Luego que funcionen o no las mejoras marginales en todo el mundo es otra cosa, pero que se va buscando. ¿Qué tenemos que saber nosotros? Pues de esto que estoy hablando de la hidratación, pues que una persona sana que no sea competidora de élite, pues se hace un flaco favor intentando restringir el peso corporal a base de reducir la hidratación. Es que ser estúpido, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1322" target="_blank" class="timestamp">[22:02]</a> Un rendimiento moderado y bueno sí correlaciona con la salud. También es verdad que los deportistas de élite tienen una vida corta con ese estresor que es el deporte de élite y muchos de ellos luego retoman sus vidas sin mayores problemas, otros no, por supuesto. Y ya no digo nada cuando hay drogas, medicamentos y otros procedimientos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=nPy2KzzIXnY&t=1340" target="_blank" class="timestamp">[22:20]</a> Esto es lo que os quería contar, que utilicéis por favor estas herramientas, que el que quiera que mire la información y las redes de Calvé, de Chicharro y que estamos aquí para aprender y lo digo las veces que haga falta mucho de lo que os cuento es porque yo primero lo aprendo de estas personas. Un abrazo para todos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 18/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
