@@ -1,0 +1,353 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 19/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">19/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-Dnml8zUOyc8'>JOAN VS KEONE</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-Dnml8zUOyc8">
+            <h2>JOAN VS KEONE</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 19/09/2025 05:43</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=Dnml8zUOyc8" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=Dnml8zUOyc8" target="_blank">
+                    <img src="https://i.ytimg.com/vi/Dnml8zUOyc8/hqdefault.jpg" alt="JOAN VS KEONE" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video trata sobre los planes del orador para participar en próximas competiciones de culturismo en Europa, con un enfoque especial en la de Praga. Expresa su deseo de vivir la experiencia desde dentro, mencionando a competidores de renombre y evaluando el nivel de dificultad de varios eventos. Anticipa que las competiciones de Praga y Rumanía serán las más prestigiosas y desafiantes del continente europeo.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Carrera Contrarrloj: Apuntando a Praga <a href="https://www.youtube.com/watch?v=Dnml8zUOyc8&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El orador expresa sus dudas sobre si llegará a la primera competición, pero reitera su firme intención de participar en la de Praga. Esta competición es clave por su nivel y la oportunidad de vivir una experiencia única.</p>
+
+<h3>El Prestigio del Mr. Olimpia y Sus Estrellas <a href="https://www.youtube.com/watch?v=Dnml8zUOyc8&amp;t=20" target="_blank">[00:20]</a></h3>
+
+<p>Se menciona el Mr. Olimpia que se celebra dos semanas antes de Praga, destacando la presencia de competidores de élite como Keon. Se enfatiza el fanatismo por Keon y su calidad como campeón.</p>
+
+<h3>Análisis de la Competencia en Europa <a href="https://www.youtube.com/watch?v=Dnml8zUOyc8&amp;t=30" target="_blank">[00:30]</a></h3>
+
+<p>El orador evalúa el nivel de las próximas competiciones, sugiriendo que las de UK y Polonia podrían ser "más flojas". Sin embargo, reconoce la alta participación de competidores fuertes en general.</p>
+
+<h3>Praga y Rumanía: Las Batallas Más Duras <a href="https://www.youtube.com/watch?v=Dnml8zUOyc8&amp;t=45" target="_blank">[00:45]</a></h3>
+
+<p>Se identifica que las competiciones de Praga y Rumanía serán las más desafiantes y "salvajes" de Europa. Las considera las más fuertes, prestigiosas y brutales del circuito europeo.</p>
+
+<h3>Motivación Personal: Vivir la Experiencia <a href="https://www.youtube.com/watch?v=Dnml8zUOyc8&amp;t=52" target="_blank">[00:52]</a></h3>
+
+<p>El orador concluye reafirmando su deseo de vivir y experimentar estas competiciones de alto nivel desde una perspectiva interna. Busca ser parte de la "peli" de estos eventos tan prestigiosos.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Dnml8zUOyc8&t=0" target="_blank" class="timestamp">[00:00]</a> ¿Qué pasa? A ver si llegamos para la primera, que es dentro de cinco semanas de media seis. No sé si llegaremos, sinceramente. La de Praga quiero llegar cien por cien. ¿Por qué? Os explico muy rápido. El año pasado compitió Martin Fritz, Cebu, Son Clarida. Un show de competición. Esa competición, ya que tengo la oportunidad de apuntarme y estar dentro de la peli, quiero hacerla. ¿Por qué? Dos semanas antes es el Mr. Olimpia. Va Keon, va Krizo, va Rubiel, si no me equivoco. Va Keon, va Keon. Dos veces campeón de la Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Dnml8zUOyc8&t=27" target="_blank" class="timestamp">[00:27]</a> Que aunque es mega fan de PBS. Sí. Es espectacular. Insertas fotos. Banderas y... Sí, sí, es una caña de ti. La verdad que me llevo súper bien con él. Luego, entonces, está Polonia, que yo creo que las más flojas van a ser... Bueno, flojas, porque estoy viendo las competiciones y va una peña que flipas. La de este finde que es el Europa Pro, una lista de gente que flipos. Pero bueno, yo creo que la de UK y la de Polonia van a ser más flojas. Y la de Praga y la de Rumanía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Dnml8zUOyc8&t=52" target="_blank" class="timestamp">[00:52]</a> Flipas, hermano. Yo creo que esas dos van a ser una salvajada de competiciones. Las dos más fuertes de Europa. Prestigiosas. Brutales. Entonces quiero vivir esa experiencia desde dentro.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 19/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
