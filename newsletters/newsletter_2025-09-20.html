@@ -1,0 +1,386 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 20/09/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">20/09/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>alvarobernalalejandre</strong>: <a href='#video-WLCnFexfouU'>Recorrido gravel 2 y reflexiones globeras. Zona Madrid noroeste</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-WLCnFexfouU">
+            <h2>Recorrido gravel 2 y reflexiones globeras. Zona Madrid noroeste</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: alvarobernalalejandre</span>
+                <span class="date">Publicado: 20/09/2025 06:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=WLCnFexfouU" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=WLCnFexfouU" target="_blank">
+                    <img src="https://i.ytimg.com/vi/WLCnFexfouU/hqdefault.jpg" alt="Recorrido gravel 2 y reflexiones globeras. Zona Madrid noroeste" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video sigue a un ciclista explorando caminos de grava, reflexionando sobre cómo el terreno y su propia capacidad física han cambiado con el tiempo. Ofrece consejos para ciclistas que se inician en el gravel, enfatizando la importancia de la prudencia y la correcta elección de la bicicleta. También discute la pérdida de rendimiento con la edad, la adaptabilidad en el deporte y la futura influencia de la IA. Es una mirada personal a la experiencia del ciclismo y el disfrute de la naturaleza.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Los Senderos Olvidados: Ciclismo de Grava y la Transformación del Paisaje <a href="https://www.youtube.com/watch?v=WLCnFexfouU&amp;t=75" target="_blank">[01:15]</a></h3>
+
+<p>El ciclista explora caminos familiares en Majadahonda, observando la creciente desertificación y acumulaciones de arena a lo largo de 30 años. Explica su motivación por pedalear sin coches y la importancia de la coordinación en terrenos arenosos.</p>
+
+<h3>La Transición al Gravel: Adaptación, Prudencia y la Elección de tu Bicicleta <a href="https://www.youtube.com/watch?v=WLCnFexfouU&amp;t=218" target="_blank">[03:38]</a></h3>
+
+<p>El autor ofrece consejos cruciales para ciclistas de carretera que se inician en el gravel, enfatizando la prudencia, la adaptación al terreno y la importancia de probar las bicicletas antes de comprarlas. Discute el alto costo de las bicicletas de gama intermedia y la búsqueda de comodidad.</p>
+
+<h3>Desafíos del Terreno y el Impacto de la Edad en el Rendimiento <a href="https://www.youtube.com/watch?v=WLCnFexfouU&amp;t=511" target="_blank">[08:31]</a></h3>
+
+<p>Se describe la molesta vibración de la grava y la dificultad de las subidas en estos caminos, que requieren una técnica diferente a la de carretera. El ciclista reflexiona sobre la inevitable pérdida de consumo máximo de oxígeno con la edad, recordando su rendimiento pasado.</p>
+
+<h3>El Futuro del Ciclismo: Seguridad Vial y la Era de los Sensores con IA <a href="https://www.youtube.com/watch?v=WLCnFexfouU&amp;t=595" target="_blank">[09:55]</a></h3>
+
+<p>El presentador explica por qué dejó el ciclismo de carretera por miedo, priorizando la seguridad. Aborda cómo la inteligencia artificial y los sensores transformarán el deporte de élite en el futuro. También describe el placer de rodar de noche con precaución.</p>
+
+<h3>Más allá de la Competencia: Deporte, Salud Mental y el Disfrute Personal <a href="https://www.youtube.com/watch?v=WLCnFexfouU&amp;t=843" target="_blank">[14:03]</a></h3>
+
+<p>El autor comparte su evolución personal hacia una visión del deporte centrada en la salud física y mental, lejos de la competitividad extrema. Defiende que cada persona debe vivir el deporte según su "momento vital" y que el placer es la meta principal.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=13" target="_blank" class="timestamp">[00:13]</a> Este es un camino por el que también hace un montón de años que no vengo. Son de estos que van de Majadahonda a Boadilla. Y estos bosques son muy tranquilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=44" target="_blank" class="timestamp">[00:44]</a> Y el terreno pues es muy asequible para una bicicleta de estas. Es verdad que a veces, pues hombre, bajando por supuesto que vas más rápido con una de montaña. Pero lo digo en todos los vídeos. Mi motivación es pedalear como en carretera pero sin coches. Y esto es lo más parecido que tengo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=75" target="_blank" class="timestamp">[01:15]</a> Como hace tanto tiempo que no vengo, pues ¿qué es lo que veo en todos los lados? Unas acumulaciones de arena que hace 10 años no había. Bueno, esa desertificación es muy evidente. Yo llevo aquí ahora 30 años por estos caminos y he ido viendo cómo ha cambiado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=106" target="_blank" class="timestamp">[01:46]</a> Este es un camino así muy recogido. Arena, me encanta. Aquí te quedas, ¿eh? ¿Saldré? ¿No saldré? ¿No saldré? ¿No saldré? ¿No saldré? A ver. O bueno, he salido. Me gusta mucho esa parte de la arena porque hay que trabajar equilibrio, coordinación. Y en cuanto veo que no remonto, saco el pie, vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=137" target="_blank" class="timestamp">[02:17]</a> Yo he visto la caída como sea. A ver que a esta velocidad, pues no, pero bueno, yo que sé. Lo típico, apoyas mal y te haces daño. Es cierto que a medida que nos hacemos mayores, una lesión nos complica más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=159" target="_blank" class="timestamp">[02:39]</a> Si fuera, por ejemplo, rápido, eso me llevito a la arena, claro. Pero de tanto pasar, pues te vas acostumbrando. Y de hecho, hay días que lo que hago es coger el mismo tramo y repetir mucho, cada vez más velocidad. La velocidad en la arena es algo que hay que entender porque muy lento te paras, muy rápido muchas veces</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=187" target="_blank" class="timestamp">[03:07]</a> la pasa del tirón en fin hay que ir conociendo la velocidad es que esto os lo cuento porque los que hacéis montaña es algo absolutamente superado para vosotros pero personas así de mi edad 10 años arriba abajo que se quieren meter en esto de la grava viniendo de carretera uff ojo eh</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=218" target="_blank" class="timestamp">[03:38]</a> Hay que adaptarse. Misterio ninguno. Pero los primeros días, prudencia, acerta la bicicleta, acerta los recorridos. Y no me cansaré de decirlo. No compréis sin probar. Si vienes de carretera y oye, te has hecho tu bicicleta, te ilusiona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=242" target="_blank" class="timestamp">[04:02]</a> Es que no te vas a comprar un yarraco. Te vas a comprar algo intermedio. Y hoy en día intermedio es carísimo. Acordaros que ese debate es absurdo. Gama de entrada. Gama media, gama alta. Y todo es caro. Claro, te metes ahí en 3 o 4 mil euros. Para nada. Es mucho mejor. A ver dónde me lleva esto. A ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=275" target="_blank" class="timestamp">[04:35]</a> Ah, esto es una bajada, sí, efectivamente. Total, que te decía, que te metes en ese bieneral, luego fallas, y es que te queda una cara de gilipollas impresionante. Pero es muy poco probable que te compres ese yerraco, porque tú tienes un tacto de freno, te gusta que frene, que sea contundente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=304" target="_blank" class="timestamp">[05:04]</a> ¿Te apetece que el cambio tenga su punto de fluidez? Que ya lo sabemos. Que no corremos más. Pero es como el que va a comer a un restaurante porque le apetece que le cocinen y no le apetece limpiar. Comodidad. Y esa persona por ir a un restaurante no dice que va a comer una proteína de un valor biológico diferente. Creo que se entiende el ejemplo, ¿no? El capricho, el placer, está ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=333" target="_blank" class="timestamp">[05:33]</a> Entonces es muy difícil que si vienes de tu finillo de carretera, te quieras coger una bicicleta de estas. Ahora, si vienes y no has hecho nunca nada, o la típica de montaña, un poco así de gama de entrada, que la coges muy de vez en cuando, y te apetecería darle masa a esto por el campo, y no quieres una de montaña porque vas buscando esto, pedalear mucho fluido,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=357" target="_blank" class="timestamp">[05:57]</a> Pues sí te puede ser interesante cogerte para ti por precaución porque a veces viene alguien enfrente y hay accidente. Yo cada vez soy más prudente en las bajadas porque no me aporta nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=373" target="_blank" class="timestamp">[06:13]</a> Y aparte que puedes crear un problema a otras personas y no me da la pena. Mira, aquí he sacado el pedal, hay unas raíces. Por aquí hacía años que no venía. No me lo conozco. Mañana vuelvo y ya pues me dejó lanzarme. Pero hoy voy aquí tranquilamente. Y ya digo, donde no tengo visibilidad es que si me tengo que parar me paro. Mira, aquí no hay visibilidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=394" target="_blank" class="timestamp">[06:34]</a> paro un poquito, cero problemas. Pues te decía que vienes de la típica bicicleta montaña de entrada y que no tienes muchas inquietudes, no sabes muy bien, pues te oyes, te coges una triban de esta de té de caldón y perfecto, vamos, y puedes disfrutar como un enano y ver si esto es lo tuyo, te apetece gastar pasta y ya te metes en algo mejor. Ya otro día en un vídeo os cuento</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=422" target="_blank" class="timestamp">[07:02]</a> que a poquito que ya te guste esto y tengas algo de experiencia no es buena opción comprar bici entera es mejor comprar la bici cuadro y luego ir añadiendo tus cositas mascoñazo y tal pero de verdad es claramente mejor pues nada estamos llegando aquí a un trozo de el vídeo que grabé el otro día que es la carretera esta que une Baja la Onda y Boadilla</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=453" target="_blank" class="timestamp">[07:33]</a> Es muy fácil, es muy ciclable. Estas piedras no me sonaban. Esto es lo que es la grava de verdaderamente y que es lo que es coñazo la vibración esta de alta frecuencia. Dos milloncitos. Arriba. Arriba. Bien. Y esto, a ver que yo lo recuerde. Por aquí salía un camino que bajabas. A ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=480" target="_blank" class="timestamp">[08:00]</a> Aquí vamos, a ver, si es como yo lo recuerdo. Aquí vamos. Ahí creo que hay arena. Viene muy inclinado. Yo ya llevo todos los piñones metidos. Y aquí subo solo. Esto en carretera no pasa. O sea, pocas veces tienes que meter cinco piñones de golpe o quedarte medio parado. Todo eso hay que practicarlo. A veces veo señores así de nuestra edad que van al suelo y me dicen, joder, si llevo toda la vida en la carretera. Por supuesto que sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=511" target="_blank" class="timestamp">[08:31]</a> Mira, voy a tirar por aquí. Por aquí yo venía hace años con los patines de esquí de fondo. He flipado con lo que se pierde con la edad. Tengo muchos vídeos hablando de ello, pero el consumo máximo de oxígeno estás perdiendo 1% por año si entrenas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=532" target="_blank" class="timestamp">[08:52]</a> Si no entrenas, pierdes un y medio. O sea, yo recuerdo por aquí venir hace 10 años, que tenía mi consumo en 52, y con los patines me lo subía esto, que era un gusto. Vamos, yo por aquí no voy con los patines ahora ni de coña. Esta es una subidita, que en carretera tiene 300, perdón, 700 metros, me la sé de memoria, claro. Es esa que está, a ver si me giro un poco, es esa carretera que hay ahí. No sé si lo veis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=564" target="_blank" class="timestamp">[09:24]</a> esa carretera, nada la típica cuesta que los globeros decíamos con plato, no sin plato otro día abrimos el melón de en carretera plato único me vais a dar de hostias pienso que en personas normales se va a popularizar carretera y plato creo que vamos a</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=595" target="_blank" class="timestamp">[09:55]</a> Hasta 15 piñones vamos a llegar a ver. Y a partir de ahí, sistemas como Classify que desmultipliquen. Lo tengo clarísimo, ¿eh? Yo es que no quiero hacer carretera ya. Vamos, llevo desde 2012. Pues no ha llovido. Pero un día voy a ver si hago el loco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=619" target="_blank" class="timestamp">[10:19]</a> me hago un recorrido típico de hace años de carretera digo el loco de ir en carretera porque es que me da miedo después de todos esos años de carretera un día dije se acabó yo era de los que iba pegadito a la derecha evitaba los pelotones conflictivos evitaba los días y horas malos tuve suerte nunca sufrí ningún accidente ni sustos pero lo dejé bueno aquí ya</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=666" target="_blank" class="timestamp">[11:06]</a> venga va venga Álvaro ahí estamos joder me lo subía con los patines esto y estos tramos así que no hay espacio con el paso ese de empujar así Dios mío ¿dónde está ese señor? que guay como me gusta esto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=695" target="_blank" class="timestamp">[11:35]</a> Ya estamos arriba. Para nada, una mierda de cuesta. Pero me he cansado. Menos mal que ya dejé lo de los vatios y todo eso. Me pongo el pulsómetro para no pasarme de rosca. Tengo muchos vídeos en el canal hablando del pulsómetro, cuando sí, cuando no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=724" target="_blank" class="timestamp">[12:04]</a> Los datos son útiles si sabemos interpretarlos y contextualizarlos. Si somos víctima de datos, os dejamos de disfrutar. Viene un momento ahora, con la IA y los sensores. Decía el otro día en la entrevista López Calvet, en diez años, los deportistas de élite... Arena, me encanta. Los deportistas de élite...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=753" target="_blank" class="timestamp">[12:33]</a> con sensores implantados en fin no tengo claro que todo eso sea bueno pero que es imparable a ver dónde me lleva esto bueno, voy a ir acabando el vídeo porque en esta época del año no pillo muy bien los tiempos del sol digo, ah, que de puta madre cuando me quiero llegar a dar cuenta digo, hostias</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=785" target="_blank" class="timestamp">[13:05]</a> son los campos, llevo la lucecita atrás y días que salgo un poquito más tarde llevo en la mochilita también un foco de estos potentes y es un gustazo ir despacio por estos caminos de noche siempre acompañado porque yo que sé te caes tontamente que estás aquí al lado y al día siguiente te han comido los bichos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=815" target="_blank" class="timestamp">[13:35]</a> Bueno, para caerse fue un momento ahora porque está ahí un hospital. Pues ya digo, yo venía por aquí con los patines de campo cuando estaba en forma. De vez en cuando. Sobre todo con los que hacía de carretera. Me picaba con algún ciclista de vez en cuando. Y bueno, cuando era joven.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=843" target="_blank" class="timestamp">[14:03]</a> es que la competitividad está muy dentro para ya con estar aquí yo soy súper feliz pero una cosa ya sabéis que yo hablo un poquito de todo pero hablo de salud en mi canal salud física y mental una de las cosas que más nos tenemos que preocupar los que divulgamos es de entender que nuestro momento vital no tiene por qué ser el momento vital de otra persona y que si yo ahora quiero llevar una vida más cómoda y más tranquila en cuanto a la exigencia del deporte</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=874" target="_blank" class="timestamp">[14:34]</a> Eso no quiere decir que no haya otra gente... ...con independencia de la edad... ...que lo quieran dar todo y quieran ser felices, o sea... ...yo cuando veo gente diciendo... ...no, es que... ...para qué tanto esfuerzo... ...pues para lo que les dé la gana, yo lo hice... ...yo fui todo flipado que se podía... ...menos mal que no había redes... ...si no habría ahora una base de datos... ...de vídeos míos siendo un flipado... ...a que me doy la hostia ahora... ...no... ...me encanta... ...es como venir después de años...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=902" target="_blank" class="timestamp">[15:02]</a> Y decir, está todo igual, el terreno un poquito distinto, ¿verdad? Pero la mente es maravillosa, ¿eh? Dicen... Hola, perrete. Hola. Yo les hablo para que me vean, por lo menos tener contacto visual. ¿Qué tal? Y saber lo que te espera. Estas eran...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=922" target="_blank" class="timestamp">[15:22]</a> zonas como de esquí de fondo. De hecho es que son unos caminos muy parecidos a los circuitos de esquí de fondo sencillos. Si veis los de la Copa del Mundo de esquí de fondo, es que no os lo creéis. Los desniveles que suben, que bajan y las medias. O sea, las medias son flipantes. Bueno, yo creo que ya estoy llegando. Voy a tirar para casa antes de que se me haga de noche.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=966" target="_blank" class="timestamp">[16:06]</a> ¿Ves cómo va este de la bici en montaña? Pues si es que es lo mismo. Es exactamente lo mismo. ¡Hola!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=997" target="_blank" class="timestamp">[16:37]</a> el tema de los perros es delicado porque es que muchas veces los dueños no van pendientes se te tiran y el animalito no tiene la culpa nunca son los dueños pero bueno en fin ya sabéis que a mí no me gusta entrar en conflictos innecesarios cuando hace falta</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=WLCnFexfouU&t=1024" target="_blank" class="timestamp">[17:04]</a> Se lucha por lo que sea, pero prefiero evitar, avisar, adelantarme. Pues nada chicos, un abrazo, hasta el vídeo que viene.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 20/09/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
