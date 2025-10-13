@@ -1,0 +1,380 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 12/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">12/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Strongman Tarrako</strong>: <a href='#video-bWfoN_rsK0k'>MR OLYMPIA 2025: DECEPCION TOTAL</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-bWfoN_rsK0k">
+            <h2>MR OLYMPIA 2025: DECEPCION TOTAL</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Strongman Tarrako</span>
+                <span class="date">Publicado: 12/10/2025 15:07</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=bWfoN_rsK0k" target="_blank">
+                    <img src="https://i.ytimg.com/vi/bWfoN_rsK0k/hqdefault.jpg" alt="MR OLYMPIA 2025: DECEPCION TOTAL" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video expresa una profunda decepción con el Mr. Olympia 2025, especialmente en la categoría Open, criticando la falta de la "condición innegociable" y estética clásica en los competidores actuales. El presentador, un seguidor de larga data del culturismo, compara desfavorablemente los físicos modernos con leyendas del pasado, a pesar de los avances en preparación. Solo Josema Devist es elogiado por su excepcional condición en Classic Physique, ofreciendo una visión esperanzadora dentro de la competición. La discusión subraya la subjetividad del culturismo y la posible influencia de intereses en los resultados finales.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Mr. Olympia 2025: Una Decepción Rotunda <a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&amp;t=69" target="_blank">[01:09]</a></h3>
+
+<p>El presentador inicia el video declarando su profunda decepción con el Mr. Olympia 2025, calificándolo de "decepción total". Aclara que su opinión es personal y subjetiva, exceptuando la "mejor condición" vista en Josema Devist en Classic Physique.</p>
+
+<h3>¿Dónde está el Granito? Crítica a la Condición Actual <a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&amp;t=128" target="_blank">[02:08]</a></h3>
+
+<p>Se critica directamente a los principales competidores del Open, como Derek Lunsford, por carecer de la "condición innegociable" de granito que, según el presentador, debe tener un Mr. Olympia. Compara la falta de definición actual con físicos legendarios de los 80, como Dorian Yates.</p>
+
+<h3>Más Ciencia, ¿Peor Físico? La Paradoja del Culturismo <a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&amp;t=302" target="_blank">[05:02]</a></h3>
+
+<p>El presentador reflexiona sobre la paradoja de que, a pesar de los avances en profesionalismo, conocimientos, suplementación y nutrición, los físicos actuales son "peores que nunca" en términos de condición. Cuestiona la evolución de la estética y definición en la categoría Open.</p>
+
+<h3>Josema Devist: La Luz de la Condición Perfecta <a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&amp;t=479" target="_blank">[07:59]</a></h3>
+
+<p>En un contraste marcado con sus críticas, el presentador elogia enfáticamente la condición de Josema Devist en Classic Physique. La describe como "pura, limpia, cristalina" y la considera la mejor del Olympia, siendo un ejemplo de "esculturista puro".</p>
+
+<h3>Campeones de Ayer vs. Ídolos de Hoy: ¿Se Olvidó el Legado? <a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&amp;t=677" target="_blank">[11:17]</a></h3>
+
+<p>El video culmina con una crítica a la falta de conocimiento sobre leyendas del culturismo como Flex Wheeler, Ronnie Coleman o Phil Heath, cuyas condiciones y estéticas considera superiores. Lamenta que el nivel del Mr. Olympia Open ha decaído, destacando que muchos competidores actuales lucen mejor en Instagram que en el escenario.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=9" target="_blank" class="timestamp">[00:09]</a> Buenas amigos y amigas, nos encontramos en nuestro canal de YouTube, Stromantarraco y Vídeo Express, inesperado, pero necesario, ya que he hablado en otro sitio de mi opinión y bueno, voy a intentar hacerlo un poco más extensa y explicarme un poquito mejor. Valga, valga no, vaya por delante que el culturismo es subjetivo. Por lo tanto, cualquier opinión es personal o</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=38" target="_blank" class="timestamp">[00:38]</a> sesgada y en función del gusto de cada persona. Lo digo ya anticipadamente para evitar reacciones desproporcionadas, desmedidas y exacerbadas de fans con poco conocimiento. ¿De acuerdo? Hay otros deportes de fuerza que son objetivos, levantas más ganas. El culturismo es subjetivo, depende de la persona y del gusto, aunque hay cosas que creo que se pueden debatir, pero que son interesantes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=69" target="_blank" class="timestamp">[01:09]</a> Es algo objetivo el culturismo. Cada uno tiene sus gustos y cada uno tiene sus opiniones. Dicho esto, supongo que habéis deducido que el vídeo va de mi opinión sobre la Olimpia 2025. Para mí es una decepción total. Ya está, es mi opinión. Salvo honrosas excepciones, que por suerte una y creo que es la mejor condición de todo la Olimpia, que es Josema. Cuarto, espectacular en Classic, Josema de Vist.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=98" target="_blank" class="timestamp">[01:38]</a> o sea, alucinante la condición que lleva, habrá otras excepciones que no manejo bien, pero de tops, para mí es la persona con mejor condición. La mayor decepción con diferencia es el López. Yo lo he dicho muchas veces, yo no voy a salir aquí a decir que Derek Luxford no está fuerte. Es un portaaviones de espalda, amplio, denso, una pasada de culturista, es un Mr. Olympian. Ahora bien, precisamente por eso,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=128" target="_blank" class="timestamp">[02:08]</a> Creo que, según tengo entendido yo el culturismo, el Mister Olimpia, el top 10, el top 5, si queréis, tiene que parecer de granito. Tiene que tener una condición innegociable. El culturismo es la mayor masa muscular posible con una condición innegociable. Y para mí esa condición en los últimos años se ha perdido. Es probable...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=156" target="_blank" class="timestamp">[02:36]</a> que yo soy un tipo nacido en los 80 y que empecé a ver culturismo con Dorian poco antes y tenía un sesgo. Pero aquellos físicos, tú ves vídeos de Dorian en el Temple Gym y a ocho semanas de competir, tienen la cara más rajada, más hundida, más definida que Derek Rumsford entregándole el trofeo. Y eso es algo que, bueno, es subjetivo, pero es poco discutible.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=186" target="_blank" class="timestamp">[03:06]</a> Entonces, para mí es una decepción. Yo he visto el Olimpia y a mí no me parece que eso sea una línea, para mí es de las peores líneas que he visto en muchos años. El mejor es Henry Chopin. Para mí es la única condición aceptable de hace años en el Olimpia. Y no gana. Para mí debería haber ganado. No diré que Henry Rundford gana injustamente. Pero a mí me gusta más Chopin.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=214" target="_blank" class="timestamp">[03:34]</a> Y el año pasado ganó Dauda, que este año ha sido cuarto. El otro ganó también Dere. Para mí tenía que haber ganado Chopin, lo dije. ¿Qué os digo? A mí la mejor condición, Chopin. Lo demás es una decepción. Andrew Jackie tiene una estructura descomunal, pero tampoco lleva un punto. Hay gente que dice, no, no, que ha salido mejor que el año pasado y Dere también. Ya, salir mejor que el año pasado no significa salir en la condición que para mí requiere ser el puñetero Mr. Olimpí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=243" target="_blank" class="timestamp">[04:03]</a> Entonces, desde el top 4, para mí el mejor era Chopin. Claro, Dauda y una decepción, claro, de primero a cuarto. Y luego está Nick Walker, que todo el mundo habla de Nick Walker. Me parece una montaña de músculo, un freak, una pasada. Pero a ver, si hablamos de estética, es que, a ver, la forma en V, dónde quedó esa cintura, esa forma en V, es que no todo el mundo vale para todo en todos los sentidos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=271" target="_blank" class="timestamp">[04:31]</a> Esto puede ser una montaña de músculo imponente, que lo es, es admirable, es brutal, tiene mucha fuerza, entrena muy bien, tiene músculo, músculo sobre músculo. Pero tú lo ves salir y bueno, igual yo soy de otra época, pero es que, ¿sabéis? ¿Os suena? Frank Wheeler, Kevin Lebron, Shao Rai, no sé, pues es que estamos hablando para mí de otra cosa. Hasta ahora mismo Nasser Elson Batty, que no destacaba por estética, eh...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=302" target="_blank" class="timestamp">[05:02]</a> ¿No suenan toda esta gente? No sé, hay ciertas cosas, pero es que el mismo Phil Heath, el mismo Kai Green tiene una condición infinitamente superior, y una estética infinitamente superior a nivel de culturista. Entonces creo que, bueno, la cosa ha evolucionado así, lo que sí llama la atención, o a mí me lo llama mucho, es que son más profesionales que nunca, más conocimientos que nunca, más cuidados que nunca,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=331" target="_blank" class="timestamp">[05:31]</a> mejor suplementación que nunca, probablemente mejor alimentación o más conocimiento nutricional puro que nunca, probablemente mejor elección de sustancias exógenas que nunca, con más estudios que nunca, y peor físico que nunca. Para mí, bueno, quizás es que me hago mayor y cualquier tiempo pasado fue mejor, pero es que no sé. Yo recuerdo alguna línea a la que he comentado, Dorian, Nasser, Lebron, Willer, Ray, Dillet,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=362" target="_blank" class="timestamp">[06:02]</a> Es que no sé. Es que para coger y... Y con las cámaras de antes, ¿eh? No con las de ahora. El otro día vi unas imágenes de Dorian en el Temple Gym a ocho semanas de una Olimpia. Tenía el pómulo, la cara metida. La condición de Glussford es acojonante, pero cuando coge la medalla hacen como una más muscular. Creo que es la peor de los últimos años. Para mí, ¿eh? Ahora a partir de aquí, a tope. Antes he hecho un vídeo con el chaleco que lo llevaba, pero tenía que haber...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=392" target="_blank" class="timestamp">[06:32]</a> que haber puesto otra vez, pero realmente es alucinante. Para mí el cambio ese. Así que yo la línea del Olimpia, comprar el Olimpia, verlo en directo, el Olimpia tiene que ser guau. Y hoy en día la gente destaca más en Instagram que en la plataforma de competición. Hay muy poca gente que cumple las expectativas. Ha sido el caso de José.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=421" target="_blank" class="timestamp">[07:01]</a> Ha quedado cuarto en Classic. Creo que Rabundino ha ganado. En ese top 2-3 puede haber algunas dudas. Y en 2-12 creo que Keon se impone claridad. Keon es absolutamente superior a todos. Pero a mí, si me preguntáis, esa dilatación abdominal que me parece estéticamente es tan superior en lo otro que gana. Pero creo que eso tenía que ser más penalizado de lo que es.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=449" target="_blank" class="timestamp">[07:29]</a> Al igual que se hablaba de las varices de Walker, bueno, no, es que no, ya, pero no sé, lo que pasa es que a nivel de brazos y piernas y masa muscular en general en 2-12 es tan superior que es complicado meterle mano y a ver si año que viene Nuestro Ángel se recupera y está en el top 3 que quiero que lo hubiera estado. Mención aparte para mí y para José. Ha quedado cuarto de Classic, está ya, es un top total, creo que podía haber rozado pollo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=479" target="_blank" class="timestamp">[07:59]</a> La cadena posterior es alucinante y sobre todo la condición. La condición. Es esculturista puro con una condición pura, limpia, cristalina. Para mí es la mejor condición que ha sido una Olimpia que yo haya visto y lo he visto en directo. Increíble. Creo que si todo va bien tiene que ser ganador de Olimpia y top 3 ya...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=507" target="_blank" class="timestamp">[08:27]</a> Los siguientes años ya no sé cómo afrontará su carrera, porque sacar esta condición está claro que requiere un esfuerzo mayor. Las cosas como son. Y veremos cómo lo enfoca con Raúl, con su entrenador. También Kim Angel y Mauro, una mención para ellos. Creo que Mauro no entró en las finales, pero bueno, es que esto se lo limpia. Se puede enfocar como, hostia, no han traído la final. Hostia, es que están en Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=533" target="_blank" class="timestamp">[08:53]</a> Esto es otra cosa. Y que Mangel ha pegado un cambio impresionante. Creo que el cambio de categoría la ha beneficiado. Pero claro, eso se lo limpia. Entonces creo que hay un gran futuro por delante. Creo que Joan, que Yopis, que hay culturistas open en España que pueden acceder. Y lo hablamos hoy precisamente con Joan. Que esa falta de condición creo que da mucha esperanza a la gente que sube, que tiene mucho músculo y que puede pulir esa condición</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=560" target="_blank" class="timestamp">[09:20]</a> para meter mano arriba. Ojo, que eso es el top 5 de la Olimpia. Pero eso me preocupa. Me preocupa porque ahí ya andaban Brandon Curry y Bonac con 45 años los dos, cada año peor. Y han sido brutales. Incluso Curry era una Olimpia. Pero, hostia, es que están cada vez peor y siguen en el top 10. Nadie les saca de allí. Pero es que además había gente de 20 y pico de años con unas condiciones que dice, joder, macho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=589" target="_blank" class="timestamp">[09:49]</a> No sé, igual yo tengo una percepción distorsionada, pero creo que es bastante decepcionante el culturismo últimamente. Mucho culturista, Rubiel, espectacular a nivel de masa, pero no tiene el detalle en las piernas que se requiere. Es que esto no es ser muy grande, que es muy difícil. Bueno, nadie es como Rubiel, pero que con los años, porque es muy joven, pueda pulir eso. Pero, hostia...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=619" target="_blank" class="timestamp">[10:19]</a> hace falta condición, esto es culturismo. Entonces esta es mi opinión y para mí es una decepción total en Olimpia, en especial la categoría Open. El acondicionamiento, la condición de 212 y de Classic mejor, desde Ramondino a Josema, Clarida, Keon, todo esto bien. O sea, tampoco vamos a decir que no, pero sobre todo la decepción a nivel de condición para mí es de los Open con mucha diferencia. Estar grande está perfecto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=647" target="_blank" class="timestamp">[10:47]</a> pero eres top 5 del Olimpia. Hay que estar grande y hay que tener la piel cristalina. El mismo Paco Bautista. Si tú ves fotos de Paco, esa condición ya no se ve. No te hablo de Dorian, que era el campeón. Y Willer estaba tocado... Willer no se puede comparar con Walker. Ya puede, no discutamos, no se puede. Pero Shao Rae. Y si buscamos masa, pues tenemos a Alson Batty.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=677" target="_blank" class="timestamp">[11:17]</a> que alguno limpia de tener que arrascar a Dorian. Es que aquí hay mucha gente que habla de Luxford como si fuera un mito y es que no saben quién es el puto Felix Weller. No hablo ya de Ronnie Coleman o de Phil Heath. No hay color. Pero es que detrás de Ronnie estaba Wheeler y detrás de Phil Heath estaban Kyle Green, que para mí son muy superiores. Pues estuvo Roden, buena condición en paz descanse, pero tampoco hubo Carly</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=705" target="_blank" class="timestamp">[11:45]</a> Hubo un tiempo, el mismo Big Rami, lo siento mucho, era gigantesco, pero las patas dejaban mucho, eran enormes, pero los cortes me llaman por su ausencia. Entonces creo que el Olimpia cada vez, entre comillas, que hablamos del Olimpia, pero precisamente por eso, hostia, es que hablas del Olimpia, precisamente por eso, no puede ser tan barato. Ser Olimpia es ser el más grande, el más musculado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=732" target="_blank" class="timestamp">[12:12]</a> el top mundial del culturismo. Cuando le dan la medalla a Lufthor, que es acojonante, un portaaviones, que no soy ahora, saldrán cuatro... ¡Ostras, ¿y tú qué? Sí, Lufthor está más fuerte que yo, sí, faltaría, pero es el Olimpia. Si tiras atrás y empiezas a ver Olimpias, claro, es que aquí venimos de Dorian, venimos de Ronnie, venimos de Phil...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=758" target="_blank" class="timestamp">[12:38]</a> Venimos del mismo Jai Cadlet. ¿Qué condición sacaba Cadlet para poder ganar a Rol? Es que hay una que es que tiene una foto, recuerdo, apretando el cuádriceps. Se la han hecho cincelada en granito. Ahora no pasa. Entonces, a partir de aquí, cada uno que tenga su opinión. Yo me levanto a ver el Olympia. Veo el Olympia Open. Lo sigo hace muchísimos años.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=786" target="_blank" class="timestamp">[13:06]</a> porque además más atrás, desde los tiempos de Lu Ferriño, de Franco Columbo, de Arnold, de Metzger, siempre he seguido el culturismo, me apasiona Sergio Nubret, muchos no saben ni de qué hablo, buscar a Nubret y entenderéis lo que es la estética, mil cosas, sé que no era fan de mí, pero el mismo Li Labrada, que iba por detrás de Hanen, Li Hanen y 8 Olimpias, yo sigo esto de toda la vida, y lo siento mucho, pero cuando tú te levantas y dices, vamos a ver el Olimpia,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=815" target="_blank" class="timestamp">[13:35]</a> Open 2025, mejor nutrición, mejor preparación, todo acondicionado y ha llegado un momento que es que destacan más en las fotos de Instagram que en la plataforma. Y eso creo que no debería ser. Lo dije hace un par de años que hice un vídeo cuando ganó el primero Luxo, año pasado ganó Dauro, que la condición no me parece... Para mí, la mejor condición la tiene chupar. Y no va rezagado a nivel del mundo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bWfoN_rsK0k&t=843" target="_blank" class="timestamp">[14:03]</a> Esto es subjetivo y los jueces seguramente de la Olimpia sabrán más que yo. Luego hay mucha gente que te dice eso. Si alguien no entiende que en la vida hay intereses, ya que no hace falta debatir. No siempre gana el mejor en todos los sitios. ¿De acuerdo? En fin, lo dicho. Felicitar a José Manuel. Brutal. Con eso acabo. Un fuerte abrazo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 12/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
