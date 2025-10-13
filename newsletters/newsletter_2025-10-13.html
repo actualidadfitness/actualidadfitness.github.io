@@ -1,0 +1,391 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 13/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">13/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Miguel Navarro</strong>: <a href='#video-GyyY5VzjpfE'>¡LO QUE NO VISTE DEL OLYMPIA! El MENSAJE de Cbum, la EMOCIÓN de Aceto y las REDES MACHACAN a Samson</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-GyyY5VzjpfE">
+            <h2>¡LO QUE NO VISTE DEL OLYMPIA! El MENSAJE de Cbum, la EMOCIÓN de Aceto y las REDES MACHACAN a Samson</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Miguel Navarro</span>
+                <span class="date">Publicado: 13/10/2025 13:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=GyyY5VzjpfE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/GyyY5VzjpfE/hqdefault.jpg" alt="¡LO QUE NO VISTE DEL OLYMPIA! El MENSAJE de Cbum, la EMOCIÓN de Aceto y las REDES MACHACAN a Samson" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza los momentos clave tras el Mr. Olympia, destacando la histórica victoria de Ramón Dino y su impacto en Brasil. También aborda la inesperada caída de Sansón Dauda y las emotivas reacciones de los entrenadores y del propio campeón. El presentador informa sobre los strikes en su canal, pidiendo a la audiencia seguirle en Instagram para futuras comunicaciones. Finalmente, comparte el discurso de agradecimiento de Ramón Dino, mirando hacia el próximo campeonato.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Advertencias del Canal y el Análisis del Olympia <a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&amp;t=46" target="_blank">[00:46]</a></h3>
+
+<p>El presentador inicia el video agradeciendo el apoyo y alertando sobre problemas de strikes en su canal, instando a la audiencia a seguirle en Instagram para no perder el contacto. Luego, introduce el tema principal: un análisis de lo no visto en el Mr. Olympia, enfocándose en Ramón Dino.</p>
+
+<h3>La Conquista de Ramón Dino y el Respaldo de Chris Bumstead <a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&amp;t=200" target="_blank">[03:20]</a></h3>
+
+<p>Se destaca la victoria de Ramón Dino en el Mr. Olympia y el mensaje de Chris Bumstead que reconocía su mérito. El presentador subraya la buena amistad entre ambos y cómo Ramón finalmente logró el título sin la presencia de Cbum.</p>
+
+<h3>El Sueño Cumplido de Ramón: Un Homenaje Emotivo <a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&amp;t=306" target="_blank">[05:06]</a></h3>
+
+<p>Se rememora un emotivo video antiguo donde Renato Cariani le promete a un joven Ramón Dino que lo ayudaría a llevar el título del Olympia a Brasil. Este momento resalta la proyección que se veía en Ramón desde sus inicios, mostrando su evolución hasta convertirse en campeón.</p>
+
+<h3>La Caída Inesperada de Sansón Dauda <a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&amp;t=490" target="_blank">[08:10]</a></h3>
+
+<p>El video analiza la fuerte crítica y las imágenes que evidencian la "involución" del físico de Sansón Dauda. Se detalla cómo su desempeño en el Mr. Olympia y el Arnold 2024 estuvo muy por debajo de las expectativas, perdiendo tamaño y condición.</p>
+
+<h3>El Emocionante Mensaje de Ramón Dino y Cierre del Canal <a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&amp;t=751" target="_blank">[12:31]</a></h3>
+
+<p>El video culmina con la reproducción del emotivo discurso de agradecimiento de Ramón Dino tras su victoria, donde celebra su logro y mira al futuro. Finalmente, el presentador reitera la situación del canal y la importancia de seguirle en Instagram para futuras actualizaciones.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=2" target="_blank" class="timestamp">[00:02]</a> Bueno, ¿qué tal chicos y chicas? Bienvenidos a un nuevo vídeo en el canal. En primer lugar, agradeceros a todos el apoyo que le habéis dado al canal en este fin de semana de la Olimpia. Ha sido un apoyo espectacular, a pesar de que luego hablaremos del tema de los strikes, de cómo está la situación del canal. Porque es evidente que con dos strikes estamos jodidos, las cosas como son, estamos un poquito a la espera. También os recomiendo, ahora que inicio el vídeo, tenéis aquí mi red de Instagram, que si no ahora os la voy a decir cuando pasemos a la siguiente pantalla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=29" target="_blank" class="timestamp">[00:29]</a> Os la diré, ¿vale? Para que me sigáis en Instagram, intentad seguirme todos en Instagram básicamente para que si hay algún tipo de novedad con el canal o me toca abrir otro por algún tema de strikes, que no perdamos el contacto que tenemos entre nosotros y lo que hemos hecho aquí durante tres años, que os tengo que agradecer el apoyo de estar aquí, así que por supuesto...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=46" target="_blank" class="timestamp">[00:46]</a> Intentad seguirme en Instagram porque ahí es donde si cortan este canal pondré algún post de cuál es el nuevo. Así que de esa manera podemos seguirnos todos. Como digo, vamos a pasar a analizar lo que no visteis del Mr. Olimpia, lo que no se vio, la trastienda, lo que ocurrió después y sobre todo muy focalizado en la victoria de Ramón Dino. Ya sabéis que en Brasil ha sido todo, todo, todo una noticia, todo un momento histórico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=68" target="_blank" class="timestamp">[01:08]</a> Y eso es un poco lo que vamos a repasar al margen, evidentemente, de más cosas que han pasado, porque las redes han cebado con Sansón Dauda de manera terrible, terrible. Y además hay imágenes que corroboran ese bajón. Y también tenemos mensajito, entre otros, de Cebún, al gran campeón, a Ramón Dino. Así que, como digo, vamos a pasar a analizarlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=85" target="_blank" class="timestamp">[01:25]</a> Porque tiene mucha historia, por supuesto recordad los códigos de descuento, código Iron Road en toda la web de Big para que tengáis la mejor suplementación al mejor precio y aprovechad además que tenéis hoy el último día de ese 25% de descuento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=100" target="_blank" class="timestamp">[01:40]</a> En toda la web de Agonjin Tenéis ahí, como digo, el 25% De descuento en toda la web Así que aprovechadlo, además del pack de 2x3 Así que ir ahí Que ahí vais a tener la mejor ropa deportiva Al mejor precio Aquí tenéis la red de Instagram, ¿vale? Lo tenéis justo abajo, ¿vale? Para que lo sepáis De todas maneras, bueno, no sé si realmente Ahí lo pone del todo bien Porque lo pone de Iron Rock, pero ya os digo yo que no</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=125" target="_blank" class="timestamp">[02:05]</a> Así que, de todas maneras, si queréis, os pongo aquí mi perfil de Instagram para que lo podáis seguir. Os comparto aquí, un segundito, os comparto esto, ahí está, ¿vale? Este es el perfil de Instagram, ¿vale? Seguidme en Instagram para que podáis seguir la última hora de lo que pueda ocurrir con el canal. Ojalá que no, yo creo que a un alto porcentaje creo que no va a ocurrir nada más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=150" target="_blank" class="timestamp">[02:30]</a> Pero por lo que sea ya estamos evidentemente con las reclamaciones pertinentes porque no fue justo lo que nos hicieron. Nosotros al final nos ponen dos strikes por dos directos que hicimos proyectando a Madelman en la Ethereum. No hubo nada más y se ve que la empresa o la inteligencia artificial que contratan a la Olimpia pues diría Mr. Olimpia en directo a tiene culturismo pues sale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=170" target="_blank" class="timestamp">[02:50]</a> strike al canto y para adelante ¿vale? entonces estamos con los recursos ya sabéis que esto es un proceso muy lento pero no dejamos de estar con dos strikes entonces hay que tener mucho cuidado así que os recomiendo seguir al perfil de Instagram que es donde voy a ir posicionando y donde voy a ir posteando cada cosa que vaya ocurriendo y cada actualidad con el canal como digo tenemos que pasar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=192" target="_blank" class="timestamp">[03:12]</a> analizar pues un poquito lo que ha ido ocurriendo lo que ha ido ocurriendo en en la repercusión de la victoria sobre todo de Ramondino, entender que vamos un poquito así porque no puedo tampoco emitir imágenes vaya ser que pero bueno básicamente algo que me quería quedar es con el mensaje de Chris Baster con la victoria de Ramondino</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=210" target="_blank" class="timestamp">[03:30]</a> Te dije que un día lo conseguirías, pero nunca que me lo cogerías, básicamente. O sea, nunca que me ganarías para llevártelo, pero sí que un día lo tendrías, ¿no? Así un poco el mensaje de Chris Bamsted en redes sociales, con la buena amistad que siempre ha tenido con Ramón Dino. Un Ramón Dino que nunca pudo ganarlo, pero en esta ocasión ya sin Chris Bamsted se hizo con la victoria. De hecho, siempre ha habido muchas coñas, ¿no? Con el intento de Ramón de hacerse con el título...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=238" target="_blank" class="timestamp">[03:58]</a> Y en esta ocasión, ya en 2025, lo pudo conseguir y de hecho lo pudo recibir de manos de Chris Baster. Por otro lado, las redes, como digo, en Brasil, pues imaginaos, están totalmente efervescentes con la victoria de Ramón. Aquí incluso como una transición del antiguo rey al nuevo rey. Un Chris Baster que lo ganó seis veces y que ahora ya tiene un digno sucesor con Ramón Dino.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=264" target="_blank" class="timestamp">[04:24]</a> Más cositas importantes, Stigwey Berger, diciéndole que tiene un físico perfecto y un poco también reconocer que es el juez central de la Olimpia y que se encontró muy agradecido por el físico que sacó Ramón. De hecho los jueces lo tuvieron bastante claro esta victoria de Ramón Dino, así que desde luego que fue un poco el físico que más gustó a los jueces.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=290" target="_blank" class="timestamp">[04:50]</a> Más cositas. Un vídeo que se ha hecho viral. Voy a poneros también el audio del escritorio para que lo podáis oír porque ha sido un vídeo muy emotivo. De los brasileños con Ramón Dino en su inicio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=306" target="_blank" class="timestamp">[05:06]</a> Está en brasileño obviamente, pero básicamente es un vídeo emotivo de cuando Renato Cariani le dijo que él iba a trabajar y que iba a hacer todo lo posible para que llegara al máximo, para que trajera el Olympia a Brasil. Entonces, bueno, pues un poco un vídeo de homenaje a Ramondino por su victoria. Fijaros, un Ramondino súper súper joven, más joven aún evidentemente de lo que ya es.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=333" target="_blank" class="timestamp">[05:33]</a> Y con un físico que nada tiene que ver con lo que es ahora Ramón Dino, con la barbaridad y la bestia que es Ramón Dino. Pero desde luego que ya le veían esa proyección, ese aura de gran campeón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=348" target="_blank" class="timestamp">[05:48]</a> Y siempre han estado ahí. Las cosas como son. Los medios brasileños, Renato Cariani y toda esta gente. Luego escucharemos otro mensaje de la gente de Renato Cariani. Siempre han estado bastante detrás de Ramón Dino cuando siempre quedaba por detrás de Chris Bamsted. Incluso el año pasado, que para mí fue el peor año de Ramón Dino. Para mí lo que ha ocurrido este año 2025 tanto con Ramón como con Derek ha sido un año de redenciones. Incluso si me apuráis hasta con Chris Aceto, del que luego hablaremos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=375" target="_blank" class="timestamp">[06:15]</a> Así que, como digo, un vídeo súper emotivo por la situación de Ramón. Por otro lado, aquí tenemos, importante, Brasil evidentemente se deshacen elogios hacia sus tres campeones. Ha conseguido un trío histórico con Ramón Dino, con Eduarda Becerra y con Natali Coelho en Woman Physic.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=396" target="_blank" class="timestamp">[06:36]</a> Así que, como digo, fijaros, ahí estaba en la mesa de los campeones de la Olimpia, tres brasileños, que es una auténtica barbaridad, lo digo de verdad, o sea, ya no solamente eso, son tres brasileños, creo recordar que en alguna otra categoría también han tenido algún segundo, se lo he visto en una historia de Sergio de Foros, o sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=413" target="_blank" class="timestamp">[06:53]</a> Han tenido una útida participación y en este caso, evidentemente, Crisaceto, probablemente no, probablemente el entrenador del año, del que luego hablaremos en otro vídeo, porque quiero también destacar nuestro gusto a Patrio, porque yo creo que Raúl Carrasco también ha hecho un poquito una particular historia en todo esto, así que vamos a luego repasarlo en un vídeo más pormenorizado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=437" target="_blank" class="timestamp">[07:17]</a> Así que, como digo, pues un poquito son lo que ha dado de sí en todo esto. Y luego quería repasar con vosotros lo que ha pasado con Sansón Dauda, ¿vale? Porque, como vais a ver, las redes, y no solamente en este caso nuestro gran amigo y compañero Juis Debes, mientras vemos aquí, por ejemplo, cartelín de jueces, siete jueces dieron campeón a Ramón Dino, ocho a Somerfield, lo ganó por un solo punto. Aunque los jueces lo tuvieron claro, fue por un solo punto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=464" target="_blank" class="timestamp">[07:44]</a> Esto también hay que recordaros, en el caso de Derek lo ganó con un poquito más de distancia, tan solo dos puntos en el total, con respecto a Hadi Chopin. Lo que sí que tuvieron los jueces bastante claro fue que tanto en el Prejadgin como en la final, en este caso Andrioua que debería quedar por encima de Sansón Dauda, del que insisto, vamos a hablar, vamos a hablar porque las redes hacen eco</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=490" target="_blank" class="timestamp">[08:10]</a> de imágenes de este tipo donde se puede ver la involución de Sansón Dauda a un Sansón Dauda al que le están dando por todos los lados y no digo que no con razón hay que recordar que el año 2025 de Sansón Dauda no tiene nada que ver es un poco el caso contrario al de Derek al de Ramón está viviendo ahora un poco lo que vivieron ellos el año pasado pues él lo está viviendo este año un año 2024 para olvidar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=513" target="_blank" class="timestamp">[08:33]</a> Con un Arnold bastante por debajo de su nivel. Con muchas expectativas y por debajo de su nivel. Y en el Olympia tres cuartas de lo mismo. Un Olympia donde se ha encontrado con la cruz. Y ya no solamente la cruz de la posición. Donde ha caído hasta la tercera posición. Y casi gracias. Sino porque sobre todo el físico que ha intentado encontrar. Desde luego no lo ha buscado. Le ha intentado buscar esa condición, esa separación. Y como podéis ver en las imágenes. No solamente es que no lo haya encontrado. Sino que encima ha perdido tamaño.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=539" target="_blank" class="timestamp">[08:59]</a> Con lo cual era obvio que podía tener un bajón muy importante y así fue en el Olimpia. Vamos, si os parece, a repasar más cositas mientras vemos por aquí a los dos grandes campeones que además tienen una gran amistad. Yo creo que también por el vínculo de Pacholó que siempre está bastante cercano</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=557" target="_blank" class="timestamp">[09:17]</a> a los dos como entrenador en sala. De hecho, Derek ya ha afirmado que va a ir a Brasil y que va a estar un tiempo también por tierra brasileña. Pero quería destacar sobre todo, y esto es algo que a mí siempre me gusta, la emoción de la gente que tienes alrededor. Y para eso creo que es bueno ver la emoción, en este caso, tanto de Pacho Locke, que lo tenemos aquí, diciendo que es el mejor momento de su vida...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=585" target="_blank" class="timestamp">[09:45]</a> después de lo que ha ocurrido junto con el nacimiento evidentemente de sus hijas y todo eso y por otro lado también ver cómo vivieron o cómo vivieron estos momentos tanto su preparador al que yo creo que nunca he visto acepto así o sea lo tengo que decir a ver si encuentro el vídeo y lo vais a ver desde luego aquí lo vais a contemplar muy emocionado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=606" target="_blank" class="timestamp">[10:06]</a> por la victoria de Ramón. También ha sido un año muy difícil para Cris Aceto. Recordad que los brasileños se lo querían cargar hace un tiempo a Cris Aceto por este 2024 tan aciago. Es que no solamente fue el caso de Ramón Dino, también de Andrew Jack, Ed y de algún que otro atleta que no salió en condiciones con él. Y a partir de ahí él ha tenido una redención en 2025 bestial. Con el Arnold de Derek, con estos triunfos de la Olimpia, tanto de Derek como de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=635" target="_blank" class="timestamp">[10:35]</a> Como de Ramón, con el segundo puesto de Ali Vilal, que ya venía también un poco trabajando con él para el Arnold. O sea, que desde luego que ha hecho un trabajo sensacional Chris Aceto. Por otro lado, un poco lo que os decía. A ver si encuentro el vídeo de cómo lo celebraba Chris Aceto porque ha sido espectacular. Mira, aquí tenemos imágenes de Ramón Dino con Chris Blasted con el título.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=657" target="_blank" class="timestamp">[10:57]</a> disfrutando y desde luego que muy emocionado, mientras le decía a Chris Baster, pues eso, que el título se lo merece. Así que ojito a eso, pero quería buscar, ya os digo, la reacción, mira, aquí tenéis por ejemplo la reacción de Pacholok nada más enterarse del Olimpia, de Ramón Dino llorando, visiblemente emocionado y desde luego que es un momento particularmente importante para la vida de Pacholok, que ya dijimos que en el Arnold se coronaba un poquito con lo de Derek y demás,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=684" target="_blank" class="timestamp">[11:24]</a> Pero es que ahora estamos hablando de que es el entrenador en sala tanto del Olympia de Classic como del Olympia de Open. O sea, ojito, ojito a eso también porque es otro de los grandes reforzados. Y quería buscar, a ver si lo encuentro, la moción de Chris Acepto que si no la encuentro por aquí la voy a encontrar por aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=700" target="_blank" class="timestamp">[11:40]</a> porque la he visto antes, porque yo nunca he visto así a Zeto, de verdad, sí verá que es un aplauso un poco extraño, ahora lo vais a ver, aquí lo tenéis, a la derecha, ahí, un poquito apaviento, pero súper feliz, emocionado, fijaos, ahí se va a marcar una pose de espaldas y todo, así que yo creo que nunca hemos visto a Chris a Zeto de esa guisa, luego nos tocará escucharle seguramente en estos días,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=725" target="_blank" class="timestamp">[12:05]</a> A ver qué es lo que tiene para decir porque es uno de los que consigue salir súper reforzados. Así que como digo, si os parece ya para terminar, vamos a cerrar. Yo creo que es como merece la ocasión. Vamos a cerrar con el mensaje del gran campeón. Vamos a cerrar con el mensaje de Ramón Dino, muy emocionado y vestido evidentemente de dinosaurio. Así que vamos a escucharlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=751" target="_blank" class="timestamp">[12:31]</a> Estoy muy contento con los resultados aquí también, muy feliz. Gracias, Pacho. Gracias, Zama. Zama aquí es foda para caralho. Liza también es muy foda. Gracias, mi amigo. Parabéns, hizo historia. Erickzão. Ese aquí fue tan estrada, ¿eh, hermano? Es muy resiliente. Es muy foda. Admiro más aún la coragem de él. Y, claro, estoy muy contento con lo que construimos, con todo lo que hicimos. Esta temporada en Tampa, los aprendizajes con Derick.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=781" target="_blank" class="timestamp">[13:01]</a> con el Matt también y todo eso que viví con los chicos que algunas cosas no fueron grabadas y muchas cosas conversamos allí y entre esas conversas conseguimos fechar más nuestra parcería, nuestra amistad, nuestro vínculo de amistad a gente se respeta bastante y a gente creció mucho en ese poco tiempo de viviencia que es de convivencia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=809" target="_blank" class="timestamp">[13:29]</a> pero aprendimos mucho con cada uno con sí y al final de todo lo cierto, un torciendo por el otro trabajando duro para darse lo mejor y es eso familia, solo tengo que agradecer toda la oportunidad que Dios me da a Max Titánio, al equipo increíble que tenemos aquí</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=826" target="_blank" class="timestamp">[13:46]</a> A la gente que tosse por nosotros, a los haters también. Gracias por existirem. A mi familia y a todo el mundo. Gracias por todo. Deu todo certo. Y el próximo año vamos buscar más una de estas. ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=839" target="_blank" class="timestamp">[13:59]</a> Pues ahí lo teníamos, ¿no? Mensaje de Ramondino... Agradeciendo... Mirando ya el próximo Mister Olimpia... No se sabe si va a competir en el Arnold... Yo diría que tiene toda la pinta que no... Pero bueno... La realidad es que tenemos a un Ramondino... Que consigue... Su sueño... Así que como digo chicos y chicas... Esta es la actualidad... Esto es lo que no se vio... Lo que estuvo en la trascienda... Del Mister Olimpia... Estad muy atentos como digo... A la actualidad de Instagram... ¿Vale? Que no se os olvide... Seguidme en Instagram... Para cualquier tipo de novedad con el canal... Por si acaso tuviéramos que abrir... Un canal alternativo... Un segundo canal... O llamarlo como queráis...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=868" target="_blank" class="timestamp">[14:28]</a> para poder seguir con el trabajo, para poder seguir acercándoos la mejor información de última hora del mundo del culturismo. De momento estaremos muy timoratos con las imágenes que emitimos, tenéis que entenderlo porque al final estamos en la cuerda floja y probablemente estemos en la cuerda floja durante los próximos tres meses porque es lo que tardan caducar los strikes. Así que como digo iremos poquito a poco, os pido paciencia por la situación, el primer perjudicado ya os puedo garantizar que soy yo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=891" target="_blank" class="timestamp">[14:51]</a> Así que ojalá que podamos resolver esta situación lo antes posible, traeros como siempre la mejor información con las mejores imágenes, que es lo que realmente a mí me gusta. Y en este sentido, también os recuerdo que no tendremos directo de Iron Road, ¿vale? Lo que tendremos será que subiremos el programa grabado en estreno, es lo más parecido al final a un directo. O sea, en realidad es exactamente igual, se sigue como si fuera un directo, podéis interactuar, pero sí que es cierto que nosotros nos podremos responder, es lo único que no podremos hacer, salvo que nos metamos en el chat, que tampoco lo descarto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GyyY5VzjpfE&t=920" target="_blank" class="timestamp">[15:20]</a> Así que como digo, están muy atentos a la actualidad del canal, muy atentos a lo que ocurra en Instagram, por supuesto, insisto, seguidme en Instagram, no por un disclaimer ni porque quieras seguidores, sino porque al final es el único sitio donde yo me puedo comunicar directamente con la gente si me cierran el canal, con lo cual, importante eso. Así que como siempre digo, lo que opinéis, dejadme en la caja de comentarios, fuerte like al vídeo, suscribíos al canal y como siempre digo chicos y chicas, siempre a más.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 13/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
