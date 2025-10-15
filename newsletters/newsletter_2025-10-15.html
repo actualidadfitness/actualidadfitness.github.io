@@ -1,0 +1,415 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 15/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">15/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-G2_53ss0X9c'>VALÓRATE POR ENCIMA DE LAS MUJERES QUE NO LO VALEN</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-G2_53ss0X9c">
+            <h2>VALÓRATE POR ENCIMA DE LAS MUJERES QUE NO LO VALEN</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 15/10/2025 08:15</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=G2_53ss0X9c" target="_blank">
+                    <img src="https://i.ytimg.com/vi/G2_53ss0X9c/hqdefault.jpg" alt="VALÓRATE POR ENCIMA DE LAS MUJERES QUE NO LO VALEN" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video presenta una sesión de consejos de un streamer a un joven espectador llamado "Bellyreps", quien se encuentra en una relación tóxica con una novia descrita como manipuladora y "feminista". El streamer desaconseja rotundamente estas relaciones, exponiendo cómo la novia utiliza el chantaje emocional, las lágrimas y las amenazas para obtener beneficios económicos y controlar al joven. Se insta a Bellyreps a valorarse, no ceder a la extorsión y terminar la relación para preservar su dignidad.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Peligro de las Relaciones que Frenan <a href="https://www.youtube.com/watch?v=G2_53ss0X9c&amp;t=110" target="_blank">[01:50]</a></h3>
+
+<p>El streamer establece una clara distinción entre quienes impulsan y quienes frenan en una relación, criticando a las mujeres que coartan. Advierte a un espectador sobre una novia feminista que exige estar de acuerdo con ella y amenaza con dejarle, aconsejando alejarse de este tipo de personas.</p>
+
+<h3>Dignidad Vendida y Chantaje Emocional <a href="https://www.youtube.com/watch?v=G2_53ss0X9c&amp;t=363" target="_blank">[06:03]</a></h3>
+
+<p>El streamer explica cómo ceder ante la manipulación vende la dignidad personal, describiendo relaciones donde una parte se cree superior y explota a la otra. Se revela que el joven espectador tiene 17 años, complicando la situación y los consejos legales ofrecidos.</p>
+
+<h3>La Epidemia de Mujeres Victimistas <a href="https://www.youtube.com/watch?v=G2_53ss0X9c&amp;t=675" target="_blank">[11:15]</a></h3>
+
+<p>Se critica fuertemente el sistema educativo y social por crear "mujeres victimistas" y manipuladoras que utilizan el llanto y el desprecio para exigir cosas. El streamer aconseja al joven no gastar más dinero en su novia y no defender lo indefendible.</p>
+
+<h3>Enfrentar el Miedo con Madurez <a href="https://www.youtube.com/watch?v=G2_53ss0X9c&amp;t=969" target="_blank">[16:09]</a></h3>
+
+<p>Bellyreps expresa su ansiedad por tener que dejar a su novia. El streamer lo alienta a actuar con orgullo y como un hombre, enfrentando el miedo y la posible "guerra" psicológica, aconsejándole no compadecerse de sí mismo y ser firme en su decisión.</p>
+
+<h3>Manipulación Confirmada: No es Amor, es Utilización <a href="https://www.youtube.com/watch?v=G2_53ss0X9c&amp;t=1283" target="_blank">[21:23]</a></h3>
+
+<p>Bellyreps regresa confirmando que su novia reaccionó exactamente como predijo el streamer, llorando, gritando y acusándole de machista y de haberla utilizado sexualmente. El streamer enfatiza que estas tácticas son manipulación y no amor, pues "quien te quiere te cuida, no te utiliza".</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=0" target="_blank" class="timestamp">[00:00]</a> ni por ansia de gloria, sino porque es su deber. Su papel es defender a su pueblo y a su familia. Y esa escena que vemos en la Ilíada, en la Ilíada con Andrómaca, pues en el que ésta le suplica que no salga a luchar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=17" target="_blank" class="timestamp">[00:17]</a> Pues muestra la esencia del héroe que asume el sacrificio consciente. Vuelve con él o sobre él. Le decían las mujeres de Esparta a los hombres cuando partían a la guerra. Vuelve con él o sobre él. Si tu mujer te dice, si tu marido te dice, no lo hagas, no vayas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=38" target="_blank" class="timestamp">[00:38]</a> No merece estar a tu lado. Siempre, siempre, siempre quien te quiere te impulsa, no te frena. Y por lo tanto Héctor es el hombre que se entrega a la comunidad que... ¿Os habéis quedado? Quien te quiere te impulsa, no te frena. Ahora ya todos tenéis que divorciar. Ya está, todos solteros ya, mañana. Porque todas las mujeres son como una castración testicular y mental. Sí, sí es. ¡Ay no, no lo hagas! Le voy a partir la calle. ¡Eh!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=68" target="_blank" class="timestamp">[01:08]</a> Eso es una mujer, ¿no? Ay, ¿en qué momento dejamos de decir a las mujeres? ¡Cállate ya! ¡Que te calles! ¡Cállate! ¡Fuera! ¡Tiene para allá! Al perro que le dices ¡Cállate! ¡Fuera! ¡No mueras eso! ¡Fuera! ¡Fuera! Al perro, ¿no? Y a tu hijo de cinco años le dice ¡No hagas eso! ¡Que te vas a caer! ¡Que te he dicho! ¡Que no lo hagas! ¡Que no! Y a tu mujer ¡Es que te calles! La mía es un freno continuo, pero cuando me impongo y hago lo que tengo que hacer, terminando la razón, sí, como todas las mujeres.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=98" target="_blank" class="timestamp">[01:38]</a> Las mujeres te van a decir, no, no lo hagas, no lo hagas. Y cuando no lo hagas, a la larga te vas a comer tú de la responsabilidad y el marrón de lo de hecho. Y cuando te dicen, no lo hagas, no lo hagas, lo haces, porque tú sabes que tienes que hacerlo, luego pues sí, va a decir, bueno, pues está bien la cosa, ¿no? Una cosa, yo, mi novia me dice que tengo que estar de acuerdo con ella con el tema de feminismo, que si no, me deja. Mira, eres muy buen chaval, pero eres un desgraciado. Primero, pues está con la feminista. Y segundo, porque me has dicho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=126" target="_blank" class="timestamp">[02:06]</a> Tú, cuando ves a una mujer y se te identifica como feminista, pues te alejas de ella. Fuera de aquí, basura. Aléjate. Búscate un Sojas. O sea, tú, pero hasta el día que quieres cambiar, búscate un mierda de tío que te come el discurso. Sé feminista. Es que todas feministas son igual de desgracias y basura como persona porque luego, estoy cansado de verlo con gente que conozco...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=150" target="_blank" class="timestamp">[02:30]</a> que la tiene feminista, súper chula, pero luego el novio le tiene que hacer todo. Porque todos los problemas la mujer los suelta con dos maneras. Cuando hay un marrón gordo, o se ponen así, con un abrazo así, que venga alguien y lo arregle, o se ponen a chillar. Y encima te chantajeas, ¿sabes? Mira, si tú tienes autoestima y te consideras que eres un hombre, primero no te estás como feminista. Y segundo, a la que se me deja y dices, mira, ¿sabes qué? Ella te puede largar de aquí. Te puede tomar por culo. La bloqueas de todas las redes sociales</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=180" target="_blank" class="timestamp">[03:00]</a> y no la vuelves a ver nunca más. Te voy a chantajear tu novia porque es feminista. Tu novia es la tipeja, hombre. Y tú eres un soja por estar con ella. Luego, como uno que conozco. ¡Ay, que un coche me da un golpe! ¿Qué hago? Pues para ver la tele es feminista, ¿no? ¿Por qué tengo que hacer todo yo? Luego otro. ¿Cómo es? ¿Cómo era? Bueno, tiene que hacer todo el tío. A mí la ex, en cuanto me eche noven, me volvió a hablar. Sí, claro. Típico. Mira, no falla. No falla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=208" target="_blank" class="timestamp">[03:28]</a> Dice el chico, pues sí, no quiere hacer nada a ella. Quiere que le haga detalles, que le pague todo, pero ella no me da nada a cambio. Solo paso el rato con ella y disfruto sexualmente y ya está. Tío, te estás degradando como persona. Te estás rebajando. Te estás humillando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=222" target="_blank" class="timestamp">[03:42]</a> O sea, tú, como persona, no vales nada. No vales muy poco. O sea, es que eres un tío y tu potencial como hombre lo vendes a cambio de un poco de, bueno, porque la tía es indigna a hacer algo que habría que ver qué mierda eso tienes porque fuera de... Porque eso no es un fin. Es un medio. Y sirve para una forma de comunicación afectiva y para la reproducción humana. Ya está. Así que encima poco que he hecho es una mierda. El día que conozco una mujer buena...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=249" target="_blank" class="timestamp">[04:09]</a> Pero claro, para conocer a una mujer buena tienes que te valores. Y cuando tienes valores, vas con él por delante, se filtra la persona solo. Porque te ven la mierda. Te va a ver y va a decir ¡Ah! ¡Qué asco! Sí, sí. Pero aléjate. Porque más asco me das a mí. Escoria. Y cuando tengas una mujer buena que te quiere de verdad y te acepta y espera de ti que seas... Bueno, te va a querer porque eres un hombre. Como si eres un Sojas que se agrada, pues evidentemente una mujer que tenga calidad pues va a decir ¡Menudo Sojas de tío!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=277" target="_blank" class="timestamp">[04:37]</a> Pues cuando tengas una mujer buena de verdad, si tú eres un hombre de verdad, entonces vas a saber lo que es sexo de verdad. ¿Vale? Yo tengo esta buena inútil, dice ATVC, para meter mi sonda transmisora de materia genética.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=290" target="_blank" class="timestamp">[04:50]</a> Y yo era un Larry del 15, pero me sirvió para aprender lo que sí y lo que no. También fue hace bastante tiempo, se la disimula. Eso fue hace ayer, hombre. Como druida a mano, John tiene un conocimiento tan profundo de lo que es convivir con una chara españorda que parece mentira que solo convivieses como pareja con tu mujer. Claro, porque yo he visto que es una mujer de verdad y buena. Maguita burruguita, a veces lo digno es una Manuela de Chavales, Manuela de Vitoria. Sí, sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=314" target="_blank" class="timestamp">[05:14]</a> el placer placer por placer es con las cinco dedos y ya está lo haces y punto y te has quitado eso en tu privacidad no sabes nada y no tienes que venderte no tienes que rebajarte y nada pero es que le he contado mierdas personales y tengo miedo que me traiciones si la dejo te va a traicionar tienes todo el mundo que te va a traicionar porque es una puta feminista y le cuente a los demás mis cosas mira te te pilla por los huevos así que cambia te va a traicionar claro que te va a traicionar mira</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=343" target="_blank" class="timestamp">[05:43]</a> ¿Sabes lo que pasa cuando vendes tu dignidad? Pues que te pasa esto. Ya está, tío. Sí, un chico está en Twitch. Ya está, no tienes opción. ¿La has cagado? Pero cuando la cagues, ya está, está cagado. Sigue la vida. Pero bueno, también te digo que habla con un abogado, ¿eh? También, ¿vale? Habla con un abogado. A ver si se puede hacer algo, no sé. Porque hay que cosas son muy privadas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=363" target="_blank" class="timestamp">[06:03]</a> ¿vale? Pues dice Poppy, ¿qué confianza tiene con esa persona? Poppy es la típica relación disfuncional que se acepta ahora como algo normal, en el que un chico acepta a una feminista, o sea, un ser humano repugnante, y en el que una relación total disfuncional es normal, en que la tía se cree superior, o sea, es una mujer, y es con todas sus discapacidades comprar con un hombre...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=387" target="_blank" class="timestamp">[06:27]</a> Y está ahí diciendo, bueno, tú hazlo todo, que es un hombre, pero cuidado, que no soy menos que tú. Venga, conduce que yo, si no me estampo en la primera curva, me pagas porque es el hombre que trabaja. Yo estoy cuando trabajo, la compra la subes tú porque pesa mucho, soy mujer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=403" target="_blank" class="timestamp">[06:43]</a> Y las cosas que no sé hacer, me las haces tú también. Y siempre... Perdona que tengo un problema, porque no sé cómo... Oye, Rex, ¿qué hago? Me ha jodido... No, no te he jodido nada, te has jodido tú solo. Ahora tenía fe de que la podría cambiar y pudiéramos cortar por los años. Tengo 17 años, así que lo del abogado es imposible. A ver... Vale, empezamos por ahí. Tienes 17 años, vale. Vale, que no te ha... 17 años...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=426" target="_blank" class="timestamp">[07:06]</a> a esa edad todo es muy difícil te hagas un vaso de agua cuesta mucho con que tienes 17 años estás en la edad de aprender a palos yo te hablaba como si tienes 25 23, 17 es muy poco entonces no la puedas cambiar pero intenta acabar de buenas porque con 17 años todo esto te queda grande igualmente tienes el chat GPT el grog</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=451" target="_blank" class="timestamp">[07:31]</a> consúltale, porque consúltale, dile que estás en España, al GROC, si quieres, recuerda que cuando aplicas Think Harder, piensa profundamente, te elabora mucho con las respuestas, y consúltale en el contexto si pudieras hacer algo. El abogado, aunque tenga siete años, también te sirve, no te pienses. ¿Con 17 qué sabe de ti? No sé, a lo mejor le confesa algo muy feo, muy feo, muy feo, y solo sabe ella.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=479" target="_blank" class="timestamp">[07:59]</a> Bueno, no sé. Y si no, tío, haz lo mismo. Cuando digas, mira, vamos a cagar de buenas leices, como me entere que vas arrajando y vas contando cosas mías, voy a empezar a contar cosas de ti, ya está. Es que conoce a todos mis amigos y amigas, mis padres, y vamos a la misma clase. Espero que termine el segundo bachillato o corto ya. A ver, si tú consideras que te va a envenenar mucho, sortea como puedas. Y tú estás hablando como si fuas un hombre, evidentemente no es un hombre, porque tienes 17 años, o sea, eres menor de edad, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=507" target="_blank" class="timestamp">[08:27]</a> pues lleva la situación como puedas, es decir, tiene una cosa, los adolescentes bellerreres tienen el problema que cuando les hablas de valores, chotan toda la tremenda y van ahí a muerte, ¿no? Y no... ¿Los valores? No, tranquilo, pasa de un extremo a otro, pasan de venderse por dos duros a tener valores ahí impresionantes y por mi... Niño, cacamate. Tú puedes tener valores, tienes que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=535" target="_blank" class="timestamp">[08:55]</a> El problema es que las relaciones están jovencitos. El problema es que cuando tienes 17 años tus valores no están muy definidos. Y las relaciones se basan en valores. Entonces, claro, es normal que acabes pillado. Es normal. A tu edad es normal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=549" target="_blank" class="timestamp">[09:09]</a> No te pienses que yo a tu edad era... Nada, especial, ¿eh? Era como tú, igual de tonto. Es normal. Si puedo hablar y te puedo convencer, es por diferenciada, no es por nada más. Salí de ahí, maravilla, ¿no? Entiendo el mensaje, gracias. Entonces, lo que te quiere decir, Brady Rebs, es que tienes que construir tu escala de valores, pero tampoco tienes que matarte por ellas, porque eres muy joven. Entonces, tienes que aprender... ¿Qué pasa? Con 16 años no vas a poder. Tienes que aprender que no tienes que tomarte las cosas a rotunda, ¿no? Es decir, por lo que te he dicho...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=578" target="_blank" class="timestamp">[09:38]</a> Asúmelo como una idea, pero no es una idea dogmática. Toma la idea, si tú consideras que es buena, pero no lo tomes a lo literal. No quiero gastar ni un duro más en esta chica. Como no le pague nada más, se pone a llorar. Literalmente, ya que ha llorado por otras situaciones cuando no tenía dinero. Bueno, mujer feminista, sea basura, sí, sí. O sea, es chula. Te desprecio por hombre, porque claro, es un hombre de mierda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=605" target="_blank" class="timestamp">[10:05]</a> O sea, violencia, eres violento y todo rollo. O sea, los hombres hemos discriminado a mujeres, hemos anulado el potencia que tengan mujeres porque, claro, podrían ser Einstein y Mozart y Beethoven y... y con la Tess las mujeres, pero claro, por lo menos no han salido. Siempre se dice, no, es que Clara Schumann era una gran compositora, pero claro, se dedicó al marido. Clara Schumann era una mierda. ¿Vale? Que le fue Franz Liszt...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=632" target="_blank" class="timestamp">[10:32]</a> presentó su sonata en sí menor, que es una obra maestra total, y estaba Brahms presente, Schumann, su mujer, etc., y la clase Schumann, ay, pero es muy larga, ¿no? Qué triste, ¿no suena? Ahí, ahí, cállate, cállate, mujer, cállate. Pon cosas frívolas. ¿Qué va a decir una mujer? Pues cosas bonitas y frívolas. Está el chat del Kikropoli a leerlo, así que la leo después. A ver, evidentemente, Billy Ray lo que no puede hacer es gastar el dinero.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=660" target="_blank" class="timestamp">[11:00]</a> No te gastas dinero. Punto. Dices, mira, es que no te gastas dinero. A ver, Villarres. Llega un punto. ¿Sabes qué pasa cuando tu autoestima va bajando? Si ya me ha dicho que todos los hombres no tenemos sentimientos y que nos aprovechamos de las mujeres. Qué hijo de puta es, tío. A ver. Es que el sistema educativo y el sistema social crea una inmundicia de mujeres victimistas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=687" target="_blank" class="timestamp">[11:27]</a> Con una cara dura. O sea, son victimistas, pero con la mano abierta. Son como los israelitas, tío. Los israelíes. Es que es increíble. Van ahí. Págame, ahí está. Es que yo lo he visto, tío. Yo lo he visto. Y decís a chavales decir. No, chavales, tíos adultos. Pero ¿cómo te degradas? Pero tío, tú que me ha llamado mi mujer que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=711" target="_blank" class="timestamp">[11:51]</a> Que, claro, es que no se hace un parte del seguro. No es feminista. Que se espabile, tío. No es feminista. No está empoderada. Que le den por culo. No es una relación de igualdad. Los dos, pues ya está. Cabrón lo suyo. Macho. Qué gentuza, tío. Qué gentuza. Qué mierda de personas, ¿eh? Bueno, refiero, ¿qué está diciendo? ¿Sabes qué pasa? Y Bellirres, cuando... Tú no te das cuenta, pero cuando tu autoestima se va degradando...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=738" target="_blank" class="timestamp">[12:18]</a> aceptas rebajarte, aceptas rebajarte, aceptas rebajarte. En vez de aceptar tu soledad y en tu autoestima, decir yo soy lo que soy y valgo algo, mucho o poco, pero que quieras estar conmigo que sea porque yo lo valgo, ¿no? O por lo que yo soy, mejor dicho, perdón. ¿Yo te gusto o qué te gusta de mí? Claro, es eso. Cuando un chico o un tío acepta ir rebajándose, que me gusta mucho, ah, bueno, pues...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=766" target="_blank" class="timestamp">[12:46]</a> Rebájate. Sí, le voy a... Le voy a crear un iPhone 17 Pro. Y a ver si así... Así la convence, ¿no? Claro. Y la Kike a la tía. Mi Kike le paga y todo, claro. A la tía esa... A ella le importa esa mierda. Es una extorsionadora y una chantajista. Te tiene, pues, como un hombre, ¿no? O sea... Te tiene para sacarte el dinero.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=790" target="_blank" class="timestamp">[13:10]</a> para utilizarte cuando le interese y punto, nada más. Y tú eres el tonto que está pagando todo. Entonces ya está, o sea, no le pagas nada, punto. Además, es que es menor de edad, o sea, tampoco puedo llamar a la policía y meterte en calabozo, o sea, aprovecha ahora, que te diga. Es porque encima es eso, ¿sabes? Cuando eres mayor de edad, bueno, tampoco sé cómo es el tema, ¿eh? Legal, 17 años, pero tú eres mayor de edad y es que es literal, es así el tema, ¿eh? Es decir, la tía, sí, pues venga, llama a la policía y a 112 te cargarás, venga, a calabozo, literal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=819" target="_blank" class="timestamp">[13:39]</a> Me has abierto los ojos, tenía dudas, ¿te puede cambiarla? No, no, eso no, no, no. Esa es la típica frase estúpida de todo el mundo. No vas a cambiar nada. Ya me has quitado las dudas y me estoy dando cuenta de lo mucho que se ha aprovechado de mí. Me obligó a defender a mis amigos cuando no tenía razón. Tenía que siempre darle la razón porque no paraba de llorar y despreciarme. Mira, no sé la razón a nadie.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=843" target="_blank" class="timestamp">[14:03]</a> Si tu novia hace gilipollas, se lo dices, eres gilipollas. Y has hecho el ridículo. Y no tienes razón. ¿Vale? Punto. Que estás en la tienda y la tía roba algo y la pillan. Defíndeme, no te voy a defender. Te quiero por lo que eres, pero no por lo que haces. ¿Qué has hecho esto? ¿Te has hecho mal? Ya está. Es como el típico tío que mata a alguien o una sesión en serie y la madre lo defiende. No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=868" target="_blank" class="timestamp">[14:28]</a> Mi hijo sí. ¿Qué ha hecho? ¿Cuántas veces has matado? Ah, ¿que hacías pedo? Bueno, pues matarlo y ya está. Lo quiero mucho, pero bueno. No lo voy a defender. Lo mismo. No tienes que defender el indefendible. Si la tía ha hecho cosas de tipeja, pues no la defiendes. Igual que si es tu hermano. O te puedes callar y simular, pero no encima...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=888" target="_blank" class="timestamp">[14:48]</a> No, porque entonces te vendes. Te estás vendiendo. Es que es muy duro. Cuando eres menor de edad, estas cosas te amargan, te quitan el sueño, lo pasas fatal. Cuando tienes una edad, dices... ¿Sabes qué pasa, Bellyrefs? La edad te permite, bueno, no todo el mundo, ir aprendiendo a aceptar las consecuencias de las cosas. Y es, mira, ¿qué ha pasado esto? Pues nada, es lo que hay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=916" target="_blank" class="timestamp">[15:16]</a> Tienes que, con la edad, tienes que ir aprendiendo a aceptar las consecuencias de tus actos. Y la cosa que pasen. Y también luchar como un cabrón por todo. Y entonces, cuando tú te encuentras con alguien que te da que dar guerra, tienes que decir, ¿quieres guerra? Yo no quiero dar guerra. Pero te voy a dar guerra todo que puedas. Te voy a dar guerra hasta que deseas no haber nacido. Y esta es la actitud. Y yo estoy en una situación, lo típico. Uy, si voy a nacer otra vez, pues bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=944" target="_blank" class="timestamp">[15:44]</a> situación horrible, en que tu autoestima se basa en cosas muy externas, porque no te has construido como ser humano, porque eres un niño aún, pues nada, tienes que adaptarte. Tienes que tener huevos y decir, pues nada. El tema de asesorías que hago yo, la mayoría son chavales jóvenes, ¿eh? No os penséis, ¿eh? Son casi todos chavales jóvenes. Chavales de 18, 19, 20, 21 años con movidas de estas. No sé cómo me he dejado en gato usar por ella, solo por su cuerpo, porque me sentía cosas por ella...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=969" target="_blank" class="timestamp">[16:09]</a> Ahora tengo un nudo en el estómago por saber que la voy a tener que dejar. No, no, no te quites... Quítate eso. Tú no te quedas ansiedad por nada. Acepta con orgullo lo que tienes que hacer. Y que lo vas a hacer como un hombre. Tú lo dices así. Y cuando te hagas miedo, vas a tener miedo porque todo el mundo tiene miedo alguna vez, pero ya está. No te compaezca a ti mismo. Que tengo un nudo... No, no. Que si en el estómago hay frío, bueno, es lo que hay. Da igual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=994" target="_blank" class="timestamp">[16:34]</a> Tengo un montón por saber que la abuela tiene que dejar. Si es lo mejor que va a hacer en tu vida. Y la tía, porque te tiene que coger la medida, te va a hacer todo lo que pueda, pero tú no te vas a bajar del burro. Tú te vas a poner cabrón. Y eso dices, ¿quieres guerra? Va a tener guerra.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1010" target="_blank" class="timestamp">[16:50]</a> ¿Sabes qué pasa? La gente te toma la medida. La tienda te toma la medida y te tiene como un sojas o un perrillo que te saca a pasear y como te pases... Se chantajeo, ¿eh? Que te voy a decir todo eso y pues tú si metéis que responde con lo mismo, pero más. Siempre. ¿Qué ha hecho ya? Déjame ver. Ah, no. Bueno, mira. Este se va a la calle, ¿eh? Perdona. Gracias cuadrado, ¿eh? Vuelvo el trabajo. Te lo agradezco de verdad, tío. Lo voy a parar en permanente, equipo, ya esté.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1038" target="_blank" class="timestamp">[17:18]</a> No he leído el chat de aquí porque no puedo. Esos son muchos mensajes. Pero es igual, he echado al otro y ya está. Sin más peleas, me lo explicais, por favor. Porque no estoy leyendo el chat de aquí desde hace media hora. Que le jodan. Voy a amarla y le voy a decir lo mucho que se ha aprovechado de mí y la voy a dejar. Bueno, no lo hagas ahora. No hace falta hacerlo ahora. Espérate. Espérate. Pero bueno, eso se hace en persona. Se va a la cara y se lo dices. Bueno, a ver, yo no puedo decirte lo que tienes que hacer porque cada uno es un individuo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1066" target="_blank" class="timestamp">[17:46]</a> Y además, te lo digo, tú tienes que pensar cosas por ti misma, tienes que darle vueltas. No tienes que hacer ni en caliente ahora, corriendo, ni tampoco siguiéndome a mí, porque con esta edad se tiende a idealizar cualquier persona. Tienes que verme a mí, un poco de igual, igual, pensar lo que te digo y sacar tus conclusiones. No lo hagas porque yo lo diga, ¿vale? Muy importante. Pero lo normal, eso sí, tú tienes que reflexionar por tu cuenta y sacar tus conclusiones. Lo normal es ir a la cara, quedar y decirle, mira,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1095" target="_blank" class="timestamp">[18:15]</a> Me has tomado el pelo con esto. Me has utilizado. Que no me llores. Que te calles. ¿Vale? Tanto feminismo de mierda. No es feminista. No estás empoderada. Pues no llores. ¿Vale? No. Quédate aquí. No tengo valor en decirleslo a la cara. En unos minutos vuelvo y te digo lo que me ha dicho. Dale vueltas. Dale vueltas. No lo hagas por un calentón ahora porque te has motivado con lo que te he dicho. Es que no he estado muy joven.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1123" target="_blank" class="timestamp">[18:43]</a> No, a ver, escucha, bella y res. No, no, no, no, no te vayas. Porque te has embalón tonado ya. Lo voy a cerrar antes y... ¿Sabes? No, porque... Porque luego la tía te va a machacar así jurídicamente y tú vas a ceder. ¿Me entiendes? ¿Me oyes? Este se ha pirado. ¿Estás aquí o te has ido? No, lo que pasa es a este que le va a decir esto y el chaval... Mira, fíjate como es un adolescente. Se ha ido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1147" target="_blank" class="timestamp">[19:07]</a> Es muy impulsivo. Sí, sí, es normal a esa edad. Ya está, el chico ha salido. Se ha ido a llamar a la tía y dice, te dejo. Y hasta lo haces así. La tía le va a pegar una comida de cabeza tremenda, porque las mujeres para esto son especialistas en reventarte la cabeza. Y el tío, pues, va a estar ahí aguantando chaparrón de la tía. ¿Qué me has dejado? John, igual a Juelos, si ven las gafas, tías en el suelo, cuando va para hacer cardio por la montaña y ven las gafas así, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1176" target="_blank" class="timestamp">[19:36]</a> me relaciona con la gafa que acaba de ver, le da la taca de ansiedad y lleva 112 en el helicóptero y se lo llevan al hospital para ingresarlo. Pues por el chaval, me quiero mofar. Sí, pues nada, ya está. Le pasará esto al chico, luego la tía le pide una comida de olla y estará horas llamándole y viendo mensajes...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1200" target="_blank" class="timestamp">[20:00]</a> yo he dado mejor para ti, lo he dado todo por ti, yo te quería, ¿y tú qué me has hecho? Y el chaval dice, bueno, pues te he pagado todo, cabrona, me has arruinado. Y luego la tía empezaba con todas sus amigas y todas las amigas dirán, qué hijo de puta, es putos hombres de mierda, es uno cerdo, sí, encima que le he dado todo. No sé, pero así con todo el morro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1224" target="_blank" class="timestamp">[20:24]</a> Acabas de crear un gigachat Skyner, sí, pues un minuto. Va a durar el niño el gigachat. Ahora la niña empieza a pegar gritos y el tío se va a cagar. Imagínate que con esa edad el chico, la niña le habrá pegado un eso, magistral, le habrá metido ahí un ataque así combinado y el chico ahí me he enamorado. Ya está. La relación es eso. Yo he puesto que mañana están de la mano cogidos de la mano. En esta clase de relación la tía no coge la mano, lo saca a pasear al tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1255" target="_blank" class="timestamp">[20:55]</a> Y le dice, cómprame esto. Si no es que no me quieres. ¿Me quieres, verdad? Pues cómprame esto. Pues nada, son las 12, tío. El niño se ha ido... Claro, el niño se pensaba que iba a ser un momento. El niño se ha quedado enganchado al teléfono porque la tía le está pegando una comida de olla llorando. Seguro que además... En el chantaje emocional llegará un punto que dirá, si me dejas, ¿sabes qué voy a hacer? Y la amenazará con desvivirse la tía, seguro, ¿no? O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1283" target="_blank" class="timestamp">[21:23]</a> Ahí está el niño. El niño se está... El niño va a dormir hoy a las 3 de la mañana con la ticón de la cabeza. Pero y res ha vuelto el niño. Pues lo siento, ¿eh? Joder, John, me ha dicho que le dirá a todo el mundo que soy un machista opresor como la deje. Ha empezado a llorar y a gritarme diciéndome que ella es una víctima que me ha aprovechado de ella sexualmente. Me dice que ha luchado por esta relación que me ha tratado como nadie. Joder, soy adivino, ¿eh? No me ha dejado ni hablar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1311" target="_blank" class="timestamp">[21:51]</a> Le he colgado porque ni me deja hablar. Ahora no para llamar y enviar mensajes enfadada y a la vez llorando. Creo que de verdad me quiere. Si no, ¿cómo lloraría realmente? Joder, John, la quiero. No se puede saber. No se puede saber. Está de coña, John, es un troll. No me creo nada, parece falso. No, no, no, no es nuestro Leo. Suelta una parrafada que no acaba mensaje porque tiene límites de carácteres. No es nuestro Leo. No es nuestro Leo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1337" target="_blank" class="timestamp">[22:17]</a> Tío, que la realidad es así. ¿Qué se nota? Es verdad, John. Es que son tontos los de The Kick. ¿Qué puedo hacer? No para de enviarme audios llorando. Porque se joda. Te va a amenazar con todo. Te va a chantajar con todo. Hasta te va a decir me voy a quitar la vida. Qué tontería. Mi hermano ha hablado de estos temas. Esa típica persona manipuladora que te instrumentaliza. Mira, te ha utilizado para comprar y ya te va a utilizar para que sigas ahí enganchado a ella.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1367" target="_blank" class="timestamp">[22:47]</a> Eres el perro faldero de la tía esa, nada más. Y no a tolerar que tú tengas una iniciativa. Cállate, Popi. Bueno, tú ya sabes lo que opinas de las mujeres, ¿vale? Pero de verdad me quiere o solo me está manipulando. Es que me está llorando de verdad. Claro que no te quiere, hombre. Si te quiere, te cuida. Quien te quiere, te cuida. No te utiliza. Utilizar no es querer, ¿vale? Ahora, esto tienes que decir tú, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1396" target="_blank" class="timestamp">[23:16]</a> Tú tienes que saber si te cuida o te utiliza, ¿vale? Te están troleando. No, no creo que me trolea. Y si me trolea es igual. Yo hago un vídeo mañana de esto. Bueno, mañana cuando esté editado lo subo porque es la relación prototípica de pareja tóxica. Que mi hermano ha hablado varias veces de ella. Es típico, típico, típico de tía que instrumentaliza la relación y tiene subyugado nombre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1425" target="_blank" class="timestamp">[23:45]</a> Carlos, ¿os acordáis? Decía, yo de maltrato de hombres a mujeres, alguna vez he visto y es horrible. Poco, ¿eh? Pero de mujer a hombre me dice, estoy cansado de verlo. ¿Os acordáis? Dice, maltrato de hombre a mujer, estoy cansado de verlo. Y heavy, ¿eh? Bellyreps, en mi canal se llama John Opina. En el John Opina, en la carpeta de directos, verás, aparece cada sábado directo con Carlos. Carlos MH.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1450" target="_blank" class="timestamp">[24:10]</a> Y hay algunos que son de pareja. Ah, sí, los vídeos de mi hermano o de todos, pero los de pareja son fundamentales verlos para aprender a tener parejas, ¿eh? Joder, y todo el rato se queda aquí en la ventana, ¿sabes? No sé por qué, me va lentísimo. Él reconoce personas tóxicas, no te entiendo, ¿quieres decir? Ah, coño, Echan Lento está aquí, ah, me da cuenta. No me acordaba. ¿En cuánto está Echan Lento? Tres segundos, poco, tres segundos. Sí, claro, es su especialidad. Oye, voy un momento al baño, ¿vale? Y vengo, un segundito, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1481" target="_blank" class="timestamp">[24:41]</a> Ah, vengo. Di la verdad eres jubilado del sector del metal. Bocata de oruga gente es. Para de trolear a Ion, sabemos que tienes años. Riega a esos bodegueros. Comunidad y aaaau. Quejarse de ser utilizado sexualmente es peña jents. El chaval tiene hecha la vasectomía y tiene contratado el viaje del inserso. Es van, puto móvil. Comunidad aaa a trolear siendo jubilado es van.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1513" target="_blank" class="timestamp">[25:13]</a> Joder, parece un elefante, tío. Eh, Pillirres, mira, si tienes... Cierra que entran mosquitos. Cállate. Dión, hemos escuchado el gemido. Claro, cuando he entrado. Eh... Pillirres, te he puesto el enlace de Tegram si quieres entrar, ¿vale? Que estamos en la comunidad. Con humandad, dinero, hostia. Pillirres, te he dejado el enlace de Tegram si quieres entrar en el grupo nuestro, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1534" target="_blank" class="timestamp">[25:34]</a> Yo no tengo cojones de bloquearla. La voy a llamar. Me ha dicho que ya está calmada y que hablemos mejor. Joder, qué rápido pasa de estados de emoción la chavala. Le va a meter una guerra psicológica al chaval que lo va a reventar. Lo va a ver loco. Te va a pegar una fundida de cabeza. Niño, vete a dormir que mañana hay insti. Te va a intentar convencer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1561" target="_blank" class="timestamp">[26:01]</a> te va a intentar convencer por todo, te va a chantajear, te va a chantajear, te va a utilizar todas las armas, va a pasar de malas a buenas, de buenas a malas, así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1571" target="_blank" class="timestamp">[26:11]</a> Yo voy a hacer esto si no lo haces. No, hazlo, por favor, yo te quiero. Te voy a joder. Ya todo el mundo crees tal. No, por favor, pero te quiero. No lo hagas. Me quitaré la vida porque no sé qué. No lo hagas, por favor. Te quiero, hijo de puta. Así todo el rato, te verás. Y todo el rato. Yo te quiero. Yo lo hacía todo por ti. Y yo te aguantaba porque todo lo malo que tienes, porque no eres perfecto. ¿Qué te piensas? ¿No habrá otra mejor que yo? ¿Qué te piensas? ¿Que alguien te va a querer? Pues si eres gilipollas, eres feo, eres un desgraciado. ¿Te acuerdas del día que no sé qué? Y si no sabes hacer esto o lo otro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1598" target="_blank" class="timestamp">[26:38]</a> Y así, mujer, ¿sabes? Es decir, te va a decir que eres una mierda, pero encima, claro, que yo te quiero de verdad y tal. Hostia, Sean, parece que has vivido esto. Hombre, es que son muy predecibles, tío. Ya tengo muchos años, ¿eh? Ah, bueno, sí, mister. Y a que encuentre un tío mejor que el Bellerrex, para ti y para otro. Se encuentra... Pero claro, piensa una cosa. Estas tías agarran a ese chaval...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=G2_53ss0X9c&t=1625" target="_blank" class="timestamp">[27:05]</a> Porque saben que no van a encontrar otras hojas que suelte la pasta con suelta S y encima que se llevan las collejas que se llevan S. Que conozco a ver las mujeres. Bien, hombre, si las conozco. Es Spinecar el chaval. Chaval, va tan rápido que no puedo tocar los links, tío. Gente, me voy a la cama, ¿vale? Que son las 12 de la noche, muy tarde. A ver, si la tía no hace un plan reno y lo cambia, porque no he encontrado otro más pardío que él. Adiós. Hasta mañana.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 15/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
