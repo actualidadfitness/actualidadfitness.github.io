@@ -1,0 +1,425 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 16/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">16/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-RXBCe8LjNfM'>MAURO FIALHO LA SORPRESA DEL MR.OLYMPIA TOP13</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-RXBCe8LjNfM">
+            <h2>MAURO FIALHO LA SORPRESA DEL MR.OLYMPIA TOP13</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 16/10/2025 14:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=RXBCe8LjNfM" target="_blank">
+                    <img src="https://i.ytimg.com/vi/RXBCe8LjNfM/hqdefault.jpg" alt="MAURO FIALHO LA SORPRESA DEL MR.OLYMPIA TOP13" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta la inspiradora participación de Mauro Fialio en Mister Olympia 2025, un sueño hecho realidad. Muestra su preparación física y mental, destacando la increíble condición de su cuerpo y el apoyo incondicional de su equipo, especialmente su preparador Carrasco. El video también aborda las presiones del éxito y la importancia de la perspectiva y el agradecimiento. Finalmente, Mauro comparte una emotiva reflexión sobre cómo el trabajo duro puede transformar vidas y cumplir sueños.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Mejor Físico de su Carrera <a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&amp;t=83" target="_blank">[01:23]</a></h3>
+
+<p>Carrasco expresa su firme convicción de que Mauro Fialio presenta el mejor físico de su vida deportiva para Mister Olympia. Describe la dedicación y la transformación de Mauro, destacando su increíble condición física y mental para la competición.</p>
+
+<h3>El 'Bicho' Desata su Poder en el Escenario <a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&amp;t=318" target="_blank">[05:18]</a></h3>
+
+<p>Mauro Fialio se presenta en el escenario de Mister Olympia, mostrando una transformación física impresionante. Los comentaristas destacan su tamaño, redondez muscular y plenitud, afirmando que "parece otro Mauro".</p>
+
+<h3>Logro Histórico: Segundo Callout en Mister Olympia <a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&amp;t=758" target="_blank">[12:38]</a></h3>
+
+<p>Se anuncia que Mauro Fialio ha conseguido un "segundo callout" en Mister Olympia, un logro increíble que genera emoción y orgullo. Su coach, Carrasco, es reconocido como uno de los mejores preparadores del mundo, impulsando a atletas a la élite.</p>
+
+<h3>La Lucha Interna: Manejando la Presión del Éxito <a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&amp;t=1115" target="_blank">[18:35]</a></h3>
+
+<p>Mauro comparte sus sentimientos de abrumamiento y estrés ante las múltiples demandas de su éxito. Un amigo le aconseja "respirar", poner los pies en la tierra y valorar sus logros para no hundirse ante la presión.</p>
+
+<h3>El Inconformismo y los Sueños Renacidos del Preparador <a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&amp;t=1421" target="_blank">[23:41]</a></h3>
+
+<p>El video profundiza en la naturaleza inconformista del ser humano y el viaje de Carrasco, quien ha superado sus propios sueños. Reflexiona sobre cómo nunca imaginó tener medallas de Mister Olympia, pero la vida lo ha sorprendido y renovado sus metas.</p>
+
+<h3>Una Infancia Difícil, un Sueño Cumplido: El Legado de Mauro <a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&amp;t=1662" target="_blank">[27:42]</a></h3>
+
+<p>Mauro comparte una emotiva reflexión sobre su infancia "de mierda" y cómo, a través del trabajo y la disciplina, ha logrado cumplir sus sueños. Destaca la importancia de valorar lo conseguido y la felicidad que encuentra en su vida personal y profesional.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=0" target="_blank" class="timestamp">[00:00]</a> Vemos el videíto de Mauro. ¿Os apetece? Top 13 del mundo. Mister Olimpia 2025 Show Day viviendo un sueño de Mauro Fialio. Mi amigo Mauro Fialio. Otro que ha hecho historia. Vamos a pasarlo bien, bro. Tú pásalo bien, sin presión. Disfruta de todo lo que has hecho, de toda tu preparación. Esto que estoy comentando, estoy seguro que todavía es el principio. Que no estamos ni en la mitad. Que pinta la chica, o sea guay, ¿no? Es la que pinta seguro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=34" target="_blank" class="timestamp">[00:34]</a> ¿Orgulloso? ¡Joder! Increíble, físico increíble, condición, tamaño. Yo quiero una foto con el Jeremy. ¿Qué escena crees que va a sacar en este Limpia? ¿Lo ves en Supreme? ¿Absoluto? Sin ninguna duda. No tengo ninguna duda. Después de todas las batallas que llevamos,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=61" target="_blank" class="timestamp">[01:01]</a> intentando verlo con criterio vale no con buenos ojos vale como como preparador es una cosa que me ha enseñado mauro es un guerrero hermano cuando haya copina deportivamente no mirarnos con buenos ojos vale tenemos que ser realistas y en ese ámbito</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=83" target="_blank" class="timestamp">[01:23]</a> Yo sí veo a Mauro con el mejor físico de toda su carrera deportiva. Así lo estoy sintiendo. Tengo los pelos de punta ahora mismo, amigo. Así lo estoy viendo y así me lo está demostrando. Cómo su metabolismo está reaccionando a todo. Físicamente, psicológicamente… O sea… ¿Este es mi sueño? ¿Esta preparación es mi sueño? Hostia, qué palabras de carrasco, ¿eh? Si…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=112" target="_blank" class="timestamp">[01:52]</a> ...si tuviese que compararla con años atrás... ...o sea, si me preguntas años atrás... ...qué le pediría yo a Mauro... ...en general, en nuestra relación... ...deportiva, amistosa, familiar... ...a nivel de posicionamiento en el deporte... ...ya, sin ninguna duda, está... ...pero incluso... ...esto que estoy comentando... ...estoy seguro que todavía es el principio...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=134" target="_blank" class="timestamp">[02:14]</a> Que no estamos ni en la mitad. ¿Vale? Dentro del 100%, llegar al 105 es mínimo. Pero te falta la comida. Vale. Es lo que vas a dejar. Punto. Con la comida, te vas a apretar. Porque ayer, todos estos días atrás lo hemos comprobado. Te has levantado por la mañana, si te has visto bien. Dos o tres comidas después, mejor. Mejoro. Mejoro. Apergados, estiraciones, la piel pegada, ¿sabes? Te hace falta comida. Punto. Vale. Hasta luego, bro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=167" target="_blank" class="timestamp">[02:47]</a> Es que el cabrón del Mauro ha mutado. Lo mejor es, lo que más me gusta a mí es que es una persona... Es su mujer. Es una súper cariñosa. Es muy cariñoso. A veces es más que yo y todo, ¿sabes? No sé, es como un osito, ¿sabes? A mí me cae muy bien su mujer, ¿eh? Me cae muy bien la chica.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=208" target="_blank" class="timestamp">[03:28]</a> ¿Cómo sudes, eh, ahora? Vale. Por eso no ha pasado suave. Empieza a las 10. Chicas, o sea, guay, ¿no? No pinta muy bien, ¿eh? Es la que pinta cebú. Te lo juro. Porque he visto los vídeos de cebú. Sí, pero he pedido, aparte, que me hicieran un toque en la espalda, tío. Me viene una capa más. O sea, hay más negrito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=234" target="_blank" class="timestamp">[03:54]</a> Si quieres hago cuatro galletitas de esas que me has pasado para tener un poquito más de carga de aguante hasta el evento. ¿Quieres que te llevo una mochila? Y ya está, la suda de la cruz. Vale, no es más arriba, yo tengo un poco así que luego no tengo que buscarlo. Una palabra.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=262" target="_blank" class="timestamp">[04:22]</a> Este me encantaba. La galletita esta la está haciendo superfamosa, es que puto carrasco. El año pasado nos pusieron un lavabo de esos que son una caseta. ¿Está grabando por dentro de la Olimpia? No, tenemos que ir hasta allí. Me dio puto lavabo. Os hago un tour rápido. Este es el backstage, que cada año parece que va a ser más pequeño. El clásico, que son las dos categorías que más gente hay. Cuando sales…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=293" target="_blank" class="timestamp">[04:53]</a> Ah, está con la gafa esa de... Con la Ray-Ban. Fijáis aquí. Están como los comentaristas. Y todos los classics. Aquí tenéis gimnasio. Todo es donde calentamos antes de salir. Y un poquito más. Aquí es donde se produce la fiesta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=318" target="_blank" class="timestamp">[05:18]</a> Así que nada, ya estamos dentro. Ahora a tranquilizarnos, a acabar de hacer la carga y a disfrutar. Ahí va el bicho. Es que fijaros el tamaño que ha pillado el cabrón. Mirad la carne que tiene arriba, la redondez que tiene, lo lleno que se le ve.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=349" target="_blank" class="timestamp">[05:49]</a> Es que parece otro Mauro, eh. Parece otro, tío. El abdomen de puta madre. El que no valía, eh. El que supuestamente no valía.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=387" target="_blank" class="timestamp">[06:27]</a> Seco, seco, seco. Buah, aquí tengo los putos pelos de punta ahora mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=423" target="_blank" class="timestamp">[07:03]</a> Fíjate con el buen día al lado. Es que ha llevado un físico increíble.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=454" target="_blank" class="timestamp">[07:34]</a> 3 and 48 switch 31 and 66 switch 31 and 40 switch right next to each other</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=491" target="_blank" class="timestamp">[08:11]</a> Encima, vaya nivelazo hay, eh. Y creo que puede seguir mejorando todavía, Mauro, eh. Derecho, relajate. Todos en la línea y fuera. Todos en un paso. En un paso. Todos en un paso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=528" target="_blank" class="timestamp">[08:48]</a> cuando aprieta tío si el pectoral es que se le ve</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=562" target="_blank" class="timestamp">[09:22]</a> Si tuvieras que definirlo como persona... Un luchador, un guerrero, disciplina, constancia, trabajo... A ver, si tuviera que definirlo como persona, una palabra... Sí, o bueno, o lo que... Yo si tuviera que definirlo como una persona es una persona que... De las que no hay, tío. Así. O sea, es una persona de las que... Obviamente todos tenemos nuestras cosas, pero... La...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=592" target="_blank" class="timestamp">[09:52]</a> El respeto, sobre todo, lo repito mucho porque es algo que es muy difícil encontrar. El respeto, la cercanía, el trato, los gestos que tiene hacia las personas, de su entorno, cómo trata la gente, el entorno tan sano que tiene a su alrededor, que lo ha creado él al final, es de una persona que brilla. Es una persona que a pesar de quizá de tener que levantarse a las 4 de la mañana y hacer su cardio, va a estar ahí y si te tiene que ayudar, te va a ayudar. No sé, lo definiría como una persona...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=617" target="_blank" class="timestamp">[10:17]</a> La verdad es que se ofrece mucho, Mauro es un tío que se ofrece mucho ayudarte. Si necesitas algo, te he hecho... Nada, es que no tarda nada en decirte, ah, pues te vea, yo conozco a no sé quién que te puede ayudar, o yo te puedo echar una mano en esto o en lo otro, es un tío que de verdad... Con una mentalidad muy clara y admirable, sobre todo muy admirable, pero no sé, muy de los suyos, una persona muy familiar, muy cercana y sobre todo pues al final eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=643" target="_blank" class="timestamp">[10:43]</a> Tiene pinta de levantarse a las 4 a correr. A correr no, pero a andar en la cinta sí. No falla un cardio, ¿eh? 365 días hace su cardio todos los días. No falla un cardio. Esto lo sé de primera mano. Vamos, lo de ser su boca. No falla un cardio ningún día del año. Para mí es una persona de 10. ¡No! ¡Andate! ¡Corre ahí, cabo! ¡Dos! ¡Dos! ¡Dos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=674" target="_blank" class="timestamp">[11:14]</a> 31 at 9, switch.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=684" target="_blank" class="timestamp">[11:24]</a> ah ah ah</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=712" target="_blank" class="timestamp">[11:52]</a> Y es que se le ve duro, tío. Bastante duro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=758" target="_blank" class="timestamp">[12:38]</a> Segundo calor. Orgulloso. Joder. Estamos hablando... Increíble. Físico increíble. Físico. Condición. Caló. Tamaño. Segundo calor en el Mister Olimpia. Increíble. No tengo palabras.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=777" target="_blank" class="timestamp">[12:57]</a> Está increíble, tío. No voy a esperar al bañador, pero me he quedado muy bien. Tranquilo. Todo bien, todo bien. Está bien o no? No ha sido primer calado, pero bueno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=807" target="_blank" class="timestamp">[13:27]</a> Joder, tío. Espectacular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=820" target="_blank" class="timestamp">[13:40]</a> Un saludo. ¡Oh, Dios mío! Gracias por ver el video. Gracias por ver el video. Gracias por ver el video. Gracias por ver el video. Gracias por ver el video. Gracias por ver el video. Gracias por ver el video.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=848" target="_blank" class="timestamp">[14:08]</a> Gracias, hermanito. ¿Quién merecido? ¿Cómo me alegro, tío? Yo sabes que lo merecido. ¿Sabes qué? Bueno, podemos empezar a decir ya que Carrasco es el mejor preparador, ¿no? Yo creo que ya va siendo hora, ¿no? De poner a cada uno en su sitio, ¿no? Yo creo que ya va siendo hora de decir que Carrasco es el mejor preparador de nuestro país. Yo creo que ya va siendo hora, ¿no? Tres tíos. Lleva tres tíos. Tres tíos lo lleva a la Olimpia. Tres tíos. De los cuales, sí, tiene un caballo ganador que es Josema, pero tiene dos tíos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=878" target="_blank" class="timestamp">[14:38]</a> Que ellos no se van a ofender, porque saben que yo lo digo desde el aprecio absoluto de los dos. Dos tíos, como Mauro y King Ángel, que no daban un duro por ellos dos. No daban un duro por Mauro y por King Ángel. Y son dos tíos que se han ido a la Olimpia. Pero es que no es solo eso. Dos tíos que han reventado ganando un montón de campeonatos. Pero es que dos tíos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=901" target="_blank" class="timestamp">[15:01]</a> Que a uno lo está llevando al número 13 del mundo y el otro no sé si quedó el 16. Me parece que ha sido, ¿no? Creo que Kim me ha quedado en 16. Amigos, si no lo dice nadie, lo digo yo. Y por favor, no lo digo a malas, no lo digo para tirar mierda a nadie. Por supuesto sé que Frank Spinn es top mundial, pero Carrasco va siendo hora de que le digan que es uno de los mejores preparadores del mundo. Y no acepto debate. ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=928" target="_blank" class="timestamp">[15:28]</a> Sí, o sea, el ser humano, lo que te digo siempre, el ser humano siempre quiere un poco más. Claro. Pero hay que pisar el pies en el suelo y darse cuenta de lo que ya hemos llevado. He pasado de último... Es lo que te iba a decir, que hace un año... De último a segundo calabro. ¿De 64? Al final, hijo de puto, me va a hacer llorar, ¿eh? Me he encontrado buen día. Te lo juro, habéis grabado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=958" target="_blank" class="timestamp">[15:58]</a> Me alegro muchísimo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=974" target="_blank" class="timestamp">[16:14]</a> Me alegro mucho porque es un tío que se lo merece, tío. Se lo merece, tío. La gente así se lo merece, tío. Se lo merece. Se lo merece. Es un luchador, hermanos. A recordar que está en el mejor campeonato del mundo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=992" target="_blank" class="timestamp">[16:32]</a> ¡Qué grande!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1019" target="_blank" class="timestamp">[16:59]</a> Vamos a saludar. Una puta locura. Una puta locura lo que te he visto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1045" target="_blank" class="timestamp">[17:25]</a> Lo que me ha dicho Lucas es que no posara de lado, que ahí debe... ¡Claro! Tú, allá fue el par, y te podías... ¡Claro!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1056" target="_blank" class="timestamp">[17:36]</a> No, es que yo me he molido hacia el Tyler. ¿Por qué Calderón nunca compitió? Porque se partió el tríceps, tío. Se ha posado de frente, ponen lavabo, se ha posado para ti y se lo he hecho a Tyler. Claro, vosotros no veíais eso. A veces me lo ha dicho, no, déjate. O sea, pizaza. Y hasta soy puchetín de haberme encontrado aquí. O sea, es como el poloport para... A ver, no podía pretender pasar de último a finalizar a él. Me voy con ganas en el medio. ¡Puchada, puchetín!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1086" target="_blank" class="timestamp">[18:06]</a> ¿Dónde estás, perro? Júmero 3. Aquí solo. Te ves que hay una casa. Bro, ya que ellos vengan aquí es un logro que... Ahí pueden agarrar. ¿Estamos en la cara o no? Obviamente. Por favor, tío. Por favor, hermano. Tenemos que habernos una furtura en mi tampoco. No, no, no. No, no, no. No, no, no. No, no, no, no. Tienes... Pisa al suelo. Recuerda todo lo que ya dijiste. Cuando empezaste conmigo, estaba en dragón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1115" target="_blank" class="timestamp">[18:35]</a> Nada, bro. Ábre los ojos, tío. ¿Sabes? O sea, de verdad, se puede permitir respirar. O sea, lo que están apostando por ti es porque te lo has ganado y porque confían en ti. Por eso tienes que respirar y porque las cosas se corren. Si no, te vas a hundir. Tienes un barco que todo el mundo quiere tirar para arriba. Tu mente puede hacer que se hunda. No hagas eso, hermano. Está dando buen consejo a Belcast. Es una persona…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1138" target="_blank" class="timestamp">[18:58]</a> O sea, bro, que eres admirable, hermano. O sea, ten eso en la mente. Yo ya te dije que tú hagas eso. Yo ya te dije que tú hagas eso. Yo ya te dije que tú hagas eso. Yo ya te voy a vivir a México.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1154" target="_blank" class="timestamp">[19:14]</a> ¿Cómo están? ¿Bien? ¿Bien? ¿Todo bien? Qué buena gente. Me cae muy bien. Hay casa, pero todo excelente. Trabajando, pero pues llego aquí. ¿No eres su pinte? ¿Tenías que volarte? No, lo sé, lo sé, lo sé. Estaba a punto de llamarte, pero pensé que aún lo voy a saturar más. No debes tener ganas de hacer ese momento. No, no, no. Lo que te quería decir es lo que te he dicho ahora.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1176" target="_blank" class="timestamp">[19:36]</a> Tienes que respirar. Cuando te hacen estas cosas, hermano, cuéntate. Yo he vivido casi toda mi vida. Y me amarga para mí y a mi alrededor. A veces es mejor. Vale. Están dando a entender como que ha tenido algún problema de salud mental o ansiedad o algo así. En el caso es un tío muy grande. Compete. Lo que hago es... Estoy como nervioso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1197" target="_blank" class="timestamp">[19:57]</a> Respiro. Vale. No hay solución. Ya ha pasado. No puedo hacer nada. Ya no hay problema. Ya ha pasado. Ahora voy a buscarle una solución. Vive así, hermano. Es que si no, te va a quemar el mundo. Eso está pasando. Estoy tan abrumado con todo lo que me ponen a hacer que no... Quiero entrenar y ni siquiera puedo entrenar. Reláctate, bro. Muchas felicidades.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1222" target="_blank" class="timestamp">[20:22]</a> Me cae muy bien. Hablamos y nos organizamos. Hacemos bien. Tenemos una vida llamada a tres. Organizamos todo, pero tenemos que organizarlo como la primera vez. El éxito fue que dijimos, tengo la sesión de gym chair y presentación aquí. Y entonces fuimos a por ese objetivo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1238" target="_blank" class="timestamp">[20:38]</a> Vamos a volver a hacer lo mismo porque si no, no te vas a concentrar en ello. Por más de todo, 30 minutos, todo el entrenamiento y ya está. Diciembre, segunda semana de diciembre, tengo mi colección con Gymshark y una sesión de fotos. Pues esto es perfecto. Porque nos da tiempo de recuperar un poco el tamaño y aprenderlo bien. Lo que quieras. Lo puedes generar impresora también. Siempre, hermano. Obvio, obvio, obvio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1265" target="_blank" class="timestamp">[21:05]</a> ¡No te están pañando! ¡No te están pañando! ¿Cómo estás?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1286" target="_blank" class="timestamp">[21:26]</a> ¿Cómo estás? Bien, bien. ¿Tú? Vale, ahora me harás un favor tú y es algo que no te han pedido nunca. Déjale la cámara. Nos vas a hacer una foto a nosotros. ¡Ay, obvio! ¡No!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1299" target="_blank" class="timestamp">[21:39]</a> aparte en un mejor momento imposible para para hacer este vídeo acabamos de venir de del hotel que es donde se realizan las finales vale las previas que son donde competido yo se hacen un</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1316" target="_blank" class="timestamp">[21:56]</a> recinto rollo el recinto ferial de alicante por ejemplo que es como una sala muy grande para crear eventos que también hay la feria entonces hay todas las marcas y todo eso pero la final se hace como en el hotel que es como una sala de conferencias como un teatro con iluminación jodidamente espectacular osea muy muy muy guapo ojalá hubiéramos conseguido entrar este año pero bueno tenemos yo siempre digo que el ser humano</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1345" target="_blank" class="timestamp">[22:25]</a> Es inconformista, no sabemos disfrutar de lo que hemos conseguido y no nos damos cuenta de los pasos que hemos dado, sino que siempre tenemos ganas de conseguir más, somos avaleciosos en ese sentido y eso es inevitable, pero a veces tenemos que respirar hondo, saber dónde estamos, saber de dónde venimos, todo lo que ya hemos logrado, todo lo que ya hemos superado y valorar eso antes de ponernos metas y</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1368" target="_blank" class="timestamp">[22:48]</a> Y ir a por ellas, ¿vale? Venimos del hotel, Josema acaba de hacer un top 4 del mundo, top 4 limpia, ¿vale? La verdad, es espectacular, al final ya sabéis que Josema lo conocí cuando tenía unos 16 años Y ver el crecimiento, justo ayer se lo decía, que se diera cuenta de lo que ha pasado los dos últimos años Que es una verdadera salvajada, se hizo pro, ganó, ahí debutó en Open</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1393" target="_blank" class="timestamp">[23:13]</a> Hizo un buen resultado, se pasó a Classic. Solo ha tenido victorias hasta que se cruzó con Ruff y ha quedado segundo dos veces. Y en el Olympia el año pasado 6, este año 4. Este hombre tiene que ser Mister Campeón del Olympia, tío. Este hombre tiene que ser campeón del Mister Olympia, tío. Es espectacular y con solo 23, 24 años. Entonces, nada, simplemente quiero deciros que aquí tenemos nuestra tercera medalla del Mister Olympia. Ya son tres.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1421" target="_blank" class="timestamp">[23:41]</a> Nunca había soñado, la verdad, con tener ninguna de ellas. O sea, yo solo pensaba que algún día sería profesional y que me dedicaría a ser el mejor preparador posible, aprender lo máximo posible en carrera deportiva para después ser un gran preparador. Pero la vida me ha dado esta sorpresa. Renové sueños después de conseguir mi pase a mi pro. Renové...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1445" target="_blank" class="timestamp">[24:05]</a> Renové también retos cuando conseguí debutar en profesional y me puse esa meta que lo decía con voz alta que algún día lograría estar en Eurolimpia y todo el mundo se mofó, como también se mofó del Pro, como se mofó de mil cosas, se mofaron hasta cuando dije que algún día competiría.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1465" target="_blank" class="timestamp">[24:25]</a> Entonces, aquí estamos, tercera vez consecutiva en el Mister Olimpia, dos años muy duros, con muchas lesiones, con muchos altibajos, con muchos problemas que no son problemas, pero sí mucho trabajo encima en tema de empresas, etc. que han hecho que esto fuera bastante más complicado de lo que debería haber sido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1487" target="_blank" class="timestamp">[24:47]</a> Pero bueno, este año, siendo sincero, he llorado de camino a pintarme, o sea, imaginaros antes de que empezara el evento, horas, muchas horas antes, dándome cuenta de lo increíble que era que el año pasado había quedado último en el Mister Olimpia. Vine aquí con una herida abierta en la espalda que me habían operado 10 días antes y estaba el día antes de competir poniéndome el GLS para que sea un...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1513" target="_blank" class="timestamp">[25:13]</a> como una tirita transparente para poder competir en la Olimpia y un año después hemos tenido un año espectacular que ha ido tanto bien como negocio mi hijo ha entrado en la escuela que yo y Silvia querían que entráramos Silvia está feliz mis amigos están de mi lado con Raúl ya siempre os he dicho es como un padre pero aparte hemos llegado a una unión deportiva espectacular y familiar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1541" target="_blank" class="timestamp">[25:41]</a> Entonces no le puedo pedir nada más a la vida y yendo hacia allí lo he pensado y he dicho, wow tío, estoy yendo hacia el campeonato con unas ganas increíbles de subirme, confiante, sabiendo que llevo... Es que me da tanta alegría, tío. ...físico, llevo cosas que puedo mejorar, está claro, pero es con tiempo, pero sin que haya pasado atibajo, sin que hayan pasado, lógicamente han pasado cositas, pero nada que nos haya frenado en el objetivo de poder llegar a Mister Olimpia de la mejor manera posible.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1568" target="_blank" class="timestamp">[26:08]</a> Puedo decir que este Olympia ha sacado mi 100%, ¿vale? No es mi 100% definitivo, pero sí era mi 100% actual. No puedo. Se puede mejorar, se puede mejorar todavía. Poner excusas en sin igual, pues si hubiera hecho a lo mejor. No, 100% he quedado, no sé si, os lo digo sinceramente, no sé si ahora lo dirán porque ahora se han hecho las finales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1589" target="_blank" class="timestamp">[26:29]</a> Y dirán el resultado de las fines de todo en global. Pero yo creo que he quedado entre 12, 13 de unos casi 80 atletas. Fíjate, 80 atletas. 80 atletas, eh. Estoy muy feliz por ello. Nada mal, eh. Y sobre todo estoy feliz por cómo ha ocurrido todo este año. Los que no creían, creyeron. Me han apoyado. Bueno, no me han apoyado, pero no me han criticado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1611" target="_blank" class="timestamp">[26:51]</a> Los míos, los que me han apoyado desde la derrota hasta la victoria, como muchos de los que estáis detrás de la pantalla, pues lo habéis seguido haciendo. Lo único que quería llegar aquí es irme con la conciencia tranquila de que he hecho todo lo que he podido. He hecho pilates, he hecho vacuums cada día, he hecho completamente todo y cosas nuevas como lo de pilates, movilidad, abdominal cada día, gemelos cada día.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1633" target="_blank" class="timestamp">[27:13]</a> He hecho cosas que no había hecho nunca. Al final haciendo eso es cuando de verdad consigues resultados que haz lo que nunca has hecho y conseguirás lo que nunca has conseguido. Pues justamente hemos luchado así. Y nada, estoy orgulloso de ello. Ahora por el top 10, Mauro. Lo que quería de aquí es por vuestra parte que os sintierais orgullosos de lo que he hecho. Y mi historia solo quiero que la recordéis cuando yo no esté. En el sentido de que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1662" target="_blank" class="timestamp">[27:42]</a> Las personas que nacemos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1667" target="_blank" class="timestamp">[27:47]</a> Que a lo mejor no lo hacemos con plato en la mesa, no lo hacemos con magia, con cosas especiales, ni nada de eso. Al final con trabajo, con ganas, con disciplina y esfuerzo pueden conseguir lo que quieran en la vida. ¿Vale? Solo quiero que os quedéis con esto y estéis en la situación que estéis. Tengas claro que yo tenía una infancia de mierda, pero aquí estoy cumpliendo sueños. Tengo la vida que nunca he soñado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1695" target="_blank" class="timestamp">[28:15]</a> Sí, señor. Quiero más, lógicamente, porque os digo, el ser humano es inconformista y tiene que serlo para siempre tener motivación. Pero puedo decir que estoy con la mujer que quiero estar. Eso hace que ni plantee, ni mire, ni piense nada más que en mi mujer. Tengo a las personas que quiero a mi alrededor y he conseguido todo lo que me he propuesto hasta el día de hoy en mi vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1721" target="_blank" class="timestamp">[28:41]</a> Y ya está, chicos. Simplemente quería despedir este viaje así. No llorándolo, lógicamente. Pero es lloro de felicidad. Y llorar está bien. Los hombres también lloramos. Y, joder, he llorado mucho por tristeza y me tocaba llorar por felicidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1736" target="_blank" class="timestamp">[28:56]</a> Así que despido. Este viaje así, claro. Quiero hablar de lo que es competición porque quiero hablar con la voz alta como hablé en su momento diciendo mientras se mojaban que algún día sería profesional y también hablé diciendo que algún día me clasificaría para el Ministerio Olimpiado. Son tres y hacía tres años que no volvía a decir eso de sé que puedo conseguir y voy a conseguir esto y estoy preparado para poder decir lo siguiente que viene después de esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1764" target="_blank" class="timestamp">[29:24]</a> ¿Vale? Así que nada, esto lo voy a dejar para el siguiente vídeo con todo más. Tranquilo, ahora voy a cenar que me lo he ganado. Voy a hidratarme, voy a estar con mi familia domingo mañana. Es el último día aquí en Estados Unidos y quiero hacer algo con ellos y con mi mujer que sé fuera de lo que es el mundo de la competición. Y lunes, mañana ya dieta, eso sí. Y lunes vamos a volver a la rutina, ver a mi hijo que tengo muchas ganas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=RXBCe8LjNfM&t=1791" target="_blank" class="timestamp">[29:51]</a> Y ya está, chicos. Volvemos por aquí también. O sea, esto nos acaba aquí. Quiero compartirlo todo con vosotros y creo que esta vez lo hemos conseguido haciendo vídeos de una puta hora cada día. El de que está detrás de la cámara. José, la verdad, tío, que... Que ha sido... Hermano, qué vidiazo te has hecho, tío. Qué grande eres, más bueno, tío. Todo el mundo comentando, ¿eh? Eres muy grande. Amigo mío. Qué alegría me da, tío.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 16/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
