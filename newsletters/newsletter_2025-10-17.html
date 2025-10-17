@@ -1,0 +1,427 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 17/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">17/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Benlliure Reacciona</strong>: <a href='#video-wbpWH34gDnw'>MÁS MÁS OPORTUNISTA LLAMA A NICK CULTURISTA DE INSTAGRAM</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-wbpWH34gDnw">
+            <h2>MÁS MÁS OPORTUNISTA LLAMA A NICK CULTURISTA DE INSTAGRAM</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Benlliure Reacciona</span>
+                <span class="date">Publicado: 17/10/2025 13:07</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=wbpWH34gDnw" target="_blank">
+                    <img src="https://i.ytimg.com/vi/wbpWH34gDnw/hqdefault.jpg" alt="MÁS MÁS OPORTUNISTA LLAMA A NICK CULTURISTA DE INSTAGRAM" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la decepcionante actuación de Nick Walker en el Mr. Olympia y la controversia sobre su supuesto maltrato a los fans. El presentador evalúa el estado físico del atleta, las posibles razones de su declive y critica la oportunismo de algunos comentaristas. A pesar de todo, expresa esperanza en su recuperación física, pero exige un mejor comportamiento hacia el público.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Controversia con los Fans de Nick Walker <a href="https://www.youtube.com/watch?v=wbpWH34gDnw&amp;t=159" target="_blank">[02:39]</a></h3>
+
+<p>El presentador expresa su fuerte desacuerdo con el supuesto maltrato de Nick Walker hacia sus fans. Subraya la importancia del agradecimiento de los atletas hacia quienes los apoyan, independientemente de su día.</p>
+
+<h3>El Insulto Directo a los Fans por Nick Walker <a href="https://www.youtube.com/watch?v=wbpWH34gDnw&amp;t=409" target="_blank">[06:49]</a></h3>
+
+<p>Se relata el testimonio de fans a quienes Nick Walker supuestamente dijo que se fueran "a la mierda" después de una competición. El presentador reitera su desaprobación ante esta falta de respeto y actitud.</p>
+
+<h3>El Declive Físico de Nick Walker <a href="https://www.youtube.com/watch?v=wbpWH34gDnw&amp;t=619" target="_blank">[10:19]</a></h3>
+
+<p>Se analiza el retroceso en el físico de Nick Walker, señalando problemas con su estómago, cintura y piernas anchas. Se compara su estado actual con su mejor versión en Pittsburgh, donde su potencial era inmenso.</p>
+
+<h3>Problemas de Salud y Falsa Confianza <a href="https://www.youtube.com/watch?v=wbpWH34gDnw&amp;t=937" target="_blank">[15:37]</a></h3>
+
+<p>Se especula sobre posibles problemas de salud graves y cuestiones digestivas que pudieron afectar a Nick Walker, causando sus ausencias previas. El presentador también sugiere que su confianza pública pudo haber sido exagerada.</p>
+
+<h3>¿Nick Walker Obligado a Competir? <a href="https://www.youtube.com/watch?v=wbpWH34gDnw&amp;t=1390" target="_blank">[23:10]</a></h3>
+
+<p>Se discute la intrigante teoría de que Nick Walker pudo haber sido presionado u obligado a competir este año, a pesar de no estar en su mejor forma. Esto se presenta como una posible razón de su desempeño.</p>
+
+<h3>Críticas a los Divulgadores y Futuro Incertidumbre <a href="https://www.youtube.com/watch?v=wbpWH34gDnw&amp;t=1834" target="_blank">[30:34]</a></h3>
+
+<p>El presentador critica a quienes hablan de culturismo sin conocimiento, mientras reitera su esperanza de ver a Nick Walker recuperarse. Subraya la necesidad de que el atleta mejore su comportamiento con los fans.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=0" target="_blank" class="timestamp">[00:00]</a> Muy buenas a todos chicos, aquí estamos en un nuevo vídeo para mi canal. Hoy vamos a hablar un vídeo chulo, realmente, básicamente porque... Ni Walker... La realidad es que todos esperamos más de él. Esa es la fucking realidad. De hecho, yo decía que incluso podía ganar el Mr. Olimpia. Bueno, yo es que realmente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=22" target="_blank" class="timestamp">[00:22]</a> podría ganar al Mr. Olympia. O sea, yo tenía la imagen de Pittsburgh cuando compitió con Derek y realmente ahí para mí debería haber ganado a Derek. Y la realidad es que Derek ha ganado al Mr. Olympia. O sea, que si hubiera leído como en Pittsburgh, perfectamente podría haber ganado. Las imágenes que estaba subiendo al Instagram es cierto que se le veía muy bien, muy, muy bien. Pero luego realmente en tarima no ha sido el físico esperado. Más allá del resultado, el físico no estaba. Entonces, vamos a comentar un poquito y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=52" target="_blank" class="timestamp">[00:52]</a> Y vamos a ver realmente qué ha pasado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=71" target="_blank" class="timestamp">[01:11]</a> Ahí, ahí... ¡Tas pasado, amigo! ¡Tas pasado! O sea, Nick Walker es un culturista de Instagram, ¿no? ¡Y una mierda! ¡Y una mierda! O sea... Nick Walker. No sé si dice segundo o primero en el Arnold. Top 5 del Mr. Olimpia. En 2022, tercero del Mr. Olimpia. Y en serio es un culturista de Instagram. ¡Tas pasado, amigo! ¡Tas pasado! No sé. Que me digas otra persona...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=101" target="_blank" class="timestamp">[01:41]</a> pero ni walker no a partir de aquí que se le veía mejor en instagram sí pero vaya a ser un culturista instagram no confundiendo amigo llamar culturista de instagram any walker no sé es como a ti llamarte ciclista siendo caros sabes o no sé lo que te dedicas a</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=124" target="_blank" class="timestamp">[02:04]</a> a saltar a la pértiga, ¿sabes? O sea, no, no. Lo siento, pero que no, que no. No es un culturista de Instagram. Lo he dicho, en Instagram se le veía muy bien. Pero, brother, una persona que ha sido top 3 de la Olimpia, no creo que sea un culturista de Instagram, ¿eh? Te estás confundiendo. Y los culturistas de tarifa. Y claramente, Nick Walker es culturista de Instagram. Vamos a ver un poquito... Para flipar, ¿eh? Sin comentarios. Sin comentarios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=159" target="_blank" class="timestamp">[02:39]</a> A ver, yo esto, por ejemplo, no sé y tampoco lo puedo... O sea, realmente si lo dicen será verdad, pero si es así no me parece justo, independientemente de la situación en la que estés. O sea, quiero decir, no justifico. Tienes un mal día, te jodes. Gracias a esa gente comes. ¿Vale? Gracias a la gente que te ve, gracias a la gente que vive con tu código, te va bien la vida. O sea, que sea un poco agradecido. Y ahí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=184" target="_blank" class="timestamp">[03:04]</a> independientemente, como digo, del día que tengas, trata de sacar tu mejor sonrisa. Que habrá días que estés jodido y tal. Pero por lo menos, aunque estés jodido, muéstralo. Pero digo que envies la mierda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=198" target="_blank" class="timestamp">[03:18]</a> no sé, porque son dos chiquillos, ¿sabes? pero igual le pillas a otro y dices, espérate que igual no compites, que eres un listo, ¿sabes? a ver si te vas a ir a la mierda tú, que eres un listo que te jodo el Mr. Olimpia, tontín, ¿sabes? cuidado, te pongo las gafas de lentilla quiero decir, que no pasa nada porque son dos chiquillos y los chiquillos tal, pero igual pillas a otro y Nick Walker te la comes o sea que hay que ser agradecidos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=228" target="_blank" class="timestamp">[03:48]</a> Y lo dicho, puedes tener un mal día, pero no justifico que tú tengas un maltrato o un maltrato realmente a personas que te están pidiendo, a tus fans, siendo claros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=244" target="_blank" class="timestamp">[04:04]</a> Ya no es solo un fan o dos. Es que lo ha comentado este chaval y encima tiene cuatro likes su comentario. ¿Sabes quién es muy así? Eddie Hall. Eddie Hall. Ese es un tonto. O sea, Eddie Hall me han dicho varias veces ya, el típico inglés, que te voy a hacer una foto con él y... No, no. ¿Cómo que no? ¿Cómo que no, tío? Claro que te hacen las fotos, tío. ¿Sabes? O sea, vives gracias a la gente que te ve y todo. No te confundas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=280" target="_blank" class="timestamp">[04:40]</a> de Mr. Olympia, Pipo. Vale, ojo, parece que el preparador de Nick Walker ha hablado de lo que ha pasado. Mi pregunta es, ¿por qué Nick Walker se mete con preparadores de por ahí perdidos en vez de coger alguno de los top cuando es un tío con un potencial terrible? Bueno, señores, parece que Nick... Bueno, por lo mismo que Samson. Nick Walker se ha... Esto, lo de Samson, me hace mucha gracia, ¿eh? Chavales, os recuerdo que el año pasado Samson ganó el Mr. Olympia. ¿Sabéis quién era su preparador, no? Su mujer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=310" target="_blank" class="timestamp">[05:10]</a> que os subís al carro enseguida. Este año que ha quedado cuarto, este año no ha apostado por la condición. Y la verdad es que no les ha salido bien. Porque lo que han mejorado de condición respecto a lo que han perdido de tamaño, no compensa. Pero el año pasado, cuando su mujer le hizo ganar el Mr. Olimpia, la peña calladita, ¿eh? Muy calladito. Este año que ha quedado cuarto, cambia de preparador. El año pasado, ¿qué? El año pasado me llevaba la misma persona. No te confundas, que siempre estamos con lo mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=339" target="_blank" class="timestamp">[05:39]</a> bastante después del Olimpia 2025 y se ve que la ha liado con algunos fans. Se ve que ha tratado bastante mal a algunos fans y esto es lo que veremos en este vídeo. Pero esta imagen no dice nada. Esta imagen le está diciendo al fan que haga eso. Y por cierto, recordad que todos los meses hago dos sorteos de 150 euros en Live Pro con mi código JordiVen y pidiendo cualquier cosa ya entras en el sorteo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=365" target="_blank" class="timestamp">[06:05]</a> Pidiendo una simple crema de arroz, ya entras directamente en el sorteo y no hace falta hacerle captura. A tope y cuelgo los ganadores siempre por Instagram, estate pendiente. Resulta que Ur subió este vídeo después del pre-judging del Olimpia, donde está saliendo aquí del Resorts World, donde tiene lugar el Olimpia y se encuentra, como veis, con unos fans. Los fans le dicen, me encanta tal, me encanta como posas, no sé qué...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=391" target="_blank" class="timestamp">[06:31]</a> Y hablan un poquito con Urs, como estáis viendo, ¿no? Interactúan un poquito con Urs. Bueno, pues están aquí hablando un poquito, tal. Y le piden a Urs que si se pueden echar una foto con él. Le dice a Urs, yeah, let's go, why not? Y este señor de aquí, fijaros lo que le dice. Thank you so much. Muy educadamente, como tiene que ser. Y ojo a lo que dicen ahora. Dice, hemos visto a Nick Walker antes y nos ha dicho que nos vayamos a la mierda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=420" target="_blank" class="timestamp">[07:00]</a> Lo he dicho, tampoco me quiero centrar en esto, pero si es así, como ya he dicho, me parece una falta de respeto brutal y no sé. O sea, se me cae un poco, la verdad. Hay que ser agradecidos y hay que valorar, como digo, que haces lo que te gusta y, tío, que vives gracias a la gente que te ve. Que si no te viene a nadie, serías una mierda. Soy de claros. Entonces, bárbaro. Seas Neil Walker o seas quien seas. Voy a pasar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=456" target="_blank" class="timestamp">[07:36]</a> ha sido el fracaso más grande de todo el Mr. Olympia literalmente ha sido el fracaso porque era un tío que se suponía que iba a pelear por el top 3 mínimo mínimo y se cayó en una sexta posición en condiciones normales una sexta posición en el Olympia no es mala posición en la condición de Nick sí porque venía de que parecía que iba a ganarlo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=478" target="_blank" class="timestamp">[07:58]</a> En las predicciones hay gente que decía que Nick Walker podía ganar. Yo lo decía. Yo lo decía. Yo decía que podía ganar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=492" target="_blank" class="timestamp">[08:12]</a> tú decías que vamos tú lo has puesto de alguien directamente porque sí porque creo que se veían los vídeos pero antonio por nada es bastante oportunista según cómo le vaya el vídeo barre paulado barre para otro las cosas como son ahora por ejemplo no ha ido bien y para otro lado rectifica recojo cable</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=526" target="_blank" class="timestamp">[08:46]</a> samsung salió bien es que estáis confundidos salió bien en el sentido de que apostó por eso luego no le salió bien vale pero realmente el objetivo que tienen en mente es como haya pasado claridad o sea claridad de pasado el estado más recogido pues dicen vale voy a tratar de salir menos grande y voy a optar un poco más por la condición por la cintura más en el sitio no no no estaba no estaba para mí debió quedar ángel calderón por delante de claridad el año pasado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=554" target="_blank" class="timestamp">[09:14]</a> Apuestas por algo, no te va bien, pero lo has hecho con esa intención. Y en el caso de Samson ya he visto que le vale la pena salir más grande. Samson lo que presume es mucho del peso. Que compite con casi 140 kilos y este año no estaba presumiendo. Porque igual ha competido con 130. Esa es la realidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=588" target="_blank" class="timestamp">[09:48]</a> en ningún momento digo esas cosas. Yo digo posibilidades que pueden haber. Y la cuestión es que Nick Walker en el Pittsburgh le apretó a Derek Lutzford. Lo dije. Lo apretó no. Para mí debería haber ganado Derek. O sea, Nick por delante de Derek. Y era en el vídeo. En esa competición, Nick Walker estuvo a la altura. Y en 2022 quedó tercero. Y he visto gente decir que es que es una pulmonía pensar que Nick Walker podía ganar o estar top 2 o top 3. No es ninguna pulmonía, pero es</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=620" target="_blank" class="timestamp">[10:20]</a> estómago no es el estómago o sea quiere decir el estómago sí también pero realmente las piernas cada vez están más rectas la cintura cada vez está más ancha no iba duro esa es la realidad el físico obviamente no es el físico que nos tiene acostumbrados a ningún que entonces inevitablemente con la edad que tiene por toda la sensación de que como tiene como un retroceso</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=640" target="_blank" class="timestamp">[10:40]</a> Yo ya lo he dicho muchas veces, pienso que Nick Walker no va a ir a mejor. Pero si sale como salió en Pittsburgh, es una locura y puede ganar el Mestre Olimpia. Solamente con que salga así. No tiene que hacer más. Veremos, veremos. Pero obviamente estas piernas no tienen buena pinta. Y por cierto, por cierto...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=660" target="_blank" class="timestamp">[11:00]</a> Menos mal que no hagan al Mistral Olimpia, Antoñito, porque si hubiera ganado al Mistral Olimpia ya la forma de entrenar la tenemos hasta en la sopa. Que lo he dicho, que la forma de entrenar ni viene ni va, pero inevitablemente al tú conseguir algo lo valida mucho más. Si tú ganas un Mistral Olimpia y encima entrenas así, esa forma de entrenar se valida. Y tiene su... Mira, aquí está. Y encima entrena de esta manera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=684" target="_blank" class="timestamp">[11:24]</a> Menos mal que no ha ganado el Mr. Olimpio, porque si no haya la forma de entrenar, que es como todo el mundo debería entrenar, que dice Antonio y no sé qué, no sé cuántos. Porque recuerdo que Derek no entrena así, ya te lo dije, que Chopin no entrena así, que Samson no entrena así, son los tres primeros. Y Nick entrena más controlado, diferente a ellos, ha quedado el sexto. Y encima ha salido bien. Te lo he dicho, que no es por la forma de entrenar, pero es que si hubiera ganado, nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=712" target="_blank" class="timestamp">[11:52]</a> Todo el resto del mundo lo hace mal. Tenemos que entrenar todos como Nick. Y si no, algo está haciendo mal. Pero, como ha quedado sexto, pues entonces ya nos olvidamos. Esa es la realidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=721" target="_blank" class="timestamp">[12:01]</a> Estuvo top 3 en 2022. ¿Quién te hace pensar que no podía volver a estar en el top 3 o top 2 o incluso ganar? Y al final ha llegado mal físicamente, su preparador no sabemos qué ha hecho. Bueno, ni siquiera sé quién es su preparador, pero han hecho algo mal con la preparación, ha salido mal y esto es lo que ha pasado. Pero tampoco podemos adivinar que la líen con la preparación viniendo el tío de ser un top 3, joder.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=745" target="_blank" class="timestamp">[12:25]</a> El culturismo es como el fútbol, ¿no? O sea, pierdes, estás en la mierda, ganas, eres el mejor... No sé, me da asco realmente de tanto extremismo, ¿sabes? Ni ni Walker hagas una mierda ni antes era el mejor. Pues igual hay ciertas cosas que no le han salido bien y que tienen que ver cómo modificarlo. Lo dicho, sí que pienso que lo del físico es complicado que vaya mejor. Pero vamos, que no seamos extremistas y... y punto. El problema fue porque él estaba simplemente muy mal. Si miraba como lo que hizo,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=777" target="_blank" class="timestamp">[12:57]</a> Y quizás lo ganó por la opinión de muchos, no por la mayoría de los judíos, pero básicamente todos los que vi el show sabían que Nick ganaba. Así que si ese Nick saliera en el Mr. Olympia, él estaría luchando por el ganar. Creo que él estaría... ¡Claro! Esa es la cosa, ¿no? Exactamente. Eso es cierto. Si él hubiera estado como en Pittsburgh, hubiera estado... Es que podría haber ganado al Mr. Olympia. Solamente saliendo como en Pittsburgh. En la top 2 o 3.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=812" target="_blank" class="timestamp">[13:32]</a> ¡Gracias por ver el video!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=821" target="_blank" class="timestamp">[13:41]</a> Ah, vale, que este es su preparador. O sea, que este hombre con el que estaba entrenando era su preparador. Fíjate cómo están las cosas que ni sabía que era su preparador. Kyle Wilkes se llama el tío. Pues no lo conocía, sinceramente. No sé su historial, no sé a quién ha preparado. Pero la cuestión es que Nick ha salido mal. Y a ver qué es lo que dicen. También, yo no lo sé, pero creo que cuando salió en Pittsburgh también le llamaba Kyle Wilkes, ¿no? ¿O qué? Digo yo, ¿no? O no sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=850" target="_blank" class="timestamp">[14:10]</a> Cuando salió en Pittsburgh y casi le ganaba Derek, que para mí le hubiera ganado, ¿su preparador era el mismo o no? Yo creo que sí, es que ahora mismo no me acuerdo. Pero lo dicho, que no seamos oportunistas. Que el año pasado también, cuando Samsung ganó el Víctor Olimpia, le llevaba a su mujer. Y este año que quedó cuarto, que se busque un preparador. ¿Vale? ¿Vale? Pero decirlo tanto cuando vayan bien las cosas como cuando vayan mal. Que solamente lo decís cuando van mal las cosas. ¿Eh? Chaqueteros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=875" target="_blank" class="timestamp">[14:35]</a> Ha dicho Derek, se referirá a Nick Walker. Yo creo que se ha equivocado, ¿no? Pero si es verdad que Nick Walker no ha subido absolutamente nada en redes sociales, en Instagram no ha subido nada. Es que es verdad que el nata caza ha sido gigante. Pues salió con el estómago gigante, digamos. La zona media, súper ancha, poco controlada. Hay una imagen, que no sé si se la ven aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=913" target="_blank" class="timestamp">[15:13]</a> fijaos en cualquier culturista open que hace un doble de espaldas te aseguro que de frente el abdomen está inflamado lo ven igual que eres es una locura y cuando están relajados elevadas manos las cosas como son y no lo justifico pero también coger esa pose no es la mejor de hecho hay una pose de chopin que también se le dé bastante dilatado justamente chopin tiene un abdomen de locos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=937" target="_blank" class="timestamp">[15:37]</a> Nick Walker no participó en anteriores Olimpias por motivos también un poco extraños. Bueno, el primer motivo no era tan extraño porque fue una lesión a pocos meses o semanas creo del Olimpia 2023. Y en 2024 algo le pasó con la preparación, se sospecharon que fueron problemas de salud bastante serios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=956" target="_blank" class="timestamp">[15:56]</a> en el Olimpia. ¿Os acordáis? En 2024 yo hice vídeos sobre eso, hice bastante vídeos sobre eso. Decían esos vídeos que Nick podría estar teniendo problemas de salud bastante graves porque fue de repente que dijo no voy a participar en el Olimpia, la preparación no está yendo bien, mi cuerpo no se está adaptando, mi cuerpo no está respondiendo bien o algo así fue y al final no participó en 2024. Y ahora en 2025 ha aparecido pero fíjate en qué condiciones ha aparecido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=982" target="_blank" class="timestamp">[16:22]</a> No estuviera yendo bien con Nick Walker. Hay algo con Nick Walker que no está funcionándose. A lo mejor a nivel intestinal. O sea, está mal. Ya está. Vamos a hablar por ahora. A nivel intestinal. A nivel... Yo no sé, tío. A nivel digestivo. Bueno, va bien. Señores. En todas las entrevistas que hizo, los chicos como Nick Stratton Power pensaron que estaba muy confiado de que iba a matar al Mr. Olympia. Pero fue bastante claro, al menos para mí. Los chicos, no sé por ti, pero yo definitivamente vi que Nick no fue nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1017" target="_blank" class="timestamp">[16:57]</a> Una cosa es lo que digas, otra cosa es realmente cómo te sientas. Voy a ser el Mr. Olimpia. Lo visteis ayer en el vídeo. Es que es impresionante, tío. Yo no sé, como, ¿qué cojones pasos? Madre mía la que le acabo de decir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1047" target="_blank" class="timestamp">[17:27]</a> Bueno, el Nick Strength & Powell, el que sube noticias que tiene un canal muy grande, ¿no? Le acaba de tirar un bliff que vaya tela. Que por cierto, en estas actualizaciones Nick se veía bien, tío. Yo creo que es la iluminación, ¿no? ¿Qué tan? Sí, sí, jugó mucho con las cámaras, tío. Se jugó con mucho con las cámaras. También favorecía demasiado al físico. Pero en estas actualizaciones no se veía tan regular...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1068" target="_blank" class="timestamp">[17:48]</a> no sabemos lo que ha pasado, la verdad. Y también hablar por hablar, yo no lo voy a hacer, porque no lo sé. Sí que es cierto que lleva ya, lo dicho, los tres ministros Olimpias, los dos últimos, no compitió y en este, pues no era lo esperado, realmente. Y el problema también es que habla de más. Como habla de más, pues luego te caen más palos. Como Topuria, ¿sabes? Topuria porque le han ido bien las cosas, pero si le hubieran ido mal, sería de reír de España. Pues todo lo mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1103" target="_blank" class="timestamp">[18:23]</a> Bueno, esta foto... Me hace mucha la idea que diga Antonio esto. No es normal la barriga esa, ¿no? No es normal. No es normal. No es normal. Porque era imposible que fuera así. Pero he visto el vídeo y es bastante parecido a esta foto. Lo que es justo el fragmento este que han recortado es de un vídeo. Y lo cierto es que es muy parecido a este fotógrafo. No es IA, es real. Realmente no parece casi editado. Y honestamente no me esperaba que se diera...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1138" target="_blank" class="timestamp">[18:58]</a> creo que hay una foto de Chopin que también sale bastante dilatado. Un doble de espaldas, mantener el abdomen en el sitio es muy complejo. Y la verdad es que encima te relajas, los jueces no te ven y dices, respiro como el que más. Que se ve así bastante. Que lo he dicho, que no lo justifico, no lo justifico y el abdomen de Nick Walker relajado, las transiciones se elevan mucho, las cosas como son.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1161" target="_blank" class="timestamp">[19:21]</a> hinchada lo que es la barriga pero bueno también es cierto que es el de los útiles más pesados y por eso realmente también da pie a que usted esté tan tan dilatado que luego posea posee la clava vale pero obviamente eso queda bastante feo que podría tener un problema de es que seguro que tiene un problema de digestivos si vosotros</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1194" target="_blank" class="timestamp">[19:54]</a> Y hostia, miralo, aquí se ve, ¿ves? Perfectamente. En este fragmento se ve aquí. Mira, mira, mira. Mira, ¿no? Tiene que tener un problema del digestivo, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1216" target="_blank" class="timestamp">[20:16]</a> Yo lo que creo que tiene es que ha hecho volúmenes muy exagerados y llega un momento en que la sección media han relajado la piel completamente. Eso es lo que pasa. El físico no acompaña. Top 6 de la Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1238" target="_blank" class="timestamp">[20:38]</a> A veces hablamos, tío, y decimos cada cosa. O sea, entiendo que lo dicho, las expectativas no se han cumplido. Pero, hermano, sigue siendo un puto top 6 de lo limpia, ¿eh? No nos confundamos. Que de hecho ya están diciendo que es que merecía estar Nick Walker en un top 10, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1272" target="_blank" class="timestamp">[21:12]</a> Yo, por ejemplo, pienso que a Samsung sí que incluso le podrían haber tirado más para atrás. Pero del primero, del año anterior, hay que dar cuarto y es un bajón fuerte. Es difícil, pero es verdad que en Nick Walker hay culturistas que han llegado bastante...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1291" target="_blank" class="timestamp">[21:31]</a> Yo a Guzmito, por ejemplo, hubiera puesto más arriba. Joder, ¿eh? ¿Que Nick Walker es una fábrica de músculo? ¿Es una industria de músculo? Sí, pero que había gente también grande y mejor condicionada que Nick Walker. Es que es complicado, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1307" target="_blank" class="timestamp">[21:47]</a> Dice Nick, soy un fan, pero la manera en la que trataste a los fans y a mí este fin de semana ha sido un poco decepcionante. En la quedada de Olimpias por la noche en el Olimpia Complex el jueves llegabas tarde, algo que se puede entender perfectamente. Pero me hiciste una señal bastante fea al igual que a otros fans, algo que ningún otro atleta hizo esa noche cuando se fue. Acabo de ver el</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1332" target="_blank" class="timestamp">[22:12]</a> show de mister olimpia mi conclusión y en el minuto 28 un fan le dice a urs que ni cualquier le dijo que se fuera a tomar por por saco esa noche después de las finales no es forma de tratar a tus fans pulgar abajo ostias es que ya no es solo un fan o dos lo he dicho a varios lo dicho que está muy feo y a pesar de que tengas un día de miedo ha ido mal por la mejor de tus caras y si es con normalidad pero tratar así no es bien</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1360" target="_blank" class="timestamp">[22:40]</a> Vamos a seguir hacia adelante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1390" target="_blank" class="timestamp">[23:10]</a> La verdad es que se está sacando una medio conspiración de estas que me gustan y también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1419" target="_blank" class="timestamp">[23:39]</a> a competir este año que puede ser que los del olimpia lo hayan obligado a participar pues porque era uno de los favoritos nick walker uno de los más mediáticos de los igual tienes contratos que no lo sé yo no puedo decir nada porque no lo sé al cien por cien pero claro igual dices igual vale la pena no salir para tenerlo tener tanta tanta tanto hate no igual no lo hubiera no le renta no lo sé</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1448" target="_blank" class="timestamp">[24:08]</a> Es que yo creo que él se esperaba verse mejor. O sea... Que la realidad fuera más acorde a las expectativas que tenía. Que más esperaba y si se retiraba, pues obviamente la gente se iba a decepcionar, ¿no? Y el Iván este, pues sospecha que el Nick Walker estaba pensando en retirarse antes de competir este año, pero que eso, que lo han obligado. Esto la verdad que sí que no me lo esperaba, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1473" target="_blank" class="timestamp">[24:33]</a> Hostia, dice que Nick Walker estaba como rollo fingiendo, haciendo un papel de que iba a ganar el Olimpia y no sé qué, pues porque lo acordaron con el Olimpia y tal, esto ya se nos va de las manos, eh. Como que estaba haciendo un pedazo de papel. Bah, no lo sé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1503" target="_blank" class="timestamp">[25:03]</a> se mete con preparadores de por ahí perdidos. En vez de coger a alguno de los top, cuando es un tío con un potencial terrible y coge el tío y se va por ahí con un preparador que no digo que sea malo, pero un preparador que no es tan conocido y que no tiene tanta experiencia y no sabes qué es lo que puede pasar. Cuando tienes por ahí varios que saben que preparan a los top y que lo hacen bien. Pero, como vimos, se corregó bastante rápido lo que tiene que ser corregado y moviendo adelante, o simplemente volver a la pintura para asegurar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1535" target="_blank" class="timestamp">[25:35]</a> ¿Qué es eso?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1575" target="_blank" class="timestamp">[26:15]</a> Si este chaval, es que no lo sé y no puedo decirlo 100%, si este pavo le llevó a competir y consiguió sacar el físico de Pittsburgh, que casi le gana a Derek. Bueno, que para mí, como digo, debería haberle ganado a Derek. Si eso es así, Antonio, tío, no por nada. No sabe hacer una Peewee, ¿no? Entonces, ¿en Pittsburgh qué hizo, tío? Es que hay veces, tío, de verdad, mira, no le han ido bien las cosas a Andy Walker, pero no deberéis echarle mierda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1605" target="_blank" class="timestamp">[26:45]</a> ¿Sabes? O sea, de verdad, criticar y ser un oportunista no lo veo. Las cosas no han ido bien, tendrá que mejorar y ver los fallos que ha tenido. Pero lo de cuando te van bien, alabar. Y cuando te va mal, ser un oportunista y criticar, lo siento, pero no va conmigo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1625" target="_blank" class="timestamp">[27:05]</a> y no lo veo justo si este chico vale el preparador de nick le preparo como digo en el psuv que antonio diga esta frase que nos va a hacer una apuesta a punto es para flipar el ejemplo tú vas a competir no tienes de objetivo tirar 400 kilos y ese día no estás como te ha pasado muchas veces vale como te ha pasado muchas veces</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1650" target="_blank" class="timestamp">[27:30]</a> ¿Qué pasa? ¿Tus entrenadores no saben hacer una apuesta a punto? ¿Tus preparadores no saben hacer un pitching? ¿En serio? ¿Porque tú no has cumplido los objetivos que te esperabas? Pues no, la verdad que no. Seguro que hay cosas a corregir y seguro que igual ellos tienen algunos fallos. Pero máquina...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1667" target="_blank" class="timestamp">[27:47]</a> Cuando conseguiste igual el récord de 390 o lo que sea, ¿qué pasa? Que ahí los otros entrenadores eran los putos amos. Y ahora que te van mal las cosas, tus preparadores de repente de un día para otro dejan saber de hacer una planificación y dejan de saber cómo hacer un picking. No, es que no. No ves que no tiene sentido los comentarios que haces. No ves que no. Es que es para fliparte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1722" target="_blank" class="timestamp">[28:42]</a> Lo cierto es que tampoco ha dicho nada de cuál ha sido el problema concreto, de por qué Nick ha salido así. Ha dicho el tío, no quiero entrar en detalles. Todo se va a fan de Nick Walker, pero ha salido horrible el punto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1766" target="_blank" class="timestamp">[29:26]</a> La aplicación es una puta mierda. So what Kyle says, basically, is that the reason why Nick looked so bad was the pickwick mistake. Kit, un error en la pickwick. A ver, yo creo que esa dilatación tan grande no viene de la pickwick. Yo creo que viene de arrastrar algún tipo de problemas digestivos. El preparador dice que ha sido una... Es relativo, también depende de lo que comas y todo. Yo lo que te digo, no voy a decir nada. Voy a ver si comenta algo más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1797" target="_blank" class="timestamp">[29:57]</a> Pues tío, en esta foto se le ve de putos locos las cosas como son. Pues justamente Samsung no ha querido llegar más pesado y le ha salido mal. Entonces, ¿qué problema es el culturismo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1827" target="_blank" class="timestamp">[30:27]</a> o sea el problema tío del culturismo también yo no soy ningún experto pero lo reconozco</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1834" target="_blank" class="timestamp">[30:34]</a> Muchas veces la gente que divulga culturismo es que no tiene ni idea de culturismo. O sea, no por nada. Y la gente muchas veces que sí que tiene idea de culturismo igual no tiene el alcance que tiene esta gente. Que en parte lo entiendo. Pero es que justamente el caso de Samsung es lo contrario. ¿Sabes? Samsung no ha querido llegar más grande. Samsung ha apostado este año por la condición y no lo ha salido bien. Entonces no todos quieren llegar más grande. Es la realidad. Pero bueno, diremos eso y ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1863" target="_blank" class="timestamp">[31:03]</a> Oh, es verdad, dice Nick Walker, not done. O sea que el tío va a seguir compitiendo. Lo vamos a seguir viendo. Lo que tiene que hacer Nick Walker urgentemente, yo creo, sinceramente, es cambiar de preparador. Pero... Siempre que las cosas van mal, cambia de entrenador. Siempre que tal, cambia de entrenador.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1889" target="_blank" class="timestamp">[31:29]</a> como la de Ramón Dino lo que toca es una celebración equivalente a semejante logro. Y nuestro dinosaurio se ha pegado una celebración de la... Pues nada, chicos. Hasta aquí el vídeo de hoy. Ya sabéis, yo no soy quien voy a criticar a una persona que por X o por Y no le ha ido bien. Que espero realmente y tengo ganas, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1909" target="_blank" class="timestamp">[31:49]</a> Bueno, tengo ganas quitando el comportamiento que ha tenido con algunos de sus fans o gente que le ha pedido fotos. Eso la verdad que se me cae y me da un poco de asco, siendo claros. Pero por el resto voy a dar por hecho que es un mal día, pero que aún así no lo justifico. Pero esperemos que Nick vuelva a verse bien en tarima porque al fin y al cabo es un físico muy llamativo. A mí me gusta que esté ahí y esperemos que le vaya bien un futuro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wbpWH34gDnw&t=1937" target="_blank" class="timestamp">[32:17]</a> Yo pienso también que está forzando mucho en todos los sentidos y se le ve. Y no sé hasta qué punto es el físico con 4 o 5 años más como se le va a ver. Pero bueno, ojalá me equivoque. Y lo dicho, le veamos hablando en Olimpia. Pero que se comporte bien con la gente que le pida fotos. Eso es lo mínimo. Si no, las gafas de lentilla. Lo dicho, chicos. Espero que os haya gustado el vídeo y nos vemos en siguientes. Un saludo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 17/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
