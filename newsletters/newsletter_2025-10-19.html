@@ -1,0 +1,424 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 19/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">19/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Victor Valdivia</strong>: <a href='#video-Pl8CUGJtSL8'>JOAN PRADELLS QUE HICISTE ? VENCE A PABLO LLOPIS CON SU MEJOR FISICO Y ANIMAL KRIZO RUMBO AL OLYMPIA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-Pl8CUGJtSL8">
+            <h2>JOAN PRADELLS QUE HICISTE ? VENCE A PABLO LLOPIS CON SU MEJOR FISICO Y ANIMAL KRIZO RUMBO AL OLYMPIA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Victor Valdivia</span>
+                <span class="date">Publicado: 19/10/2025 00:25</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8" target="_blank">
+                    <img src="https://i.ytimg.com/vi/Pl8CUGJtSL8/hqdefault.jpg" alt="JOAN PRADELLS QUE HICISTE ? VENCE A PABLO LLOPIS CON SU MEJOR FISICO Y ANIMAL KRIZO RUMBO AL OLYMPIA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video es un análisis detallado del British Grand Prix de culturismo, comentado por Valdobio a altas horas de la madrugada. El presentador revisa la grabación del evento, destacando las actuaciones y físicos de competidores como Criso, Jopis y Joan. A lo largo del metraje, se critican aspectos de la producción del livestream, como la calidad de la cámara, y se comparten opiniones sobre las mejoras de los atletas. El video sigue la competición hasta la revelación del top 5, ofreciendo un comentario subjetivo y apasionado.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El British Grand Prix al Desnudo <a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&amp;t=105" target="_blank">[01:45]</a></h3>
+
+<p>El presentador inicia el análisis del British Grand Prix, criticando la calidad de la grabación y el encuadre de la cámara. A pesar de esto, comienza a analizar los físicos de los primeros competidores en escena, como Barbas Ragnarok y Criso, dando sus primeras impresiones.</p>
+
+<h3>La Sorprendente Estructura de Joan <a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&amp;t=346" target="_blank">[05:46]</a></h3>
+
+<p>Valdobio se sorprende gratamente con la aparición de Joan, destacando su impresionante estructura física en comparación con referencias anteriores. Aunque reconoce desacuerdos pasados, elogia la evolución del competidor en el escenario.</p>
+
+<h3>Criso Imparable: Evolución y Detalle <a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&amp;t=875" target="_blank">[14:35]</a></h3>
+
+<p>Criso presenta una notable mejora en su físico, especialmente en sus piernas y la calidad de su posado. El presentador resalta la densidad y el detalle de su espalda, mencionando que es un Criso "bastante mejor" de lo que solía ser.</p>
+
+<h3>Jopis: Un Físico de Locura, pero sin Tamaño "Olympia" <a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&amp;t=975" target="_blank">[16:15]</a></h3>
+
+<p>Pablo Jopis exhibe un físico excepcional con gran redondez y una condición impecable, especialmente en abdomen y piernas. A pesar de su calidad, Valdobio sugiere que le falta tamaño para alcanzar el nivel "Olympia" de otros competidores.</p>
+
+<h3>El Primer Confronto Estelar <a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&amp;t=1238" target="_blank">[20:38]</a></h3>
+
+<p>Se produce el primer "call-out" del evento, reuniendo en el escenario a Jopis, Criso y Joan, los competidores más destacados. El presentador lamenta que los problemas de cámara impidan una visión completa de esta emocionante confrontación directa.</p>
+
+<h3>Joan vs. Jopis: Batalla de Amplitud y Condición <a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&amp;t=1605" target="_blank">[26:45]</a></h3>
+
+<p>Valdobio analiza en detalle un confronto directo entre Joan y Jopis, comparando su amplitud dorsal, condición general y musculatura. Aunque Joan muestra mayor amplitud, Jopis destaca por su condición y redondez, haciendo la decisión muy ajustada.</p>
+
+<h3>La Revelación del Top 5 <a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&amp;t=1989" target="_blank">[33:09]</a></h3>
+
+<p>Se inicia la entrega de premios del top 5, con el presentador comentando los resultados en voz baja debido al bajo volumen del livestream. Se confirma la quinta y tercera plaza, siendo esta última para Pablo Jopis, destacando su buen desempeño.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=0" target="_blank" class="timestamp">[00:00]</a> Bueno amigos, es nuestro hombre Valdobio, es una de la mañana, madre mía macho, el campeonato este que lo he dejado grabando, tengo aquí cuatro horas de grabación por delante, así que únense al British Grand Prix que vamos a ver a continuación donde ha habido batalla entre Joan, Pablo Giopis, Michael Criso y múltiples competidores que la verdad desconozco, pero vamos a descubrir aquí todos juntos, ya sabéis que Valdobio es una de la mañana</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=29" target="_blank" class="timestamp">[00:29]</a> es que no sé ni por dónde voy a salir la verdad no sabemos de cenar si hay gente que se piensa que vengo de copas y tal no o sea no bebo pero sí que es cierto que a lo de la mañana un poquito de ya de cansado estoy no entonces bueno vamos a ver qué es lo que nos ha deparado este evento y la verdad voy a ver a yo no tengo ni idea de cómo se ve este tipo esto tiene volumen</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=59" target="_blank" class="timestamp">[00:59]</a> Jim Maniaco, ok. Vale, el live stream este lo daban en abierto. La verdad es que se escucha bastante bajo. Pero que se escucha tan bajo, carnal. Bueno, vamos a ello. Chavales, pónganse cómodos en el British Grand Prix. Vamos a ver quién se lo ha llevado, aunque yo creo que todo apunta a que nuestro hombre, Michael Crizo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=86" target="_blank" class="timestamp">[01:26]</a> Es el que lo ha conseguido. Creo que simplemente han retransmitido la categoría pesada. La categoría del Open. Cuidado aquí, el Barbas Ragnarok. Tremendo bicho. Luego tenemos por aquí a este vato que hay más de una vez que le hemos visto. La verdad es que me gusta la posición de la cámara por detrás de otras cámaras. Está bien pensado. En producción la verdad es que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=112" target="_blank" class="timestamp">[01:52]</a> han sacado la conclusión que debía ser de esta forma, ¿no? O sea, aquí viendo bien a los pelados de los jueces, como nada mal el físico de este tío, ¿eh? Aunque aquí yo te diría que el mejor es este. También te digo una cosa, carnal. O sea, ¿cómo decirte? Yo no sé realmente cómo ha sido el evento porque lo he dejado grabando y me he pirado. Entonces...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=142" target="_blank" class="timestamp">[02:22]</a> Hay que adivinar un poco quién es el de la izquierda y quién es el de la derecha. ¿Vale? Fíjate que hay veces que hemos dicho, bueno, nos faltan FPS, nos faltan píxeles, nos falta resolución de imagen. Pero ya que tengamos que ver a un tío por la mitad, es el siguiente nivel. O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=163" target="_blank" class="timestamp">[02:43]</a> De verdad, o sea, han hecho así el evento. O sea, me estás diciendo que el hombre cámara ha dicho, mira, son lineups de 6 pero van a salir 3, ¿sabes? Y me la pela. O sea, literalmente, tío. Bueno, esperemos que no falte nada. Vamos a ver cuántos competidores son. Mira, había uno que estaba... O sea, este por ejemplo, es que ni lo hemos visto. Lo hemos visto simplemente entrar...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=192" target="_blank" class="timestamp">[03:12]</a> Poquito más, pero bueno. O sea, entran los tres importantes, ¿no? Vamos a ver. La resolución no es mala, ¿eh? Tengo que deciros. O sea, la verdad es que mejor que la del Mr. Olimpia. ¡Cuidadito, Crisó! ¡Cuidadito, Jopis a la izquierda! ¡Buah, Jopis, qué bien, tío! Pero Crisó es que es otro nivel, macho. Fíjate, y las piernas las he mejorado mucho, ¿eh? Kriptonita, Crisó. ¿Y Joan dónde anda?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=220" target="_blank" class="timestamp">[03:40]</a> Buah, tío, Llopis, qué fisicazo. Fíjate la pierna, qué seco va los brazos. Qué fisicazo el de Paulo Llopis, tío. Pero la verdad es que esto yo creo que pinta sin ninguna duda para Crisó, ¿eh? Hostia, no, cuidadito este tipo que va afilado. Este tipo, pero cuidado, ¿eh? Cuidado esa lateral. Cuidado la lateral del pelón. Mira, mira, mira, mira.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=253" target="_blank" class="timestamp">[04:13]</a> Fíjate. Parecía que iba a salir a los 100 metros sprint. A ver, a ver, la espalda de Crisot. Vamos a ver de espaldas, que era una de las cosas que tenía que mejorar. La verdad es que no se ve nada mal esa cadena posterior. Vamos a ver cómo tira la de espaldas. Daos cuenta que estuvo haciendo ajustes para que fuese mejor. Fíjate ahí a la derecha. Ostras, pues nada mal, eh. Nada mal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=282" target="_blank" class="timestamp">[04:42]</a> O sea, Crisho bastante mejorado. Nah, es que es buenísimo el plano, ¿eh? Aquí... Este tío me está tapando a Jopis, tío. Tú, Jopis, es una locura, ¿eh? Qué fisicazo, tío. Buah, el pectoral.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=315" target="_blank" class="timestamp">[05:15]</a> Lo que pasa que es que Griso al final, macho... Es un bicharraco que te cagas. Vale, el de la izquierda, ok. Vale, no ha salido Joan, por lo que puedo estar viendo. Supongo que entonces vendrá ahora. Vamos a ver. La verdad que no tengo ni absolutamente ni idea. Habrá mejorado. Yo la verdad es que las últimas referencias que tengo son de hace unos cuantos años. Vamos allá.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=346" target="_blank" class="timestamp">[05:46]</a> Ahí lo tenemos, chavales. Ostras, nada mal, ¿eh? Ostras, pero nada, nada mal. Flipos. Tú, la estructura es asesina. Me acabo de quedar alucinando, ¿eh? Fíjate que hemos tenido nuestros más y menos, pero las cosas como son.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=375" target="_blank" class="timestamp">[06:15]</a> Muy buena la estructura. También te digo que has salido al lado de dos pelados, ¿eh? Bueno, no, este está fuertecillo. El hombro, el brazo... No, nada mal. A ver, de espaldas. Aquí sí que es cierto que falta... Falta de condición, ¿eh? Pero muy amplio, denso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=404" target="_blank" class="timestamp">[06:44]</a> Buena separación en los brazos. Los femorales la verdad que se ven... Se pueden apreciar. Sí que es cierto que al final el glúteo ahí falta... Un poquito de todo. Este pavo la verdad es que tiene una...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=431" target="_blank" class="timestamp">[07:11]</a> una pose y una mirada de que está cansado de la vida. Ha dicho, mira, esto es lo que hay, ¿sabes? Vale, de momento tenemos tres lineups, ¿no? Vale. Bueno, tampoco hay tantos competidores.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=459" target="_blank" class="timestamp">[07:39]</a> 1 y 6 de la mañana. Aquí estamos. Encima me toca subir a mí el vídeo y hacer la miniatura, ¿sabes? O sea, hace una semana estaba aquí a las 3 de la mañana viendo a las multivitamínicos y hoy aquí... No, pero este es buen campeonato. Vamos a ver cómo se desenvuelve el asunto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=483" target="_blank" class="timestamp">[08:03]</a> La verdad es que tú fíjate que han cogido y han hecho un livestream solamente de los Open, ¿no? O sea, estos tíos realmente son los que valen, ¿no? O sea, son de los nuestros, ¿no? De los que dices, mira, el evento realmente es esta categoría. O sea, no vamos a mentirnos. Es esta categoría. Pues vamos a retransmitir esta categoría. O sea, es que la verdad es que es simple la vida. ¿Por qué os complicáis? Vamos a ver, ¿qué es lo que quiere ver la gente? El Open. Retransmitimos el Open.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=514" target="_blank" class="timestamp">[08:34]</a> Vamos a estar aquí haciéndoles perder el tiempo, hombre. Bueno, ahora vamos con las individuales, ¿vale? Así que van a ir pasando uno por uno. La verdad es que es lo que os digo, ¿sabes? Iría pasando, pero tengo tantos minutos de grabación. Este tío está fuerte, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=552" target="_blank" class="timestamp">[09:12]</a> Vale, se va por donde ha venido. George Lucas, ok. Bueno. La verdad es que pectoral, hombros, brazos. Nada más, George Lucas. Sí que es cierto que las piernas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=693" target="_blank" class="timestamp">[11:33]</a> A ver. Ah, vale. Este es uno de los que tiene posibilidades, ¿no? De los que se enfrentará seguramente contra Crisot. Ya lo iremos viendo. Muy buen físico, tío. Muy buen físico. Fíjate. El abdomen apretado. Buena condición. Vamos a ver de espaldas. Vamos a ver de espaldas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=722" target="_blank" class="timestamp">[12:02]</a> Vale. O sea, ha habido detalle, ha habido densidad. No tanta amplitud, pero... Nada mal. Cuidadito, igual. Sacándola ahí con un toquecito a los Ronnie. A los Ronnie Kuhlman. Nada mal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=752" target="_blank" class="timestamp">[12:32]</a> ¿Quién? James Hollison. Ah, este sí me suena. Este es un tremendo tanque. Buah, vaya espaldaca, chaval. Por eso directamente se ha ido al mandangón. Fíjate que es raro ver que un culturista directamente entra al escenario y posa de espaldas, ¿sabes? Yo creo que es de los pocos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=785" target="_blank" class="timestamp">[13:05]</a> No, pues nada mal, eh. Va a estalladete. Buen tamaño. Vamos a ver dónde lo meten. First call out, tal vez. No, nada mal. Vale, es el siguiente de ellos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=813" target="_blank" class="timestamp">[13:33]</a> Es que tampoco quiero hacer aquí un vídeo súper largo, ¿sabes? Pero es que vamos en camino. Es que no me va a pasar ni un corte. ¿Usted quiere eso? Pa' casa. ¿Y este? ¿Y el moreno este? Buena amplitud ahí de espaldas. Ah, este es el que ha posado, ¿no? Como pa' salir a correr.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=845" target="_blank" class="timestamp">[14:05]</a> Joder, buen bichaco, eh. Nada más el abdomen. Nada más el abdomen. Cuidadito, Creso. Ahí lo tenemos. Vaya brazacos. Se recrea. Se recrea. Hace la defil. Ahí le vamos. Ok. Ok.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=875" target="_blank" class="timestamp">[14:35]</a> Ha mejorado un montón las piernas. Y ya no solo las piernas, sino el posin también, ¿eh? Este crisó es bastante mejor del que solíamos ver, ¿eh? Buah, tío, cómo se le marcan los posteriores, ¿eh? La espalda muy, pero que muy bien, ¿eh? Detallada, densa. ¿Quién diría que este tío se rompió un bíceps?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=904" target="_blank" class="timestamp">[15:04]</a> ¡Uy, va! ¡Qué bien, tío! ¡Los cortes de la pierna! ¡Pero bueno! ¡Pero bueno, Crisó! ¡Estuvo haciendo los ajustes necesarios! ¡Uy, va! ¡Uy! ¡Buah! ¡Se le ve de locos! Nada, nada mal. Ahora viene, creo que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=930" target="_blank" class="timestamp">[15:30]</a> Vale, viene... Creo que le ha dicho un polaco. El pelón este. Y vemos a Jopis ahora. A ver, Jopis, por lo que he estado viendo ahí en la primera salida... Una auténtica locura, tío. Lo único que es que lo que le falta a Jopis es tamaño, macho. O sea, si Pablo Jopis tuviese más tamaño... Sería...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=961" target="_blank" class="timestamp">[16:01]</a> Sería topo limpia, macho. A ver, vamos a adelantar. Aquí se viene. Y Joan, vamos, me ha dejado a cuadros. No te digo nada. Vaya estructura. Vamos a ello. Pablo Jopis. Fíjate la redondez. Fíjate lo seco que llega. Oh, el abdomen, tío. Las piernas, buah, cómo van.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=993" target="_blank" class="timestamp">[16:33]</a> Trices estriado. Cómo le gusta demostrarlo. No es para menos. Mira, tío, el brazo. Qué condición, eh. Qué condición, tío. Vamos a ver de espaldas que aquí esta es una de las cosas que más caña ha tenido que meterle. Final densa, detallada, pero hay falta amplitud en los dorsales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1025" target="_blank" class="timestamp">[17:05]</a> Brutal, tío. Es que la redondez que tiene es brutal, tío. Gracias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1055" target="_blank" class="timestamp">[17:35]</a> Vamos a ir adelantando ya a la salida de Joan. Quiero verlo bien, quiero ver... A ver este. Nada mal, ¿eh? Tiene un abdomen de la leche, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1089" target="_blank" class="timestamp">[18:09]</a> vamos a ver Joan chavales ahí sale vamos a ver si hay mejoras aunque ya os digo yo que por lo que he estado viendo totalmente o sea una estructura loquísima joder que bien apretando el abdomen buen bombeo de piernas pectoral lleno ostras eh</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1118" target="_blank" class="timestamp">[18:38]</a> esto es otro asunto ya os digo que a lo mejor soy yo que a mí me está impactando demasiado porque hacía muchísimo tiempo que no le veía pero creo que qué mejor manera de juzgar un físico que llevar tiempo sin verlo porque ahí es cuando notas el cambio fíjate tío vaya pedazo de espalda los detalles el femoral ahí ajustándose</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1156" target="_blank" class="timestamp">[19:16]</a> Tío, muy bien los cortes de los cuádeces. Cuidado ahí que se azota al ganso. No vamos para tanto. Joan, tranquilo. Tranquilo ahí. Ha habido un fallo de mano. La verdad es que la condición no está nada mal. Mira, quiero detallar este momento. O sea, porque ahí me ha parecido cuando he apretado el abdomen...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1182" target="_blank" class="timestamp">[19:42]</a> Uy, qué nivelón, ¿eh? Por parte de Johan y Jopis Ambos, la verdad, me han sorprendido muchísimo, tío Mira, esto es lo que quería recalcar O sea, a ver si consigo pillar el frame Aquí O sea, fíjate, ¿eh? Apretando ahí el abdomen, qué línea le sale Qué cabrón</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1211" target="_blank" class="timestamp">[20:11]</a> Nada, nada mal. Bueno, vamos a adelantar ya el del tirón, ¿no? Vamos a ver el primer line-up. Ok, vamos allá. Número 7, Valdobius. Ok. Vamos a pelearlo. Ostras, Jobbys. Cuidado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1238" target="_blank" class="timestamp">[20:38]</a> ¡Ostras! ¡Primer line-up! ¡Jopis Criso, Joan! ¡Cuidadito! ¡Qué pena, tío! ¡Qué pena que esté cortado, eh! A no ser que nos muevan al pelón este. Es brutal la cámara aquí en todo el medio, eh. Bueno, y si me muevo yo también mejor, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1267" target="_blank" class="timestamp">[21:07]</a> Me voy a poner aquí, ¿sabes? Porque para lo que al final hay que ver. Tío, no me fastidies que necesitamos rotativas, ¿eh? Porque si no... Joan versus... Jopis no lo tenemos. De momento no lo tenemos. ¿A quién creéis que queda por delante, eh? Porque es que estamos hablando...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1294" target="_blank" class="timestamp">[21:34]</a> Tío, no me fastidies, tío, que no vamos a poder ver esa batalla entre Jopis y Joan. Joan, la verdad, es que en esta ocasión sí que le veo competitivo, ¿eh? Y Jopis, obviamente, porque al final la condición que trae no es para menos. A ver, a ver, a ver, a ver. Adelantamos un poquito...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1323" target="_blank" class="timestamp">[22:03]</a> Buena espalda aquí la de este tipo. La verdad que esto es fácil para Grisho, ¿eh? Es fácil para Grisho. Además es que llega mejor mejor que nunca. Tío, los hombros de Joppies parecen dos cascos de moto, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1355" target="_blank" class="timestamp">[22:35]</a> Vale, hay rotativas por ahí. ¡Ahí va!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1389" target="_blank" class="timestamp">[23:09]</a> Ojo, pues estos cuatro llegan muy bien, ¿eh? Muy buenos físicos, tío. Madre mía, tú, Crisón, se nos va a desmayar. ¡Se nos va a desmayar el animal! ¡Estaba ahí buscando bocanadas de aire! ¡Como un pececillo en acuario! ¡Ay, po!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1418" target="_blank" class="timestamp">[23:38]</a> Estaba ya que... ¿Estás cansado? No, pero no me voy a estar yo cansado. Por favor. Por favor, Ventolin. Quiero estar cansado, cabrón. Simplemente, déjame unos instantes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1447" target="_blank" class="timestamp">[24:07]</a> Déjame que vaya aquí que tengo algo que... Metí por aquí por el bañador.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1468" target="_blank" class="timestamp">[24:28]</a> La verdad es que me niego a que el cámara literalmente haya partido a los competidores. Yo creo que estaban ahí un poquito debatiendo y le han dicho, oye, de verdad, el cámara es bueno. Me lo ha recomendado mi tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1489" target="_blank" class="timestamp">[24:49]</a> Y de verdad, o sea, es que va a hacer un trabajazo. Y aquí lo tenemos. O sea, ha dicho, sí, sí, sí, están todos, entran todos. Está en cuadre... Vamos, mejor imposible. Pues la espalda de Joppis, ¿eh? Fíjate el posterior cómo sobresale el...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1517" target="_blank" class="timestamp">[25:17]</a> Vamos allá. Posee más musculado favorita. ¿Cuál es la tuya, mi rey? Aquí la verdad es que Criso hizo destrozo, eh. Es que... No, pero... Ahí tienes a Llopis, eh. O sea, te quiero decir. Aunque al final este tío es un monstruo de la masa... Ahí le está sacando pecho. Metiéndole incluso un poquito de codo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1549" target="_blank" class="timestamp">[25:49]</a> Criso está diciendo hace un poquito de calor, ¿no? ¿Podéis bajarme un poco el aire?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1584" target="_blank" class="timestamp">[26:24]</a> vale, pueden salir pero no se vayan muy lejos vale, pues vamos adelantando aquí tenemos el siguiente confronto que me da un poquito igual ostras, espérate llamado de Johan vs. Jopis a ver, a ver que esto quiero verlo yo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1616" target="_blank" class="timestamp">[26:56]</a> vamos a ver de espaldas al final Joan tiene más amplitud en los dorsales pero por lo demás Jopis bastante mejor y en este incluso en esta amplitud de dorsal</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1646" target="_blank" class="timestamp">[27:26]</a> Yo diría que incluso mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1676" target="_blank" class="timestamp">[27:56]</a> Joder, eh. O sea, está la cosa apretada, eh. Es que al final daos cuenta que... Que veo con mejor estructura Joan, eh. O sea, le veo relación cintura... Amplitud. De arriba algo mejor. Luego tiene muy buen bombeo de cuádriceps. Ahora... En los hombros y los brazos. Y el abdomen, Joppies.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1708" target="_blank" class="timestamp">[28:28]</a> Mejor. Fíjate, tío, ¿eh? Lo amplio que es el cabrón. Dándole batalla al mismísimo Kriptonita Krizo. Cuidadito la vuelta de Krizo ahí, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1737" target="_blank" class="timestamp">[28:57]</a> Ya me diréis en comentarios vosotros qué es lo que opináis, chavales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1758" target="_blank" class="timestamp">[29:18]</a> Yo sé que hay mucho hater, pero bajen las armas. Bajen las armas. Estamos en el canal de Valdobis. Bajen las armas, chavales. Sean críticos. Que yo sé que están ahí con la mano nerviosa. Pero hay que ser honestos. Ambos competidores, tanto Joan como Jopis, han salido muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1781" target="_blank" class="timestamp">[29:41]</a> Respecto a como solían salir, me refiero. Bueno, Jopis siempre ha salido bien, pero a este Jopis le veo bastante más musculado. Le veo con mejoras. Y Joan muchísimo mejor de lo que la última vez le haya visto. Pero muchísimo mejor. Pero el abdomen sí que es cierto que lo descuida muchísimo, tío. O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1811" target="_blank" class="timestamp">[30:11]</a> cohetos y ruedas por aquí por allá vamos a irnos ya a la entrega de premios que si no esto se me hace muy largo tú llevamos por 30 minutos no me la contéis no me la contéis vamos a ver entrega de premios al final rutinas individuales tampoco es algo que que ya vayamos a a descubrir aquí nada</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1842" target="_blank" class="timestamp">[30:42]</a> Aquí tenemos otra vez la línea de 4. Que acabamos de ver hace un instante. Vale, postdown.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1867" target="_blank" class="timestamp">[31:07]</a> Grande Jopis, pero no es esa cámara, carnal. Es la de atrás. Estamos atrás. Estirándote las poses. Para los del livestream, los del livestream estamos unas cuantas yardas para atrás. Tú fíjate, macho. Cómo son las cosas. Pues yo creo que ya... Joder, tío. No me digas que vamos a dar la entrega de premios así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1894" target="_blank" class="timestamp">[31:34]</a> vale vamos con el top 5</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1926" target="_blank" class="timestamp">[32:06]</a> Ah, pero que ahora me voy a posar. Ah, vale, vale, vale, vale. O sea, que nos están llamando al escenario y ahora van</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=1989" target="_blank" class="timestamp">[33:09]</a> Vale, Pablo y Joan. Perfecto. Venga. Quinta plaza. Os lo voy diciendo, que se escucha esto muy bajo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pl8CUGJtSL8&t=2078" target="_blank" class="timestamp">[34:38]</a> Tercer puesto, eh. Nada mal. Es que la verdad es que ha salido realmente bien el cabrón.</div>
+<div class="transcription-paragraph"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 19/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
