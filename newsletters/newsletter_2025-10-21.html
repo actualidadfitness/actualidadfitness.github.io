@@ -1,0 +1,379 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 21/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">21/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-sjiLcsyAIIM'>NIVEL MR OLYMPIA | ANALIZO los RIVALES de MI COMPETICIÓN</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-sjiLcsyAIIM">
+            <h2>NIVEL MR OLYMPIA | ANALIZO los RIVALES de MI COMPETICIÓN</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 21/10/2025 08:22</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=sjiLcsyAIIM" target="_blank">
+                    <img src="https://i.ytimg.com/vi/sjiLcsyAIIM/hqdefault.jpg" alt="NIVEL MR OLYMPIA | ANALIZO los RIVALES de MI COMPETICIÓN" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video presenta la lista de competidores para el próximo evento de culturismo en Praga, donde el youtuber participará. Explica que competirá durante dos días consecutivos, lo cual será un gran desafío. El presentador detalla a los "super tops" del Mr. Olympia con quienes compartirá escenario, expresando su admiración y humildes expectativas. Muestra gran entusiasmo por esta oportunidad única de competir con figuras de élite del culturismo.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Oferta Exclusiva para la Competición <a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&amp;t=7" target="_blank">[00:07]</a></h3>
+
+<p>El presentador anuncia un descuento especial del 60% en la web de su patrocinador, válido por 24 horas y con un código personal. Agradece el apoyo y ofrece responder dudas a quienes aprovechen la oferta, ligando su promoción a su próxima competición.</p>
+
+<h3>El Desafío de Praga: Dos Días de Competición <a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&amp;t=89" target="_blank">[01:29]</a></h3>
+
+<p>Joan explica su situación actual para la competición de Praga, donde se dio cuenta que competirá el sábado (prejudging) y el domingo (finales). Expresa que será un reto duro y desafiante para él competir en días consecutivos debido a la tensión y exigencia física.</p>
+
+<h3>Compitiendo con Titanes: Cero Expectativas <a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&amp;t=160" target="_blank">[02:40]</a></h3>
+
+<p>El presentador revela que tiene "cero expectativas" de ganar, ya que competirá contra "súper tops" del Mr. Olympia, a quienes admira profundamente. Menciona nombres como Samson, Keon, Tim y Martin, resaltando el increíble y abrumador nivel de la competencia.</p>
+
+<h3>Desfile de Campeones del Olympia <a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&amp;t=263" target="_blank">[04:23]</a></h3>
+
+<p>Joan profundiza en los impresionantes logros de sus rivales, como Samson Dauda (campeón del Olympia y Arnold) y Martin Fitzwater (cuarto/quinto en el Olympia). Expresa su asombro por sus físicos y la emoción de compartir escenario con estas leyendas del culturismo.</p>
+
+<h3>La Admiración por Keon: Líneas Perfectas <a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&amp;t=421" target="_blank">[07:01]</a></h3>
+
+<p>Destaca a Keon, tres veces Mr. Olympia, como el culturista con las líneas más bonitas y el mejor físico del panorama actual. Expresa un gran honor y placer al poder competir junto a él, considerándolo una figura excepcional.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=0" target="_blank" class="timestamp">[00:00]</a> Muy buenas a todos chicos estamos en un nuevo vídeo estamos aquí vamos a analizar la lista de competidores pero antes de nada deciros tenemos descuento especial por mi competición que me han puesto en mi printing solo la tengo yo en toda España me hace bastante ilusión ahí está un 60% de descuento de la web ahora mismo la verdad y me han dicho Joan en vez del 10% tienes un 15% extra y si vais desde desde importante</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=20" target="_blank" class="timestamp">[00:20]</a> A mí me dan una pequeña comisión si vais desde mi link, ¿vale? Mi código es joanmp, joanmp está de puta madre. Lo agradezco, pero tenéis que ir desde el link para que me traqueen las ventas y demás. Es una pequeña comisión que me dan. Yo os lo agradezco, que va a estar solo 24 horas. No están haciendo ofertas. La verdad que si vais, si tenéis que pillar cualquier cosa, es un buen momento y yo os lo agradezco un montón. Además, sinceramente, si me pasáis una captura por Instagram de que habéis pillado o queréis preguntarme, dudas, lo que sea, hoy...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=46" target="_blank" class="timestamp">[00:46]</a> Chicos, está la oferta y yo me pongo a responderos, ¿vale? Así que bueno, si queréis pillar, mira, esto es, pues, eh, es que esto no me lo puedo comer, ya esto se está cayendo, Eric, Eric, no quedan, Eric, Eric, no quedan casi, tío, y me quedan aún un mes de competiciones, por favor, dejad uno para probarlo, aunque sea porque me hace ilusión. Proteína, EAS, creatina, hermano, que no se te olvide la fucking creatina, pues tenemos de todo rebajado, ¿vale? Solo va a estar 24 horas, así que dadle calles, por favor, por favor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=72" target="_blank" class="timestamp">[01:12]</a> Yo os lo agradezco. Desde que veáis este vídeo está ya. O sea, podéis aprovechar. Y ahora sí, chicos, vamos con el vídeo. Dicho esto, han salido las listas de Praga. ¡Uf! Las listas de Praga, hermano. Vale, os voy a poner un poco en situación de... como mi situación actual. Venimos de UK...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=89" target="_blank" class="timestamp">[01:29]</a> competir el sábado, yo pensaba que competíamos el domingo, realmente competimos también el sábado, me di cuenta ayer, ayer estábamos pillando el Airbnb, estábamos pillando los vuelos y todo, no sé por qué, me dio por meterme en el Instagram y me di cuenta que tengo que salir...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=104" target="_blank" class="timestamp">[01:44]</a> el Prejatin el sábado y las finales el domingo. Va a ser duro, hermano, va a ser muy duro. Y luego nos quedamos en Praga unos días también para ver Praga, que eso me renta bastante. Pero competir en dos días se me va a hacer duro, soy consciente de ello, porque ya competir por la mañana y por la tarde se me hace duro, pero en dos días, esa tensión y todo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=122" target="_blank" class="timestamp">[02:02]</a> Yo creo que es duro, sí que es cierto que el primer día es como una única pasada, pero han salido las listas, chicos, han salido las listas por aquí, ¿vale? Así que vamos a verlas, vamos a comentarlas, vamos a ver quién son mis rivales, sinceramente va muchísima gente, es</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=138" target="_blank" class="timestamp">[02:18]</a> Es decir, los super tops, pues sabemos quién son, pero va muchísima gente. Yo sinceramente voy a hablar de los super tops porque realmente son como los que más conozco y creo que más interesan, ¿vale? Y también me hace más ilusión competir contra ellos o con ellos o ver desde el escenario la competición. Porque sinceramente no me encuentro con nivel para competir con tremendos bichos. O sea, voy a empezar...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=160" target="_blank" class="timestamp">[02:40]</a> Voy a empezar hablando. Os dejaré por aquí recursos a los que vaya hablando. Pero, hermano, me hace mucha ilusión hacer esta competición por la gente con la que voy a competir. Es increíble. Es increíble, chicos. O sea, cero expectativas de ganarle a ninguno de estos tíos. Os lo digo de corazón. Es como...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=176" target="_blank" class="timestamp">[02:56]</a> De hecho, he podido hablar con ellos por Instagram estos días. He hablado con Samson, con Keon, con Tim. He hablado con Martin. Tíos, es increíble poder competir con ellos, ¿vale? Pero siendo realistas, esta gente son súper tops de la Olimpia. Es decir, Samson es el campeón de la Olimpia. Keon es el campeón de la Olimpia de 2-12. Martin es cuarto de la Olimpia del año pasado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=200" target="_blank" class="timestamp">[03:20]</a> Chris gana el otro día, también va, es un top 8 de la Olimpia, vamos a hablar, vamos a hablar quién va y lo vemos, ¿vale? Para empezar, así que conozcamos, como antes de nada, sé que hay un chico, no sé exactamente ahora, creo que es el primero que sale, David, que es el que el año pasado quedó cuarto y fue una locura y compitió otro día también en UK, ¿vale? No sé su Instagram en concreto, no pasa nada, pero ese chico</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=224" target="_blank" class="timestamp">[03:44]</a> es una locura, el año pasado quedó cuarto, estaba con Cebu, con Martin ahí, subido con San Clarida, es increíble además creo que la competición va a estar muy guapa y va a haber también Expo y todo, va a ser como una mega feria porque van atletas confirmados, en plan, a la feria no tiene sentido, ¿vale? empiezo con los nombres de la gente ya más loca</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=243" target="_blank" class="timestamp">[04:03]</a> Tim Budesein, ¿vale? Tim Budesein lo conozco bastante, es un chico alemán. Estuve con él cuando compitió Pablo en Los Ángeles, estuvimos hablando, me acuerdo, estuvimos hablando también una vez en Florida. Me hace ilusión, sinceramente, competir con él. Es un tío que se deja los huevos compitiendo, que se despega en unas temporadas súper largas y se pega y se pega y se pega y se pega para estar ahí. Eso es una pasada, Tim Budesein.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=263" target="_blank" class="timestamp">[04:23]</a> Luego tenemos a Samson Dauda, ¿vale? Samson Dauda, ¿qué os voy a decir? Campeón de la Olympia del año pasado, campeón del Arnold. Pude entrenar con él hace unos años, eso fue increíble, pero la verdad que empezó, entró en un ritmo de competiciones de ganar un Arnold, ganar un Olympia, ganar un Arnold, quedarte a hacer un Olympia. Chicos, este hombre, los últimos dos años de su vida le ha cambiado la vida. Es un supertop, es un superclase, competirá con 130 y pico kilos encima del escenario. Tiene unas líneas, unas proporciones brutales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=291" target="_blank" class="timestamp">[04:51]</a> Y va a ser increíble poder estar a su lado. De verdad, va a ser increíble poder estar a su lado. Samson me hace mucha ilusión, evidentemente, estar y competir con él. Después, Martin Fitzwater. ¿Qué decir de Martin Fitz? De Martian.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=308" target="_blank" class="timestamp">[05:08]</a> Me encanta, tengo una foto con él en 2019, siendo yo todo chiquillo, él también todo chiquillo. Cuarto de la Olimpia del año pasado, quinto de la Olimpia de este año. Es un super top, es un super top. Está sentadísimo en la categoría. Tengo una foto con él también en 2024, si no me equivoco, en un gimnasio de Estados Unidos. Mola mucho, este tío mola mucho. Además, creo que es un buen tío y que encima del escenario es espectacular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=330" target="_blank" class="timestamp">[05:30]</a> O sea, una condición granítica, tío, que dices, qué pasada de hombre. Así que vamos a poder estar con él, vamos a poder, yo qué sé, hacer el meeting con él. Es que no tiene sentido este tipo de cosas. Yo flipo todavía. James Hollinghead, ¿vale? El otro día os lo dije, me hizo mucha ilusión estar con James Hollinghead. Sé que además en España es un tío súper seguido</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=349" target="_blank" class="timestamp">[05:49]</a> Tiene un estilo de entrenamiento y todo que la gente lo sigue a muerte, ¿vale? A rajatabla el estilo de UK, de Jordan Peters, de Hollingshead, todo ese estilo. Es un tío que entrena duro. Me hace mucha ilusión volver a competir con él. La semana pasada quedó quinto, si no me equivoco. Es un Olimpia. Está lleno de Olimpias esta competición. ¡Uff!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=369" target="_blank" class="timestamp">[06:09]</a> Super clase, super top, super nivel. Poco más que añadir en ese sentido. Me quito el sombrero con él además majísimo el otro día. Creo que está Pavel, ¿vale? Pavel es un chico que compitió la semana pasada también. Que está espectacular, espectacular, espectacular. Y me hace ilusión sinceramente competir con él. Después...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=386" target="_blank" class="timestamp">[06:26]</a> Michael Kryzo, Michal Kryzanek, poco que añadir. Campeón top 8 de la Olimpia, campeón del otro día. Para mí uno de los culturistas más espectaculares que he tenido el placer de ver en persona. Y así es. O sea, es que no tiene más misterio. Es uno de los culturistas más top que he tenido el placer de ver en persona. En el backstage es una locura verla. O sea, puedes analizarla así estando relajado y dices...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=410" target="_blank" class="timestamp">[06:50]</a> ¿Qué cojones, tío? O sea, tienes masa muscular y masa muscular y masa muscular. O sea, es infinito ese tío. Es increíble, es un 10 verle. Que on person.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=421" target="_blank" class="timestamp">[07:01]</a> Tres veces Mister Olimpia, Keon, tengo su camiseta de prodigy, entreno con él, personalmente me llevo muy bien con él, de hecho me envié un mensaje el otro día cuando salí en UK y cuando luego lo pude ver en el móvil me puso, you look insane bro. Llevo dos semanas además hablando con él porque viene a Praga, nos llevamos bien, me hace mucha ilusión competir con él. Para mí personalmente son de las líneas más bonitas que hay ahora mismo en el culturismo, creo que el culturismo va de líneas, va de ilusión óptica y creo que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=446" target="_blank" class="timestamp">[07:26]</a> Keon es el claro ejemplo y creo que va a estar muchos años ganando en 212 si quiere, pero va a ser la figura del culturismo durante muchos años y creo que cuando pase a Open va a estar muchos años ganando en Open. Lo creo honestamente y lo creo de verdad. Me parece el mejor físico que hay ahora mismo en el panorama. O sea, va a ser un placer poder competir con él. De verdad, porque no tiene sentido lo que es ese físico. Es un 10.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=471" target="_blank" class="timestamp">[07:51]</a> Joan Prades Martínez from Spain... Ese soy yo. Ese soy yo. Y luego, ¿vale? Hay mucha más gente, sinceramente no puedo comentar a todos, no los conozco. La mayoría, la mayoría, la mayoría son europeos, ¿vale? Hay muchos alemanes, polacos, de República Checa, eslovacos... Realmente de Estados Unidos hay unos poquitos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=495" target="_blank" class="timestamp">[08:15]</a> Bueno, pues eso, sin más, sin más. Pero con muchos no los conozco realmente, o sea, estoy mirando, no voy a poder comentar uno por uno. Simplemente este es un vídeo un poco, pues hablando un poco de la gente que conocemos sobre todo, que luego siempre hay alguno que dices, este no he dicho nada y vamos, me ha pegado un baile y me flipas, está espectacular. Eso es así y eso pasa, o sea, no le estoy quitando mérito a nadie. De hecho me hace ilusión convenir con todos y luego siempre hay un buen rollo brutal en los backstage, o sea, mola mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=520" target="_blank" class="timestamp">[08:40]</a> Y luego, por otro lado, que no estaba contando con ello, claro, hay más categorías. Hay más categorías. Hay Classic y hay Men's, ¿vale? Y bueno, ya que no me voy a poner a comentar aquí las clases, pero es cierto que, joder, va Kim Angel en Classic Physic, así que lo tendremos por allí, que mola bastante, viene de la Olimpia, vendrá además...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=539" target="_blank" class="timestamp">[08:59]</a> Espectacular, porque llevan una condición espectacular. Y bueno, pues mola. Así que chicos, eso es un poquito lo que vamos a ver este fin de semana en Praga. Dos días de competición. Qué auténtica locura. Juzga Steve. Parece eso un poco a uno limpia en ese sentido, ¿sabéis? O sea, hay como muchos olimpias. Juzga Steve. Me hace mucha ilusión poder irla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=558" target="_blank" class="timestamp">[09:18]</a> La verdad, me hace mucha, mucha ilusión. Ayer ya cogimos todo. Me hace ilusión porque nos quedamos luego allí la semana siguiente también, antes de ir a Polonia, disfrutando un poquito de la ciudad, entrenando allí. Tenemos algún tour en bicicleta. Me apetece ver Praga. Yo soy una persona que lleva mucho tiempo queriendo ver Praga. Nos pido un nervio en Vibodito. Y tenemos todo, creo que, bastante bien organizado. Espero que salga todo bien. Y, chicos, están listas. Espero que os haya gustado. Dejadme en los comentarios lo que queráis. Si me he dejado alguien, lo siento y pido mis disculpas. Pero qué guay. Tengo muchas ganas. Tengo muchas ganas. Así que, chicos, un beso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=sjiLcsyAIIM&t=587" target="_blank" class="timestamp">[09:47]</a> enorme y gracias por ver el vídeo. Dadle calla. Chao. Eh, eh, eh, eh. Acuérdate que tienes 24 horas de descuentos. Ahora sí.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 21/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
