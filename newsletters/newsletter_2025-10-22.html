@@ -1,0 +1,401 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 22/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">22/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-PucXWEhusKE'>Así cambia tu cuerpo con esteroides (experimento real en gemelos)</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-PucXWEhusKE">
+            <h2>Así cambia tu cuerpo con esteroides (experimento real en gemelos)</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 22/10/2025 14:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=PucXWEhusKE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=PucXWEhusKE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/PucXWEhusKE/hqdefault.jpg" alt="Así cambia tu cuerpo con esteroides (experimento real en gemelos)" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta un experimento que compara a dos hermanos gemelos, uno usando esteroides anabólicos y otro supuestamente natural. Se analizan diversas métricas como fuerza, masa muscular, pérdida de cabello, atractivo y niveles de agresión. El experimento incluye provocaciones en el gimnasio y análisis médico de sus efectos secundarios. Finalmente, se revela un giro inesperado sobre la condición de "natural" de uno de los hermanos, así como los graves riesgos para la salud.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Primera Comparativa y el Dilema Químico <a href="https://www.youtube.com/watch?v=PucXWEhusKE&amp;t=209" target="_blank">[03:29]</a></h3>
+
+<p>Se presentan las primeras diferencias físicas entre los gemelos, mostrando una ventaja significativa en fuerza y masa muscular para el hermano que usa química. El presentador introduce la pregunta sobre los efectos secundarios, prediciendo la pérdida de cabello y discutiendo la tentación que esto genera.</p>
+
+<h3>La Ciencia del Cabello y los Esteroides <a href="https://www.youtube.com/watch?v=PucXWEhusKE&amp;t=377" target="_blank">[06:17]</a></h3>
+
+<p>Un examen tricoscópico revela que el gemelo que usa química sufre una notable miniaturización y pérdida de folículos capilares. El doctor confirma que el uso de testosterona acelera la calvicie genética, complicando incluso la posibilidad de futuros trasplantes capilares.</p>
+
+<h3>El Experimento de la Agresión Descontrolada <a href="https://www.youtube.com/watch?v=PucXWEhusKE&amp;t=724" target="_blank">[12:04]</a></h3>
+
+<p>Durante un experimento de provocación en el gimnasio, el gemelo bajo los efectos de los esteroides reacciona de manera extremadamente violenta y amenazante. Admite estar bajo la influencia de sustancias como Trenbolone, mostrando el impacto psicológico y el aumento de la agresividad.</p>
+
+<h3>Atractivo Físico: ¿Natural o Mejorado? <a href="https://www.youtube.com/watch?v=PucXWEhusKE&amp;t=911" target="_blank">[15:11]</a></h3>
+
+<p>Se lleva a cabo un estudio sobre el atractivo de ambos hermanos mediante perfiles de citas y sitios de calificación. A pesar de las suposiciones iniciales, ambos obtienen puntuaciones relativamente bajas, con el hermano que usa esteroides siendo considerado marginalmente más atractivo.</p>
+
+<h3>La Revelación Inesperada del Doctor <a href="https://www.youtube.com/watch?v=PucXWEhusKE&amp;t=1106" target="_blank">[18:26]</a></h3>
+
+<p>Un médico especializado analiza los resultados de los análisis de sangre, confirmando los graves riesgos cardiovasculares y de órganos asociados al abuso de esteroides. Sorprendentemente, el doctor también revela que el hermano supuestamente "natural" muestra signos de haber utilizado sustancias, posiblemente SARMs, desvelando un giro inesperado en el experimento.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=0" target="_blank" class="timestamp">[00:00]</a> Si no miren un videíto que me ha gustado mucho el título y creo que puede ser muy interesante. Este vídeo que vamos a ver va a coger una persona y va a testear a dos gemelos. Dos gemelos que entrenan... Entrenan pesas, ¿no? Uno con química y otro sin química. Y va a ver cuál es la diferencia de uno y otro, tanto en...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=18" target="_blank" class="timestamp">[00:18]</a> Mása muscular, rendimiento, salud, todo. Vamos a ver esto porque puede ser muy, pero que muy interesante. Por cierto, no te olvides de suscribirte. ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=33" target="_blank" class="timestamp">[00:33]</a> Vale, van a mirar las ganancias musculares, la fuerza, lo atractivo, la pérdida de pelo, la salud...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=49" target="_blank" class="timestamp">[00:49]</a> Y bueno, si hay enfados, ¿no? Actitud, ¿no? Porque esto no sería legal. ¿Por qué hacen esto los culturistas? ¿Por qué hacen esto los culturistas? ¿Por qué hacen esto, tío? ¿Por qué hacen esto, tío? ¿Por qué hacen esto, tío? ¿Por qué hacen esto, tío? ¿Por qué hacen esto, tío? Lo hacen todos, ¿eh? ¿Qué fue eso?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=77" target="_blank" class="timestamp">[01:17]</a> Vale, le van a hacer un DEXA, un escáner de esta. A ver lo que dice el DEXA.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=95" target="_blank" class="timestamp">[01:35]</a> Costas tiene un poco de espacio. Tiene 78 kilos. Lo mismo que un natural pro. ¿Cuánta diferencia habrá entre un hermano y otro? 20 kilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=125" target="_blank" class="timestamp">[02:05]</a> I can already visualize Kosta injecting his little booty wood. Do you feel like a big brother even though you were born at the same time? It's like stewing candy from a little kid right now. Kosta, are these results tempting you even a little bit to hop on steroids? Yeah.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=147" target="_blank" class="timestamp">[02:27]</a> Ya ves, es que ves a tu hermano... Si entrenan los dos iguales y comen todo igual... Bueno, igual no, porque el otro comerá más, supongo, en el punto en el que está... Y ves que te saca 20 kilos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=162" target="_blank" class="timestamp">[02:42]</a> Vale, el hermano natural con 120 kilos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=192" target="_blank" class="timestamp">[03:12]</a> Un agarre bastante cerrado. 140 el dopao.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=209" target="_blank" class="timestamp">[03:29]</a> Mejor técnica, mejor agarre, mejor todo. Y 20 kilómetros. Vale, bueno, de momento le saca mucha más fuerza, mucha más masa muscular. Pérdida de cabello, hombre. El dopado tiene que tener menos peso. Señores, quieto parado ahí. Escúchame, vengo a enseñarte la mejor proteína de mercado, la hidronizada paro de profi de vainilla. 98% de pureza no lo encuentro en ningún lado. ¿Sabes cómo te hace más efecto? Con mi código de descuento Antonio G.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=239" target="_blank" class="timestamp">[03:59]</a> Kosta, ¿crees que tu hermano es baldado después de tomar los esteroides? Sí, bro. Yo estoy baldado. Se está quedando calvo. Eh, creo que sí, sí. A ver, cuando se quiten el pañuelito, ¿sí? Bro, yo creo que voy a ser depresado si pierdes mi hair de los esteroides. 100%, honestamente. Si, si el doctor dice que pierdes tu hair, ¿verdad? ¿Vas a reconsiderar todo el esteroide?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=264" target="_blank" class="timestamp">[04:24]</a> Buena pregunta. ¿Vas a reconsiderar todo el asunto de los teroides si la analítica sale que estás perdiendo pelo? Probablemente bajaré un poco mi tendencia. Hostia, qué preguntón más bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=287" target="_blank" class="timestamp">[04:47]</a> Mira lo que le está preguntando. Si supieras que vas a vivir una vida mucho más corta, ¿seguirías tomando química? Sé que ir mucho menos, estoy seguro. No estoy ejecutando ningún ciclo loco ya. Todos dicen lo mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=315" target="_blank" class="timestamp">[05:15]</a> Es hora de ver qué está sucediendo en esta bandana. ¿Has esteroid realmente destruido su hairlas? ¿Qué es el objetivo de tu visita? Para ver si tiene un cabello más fuerte, para ser honesto. ¿Estamos tomando algún tipo de drogas en general? Estoy usando esteroid, así que podría haber un efecto en mi cabello. ¿Alergias? ¿Alergias? ¿Alergias? ¿No es lo que sabes? Pero tú sabes que has tomado cada droga.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=338" target="_blank" class="timestamp">[05:38]</a> Vamos a hacer una examinación, que se llama trichoscopio, que nos va a mostrar con gran detalle la calidad de nuestro cabello. Y el doctor comenzó la examinación con el natural twin. Primero, podemos observar que el cabello de cabello es un poco más fuerte, y el color es mejor, y el tamaño, o el tamaño de la cabello es menor. Hostos de natural, él ya está mostrando algunos signos de balder, y Elias sabe que esto no puede ser buena noticia para él. ¿Tienes un pedazo? ¿Tienes un pedazo? ¿Tienes un pedazo o qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=367" target="_blank" class="timestamp">[06:07]</a> Ahora estoy realmente estresado. Chief Costas, como un natural, tiene un poco de descanso en el lado de su cabeza. ¿Qué piensa que está pasando con ti?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=377" target="_blank" class="timestamp">[06:17]</a> Pero Ilias no tiene que responder, porque el doctor está empezando a decir todo. Aquí podemos ver que la hair es muy, muy thin y no se crea. Aquí podemos ver algunos enactivos de la folliculación. La hair es muy, muy, muy fuerte. Podemos observar que en Ilias el problema es más grande y puede haber algo en el área en el futuro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=403" target="_blank" class="timestamp">[06:43]</a> Vale, está diciendo para... si no sé, gracias Fox.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=429" target="_blank" class="timestamp">[07:09]</a> que si hay un uso de testosterona y hay probabilidades genéticas de que te quedes calvo, con el uso de testosterona te vas a quedar calvo. Ya está. Punto. Pero doctor, ¿no puede obtener un trasplante de cabello si pierde su cabello? Las cosas no son tan sencillas. Cuando decidas en una fase avanzada de cabello para obtener un trasplante de cabello, no puede haber el número adecuado de cabellos de cabello en la parte saludable de la cabeza.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=457" target="_blank" class="timestamp">[07:37]</a> para obtener el tratamiento de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición de la transición</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=486" target="_blank" class="timestamp">[08:06]</a> Vamos, que te eches Finasteride en la cabeza, que no te lo tomes morando. Si no entiendes realmente que, junto con el trasplante, uno necesita un tratamiento continuo en un largo plazo, su esfuerzo irá completamente perdido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=511" target="_blank" class="timestamp">[08:31]</a> El primer error por los esteroides y lo malo que se puede sentir por lo que sucedió, será mucho peor con el siguiente experimento, para que empiece a ir a su breaking point. Este es Argyris, el hombre que se ha secretado para hacerle as amigas posible. Y mientras piensa que estamos haciendo un video de un video de workout, estoy haciendo un experimento para ver quién va a subir primero. Para nivel 1, Argyris will consistently invade their personal space.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=537" target="_blank" class="timestamp">[08:57]</a> Just minutes later, the twins were already extremely confused and annoyed. Bro, listen, para esquivar, I don't know why he has this behavior, but he's following us. He's following us. But that was nothing compared to what happens next. For level two, he was instructed to take my plate right before my set. An extremely disrespectful move in gym culture. Let me help you up. Yeah. One, two...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=565" target="_blank" class="timestamp">[09:25]</a> No, no, brother, he's doing a set. I was right here and you took my plate. What are you using this machine? We didn't take the plate from there, we took everyone back here. No, you came from right there and you took my plate. O sea, lo ha contratado para que les pique, para que les se hagan fadar, tú. All right, okay, we'll get another one. Cosas instantly stepped in to deescalate the situation. But Elias was already looking like he's at his limit.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=591" target="_blank" class="timestamp">[09:51]</a> Guys, me voy a preguntar algo, ¿está usted realmente usando la máquina? Eso no fue bien, eso fue un poco más intenso cuando Aguirre se desplazó a nuestra máquina para nivel 3.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=607" target="_blank" class="timestamp">[10:07]</a> Lo va a pegar, lo va a pegar, lo va a pegar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=636" target="_blank" class="timestamp">[10:36]</a> Aguirre was playing the role ten times better than I expected, and little... ...so did I know, but he was about to push it a lot further. We didn't wanna take your plate. We just thought that nobody's using the machine. You know what I mean? Irrelevant. The plates are on the specific machine. Everybody f***s it up. Not just you, but almost everyone. I understand, but the other guy was trying to do a set, and I seen somebody taking his plate. That's not okay. When I woke up, I'm just locked in. Okay, can I hop in for a set? Let me do one more.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=666" target="_blank" class="timestamp">[11:06]</a> Elías estaba tratando su mejor para mantenerlo juntos y quedó completamente silencio. Pero la energía en la sala estaba creando extremadamente intensa. Elías, ¿es tu turno?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=694" target="_blank" class="timestamp">[11:34]</a> No, no, no, no. No, no, no, no. ¿Quién es el turno ahora? Estoy confiado. Elías fue claramente fúreo y el correcto fue para terminar el experimento. Pero no lo hicimos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=724" target="_blank" class="timestamp">[12:04]</a> Y solo me llevó un comentario para enviar Ilias completamente a lo mejor. No, no los demás. No, no te digo algo. ¿Qué estás haciendo ahora? ¿Estás aquí haciendo comentarios? No, no, no, no, no. No, no, no, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=746" target="_blank" class="timestamp">[12:26]</a> Creo que estás siendo raro. Creo que estás siendo raro, hermano. Sin razón. Están siendo muy educados, eh. No hemos hecho nada para ti, y tú tienes una actitud. No hemos hecho nada para ti. ¿Está bien? No, no está bien. Tengo que bajarlo un poco. Puedo también me disgustar. No estoy disgustado. No estás disgustado. Te ves como eres. No, solo tomé tres scoops de pre-workout. Ok. Y tomé 300 mg de tren. ¿Qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=778" target="_blank" class="timestamp">[12:58]</a> ¿Estás tomando cosas? ¿Estás tomando esteroides? Sí, eso es lo que quiero decir, corte esa actitud. O vaya a otra máquina, porque va a ser un problema. Yo pensé que era tu hermano que tomó esteroides. Oh, ¿verdad? Pero me seguís en Instagram, ¿qué estás tratando de hacer ahora? ¿Qué es esto? Sí, te lo seguís, pero no... ¿Qué es esto? Yo también te conocí, pero no sé qué estás tratando de hacer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=802" target="_blank" class="timestamp">[13:22]</a> I know who you are, you know who I am. And you came here acting all crazy. Are you angry? Because I'm much angrier than you. And you really don't want me to prove it to you right now. Don't do shit like that to me bro. Don't make me crazy. But Elias didn't find any of that funny.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=832" target="_blank" class="timestamp">[13:52]</a> Han sido muy correctos, eh. Han sido muy correctos. Brother, please don't laugh. Please, we're gonna get into a fight, please. Leave the gym right now. Get out of the gym right now. There you go. It's part of the experiment. I don't give a fuck. I understand. Bro, don't do shit like that to me. What? Don't do shit like that to me. Don't do shit like that to me.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=857" target="_blank" class="timestamp">[14:17]</a> I don't give a ****. It really shocked me how he wouldn't calm down even after he learned it was part of the experiment. He's so lucky for not getting beat up. It took a few minutes until I could finally see him smile again and it made me pretty happy. Ilya, I hope you're not still angry with me.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=872" target="_blank" class="timestamp">[14:32]</a> A ver, Ednor, yo tengo que deciros que sobre todo la trembo. En general la testosterona te hace estar más agresivo. Pero es que sí que es verdad que la trembo a personas que no son agresivas les hace ser agresivos. Pero es que a personas que son un poquito más agresivas de la cuenta... No, un poquito, tampoco mucho. Es una locura. I'm not angry with you, man.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=894" target="_blank" class="timestamp">[14:54]</a> Es como si me llevas la rage... ...es al menos un día para que me quede. Pero todos nos rígamos cuando nos rígamos que Kosta todavía no tenía la idea de que era el set up, incluso después de todo lo que sucedió. ¿Es realmente un set up? No, no, I'm sad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=911" target="_blank" class="timestamp">[15:11]</a> So he clearly won this round, but his brother's dominance and intensity might give him an edge on the next one, because now it's time to see who's more attractive. A guy with a great natural body like Costas or a maxed out bodybuilder on steroids like Elias. To test, I took multiple identical pictures of them with the same clothes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=932" target="_blank" class="timestamp">[15:32]</a> Y shirtless. I created profiles for them on multiple dating websites and both of them barely got any likes after multiple dates. And when I tested their pictures on premium attractiveness rating websites, the results were very similar for both of them and consistently pretty low. The reason, in my opinion, is that when you make the gym your entire personality, it really shows in your pictures and you really limit your options outside of that environment.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=961" target="_blank" class="timestamp">[16:01]</a> Hostia, ¿qué crees? ¿Quién crees que es más atractivo de los dos para las mujeres? ¿El dopao o el no dopao? Yo pienso que el no dopao es mucho más atractivo para las mujeres en general. Yo lo creo, ¿eh? Que el dopao llama más la atención de los hombres que el de las mujeres. ¿Ah?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=987" target="_blank" class="timestamp">[16:27]</a> Pues sí, el dopado fue más atractivo. No, no, el dopado fue más atractivo, están diciendo. Y poco más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=1006" target="_blank" class="timestamp">[16:46]</a> ¡Viene la analítica de sangre!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=1021" target="_blank" class="timestamp">[17:01]</a> It was so shocking that I couldn't just rely on my own judgment to come to a definitive conclusion. So, I called in Dr. Tuliatos. He has analyzed the blood of countless men and is one of the most respected doctors in the field. Based on his resume, he's one of the best people in the world to help us get to an answer. Doctor, is a person like Elias that's taking anabolic steroids expected to live a much shorter life?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=1047" target="_blank" class="timestamp">[17:27]</a> Si te abusas de los esteroides, como en profesionales de la vida, sí. Definitivamente, te aseguro de la vida de la vida. Primero de la cardiovascula, luego de la kidneys y finalmente de la vida de la vida. Porque la gente se preocupa de la vida, pero no die acutely de la vida de la vida. La estrope y la heart attack pueden ocurrir en el blico de una noche. We heard it from the doctor himself. Esteroides pueden acabar tu vida abruptamente. Pero la verdad es que no me ha dado a la doctora para hablar de los esteroides.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=1075" target="_blank" class="timestamp">[17:55]</a> ¡Anda! ¡Que el hermano tampoco es el natural! ¡Anda!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=1106" target="_blank" class="timestamp">[18:26]</a> Doctor, ¿can you please tell me why you think he's not natural?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=1127" target="_blank" class="timestamp">[18:47]</a> Doctor, Kostas trains extremely hard and has been dieting down to about 6% body fat. He's doing about 20... Listen, you don't get creative on 1.6% being naughty. Come on. This is somebody who gets this tremble of. So you truly don't believe there's any chance he's natural? LH from 0.5% is end of the story.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=1149" target="_blank" class="timestamp">[19:09]</a> Vamos, que el médico está diciendo que el no dopado va dopado. Ah, que puede estar no usando anabólicos, pero sí SARMs.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=1179" target="_blank" class="timestamp">[19:39]</a> Y se acaba aquí. ¡No!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=PucXWEhusKE&t=1209" target="_blank" class="timestamp">[20:09]</a> No te creo. Hubiera sido epiquísimo, ¿eh? Hubiera sido epiquísimo saberlo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 22/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
