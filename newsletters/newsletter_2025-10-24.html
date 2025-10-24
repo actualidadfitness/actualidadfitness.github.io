@@ -1,0 +1,503 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 24/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">24/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-DyLc6tFEtTE'>HABLANDO con MI PADRE</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-DyLc6tFEtTE">
+            <h2>HABLANDO con MI PADRE</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 24/10/2025 08:15</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/DyLc6tFEtTE/hqdefault.jpg" alt="HABLANDO con MI PADRE" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video presenta una emotiva conversación entre el culturista Joan y su mentor, Milos Sarcev, a quien considera una figura paterna. Discuten la reciente competición de Joan en el Reino Unido, su preparación para futuros shows como Praga y Japón, y la importancia de disfrutar el escenario. Milos ofrece valiosos consejos sobre posing, estrategia y la mentalidad necesaria para triunfar, mientras Joan comparte su pasión y evolución en el entrenamiento.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Conexión Especial con Milos Sarcev <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&amp;t=26" target="_blank">[00:26]</a></h3>
+
+<p>El video comienza con la introducción de Milos Sarcev, a quien Joan describe como su culturista favorito de todos los tiempos y una figura paterna. Se establece desde el inicio la profunda admiración y respeto mutuo entre ambos, dando un tono personal a la conversación.</p>
+
+<h3>El Orgullo del Tercer Puesto en el Reino Unido <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&amp;t=134" target="_blank">[02:14]</a></h3>
+
+<p>Milos expresa su inmenso orgullo por el tercer lugar de Joan en la competición del Reino Unido. Destaca la felicidad de Joan en el escenario, calificándolo como un momento donde realmente disfrutó su vida, y señala su potencial para el Mr. Olympia.</p>
+
+<h3>Perfeccionando el Posedo: Análisis Detallado <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&amp;t=292" target="_blank">[04:52]</a></h3>
+
+<p>Milos ofrece consejos técnicos muy específicos a Joan, animándole a revisar los videos de sus shows. Le insta a observar momentos donde relaja el estómago o las piernas y cómo puede mejorar la amplitud de sus dorsales y la separación de sus cuádriceps.</p>
+
+<h3>La Importancia de la Resistencia en el Posedo <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&amp;t=344" target="_blank">[05:44]</a></h3>
+
+<p>Se enfatiza la necesidad de tener resistencia al posar, especialmente en competiciones como Praga. Milos advierte que algunos competidores pueden perder ventaja si no mantienen las poses el tiempo suficiente, resaltando la estrategia de la constancia.</p>
+
+<h3>Roles en el Culturismo: Coach vs. Padre <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&amp;t=457" target="_blank">[07:37]</a></h3>
+
+<p>Joan aclara que, aunque José es su coach oficial, Milos es como su padre en el culturismo, enfocándose en estilos e historias sin interferir en el plan de entrenamiento. Milos reafirma su respeto por el coach de Joan, José, y por el aprendizaje continuo.</p>
+
+<h3>El Deseo de Competir a Toda Costa <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&amp;t=854" target="_blank">[14:14]</a></h3>
+
+<p>Milos revela que no estuvo de acuerdo con el coach de Joan, quien no quería que compitiera en el Reino Unido. Apoya la decisión de Joan de competir, enfatizando que su felicidad máxima se encuentra en el escenario.</p>
+
+<h3>La Transformación del Entrenamiento <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&amp;t=1209" target="_blank">[20:09]</a></h3>
+
+<p>Joan explica cómo su entrenamiento cambió radicalmente después de trabajar con Milos, alcanzando un "nivel superharto" de intensidad. Describe cómo esta nueva mentalidad ha transformado su cuerpo, especialmente sus cuádriceps, que ahora son de los mejores de la industria.</p>
+
+<h3>Estrategia para Praga y Futuras Competencias <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&amp;t=1721" target="_blank">[28:41]</a></h3>
+
+<p>Joan comparte su ambicioso plan de competir en varios shows (Praga, Polonia, Rumanía, Japón) con el objetivo de disfrutar la experiencia y no sentir presión. Su deseo es posar junto a los grandes nombres y tomarse fotos con ellos.</p>
+
+<h3>El Arte de Mantener la Pose en la Escena <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&amp;t=2169" target="_blank">[36:09]</a></h3>
+
+<p>Milos aconseja a Joan mantener sus poses por más tiempo que sus oponentes, especialmente aquellos que las relajan rápidamente. Destaca la importancia de controlar el estómago y la digestión para una presentación impecable y duradera.</p>
+
+<h3>La Primera Impresión Ante los Jueces <a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&amp;t=2430" target="_blank">[40:30]</a></h3>
+
+<p>Milos subraya la importancia crucial de la primera impresión al entrar al escenario, especialmente ante jueces como Steve Weinberger. Recomienda a Joan no relajarse, no mirar alrededor y asegurarse de que cada detalle de su pose sea perfecto desde el inicio.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=0" target="_blank" class="timestamp">[00:00]</a> Muy buenas a todos, chicos. Estamos en un nuevo vídeo. Tengo straps, 10% de descuento con el código JOANPBS. Si lo utilizáis, os lo agradezco mucho. Me lo ha picado con la gente de marketing. Así que si utilizáis justamente JOANPBS, os lo agradezco mucho, mucho. Tenéis también mochilas rebajadas, tenéis mil cosas rebajadas. Pero bueno, los straps que ya están a 9.99, la verdad que son auténtica locura. Yo, de hecho, estos los pongo aquí porque me los llevo a Praga. Así que, chicos, dadle caña y ahora sí, empezamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=26" target="_blank" class="timestamp">[00:26]</a> Hola, ¿cómo estás? Hola a todos, ¿cómo estás? Estamos con Milos Arce, para mí, mi culturista favorito. Y de todos los tiempos, además, lo digo muchas veces, una de las mejores líneas, una de las mentes más privilegiadas. Y aquí lo tenemos. Hola, Milos, ¿cómo estás? Gracias por estar aquí conmigo. Y sé que eso no es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=45" target="_blank" class="timestamp">[00:45]</a> Es tan fácil porque la hora de ir en Europa para los Estados Unidos es tan difícil, por real. Y estamos aquí, estamos hablando. Y para mí, eres un hombre especial, como mi padre. Y hablamos en la semana pasada, cuando estaba competiendo. Estaba en el final de la prejuvencia, hablando con vosotros. Y abrió más tu lato, así. ¡Oh!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=74" target="_blank" class="timestamp">[01:14]</a> Es real, ¿eh? Para que lo veas ahora, acuérdate de esto. No voy a cortar, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=109" target="_blank" class="timestamp">[01:49]</a> Esto es la pared. Esto es la pared. Esta es la pared de mi gym. Aquí. ¿Recuerdas? Estas fotos que te han dado a mí y a Marta. Para mí es realmente especial. Sí. Tengo que encontrar un gran pósito. En uno de estos días, voy a hacer los pósitos y enviarlo a ti. Pero antes, Joana, primero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=134" target="_blank" class="timestamp">[02:14]</a> Inicialmente no sabía que iba a competir en el Reino Unido. Y luego se ve tu nombre en la lista, y luego se ve en la escena. Y me llamaba, Betty, Betty, Betty, Betty, come, come, come, watch it. Y ella estaba emocionada, y ella estaba sentada, y ella estaba sentada, y ella estaba viendo ti hacer tu cosa. Yo estaba súper orgullo, súper orgullo de ti. Y el momento que se anunció el tercer lugar,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=158" target="_blank" class="timestamp">[02:38]</a> No he visto nadie tan feliz en mi vida. Eso fue una de esas momentos como, oh Dios mío, Juan está disfrutando su vida. Así que finalmente ganaste tus brazos. Estás ahí en el top 3. Estás tan cerca de quizás para el Mr. Olympia. Así que esa es tu realidad ahora. Así que todos saben que Juan, Juan...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=184" target="_blank" class="timestamp">[03:04]</a> Un niño de España tiene tantos potenciales, pero lo que sucedió antes no mató. Ahora las cosas están sucediendo. Y hoy, tú estás cuatro días de Prado. Y estás en Prado. Así que no te has dicho nada, así que te voy a decir. Tienes que tenerlo aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=207" target="_blank" class="timestamp">[03:27]</a> Judges already put you in the top three. You beat some major guy. Pablo is great. James Hornstead is fit. Those are the good guys. And you give a really serious run for money for Sassan, for example.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=225" target="_blank" class="timestamp">[03:45]</a> Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=252" target="_blank" class="timestamp">[04:12]</a> Así que cuando vas a entrar en los palos con algunos de los campeones, también tienes que analizarlos. Y cuando vas a la escena de alguien que no tiene una pie tapera, tienes que ampliar el lato hasta que puedas. El hombre que no controla el quads, tiene quads, como Michael Criso, por ejemplo, pero lo haces, tiene separación y lo haces.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=283" target="_blank" class="timestamp">[04:43]</a> You put the quads, separate it and hold it, hold it, hold it. So those are the kind of little things I would tell you.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=292" target="_blank" class="timestamp">[04:52]</a> Review the video from the show and watch at which moment you relax your stomach, in which moment you relax your legs, in which moment you didn't pull out the lats, when you lean back. What I was watching when you were doing, you spread the lats from the rear and then you put the elbows back and then you bring them back.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=317" target="_blank" class="timestamp">[05:17]</a> So you get the thickness of a lower lat, but you don't spread the width of the upper lat. Just like this. Little pointers to you to think about it. Right now, every single day, today is Wednesday, you have a Wednesday, you have a Thursday, you have a Friday, you should be checking yourself in the mirror</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=344" target="_blank" class="timestamp">[05:44]</a> Una hora después de cada día de cada día, ¿no? Y estoy seguro que José, tu coach, dijo que posee, posee, posee. Tiene que tener a pose de endurance, porque en Prague, Steambeinburger va a comparar a ti, comparar a ti, forever y forever. Michael Criso no es conocido por endurance.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=367" target="_blank" class="timestamp">[06:07]</a> Remember, they even asked him, Michael, are you okay? And he goes, not so happy to do it. So he might be leading initially, but then start losing. That's how you take over.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=382" target="_blank" class="timestamp">[06:22]</a> Sí, creo que esto es importante. Porque en el show estoy sorprendido, estoy feliz, estoy jugando un poco, y creo que eso es importante. Jugando con mi vacúo, por ejemplo. La gente dice, ¿por qué vacúo? No, hey, vacúo, jugando con esto, jugando, jugando con esto, jugando con esto, jugando con esto, jugando con esto, jugando con lo que puedes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=411" target="_blank" class="timestamp">[06:51]</a> Todos los movimientos del músculo, los judíos están mirando. Aquí, la humanidad va por el movimiento. Y si se trata de nada, o si se mueve, la humanidad va por el movimiento. Especialmente cuando, después de ese movimiento, te mostrará algo especial. Así que me gusta eso. Sabes que no me gusta un vacío como una vacío pose. Me gusta la pose. Pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=441" target="_blank" class="timestamp">[07:21]</a> I like vacuum to be used in transitions, that you can show ability to vacuum, and have a super small waist, and then boom, you squeeze your abs. And that's what you're doing. I like it. So, Ioan, first...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=457" target="_blank" class="timestamp">[07:37]</a> Una cosa importante aquí. La gente, muchas veces con ti, dice a mí que José es tu coach. Y yo sé que José es tu coach. Y tú sabes que José es mi coach. Pero obviamente que Fran, en español, es mi coach.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=479" target="_blank" class="timestamp">[07:59]</a> Para mí, eres como mi padre en bodybuilding, no coach, no plannings, no meals. Solo hablamos de bodybuilding, styles, historias. Sí, sí. Y tengo más respeto para un amigo, tu coach.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=497" target="_blank" class="timestamp">[08:17]</a> As you know, I never interfere and tell you. Yeah, no, never. Is this, is the drop salt. No, no, no, no. I can tell you I didn't like this posing. Okay, I think that maybe you could, you know, do this and this. Or tell your coach.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=513" target="_blank" class="timestamp">[08:33]</a> ¿Qué piensa de esta posición? Y más importante, la primera vez que nos encontramos José le dice a ti, a entrenar a este hombre. La primera vez es así. Absolutamente. En el bodybuilding, somos los hermanos de Irón y todos nos respetamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=539" target="_blank" class="timestamp">[08:59]</a> I would let my guys back in the day, like Rian Rines or anybody else, yeah, go train with Neil Hill coach. Go train with Mike Isretel coach. Go with him. Why not? It's like learning something new. So, as you know, I don't stick my nose in the business of your coach. He prepares you his way. I don't even know how he prepares you. But as I talked yesterday, for Prague, please,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=569" target="_blank" class="timestamp">[09:29]</a> Hay una estructura...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=592" target="_blank" class="timestamp">[09:52]</a> ¡BOOM! X-Frame. Si tomas mucho espacio. Y si estás en una condición de locura y cada vez que te mueves, y los fibres en los quads están sucediendo. Y si te mueves en los espacios y los espacios, está sucediendo. Un superfleto de la estómata. Esta es la forma de atraer la atención.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=613" target="_blank" class="timestamp">[10:13]</a> Sí. ¿Qué piensas? ¿Es mejor intentar ir con el mismo peso o con menos peso o con más peso? ¿No? Ah, sí. Primero, si no es un secreto, el feedback de los jueces. Decidiste que fue muy bueno. No sé si es publico. Sí, un poco más detrás, más detrás, más detrás y más detrás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=642" target="_blank" class="timestamp">[10:42]</a> Entonces, eso es lo que yo saw. El stream fue tan mal que inicialmente no se veía que nadie se veía en su shape. Yo sé, yo sé, y yo sé que no es tu condición, pero la luz y la cámara y todo se veía tan mal. Pero cuando me veía que el Sasan y Michael Crizo, son normalmente rígidos a la bone y se veía que se veía rígidos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=674" target="_blank" class="timestamp">[11:14]</a> Y ahí, estabas en buena condición, pero no estabas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=685" target="_blank" class="timestamp">[11:25]</a> Crazy, great condition. Super dry. No, no, no, for real. But I think that maybe if I go more, more, more dry or try to go hard dry, maybe I lose my pump, my typical pump, my shoulders, my chest. I don't know. One second. Eric. Eric, se está botando la batería de la cámara.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=715" target="_blank" class="timestamp">[11:55]</a> Yo sigo, ¿vale? Chufalo un cargador. Sí, me siento. Sí, sí. ¿Tiene una pregunta para él o algo diferente? ¿Eh? Este es el chico, Eric. Hola, Milos. Ha sido un placer. Muy bien conocido. La cámara está en la batería y el resulta ahora. No hay problema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=738" target="_blank" class="timestamp">[12:18]</a> Esto es lo que quiero decir. Todos tienen partes específicas de cuerpo que nunca van a ser rectas. Si tus brazos, si tratas de hacerlas rectas, no puedes. Tres brazos. Tres brazos. Tres brazos. Tres brazos. Tres brazos. Tres brazos. Tres brazos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=762" target="_blank" class="timestamp">[12:42]</a> La única cosa que puede llegar a ser la cabeza, puede ser la cabeza, así que hay que tener cuidado con eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=773" target="_blank" class="timestamp">[12:53]</a> Si te empujas en la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=795" target="_blank" class="timestamp">[13:15]</a> ¿Cuánto? ¿Cuánto? ¿Cuánto? Sí, una única reunión. La última semana fue un test. Este show no es un show. José me dijo, un test más en tu gym, en tu casa. Y yo dije, Fran, necesito competir. Pero no es el punto perfecto para competir. La idea es mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=823" target="_blank" class="timestamp">[13:43]</a> Oh, so hold on, he didn't want you to compete in the UK?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=829" target="_blank" class="timestamp">[13:49]</a> Sí, necesito competir, porque todo este año estoy trabajando para competir. Fran, necesito competir, por favor. Necesito solo ir a los Estados Unidos. No sé los resultados, no sé mi nivel, pero necesito poner mi pie en el show.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=854" target="_blank" class="timestamp">[14:14]</a> Ok, so I'm going to say publicly. That's the one thing I did not agree with your coach. No. Because last time when you were here, and I look at you, you look phenomenal. And I told you to compete. No, we worked a year. I don't know if the decision, we followed the decision. Ok, so he's going to be listening to this conversation. And if he's here, I would tell him the same thing. You are young.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=884" target="_blank" class="timestamp">[14:44]</a> La felicidad que has ever sido en tu vida, creo, que te conocí, fue en la escena. Cuando te veo en la escena, ese fue tu momento en la felicidad. Así que vivas para estar en la escena, ok? Es tu vida. Y estás bien en la escena, y ahora la gente está buscando por ti. Así que es genial. Puedes elegir super hard contest.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=913" target="_blank" class="timestamp">[15:13]</a> 28 comparadores.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=915" target="_blank" class="timestamp">[15:15]</a> Esto es como en los años 90. Sí, pero yo quiero disfrutar de competir. Es bien, cinco Olympia, cinco supertops, ok. Yo quiero tomar mi foto en la pantalla con estos chicos. Para real, para real. Solo quiero tomar una foto en mi frente con los otros. Con Samson. Sí, sí, con Keon, con Martín. Sí, esa es la razón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=944" target="_blank" class="timestamp">[15:44]</a> En 1991, mi primer San José Pro Invitational, también era un pequeño niño de Yugoslavia. Y tengo la Pro Card, y voy a competir contra Albert Beckles, Ron Love, Sonny Schmidt, John Brown...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=966" target="_blank" class="timestamp">[16:06]</a> There was Tim Balknap. There was Franco Santuriello. There was like... So I'm going there. And that's exactly... I said, I want...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=975" target="_blank" class="timestamp">[16:15]</a> mi amigo, para tomar la foto cuando estoy en la pantalla con estos chicos. Así que puedo enviarlo a Serbia y Yugoslavia. Así que estaba pensando. Así que el show comenzó, ok. La primera vez en el pro. No sabía si se iba a llamar tu nombre. Pensaba que iba a llamar el número. Pero nadie me conocía mi nombre. Milo Sharchev, ¿verdad? Sí. Recuerdo que la primera llamada, la Cymetry Round.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1005" target="_blank" class="timestamp">[16:45]</a> 3 personas. Ellos llamaron mi nombre primero, pero no lo escuché. Sonia Schwitt, Ron Love. Ron Love 1 y Sonia Schwitt fue 2 en San José. Yo placed 3.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1021" target="_blank" class="timestamp">[17:01]</a> Qualificado para Olympia en mi primer show. Pero ellos me llamaron y me ponía para la foto. Mi amigo me dijo que estaba haciendo fotos. Ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya, ya,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1050" target="_blank" class="timestamp">[17:30]</a> probablemente este es el video más famoso en mi canal</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1079" target="_blank" class="timestamp">[17:59]</a> Todo el mundo en España sabe de este video. Eso es súper bueno, súper súper bueno. Pero para volver y decir, escucha, me gusta que vas con mucha presencia. Vas a disfrutarlo, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1099" target="_blank" class="timestamp">[18:19]</a> I talked to your favorite guy, Jay Cutler, right? Yeah. He always asked about you and how you look, and I said, look tremendous, because you have that impact, boom, like Jay. Axe, frame, legs are crazy, wide shoulders, right? And you have a small waist. Now you have so many tools. You're going to be called out. But here, please, please, please.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1128" target="_blank" class="timestamp">[18:48]</a> Watch your video. Watch your video and analyze. Ah-ha. After two seconds, you kind of move your quads and you lose that hip flexor line. Yeah. I know. Okay. But this is winning or losing.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1145" target="_blank" class="timestamp">[19:05]</a> Si dos chicos, tú y Michael Krezer, están ahí y abiertan más que él, ¿ok? Están más ampliando. ¿Qué significa? Bigger V-taper, mejor forma. Ese es inmediato. Y luego, los brazos son crazy.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1163" target="_blank" class="timestamp">[19:23]</a> No tengo razón para no darlo a ti. Ok, entonces vas a hacer el bicep en el lat spread. En el lat spread, vas a hacer lo mismo. Vas a abrir más de él. Front poses, sé que son muy difíciles. Porque en mi lato, mi brazo es más pequeño. Si abro mi pierna, es perfecto. Pero no siempre pose bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1193" target="_blank" class="timestamp">[19:53]</a> I want that people know, I'm recording a video yesterday and say that people think that I changed my training because last month I'm training more low but</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1209" target="_blank" class="timestamp">[20:09]</a> Yo soy así porque he entrenado por 10 años como un chico. Y cuando he entrenado con él la primera vez, he cambiado mi mente y mi nivel de superharto es otro nivel. Y creo que esto cambia todo. Y la gente no le gusta entrenar así. Y la gente dice que esto es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1230" target="_blank" class="timestamp">[20:30]</a> No, no, no, for real. Day-to-day training like this, I think is that change your body. When you are young, this is what I feel. Listen, I'm just going to tell you this.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1247" target="_blank" class="timestamp">[20:47]</a> No importa lo que otras personas dicen. ¡No! ¡No! ¡No! ¡No! ¡No! ¡No! ¡No! ¡No!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1277" target="_blank" class="timestamp">[21:17]</a> No. No. No. No. No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1306" target="_blank" class="timestamp">[21:46]</a> A veces empieza el entrenamiento y luego tiene un deslizamiento y continúa después. Es súper difícil, es súper difícil. Esto es imposible con tu estilo de entrenamiento. Sí, sí. Pero tienes que estimular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1329" target="_blank" class="timestamp">[22:09]</a> Le Haney dice, no lo annihile. Pero cuando eres joven y cuando eres seguro, te pones a la limitación. Tienes que sentirse la ruedera. Como lo que hicimos en el gimnasio para los quads. Cuando te sientes que te pierdas la pierna en tus quads y te pierdas como esta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1353" target="_blank" class="timestamp">[22:33]</a> Tu quads están creciendo. Y ahora, mira tus quads. Tienes uno de los mejores quads en la industria. Sí. No me acuerdo. Había hablado con otro hombre hace unos meses y decía que el primer día que entrenamos juntos, empecé con mi hoodie.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1375" target="_blank" class="timestamp">[22:55]</a> Y pensando, como, la extensión. Ok, con mis hoodies, como, chill, voy a warm-up. Y tengo 10 minutos en el mismo set. Y me, como, ¿qué? Y me, como, ¿qué? Y recuerdo que mi hoody, me dropó mi hoody cuando terminó esto. Y sé en este momento que el entrenamiento no es un entrenamiento normal. Sí, sí, sí, sí, sí, sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1405" target="_blank" class="timestamp">[23:25]</a> Pero yo creo que no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1406" target="_blank" class="timestamp">[23:26]</a> Es un momento muy feliz para mí, ¿sabes? Lo iba a poner en mi Instagram. No, sí, sí, sí, lo sé, lo sé. Pero este sentimiento es increíble, fuera de la temporada, no tan cerca de los shows ahora, pero eso es increíble. Quiero que te vayan a Europa. Este es mi casa, mi casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1437" target="_blank" class="timestamp">[23:57]</a> I know, you told me. When you were building, I think it's a paradise, right? Yeah, it's amazing. I could see you being secluded over there, and you could just eat, train, sleep, and you build that crazy physique. Now you have every requisite there. You have a potential to do this day in, day out, 24 hours, 25 hours, 8 days a week.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1466" target="_blank" class="timestamp">[24:26]</a> Esto es lo que tienes. Puedes hacerlo. Sí. Yo buscaba una sauna. Yo buscaba un hiperbatico para mi casa. Y este es un centro de entrenamiento. Sí, sí. Como Elia Topuria, ¿no? Elia Topuria es en Alicante. Tiene todo tipo de... Ahora muda a Madrid.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1496" target="_blank" class="timestamp">[24:56]</a> Sí, sí, sí. Recuerdo que vivía en Santa Pola, cerca de Alicante. Primero fui en Alicante y luego fui a Santa Pola. Pero no sabía de Iliá y soy un gran fan de Iliá y ahora que estoy aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1516" target="_blank" class="timestamp">[25:16]</a> ¿Sabes que yo aplico para una residencia española? Esto es para las personas españolas que están escuchando. Entonces, yo abrí una empresa con una compañera española. Vita Best, ¿verdad? Y yo aplico para una residencia. Yo compro, me pre-pago un apartamento por un año. Santa Paula, fue hermoso. Sí, por favor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1546" target="_blank" class="timestamp">[25:46]</a> los trabajadores españoles para nosotros. Estaba 1,000,000% seguro de que iba a recibir la residencia. Y luego fue deniado. No lo entiendo. Si tienes un cheque,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1563" target="_blank" class="timestamp">[26:03]</a> Cada box, ok, ok, es normal. Estaba haciendo esto, y estaba haciendo todos estos seminarios en Madrid, Barcelona, fui a Barcelona para un seminario, Alche, y todo el mundo. Y luego no obtenía residencia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1579" target="_blank" class="timestamp">[26:19]</a> Así que si lo hiciera, probablemente estaría ahí junto a ti, pero no estaría en América. Es como la vida se transforma. Tengo una compañía legítima, todo fue bueno, y no aprobó por algún motivo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1597" target="_blank" class="timestamp">[26:37]</a> No es fácil. Yo creo que a veces voy a pasar a Estados Unidos, por ejemplo, o a Vegas. En Nueva York, pero en Vegas es más fácil. O en Florida. En Florida es bueno. Sí. No voy a decirles lo que hacer, pero... ...hacer traí a un policía que es un computador clásico. Muy bien. Él trabaja en 15 metros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1625" target="_blank" class="timestamp">[27:05]</a> Logan Franklin. Pero no sé si has visto él. El físico es increíble. X-ray, small waist, todo eso. Y le dije a él y su esposa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1638" target="_blank" class="timestamp">[27:18]</a> Moving to the U.S., if you're a bodybuilder when you're young and in perspective, yeah, it's a huge thing. I mean, we all did. Remember Gunther Schirr coming back in the day, then Dennis Wolf and Nasser Asambari, you know, myself. It's a huge thing that if you're here, this is where everything is happening.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1658" target="_blank" class="timestamp">[27:38]</a> Puedes estar en frente de los ojos. Ahora es increíble porque si eres un Olympiano, eres allí. Todo el Olympia es allí. Puedes dormir en tu casa cuando competes en el Olympia. Ahí están los entrenadores, los gimnasios, el estilo. El estilo está allí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1683" target="_blank" class="timestamp">[28:03]</a> Pero sí, por ejemplo, tengo mi vida aquí y mi negocio aquí. Es difícil ahora. Quizás tres años o cuatro, pero ahora estoy súper bien aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1703" target="_blank" class="timestamp">[28:23]</a> I think you have a very good, you have something in bodybuilding that not too many people have. You have a strong Spanish following, you have a very good successful business, now you have a gym with sauna and happyberry chamber and I'm sure that you are developing everything and anything, you know.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1721" target="_blank" class="timestamp">[28:41]</a> ¿Cuál es tu plan en Parque? Tomorrow, voy a Parque.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1745" target="_blank" class="timestamp">[29:05]</a> Y quizás, enyer sabía que competí dos días, en sábado y en sábado. No sé esto, pero esto es importante. Esta es mi primera vez competiendo en dos días. Pero... Quiero la foto. Quiero la foto. Quiero disfrutar, no presión. Quiero disfrutar y no presión, porque sé que si estoy con esto,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1769" target="_blank" class="timestamp">[29:29]</a> I can be better because I enjoy, I pose better. I try to do different things. Last weekend, I pose my frontal biceps and pose my leg like this, like this, trying different things that never try. And this time I won't enjoy there because this is like an Olympia 2.0. And I won the...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1797" target="_blank" class="timestamp">[29:57]</a> ...try to post close to Samson... ...post close to Keon, Martin... ...Krizo... ...I want to be there... ...enjoy... ...enjoy the bodybuilding... ...enjoy the show... ...next week visit Praga there... ...and go to Poland to compete... ...you always say about... ...compete, compete, compete, compete... ...and I want competing...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1823" target="_blank" class="timestamp">[30:23]</a> todos los shows que puedo hacer en esta última parte del año. Esto es el Reino Unido, el Prado, el Polo, el Rúmena, el Japón. Quiero intentar... ¿Estás terminando con Alicante?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1839" target="_blank" class="timestamp">[30:39]</a> Sí, pero Alicante, el problema de esto es que Japón es tan cerca y Alicante ha hecho este show tres meses atrás y nunca he visto este show ahora, pero no en el pasado y buscó el viaje a Japón</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1863" target="_blank" class="timestamp">[31:03]</a> ¿Estás bien? Sí, no. Quiero vacíos en Japón. Quiero hacer una semana y una semana más para estar ahí en mis vacíos con Marta. Sí, sí, sí. Sí, sí. Bate estará feliz de escucharlo porque vas a ser grande.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1882" target="_blank" class="timestamp">[31:22]</a> Japón. Japón es increíble. Quiero las holidays ahí. Si intento hacer cinco shows y las holidays en Japón, eso es increíble.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1897" target="_blank" class="timestamp">[31:37]</a> Perfecto. Perfecto. Perfecto. Perfecto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1916" target="_blank" class="timestamp">[31:56]</a> Esto es muy bueno. No presencia, esto es muy bueno. Compete cada semana, perfecto. Cada show es una nueva experiencia. Cada show es una nueva experiencia. Y me gusta tu actitud de que voy a ir a disfrutar. Quiero, siempre te pido a disfrutar de la escena.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1936" target="_blank" class="timestamp">[32:16]</a> You have to rehearse, practice a thousand times the same moves. Same sequence. How you breathe, how you lift the arm, how you bring it down. How you flex the legs.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1948" target="_blank" class="timestamp">[32:28]</a> Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1978" target="_blank" class="timestamp">[32:58]</a> Sí, sí. Tú me enviaste esta semana y te enviaste un video. Y tú miras, porque me gusta lo que tú me pones. La buena cosa de esta semana es que voy a Europa y no vengo a mi casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=1999" target="_blank" class="timestamp">[33:19]</a> Y cuando estoy fuera, mi trabajo es con la computadora, pero mi trabajo es menos. Tengo menos reuniones, menos cosas en mi vida. Y tal vez estoy más calado fuera de mi casa, en una buena área, con el teléfono, caliendo. Sí, lo que tienes que hacer, por todas maneras, pero es prioridad. Entonces, si puedes...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2030" target="_blank" class="timestamp">[33:50]</a> shut off the phone</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2035" target="_blank" class="timestamp">[33:55]</a> Ya, ya, I returned to the States, I take my phone, I have a lot of messages, but I look, Milos, and I say, wow, Milos, hey, and you say, try to post like this, and yeah. Because, Ivan, I remember your last spread in front of me. Whoa, all the way, oh shit. So this time you go out and then you go back a little bit.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2065" target="_blank" class="timestamp">[34:25]</a> Así que, por favor, tienes que sentirme cómodo y tienes que gustar, por todos modos. Pero Michael Crizo no es un hombre blanco. ¿Recuerdas la pose de challenge en el día en el Mr. Olympia? Cuando los top 6, como Gustavo Badal, Ronnie, Jey y Marcos Suh y Dexter? Entonces, vas a challenge pose por pose.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2092" target="_blank" class="timestamp">[34:52]</a> Así que yo llegaba, digamos, con Joan, para ti, ¿verdad? Y yo decía, quiero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2100" target="_blank" class="timestamp">[35:00]</a> Con ti, no voy a hacer la pose de abs y los pies, porque tienes una locura de abs, ¿verdad? Tal vez voy a hacer la pose de la pose de la pose, porque voy a intentar pensar que la pose de mí es muy fuerte y la tuya no es tu mejor. Y luego, en esta pose, voy a desafiar y voy a llegar cerca a ti, voy a ir, voy a ir, voy a ir, voy a ir, voy a ir, voy a ir, voy a ir, voy a ir, voy a ir, voy a ir, voy a ir, voy a ir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2124" target="_blank" class="timestamp">[35:24]</a> Sí, sí, lo sé, esto es súper importante. Cuando yo le digo en frente, le digo, ha, ha, ha, un poco más adelante y ¡pum! ¡Pum! Sé que estoy haciendo cada pose. Así que te digo esto y te menciono.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2150" target="_blank" class="timestamp">[35:50]</a> Michael Crazo tiene el maldito, el maldito. Y yo velo, uno, dos, dos, dos segundos. Y luego, uno, dos, dos segundos. La pose es que él está ganando. Él está ganando todos del mundo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2169" target="_blank" class="timestamp">[36:09]</a> Él debería de mantener esa pose por 10 segundos. Porque todos van a ir así. Y él no lo hace. Para ti es perfecto. Primero vas a la pose y te holde hasta que todos terminan. Y te holde más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2185" target="_blank" class="timestamp">[36:25]</a> Y controla tu estómago. La semana pasada en el show, yo controla mi digestión, mi estómago perfectamente. Nunca así. Y yo digo, ok, puedo hacer más tiempo en mi vacío. Puedo hacer más tiempo en mi abs. Eso es perfecto. Eso es increíble porque cuando todo el mundo está... Yo digo, ok, estoy aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2211" target="_blank" class="timestamp">[36:51]</a> Sí, es súper bien. Para mí, nunca me gustó esto. Pero esta vez, estoy muy tranquilo. Me gusta todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2224" target="_blank" class="timestamp">[37:04]</a> el front double, el front lateral spread, la forma que le turno hacia el lado, muy bien, la forma que le turno hacia el lado, muy bien. La única cosa es que después de la bicep, que es una cosa increíble para vosotros, cuando hiciste la lateral spread, te recuerdo muy bien que los lats se quedan más grande. Y esta vez no. Y fue importante porque número uno y número dos, no son blancos. Así que yo pensé que esto sería... Y el juez ha dicho exactamente lo mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2254" target="_blank" class="timestamp">[37:34]</a> Eso es súper bonito, Milos. Gracias por esto. Gracias por esto, y estoy muy cerca de mi show, y quizás estoy más feliz de hablar con ustedes ahora, porque estoy emocionado para mí, mañana voy a ir en el show mode. Es muy bonito de hablar con ustedes ahora. Muy bien. Una cosa más, creo que voy a textos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2280" target="_blank" class="timestamp">[38:00]</a> fue impresionante para mí que tenía un poco más de agua. Un poco más de agua. Entonces, si estás en la escala y miras a Marta, por ejemplo, o tu coach.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2293" target="_blank" class="timestamp">[38:13]</a> Tienes que tener una copa. Si tienes demasiado, debería señalar que se lo hagan. Porque si es algo que se puede ver. Y luego, si necesitas ir a un expediente para pularle a ti, seguro. No sé si se va a estar llorando en el exterior. Quizás todo el mundo está llorando, Dios sabe.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2321" target="_blank" class="timestamp">[38:41]</a> Recuerdo que en algunos de los shows en Brasil, todo el mundo estaba deslizando todo el lugar. No nadie le hizo nada. No me importa dos segundos para limpiarlo. Sí, eso es muy importante, porque no es hermoso en los imates. No es bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2339" target="_blank" class="timestamp">[38:59]</a> Pero lo más importante es que, mira, quiero que te vayas a saber, Betty y yo somos grandes apoyantes. No podemos esperar a verte. Espero que tengas un suceso, no solo en Praga, sino también el primer polvo pro ever, y luego en Romania, y especialmente el rey del Japón. Entonces, escucha, escucha, tengo ya una sensación... El rey del Nigiris, Milos. ¿Qué? El rey del Nigiris.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2369" target="_blank" class="timestamp">[39:29]</a> Sí, sí, sí. Sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2385" target="_blank" class="timestamp">[39:45]</a> Sí, tenemos esos jóvenes chicos que están muy exitosos, Gene y Edwin. Voy a estar en contacto porque eres de la misma edad y estás todos en negocios y lo que los jóvenes hacen. Voy a asegurarme de hacerlo. En Japón. En Japón. Gracias. Los ASEANes son increíbles. Los ASEANes para mí son los mejores.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2414" target="_blank" class="timestamp">[40:14]</a> Pero te voy a introducir a la gente que sé que serán amigos de la vida. Gracias, Milos, por estar aquí conmigo, por real. Y por favor, texte a mí esta semana. Por supuesto, estaré viendo. Sí. Así que, Steve Weinberger está ahí, por supuesto. Muy importante para ti y para todos los que están escuchando. Solo tienes...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2444" target="_blank" class="timestamp">[40:44]</a> Una vez para hacer la primera impresión. Poner tu pie en la escena, la primera vez que estás visto por los jueces, ese es el mayor impacto que vas a hacer. No te relajes, no te miras, no te escuchas. No, no, no. La segunda vez que pones tu pie en la escena, perfecto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2466" target="_blank" class="timestamp">[41:06]</a> Hace contacto con el juez. Vete a ver exactamente dónde está el juez. Vete a ver si está mirando por este ángulo o por este ángulo. Como en el Reino Unido, se veía así. Todos están muy cerca, ¿verdad? Así que tienen que ir a los ángulos que están mirando a ti. Así que si haces esto, no es bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2487" target="_blank" class="timestamp">[41:27]</a> Y si es ahí, no puedes hacerlo así, porque están mirando en ti. Pero con la primera impresión, porque Steve Ambecker está mirando como un terminador. ¡Target! ¡Number 1! ¡Number 5! ¡Number 7! ¡Number 10! Así que tienes que tener el primer call-out, el primer call-out, y tienes que impresionar el primer call-out.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2511" target="_blank" class="timestamp">[41:51]</a> Así que todo tiene que ser perfecto. No incluso respiras, ¿verdad? En ese sentido, respiras desde atrás, los brazos perfectos, los brazos superados, los brazos separados. Entonces, Juan, vas a estar en el negocio. Vas a estar grande. Gracias, Miros. ¿De verdad? ¿De verdad? ¿Por qué me dijo esto que esto es demasiado importante?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2538" target="_blank" class="timestamp">[42:18]</a> Estoy muy emocionado porque puedo visualizar lo que vas a hacer. Y, por cierto, hoy, cuando vas a pose para tu coach, send me tu bicep del bicep y lats spread. Solo quiero ver. Sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2569" target="_blank" class="timestamp">[42:49]</a> Voy a tomar un dedo aquí, en ambos lados. Puedes empujar tu músculo en el dedo. Puedes, cada millimetre, ir, ir, ir, ir, ir, y casi cramp. Así que cuando haces el último dedo, tienes que sentir que es todo el camino. Ok. Es casi crampo. Es fácil de crampar tu músculo, ¿no? Ahora intenta crampar tu músculo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2599" target="_blank" class="timestamp">[43:19]</a> La parte parte del lat es parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte de la parte</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2626" target="_blank" class="timestamp">[43:46]</a> WICT y VTAPER, ¿no? Eso es importante. Cuando leanes de vuelta, ¿no? Entonces los latos bajan, para que tengas una ligera, ¿no? Y si solo quieres mostrar ambos, muestras la ligera y luego spread. Como si haces el vacío y el abismo. El vacío y el abismo es lo mismo, abiertos y luego trajes de vuelta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2651" target="_blank" class="timestamp">[44:11]</a> Show the both sides. But you show the judges for good three, four seconds, your maximal width. Now they know, oh fuck, your arm is so wide. Okay? You gotta show them. It's not what you have, it's what you show. I told you this many times. If you have but you don't show, too bad. Yeah. So see, you gotta like it. Listen, when you do it and...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2680" target="_blank" class="timestamp">[44:40]</a> Si el entrenador está mirando y Marta está mirando y decides no, no, no, no, esto no es bueno, esto es mucho mejor, ok? Entonces haces esto. Pero si todos los tres de ellos se ve... ¡Holy! Me gané dos inches en esta pose, es muy, muy importante. Así que tengo que traerlo en mi esposo. Sí, tienes que. Probablemente te envío check-ins.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2705" target="_blank" class="timestamp">[45:05]</a> Probablemente enviaré cosas a ti en el hotel. Sí, sí. Juan, sabes que primero te amo, pero también sabes que soy un bodybuilder pasionado. Y si veo algo, me gusta hacer una diferencia. Digo mi opinión, a veces es perfecto, a veces no te gusta, pero al menos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2730" target="_blank" class="timestamp">[45:30]</a> Me siento bien porque te dije mi opinión. Y luego puedes hacer lo que quieras. Sé, sé. Muchas veces te digo, por ejemplo, por break rules, te daría una idea y creo que va a parecer bien, pero luego no es confortable y no se ve bien. Y le digo, no lo hagas. Pero al menos intentes. ¿Recuerdas cuando estabas aquí en el gimnasio de torturía y te estaba diciendo cuando regresas a España?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2760" target="_blank" class="timestamp">[46:00]</a> Always do the same front over biceps and the same side chest and same, same, same, same, right? And I tell you, be open-minded, change a little bit, just a little bit angles, stance, the level, you know, breathing.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2775" target="_blank" class="timestamp">[46:15]</a> intenta hacer algo nuevo y ver que no te sientes confortable, pero te parece mucho mejor. Así que intenta mejorar cada pose, nunca se sabe. Pero si siempre haces 2000 veces el mismo sede, es mejor que cambien y intentes. Esto es real, esto es real. Tienes que probar 10 diferentes poses en el mismo pose.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2801" target="_blank" class="timestamp">[46:41]</a> Sí, exactamente. Y luego seque con lo que se siente confortable y lo que se ve bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2808" target="_blank" class="timestamp">[46:48]</a> Bien, escucha, tengo que ir a mi... ...medical center. Pero, por curiosidad, hoy es Wednesday, ¿estás entrenando hoy? Sí, en la vuelta. Sí, en la vuelta. Y luego... ...tomorrow, los brazos. Y el viernes, solo el pumping. Y competiré en el sábado. Y ahora, ¿estás bajo carbohidratos?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2837" target="_blank" class="timestamp">[47:17]</a> Low carbs now and start to up tomorrow. Tomorrow hard, I won't. But if my stomach is good, all is perfect. I need my stomach is good. I only need this. Yeah, because in China you had a stomach issue. Oh my God. Stomach, all, all, complete.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2865" target="_blank" class="timestamp">[47:45]</a> No, I was so, so sad. And listen, don't cry about what happened. It's all meant to be. It's all meant to be. Okay. Behind you. Now go and conquer the pride.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2880" target="_blank" class="timestamp">[48:00]</a> Puedes comprar nuevos fans, te vas a comprar. Muy bien, muy bien. Prega es increíble. No sabía que Prega era así. Una de mis mejores ciudades del mundo, por supuesto. Sí, nunca he ido. Pero no te decías mucho porque vas a ir a Polonia, ¿verdad?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2908" target="_blank" class="timestamp">[48:28]</a> No, no, no, no, no. La próxima semana estoy en Prague, quedo tranquilo en Prague y viajo solo una hora en Polonia. Prefiero estar en Prague. Eso es perfecto. Sí, lo sé, lo sé. Sí, prefiero estar en Prague. Ok, Juan, mi amor a Marta y a tu entrenador.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2931" target="_blank" class="timestamp">[48:51]</a> Y te digo el coach que todavía estoy viendo su dieta. Yo le dije que tiene que perder peso. Tengan un buen día y tengan una buena temporada médica. ¡Adiós! ¡Adiós! ¡Adiós! Charla con mi padre acabada chicos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2955" target="_blank" class="timestamp">[49:15]</a> Amo a este hombre. O sea, os lo prometo. Es que lo amo. O sea, es que me encanta, tíos. O sea, es que es... Hablar con él es para mí hablar con un padre. O sea, es increíble. Es que es lo que he dicho en la charla. Para mí esto no es... Fran es mi preparador. Y él no se mete aquí. Él es como mi padre en el culturismo. O sea, os lo juro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2974" target="_blank" class="timestamp">[49:34]</a> Siento que me tiene un especial cariño, que yo le tengo un especial cariño y que es increíble, que es increíble. La verdad, iba con la camiseta de PBS, de No Body Care, de manga larga, que le hice a Drede porque me pidió una de manga larga. Os juro que la relación que tengo con él es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=DyLc6tFEtTE&t=2988" target="_blank" class="timestamp">[49:48]</a> Increíble. Le he hecho un shaker personalizado, que eso él no lo sabe. Llegará la semana que viene. Pero... Eso, tío. Es que le tengo... Y Marta también le quiere un montón. Es increíble, tío. Así que, chicos. Espero que os haya gustado. Recuerda siempre. Código Iván PBS. 10% de descuento. Lo tenéis todo. Un besito muy grande. Y suscribiros. Let's go Prague.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 24/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
