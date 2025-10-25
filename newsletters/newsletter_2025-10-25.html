@@ -1,0 +1,425 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 25/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">25/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-kxo_7KYBB0E'>*MEETING PRO* | en DUEDA con el CULTURISMO</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-kxo_7KYBB0E">
+            <h2>*MEETING PRO* | en DUEDA con el CULTURISMO</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 25/10/2025 05:53</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=kxo_7KYBB0E" target="_blank">
+                    <img src="https://i.ytimg.com/vi/kxo_7KYBB0E/hqdefault.jpg" alt="*MEETING PRO* | en DUEDA con el CULTURISMO" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta la intensa preparación de un culturista (Joan) para la competición Evels Prague, mostrando su estricta dieta, las sesiones de poses y el seguimiento constante con su entrenador, Fran. Relata los desafíos del viaje, como problemas de conexión móvil, y la emoción de participar en un evento tan significativo junto a ídolos del deporte. Finalmente, el protagonista reflexiona sobre la culminación de años de esfuerzo y las expectativas para el día de la competición.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Preparación Matutina y Primeras Poses <a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&amp;t=37" target="_blank">[00:37]</a></h3>
+
+<p>El protagonista comienza el día preparando sus comidas y practicando poses para afinar su físico antes del meeting. Envía videos a su entrenador, Fran, buscando feedback sobre su redondez y condición para los jueces.</p>
+
+<h3>Ajustes del Coach y Pumping Final <a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&amp;t=307" target="_blank">[05:07]</a></h3>
+
+<p>Recibe una llamada de Fran con valoraciones positivas, pero con la sugerencia de "darle una vuelta de tuerca más" a su definición. Decide ir al gimnasio para un "pumping" final y una revisión con la iluminación adecuada.</p>
+
+<h3>Retos de Viaje y Conexión en Europa <a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&amp;t=762" target="_blank">[12:42]</a></h3>
+
+<p>Tras un debate sobre la dieta post-competición, Joan enfrenta problemas con la conexión móvil de su nuevo iPhone en Europa debido a un error de transferencia de línea. Utiliza la aplicación Shiley para obtener datos y resolver el inconveniente, destacando su utilidad para futuros viajes.</p>
+
+<h3>Rumbo al Meeting de Evels Prague <a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&amp;t=951" target="_blank">[15:51]</a></h3>
+
+<p>Después de una ducha tardía y una preparación mental, Joan y su equipo se dirigen al meeting oficial de Evels Prague. Se presentan los jueces, embajadores y leyendas del culturismo, marcando el inicio formal del evento.</p>
+
+<h3>Encuentro Emotivo con Leyendas <a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&amp;t=1337" target="_blank">[22:17]</a></h3>
+
+<p>Joan interactúa con otros competidores y figuras del culturismo, destacando un encuentro muy emotivo con Samson. Rememoran entrenamientos pasados y la evolución de su carrera, además de discutir detalles logísticos como las entradas para los coaches.</p>
+
+<h3>Últimos Ajustes y Reflexión Personal <a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&amp;t=1635" target="_blank">[27:15]</a></h3>
+
+<p>A pesar de un pequeño retraso para llegar a la expo, Joan recibe las últimas indicaciones de su coach sobre la comida y el descanso. Reflexiona sobre el largo camino recorrido, la emoción de estar en un evento soñado y la importancia de la mentalidad antes de la competición.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=0" target="_blank" class="timestamp">[00:00]</a> Congratulations man! Thank you, fuck yeah! You finally showed up! And back to your fucking ass. Yeah, amazing, yeah. A little strong dog on the bicep. We gotta get that on the pose now.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=30" target="_blank" class="timestamp">[00:30]</a> ¡Hola chicos! Estamos en un nuevo vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=37" target="_blank" class="timestamp">[00:37]</a> Tengo por aquí mis comidas de estos días. Pollo, ternera, un arrocito que está justamente donde lo hice yo. Son de fiber. Me los voy a separar en tuppers ya, si yo tengo para todo el día para ir marchando. Así que básicamente es eso. Hoy tenemos el meeting. Estoy un poco nervioso. Me he despertado así un poco hostal. Me he ido a hacer un cardio tal no sé qué. He comido y me he vuelto a dormir. Y ahora sí estoy esprendido. Así que voy a preparar las comidas del día. Bueno, las tengo preparadas. Simplemente las voy a distribuir en tuppers. Empieza la marcha, chicos. Empieza la marcha.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=65" target="_blank" class="timestamp">[01:05]</a> Un saño. Now we're talking. We're talking. Now we're talking. Me voy a dejar pegado, hermano. Pinch el pecho. Eso es. ¿Cuál es? El físico más bonito, tío. Aprieta el pecho un poco más. Calambre. Eso. Acuérdate. Arriba el pecho. Eso es.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=96" target="_blank" class="timestamp">[01:36]</a> muy bien siéntate un poquito más brutal así todo el rato brutal</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=122" target="_blank" class="timestamp">[02:02]</a> Pierna derecha más sentadito. ¡Ahí! ¡Pua! ¡Criminal! ¡Criminal! ¿Qué joder está abajo? Que salga quien quiera. Evidentemente Joan tiene sus bazas, pero él sale bonito, redondo y bien condicionado. ¡Está redondo! O sea, que él va con su tarea hecha.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=144" target="_blank" class="timestamp">[02:24]</a> Sí, sí, muy bien. A ver, que no se caiga el peso, ¿eh? ¿Cuánto has pesado? 115, ¿no? 115,4. Claro, no lo he dicho esta noche. Me acosté en 118 y pico. Pero está siendo algo... Escucha, la anchura clavicular, ¿cómo vas? Está siendo algo normal en Joan, que pierda tanto peso, ¿eh? Por las noches. Siempre es del día uno al día dos. Sí. O sea, realmente está controlado porque ya le ha pasado más veces. Me quiero apretar un poco más, sinceramente. Sí, pero vas a apretarte. Mira, yo me voy a ir al del lado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=175" target="_blank" class="timestamp">[02:55]</a> ¿Sabes? O sea, eso está... Tengo que posar rotado siempre así. Un poquillo. Un poquillo rotado así. Porque se te ve... Si el hombre está ahí, yo hacerle pasito a los demás. ¡Pum! ¡Pum! Ah, es muy complicado realmente que esté siempre en el centro. No lo exageres mucho. O sea, tú hoy no vas a estar en el centro. Bueno, a no ser que te hagan... Claro. Bueno, segura te hagan... Segura te hagan el centro por más, pero que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=200" target="_blank" class="timestamp">[03:20]</a> Según… Va a ser muy complicado que yo esté en el puto centro de los jueces ahí. Lo más normal es que por nombre o por lo que sea esté un poco a un lado. La otra vez. Te benefició mucho que estuvieras un poco a un lado porque se te veía un poquito girado y se te veía muy bien. Si yo me quiera echar la foto con Sansón… Bro. Brutal. ¿Te ha gustado? Sí. Además está morenito. Un poquito todavía el tinter a través y se te ve bien. Morenito. Arroncha. Arroncha. Ya arroncho, pero eso es porque no te he duchado bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=231" target="_blank" class="timestamp">[03:51]</a> Lo que me gusta es que no pierde redondez. Esa es la que tenemos que conseguir. Si pierdo la redondeza ahí, me la muevo a la mierda. Yo creo que la baza sin duda es esa. Es salir redondo y bonito. Le voy a enviar el este. Si podemos enviarlo, ¿me podéis ayudar a...? ¿Un audio? ¿Un audio a Fran? Aquí tengo el Team Support.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=252" target="_blank" class="timestamp">[04:12]</a> Es que Fran no lo sabe, pero somos quads support de Fran Spin. Para ver Fran, te paso el vídeo. Se me ve bastante bien con luz natural hoy y se nota además que he tirado mucho esta noche. Bueno, mucho. He tirado un traje, no sé, pico. Ahora los he rotado un pelín, pero es que las piernas se ven...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=270" target="_blank" class="timestamp">[04:30]</a> Ahora le mandamos un vídeo sin posar para que lo veas. Sí, ahora le mando un vídeo sin posar para que lo veas. Me gustaría seguir sacándome de este estilo, porque la verdad que no pierdo la línea y se ve fino, fino, fino. Entonces si podemos seguir apretando este rollo sin perder el bombeo, se va a ver maravilloso. Algún calambre que otro, voy a controlarlo y luego mucho la tarima posando. Apretar un 70%, no venir más arriba. Y taurina a muerte con pala.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=295" target="_blank" class="timestamp">[04:55]</a> ¿Qué tal Frank? ¿Cómo estás?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=307" target="_blank" class="timestamp">[05:07]</a> Uff, ya tengo esa cara que me gusta ya. Ya se ve mejor. Cuando tengo esa cara ya me gusta el rollo. Muy buen cambio. La luz ha ayudado a que se te haga mucho mejor y la verdad que se te ve mucho más metido. Mucho más metido, mucho más apretado. La verdad que bastante mejor de lo que pensaba. A ver, al final ibas con un kilo y poco más que la semana pasada a estas alturas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=331" target="_blank" class="timestamp">[05:31]</a> más o menos, sí que lo que estaba diciéndome en el vídeo, una vuelta más de rosca, es lo que me gustaría mirar. A mí también. No salí con un aspecto. No salí con un aspecto que ya no tienes el mismo, porque se te ve en este punto zonas mejor, digamos, más apretadas o más marcadas que la semana pasada. Pero sí que me gustaría darte una vuelta de tuerca más. Yo hoy me he encontrado bien esta noche, la verdad he dormido, que es lo que más me preocupaba.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=357" target="_blank" class="timestamp">[05:57]</a> De hecho, luego me he ido a hacer el... Digo que me has enviado el peso más tarde del normal y vos, que hombre, igual has dormido. Pero no te he dicho nada porque igual está él concentrado ahí en su cosa y se ha dormido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=370" target="_blank" class="timestamp">[06:10]</a> Sí. No, no, o sea, mira, me he pesado. Creo que te lo he mandado ya más tarde normal. Me he ido a hacer el cardio, he hecho una comida y me he vuelto a dormir. Ya me he despertado siendo otra persona. O sea, si eso lo consigo mañana de puta madre. Entonces, lo que voy a hacer, si te parece, a ver, si te parece, como te acaba de pasar eso, me voy a ir ahora al gimnasio. Yo prefiero casi... Me voy a ir ahora al gimnasio. Yo prefiero mandarte otra revisión aquí que se ve de puta madre antes de que algochezca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=402" target="_blank" class="timestamp">[06:42]</a> En el gimnasio, sí, tranquilo. No, es que aparte he estado preguntando ahora, no me ha hecho muchas gracias al gimnasio. Pues no de nada. No, no, prefiero esta iluminación. Vale, pues te la voy a enviar, voy a mirar a qué horas hace 8 porque quizá te la paso a las 4 y media como tarde. No, no, ahora está bien. O sea, ya me has pedido esta revisión, que ha sido 90 minutos después de la segunda comida. Sí, sí, sí, voy un poco lento de comidas hoy, pero sí. ¿Vas a hacer otra comida más? Voy a irme a hacer el pumping al gimnasio y hacer otra comida. ¿Y terminas?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=432" target="_blank" class="timestamp">[07:12]</a> Sí. Vale, así mejor. Y 90 minutos después te lo paso si quieres otra vez el check. No, no hace falta. Con esta me vale. Vale. Con esta me vale. ¿Y esa chaqueta, Joan? Una chaqueta nueva que me he pillado, tío. Aún con la etiqueta. La regaló Marta, tío, en Nueva York, en 2022.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=449" target="_blank" class="timestamp">[07:29]</a> Madre mía, ese viaje fue épico. Perdón, pero que la he usado un montón. O sea, no es que no la haya usado. Es que lleva la etiqueta ahí, pero que la he usado un montón. Y en otra pensajita. ¿No? Y esta burra que me compré. Fuera me ha mandado. Nos vamos al gym. La verdad que esto es raro porque nunca lo hemos hecho realmente hacer el pumping el día antes. Pero vamos a hacer el pumping. Pumping iron, ¿eh? 20 minutes. Todo el día claro, ¿no? Sí. Me parece que todo el día nos ha puesto el modo entrenado. Y ha dicho... Frank, ¿qué hay que hacer? ¿No? Sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=479" target="_blank" class="timestamp">[07:59]</a> Tenemos un laminete, un beito. Tenemos que comprar... A ver... ¿Power 8? ¿Espuma para afeitar? Espuma para afeitar. Y papel de cocina que no hay. Vale. Y del resto que yo te dije, el piracito. Menos el afeitar el spray. No, está perfecto. Pues vámonos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=512" target="_blank" class="timestamp">[08:32]</a> 1, 2, 3, 4, 5, 6 multipower. Ojo, eh. Nada mal. ¿No? Muy bien. Chulo, eh. Muy chulo, la verdad, es que sí. Esta la gama hace mucha imaginación. Esto está a 6 minutos de casa. Bres, eh… Es todo Hammer, ¿no? Y Boaty Builder, eh. Marta, es todo Boaty Builder. No, no, brutal es mismo, la verdad, está chulísimo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=568" target="_blank" class="timestamp">[09:28]</a> ¡Vamos! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=596" target="_blank" class="timestamp">[09:56]</a> Eso es. Eso es. Brutal. Brutal la espalda, tío. Preta, preta. Preta dorsales. Va, va, va.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=629" target="_blank" class="timestamp">[10:29]</a> Corta ahí. ¿Pierna, Joan? Ocho, trilo. Ya tílalo. Muy bien. Animal, ¿eh? Animal, animal. Tienen cortes muy profundos que al principio no sabíamos si estos cortes se los iban a ver en tarima. Cuando lo vimos con la otra gente dijimos… Hostias, que están profundos. ¡Buah!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=658" target="_blank" class="timestamp">[10:58]</a> Pero tuya Toddy probó por primera vez. Deja que andaste y salte el caramel. Y di lo que dijiste, di lo que dijiste. Mejor que el McFlurry. Conoces mucho a una persona según su McFlurry. Exacto. El de pistacho no es el mejor. No. ¿Cuál es el mejor? Bueno, yo chocolate blanco. Pero el chocolate blanco es casi el mejor. Es el que no falla. O sea, me refiero a Aina y Falle, no juegas. Chipsajo y chocolate blanco. Nah.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=685" target="_blank" class="timestamp">[11:25]</a> Lo diré en los comentarios. Pero fuera Abraham, dejad bien de hacer caramel. No es muy normal verlo, pero si lo veis, vais a probar lo mejor que hayáis probado en vuestra vida. A continuación de esto, es adelantarme mucho los acontecimientos que me ha dicho hoy Frank. ¿Está bien? ¿Te acuerdas? Ha estado duro lo que me ha dicho. Hablamos la llamada y me ha dicho, hostia, pues si competimos domingo y luego quieres volver a competir sábado y tu tendencia es a rebotar mucho. La comida libre que hagas, hermano, contrórate los hidratos a muerte, así como...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=712" target="_blank" class="timestamp">[11:52]</a> No he comido libre. Controlando, no es… Bueno, la otra vez lo hiciste bastante bien, pero ya es como… Pero tenías varias cosas, ¿sabes? Para probar… No, esto ya es elegir en concreto hacerse una carne, básicamente, o unas hamburguesas o algo así. Ya no tengo que comerse un helado después o tal. Pero bueno, sinceramente, a ver cómo sale esta competi, vamos viendo, pero prefiero… O sea, la de Polonia es una competi que me hace ilusión hacer. Así que me quedaré mirando los helados estos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=737" target="_blank" class="timestamp">[12:17]</a> Hemos llegado a casa, no enamorado, nos hemos dado un masaje. Toni y yo nos hemos dado un masaje. Estos yo creo... ¿Tú has dormido? Marta has dormido? No, no he podido dormir. Se lo dormí bien, eh. He luchado ya y todo. Yo me he venido corriendo, la verdad. A ver, a ver, a ver. Me encantan esas camisetas. ¿Sabes que se ha botado ya? Sí, se ha botado. Se ha botado en todas estas. Es que está espectacular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=762" target="_blank" class="timestamp">[12:42]</a> Bueno, el caso. Hemos vuelto corriendo Tony y yo porque Fran me ha pedido por favor que volviera a posar en esta luz y aquí se hace súper pronto de noche, ¿vale? ¿Y luego qué estoy haciendo ahora? Manin, he tenido problemas. Aparte que ya venía preparado, ¿vale? ¡Ay! Menos mal que venía preparado con Shaili.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=778" target="_blank" class="timestamp">[12:58]</a> para el tema de la conexión móvil, ¿vale? Porque estamos en Europa, muchas veces tenemos conexión móvil con muchas compañías, ¿vale? Esto es importante. Y yo suelo tener, pero ¿qué ha pasado? Este es el iPhone nuevo, me lo completo ya para las competiciones. Está encendido, pero no va, ¿vale? Por así decirlo, o sea, no está con mi cuenta. Y este es mi móvil viejo. ¿Qué pasa? Intendré transferir de uno a otro. Mi línea se ha quedado en este móvil, pero no tengo nada de lo mío. Y me he quedado en este móvil con todo lo mío con Wi-Fi, pero sin línea. Entonces, con Shiley me estoy poniendo aquí toda la configuración, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=807" target="_blank" class="timestamp">[13:27]</a> de internet para tener línea aquí. Porque si no, no tengo. Y es una locura. O sea, parece una locura. De hecho, este móvil básicamente se lo va a quedar Eric para grabar las competiciones porque es un iPhone 17 Pro Max. En las competiciones no te dejan grabar con cámara y esto tiene un zoom que flipas. Así que tengo Shilin en este móvil y me ha salvado la vida. Y voy a tener para el resto de viajes de Europa porque funciona muy mal el internet. La línea de conexión en general funciona mal. Entonces, con esto pues lo tengo salvado, la verdad. Así que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=835" target="_blank" class="timestamp">[13:55]</a> Me voy a sentar aquí para explicarte todo el procedimiento de cómo se hace. Cogemos el móvil. Abrimos la aplicación de Seil. Hacemos clic en Ver Planes. Escoge el país en el que estás. Yo, por ejemplo, voy a poner Japón. Una vez estás en Japón, escoges el plan de datos que quieras. Por ejemplo, 3 GB. Continuar. Aquí es muy importante. Pulsa donde te preguntan si tienes un cupón. Y aquí pones mi cupón, Joan Pradesh. Y ya te sale el descuento añadido directamente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=861" target="_blank" class="timestamp">[14:21]</a> Es así de sencillo. Yo de todos modos te recomiendo que este tipo de cosas las hagas antes de salir de tu país. Porque así cuando llegues en el avión ya simplemente tienes datos. Puedes utilizarlo, puedes pedir el Uber, puedes hacer lo que te dé la gana. Ahora estamos aquí un poco de relax. Marta está reventada del estómago. Tony, ¿cómo estás? Yo estoy lechuga como fresco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=885" target="_blank" class="timestamp">[14:45]</a> Vamos con la llama sudadera. Nos hemos traído poca ropa. No será la última vez que estamos con la llama sudadera. Yo tengo dos. Ah, yo sí que me he traído cuatro. Pero es que me he traído algunas muy finas y tal que hacía de un frío. O sea, esto es mucho más frío que Andorra, por así decirlo. Aquí siempre llevas en ser Navidad. En los comentarios de dónde es esa canción. Bueno, chicos, yo creo que me voy a duchar, que ya me toca después de 48 horas. Y nos vamos para el meeting.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=918" target="_blank" class="timestamp">[15:18]</a> Pues claro, me duché en Andorra antes de ayer. ¡Hostia! ¿No hace 24 horas? No más, no. 24 horas se llaman mañana por una mañana. Ha sido un fallo, ha sido un fallo. Que me he liado. El lag, los aviones, pim pam, el no entrenar. He hecho 48.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=951" target="_blank" class="timestamp">[15:51]</a> o lo que sea. Nos vamos para el meeting. Yo ya no me la juego. Nos vamos al meeting. Ahora sí, empezamos. Madre mía, que empiece el día de culturismo cuando vamos a entrenar y todo. Cuidado eh, no me mueres. Tampoco me... Espíritu Santo. Me toca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=981" target="_blank" class="timestamp">[16:21]</a> Fuera lo malo, dentro lo bueno. Fuera lo malo, dentro lo bueno. Manifesta cosas buenas. Perfecto. ¿Estamos ready? Estamos ready. ¡Vamos! ¡Vámonos! Es una locura, la verdad. Una puta locura. ¡Muy bien! ¡Muy bien! ¡Prevíverse!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1013" target="_blank" class="timestamp">[16:53]</a> Pues ya estamos. Vamos a sentarnos todos juntos, ¿no? Tienes que ponerte delante, yo creo. ¿Sí? Me he ido a la derecha. ¡Ja, ja, ja!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1038" target="_blank" class="timestamp">[17:18]</a> ¿Cómo estás? ¿Cómo estás? Muy, muy bien. Muy, muy feliz de verte. Sí, también me he visto. Hablamos mucho tiempo. Creo que la última vez fue tres años. Gracias. Bienvenido. Bienvenido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1072" target="_blank" class="timestamp">[17:52]</a> I am very sorry for it. Welcome to the today event of Evels Prague. Everybody, welcome to Evels. You are here for the first time. On my right hand side is sitting.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1098" target="_blank" class="timestamp">[18:18]</a> y el embasador de Evels, Prague 2025. Bienvenidos a George Faroch. Y en mi lado de la sede, es nuestro judge Padelán. Estamos muy felices de la invitación de la Living Legend,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1132" target="_blank" class="timestamp">[18:52]</a> ¡Gracias!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1169" target="_blank" class="timestamp">[19:29]</a> Gracias. Gracias. Gracias. Gracias. Gracias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1199" target="_blank" class="timestamp">[19:59]</a> ¡Gracias! ¡Gracias! ¡Gracias!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1228" target="_blank" class="timestamp">[20:28]</a> Número 22.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1244" target="_blank" class="timestamp">[20:44]</a> Los dos. ¿Sabes que el otro era uno ocho, que es nueve, fin de ciclo? Ya nos vale todo, chavales. Cabrón, dos patitos. Dos patitos es buena. Es muy buena. ¿Cómo lo buscamos? A ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1262" target="_blank" class="timestamp">[21:02]</a> Este plan es 22</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1283" target="_blank" class="timestamp">[21:23]</a> Ok, 22. Y una pregunta. ¿Es para mí? Sí. ¿Y para mi teléfono? Ah, tienes que comprarlo en el lado. Hay una mesa... No recuerdo cómo comprarlo cuando me registro y necesito... Sí, sí, por supuesto. Estamos preparados para ello. ¿Vamos a comprar dos? Sí. Voy a comprar dos. Voy a comprar dos, voy a comprar dos. Voy a comprar dos, voy a comprar dos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1314" target="_blank" class="timestamp">[21:54]</a> ¡Gracias! ¡Fuck yeah! ¡Fuck yeah! ¡Fuck yeah! ¡Fuck yeah!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1337" target="_blank" class="timestamp">[22:17]</a> Sí, estoy muy feliz. Gracias. Yo vi el look. Estaba mirando aquí el fin de la semana y pensé, ¡Oh! ¡He venido! ¡Oh! ¡He venido! ¡Oh! ¡He venido! ¡Oh! ¡Oh! ¡He venido! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1365" target="_blank" class="timestamp">[22:45]</a> Estoy muy feliz de estar aquí con ti. Recuerdo la conversación cuando fuimos, que dijiste que aprende inglés, que siga, que siga, que siga aquí. ¿Dónde está tu chica? Sí, mi chica está ahí. Marta. Estamos juntos dos días.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1386" target="_blank" class="timestamp">[23:06]</a> ¿Cómo estás? ¡Felicidades! ¡Felicidades! ¡Felicidades! ¡Felicidades!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1407" target="_blank" class="timestamp">[23:27]</a> Es que realmente estuvimos dos días juntos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1426" target="_blank" class="timestamp">[23:46]</a> ¿En vivo? En vivo. Qué loco, eh. Qué loco, qué loco. Se ha reído, muy guay el hecho. Está diciendo a todos, nice to meet you, nice to meet you. ¿Cuánto tiempo ha pasado ahí en el powerhouse? Es una locura. Lo pones en meses igual, medio año allí. Tienes que apuntarte al Tinder.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1448" target="_blank" class="timestamp">[24:08]</a> Fuera, creo que tengo... Fuera, voy a pedir tres entradas de coach. Vale, que puedo pagar tres entradas de coach fuera y ya está. Y os muevois for free. No, no, no para que entréis. Pero las tenéis y se puede hacer lo que quieras. Prefiero así. Yeah, how are you? Sorry.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1475" target="_blank" class="timestamp">[24:35]</a> Tony y Marta, ¿podéis ver? No, no hay dos. Espera, lo podéis pillar vosotros así en medio. Sí, sí, sí. Hostia, qué nervioso el tío. Sí, sí, voy bien. ¿Tú? Tío, va para la pelea.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1499" target="_blank" class="timestamp">[24:59]</a> ¡Mira gallinas! ¡Ay, gallinas! ¿Cómo están? ¡Muy bien! ¡Atención! ¡Que va a hablar!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1512" target="_blank" class="timestamp">[25:12]</a> Voy a ser sincero. 21.07. A las 20.08 estábamos en la expo. Nos hemos equivocado. Hemos llegado bastante tarde, pero justo hemos llegado y ha empezado. Es decir, en una hora el meeting. La semana pasada fueron dos horas de competición. Un mago no llega ni pronto ni tarde. Llega cuando se lo propone.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1533" target="_blank" class="timestamp">[25:33]</a> ¡Boom! Canta es el gris. Vale, y le acabo de pasar en el baño… Mirad qué luces. De hecho, me dice Fran. Le he mandado esta foto a Fran. Vaya tela. Le he mandado esto y me dice… Menudan luces ahí. Me he desnudado para pasarle el peso. ¿Cómo se llamaba esa que ibas tú? A Falcata, ¿no? No, a la otra, la de piscina. A la Wunder. Estoy para la Wunder ahora, eh. Con los tacos ahí bien puestos. Anda que no, chaval.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1559" target="_blank" class="timestamp">[25:59]</a> Es que le pasa el peso y he dicho ¿eh? Vale, me está dando especificaciones el coach. Cosas que han pasado. Ahora hacemos recap en casa. Se ha grabado el vídeo. Vamos en el Uber a pensar, a pensar, a pensar. Esto hay que poner un poquito de contexto, porque si no va a quedar un poquito raro. Como que…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1581" target="_blank" class="timestamp">[26:21]</a> Que me estoy empezando a creer cosas súper extrañas. No es para ganar ni nada raro. Es simplemente... Para disfrutar. Para disfrutar y que no entren las malas vibras. Exacto. Básicamente. Toxicidad fuera. Mala vibra fuera. Al cámara también. No vaya a ser que nos pegue cualquier cosa. No vaya a ser. Que cada uno tiene sus problemas aquí y todo fuera. Exacto. Ahí está. Perfecto. Fran. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1611" target="_blank" class="timestamp">[26:51]</a> Olerlo, que entre dentro también, por las tripas. Las tripas que entre algo porque está saliendo todo de los nervios. Vale, a ver, la siguiente. ¿Top? ¿Top? ¿Qué hacéis? Estamos elegiendo la publicación. ¿Top? Madre mía, este brazo de Samsung que... Más grande que tú. Más grande que la cabeza. O sea, que fumada. Literalmente, esto...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1635" target="_blank" class="timestamp">[27:15]</a> Yo le he tocado el pecho. He aprovechado. Yo le he tocado el lomo. Es increíble. Bueno, chicos, casi 10 de la noche. Estamos aquí ya, un poco más de relax. Y nos subimos. Me quedo una comida. La verdad que ha sido increíble. Hemos estado súper poco allí. Todo súper rápido. Es que ahora la gente se pesaba. Claro, los supernos han dejado irnos porque el resto de la torre estaba pesando. Bueno, nos han dejado irnos, nos hemos ido. Pero muy bien, ¿no? Tenemos todo... La verdad que es súper bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1663" target="_blank" class="timestamp">[27:43]</a> Ahora a comer, a descansar. Bueno, además me ha dicho Fran... ¿Sabes lo que me ha dicho Fran? Lo ha dicho. Me ha dicho que como es tarde la competición y todo, aparte son dos días, que no tengo más comida hoy, o sea, a la que me quiera y tal, pero que no me pone más ni en coña. Y que a ver si me apretaría un poquillo más y a ver qué tal le paso esta noche. De eso mañana vamos también ajustando, que tenemos todo el día para ajustar. A ver si. O sea que bastante bien, se me están ya cayendo un poquillo los ojos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1692" target="_blank" class="timestamp">[28:12]</a> Así que chicos, espero que os haya gustado el vídeo. Bueno, más allá de todo, me voy a poner un poco más expresivo. O sea, si le cuentas esto al Joan de hace tres años, no le explota la cabeza. ¿A que sí? Si le cuentas esto al Joan de hace tres años le habría hecho mucho. A ver, estas son un sitio en la que te hacen mucha ilusión estar. Mucha ilusión. Quizá ahora menos, incluso, no lo digo mal, ¿eh? Pero me refiero a eso de niño, de decir, guau, estás con los Olimpias...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1716" target="_blank" class="timestamp">[28:36]</a> en un meeting profesional, te estás tifuzgando... Yo qué sé, es todo lo que yo quería hace unos años. Y... Y bueno, estamos aquí, tíos, o sea... Y hoy se va a dar y hemos estado hablando con ellos de tú a tú, muy cercano. Había un momento para mí muy, muy emotivo con Samson. A Samson lo conocimos antes de dar el boom. Estuvimos entrenando con él, pasamos dos días con él, creo, algún día. Bueno, entonces habías hecho profesional, justo. Sí, yo me había hecho profesional.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1744" target="_blank" class="timestamp">[29:04]</a> Él solo había ido a un Arnold, realmente invitado, no había ido a un Olimpia y nada. Estuve con él en junio o julio o algo así. Bueno, no me acuerdo. Y en septiembre se hizo, bueno, en octubre o no me acuerdo, se ganó el... Quedó el quinto de la Olimpia, de repente le cambió la vida totalmente. Y estábamos ahí, estábamos hablando con él, de verdad, ¿eh? Y me ha dicho, ¿dónde está tu mujer?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1770" target="_blank" class="timestamp">[29:30]</a> Quiero verla. Está aquí. Quiero verla. Y le ha llamado a Marta. Ha venido. Nos está abrazando. Unas cosas muy bonitas. ¿Sabéis lo que me ha dicho? Me ha dicho. Eres muy importante. Protégele. Protégele. Protégele. Y por eso le he entrado por la puerta y le he puesto el palo santo. Es complicado. Es complicado. Y él yo creo que sabe por qué lo dice. Y nosotros habíamos pasado por muchas cosas. Y sabemos por qué lo decimos. Da igual. Estamos en un mundo chill ahora. Y todos contentos. Pero sabemos. Sabemos las cosas. Así que chicos. Espero que os haya gustado el vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1800" target="_blank" class="timestamp">[30:00]</a> Os quiero mucho y nos vemos mañana. Suscribiros mañana. Es un día de comisión. Va a ser un día de disfrutar de verdad, de corazón. Espero mañana poder descansar mucho durante el día porque la comisión es tarde y luego pesa. Eso pesa. No quiero estar excitado durante el día para luego por la tarde.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=kxo_7KYBB0E&t=1816" target="_blank" class="timestamp">[30:16]</a> La puta es que el tani me lo ponen a mediodía. Eso me ha jodido un poco. Pero bueno, me iré y volveré aquí. Compramos unas sábanas o algo y me volveré a intentar descansar o dormir o lo que sea. Pero sobre todo no porque vaya a estar cansado pensando en que es súper tarde y que si me paso todo el día excitado. Me tengo que regular muy bien el día, básicamente. Así que chicos, suscribiros. Os quiero mucho. Buenas noches.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 25/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
