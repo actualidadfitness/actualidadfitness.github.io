@@ -1,0 +1,393 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 26/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">26/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>El Nota</strong>: <a href='#video-UVhTwM2P61s'>🔥 ¡ESTO ES UNA LOCURA! 😱 JOAN PRADELS posible TERCERO en el PRAGA PRO 2025 💪 | KRIZO DERROTADO 😳*</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-UVhTwM2P61s">
+            <h2>🔥 ¡ESTO ES UNA LOCURA! 😱 JOAN PRADELS posible TERCERO en el PRAGA PRO 2025 💪 | KRIZO DERROTADO 😳*</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: El Nota</span>
+                <span class="date">Publicado: 26/10/2025 00:26</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=UVhTwM2P61s" target="_blank">
+                    <img src="https://i.ytimg.com/vi/UVhTwM2P61s/hqdefault.jpg" alt="🔥 ¡ESTO ES UNA LOCURA! 😱 JOAN PRADELS posible TERCERO en el PRAGA PRO 2025 💪 | KRIZO DERROTADO 😳*" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video analiza una competición de culturismo, evaluando la condición física y el rendimiento de varios competidores clave. El presentador ofrece opiniones subjetivas sobre su posing, tamaño y posibles clasificaciones, destacando mejoras y puntos débiles. Se enfoca en figuras como Mikael Krizo, Keon Pearson, Martin Fittwater, Joan y Samson Dauda, comparándolos directamente. El análisis concluye con el presentador compartiendo su perspectiva experta y las incongruencias percibidas en la valoración.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La limpieza del físico de Mikael Krizo <a href="https://www.youtube.com/watch?v=UVhTwM2P61s&amp;t=105" target="_blank">[01:45]</a></h3>
+
+<p>El presentador analiza el físico de Mikael Krizo, destacando su buena condición y tamaño, similar a campeonatos anteriores. Critica su cintura, pero elogia la limpieza de su piel y las estriaciones musculares. Se subraya su plenitud y la mejora en su posing de espalda.</p>
+
+<h3>La sorprendente madurez de Martin Fittwater <a href="https://www.youtube.com/watch?v=UVhTwM2P61s&amp;t=292" target="_blank">[04:52]</a></h3>
+
+<p>Martin Fittwater es presentado con lo que el speaker considera la mejor condición de su vida. Se resalta la calidad muscular, separación y madurez de su físico, superando su aspecto "blando" anterior. Se espera que su desempeño sorprenda en las comparaciones.</p>
+
+<h3>Joan, la inesperada revelación española <a href="https://www.youtube.com/watch?v=UVhTwM2P61s&amp;t=383" target="_blank">[06:23]</a></h3>
+
+<p>Joan es descrito como la sorpresa de la noche, mostrando un tamaño impresionante y mejoras significativas en su posing de espalda. A pesar de algunas asimetrías y poses menos favorecedoras, el presentador lo coloca como un competidor formidable.</p>
+
+<h3>Samson Dauda "descafeinado" y las comparativas iniciales <a href="https://www.youtube.com/watch?v=UVhTwM2P61s&amp;t=628" target="_blank">[10:28]</a></h3>
+
+<p>El presentador expresa su decepción con la forma de Samson Dauda, describiéndolo como un "Samson descafeinado" y no al 100% de su capacidad. Se sorprende al ver a Joan en comparativas con los tops, incluso pareciendo más amplio que Dauda en algunas poses.</p>
+
+<h3>La incongruencia de las puntuaciones y el juicio del 'Nota' <a href="https://www.youtube.com/watch?v=UVhTwM2P61s&amp;t=840" target="_blank">[14:00]</a></h3>
+
+<p>El speaker cuestiona las posibles puntuaciones, explicando por qué, según su criterio, Joan debería estar por detrás de Krizo y Fitzwater debido a la condición y calidad muscular. Argumenta que, aunque Joan ha mejorado, aún tiene puntos débiles que otros competidores superan.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=0" target="_blank" class="timestamp">[00:00]</a> Advertencia de contenido. Este contenido ofrece opiniones subjetivas sin garantía, rankings que pueden variar y predicciones que por supuesto pueden fallar. Este canal no ofrece verdades absolutas ni predicciones infalibles. Y no es apto para apostadores profesionales, ganadores de debates en internet, fan lovers o expertos de teclado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=12" target="_blank" class="timestamp">[00:12]</a> bienvenido colega al canal del nota acóplate y ponte cómodo que estás en tu casa hoy vengo sin anestesia y vamos a comenzar aquí dando caña a este praga pro que hay muchísimas sorpresas y muchas cosas a comentar aquí tenéis varios nombres de lo que de los que había mencionado yo anteriormente en el vídeo predicciones aunque también hay sorpresas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=31" target="_blank" class="timestamp">[00:31]</a> Estamos viendo a la izquierda el pedazo de vigardo este que yo decía que era muy peligroso, pero al lado de los demás no lo he visto tan grande. Se llamaban Damián Cufel, luego seguido de Jan Turek, Tim Budesheim, que ahora sí lo he dicho bien. Sí, porque me lo dijeron algo en los comentarios, he dicho, venga, voy a decirlo bien, me voy a acordar y voy a ser majete y todo. Sí, y luego también tenemos a Joseph Benton, a la derecha, muy grande, con una espalda muy mejorada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=59" target="_blank" class="timestamp">[00:59]</a> Y, ostras, en algunas poses, tanto Joseph como este Dominique... Joder, tío, son culturistas que dan miedo, ¿no? Pero en comparación con los otros... Cuidado, Jean Turek en la espalda, una verdadera pasada. El glúteo, muchísimo más grande. Difícil de puntuar y, además, os digo algo. Muy buenos físicos y muy buenas condiciones en esta línea. Estamos viendo... Joder, la espalda de Jean Turek me flipa. La de Joseph también. O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=86" target="_blank" class="timestamp">[01:26]</a> Aquí estoy viendo un campeonato de bastante nivel, como os estoy comentando. Además, son todos cercanos a la República Checa. Muchos son checos y otros también alemanes o cercanos. Por lo tanto, os digo, joder, esto es un campeonato en líneas generales bastante bueno. E insisto, muy buenas condiciones se han visto. Comenzamos con la presentación de Mikael Krizo. Que bueno, aparentemente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=112" target="_blank" class="timestamp">[01:52]</a> presentado un físico pues casi igual que en el anterior campeonato me ha gustado muchísimo algo igual a lo que vimos en el lucas con una condición parecida con un tamaño muy bueno con su estructura característica también con su posición característico pero estamos viendo una cosa que a mí personalmente me gusta mucho de crizo y es sobre todo pues eso la limpieza de su físico y</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=136" target="_blank" class="timestamp">[02:16]</a> La piel, las estriaciones que tienen determinados grupos musculares. Sí que la cintura no ayuda. La estructura es buena, pero la zona media es algo que está penalizándole mucho. Pero estáis viendo como es un tío con mogollón de plenitud. Os digo un detallito. Quizás pueda estar un poquito menos rajado en algunas partes. Quizás, pero yo aquí la espalda, quizás por...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=162" target="_blank" class="timestamp">[02:42]</a> en temas del streaming, le veo un poquito mejor en la espalda. Y los isquios ahí, guay. El glúteo, a pesar de que lo tiene pequeño en algunas poses, ojito, que aquí no se le ve tampoco tan mal. Y la espalda, bien. Ha mejorado el posing en la espalda y ya está manteniendo por fin algo la pose.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=179" target="_blank" class="timestamp">[02:59]</a> Y bueno, hay poses tan fuertes como esta de tríceps, que el tríceps no está tan separado, porque no tiene tanta separación entre las cabezas, pero es un mazacote ahí que dice, joder tío, este tío tiene músculo. Y luego, el más muscular es uno de los mejores más musculares que hay en el culturismo, sin duda. Con muy buena pierna, muy buena. Es que el tronco de crizo en esa pose es criminal, la verdad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=206" target="_blank" class="timestamp">[03:26]</a> Llega Keon Pearson y lo que sí estoy viendo que la diástasis y el abdomen... Ya me salta mucho, mucho, mucho a la vista. No me está gustando esa zona media. Pero ver, ya llega Keon, se pone a posar y dice... Hostias, cuidado con este tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=226" target="_blank" class="timestamp">[03:46]</a> Y os voy a decir algo luego que os va a sorprender porque creo que va a tener algo interesante que debatir. Yo lo estoy viendo y está pues quizás no sé si tan rematado con el Mister Olimpia, pero bueno, estáis viendo la parte de atrás. Esto es una locura. Todavía para mí yo veo esto y digo que auténtica salvajada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=248" target="_blank" class="timestamp">[04:08]</a> de físico o sea me parece una auténtica barbaridad la espalda estoy viendo que la está poniendo un poquito más asimétrica pero la condición de la parte posterior y la separación que tiene es tan buena es que impresiona muchísimo y también con esa piel tan limpia en esa pose por ejemplo he visto que ha variado algo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=269" target="_blank" class="timestamp">[04:29]</a> Y no me ha gustado porque se la ha visto más plana. Es más, a él le favorece que tenga algún corte. Ese más muscular un poquito a lo Lailu no me ha gustado mucho, ni ese más muscular tampoco donde enseña la diástasis y encima el pecho se le ve pequeño.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=284" target="_blank" class="timestamp">[04:44]</a> Y en el vacuum, bien. Pero no lo he visto como uno limpia. Colega, te tengo que decir una cosa. Y es que las proteínas de chocolate de más músculos son la hostia. Cualquiera que pilles, están riquísimas. Y con mi código tienes un 10% de descuento en estas protes. Así que ya sabes, venga. Martin Feedwater. Me ha gustado mucho este Martin. Que ha venido, yo creo que en la mejor condición de su vida. ¡Qué pierracas! ¡Qué buena densidad!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=312" target="_blank" class="timestamp">[05:12]</a> puede que el tamaño sea más o menos el mismo de lo que presentó el año pasado pero la calidad muscular y como como deciros la separación ya se le ve más maduro creo que va a ganar más con el tiempo por supuesto es alguien que tiene buena genética para ello y que se lo ha currado yo estoy viendo más separación más profundidad</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=332" target="_blank" class="timestamp">[05:32]</a> Se ha quitado para mí, os lo digo, ese aspecto de blando que tenía ya no tiene ese aspecto de blando. Ya en la parte posterior, ojo, es mucho más competente que el año pasado, pero mucho. Me está gustando mucho Martin Fittwater.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=349" target="_blank" class="timestamp">[05:49]</a> Veremos a ver luego en las comparaciones porque nos podemos llevar ciertas sorpresas. Aquí en la expansión dorsal es donde más caña tiene que darle, que ahí requiere un poquito más de relieve. Y luego en la parte frontal ya estamos viendo cómo se le parte el bíceps, que por cierto, lo tiene muy raro, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=366" target="_blank" class="timestamp">[06:06]</a> Estáis comprobando que ya no es ese físico blanducho que veíais en ocasiones en algunos campeonatos. Es un físico que ya está muchísimo más hecho. Bueno, lo de las piernas de Feedwater me encantan. Ese más muscular, si lo terminara, pues mira, me iba a gustar mejor, pero el cabrón no lo termina.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=383" target="_blank" class="timestamp">[06:23]</a> Joan, la sorpresa de la noche. Me ha gustado como se ha presentado. Desde luego, en tamaño, ojito, yo no me lo esperaba como ha salido. Lo tengo que admitir, es que no lo esperaba. Me ha gustado mucho. Bueno, sabemos que el doble bíceps, y esto sí lo he dicho en varias ocasiones, es uno de los mejores doble bíceps que hemos tenido en el mundo del culturismo español. La expansión dorsal muy buena también. En cuestión de tamaño se le ve tremendamente grande.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=409" target="_blank" class="timestamp">[06:49]</a> Luego hay unas poses que me gustan más y me gustan menos. Obviamente la del perfil todavía tiene que rematarlo un poquito. El glúteo se lo ve bien. El isquio, al menos el posing, yo lo veo mucho mejor. Os lo digo en serio. Ha mejorado mucho el posing para bien en la espalda. Una de las grandes mejoras porque estoy viendo como si tiene más separación y sobre todo densidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=430" target="_blank" class="timestamp">[07:10]</a> Una densidad que otros físicos no tienen, sobre todo en la parte baja y ese dorsal no tendrá mucho corte, pero esos cortes que tienen son muy voluminosos. Por ejemplo, abdominales y piernas. Es una que no me ha gustado mucho. Y sí, también tengo que señalar que hay una simetría muy evidente y eso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=448" target="_blank" class="timestamp">[07:28]</a> Ojito, que es lo que más tiene que mejorar Joan. Ahí, en esa asimetría, en algunas otras poses como esta, ese brazo que está más planito que otros, está menos lleno, pero ojo, que luego en las comparaciones nos va a sorprender mucho, según he estado viendo por encima. Y esto es lo que yo creo que tiene que trabajar mucho más Joan, asimetrías.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=467" target="_blank" class="timestamp">[07:47]</a> hay que ponerle solución porque a más volumen cojas más asimétrico te vuelves y es un tío que os lo digo de verdad aquí que le veo bien y no en un streaming de mierda como fuera el UCA joder hay una diferencia bastante grande os lo digo muy buen bombeo de pierna muy buen tamaño la amplitud dorsal puede ser la más grande incluso más que Samsung Dauda la amplitud dorsal escuchadme no tanto clavicular aunque tenga unas clavículas también enormes pero ojito con Joan</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=496" target="_blank" class="timestamp">[08:16]</a> samson dauda a ver samson que le está pasando a samson no lo veo en la mejor de sus formas veo grupos que están muy bien pero están lejos del mister olimpia del año pasado no termino de verle bien bien rematado no le veo con algunos grupos grandes unos brazos muy grandes pero no le veo con ese aspecto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=520" target="_blank" class="timestamp">[08:40]</a> tan lleno y tan pleno sabéis dónde lo noto sobre todo en las piernas veo las piernas mucho más finas que no en el mistero limpia del año pasado puede estar un poco más grande que este mistero limpia quizás sí si esté un poquito mejor pero hay algunas cosas de samsung que no me han gustado para bien creo que la puesta a punto no está siendo buena lleva dos puestas a punto malas incluso también en el posting</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=547" target="_blank" class="timestamp">[09:07]</a> ha hecho algunas cositas raras por ejemplo la expansión dorsal de espaldas que pasa que es un físico completo aunque no está al 100% pero es un físico completo y es un físico que dudo que puedan quitarle el primer puesto porque ya es tamaño</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=563" target="_blank" class="timestamp">[09:23]</a> forma estética y balance, que eso Samsung tiene mucho. Pero esta pose de expansión dorsal para mí es una infamia, pero vamos, un Mr. Olympia no puede hacer esa pose. Es imposible Samsung que pueda hacer esa pose. En serio, qué mala pose. Y Joan le da mil vueltas en expansión dorsal de espaldas a un Mr. Olympia, a Samsung Dauda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=588" target="_blank" class="timestamp">[09:48]</a> Luego se pone de frente y ¿qué pasa? Pues un físico más balanceado, más estético, mejores formas, pero no la mejor forma. Esto es un Samsung descafeinado, os lo aseguro. Este Samsung va a ganar seguramente, está bien de algunos grupos, pero no está a su 100% ni de coña. Este Samsung está, os digo, que a un 80% de lo que puede dar en un Mister Olimpia, pero casi seguro. Bueno, un Mister Olimpia del año pasado, no de este, ¿eh? Entendedme bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=618" target="_blank" class="timestamp">[10:18]</a> No obstante, creo que se lo va a llevar. Pero vamos a verlo en las comparativas. Vamos a ver las comparaciones y aquí lo que más nos sorprende que Joan en cuestión de tamaño no se queda detrás. A su izquierda está Pavel Verán que dije que en el UCA podía ponerle incluso por delante de Joan. Aquí es más complicado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=638" target="_blank" class="timestamp">[10:38]</a> A Keon yo lo estoy viendo muy negro. No le veo mucho corte. Martin Fitzwater muy completo y Chris muy completo. Aquí al loro lo que os estoy diciendo. Que Joan lo están poniendo para un segundo o un tercer puesto. Que esto es una auténtica locura. Pero yo os lo tengo que comentar. Tal y como yo estoy viendo esto. Esto a mí me parece una incongruencia en varios aspectos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=667" target="_blank" class="timestamp">[11:07]</a> Vamos a ver las comparaciones. Samson Dauda lo estoy viendo pequeñísimo. No es Samson Dauda. Joan está teniendo más amplitud que Samson Dauda. Lástima que todavía no está al 100% de punto. Pero creo que mañana en las finales vamos a verlo todavía mejor de punto. Y la expansión dorsal, ahora mismo de espaldas, puede ser la mejor junto a la de Keon. Fijaros, y está al lado de un Mister Olimpia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=697" target="_blank" class="timestamp">[11:37]</a> Bueno, de uno que ha quedado cuarto y otro un mistero limpia. Tío, que es pecado. Esta de tríceps la ha mejorado, pero no es una de sus mejores poses. Sí, la ha mejorado, pero tiene que mejorar esa pose. Quiero que la mejore. Y aquí, fijaos, este es el gran problema. En las abdominales y piernas, ahí no ha controlado bien el abdomen.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=719" target="_blank" class="timestamp">[11:59]</a> En el vacuum le queda bien, pero es una pose de abdominales y piernas, no de vacuum. Tienes que hacer abdominales y piernas. Y veo que como que se sobresale demasiado. Tienes que tener mucho cuidado con eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=731" target="_blank" class="timestamp">[12:11]</a> Aquí veo ciertas cosas que tengo que comentar otra vez. Varias cosas a tratar. En el UCA, cierto es que Joan no salió tan bien de condición, excepto en las finales, que salió muy bien. Pero aún así quedó por detrás de Sasan y por detrás de Mikael Krizo. Aquí Mikael Krizo ha salido más o menos igual. Yo no lo veo mucho peor. Y está en un puesto aparentemente inferior al de Joan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=756" target="_blank" class="timestamp">[12:36]</a> Joan, estructuralmente, es de lo mejor que hay junto a Samsung Dauda. Hasta ahí lo tenemos claro, pero hay cosas que todavía no está a la par que el resto. No tiene, y eso que Crizo no es tampoco el rey de la simetría, pero no tiene la simetría de Crizo, no tiene la condición de Crizo, no tiene los perfiles de Crizo y no tiene todavía la separación en algunos puntos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=777" target="_blank" class="timestamp">[12:57]</a> Hasta ahí, de acuerdo. De Martín Fitwater ni hablamos. Martín Fitwater tiene una densidad muy buena, una separación muy buena, tiene peor estructura, pero una calidad muscular superior a la de Joan. Si también nos vamos ahora mismo a la incongruencia que os puedo comentar de Keon Pearson,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=795" target="_blank" class="timestamp">[13:15]</a> Y os voy a explicar el por qué incongruente. Keown Pearson es 212 y se ha metido aquí a Open. ¿Cómo es posible que SoundClarida haya quedado incluso en mejores puestos con competidores similares a Keown Pearson? Porque Keown Pearson yo no lo estoy viendo ahora en las comparaciones. No os puedo decir si me parece bien, mal, lo que sea. Yo lo he visto, pues eso, muy a lo lejos, pero en la presentación individual han</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=821" target="_blank" class="timestamp">[13:41]</a> Me ha parecido de locos, me ha parecido brutal, me ha parecido con Mister Olimpia, un poquito menos quizás, pero genial. Y luego, claro, como yo entiendo el culturismo, yo tengo que puntuar todas las cosas, ¿no? Vale, pues veo que Joan es muy potente, es muy grande, me da una muy buena sensación de que está al lado de los tops.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=840" target="_blank" class="timestamp">[14:00]</a> Y tío, que no se queda pequeño, que incluso en algunas poses parece mejor, más grande, incluso más grande que Samson Dauda. Hostia, que estamos hablando de cosas muy importantes para un culturista español. Pero mis queridos amigos, no se nos puede ir la pinza todavía. Yo a Joan le veo todavía por detrás de Michael Crizo y por detrás de Martin Fiswater. Porque hay cosas muy importantes, sobre todo el tema de la condición y de esa calidad muscular en algunos puntos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=868" target="_blank" class="timestamp">[14:28]</a> Keon Pearson en la esquina, por ejemplo, en esta expansión dorsal, yo lo veía más amplio o más lleno que Martin Fittwater. Quizás no tenga esa densidad, pero no sé qué está pasando. No estoy ahí presente y me gustaría tener vídeos de más calidad para poder comparar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=883" target="_blank" class="timestamp">[14:43]</a> Como os comento, yo ahora mismo sí puede optar a tercero. Yo lo pondría a cuarto porque Krizo me parece superior y encima también ha quedado por delante de él en el UCA. No hay tampoco mucha diferencia. Joan está casi como en las finales del UCA, quizás con un poquito más de punto. Pero estamos viendo que la parte posterior todavía sigue siendo el punto débil, sobre todo en la zona inferior, en la zona de los isquios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=908" target="_blank" class="timestamp">[15:08]</a> y eso quieras o no en el computo global de la valoración de una pose pues también cuenta pero en serio nos podemos dar con un canto en los dientes porque si algo ha hecho Joan ha sido mejorar mucho estar ahora mismo entre los tops y callarnos la boca a mucha gente que pensábamos que iba a quedar peor luego ya está lo que cada uno piense o lo que crea del mundo del culturismo como yo estoy haciendo aquí en este canal compartiendo mis pensamientos mis análisis y qué es lo que yo haría</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=UVhTwM2P61s&t=938" target="_blank" class="timestamp">[15:38]</a> No tengo tropecientos mil seguidores. No tengo un físico de escándalo. No soy un tipo adinerado. No vivo en Estados Unidos. Tampoco soy un Adonis. Solo soy el Nota. Y sé muy bien de lo que hablo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 26/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
