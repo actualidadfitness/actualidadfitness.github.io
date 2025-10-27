@@ -1,0 +1,441 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 27/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">27/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-ysfZ3cVCVGM'>CUMPLIENDO el SUEÑO… PRAGA PRO</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-ysfZ3cVCVGM">
+            <h2>CUMPLIENDO el SUEÑO… PRAGA PRO</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 27/10/2025 07:40</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM" target="_blank">
+                    <img src="https://i.ytimg.com/vi/ysfZ3cVCVGM/hqdefault.jpg" alt="CUMPLIENDO el SUEÑO… PRAGA PRO" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta la emocionante experiencia de un culturista en una competición de alto nivel, desde la preparación minuciosa hasta la vivencia del evento. Muestra la importancia de la nutrición, el enfoque mental y los consejos financieros para la gestión de gastos en viajes. El vlogger comparte sus momentos en el escenario, las comparativas con otros atletas y la alegría de obtener un quinto puesto. Concluye con la celebración y la gratitud por una experiencia increíble.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Carga Pre-Competencia y el Secreto del Gatorade <a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&amp;t=145" target="_blank">[02:25]</a></h3>
+
+<p>El vlogger y su compañero preparan la comida y bebidas esenciales para la competición. Destacan la importancia de la hidratación con Gatorade, eligiendo sabores específicos que les sientan bien.</p>
+
+<h3>Inversiones Inteligentes con Cashback <a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&amp;t=214" target="_blank">[03:34]</a></h3>
+
+<p>Se presenta la tarjeta Trade Republic y su innovadora función de cashback. Explican cómo el 1% de cada gasto se reinvierte automáticamente en activos como el SP500 o ETFs de sectores prometedores como el lujo o la IA.</p>
+
+<h3>Últimos Retoques: Mochila y Mindset <a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&amp;t=351" target="_blank">[05:51]</a></h3>
+
+<p>El protagonista prepara meticulosamente su mochila de competición, incluyendo alimentos clave y eligiendo su bañador. Reflexiona sobre la importancia de la mentalidad y el descanso antes del gran evento.</p>
+
+<h3>Llegada al Evento y el Frío Europeo <a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&amp;t=616" target="_blank">[10:16]</a></h3>
+
+<p>El equipo llega al lugar de la competición en un ambiente frío. Discuten la logística del evento, las categorías y los tiempos, observando a los demás competidores calentando entre bastidores.</p>
+
+<h3>¡Joan al Escenario! Poses Obligatorias <a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&amp;t=1405" target="_blank">[23:25]</a></h3>
+
+<p>Joan, el protagonista, es llamado al escenario para realizar su rutina de poses obligatorias. Muestra su físico y su dominio de las diferentes poses requeridas por los jueces.</p>
+
+<h3>Batalla de Comparativas en el Escenario <a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&amp;t=1533" target="_blank">[25:33]</a></h3>
+
+<p>Los jueces solicitan comparaciones entre los competidores, quienes deben ejecutar poses específicas uno al lado del otro. Este es un momento crucial para la evaluación detallada de su físico.</p>
+
+<h3>¡Top 5 para Joan! La Emoción de los Resultados <a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&amp;t=1876" target="_blank">[31:16]</a></h3>
+
+<p>Se anuncian los resultados de los cinco primeros puestos, y Joan logra un impresionante quinto lugar. Se vive un momento de gran emoción y reconocimiento para todos los finalistas.</p>
+
+<h3>Celebración y Pizza Post-Competición <a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&amp;t=2533" target="_blank">[42:13]</a></h3>
+
+<p>Tras la competición, el equipo celebra el logro de Joan compartiendo pizzas y patatas. El protagonista reflexiona sobre la increíble experiencia vivida, agradeciendo el apoyo recibido y la satisfacción del resultado.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=17" target="_blank" class="timestamp">[00:17]</a> ¡Viva! ¡Viva! ¡Viva!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=57" target="_blank" class="timestamp">[00:57]</a> vamos vamos vamos vamos vamos vamos vamos vamos vamos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=87" target="_blank" class="timestamp">[01:27]</a> ah ah ah ah</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=120" target="_blank" class="timestamp">[02:00]</a> ¡Nos vamos! ¡A las finales! ¡Vamos! ¡Vamos loco! ¡No me lo creo ni yo! ¡Va a mí a Rastafra! ¡A ver si sigue comiendo! ¿Sabéis que no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=145" target="_blank" class="timestamp">[02:25]</a> Ahora, como sabéis, Eric y yo solos, se me van a mandar a trabajar. No, es broma. Vamos a elegir la comida libre que nos vamos a pegar luego. La voy a pedir por el domicilio para que llegue ya. Y cuando lleguemos a que esté ahí... Para jalar. Qué locos. ¿Os acordáis del Deli donde comprasteis esto el otro día? Gozaste, perros. Acabo de bajar y he comprado unas patatas que estaban por ahí. Y el otro día, menos mal, compramos los Gatorys de la competición. Que esta mierda es súper importante siempre. Estaba ahí con tu hijo como... ¡Los Gatorys!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=174" target="_blank" class="timestamp">[02:54]</a> Gatorade para la competición. Ayer no había Gatorade para la competición. Así que Gatorade yo te diría el de naranja. El azul, me compro uno de cada porque como compito dos días me voy a pillar uno de cada. Pero el de naranja me suele gustar bastante porque sale bastante a suero y me gusta. Así que ahí lo llevamos chavales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=195" target="_blank" class="timestamp">[03:15]</a> ¿Cómo van a afeitar? Gatorade de azul, que me ha pedido mi colega. Gatorade de naranja. Y esto ha costado 170 coronas checas. ¿Cuánto es? 7 euros. Vale, lo hemos pagado con Trey Republic. La semana pasada os contamos un poquito del cambio de divisas. Aquí también hay cambio de divisas. Pero lo que vamos a contar hoy es directamente el cashback.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=214" target="_blank" class="timestamp">[03:34]</a> Me parece más fumada. Yo esto se lo dije a mi hermana, ¿vale? Porque hay gente que le da miedo de cómo invertir. Y dije, tío, vale, no inviertas. Te pillas la tarjeta, gastas esa y el 1% se reinvierte solo. En lo que tú elijas. Es decir, tú en qué lo tengo. Bueno, vamos a decirlo. Yo voy a decir en qué lo tengo. Yo lo tengo configurado para que toda la cosa que pago, es decir, 10 euros, ese 1%, va directamente en mi caso y por cómo soy, y creo que ya lo sabéis muchas veces, al SP500, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=239" target="_blank" class="timestamp">[03:59]</a> porque todo lo que es parte de fondos y demás lo meto a la SP500. Soy así, me gusta, me gusta no tener como mil cosas abiertas y demás. Me gusta de forma muy clara lo que me gusta, lo que sé que me funciona o yo creo en ello. Pues a mí me va directo. ¿Yo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=255" target="_blank" class="timestamp">[04:15]</a> MSCI World, que el 70% de ese ETF es SP500. Y luego, lo voy a decir. Sí, te va a tirar aquí un poquito de info. LVMH, que es Louis Vuitton, Moet Genesi, que es del sector del lujo. Yo nunca llevo nada de lujo, pero como creo que el lujo tiene potencial, en vez de comprarme un bolso, lo invierto ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=273" target="_blank" class="timestamp">[04:33]</a> Me parece muy bien, me parece muy bien. Yo muchas veces también, bueno, yo tengo que decir que también, por ejemplo, te hago de antes, pero ahora sí que soy más loco de eso, ETFs de inteligencia artificial más en concreto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=285" target="_blank" class="timestamp">[04:45]</a> Porque sí que creo bastante en eso. Así que, bueno, paguito con TriRepublic. Utilizaron la tarjeta fuera. La verdad que fuera da mucho gusto también. Aparte en España, aparte que te iba en español, todo lo que queráis. Pero dentro, o sea, por Europa, fuera de casa en concreto, da mucho gusto. Acabamos de descubrir que Polonia también es lotis y Rumanía también leu rumano. Acabamos de descubrir que yo pensaba que tal tranquilamente, que ahora habían euros en Polonia y que habían euros en Rumanía y no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=314" target="_blank" class="timestamp">[05:14]</a> al menos hemos desbloqueado los enchufes los enchufes los hemos desbloqueado los europeos los enchufes ya están bien así que bueno así que chicos bueno si queréis tenéis el link de Trade Republic por ahí abajo la verdad que nos ayudáis es nuestra favorita desde mucho antes de que salgan las actividades nos encanta hacer</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=327" target="_blank" class="timestamp">[05:27]</a> Acciones de estas porque nos resultan súper sencillas de hacer y obligamos además a toda nuestra familia y a todo el mundo a que las tenga. Yo tenía llamada con mi madre poniendo fondos y demás. Con las madres ya es el siguiente nivel. Pero de todos modos es súper intuitiva. O sea, a mi tío por ejemplo se lo expliqué y lo hizo al momento él solo. Así que chicos, esto para la carga de la competi con un poquito de sal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=351" target="_blank" class="timestamp">[05:51]</a> Vale, y ahora lo que sí que estoy haciendo todo es esto que es crema de cacahuete, crema de arroz, proteína, la almohadita, ¿qué más? Yo por aquí nos doy un taller también. Es verdad que me lo manda Fran, el bañador. Compete con el azul, ¿no? Ah, pues sí compito con el azul también. La tarjeta de competidor. Tengo que decidir, este también me gusta, pero tengo que verlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=374" target="_blank" class="timestamp">[06:14]</a> Yo cambiaría hoy, ¿no? ¿Sí? Sí. No, no sé. Tengo esto. Refuso a patrocinarnos. Me voy a preparar la mochila de competición. Voy a comer. Estoy hablando con Frank. Y se viene la competi, ¿no? Se viene. Se viene la competi fuerte. ¿Me está llamando Tony? A ver qué dice Tony. A ver qué digo. A ver, en directo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=400" target="_blank" class="timestamp">[06:40]</a> Dígame. ¿Qué pasa? Voy, voy. Voy, estoy grabando. Voy, ¿eh? En directo, ¿eh? En directo. Venga. Yo creo que será el de dulce de leche, pero por confirmar. No, es el de Salted, claro. No, es que Salted no hay. No, pero eso me da en Jerry, pero eso no me muera. No pillo, no pillo. ¿No pillo? No, no. Vale. Vale, gracias. Pero si os he dicho, lo pillo yo. Vale, vale, pero es que no sabía yo la...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=427" target="_blank" class="timestamp">[07:07]</a> Vale, ahora te mando el vídeo, ¿qué te parece? Me parece que con el tinte y todo está bastante guay. ¿Estáis bien? Vale, ¿estáis bien? Perfecto. Perfecto, bro. Os quiero. Chao, chao. Chao, a mí también. Que, por cierto, esto es para la comida, de luego. A ver. Oh, cheque mandado, a ver qué me dice Frank. Arranca la competición. Por cierto, lo voy a decir ya porque si no, no lo digo y no me hacéis caso. No estoy de coña, me lo piqué con la gente de marketing bastante de PBS, del paro de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=454" target="_blank" class="timestamp">[07:34]</a> Que no se venía tanto con el código JoanPBS Y decía, ya, pero los traigo yo Así que si pilláis cualquier cosa, me escribís Os contesto a todos, os lo agradezco Que sea con el código JoanPBS No sé ya ni pronunciar Tenéis un 10% de descuento Si vais desde ahí, os quiero que flipas, chavales Así que aprovechadlo, os lo dejo en la descripción La página Y si vais desde ahí, os amo, joder Ahora lo he dicho, nos preparamos todo Y nos vamos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=496" target="_blank" class="timestamp">[08:16]</a> En honor a los tiempos difíciles. Un cerrajero te regala el corazón. ¡Vamos, equipo! ¡Vamos! Keep what it's up. Siempre, siempre. Youtube. La gente está empezando a poner... Now we are talking. Now we are talking, gente. Now we are talking. Estamos de camino al evento. Marta y yo hemos hecho un poquito de turismo. Hemos descansado todos un poco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=526" target="_blank" class="timestamp">[08:46]</a> Yo no he dormido. ¿Te has dormido? Yo tampoco he hecho siesta, pero me he puesto unos partes en el ojo para que empape la ojera. ¿Cómo os gusta lo de los partes, eh? Lo vais a comprar. Ayer por la noche me lo puse para editar, me vino. Exacto, claro. Por la noche. Aunque a poco somos felices. Por la noche de Brouston. Tú has visto el amanecer, eh. Tú has visto el amanecer, eh. ¿Cuántas horas has estado editando el vídeo? Lo he editado, pues, unas seis horas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=547" target="_blank" class="timestamp">[09:07]</a> Para traer mejor contenido. Te lo agradecemos todos. Ahora el evento está relajado, que se tinte. Y a ver la tensión. ¿Cómo la tenemos hoy? Ayer alta. Hoy más tranquilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=560" target="_blank" class="timestamp">[09:20]</a> ¿Eh? Más tranquilos. No, y ayer tranquilos también, pero es que de repente el tío se pone en el primer canal. Ya. Es que tuvimos Toni y yo una conversación del palo. Hay que empezar a vivir las cosas con menos intensidad porque si no luego nos dan bajones emocionales alucinantes. Y ayer en plan volviéndonos locos. Obviamente nos dio igual. Ayer dijimos que se hipoteca un par de días malos porque todo lo que sube baja siempre. Siempre. Ley de polaridad. Sí, exacto. Lo que es dentro es fuera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=586" target="_blank" class="timestamp">[09:46]</a> Como salientes afuera. Hermetismo. Importante, consejo de inversión. Invirtais ahora, ¿vale? Ahora estaba alto. Esperaba que caiga. Así que bueno, ya por no dar más vueltas y no dar más paligues. Let's go. Let's fucking.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=616" target="_blank" class="timestamp">[10:16]</a> Estamos en el evento, chicos. Por cierto, este es el frío de Andorra, ¿eh? Es el frío europeo así como profundo, chaval. ¿Cómo pega? ¿La llevo? Abajo cero. 113,7 y al Tali.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=648" target="_blank" class="timestamp">[10:48]</a> Chutuel, Men's Classic Physique y vosotros. Pero es mínima la presentación, va a ser coreografía. Chutuel, que son 9, más los 10 de Classic. Y vosotros es 15. No, más de una hora, no, esto va a ir rápido. Una vez que empecemos ya con Chutuel, va rápido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=680" target="_blank" class="timestamp">[11:20]</a> Estos bañadores me los regaló Marta hace un montón de años y los estoy estrellando ahora realmente, no he competido desde entonces. Bueno, nunca es tarde.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=705" target="_blank" class="timestamp">[11:45]</a> Prefiero freestyle. Es el momento de expresar su parte más artística. Exacto. No, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=725" target="_blank" class="timestamp">[12:05]</a> Estamos viendo que están calentando Keon y Samson. Quedan aún 50 mils. Nos sorprende un poco. Imaginamos que sea lo normal porque eso es gente curtida, pero... Están calentando ahí. Hace mucho frío. Igual es por eso. Para estar un poco más entrados en calor se están quitando las capas poco a poco. Samson iba cubierto entero cuando entraba yo. Te he dicho yo, ¿quieres este?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=761" target="_blank" class="timestamp">[12:41]</a> ¿Y mostaza se ha traído? ¿Se ha traído mostaza? Anda que no. Ahí están los trucos, ¿eh? Mostazita. Aquí está el secreto, hermano. Aquí está el secreto, ¿eh? ¡Upa!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=786" target="_blank" class="timestamp">[13:06]</a> Hombre, hace bastante buena pinta, ¿eh? ¿Sí? ¿Hace o tiene? ¿Tiene? No está listo de turno. ¿Qué pasa?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=841" target="_blank" class="timestamp">[14:01]</a> ¿Eh? Ya sé. Vale. Eh... Flipas, estoy pegando. Eh... Estoy hecho, estoy pampeándolo. Ya sé. Los Mister Olimpiad de 2024 al lado, hermano. Ya sé. Eh... Nada, eh... Nos estamos controlando los tiempos que ha dicho Joshua, la verdad. Pero... Pero están estos aquí. Ya, ya.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=869" target="_blank" class="timestamp">[14:29]</a> A ver que os llamarán ahora. Deberían de llamar. Estoy muy nerviosa. A ver dónde me pongo. Las entradas son atrás. Me pondré de pie y ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=889" target="_blank" class="timestamp">[14:49]</a> No sé, solo pensé que iba a pasar y que no era demasiado tarde. Entonces, podría ser en 15 minutos. Entonces, voy a ir lentamente ahí. Entonces sabes lo que está pasando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=921" target="_blank" class="timestamp">[15:21]</a> ¡Suscríbete!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=949" target="_blank" class="timestamp">[15:49]</a> Estoy en la película ahora. Estoy en la película en Netflix para mí. Para mí, en la vida real. Esto es real para ti, pero para mí... Esto es solo el principio para ti, hermano. Esto es solo el principio para ti. Sí. Pero... ¿Vas a ir para el amor? ¿Quieres ir para el Olympia? Te voy a ir para el Olympia soon, hermano. 2026. Probablemente. No sé, pero... Estoy feliz.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=980" target="_blank" class="timestamp">[16:20]</a> No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1005" target="_blank" class="timestamp">[16:45]</a> Vamos a comenzar en 10 minutos. Vamos a comenzar en 10 minutos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1217" target="_blank" class="timestamp">[20:17]</a> Gracias por ver el video.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1256" target="_blank" class="timestamp">[20:56]</a> ... ... ... ...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1370" target="_blank" class="timestamp">[22:50]</a> En numerica orden 7, Samson 9, Martin 3, Michael 4, Keon 5, Joan 25, Jen Michael</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1405" target="_blank" class="timestamp">[23:25]</a> ¡Jump! ¡Vale, Joan, ya! ¡Activo, vamos! ¡Mierda, quieto ahí, eso! ¡Frontable marcha! ¡Va, Joan, ya!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1441" target="_blank" class="timestamp">[24:01]</a> Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna. Pierna.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1473" target="_blank" class="timestamp">[24:33]</a> Backlash break. Perfecto, perfecto. Side tricep. Domino's and thighs.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1506" target="_blank" class="timestamp">[25:06]</a> Your favorite most muscular Relax Joan and Jan switch Joan and Jan Maun and Samson switch</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1533" target="_blank" class="timestamp">[25:33]</a> All right, spread out, give yourself some room. Everyone take a step. Jane take a step. Gian take a step. Front double bicep. Front back spread. Side chest.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1565" target="_blank" class="timestamp">[26:05]</a> Back double bicep. Back last breath. Side triceps.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1596" target="_blank" class="timestamp">[26:36]</a> Náodos y Náodos. Náodos. Náodos. Náodos. Náodos. Náodos. Náodos. Náodos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1659" target="_blank" class="timestamp">[27:39]</a> Back to hold on set.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1703" target="_blank" class="timestamp">[28:23]</a> Mi favorito y más musculante. ¡Muy bien! ¡Muy bien! ¡Muy bien!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1816" target="_blank" class="timestamp">[30:16]</a> es coming to me with the most important paper of this night everyone is now looking at you everyone wants to know</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1848" target="_blank" class="timestamp">[30:48]</a> Please, gentlemen, come back to stage. Ok, so we are ready for top five.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1876" target="_blank" class="timestamp">[31:16]</a> La fifth place goes to Juan Prada Sanofi.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1901" target="_blank" class="timestamp">[31:41]</a> Pero de nuevo, de nuevo, de los hermanos, especialmente de la comunidad de Sonac, a los que agradecemos también por favor de este día. El cuarto lugar. El cuarto lugar. El cuarto lugar va a ir a Keon Bersa. El cuarto lugar. El cuarto lugar va a ir a Keon Bersa. El cuarto lugar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1931" target="_blank" class="timestamp">[32:11]</a> Ahora, en tercer lugar, en el segundo lugar. El tercer lugar para el Edo Správ Pro 2025 es Michael López! El Edo Správ Pro 2025</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1963" target="_blank" class="timestamp">[32:43]</a> ¡Supsoil!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=1990" target="_blank" class="timestamp">[33:10]</a> el campeón de Eros Prado es Martín</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2063" target="_blank" class="timestamp">[34:23]</a> Grandes emociones. El bajón va a ser monumental.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2078" target="_blank" class="timestamp">[34:38]</a> Bueno, podía haber sido un pelín más alto, pero esto lo firmábamos con sangre antes de venir al evento, así que contentos, hay que estar contentos y ya está. Muy contentos. Muy contentos. Es increíble. Es increíble. Era muy difícil quedar por delante de Keon, la verdad. Aunque las comparativas daba a entender un poco eso. Sí, pero no pasa nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2100" target="_blank" class="timestamp">[35:00]</a> No pasa nada. Dale por aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2105" target="_blank" class="timestamp">[35:05]</a> Vuelve.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2133" target="_blank" class="timestamp">[35:33]</a> ¡Vamos! ¡Vamos! Esto es increíble, bro. Vamos a comernos unas pizzas. ¡Vamos! ¡Quinto loco! Joder, bro. El cuarto de la Olimpia. El tres veces campeón de la Olimpia. Topo ocho de la Olimpia. ¿Y yo qué hacía ahí?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2161" target="_blank" class="timestamp">[36:01]</a> Ahí estamos, hermano. Muy increíble. Gracias, gracias. Te asustaste a algunos. Gracias, gracias. Estoy feliz. Eso es importante. Me encantaría estar. Gracias por este maravilloso show. Gracias. ¿Qué tal? ¿Cómo estás? Te hablas en inglés, ¿verdad? Sí, un poco. Muy bien, ¿verdad? Sé, sé, sé. Sé, sé. Sé, sé, sé. Sé, sé, sé, sé. Sé, sé, sé, sé. Sé, sé, sé, sé, sé. Sé, sé, sé, sé. Sé, sé, sé, sé. Sé, sé, sé, sé. Sé, sé, sé, sé, sé, sé, sé. Sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé, sé,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2185" target="_blank" class="timestamp">[36:25]</a> ¿Qué? ¿Qué? Un poco de palabras sobre tus sentimientos. Estoy muy contento. Estoy en el stage. Ahora estoy tranquilo. Quiero comer una pizza. Y estar con mis personas. Estoy contentos. Es importante. Es importante en mi vida. Sí, pero tienes tantos músculos. Es fantástico. Es como la antigüedad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2206" target="_blank" class="timestamp">[36:46]</a> ¡Gracias! ¡Milos Style! Y otra cosa importante, tienes una hermosa, hermosa, hermosa de Atenon Pro. ¡Atenon es la mejor máquina del mundo de bodybuilding y de entrenamiento! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2228" target="_blank" class="timestamp">[37:08]</a> Así que, él lo dijo, él lo dijo. Sí, absolutamente. He estado en Torremolinos, así que confío, sé el show. Estuve ahí. Sí, realmente. ¡Oh, Dios mío! ¡Es genial! Felicidades. Gracias. Fue un buen show. Y te traves la calidad, no solo el tamaño. Me gusta mucho. Gracias, por verdad. Super.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2252" target="_blank" class="timestamp">[37:32]</a> España! ¡Vamos a visitar pronto! Es el futuro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2270" target="_blank" class="timestamp">[37:50]</a> Gracias, hermano. Estás increíble. Gracias por esto. Estás increíble. Tengo una foto con ti en 2019. ¿Recuerdas? Y otra vez aquí. Gracias, hermano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2292" target="_blank" class="timestamp">[38:12]</a> Perdona, estamos a punto de irnos por ahí porque estemos frío y ya somos aquí. Oye, muchas gracias por decir que grabaste ayer. Te he grabado más, ¿eh? Le voy a quitar el puesto a Erick, ¿eh? Tienes mi número, me lo puedes mandar todo y te lo agradezco un montón. ¡Ay, Marta!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2309" target="_blank" class="timestamp">[38:29]</a> ¡Qué bien! Te me dijiste ayer que vienes a... ¡Hola! ¿Contento o qué, tío? ¡Súper contento! ¡Qué guay, tía! ¡Joder, macho! Se quedaba por detrás de la gente más top y que admiro. Es increíble. Acaban de salir las listas de puntos y todo. Las ha enseñado Marta. Ayer quede como he empatado con Keon y hoy por un punto perdido. ¡Súper guay!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2330" target="_blank" class="timestamp">[38:50]</a> No se me da igual. No estoy comentando así como guau. Se te veía espectacular. Mira, ayer sinceramente me llevé una hostia bastante fuerte cuando vi el escenario. No me lo esperaba y al principio salió un poco así un hombre. Hostia, no están los jueces, súper grandes y esto tal. Y yo salía diciendo, guau, qué tal, guau. Se te ha visto, se te ha visto. Se lo estaba diciendo. Digo, a ver cómo salí yo a la hora en la individual. Súper bien. Yo estaba visual, todo lo juzgado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2359" target="_blank" class="timestamp">[39:19]</a> A ver, ¿me deja la cámara? Un bag, ¿no? Un bag? Dale, mientras andamos, mientras andamos. Vamos a seguir andando, te vas quitando las cosas. Ah, yo te las aguanto. Dame la mano, dame la mano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2391" target="_blank" class="timestamp">[39:51]</a> ¿Quieres un Bucky, eh? Quiero un Bucky. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso. Dame eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2421" target="_blank" class="timestamp">[40:21]</a> Bueno, chicos, vamos a pillar el Uber. ¡Eh! ¡Pay, Frank! ¿Cómo estás? ¡Brutal! ¡Brutal, eh! Muy bien, me ha pasado que te cagas y sensaciones brutales, la verdad. Y yo creo que esto también se lo ha pasado súper bien. Pero hemos pasado pipa, Frank. Es súper guay. Gracias, de verdad, por todo. Porque está saliendo bien las cosas, independientemente de todo. En el sentido de decir... Es que es lo que estaba diciendo Andrés. Tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2451" target="_blank" class="timestamp">[40:51]</a> Los dos de los top top Olimpia, el Olimpia de 212, bueno y que hizo tal vez el Olimpia y luego yo de repente que no sabe ni quién coño soy. Sí, quinto y Sansón cuarto. Es una locura, es una locura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2479" target="_blank" class="timestamp">[41:19]</a> Sí, sí. No, no pasa nada. Pero da igual. Es increíble, Fran. Muchas gracias, de verdad. Yo los puntos los acabo de ver ahora, pero que me parece increíble. Lo hemos disfrutado, hemos salido bien. Ahora luego si quieres... Bueno, ya mañana me tengo que poner con el plan. Me pongo ahora a beber agua ya. Supongo a descargar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2506" target="_blank" class="timestamp">[41:46]</a> Bueno, ahora hablamos si quieres de eso por WhatsApp, pero mil gracias. Ahora que se más tranquila, me llamas y te voy a hacer un plan impara mañana, ¿vale? Vale, vale. Gracias, Fran. Oye, gracias a todos. Un beso enorme. Un beso, Vanessa. Un besito y venga. Adiós. Chao, Yaitana. Chao, chao, chao. Adiós, Carmen. Chao. Adiós. Edita, chicos. Se acabó. No deja de falta que explique o algo lo loco que ha sido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2533" target="_blank" class="timestamp">[42:13]</a> Lo que hemos vivido. La gente que era. Tenemos unas pizzas que hemos pedido a mediodía. Unas patatas. Y, eh, salme. Mirad este lado. Madre mía. El cocinero. El cocinero ya sacó la peor. Desarte el caramel, hermano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=ysfZ3cVCVGM&t=2552" target="_blank" class="timestamp">[42:32]</a> ¡A comer, chicos! ¡Muchas gracias por todo! ¡Os quiero mucho! ¡Os quiero mucho, familia! ¡Muchas gracias! ¡Muchas gracias! ¡Muchos abrazos hoy! ¡Es increíble! ¡Muchas gracias, Freddy! ¡Suscríbanse! ¡Suscríbanse! ¡Nos vemos, chicos! ¡Chao, chochín! ¡A ver qué tal está esto! ¡A ver, muerdo! ¡Oh, qué bueno!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 27/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
