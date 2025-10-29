@@ -1,0 +1,353 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 29/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">29/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-br3Mh95sPOQ'>“JOHN NO GASTES TANTO EN UN SIMULADOR” #simracing #simulator #granturismo7</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-br3Mh95sPOQ">
+            <h2>“JOHN NO GASTES TANTO EN UN SIMULADOR” #simracing #simulator #granturismo7</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 29/10/2025 08:35</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=br3Mh95sPOQ" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=br3Mh95sPOQ" target="_blank">
+                    <img src="https://i.ytimg.com/vi/br3Mh95sPOQ/hqdefault.jpg" alt="“JOHN NO GASTES TANTO EN UN SIMULADOR” #simracing #simulator #granturismo7" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video presenta una fantasía detallada sobre la construcción de un coche de carreras extremo, inspirado en el Pikes Peak, con modificaciones de alto rendimiento y estéticas agresivas. El narrador sueña con potenciarlo a 1500 caballos y añadir elementos extravagantes para su diseño final. Sin embargo, esta ambiciosa visión se contrapone abruptamente con la decisión pragmática de optar por un simulador. El clip culmina justificando esta elección por los altos costes y complicaciones de mantener un vehículo real de competición.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Sueño del Pikes Peak Extremo <a href="https://www.youtube.com/watch?v=br3Mh95sPOQ&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El narrador inicia una elaborada fantasía sobre la construcción de un Furacrono para convertirlo en un coche de carreras tipo Pikes Peak. Detalla la ambición de montarle un motor delantero y otro trasero, forjarlo y añadirle tecnología avanzada.</p>
+
+<h3>Turbos, Queroseno y 1500 Caballos <a href="https://www.youtube.com/watch?v=br3Mh95sPOQ&amp;t=20" target="_blank">[00:20]</a></h3>
+
+<p>La descripción del coche de ensueño escala a niveles épicos, detallando la instalación de cuatro turbos, escapes de Inconel y suspensiones pushrod de alta gama. El objetivo es alcanzar una potencia descomunal de 1500 caballos utilizando queroseno como combustible.</p>
+
+<h3>Aerodinámica Exagerada y Plancha "Cortapiés" <a href="https://www.youtube.com/watch?v=br3Mh95sPOQ&amp;t=29" target="_blank">[00:29]</a></h3>
+
+<p>La fantasía continúa con elementos aún más exagerados y casi cómicos, como un paracaídas trasero y múltiples alerones de Fórmula 1 apilados. Además, se menciona una "plancha para cortar pies" en la parte delantera, añadiendo un toque macabro a la imaginación.</p>
+
+<h3>El Giro Inesperado: ¡Un Simulador! <a href="https://www.youtube.com/watch?v=br3Mh95sPOQ&amp;t=43" target="_blank">[00:43]</a></h3>
+
+<p>De forma abrupta, el narrador abandona la compleja y costosa fantasía del coche de carreras real. Decide optar por la sencilla solución de montar un simulador, simplificando drásticamente su afición automovilística y evitando todas las complicaciones.</p>
+
+<h3>Los Costos Ocultos del Automovilismo Real <a href="https://www.youtube.com/watch?v=br3Mh95sPOQ&amp;t=53" target="_blank">[00:53]</a></h3>
+
+<p>El video concluye con una justificación práctica para la elección del simulador. El narrador enumera los elevados costes asociados a un coche real de alto rendimiento, mencionando explícitamente frenos, pastillas, neumáticos y los daños inesperados como una llanta por un bordillazo.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=br3Mh95sPOQ&t=0" target="_blank" class="timestamp">[00:00]</a> Por este precio te compras un Furacrono y lo vas preparando. Claro. Lo voy preparando, ¿no? Y me acabo montando un Pikes Peak como el escudo mítico Suzuki, ¿verdad? Poco a poco le meto un motor delante y otro detrás, lo forjo, le meto cuatro turbos, escapes de Inconel, suspensiones pushrod de 14 vías con botellas y lo subo a 1500 caballos con queroseno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=br3Mh95sPOQ&t=29" target="_blank" class="timestamp">[00:29]</a> Tiene un paracaídas. Alerón de forma uno. Tres, uno encima del otro. Y delante una plancha para cortar pies. ¿Qué te parece? Poco a poco, ¿no? Pues no. Voy a montar simulador, ya está. Y no me complico la vida. ¿Qué te parece? Me monto simulador.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=br3Mh95sPOQ&t=53" target="_blank" class="timestamp">[00:53]</a> Yo tengo que pagar. Frenos, pastillas, neumáticos... Hostia, que me ha quedado la llanta de un bordillazo ahí cuando yo...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 29/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
