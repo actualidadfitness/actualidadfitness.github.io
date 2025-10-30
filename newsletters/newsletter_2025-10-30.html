@@ -1,0 +1,425 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 30/10/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">30/10/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John_MH</strong>: <a href='#video-pYb1f1IKwLM'>TARRAKO SE DIGNIFICA OPINANDO SOBRE PRADELLS</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-pYb1f1IKwLM">
+            <h2>TARRAKO SE DIGNIFICA OPINANDO SOBRE PRADELLS</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John_MH</span>
+                <span class="date">Publicado: 30/10/2025 08:37</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=pYb1f1IKwLM" target="_blank">
+                    <img src="https://i.ytimg.com/vi/pYb1f1IKwLM/hqdefault.jpg" alt="TARRAKO SE DIGNIFICA OPINANDO SOBRE PRADELLS" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video analiza el ascenso del culturista Joan Pradells, defendiendo su éxito frente a años de críticas y detractores. El presentador condena la hipocresía en el mundo del culturismo y la toxicidad de aquellos que confunden la crítica con el "hate". Argumenta que muchos comentarios negativos provienen de la frustración y la envidia, destacando la necesidad de apoyar el esfuerzo y el trabajo duro. El video reflexiona sobre la fragilidad de los egos y la responsabilidad de las figuras públicas en el deporte.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Joan Pradells hace historia y la hipocresía al descubierto <a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&amp;t=68" target="_blank">[01:08]</a></h3>
+
+<p>El presentador introduce el reciente éxito de Joan Pradells en el culturismo open, contrastándolo con las críticas pasadas. Critica a aquellos que antes hablaban mal de él y ahora se muestran hipócritas ante su impresionante rendimiento.</p>
+
+<h3>El Culturismo: ¿Un Mundo de "Retrasamentales"? <a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&amp;t=160" target="_blank">[02:40]</a></h3>
+
+<p>El presentador hace una fuerte declaración sobre la falta de inteligencia y la superficialidad en el mundo del culturismo. Destaca cómo se juzgó a Pradells, afirmando que "no tenía estructura", a pesar de que el propio orador ya preveía su éxito.</p>
+
+<h3>El Resurgimiento Épico de Pradells <a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&amp;t=344" target="_blank">[05:44]</a></h3>
+
+<p>El video recuerda los momentos difíciles de Joan Pradells, incluyendo fracasos en competiciones pasadas y vídeos con pocas visitas. Subraya cómo nadie esperaba su espectacular regreso y el "comeback bro épico" que ha protagonizado.</p>
+
+<h3>Crítica vs. Odio: El Dilema de la Figura Pública <a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&amp;t=1026" target="_blank">[17:06]</a></h3>
+
+<p>Se debate la diferencia entre crítica constructiva y lo que se etiqueta como "odio" o "hate" en redes sociales. El presentador argumenta que las figuras públicas son responsables de sus actos y deben aceptar ser juzgadas, rechazando el victimismo.</p>
+
+<h3>Egos de Cristal: La Fragilidad en el Culturismo <a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&amp;t=1363" target="_blank">[22:43]</a></h3>
+
+<p>El presentador describe el mundo del culturismo como lleno de "egos de cristal," donde muchos utilizan el físico para compensar inseguridades. Critica la mentalidad de "tío duro" que esconde una gran fragilidad y contradicción interna.</p>
+
+<h3>El Circo de la Hipocresía y los Fantasmas del Culturismo <a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&amp;t=1512" target="_blank">[25:12]</a></h3>
+
+<p>El video expone la hipocresía en la comunidad del culturismo, donde muchos critican en privado, pero alaban en público por conveniencia. Se describe el ambiente como un "mundo de payasos" con "egos de cristal", lleno de personas acomplejadas y contradictorias.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1" target="_blank" class="timestamp">[00:01]</a> Qué tonta está la gente con lo de Parais, ¿eh? Qué tonta está la gente con lo de Parais. Qué contento estoy que me ha caído la boca. Tío, es un culturista. Ha hecho lo que tiene que hacer. Bueno, es impresionante lo de Parais. No digo que no, es impresionante. Pero claro...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=14" target="_blank" class="timestamp">[00:14]</a> Strongman, Catarro, es un obsessive y dice que ¿dónde están los que decían que entrenaba mal y que luego menguaba? Lo que enseñaba el pattern es cierto. Ha habido cambios en el entreno y por eso ahora no sé qué ha escurrido cuando define. Pero Catarro, Strongman, se dedica a tergiversar la realidad. Sí, sí. El tema de Paradise... No por Paradise, ¿eh? No por Paradise. Es cansino que flipas. ¿Tú ves a Paradise cómo entrenaba hace dos años? No sé quién es, Guillermo. Álvaro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=40" target="_blank" class="timestamp">[00:40]</a> Hace dos años y me acompaño con ahora. Y bueno, y la cantidad de gente que me echan cara. ¿Ahora qué? ¿Ahora qué? Eres una hipócrita. Ah, bueno. Hay un montón de gente que me dice que soy hipócrita porque no sigo criticando al Paradise. Yo tenía que decir que es una mierda. Ahora. Claro, es que es eso, ¿no? Ahora resulta que Joan ya no es Palette ni Paradise. Ahora ha hecho una gran competición, pero como persona deja mucho que desear, ya que nadie se acuerda que no fuera antierro a su abuelo. Que tampoco quiero yo repetir el tema ese. Ya pasó, ya está. Todo el mundo lo sabe.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=68" target="_blank" class="timestamp">[01:08]</a> Que bueno, que para vez pidió a su comunidad que no empiece a tocar los huevos a la gente, ¿no? Cuarto. Es una línea absolutamente brutal y lo que hace Joan es hacer historia en el culturismo open. Lo más impactante es, bueno, después del inicio que he dicho, entre comillas, que ha habido gente que ni siquiera le gusta entrenar o que ni siquiera son un ejemplo de nada, ni siquiera tengan aspecto de llevar un mínimo control nutricional...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=97" target="_blank" class="timestamp">[01:37]</a> han rajado de él diciendo tonterías. Como Ramón Puig, ¿no? Es que entiendo, el argumento no es que sea estúpido per se, pero tampoco se puede usar tanto, ¿no? Porque mira, os acordáis, ¿no? Si lo encontráis, busca a Wally, encontráis aquí un preparador de leyenda o de gran prestigio, lo encontráis, de origen español pero que no vive en España, vive en América,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=128" target="_blank" class="timestamp">[02:08]</a> Puedes encontrar cuál es... Bueno, puede aparecer que es un cadáver o es el Jabal Hat, versión antropomórfica humana. Pero no, es Ramón Puig. Yo no lo conocía, me lo presentó fuerte. Pesa 200.000 kilos. Aquí está, ¿no? Un tío que ha estado en el Gold Gym, ha conocido a Pink Gironda, ha conocido a todas las generaciones de culturistas. Entonces, bueno, lo del argumento este de pelo brócoli, pelo brócoli, no lo digo por...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=158" target="_blank" class="timestamp">[02:38]</a> Tarraco, porque no tiene pelo. Pero sí por ese, bro, pero tú, ¿cuánto hace el empresa banca? Bueno, a ver. Para empezar, debería estar muy apreciado la inteligencia en el mundo del culturismo, porque es un mundo de retrasamentales. Quiero separar claramente a quien las personas le caían bien o mal, o que consideren unas cosas errores o no. Que no digo que sea inválido lo que dice Tarraco, que no, que no es inválido, pero bueno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=185" target="_blank" class="timestamp">[03:05]</a> apostillando y aclarando un poco el tema para que no sea dogmático. O que les guste su actitud o no, esa es otra historia. Cuando alguien no te gusta, no lo sigues y ya está. Yo hablo de culturismo. Gente que se ha hinchado a decir que no tenía estructura, que no valía para esto. A ver, tenéis mi puñetera castaña. Yo ya lo dije hace muchísimo tiempo. Además, Joan ha hecho algo que me gusta mucho. Entreno como un loco porque me apasiona</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=215" target="_blank" class="timestamp">[03:35]</a> Y la vida, la experiencia, gente de gran sabiduría como los entrenadores que ha tenido, como Fede, como Spín, poco a poco te van ayudando, te van moldeando. La vida, como he dicho... He pudo las cejas, porque sí, son grandes entrenadores, por supuesto, Frank Spín y Fede, pero bueno, que tampoco he visto que hace mucho caso. Muchas veces te va regulando. Pero él ya empieza entrenando como un chaval. Y todo el mundo que se entrena... Bueno, si tienes razón, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=243" target="_blank" class="timestamp">[04:03]</a> No hace falta llorar, pero sí. Vuelvo otra vez a añadir información, porque este tío es... Bueno, en fin. Este hombre es muy del Terras del Ebre. ¿Os acordáis de Femoral de Paradise cómo era? ¿Qué era mierda? ¿Os acordáis?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=272" target="_blank" class="timestamp">[04:32]</a> ¿Y por qué una mierda de femoral de Paradise que se ponía a hacer el banco del cul de femoral? Que el tío cogía la cabeza y hacía así y se movía todo el tío. Tiene que estar estirado así, cogiendo los brazos de las barras. Levantar así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=293" target="_blank" class="timestamp">[04:53]</a> Ya está. No hice ninguna, tío. Movía todo, el cuerpo, pero lo que es el eje este que tienes que levantar lo movía a nada. Hacía así. Dice, tío, arriba, baja, arriba, baja. Luego cambió. Empezó a entrar bien el femoral cuando ya había que femoral era un desastre. Pero un desastre, ¿eh? Desde que tengo uso de razón. Por lo tanto, a mí me gusta, me emociona que la gente le vaya bien y que triunfe. Es muy común en este mundo que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=322" target="_blank" class="timestamp">[05:22]</a> Ah, sí, no, no. A mí la verdad que me flipó y dije, ole, sus cojones. Impresionante. La verdad que a mí la idea de que el tío fracasara... Había un tiempo... Yo y todo el mundo, ¿eh? Yo y todo el mundo, ¿eh? Yo y todo el mundo. Yo y todo el mundo. Ahora tengo el mundo más falsa la peña aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=344" target="_blank" class="timestamp">[05:44]</a> Cuando falló en China, hiciera esas explicaciones que dices, ¿qué me estás contando, Bradice? Y luego empezó a hacer vídeos así en el canal, que era una mierda, que no miraba a nadie. Que no miraba a nadie. Vídeos de 4.000 visitas. Que es lo que... Porque yo, como mierda de cara que soy, digo, no puede ser, tío. Yo es que yo flipaba. Y lo veías perdido y dices, este tío, ¿a dónde va?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=372" target="_blank" class="timestamp">[06:12]</a> Nadie, nadie, nadie se iba a encontrar con esto. Así de golpe, ¿eh? Es que ahora la gente... No, claro, es que siempre confía en él. Te metías en el canal de Paradise y en los vídeos solo había críticas, tío. ¿Os acordáis que lo dije? Que no he visto nunca en un canal de YouTube que todo el mundo condene al tío. Nadie hablaba bien de él. ¿Ha hecho un comeback bro épico? Sí, la verdad que sí. La verdad que sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=403" target="_blank" class="timestamp">[06:43]</a> ...creer que el fracaso propio tiene que ver con el éxito ajeno. Parece maravilloso lo de Joan porque me parece que se lo merece por cómo entrena y por cómo se dedica a ello. A partir de aquí, cada uno que es que es así, es que es asa... Esas son otras historias que yo no entro a valorar. No estoy de acuerdo. Lo que él haga y diga tiene que ver con el culturismo, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=429" target="_blank" class="timestamp">[07:09]</a> Porque vamos, si no es que juzgar como son las personas, es decir, juzgar cultistas por como son como personas, madre mía. O sea, habría que quemarnos cuantos, ¿eh? Empezar que Lebroni, que los tres me contaron que menudo gilipollas también. Ah, o el Phil Heath. Hostio, menudo payaso, tío. Yo tengo mi opinión. A mí me parece que todo el mundo en la vida, y más cuando eres joven, cometes errores. Porque me gustaría ver a muchos con...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=459" target="_blank" class="timestamp">[07:39]</a> Digamos, la exposición visual y con veintipocos años. Porque todo el mundo se rasga las vestidas. Sí, esto es verdad. Cuando eres jovencito y tienes esa exposición, todo es gilipollas. Estoy de acuerdo. Yo he sido gilipollas. A ver, no hubiera hecho las cosas que ha hecho él. Siempre he tenido empatía y siempre he pecado de ser el tonto que se pone a ayudar y tirar dinero y todo eso. Pero bueno, sí. Que sí, yo he sido gilipollas. Todos somos gilipollas con veintipocos años.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=487" target="_blank" class="timestamp">[08:07]</a> perfecto y hay gente que no puede tener una mínima reunión de cuatro personas, sino decir 37 imbecilidades por minuto. Y resulta que no le perdonan a alguien que en un momento puntual yo he hablado y la he cagado mil veces y todos la cagamos. Y a más exposición tienes, más fácil es que algo siente mal a alguna gente. Claro, claro, claro. Claro. Y es que, bueno, hostia, se va a escapar unos strikes. Seis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=517" target="_blank" class="timestamp">[08:37]</a> ¡Zas! ¡Ah, Antonio! ¡Ah, hijo de puta! Bueno, a ver. Todos hemos sido 20 años. Unos errores que hacemos todos. Este, el Mobutu, ¿qué ha hecho? Ah, que ha apuñalado a alguien. Bueno, bueno. Todos hemos sido jóvenes. El otro, el Heredia, ¿qué hace con el coche? ¿Hace un tramo ahí por un pueblo donde nos tira la mata a uno? El Farruquito, bueno. ¿Quién ha hecho tonterías de joven, hombre, tío? A ver. No me jodas, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=546" target="_blank" class="timestamp">[09:06]</a> Yo no digo que nadie es perfecto, yo tampoco, vosotros tampoco. No, no, no soy perfecto, soy bastante eficiente en muchas cosas, pero esas cosas traicioneras, puñal por la espalda, o sea, a lo mejor sí que tú has hecho de joven, tarraco, pero vamos, yo no, te lo voy a asegurar. Yo digo, y sé de lo que hablo porque he tenido épocas bastante duras en este aspecto,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=571" target="_blank" class="timestamp">[09:31]</a> que es muy duro cuando bum y bum y bum y da igual lo que hagas, bum y bum y bum. Y no hablo del tema personal. Hablo del tema, no tiene estructura para el culturismo, esto no, esto sí, lo de la espalda de Joan, ya acabamos con el tema. Hay imágenes por ahí, al lado de Samson Dauda, ¿os suena? Cuarto en el último Olimpia, campeón el año pasado, y no le desmerece en absoluto. ¿Qué aún le falta?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=600" target="_blank" class="timestamp">[10:00]</a> frontalmente es un top, frontalmente es un top. Yo sí que he cometido el error que hace, bueno, hace mucho, luego ya me di cuenta que el tío era top Olimpia, yo lo dije, ¿os acordáis? Hace un año dije que era top 6 Olimpia por capacidad, yo creo, por estructura y todo, y la gente va a tener su culo con el...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=620" target="_blank" class="timestamp">[10:20]</a> Como disimulando a la gente, como dijo, hey, John, con qué rico lo que has hecho. Pero sí que antes lo veía con el volumen y es un error juzgar un cultista por el volumen, esa estupidez. Una estupidez. Hasta no se quita toda la grasa. Bueno. Que yo lo hice, ¿eh? Es un top, es que la doble acojonante. Pero ahora, la amplitud de espalda, ¿ahora qué falta? Falta un poco más de tiempo, ¿para qué? Para pisar el Olimpia, que es cuestión de tiempo, y para estar arriba. Luego ya veremos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=650" target="_blank" class="timestamp">[10:50]</a> Pero muchos de los que decían, Jester, ¿ahora qué? El otro día hace un top 3 y hace un top 5 en una línea acojonante. Le gana un Olimpia, el famoso Criso, Kion y Martin. Kion es tres veces seguidas Olimpia 200. El tarraco este subía vídeos durante el confinamiento que se ponía a contar la gente que veía en el parque y veía unos padres con ellos jugando en el parque y se ponía enfermo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=680" target="_blank" class="timestamp">[11:20]</a> Hoy no, era policía del balcón, el tarraco, fue asco, tío. Es uno de los grandes rivales de nuestro calderón. ¿Qué me contáis? Por lo tanto, oye, no, me quito el sombrero. Antes, Juan. Así que estoy muy contento. Creo que lo más importante, aparte del resultado, es la sensación.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=710" target="_blank" class="timestamp">[11:50]</a> Joan dijimos que había despegado, Joan ha llegado. Va a tope por arriba y está comparándose lo que decimos. Creo que Martín acabó quinto, el último Olimpia, quinto del Open. Cuarto, acabó Dauda, ahora han acabado primero Martín, segundo Dauda. Creo que está bien poder ganar cualquiera de los dos, pero tenía un puntito más. Y Samsung estaba mejor que en el Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=737" target="_blank" class="timestamp">[12:17]</a> Luego, tercero, que era Cristo. Ya sabemos que es una bestia, pero... ¿Qué ha hecho Sansol, eh? ¿Qué ha hecho? Se caó claro. Joan le ha cortado mucho el recorrido. Creo que tenía algo de dilatación abdominal. El abdomen de Joan muchísimo más controlado que el de Cristo. Y luego Kion. Tres veces campeón de 212. Los resultados creo que son justos. A mí, por ejemplo, el cuarto de Kion es que a mí Kion la dilatación abdominal es que me tira mucho para atrás. Mucho. Y ahora lo veo salir...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=766" target="_blank" class="timestamp">[12:46]</a> Y ese punto estético pasaba como con las varices de vuestro colega Walker. Me falta un punto. Pero acojonante. Y otra cosa que quiero dejar clara. Esto es culturismo open. Esta es la categoría reina. Sin desmerecer a nadie. Esta es la categoría reina. Lo que hace Joan es el culturismo en categoría open. Reina.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=795" target="_blank" class="timestamp">[13:15]</a> Los más grandes del mundo. Máximo músculo con la mejor condición posible. Así como dijimos en el Olimpia, que era una decepción la condición, sobre todo para Emilia Lumsfeld, que pasados... Categoría reina porque no hay límite de peso, hostia. Te has de meter mucho anabólico, has de tener mucha estructura para cargar todo el peso. Y que sí, que luego hay tíos bajitos, ¿no? Pero bueno, que son...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=822" target="_blank" class="timestamp">[13:42]</a> La espalda del Lufor es increíble. Digo yo, no soy preparado ni nada. Tienen que comer en volumen. Una salvajada muy bestia. Todos los días me parece un robo a Chopin, pero espantoso. O sea, con los días he visto... De acuerdo. Aunque esté desacuerdo con Tarraco, no es que esté muy desacuerdo. Me parece una tonta lo que dice, aclarando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=852" target="_blank" class="timestamp">[14:12]</a> más vídeos, más imágenes. O sea, no me lo venden por ningún lado. No me lo venden. Ahora dice que haga una semifinal y dice que la final no. Bueno, bueno. Pero esta vez la condición muy bien. Dauda viene mucho mejor. Es cosa que no... Es tan difícil el culturismo pro a estos niveles. Las preparaciones que están mejor ahora que en el Olimpia. Martín ya venía muy bien en el Olimpia. Yo creo que si les hubieran comparado al final Martín</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=881" target="_blank" class="timestamp">[14:41]</a> que estaba parecido a hoy y Dauda estaba peor, hubiera podido meter mano incluso en el top 3 a Andrew Jacquet y Cristo muy bien, Kion, evidentemente las condiciones innegociables y Suá tiene una condición ya espectacular. Creo que no es su última, no creo, sé que no es su última competición, que va a ser un par más mínimo, yo creo que él quería hacer cuatro y me parece acojonante. Así que estoy contento de cojones, ya lo he felicitado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=911" target="_blank" class="timestamp">[15:11]</a> Y creo que al final... Yo creo que mucha gente no lo va a entender ni se lo va a creer, pero realmente a mí me alegró un montón el de Joan Parais. De verdad te lo digo. Vosotros lo sabéis, que me seguís cada día. Me alegré un montón, ¿no? Porque es que dices, hombre, tiene muchas cosas malas, Prades, también es un tío que tiene que aprender a hostias. Yo te lo he aprendido a hostias. No ha sido la cosa que ha hecho él, por eso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=939" target="_blank" class="timestamp">[15:39]</a> Y... Pero, joder, tío, al final te dejas la salud. Todos cultistas se dejan la salud, todos. No es por hacer en la mala leche. Se dejan la salud, como todos culturistas. Y se va a cargar su carrera deportiva ahora, tío. Es un potencial tremendo. Estás despegando. Y yo, bueno, brutal. Está bien. No es esto una selección, pero que se reconozca. Hay que apoyar a todos. No, habrá españoles que te caen mejor, que te caen peor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=968" target="_blank" class="timestamp">[16:08]</a> Había argentinos que me caen bien, otros no. Españoles que me caen bien, otros no. Y depende de la persona y de la afinidad que tengas y demás. Pero a mí me parece que es un tipo que al final se le machacaba por entrenar por demás. Y todo hacía mal y todo entrena mal y una cantidad de gente. Pues ahora puntito en la boca. Puntito en la boca porque desgraciadamente en este país yo salgo a hacer un vídeo cuando las cosas van bien y cuando no han ido bien me he callado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=998" target="_blank" class="timestamp">[16:38]</a> Porque tengo otras cosas que hacer. No es mi profesión rajar del personal. Pero creo que la gente no entiende, y lo digo por experiencia, el daño que se puede llegar a hacer cuando te coge joven. Ya con los años llega un momento que... Me tienen hasta los cojones en la mierda esta, tío. El puto victimismo. Era una figura pública... Hombre, no todo vale. Pero es una figura pública...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1026" target="_blank" class="timestamp">[17:06]</a> eres responsable de tus actos y juzgado por ello en público. Y si no, no te grabes, tío. ¿No te gusta? ¿Sabes cómo diría en Yates? ¿Escóndete? Sí, tío, que tiene 28 años, que no tiene 12 años. El mamá la ha tirado pero bien al directo cuando abrió, pero que pasa de darle fama a este sujeto. ¿De qué hablas? No entera nada, tío. ¿Entiendes? Que el hate es parte de esto, ¿no? No eres nadie si no lo tienes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1056" target="_blank" class="timestamp">[17:36]</a> El hate. La maldita imbecilidad de llamar odio a la crítica. De toda la vida veo críticos. Críticos de cine, críticos de música, críticos de todo. Ah, no, eso es hate ahora. No son críticos, son haters.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1073" target="_blank" class="timestamp">[17:53]</a> Crítica de la película que se ha estrenado, ¿no? Pues bueno, estás aburrida, un coñazo, no me ha gustado nada. La peor película que ha hecho el director. Es un hater, ha hecho hate. Piensa en el director. Si lee tu crítica, ¿qué va a pensar? Ha hecho un esfuerzo muy grande por la película. No sabes la implicación emocional que ha tenido el director. Si te lee la crítica, es violencia. ¡Odio! A tomar por culo, tío. Es increíble, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1104" target="_blank" class="timestamp">[18:24]</a> Porque como decía antes, desgraciadamente el éxito real, definiendo éxito como tener repercusión, ganarte bien la vida, que te vaya bien, no tiene buena cabida porque hay mucha gente en el mundo muy frustrada. A veces recibes comentarios actualmente que dices ¿qué te pasa? ¿qué hay ahí dentro que te ha motivado? No te gusto, no me sigas. No te gusta el Joan, no le sigas. Pero ese...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1134" target="_blank" class="timestamp">[18:54]</a> Es prácticamente ese acoso sistemático de todo mal, todo mal, exacto. Es realmente una frustración propia. Porque si alguien no te gusta, yo he tenido gente 10 años detrás mío y nada estuvo bien. Nunca ha estado nada bien. Ni lo que como, ni lo que entreno, ni los campeonatos, ni los coches, ni la casa, ni los perros. Nada. Oye, vive tu vida, amigo. Como decimos en la última camiseta, haters are fans. Al final es un fan genial.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1163" target="_blank" class="timestamp">[19:23]</a> Que querría una vida parecida a la cuya y lamentablemente no la puede tener y canaliza su frustración contra ti. Pero yo no tengo la culpa y Joan tampoco. Por lo tanto, oye, a mí me supo muy mal cuando pasó lo de China. La gente ha de huello brutal. O sea, es patético. Que no vale que se retire, que no sé qué. Ahora qué. Ahora esos no podrían hablar. No deberían poder hablar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1193" target="_blank" class="timestamp">[19:53]</a> Pero bueno, a mí me gusta más así. Estar callado y apoyar cuando las cosas no van bien y hacer el vídeo cuando las cosas van bien. Lo he flipado, tío. No, no sé. Es que no sé. ¿Sabe Pradesh? ¿Qué dices? ¿Qué has hecho con los diuréticos? ¿Qué has hecho con los diuréticos? Habla como sea soberbia. Madre mía, soy soberbia este. En fin. Gracias Marmatigan por la suscripción, tío. Muchas gracias por el apoyo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1226" target="_blank" class="timestamp">[20:26]</a> ¿Qué dices? Por la explicación confusa, la comida está envenenada. Una preparación surrealista. Los diuréticos no cuadraba con lo que todos sabemos. Mentalmente estaba rentado. Tampoco no se ha rido de eso. ¿Qué haces? Y claro, los sueños pasan. La gente le decía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1254" target="_blank" class="timestamp">[20:54]</a> Tío, dos años, Joan. Espabila. Que el cultivo evoluciona. Tienes que ir atacando atrás. En fin, es... Es que esta cultura de comer el culo a la gente, no, todo bien, no, todo que tengan nada. ¿Has hecho esto mal? En mi opinión, ¿has hecho esto mal? Ya está. No pasa nada, tío. ¿Qué haces? ¿Qué haces con el press en máquina militar? Press de hombros. ¿Por qué tienes dos tíos? Uno a cada lado levantando el peso. Desde la primera revisión. ¿Qué sentido tiene, tío?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1283" target="_blank" class="timestamp">[21:23]</a> No es que te critiquen, no graben los entrenos. Yo si me hago un vídeo de entreno y apazco con culo carpeta, con tripón y jorobao, la gente va a decir, joder, John Este, ¿cómo está, no? ¿Qué ha salido de la UCI? A cuerpo tiene el colega, tío. Si parece un colección estadio de juegos, va a mierda a cuerpo. Mal, ¿qué van a decir? Y también me dicen, hostia, tiene el labio Vinicius y tiene una cabeza enorme. Normal, la cabeza es enorme, sí. Tiene una cabeza muy grande.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1311" target="_blank" class="timestamp">[21:51]</a> Es hate. No sabes lo que aguanto. Todos los comentarios con mi cabeza. Mi cabeza. Mi labio y Vinicius. Soy un ser humano. No son conscientes del daño que me están haciendo. Tengo sentimientos. Esto está por culo, hombre. Es verdad, tío. Qué tontería, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1341" target="_blank" class="timestamp">[22:21]</a> Y los comentarios de mi mujer, de un montón de gente, pues son gente que demuestran su categoría moral. ¿De qué es que me molesta? Cuando veo un comentario de un tío que hace un comentario de mi mujer, pues digo... Pobre desgraciado. Pobrecillo, ¿sabes? De comentario, ¿no? Es ridículo, tío. Es una mentalidad que se ha impuesto ahora...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1363" target="_blank" class="timestamp">[22:43]</a> de sojas. Es que el mundo del culturismo es un mundo de flipados, de egos de cristal, de cristal, que se han metido en el culturismo, o la fuerza o que sea, para ventas anabólicos, para proyectar un ego que no se corresponde a la realidad, porque son de cristal. Y entonces, son tíos duros, son matones, se fijas ahí, tienen unas pintas muchos, está habiendo uno que va de duro siempre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1392" target="_blank" class="timestamp">[23:12]</a> Claro, no puedo describirlo físicamente porque son todos iguales. Tienen tanto bajar y tal, pero bueno, es uno. Ahí todo... Pues ahí en Instagram... Que no se da cuenta y dice... ¿No ves que está haciendo un personaje todo el mundo y que es un personaje? Que no es así en verdad. Y son tíos de cristal, no son nada. Y luego... Si te pillas te matas. Pero tú quedas a matar, desgraciado. Tú quedas a matar. Y si eres una mondonguilla de carne, tío. Es que de verdad. Y que decía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1423" target="_blank" class="timestamp">[23:43]</a> apoyar cuando las cosas no van bien y hacer el vídeo cuando las cosas van bien. ¿Cuál es el problema? Que vende menos. Pero yo ya tengo trabajo, no como otros. En fin, enhorabuena a Joan. Enhorabuena también a Kim Angel. Los raciadores, no tenemos trabajo, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1451" target="_blank" class="timestamp">[24:11]</a> Son comentarios muy así, ¿sabes? Dice, hombre... Yo no tengo que meterme trenbolona para sentirme fuerte, ¿sabes? Es que de verdad. Menudo personaje, tío. Es un tío que... Lo tienes que tratar con... Vamos, con respeto, ¿eh? Porque si no el tío... Tiene un carácter y un ego que flipas, ¿sabes? Muchos comentarios son indirectas a Antonio. Sí, bueno, indirectas a Antonio a cualquiera, da igual. Es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1482" target="_blank" class="timestamp">[24:42]</a> Menudo mundillo de fantasma en el mundo del culturismo. Menudo mundillo, tío, en general. Menudo mundillo. Y bueno, y los personajes que hay en el culturismo que uno siempre hace referencias a unos pero nunca especifica y luego cuando la gente dice ¿de quién hablas? No, no, no hablo de eso, otra cosa. Y otro hasta hace un discurso que dices, pero capullo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1512" target="_blank" class="timestamp">[25:12]</a> que tú y yo hemos hablado, y rajabas de esa persona que te cagas, y era un público ahí... ¡Ah! ¡Haitas de parada! ¿Dónde estáis ahora? Si tú eres peor, mamón. Bueno, en fin, es que es un mundo, tío. Es un mundo de payasos, de egos de cristal, acomplejaos, taraos, tíos que están entre el borde de colgarse de un árbol y luego otra vez ahí... ¡Ah! ¿Sabes? Tíos que eran acomplejaos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1540" target="_blank" class="timestamp">[25:40]</a> Con un sentimiento de inferioridad. El típico que en el colegio se sentía una mierda. Y cuando descubren la jeringa ahí... Es con el gollum, con el anillo, ¿no? Y entonces ahí... Y claro, luego los médicos le dicen... Deja la droga, que te vas a morir. ¡No puedo! ¡No puedo! ¡Claro! Mi identidad es el músculo. Tío, es que... Tiene que exigir su cuerpo, ¿no? Y dices... Tía, tu cuerpo es asqueroso. ¿Sabes? Se nota espectoral. Y es unos hombos enormes. Así. Y una barriga.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1570" target="_blank" class="timestamp">[26:10]</a> Estás ahí... No sé, yo... Si tú has metido un 10% de toda mierda que te has metido, estarías fuerte y no parecerías una cosa rara, ¿no? Le tiene mucha tierra a Antonio porque le va mejor que a él. Yo tengo un trabajo, ¿no? Si por el Antonio... En fin. No es un trabajo, ¿no, Antonio? Y gana 10 veces más que tú. Es que es impresionante, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1596" target="_blank" class="timestamp">[26:36]</a> Ahora todos los haters reaccionadores recogiendo cable. Yo nunca dejé confiar en él. Sí, sí, sí, creo. Recogiendo cable. Tenemos que decir que es una mierda, ¿no, Paradeus? Hoy nunca he hecho... Físico lo digo defendiendo desde hace más de un año, pero bueno. Es que... ¿Qué reaccionador ha hecho que Paradeus sea una mierda como físico, como potencial o algo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1626" target="_blank" class="timestamp">[27:06]</a> Puyitas a más más. A ver. Pero yo ya tengo trabajo, no como otras. ¿Qué trabajo tienes tú? ¿Fantasma? ¿Cuál es el trabajo del tío este? Perdona. ¿Qué trabajo tiene? ¿Es payés? ¿Es soldador? ¿Es abogado? ¿Qué trabajo tiene el tío este? Para que lo diga tanto orgullo. ¿Qué haces?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1656" target="_blank" class="timestamp">[27:36]</a> El huerto que tienes, que dedicas ahí el fin de semana. ¿Cuál es su trabajo, tío? Es que esta piña no está en el mundo real, ¿eh? Es que es impresionante. Es impresionante. Otra puya dice. Ni siquiera son un ejemplo de nada. Ni siquiera tengan aspecto de llevar un mínimo control nutricional. Han rajado de él diciendo... Ah, está hablando de un tema más cuando dice esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1685" target="_blank" class="timestamp">[28:05]</a> Si este estaba gordo como una nutra antes, ¿os acordáis? El tío este. Al que se ha agazado, ya se le ha subido la cabeza. Mira, hay peña, tío, que no puede tener ni una virtud física, pues entonces ya lo tiene que utilizar para desprezar a los demás. Es que es patético, tío. Es patético, tío. En fin, lamentable, tío. Muy fuerte, tío. En fin, estoy flipando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1711" target="_blank" class="timestamp">[28:31]</a> Y luego el tío va de honesto y va de limpio, ¿no? Esto es hate de Italia. ¿Tú? ¿Esto es lo tóxico que eres? Soltando puyas así, por atrás, así, indirecta, dando a Antonio con Tese de Precio. Es que Antonio, ¿qué ha dicho de Paradise así destructivo? ¿Lo puede explicar a vosotros? ¿Qué pasa? Que le tenemos que... Antonio Mamá le tiene que rendir tributo al Paradise. ¡Oh, Paradise!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1738" target="_blank" class="timestamp">[28:58]</a> Tiene una chicha aquí en los lumbares, no sé qué pasará. O cuando dijo el tríceps, ¿verdad? Antonio dijo, hostia, es que de verdad. Cuando el pradés, el Antonio dijo, este tiene un mal para culturismo porque el tríceps que tiene, ¿os acordáis? Que luego el tríceps, el pradés, lo ha mejorado muchísimo. Pero una época, ¿os acordáis? El tríceps lo veías y dices, ¿qué es eso? ¿Es así? ¿Os acordáis? Corto y tal. Ah, no, ha tenido un tríceps que dices, hostia...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1764" target="_blank" class="timestamp">[29:24]</a> Muy bien. Tiene mucho peito. Paradeis lo que ha hecho. Los puntos de él lo ha mejorado muchísimo. ¿Poco le ha hecho a Antonio Paradeis? Sí, sí. Antonio Mamás tenía justificación de sobras para odiar con toda su alma a Joan Paradeis. Perdona, eh. Lo siento. Es feo. Pero cuando un tío intenta cerrar el negocio... ¿Ah, sí? ¿Por qué sí? ¿Por qué no me gusta lo que dice a mí? En fin. ¿Sabes lo malo de esta gente, tío? Sale Paradeis y dice, mira, buen rollo con todo el mundo, reaccionadores, tienes un trabajo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1794" target="_blank" class="timestamp">[29:54]</a> he hablado con Josema no sé qué me gusta España que representa España y ole ole tú Joan Pradice muy bien tío muy bien lo aplaudo me callo y oye fantástico y a muerte con Joan Pradice venga que hizo eso que hizo antes horrible pero bueno es igual ha dicho esto bueno es igual y venga a muerte con Joan Pradice venga todo va para allá vamos a apoyarle venga querida Andorra pues mejor</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1822" target="_blank" class="timestamp">[30:22]</a> ¿Qué es esto de pagar impuestos para que luego los de la esclosis, la tela metrófica como el sabatepons se mueren si no puedes gastar 10.000 euros al mes en recursos sanitarios que no te paga el Estado? Que ahora hay que hacer una recaudación de dinero por una señora porque anda a hacer la tracostomía y lo tiene que pagar ella y no tiene dinero. Y entonces no sabe qué hacer si sedarse, pedir que la seden y muera y se ahogue durmiendo. Cosa surrealista. Muy bien, Bet Andorra, tío, como cierta Bet.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1853" target="_blank" class="timestamp">[30:53]</a> Que no quieres pagar y punto. Que no estás obligado a pagar. Que esto es un estado criminal. Esto es una estafa. A veces viene Andorra. Hombre. Muy bien. Yo aplaudo que vaya Andorra. Claro que sí. Y oye, muy bien, tío. Hay gente que se enfada en el chat. Que lo entiendo. Yo no me creo nada para él. Es que lo demuestre. Ya, tío. Porque yo lo he criticado mucho para él. Y cuando lo he criticado mucho yo no puedo ahora coger y decir no, criticado. Ha dicho esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1880" target="_blank" class="timestamp">[31:20]</a> aplauso y venga. Ha demostrado en la tarima que es un culturista de verdad, que es impresionante lo que ha hecho y oye, me callo y digo, no me tengo que traer nada, perdona. Porque cuando decía hace casi dos años y hace ya un año y dije, este tío tiene una estructura increíble, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1901" target="_blank" class="timestamp">[31:41]</a> ¿vale? Impresionante. Entonces, la gente le tiene más rabia a Pradesh. O no, que te decía, pero que me he perdido. Entonces da rabia que saquen esta gente y todo esto, y más que el Pradesh lo decía. Por favor, mis seguidores, no vayas a dar por culo a los demás. Que está muy bien lo que dijo el Pradesh, ¿eh? Está muy bien. Está muy bien lo que dijo. Por favor, dejad a la gente en paz. No vayas a decir no sé qué, no sé cuál. Está muy bien lo que dijo. ¿No? Porque, claro, eso quiere decir que todos los seguidores que van a molestar, Pradesh no tiene ninguna responsabilidad sobre ello. No tiene ninguna.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1934" target="_blank" class="timestamp">[32:14]</a> Pero la rabia es que se haga gente como Tarraco, con esa falsa moral, con esa suplida moral que se gasta. Bueno, es que yo he oído de... Siempre es el ejemplo de todo, ¿eh? Yo soy más, ¿eh? Bueno, yo soy más de coger callarme, ¿no? Pero yo tengo un trabajo, ¿eh? No como a otros. De callarme y entonces cuando alguien lo hace bien lo digo, lo has hecho bien, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=pYb1f1IKwLM&t=1958" target="_blank" class="timestamp">[32:38]</a> Entonces, estás en verdad echando mierda, para veréis. Porque los demás tienen que responder y decir ¿ah, sí? Y te obligan a volver al tema de antes y otra vez y otra vez y otra vez. Te tengo que recordar las cosas que pasaron, tío.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 30/10/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
