@@ -1,0 +1,398 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 02/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">02/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Kim Angel</strong>: <a href='#video-tPBh0WoRAgo'>SHOW DAY EVLS PRAGA PRO ¿ UN GOLPE EN LA MESA ? NO!! ME HE SUBIDO A LA MESA 😂</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-tPBh0WoRAgo">
+            <h2>SHOW DAY EVLS PRAGA PRO ¿ UN GOLPE EN LA MESA ? NO!! ME HE SUBIDO A LA MESA 😂</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Kim Angel</span>
+                <span class="date">Publicado: 02/11/2025 09:11</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=tPBh0WoRAgo" target="_blank">
+                    <img src="https://i.ytimg.com/vi/tPBh0WoRAgo/hqdefault.jpg" alt="SHOW DAY EVLS PRAGA PRO ¿ UN GOLPE EN LA MESA ? NO!! ME HE SUBIDO A LA MESA 😂" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video detalla la intensa preparación y competición de un culturista en el ELFs Prague Pro, narrando los desafíos físicos y mentales, incluyendo la gestión de la fatiga, el jet lag y problemas digestivos. El atleta enfatiza la importancia de la mentalidad, la autoconfianza y el apoyo de su equipo para superar las adversidades. Celebra un segundo puesto como una victoria personal, reflexiona sobre su madurez como competidor y anticipa su última competición del año.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Mente como Catalizador del Éxito <a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&amp;t=179" target="_blank">[02:59]</a></h3>
+
+<p>El atleta comparte cómo su cuerpo empezó a reaccionar positivamente solo después de que su mente se comprometiera completamente con la competición. Subraya que la mentalidad es "súper, súper, súper importante" y que las acciones diarias de autoconvencimiento son primordiales.</p>
+
+<h3>La Batalla del Pesaje y el Estrés Corporal <a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&amp;t=305" target="_blank">[05:05]</a></h3>
+
+<p>Describe la extrema dificultad del día del pesaje, con restricciones severas de comida y agua, y un retraso de dos horas y media. El agotamiento y el estrés se manifestaron en malestar físico, pérdida de equilibrio y una tensión estomacal debilitante.</p>
+
+<h3>De la Duda a la Confianza en Tarima <a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&amp;t=578" target="_blank">[09:38]</a></h3>
+
+<p>Tras superar problemas digestivos que lo hicieron dudar de competir, el atleta experimenta un cambio mental decisivo antes de salir a escena. Concluye que se sintió "relax, tranquilo, bien, confiado" y que esta actitud se reflejó en su posado y su disfrute en el escenario.</p>
+
+<h3>El Orgullo de un Primer Call-Out <a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&amp;t=620" target="_blank">[10:20]</a></h3>
+
+<p>Expresa una profunda emoción al ser llamado en el primer call-out en un campeonato de prestigio, un objetivo a largo plazo que logró. Atribuye este éxito al trabajo duro, la guía de su preparador Raúl y el soporte emocional que le permitió creer en sí mismo.</p>
+
+<h3>La Victoria de un Segundo Puesto y la Madurez <a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&amp;t=810" target="_blank">[13:30]</a></h3>
+
+<p>Considera su segundo lugar en el ELFs Prague Pro como una victoria con "sabor a oro", destacando el calibre de los competidores. Reflexiona sobre su evolución como atleta maduro, capaz de aceptar tanto el éxito como el fracaso, y la conexión genuina con su comunidad.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=1" target="_blank" class="timestamp">[00:01]</a> En la primera semana hacia Praga no estábamos seguros si mi cuerpo iba a reaccionar. Yo me vi la barriga y dije, si yo no salgo. Me dolía la barriga hinchado de gases y al dormir descansar. Y creo que se notó en tarima. Creo que es una de las competiciones en las cuales</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=19" target="_blank" class="timestamp">[00:19]</a> Más tranquilo se me ha visto, mejor he posado, más me lo he creído, más he tenido esa actitud correcta en tarima, sin estrés, sin presión, sin correr. Me pongo emocional porque es un objetivo que tenía a largo plazo, pero yo tenía mis armas y sabía que contra Dabul podía rascarlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=39" target="_blank" class="timestamp">[00:39]</a> Por algunos motivos. El hacer acciones a diario para autoconvencerse de que sí que se puede es primordial. Es algo que he estado aplicando este año y siento ese orgullo. Bueno chicos, en fin, el vídeo que esperabais. No he preparado nada. Sí que sé de lo que quiero hablar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=63" target="_blank" class="timestamp">[01:03]</a> Obviamente voy a hablar un poquito de la semana previa al Praga, pero sobre todo quiero hablar del momento de la tarima.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=72" target="_blank" class="timestamp">[01:12]</a> las sensaciones y el post post competición como me sentí como asimile las cosas entonces bueno voy a empezar paso por paso ya sabéis no hay nada mágico no hay nada de otro mundo es repetir lo que funciona obviamente teniendo a Raúl haciendo los ajustes en función de pues cada obstáculo cada detalle pues que no va donde queremos entonces Raúl con su conocimiento</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=102" target="_blank" class="timestamp">[01:42]</a> Tal y como me va conociendo, ya sabe cómo rectificar cada cosa para que vaya donde queremos. Una apuesta a punto más bien complicada en el aspecto de que ya es mucho cansancio acumulado. Parece una tontería, pero al final entre los dos primeros shows que gané y el Olimpia son ocho semanas de apretar aún más.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=123" target="_blank" class="timestamp">[02:03]</a> No son ocho semanas donde hay un super hábit entremedio porque tampoco da tiempo. Luego el Olimpia que es una competición que desgasta como si fueran tres porque es mucho ruido, mucho pensar, muchos días fuera de casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=139" target="_blank" class="timestamp">[02:19]</a> Y bueno, volver el viaje hasta aquí, el jet lag, el rebote bastante importante, subir bastante de peso, subir bastante de peso y no es tanto por la comida, es más bien el cansancio, el jet lag, el no dormir bien, etc. Entonces había que afrontar Praga y en la primera semana hacia Praga no estábamos seguros si mi cuerpo iba a reaccionar. En los tres, cuatro primeros días yo pensé que no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=165" target="_blank" class="timestamp">[02:45]</a> Pero de un golpe dije, tío, hay que ir con todas. Y en el momento en el cual cogí los billetes de avión, firmé el contrato y alquilé el hotel, el cuerpo hizo, pam, empezó a reaccionar. Y ahí es donde me di cuenta que la mente es súper, súper, súper importante. El hacer acciones a diario para autoconvencerse de que sí que se puede.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=192" target="_blank" class="timestamp">[03:12]</a> es primordial es algo que he estado aplicando este año y es algo que creo que ha sido aparte pues bueno obviamente todos los cambios que han habido como el preparador el entorno etcétera ese cambio de mentalidad de confiar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=208" target="_blank" class="timestamp">[03:28]</a> aunque sea difícil a veces porque da miedo confiar en sí mismo. Porque al final, si tú no confías, el fracaso ya lo tienes. No se puede ganar todos los días, no se puede salir bien todos los días, no te sale bien siempre, pero más confías en ti, más haces esas acciones, más te lo repites, más funciona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=227" target="_blank" class="timestamp">[03:47]</a> Entonces, bueno, pasando a la Pick Week, ya decididos, nos vamos a Polonia. Raúl tenía seminario en Sudamérica, entonces no podía venir. También supongo que para Raúl tanto viaje tampoco es bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=242" target="_blank" class="timestamp">[04:02]</a> Raúl confía en mí, yo confío en él, ya lo hemos hecho tanto en Tupelo como en Atlanta, sabemos trabajar a distancia, tenemos siempre una comunicación muy recta, muy directa, nos comprendemos súper fácilmente y eso hizo que fuera tranquilo a Praga. Luego una vez en Praga, llegamos un día antes del pesaje, es verdad que con el rebote había que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=264" target="_blank" class="timestamp">[04:24]</a> apurar mucho mucho muchísimo el peso y había que bajar drásticamente y rápidamente mi cuerpo reaccionó conseguí bajar al peso pero es verdad que el día del pesaje se fue fue difícil porque fue un día en el cual pues comer lo mínimo algunos pretzels con crema de almendra</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=285" target="_blank" class="timestamp">[04:45]</a> Ya os digo, mi día empieza a las 4 de la mañana y acaba a las 10, 11 de la noche. Y luego duermo por tirones de una hora, me despierto, etc. Entonces mis días son muy largos y el tener tan poca comida, 3 veces 50 gramos de bretzels con...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=302" target="_blank" class="timestamp">[05:02]</a> ...un poco de crema de almendra... ...es difícil y el agua pues lo mismo... ...el agua bien recortada... ...luego que ocurrió es que en el día del pesaje... ...hubo bastante retraso, etcétera... ...y en vez de pesarnos a las 8... ...pues acabaron pesándonos a las 10 y media".</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=316" target="_blank" class="timestamp">[05:16]</a> Yo, por miedo a que hubiera una diferencia entre mi báscula y la báscula del campeonato, yo ya estaba en el peso estando en casa una hora y media antes de irnos. Hubiera podido hacer una pequeña ingesta de comida o algo de agua, pero por miedo, por asegurarme, dije no, no puedo aguantar, no es un problema, pero claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=337" target="_blank" class="timestamp">[05:37]</a> Cuando es una hora y media antes de ir a casa para estar a las 8 ahí y que luego le agregas a eso dos horas y media, fueron demasiadas horas sin comer, sin beber y además activo porque te desplazas, estás ahí en el meeting, esperando de pie a que abran las puertas, etc.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=356" target="_blank" class="timestamp">[05:56]</a> Entonces ahí empecé a encontrarme bastante mal, porque además es que como llegan todos los atletas, pues te pones a hablar con uno, con el otro y al final estás mucho más activo y eso también genera deshidratación. O sea, no es lo mismo estar tumbado, relax en casa, que estar pues hablando, conversando, etc. Entonces ahí yo lo pasé mal en el Meeting Pro,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=380" target="_blank" class="timestamp">[06:20]</a> porque decía, tío, que nos pesen y nos miran ya que pueda empezar a comer y a beber. Perdía un poco el equilibrio, me sentía agotado, sentía que la tensión iba bajando, etc. Pero bueno, lo aguanté. Pero es verdad que a mí eso me estresa mucho. Al final empecé a notar que la barriga también estaba como muy tensa, cada vez más nervios, y eso es mi punto débil. O sea, yo soy muy emocional y al final cualquier estrés se me refleja en el estómago y tenía como el estómago cerrado, no podía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=410" target="_blank" class="timestamp">[06:50]</a> no podía moverme casi tenía como rampas internas o tensión no lo sé cosa que ya me ha pasado en otras competiciones el show day muchas veces tengo esos nervios y me duele la barriga bueno una vez ya el pesaje terminado empezamos a comer empezamos a beber el estómago se relaja</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=427" target="_blank" class="timestamp">[07:07]</a> todo va bien y al día siguiente pues continuamos con la carga, con los líquidos y es verdad que ahí pues muchos gases, muchos gases, muchos gases y digo uff, esto no me está gustando y no podía evacuar, ¿por qué?, o sea evacuar, ir al baño, porque había tenido una destatación muy fuerte y las heces estaban secas y entonces es difícil ir al baño. Entonces ahí había un poco de complicación, se me empezó a hinchar la barriga y es verdad que como sabéis yo soy al final</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=455" target="_blank" class="timestamp">[07:35]</a> ...podría decir ya un veterano en el culturismo... ...no en el Classic Physique... ...entonces situaciones similares... ...las he vivido muchas veces... ...y bueno, aún así... ...estando en contacto con Raúl... ...yo sabía lo que había que hacer... ...era descansar... ...dejar el móvil de lado... ...no centrarme... ...en estar activo... ...simplemente vaciar la mente... ...y uno de los motivos por los cual... ...no tenéis ni... ...two days out, ni three days out... ...ni one day out...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=486" target="_blank" class="timestamp">[08:06]</a> Ni un show day como se debería es porque fui sin cámara, fui sin filmer y además yo necesitaba centrarme en la competición. Yo fui a competir, que obviamente me encanta poder compartir todas estas experiencias vividas y que lo veáis todo, pero en ese momento, si yo no tengo a alguien que pueda estar mirando la cámara y todo eso, preferí centrarme en lo que iba, que era competir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=511" target="_blank" class="timestamp">[08:31]</a> un golpe me despierto y ya la barriga está bien entonces a partir de ahí ya dije bueno vale esto empieza a ir bien pero hubieron esos momentos de dudas donde la cabeza piensa porque claro yo me vi la barriga y dije así yo no salgo o sea me dolía la barriga hinchado de gases y al dormir y descansar se fue me desperté por la mañana muchísimo mejor una vez tintados ya en el backstage ahí es donde dije hostia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=541" target="_blank" class="timestamp">[09:01]</a> Vaya campeonato, me acuerdo 2014 fue uno de mis primeros campeonatos internacionales de alto nivel después del Olympia Mater y el Arnold Classic.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=553" target="_blank" class="timestamp">[09:13]</a> que disfruté muchísimo. Hice un top 3. Dejaré la foto por aquí con la medalla. Estaba con Phil Head. Hice una foto con él, también con mis padres. Y es un campeonato que tengo mucho aprecio porque siempre desde bien jovencito es un campeonato que he seguido y que para mí es un campeonato de prestigio. Entonces dije, ¿en qué me he lanzado? Madre mía, estoy loquísimo. Pero hoy vengo a luchar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=578" target="_blank" class="timestamp">[09:38]</a> y sé que hay opciones a hacer un buen papel. Fue un discurso interno mío que me hizo sentirme relax, tranquilo, bien, confiado y creo que se notó en tarima. Creo que es una de las competiciones en las cuales</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=595" target="_blank" class="timestamp">[09:55]</a> más tranquilo se me ha visto, mejor he posado, más me lo he creído, más he tenido esa actitud correcta en tarima, sin estrés, sin presión, sin correr. Entonces, mismamente la coreografía, que para los finales es algo que muchas veces me estresa bastante, me salió tranquilo, lo disfruté mucho, pude disfrutar mi coreografía en vez de</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=617" target="_blank" class="timestamp">[10:17]</a> ¡Ay, que me equivoco! ¡Ay, si me equivoco no! La disfruté, escuché la música y todo eso fue genial. Y bueno, hablando de lo que es competición pura, que me llamen en el primer call-out fue ¡guau! Lo he conseguido. Era mi objetivo. Estoy en la primera llamada, en un campeonato de prestigio. Y eso me pongo emocional porque es un objetivo que tenía largo plazo y trabajando duro como lo estoy haciendo, escuchando lo que me mandan a hacer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=645" target="_blank" class="timestamp">[10:45]</a> Teniendo un soporte emocional por parte de Raúl increíble. Raúl, aparte de todas esas pequeñas acciones que hago a diario para creer en mí, Raúl cree en mí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=657" target="_blank" class="timestamp">[10:57]</a> Y eso hace que yo no puedo fallar, tengo que querer en mí también. Y siento ese orgullo. Es algo similar, o sea, lo conozco desde hace poco, pero me da la impresión que es algo similar a ese orgullo de gran hermano o de padre, ¿sabes? Cuando vea a sus hijos jugar a fútbol, marcar un gol o... No sé, tío. Me hace muy feliz. Y bueno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=681" target="_blank" class="timestamp">[11:21]</a> Primera llamada y me posicionan en el centro, el chaval. Junto a Dabul y a Ruth. Digo, madre mía, la que estoy liando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=690" target="_blank" class="timestamp">[11:30]</a> No falles, Kim, no falles, tú puedes. Y sinceramente, tanto Daboul, días previos dijo, vengo con mi mejor versión. Es verdad que no estaba a su 100% y es obvio, Olimpia, Brasil, Praga, mucho viaje por el medio. Pero Ruffer, la estética de Ruffer es imbatible, es de las estéticas más bonitas. Pero yo tenía mis armas y sabía que contra Daboul podía rascarlo, podía rascarlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=716" target="_blank" class="timestamp">[11:56]</a> Por algunos motivos. Tengo un físico más redondo. Él puede tener una mejor estructura en algunas partes, pero yo tengo mejor estructura en lo que es, por ejemplo, cintura escapular. Tengo un pecho muy redondo, un hombro muy redondo. Tengo esos bultos que tanto gustan a estir. Tengo esa pierna más redondeada. Él lo tiene también, pero sabía que podía a lo mejor darle guerra. Ahora que me estaban comparando, ¿por qué no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=743" target="_blank" class="timestamp">[12:23]</a> Y lo di todo. Lo di todo, lo di todo. Vi que no me movían del centro. Vi que me mantenían ahí. Que la lucha estaba más bien...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=752" target="_blank" class="timestamp">[12:32]</a> Ya no con Davul, pero con Ruf Diesel, que para mí no hay lucha con Ruf Diesel, obviamente. Ruf Diesel es otro nivel. Pero aún así, según los gustos de Steve, tengo un físico para Steve que le gusta muchísimo. Entonces, es verdad que Steve es de físicos redondos, grandes, masivos. Y es lo que le gustó a Steve y me lo dijo. Me lo dijo claramente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=778" target="_blank" class="timestamp">[12:58]</a> no has estado lejos de poder ganar aquí este campeonato. Obviamente si Ruf hubiera venido al 100% es intocable. Sinceramente si hubiera pasado eso obviamente te puedes alegrar pero no es mi momento. No sé ni si llegará pero mi momento será</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=801" target="_blank" class="timestamp">[13:21]</a> Hay aún mucho trabajo por delante, sé que mi físico da por mucho más aún y sé que puedo conseguir grandes cosas con tiempo y sobre todo con mucho trabajo y paciencia, sabiendo respetar los tiempos. Entonces un resultado increíble, un segundo lugar en el ELFs Prague Pro es para mí</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=825" target="_blank" class="timestamp">[13:45]</a> Una victoria es para mí sabor a oro, sobre todo con los atletas que habían. Y sinceramente, sentí un apoyo increíble por la comunidad. Estoy sintiendo algo que ya he sentido a pequeña escala, pero esta vez a gran escala. Y creo que también mi cambio de mentalidad está dando a que la gente se quiera acercar, me vea de una manera diferente, que vea quién soy realmente, que se centren ya no tanto en el físico, pero más bien en la persona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=855" target="_blank" class="timestamp">[14:15]</a> cosa que a mí me cuesta a lo mejor por redes sociales ser o sea que la gente comprenda quién soy y creo que ahora he encontrado mi camino o sea estoy grabando esto sin sin pensarlo básicamente pues cuando hay momentos que no puedo grabar un show day pues no lo grabo pero luego me pongo frente a la cámara y hablo y me abro y digo todo lo que pienso y nada no creo que tenga nada que agregar para mí ha sido un posicionamiento increíble ha sido meter</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=883" target="_blank" class="timestamp">[14:43]</a> un golpe sobre la mesa de nuevo. Desde que estoy con Raúl ha sido uno tras otro y espero que esto pueda continuar. Habrán altibajos también, pero no me preocupa. Llevo compitiendo desde 2014 y he tenido muchos bajos, algunos altos, pero sobre todo muchos bajos. Y sé que estoy listo tanto para aceptar luchar por esos altos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=911" target="_blank" class="timestamp">[15:11]</a> y estoy listo para aceptar que ocurran esos bajones. Entonces creo que hoy como atleta he podido tocar un poco todas las facetas, el fracaso, el éxito y estoy siendo cada vez un atleta más maduro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=927" target="_blank" class="timestamp">[15:27]</a> porque he podido vivir varias facetas de la competición o sea que nada chicos para terminar este vídeo como ya sabréis estaréis viendo el vídeo seguramente cuando esté casi ya compitiendo en el NutriYumi última competición del año necesito descanso ya hoy mismo lo he hablado con Raúl me ha dicho claramente que hasta aquí vamos a llevar el Prime él lo tiene clarísimo aunque me queda muy poca energía él tiene claro que puedo ahondar con esa reserva</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=957" target="_blank" class="timestamp">[15:57]</a> el Prime, pero que tengo que parar una vez acabado el NutriYumi porque a partir de ahí es cuando el físico empieza a degradarse y empiezan ya los malos resultados. Entonces, bueno, con muchas ganas de afrontar esta nueva misión, el NutriYumi,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=972" target="_blank" class="timestamp">[16:12]</a> Espero dar lo máximo de mí. Es una competición que no porque sea en NutriHume, pero porque es en Alicante y que llevo cinco años sin competir en España. Me ilusiona mucho. Además, podré compartir con todos vosotros ese apoyo que he recibido, poder dar ahora de mi tiempo hacia vosotros en persona.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=993" target="_blank" class="timestamp">[16:33]</a> y eso para mí es súper importante o sea que nada espero que os haya gustado o que al menos tengáis algo de lo que ha pasado en Praga por mi parte porque habéis podido ver muchas cosas por el resto de gente que ha estado transmitiendo el Praga etcétera pero creo que también era interesante que superáis mi historia o sea que nada chicos me despido de este vídeo espero que os haya gustado como siempre no olvidéis de continuar a apoyar porque hay aún mucho camino que hacer</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=tPBh0WoRAgo&t=1022" target="_blank" class="timestamp">[17:02]</a> Sabéis cómo me podéis apoyar comprando con mi cupón, tanto en Neogenics, en Pumping Paradise, en Ethanol. O sea que nada, chicos, nos vemos en el NutriYumi. Peace.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 02/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
