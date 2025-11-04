@@ -1,0 +1,374 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 04/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">04/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-4cYjqziirD0'>TOP 3 OLYMPIA | ANALIZO los RIVALES de MI PRÓXIMA COMPETICIÓN</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-4cYjqziirD0">
+            <h2>TOP 3 OLYMPIA | ANALIZO los RIVALES de MI PRÓXIMA COMPETICIÓN</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 04/11/2025 09:32</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=4cYjqziirD0" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=4cYjqziirD0" target="_blank">
+                    <img src="https://i.ytimg.com/vi/4cYjqziirD0/hqdefault.jpg" alt="TOP 3 OLYMPIA | ANALIZO los RIVALES de MI PRÓXIMA COMPETICIÓN" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video trata sobre un culturista que analiza la lista de rivales para su próxima competición en Rumanía, un evento importante en Europa. Destaca la presencia de otros atletas españoles y se centra en la figura de Andrew Jack, un competidor de élite mundial. El presentador comparte su perspectiva sobre la presión, la experiencia de competir internacionalmente y la organización del evento.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Gran Revelación de los Rivales en Rumanía <a href="https://www.youtube.com/watch?v=4cYjqziirD0&amp;t=35" target="_blank">[00:35]</a></h3>
+
+<p>El presentador anuncia con entusiasmo la publicación de las listas de rivales para la competición en Rumanía, que considera una de las mejores de Europa. Expresa su asombro y emoción por participar en este campeonato de gran relevancia.</p>
+
+<h3>Camaradería Española en la Competición <a href="https://www.youtube.com/watch?v=4cYjqziirD0&amp;t=179" target="_blank">[02:59]</a></h3>
+
+<p>Se menciona la presencia de tres competidores españoles, incluyendo a Adolfo Pascual y Borja Saura. Esto genera un sentimiento de comunidad y apoyo mutuo entre los atletas nacionales en el evento.</p>
+
+<h3>La Sombra del "Big Name": Andrew Jack <a href="https://www.youtube.com/watch?v=4cYjqziirD0&amp;t=226" target="_blank">[03:46]</a></h3>
+
+<p>El presentador identifica a Andrew Jack como el principal atractivo y rival de élite del campeonato, un atleta top 3 del Olimpia. Expresa su ilusión por la oportunidad de competir y posar junto a una figura tan destacada.</p>
+
+<h3>La "Presión Imposible" del Main Event <a href="https://www.youtube.com/watch?v=4cYjqziirD0&amp;t=443" target="_blank">[07:23]</a></h3>
+
+<p>El creador bromea sobre el anuncio que lo empareja con Andrew Jack como el "main event", refiriéndose a ello como una "presión imposible". Reconoce la gran diferencia de nivel con su rival, eliminando cualquier presión real.</p>
+
+<h3>La Aventura y Experiencia Internacional <a href="https://www.youtube.com/watch?v=4cYjqziirD0&amp;t=556" target="_blank">[09:16]</a></h3>
+
+<p>El presentador comparte el entusiasmo por la experiencia de viajar a Rumanía, un país nuevo para él. Destaca cómo las competiciones le permiten conocer diferentes lugares y disfrutar del culturismo a nivel internacional.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=5" target="_blank" class="timestamp">[00:05]</a> muy buenas a todos chicos estamos en un nuevo vídeo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=35" target="_blank" class="timestamp">[00:35]</a> Y sí, han salido las listas de mis rivales para Rumanía para la competición que tengo el día 9 de noviembre. Sinceramente, una de las mejores competiciones de Europa junto con Praga. Bueno, sinceramente no, una de las mejores competiciones junto con Praga, históricas. De hecho, creo que es en un teatro muy, muy guapo. Tengo aquí las listas, han salido esta noche, me he despertado, las he visto y he hecho... Vaya tela, vaya tela.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=63" target="_blank" class="timestamp">[01:03]</a> Antes de nada decirte que tienes en el link de la descripción un 45% de descuento en MyProtein, ¿vale? Es el mes de noviembre, es una locura. Y por las competiciones, por todo, me han alargado el 15% de descuento que era solo ayer. Hoy también lo tenéis disponible por si lo queréis aprovechar. Os lo dejo por ahí abajo porque además durante toda la mañana hay envío gratis. Así que si estás viendo esto por la mañana, tienes envío gratis. Y el 45% más el 15%. Así que si quieres proteína, dale cañita que el mes de noviembre...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=89" target="_blank" class="timestamp">[01:29]</a> Así que yo ahora sí empiezo con las listas. Muy muy básico, la verdad. Pensaba que iba a haber mucha más gente, entonces no son listas mega largas. Al final este campeonato es el Rumanía más el Fest, mega famoso de Wings of Strength, que es como la promotora. Chicos, es que me parece una puta fumada este campeonato. O sea, Rumanía siempre como que escucha Rumanía, Rumanía, Rumanía. Y poder estar ahora ahí, pues oye...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=116" target="_blank" class="timestamp">[01:56]</a> A todo el mundo le gusta, a todo el mundo le llama la atención. Buenos días, Tony. Buenos días. ¿Qué tal? Muy bien. ¿Quieres ver la lista conmigo? Sí. Vale, mira. Siéntate, siéntate. Siéntate, siéntate. Estas son las listas. No sé cuántos competidores, pero no son tantos, realmente. ¿No? ¿Qué habrá? ¿16 o 18? ¿Os contamos? 1, 2, 3, 4, 5, 6...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=150" target="_blank" class="timestamp">[02:30]</a> 18. Un ojo ahí increíble. Bueno, el caso. Hay mucha gente que sinceramente no conozco y tampoco voy a comentarlo porque no los conozco, no por nada en especial. Pero de los que conozco, por ejemplo, está Adolfo Pascual, que es español. No lo conozco exactamente, pero es español. O sea, está bastante guay en Open. Y hay otro español. Saura. Borja Saura. Borja Saura, justo bajo mío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=179" target="_blank" class="timestamp">[02:59]</a> Que bueno, de puta madre, somos tres españoles compitiendo. Así nos enteramos también más de la competición. Y luego yo voy perdidísimo. Pero bueno, tenemos esos dos chicos, ¿vale? Los dos españoles. Y luego, dentro del resto de gente, nombres que te suenen... Pavel, ¿no? Este sí que ha estado compitiendo, es polaco, ha estado compitiendo en estas competiciones contra mí también. ¿Te suena? Pavel, ¿no? Sí. Casosi es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=210" target="_blank" class="timestamp">[03:30]</a> Andrew Jack no está. Y Chinedu Ovieka. Emiratos Árabes Unidos. Andrew Jacket. Oh, no. Andrew Jacket sí que está, brother. Sí, se llama así realmente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=226" target="_blank" class="timestamp">[03:46]</a> Realmente, Andrew Jacket es el big name, sin ninguna duda, de este campeonato. De hecho, yo supongo, o sea, lo digo así, yo supongo que como ya está anunciado hace tiempo, es un atleta que el campeonato le patrocina. O sea, que no quiere decir nada de que vaya a ganar obligatoriamente porque le patrocine nada, va a ganar porque es un super top, pero me refiero, el campeonato supongo que le habrá traído a Dredd para que compita, ¿no? Como reclamo también un poco. Es un reclamo, siempre. Sí, o sea, yo es lo que supongo, porque si no, no lo anuncias tan pronto. Lo dijo desde hace un montón de tiempo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=256" target="_blank" class="timestamp">[04:16]</a> A mí personalmente me hace mucha ilusión competir contra él. Es un top 3 Olimpia. De hecho va a ser junto con Samson y con Martin los más top de los que haya competido. Es una auténtica locura. Vale, hace falta Derek y Chopin. Falta Derek y Chopin de los top actuales, sí, la verdad. La verdad que es una pasada. Y luego también está Jan Turek.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=277" target="_blank" class="timestamp">[04:37]</a> que es de República Checa. Este chico es el que quedó sexto en Praga y el otro día también, no sé cómo quedó, pero todavía quedó en la segunda llamada. ¿Es el que es alto? Sí, pero este chico está ahora peleándose, por así decirlo, toda la temporada, yendo a campeonato a campeonato como yo. Y la verdad que mola vernos también ahí, que al final te vas conociendo en los campeonatos. Entonces, ¿cómo ves la lista? Hay italiano también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=305" target="_blank" class="timestamp">[05:05]</a> La verdad que bastante desconocidos, ¿no? Eso te iba a decir. Igual llega uno súper fuerte, ¿sabes? Y que no conocemos, pero... No, eso pasa siempre, que dices, este no lo conocías, pero este está más fuerte del final. Pero realmente, de grandes nombres que conoces que tal, Andrew Jacket. Realmente Andrew Jacket y luego me parece bastante guay que vayan españoles. O sea, somos tres españoles en la competición. O sea, junto con los polacos triunfamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=335" target="_blank" class="timestamp">[05:35]</a> Hay un alemán, que si es el que pensamos, es también muy fuerte. ¿Cuál es el que...? El que se parece a... ¿A Haaland? A Haaland, ¿no? Pero ese creo que no es alemán. No es alemán. Ah, vale. ¿Sabes quién es ese alemán, creo? Sí, seguro. Es uno que lleva gafitas. ¿Sí? Uno que está muy enfadado. Cuando lo llevaban de aquí para allá. No me acuerdo yo tampoco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=364" target="_blank" class="timestamp">[06:04]</a> ¿Aquí en Polonia? Sí. Que te dije, que te dije, ese tío, como no vayáis ahora, por el camino correcto va a haber un problema. Sí, ¿eh? Porque los llevaron de aquí para allá y por ahí no era, los volvieron a llevar para allá, por ahí tampoco era y ya el alemán ese, que estaba cantando ya los 40 principales en alemán. No le hizo ninguna gracia, ¿no? Nada de gracia le hizo. Bueno, pues... Pero, he de decir que el Vakestes y todo era muy majo con el resto de atletas y todo. Lo que pasa es que le gustan las cosas organizadas. Bueno, que sea.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=393" target="_blank" class="timestamp">[06:33]</a> Vamos a ver qué tal está. Hay un filipino y todo, ¿eh? Dos italianos. Me produce mucha curiosidad. ¿Qué son los italianos? Me produce mucha curiosidad y también me produce mucha curiosidad Rumanía en sí misma. Porque he hablado con Chichica, he estado en Rumanía y he dicho, ¿qué tal el país tal no sé qué? Y pues me ha estado contando un poco. O sea, él estuvo tiempo allí y no sé, me produce mucha curiosidad. Ha sido uno de los grandes campeonatos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=419" target="_blank" class="timestamp">[06:59]</a> ¿Y el de Irak has competido también con él o no? Es que no tengo ni idea, luego los nombres me pierdo. Ya. Y es que aquí tampoco está como muy referenciado lo que es cada uno. O sea, sí que me aparecen algunos. Di Lorenzo. Está fuerte. Si es que está todo el mundo fuerte. Es fuerte. Es fuerte. Que ibas a probar sin presión y tal. Y ahora te ponen.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=443" target="_blank" class="timestamp">[07:23]</a> The main event is Andrew Jack vs. John Pradice. Tócate los huevos. Gracias por la imposible presión. ¿Qué presión voy a coger viendo esto? Ninguna. Ninguna. No hay presión. Si quieres jugar a que haya presión, no me pongas contra Andrew Jacket como si fuera el rival de Andrew Jacket. Porque aparte me puede salir mal la convicción y hay otras convicciones en seguida. Quedar quinto o décimo. Y me da igual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=470" target="_blank" class="timestamp">[07:50]</a> Pero vamos, de main event, Andrew Jacket vs Joan Pradesh, no, hermano, o sea, eso es mentira. No estamos al mismo, no jugamos al mismo juego. O sea, estamos hablando... Es un top 3. Hay una foto de Marta con Andrew Jacket. Que hace unos años le pone el brazo en la cabeza.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=487" target="_blank" class="timestamp">[08:07]</a> es mucho más grande el plazo de su cabeza de hace unos años, que es espectacular. Entonces, bueno, simplemente eso, chicos, que es imposible que se dé ninguna situación aquí rara. Esto está más claro que Clarín, vamos, pero me hace ilusión tener una foto con Andrés ya quedó posando en tarima. Eso es lo importante. Claro, claro, posando en tarima. Esa foto para el recuerdo es como la que tengo de Sansón dado haciendo un doble dices, para mí es la foto. Bueno, igual no estás así mirándolo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=515" target="_blank" class="timestamp">[08:35]</a> Te quedas así en plan, ¿aquí qué me han puesto al lado este tío? ¿En serio? No sé cuál es esa. ¿No? No, no me acuerdo, pero puede ser. Pero bueno chicos, estas son las listas realmente, son unas listas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=527" target="_blank" class="timestamp">[08:47]</a> intratables en el sentido de que hay una persona que es un top 3 olimpia que no sé de qué hace aquí. No, de verdad, no sé qué hace aquí. El tío ha decidido competir. Además, creo que el nuevo culturismo se está llevando así, que es competir mucho, competir mucho, competir mucho. Así que, bueno, espero que os haya gustado. Nosotros el jueves nos vamos para Rumanía. Entraremos aquí el jueves y ya el viernes, exactamente. Entraremos también creo que en Rumanía. El viernes tenemos el meeting. El sábado iremos a la Orbería para que se nos vea bien guapos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=556" target="_blank" class="timestamp">[09:16]</a> Y el domingo, creo que a última hora, tenemos la competición. Espero que sea una competición que vaya bien. Creo que es un escenario, también me tengo que preparar para eso, pero es un escenario muy grande. Estuve curioseando ayer un poco, entonces eso a mí también me influye para el desparpajo, para el moverme y tal, porque en Praga me llevo una hostia al principio que flipas. Así que chicos, se viene Rumanía. Además me hace ilusión porque, tíos, o sea,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=583" target="_blank" class="timestamp">[09:43]</a> Estamos conociendo países, es increíble. Yo nunca había venido para esta parte de Europa tan lejana, por así decirlo, desde la zona de España. Y estamos conociendo países, está siendo guay, está siendo divertido, estamos disfrutando del culturismo, lo que nos gusta, y estamos pudiendo trabajar, la verdad, durante la semana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=4cYjqziirD0&t=601" target="_blank" class="timestamp">[10:01]</a> Es un poco lo que mola. Vuelvo ya para acabar. Lo último es que después de la comisión ya veremos qué se hace. Tenéis descontos en MyProtein. Esto es importante. Que lo tengáis súper, súper en cuenta. Lo tenéis en la descripción. Si vais me hacéis un favorazo. Si vais desde el link me hacéis un favorazo más grande porque me dan una pequeña comisión y si no, pues no. Básicamente no me sirve para nada. Pero chicos, hasta aquí el vídeo de hoy. Espero que os haya gustado y nos vemos en la próxima. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 04/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
