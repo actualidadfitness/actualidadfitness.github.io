@@ -1,0 +1,394 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 05/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">05/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-bJaozC0piTA'>JOAN PRADELLS SOLO VALE GANAR EN RUMANÍA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-bJaozC0piTA">
+            <h2>JOAN PRADELLS SOLO VALE GANAR EN RUMANÍA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 05/11/2025 15:01</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=bJaozC0piTA" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=bJaozC0piTA" target="_blank">
+                    <img src="https://i.ytimg.com/vi/bJaozC0piTA/hqdefault.jpg" alt="JOAN PRADELLS SOLO VALE GANAR EN RUMANÍA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la próxima competición de culturismo en Rumanía, donde Joan Pradence se enfrentará a grandes rivales como Andrew Jacket. El presentador evalúa las posibilidades de Joan para clasificar al Olympia, destacando la necesidad de ganar y la presión del alto nivel. También se aborda la crítica sobre las opiniones cambiantes y la importancia de la libertad de expresión en el análisis deportivo. Finalmente, se concluye que Joan ya ha logrado un éxito considerable, reduciendo la presión en esta nueva competición.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Importancia de Ganar para el Olympia <a href="https://www.youtube.com/watch?v=bJaozC0piTA&amp;t=54" target="_blank">[00:54]</a></h3>
+
+<p>El presentador enfatiza que, a pesar de los excelentes resultados previos de Joan Pradence, para clasificar al Olympia "solo vale ganar". Considera que quedar segundo o tercero, aunque increíble, no es suficiente para el objetivo final.</p>
+
+<h3>El Reto de Andrew Jacket en Rumanía <a href="https://www.youtube.com/watch?v=bJaozC0piTA&amp;t=266" target="_blank">[04:26]</a></h3>
+
+<p>Se confirma la participación de Andrew Jacket, considerado el "big name" y principal rival en el campeonato de Rumanía. El presentador especula que Jacket ya está clasificado para el Olympia, lo que podría influir en su rendimiento o en las expectativas.</p>
+
+<h3>Oportunidad Ante el Bajo Nivel en Open <a href="https://www.youtube.com/watch?v=bJaozC0piTA&amp;t=431" target="_blank">[07:11]</a></h3>
+
+<p>Se comenta que el nivel general en la categoría Open, incluso a nivel Olympia (del quinto puesto para abajo), es "muy bajo". Esto se presenta como una gran oportunidad para Joan Pradence de destacarse y dominar la categoría en el futuro cercano.</p>
+
+<h3>Defensa de la Libertad de Opinión y Crítica al Público <a href="https://www.youtube.com/watch?v=bJaozC0piTA&amp;t=539" target="_blank">[08:59]</a></h3>
+
+<p>El orador se defiende enérgicamente de las acusaciones de "hipocresía" por cambiar su opinión sobre Joan Pradence. Argumenta que sus comentarios se basan en el momento actual, comparándolo con el fútbol, y defiende el derecho a opinar con libertad.</p>
+
+<h3>Joan Pradence: ¿Main Event y Presión Cero? <a href="https://www.youtube.com/watch?v=bJaozC0piTA&amp;t=784" target="_blank">[13:04]</a></h3>
+
+<p>Se destaca el cartel promocional que posiciona el enfrentamiento Andrew Jacket vs. Joan Pradence como "The Main Event". El presentador ironiza sobre la "falsa humildad" de Joan, afirmando que ya ha ganado mucho y que ahora su presión es nula.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=0" target="_blank" class="timestamp">[00:00]</a> Tenemos un poquito de fitness de Joan. Analizo a mis rivales. Top 3 Olimpia. Para la competición que tengo el día 9 de noviembre. Sinceramente, una de las mejores competiciones de Europa junto con Praga. Bueno, sinceramente no. Una de las mejores competiciones junto con Praga. Históricas. He hecho, creo que es en un teatro muy, muy guapo. Tengo aquí las listas. Han salido esta noche. Me he despertado. Las he visto y he hecho...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=24" target="_blank" class="timestamp">[00:24]</a> Vaya tela, vaya tela. Dios, dijo que competía en el Rumanía y ya está, ¿no? O sea, no va a competir más. Se supone que lo de Japón es como que puede llegar a ser un viaje de vacaciones, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=37" target="_blank" class="timestamp">[00:37]</a> Muy, muy básico, la verdad. Pensaba que iba a haber mucha más gente, entonces no son listas mega largas. Al final este campeonato es el Rumanía más el Fest, mega famoso de Wings of Strength, que es como la promotora. Chicos, es que me parece... Yo voy a decir una cosa, ¿eh? Solo vale ganar, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=54" target="_blank" class="timestamp">[00:54]</a> siendo realista el tío ha roto los esquemas ha llamado la atención del mundo entero ha hecho unos resultados espectaculares espectaculares quinto puesto un tercer puesto y un segundo puesto</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=70" target="_blank" class="timestamp">[01:10]</a> Pero... Solo vale ganar. Quiero decir, si vuelve a quedar segundo, o tercero, o cuarto, o quinto, que son resultados increíbles, siendo cruel con lo que voy a decir, no vale para nada. O sea, ¿me entendéis lo que quiero decir? No estoy siendo... O sea, si estoy siendo cruel, lo siento.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=89" target="_blank" class="timestamp">[01:29]</a> Pero no vale para nada en el caso de que no haya Olimpia. Solo vale ganar para clasificar. Entonces, es una putada. Estoy siendo cruel. Estoy simplificándolo. No vale para nada. Para mí, en lo personal, me parece que es una pasada todo lo que ha hecho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=105" target="_blank" class="timestamp">[01:45]</a> Me parece una cosa increíble. Me parece una cosa increíble. Pero en cuanto a ir a la Olimpia, que es el objetivo, solo vale ganar, amigos. Y es una putada. Porque encima en esta competición va el Andrew Jacket. Y hombre, yo ya me creo cualquier cosa, pero ganar el Andrew Jacket sería lo más loco que podríamos saber ver en todo el 2025.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=125" target="_blank" class="timestamp">[02:05]</a> Y no sé, eso ya sería una locura. Ojalá, ojalá. ¿Os imagináis que Joan Pradence queda por encima de Andrew Jack? Una puta fumada este campeonato. O sea, Rumanía siempre como que escucha Rumanía, Rumanía. Es que es la cuarta competición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=140" target="_blank" class="timestamp">[02:20]</a> Japón sería la quinta. Faltan dos o tres semanas para el campeonato de Japón. Creo, ¿no? Es que no sé la fecha de Japón. No sé yo si esa quinta... Realmente está compitiendo mucho, Joan. O sea, ha pasado de estar dos años sin competir a competir cuatro veces seguidas. Y no se sabe si una quinta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=161" target="_blank" class="timestamp">[02:41]</a> Es que me parece que ya hay que empezar un poco a frenar. Señores, vengo a comentaros una novedad espectacular. Y es que hay hasta un 50% de descuento en ropa y un montón de cosas más. Con los códigos de descuento, Antonio Gemas, el código B November. Vamos a reventar estos profits. Y poder estar ahora ahí, pues oye, a todo el mundo le gusta, a todo el mundo le llama la atención. Buenos días, Tony. Buenos días. ¿Qué tal? Buenos días. ¿Quieres ver la lista conmigo? Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=191" target="_blank" class="timestamp">[03:11]</a> Vale, mira, siéntate, siéntate. Siéntate, siéntate, siéntate. Estas son analistas, no sé cuántos competidores, pero no son tantos, realmente. 18. Hay mucha gente que sinceramente no conozco y tampoco voy a comentarlo porque no los conozco, no por nada en especial. Pero de los que conozco, por ejemplo, está Adolfo Pascual, que es español. No lo conozco exactamente, pero es español. O sea, está bastante guay en Open. Y hay otro... Con todo el respeto a nuestro Adolfo, pero no... Español. Saúl. Saúl.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=221" target="_blank" class="timestamp">[03:41]</a> Al final tenemos que ver a los que creemos que puedan ayudar, ¿no? Justo, bajo mío. Este está grande, ¿eh? Que huevo, que puta madre, somos tres españoles compitiendo. Así nos enteramos también más de la competición. Y luego yo voy perdidísimo. Pero bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=236" target="_blank" class="timestamp">[03:56]</a> Tenemos esos dos chicos, ¿vale? Los dos españoles. Y luego, dentro del resto de gente, nombres que te suenen. Pavel, ¿no? Este sí que ha estado compitiendo, es polaco. Ha estado compitiendo estas competiciones contra mí también. ¿Te suena? Pavel. Pavel, ¿no? Sí. Ah, nada. Este ya la ha ganado como dos o tres veces a este ya. No, no. Este no tiene nada que hacer. Casosi es... Andrew Jack, ¿no está? Y Chinedu Ovieka. Emiratos Árabes Unidos, Andrew Jacket. Oh, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=266" target="_blank" class="timestamp">[04:26]</a> Andrew Jacket, sí que está, brother. Sí, se llama así realmente. Realmente, Andrew Jacket es el big name, sin ninguna duda, de este campeonato. De hecho, yo supongo... El big name. Supongo, o sea, lo digo así. Yo supongo que como ya está anunciado hace tiempo, es una atleta que el campeonato le patrocina. O sea, que no quiere decir nada de que vaya a ganar...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=290" target="_blank" class="timestamp">[04:50]</a> obligatoriamente porque le patrocinan a ganar porque es un super top pero me refiero el campeonato supongo que le habrá traído para que compita ¿no? como reclamo también un poco sí o sea yo es lo que supongo porque si no no lo anuncias tan pronto lo dijo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=305" target="_blank" class="timestamp">[05:05]</a> Espérate, no me acuerdo cómo ha quedado el Andrew Jacket en el Olympia. Espera que aquí se abre una pequeña puerta. O sea, Andrew Jacket ya está clasificado. No, no, no. A ver, sé que es fumadón lo que estoy diciendo. Sé que es un fumadón lo que estoy diciendo. Pero Andrew Jacket ya está clasificado. Es verdad que sería una locura porque si el campeonato es el campeonato de Andrew Jacket, tiene que ganar Andrew Jacket.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=333" target="_blank" class="timestamp">[05:33]</a> Pero oye, a lo mejor no sale al 100%, que no sería la primera vez. Y con el ruido que está haciendo Joan, se lo llevaría. Sería una puta ida de olla, la verdad. Pero ya que ya está clasificado, pues... Hace un montón de tiempo, a mí personalmente me hace mucha ilusión competir contra él. Es un top 3 Olimpia. De hecho va a ser contra...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=354" target="_blank" class="timestamp">[05:54]</a> Bueno, el top 3 Olimpia y podía haber sido el ganador. Porque para el nivel que había este año, quitando que Chopin, el hombre, nunca va a poder ganar por politiqueo, podía haber sido el ganador. Junto con Samson y con Martin, los más top de los que haya competido. Es una auténtica lucha, hace falta Derek y Chopin. Falta Derek y Chopin de los top actuales, sí, la verdad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=373" target="_blank" class="timestamp">[06:13]</a> La verdad que es una pasada. Y luego también está Jan Turek, que es de República Checa. Ah, ese ya has competido. Este chico es el que quedó sexto en Praga y el otro día también. No sé cómo quedó, pero todavía quedó la segunda llamada. ¿Es el que saltó? Sí, pero este chico está ahora peleándose, por así decirlo, toda la temporada, yendo a campeonato a campeonato como yo. Y la verdad que mola vernos también ahí, que al final...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=397" target="_blank" class="timestamp">[06:37]</a> pues te vas conociendo ahí en los campeonatos. Hermano, yo creo que... Hostia, pues de momento, Joan, segundo, ¿eh? Entonces... Hostia, el nivel... Lo digo, es que me lo están poniendo en el chat. Sé que los de YouTube me vais a matar, pero... ¿Cómo ves la lista? Hostia, el nivel está bajísimo. Vale que Joan tiene un nivelazo, pero el nivel está bajo, ¿eh? De verdad que no quiero tirarle por tierra a Joan, pero creo que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=421" target="_blank" class="timestamp">[07:01]</a> Hostia, lo cuerpo que hemos visto está bajo el nivel. Y lo bueno es que Joan va con un muy buen nivel. Esto es lo mejor que le puede pasar a Joan. Porque no es su culpa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=431" target="_blank" class="timestamp">[07:11]</a> No es su culpa. Pero es que en sí, en Open en general, incluso Open a nivel Olimpia, el nivel está bajo. O sea, es que el top 5, perdón, el top 10, o sea, del quinto para abajo, el nivel es muy bajo. Es muy bajo el nivel del quinto para abajo. En el top Olimpia, o sea, es que a este paso, el Joan, si sigue así, en dos años está arriba de todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=455" target="_blank" class="timestamp">[07:35]</a> De verdad lo digo porque yo no veo un nivel muy alto en Open. Veo un nivel muy alto en 2.12. Veo un nivel muy alto en Classic. Pero en Open no. En Open no. O sea, bueno, bueno. No hablemos tan pronto, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=471" target="_blank" class="timestamp">[07:51]</a> Pero es que el nivel, la verdad, ¿eh? Y luego con la estructura que tiene Joan y con todo lo que lleva Joan, es que creo que Joan puede ponerse dominador, ¿eh? De aquí a unos años, ¿eh? Bastante desconocido, ¿no? Eso te iba a decir. Es un tío, claro, Joan gusta a los jueces. Esa es la realidad. Igual llega uno súper fuerte, ¿sabes? Y que no conocemos. Pero... No, eso pasa siempre que dices...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=496" target="_blank" class="timestamp">[08:16]</a> Este no lo conocías, pero este está más fuerte del binario. Pero realmente, de grandes nombres que conoces que tal, Andrew Jacket. Realmente Andrew Jacket. Y luego me parece bastante guay que vayan españoles. Somos tres españoles.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=511" target="_blank" class="timestamp">[08:31]</a> En la comisión. O sea, junto con los polacos. Tío, Joan. No vale ganar siempre, dijiste, hace menos de un mes que lo veía dejando el culturismo para este año. Tal y como estaba hace un mes y medio o dos. Claro. Desde China. Desde China. Que fue cuando hice el vídeo. Claro. Pero no yo. Todo el mundo. Él mismo. Claro. Que no es que quiera yo ganar. Que es que de verdad, que es que algunos sois gilipollas. Y os lo tengo que decir así. Es que ahora sois unos hipócritas. Yo hablo... Vamos a ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=539" target="_blank" class="timestamp">[08:59]</a> El Madrid pierde hoy y ¿de qué voy a hablar? De que el Madrid hoy ha hecho un partido de mierda, ¿no? Dentro de dos meses, a lo mejor el Madrid es campeón de la Liga. O de tres o de cuatro. Pues entonces diré que el Madrid lo ha hecho de puta madre y que ahora es campeón de la Liga. Pues ahora es igual. Que es que algunos sois tontos. Y lo tengo que decir así. Algunos sois tontos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=557" target="_blank" class="timestamp">[09:17]</a> Y yo hablo desde el momento en el que estoy hablando. Es que no sé qué queréis que haga. No lo entiendo, te lo juro, no lo entiendo. Siempre hacéis lo mismo desde que... últimamente. ¿Qué queréis que haga? ¿Qué diga de Joan? ¡Ay, perdón, Joan! ¡Lo siento, Joan! ¡No! Hablo en el momento...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=573" target="_blank" class="timestamp">[09:33]</a> en el vídeo de turno y ya está. Es que de verdad, compi, ya. Ya, de verdad, subir el nivel porque está bajo, ¿eh? No, es que el otro día tuve una discusión con mi editor. Discusión, perdón. Una que mi editor me estaba diciendo, hermano, le faltó decirme mi editor a mí, eres tonto. O sea, me estaba cayendo en la trampa</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=590" target="_blank" class="timestamp">[09:50]</a> de no poder opinar por el qué dirán, ¿sabes? Con lo de Joan. Que me dijo, hermano, que no has dicho nada grave. Has dicho que tuve ganador a otro y que tal y que cual. Ya está. Y dije yo, pues sí, pues tienes razón. Pa'lante, ¿sabes? Ya está. Es verdad. En mi opinión, no acerté con el que quedó cuarto en vez de ganar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=609" target="_blank" class="timestamp">[10:09]</a> Ya está. ¿Qué queréis que haga? Es que yo no entiendo. ¿Qué queréis escuchar? Pues no. Es que no sé. No, pero el problema es que por culpa de este tipo de chavales, de personas, estáis haciendo que no hablemos de Joan, que hablemos de Joan, pero como sugestionado, como que no podemos decir lo que pensamos. Claro, con libertad, tío. A mí me da rabia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=630" target="_blank" class="timestamp">[10:30]</a> Triunfamos, ¿no? Sí, sí. Y por ejemplo, ahora mismo, he visto, estamos viendo el vídeo. Después de cinco minutos, ¿qué creéis que pienso yo? ¿Cómo va a quedar Joan? Que Joan va a pelear por ganar. Es que eres un ventajista. No, no, no estoy diciendo ventajista. Nos acaban de enseñar la lista de competidores y el único que puede ganarle a Joan es Andrew Jacket. Esa es la realidad. Es más, llevo dos meses diciendo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=654" target="_blank" class="timestamp">[10:54]</a> Que este es el campeonato en el que Joan debe de sacar el físico Prime. O eso también me lo he inventado. Porque los vídeos están ahí. Los vídeos están ahí. Yo dije que en el Rubanía iba a sacar el Prime. Debería de sacar el Prime. Ahora veremos qué pasa. ¿Y qué tiene pinta? De que mínimo este tío va a quedar en segundo mínimo en este campeonato. O máximo, según lo miremos. Por la dinámica que está llevando. Ya está. No pasa nada. Hay un alemán que si es el que pensamos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=683" target="_blank" class="timestamp">[11:23]</a> Y si sale mal, y si sale mal en el Rumanía y queda cuarto o quinto, pues hay que decirlo. Ha salido mal en comparación del Praga, del Polonia, del UK. Ya está. Es que no sé, de verdad, no sé qué queréis algunos, algunos, pocos. No, hombre, a ver, a ver, a priori tiene que ganar Andrew Jacket de calle. Pero que podría ser que Andrew Jacket no salga, porque Andrew Jacket es un tío que no es muy regular. O sea, es un tío bastante irregular. Lo mismo te sale en una competición increíble que en otra te cae que no veas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=713" target="_blank" class="timestamp">[11:53]</a> Porque va confiado por lo que sea. ¿Vale? Lo normal es que gane Andrew Jacket de 10 veces gane 9,9 veces. Porque está por encima de John Paradez. Esa es la realidad. Que podía ser que le dé un chispazo y que vaya... que se cree que puede arrasar porque es Andrew Jacket y la cague. Pues también podría ser. Pero lo normal es que gane Andrew Jacket siempre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=734" target="_blank" class="timestamp">[12:14]</a> Hombre, por favor. Por encima, no sé, me está poniendo uno, ¿sabes? El manito se nos está yendo a la puta pinza, tío. Se nos está yendo a la puta pinza. De verdad que sí. ¿Y el de Irak has competido también con él o no? Es que no tengo ni idea. Los nombres me pierdo. Y es que aquí tampoco está como muy referenciado lo que... A ver, la putada es que salga uno... La putada es que salga uno desconocido...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=762" target="_blank" class="timestamp">[12:42]</a> Que también podría ser, ¿eh? Y se la líe a Joan. No lo descartéis eso, ¿eh? Que lo normal es que no. Pero que también puede pasar. Que salga uno desconocido con un físico increíble y ¡pam! Es cada uno. O sea, sí que me aparecen algunos. Y Lorenzo. Está fuerte. Sí, es que está todo el mundo fuerte. Es fuerte, es fuerte. Que ibas a probar sin presión y tal. Y ahora te pone...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=784" target="_blank" class="timestamp">[13:04]</a> The main event is Andrew Jack versus John Pradice. Tócate los huevos. Gracias por la imposible presión. ¿Qué presión voy a coger viendo esto? Ninguna. Ninguna. No hay presión. Si quieres jugar a que haya presión, no me pongas contra Andrew Jacket como si fuera el rival de Andrew Jacket. Porque aparte me puede salir más la competición. Yo tengo que quedar quinto o décimo. Y me da igual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=811" target="_blank" class="timestamp">[13:31]</a> Pero vamos, The Main Event, Andrew Jacket vs. Joan Pladais. No, hermano, o sea, eso es mentira. Joan, tío, con la falsa humildad. Vale, hermano, vaya pesado eres, tío. De verdad, compadre. Cuando se pone así, tío, como se te nota que empieza con la falsa humildad. Sabes de sobra que tú eres, que a priori eres segundo. Ya lo sabes, cabrón. Déjate ya la tontería. No estamos al mismo, no jugamos al mismo juego.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=834" target="_blank" class="timestamp">[13:54]</a> Eso es real. En lo normal no debería de jugar al mismo juego de Jacket en la vida. De momento. ¿Sabes? O sea, estamos hablando... Es un top 3. Hay una foto de Marta con Andrew Jacket. Que hace unos años... Que le pone el brazo en la cabeza. Es mucho más grande el brazo de su cabeza de hace unos años. Que es espectacular. Entonces, bueno...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=858" target="_blank" class="timestamp">[14:18]</a> Simplemente eso, chicos, que es imposible que se dé ninguna situación aquí rara. Esto está más claro que Clarín. Más claro que Clarín que vas a quedar segundo, ¿sabes? Si es que... En una foto cuando no voy a quedar posando en tarima. Eso es lo importante. Claro, claro. A ver, lo que está claro también es que Joan Paradell ya ha ganado, ¿eh? No, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=877" target="_blank" class="timestamp">[14:37]</a> Joan Pradez ya ha ganado, o sea, una tercera posición, una quinta posición y una segunda posición en tres campeonatos pros, ya ha ganado Joan Pradez Esto ni en sus mejores sueños, o sea, él ya ha ganado, eso es real, o sea, presión, ahora sí que es verdad que me creo de que no tenga presión, ahora no hay presión, o sea, viene de romperla, viene de romperla, ahora presión cero, ahora todo lo que rasque, de puta madre, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=904" target="_blank" class="timestamp">[15:04]</a> Presión ninguna. Esa es la verdad. Que es una puta ida de olla, que esto no se lo esperaba nadie. 100%. Yoran Buara me dice qué es. Foto para el recuerdo es como la que tengo de Sansón Dauda haciendo un doble. Dices, pa' mí esa es la foto. Bueno, igual lo estás así mirándolo. Y te quedas así en plan, aquí que me han puesto al lado este tío. ¿En serio? No sé cuál es esa. ¿No? No, no me acuerdo, pero puede ser. Pero bueno, chicos. Estas son las listas realmente. Son unas listas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=bJaozC0piTA&t=930" target="_blank" class="timestamp">[15:30]</a> intratables en el sentido de que hay una persona que es un top 3 olimpia que no sé de qué hace aquí. El tío ha decidido competir. Además, creo que el nuevo culturismo se está llevando así, que es competir mucho, competir mucho, competir mucho. Así que espero que os haya gustado. Nosotros el jueves nos vamos para Rumanía. Pues muy bien, Joan. Te deseo muchísima suerte y ojalá, ojalá se diese que el Andrew Jacket salga regular y que ganes, tío. Ojalá.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 05/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
