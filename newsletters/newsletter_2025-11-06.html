@@ -1,0 +1,395 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 06/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">06/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Benlliure Reacciona</strong>: <a href='#video-B3v3nmb8O98'>ASÍ ME HICE PROFESIONAL | REACCIONO A MI COMPETICIÓN</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-B3v3nmb8O98">
+            <h2>ASÍ ME HICE PROFESIONAL | REACCIONO A MI COMPETICIÓN</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Benlliure Reacciona</span>
+                <span class="date">Publicado: 06/11/2025 13:49</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=B3v3nmb8O98" target="_blank">
+                    <img src="https://i.ytimg.com/vi/B3v3nmb8O98/hqdefault.jpg" alt="ASÍ ME HICE PROFESIONAL | REACCIONO A MI COMPETICIÓN" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video es la reacción de un fisicoculturista a su reciente competición en Túnez, donde obtuvo su carnet profesional. El atleta comparte detalles de su preparación, incluyendo una experiencia desafiante previa en Praga que le sirvió de motivación. Analiza el desarrollo de la competencia, su condición física y la valoración de los jueces, especialmente en el "overall". Finalmente, reflexiona sobre este logro, su trayectoria y los futuros desafíos que le esperan en la liga profesional.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Motivación Inesperada de Praga <a href="https://www.youtube.com/watch?v=B3v3nmb8O98&amp;t=48" target="_blank">[00:48]</a></h3>
+
+<p>El atleta narra su experiencia en la competición de Praga, donde quedó segundo a pesar de graves problemas de salud. Este resultado, en circunstancias adversas, fue un punto de inflexión que le dio la confianza necesaria y un cambio de mentalidad para afrontar la siguiente competición en Túnez.</p>
+
+<h3>Análisis Detallado de la Condición en Túnez <a href="https://www.youtube.com/watch?v=B3v3nmb8O98&amp;t=380" target="_blank">[06:20]</a></h3>
+
+<p>El presentador se detiene a comparar su condición física con la de sus oponentes, explicando la diferencia entre dureza por condición y la que proviene de la masa muscular. Destaca que su tren inferior tenía más dureza que el superior debido a la masa muscular, un aspecto clave en la categoría súper pesada.</p>
+
+<h3>La Batalla por el Overall y la Decisión del Juez <a href="https://www.youtube.com/watch?v=B3v3nmb8O98&amp;t=785" target="_blank">[13:05]</a></h3>
+
+<p>Tras ganar su categoría y obtener el carnet profesional, el atleta describe la fase del "overall" y su decepción por quedar tercero. Atribuye la decisión del juez a una preferencia por mayor dureza y simetría, aunque él destacaba por el tamaño.</p>
+
+<h3>Reflexiones sobre Confianza y Mejoras Necesarias <a href="https://www.youtube.com/watch?v=B3v3nmb8O98&amp;t=1008" target="_blank">[16:48]</a></h3>
+
+<p>El fisicoculturista comparte sus sentimientos encontrados al haber conseguido el carnet profesional pero no el "overall". Reconoce que debe mejorar su confianza en sí mismo y la dureza de su tren superior, admitiendo que los otros competidores lo superaban en esos aspectos.</p>
+
+<h3>El Desafío de la Nueva Etapa Profesional <a href="https://www.youtube.com/watch?v=B3v3nmb8O98&amp;t=1059" target="_blank">[17:39]</a></h3>
+
+<p>El atleta analiza el futuro inmediato como profesional, sopesando si seguir compitiendo este año o prepararse mejor para la exigencia de la liga profesional. Expresa su gratitud por el apoyo, desestima las críticas y reafirma su compromiso con el disfrute del proceso y la mejora continua.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=0" target="_blank" class="timestamp">[00:00]</a> Muy buenas a todos chicos, aquí estamos en un nuevo vídeo para mi canal. Hoy tenemos un vídeo chulo porque voy a reaccionar al vídeo de mi competición. Ya sabéis que el domingo competí en Túnez y me hice profesional. La verdad que todavía no me lo creo. Y bueno, realmente esto es una consecuencia realmente del trabajo del día a día. Y al fin y al cabo pues...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=27" target="_blank" class="timestamp">[00:27]</a> Bueno, pues tú vas haciendo, como siempre yo digo, y sin darte cuenta, pues... Me he hecho profesional, la verdad. Las cosas como son. Y voy a comentar un poquito la competición y todo. O sea que... Vamos a reaccionar a mi vídeo y voy a deciros realmente cómo fue. Adelanto que vengo de competir en Praga.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=48" target="_blank" class="timestamp">[00:48]</a> vale viene a competir una semana antes en praga y la verdad que la puesta a punto fue muy complicada básicamente porque estuve diarrea literal estuve cagándome diez veces y aún así que de segundo y realmente fue cuando yo a partir de praga cambié un poco el chip y dije hostia en praga 2 segundo teniendo en cuenta que las circunstancias no eran las más idóneas ojo pienso que aunque hubieran sido más idóneas el resultado de ha sido el mismo siendo claros pero eso la verdad que me dijo jordi</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=78" target="_blank" class="timestamp">[01:18]</a> muchas veces me hago de menos, o sea, no es que tenga falta de seguridad en mí mismo, pero no me valoro lo suficiente las cosas como son, o sea, siempre me hago de menos. Y en Praga fue cuando dije, oye Jordi, confío un poco más en ti, porque, joder, el año pasado quedaste sexto en Praga, este año has quedado segundo, incluso me acuerdo que el chico quedó tercero el año anterior...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=104" target="_blank" class="timestamp">[01:44]</a> Este año volví a quedar tercero y yo quedé por delante de él, yo quedé segundo. Joder, pues, quédatelo un poco porque si realmente están yendo así las cosas es porque el físico está bien. Así que bueno, no me enrede más, vamos a comentarlo y así fue como lo viví. Let's go.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=127" target="_blank" class="timestamp">[02:07]</a> Esto era a las 8 de la mañana, no sé más o menos, me acuerdo. Realmente Belén puso esta toma, pero realmente había grabado una toma antes a las 5 y media porque me levanté. Me quedé flipando, realmente nunca había comido tanto en la carga. Estuve comiendo 200 gramos de arroz por comida. O sea, más de medio, un kilo y medio de arroz al día. Una puta locura. O sea, de verdad, me quedé sorprendido. Dije, madre mía, esa que tengo. Pero bueno, la verdad que fue bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=170" target="_blank" class="timestamp">[02:50]</a> es el post y hicimos pero por la mañana vamos a centrarnos ya como te digo ya en la propia competición para que se hagáis una idea aquí empezamos como digo la competición mira en praga éramos 10</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=197" target="_blank" class="timestamp">[03:17]</a> Y en la primera llamada, como digo, me llamaron y quedé segundo. Me mantuve prácticamente... Bueno, de hecho me cambiaron un poco con el tercero y al final quedé segundo. Y aquí éramos cuatro. En general los cuatro estaban fuertes, ahora lo veréis. O sea, eran tanquetas. Este chico me han dicho que era pro en élite. Era un iraní. Este chico no sé dónde era. La verdad, pero este chico era iraní.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=220" target="_blank" class="timestamp">[03:40]</a> y luego estaba el cuarto que estaba muy fuerte también pero la realidad es que la condición no estaba tenía que apurar un poco más y obviamente pues está muy fuerte pero la condición ya no es buena pues no es lo suyo así que vamos a ver como digo un poquito todo hicimos primero la presentación y luego ya pasamos como digo ya a las comparativas aquí se hizo lío este chico</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=248" target="_blank" class="timestamp">[04:08]</a> Se rayó, no sé qué le pasó. Aquí se rayó. Este chico estaba muy fuerte también. Y por cierto, recordad que todos los meses hago dos sorteos de 150 euros en Live Pro con mi código JordiVen y pidiendo cualquier cosa ya entras en el sorteo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=278" target="_blank" class="timestamp">[04:38]</a> Pidiendo una simple crema de arroz, ya entras directamente en el sorteo y no hace falta hacerle captura. A tope y cuelgo los ganadores siempre por Instagram. Estate pendiente. Lo único que también tenía un poquito de dilatación, pero vamos, lo he dicho, los tres, él también, pero la condición no la llevaba tan tan bien. Y bueno, pues ahí vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=310" target="_blank" class="timestamp">[05:10]</a> Gracias. Gracias. Gracias. Gracias. Gracias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=334" target="_blank" class="timestamp">[05:34]</a> el cabrón este está enorme el cabrón y yo realmente el back stage lo veía un poco peor pero aquí con las luces se le veía muy bien tío de hecho este chico al final quedó segundo al principio estaba posicionado este como segundo y quedó segundo él</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=365" target="_blank" class="timestamp">[06:05]</a> La clave es el glúteo y el cifre moral. ¡Ay, eso es! ¡Vamos! ¡Rabia, atrás! ¡Eso es! ¡Vamos! ¡Rema, con calma!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=380" target="_blank" class="timestamp">[06:20]</a> Aquí, por ejemplo, yo le veo que la condición a este chico no está muy bien, la verdad. He habido algunos comentarios que me han dicho que la condición, que no sé qué, que si era la playa, pues yo justamente la condición no me la veo mal. O sea, me veo que me falta mucha más dureza en el tren superior que en el tren inferior, pero es que eso realmente no es un problema de condición, es un problema de masa muscular. O sea, la masa muscular que tengo en el tren inferior no la tengo en el tren superior. Por tanto, la condición, que también obviamente implica dureza, implica todo, no voy a tener la misma. Pero es cuestión de masa muscular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=410" target="_blank" class="timestamp">[06:50]</a> de hecho para que sabéis una idea salió a competir con 118 con 9 no sé 119 kilos prácticamente lo mismo que en el amix un poco menos y realmente yo este peso lo di hace dos años ya para que sabéis una idea hace dos años pese 118 117 117 118 en el paso pese incluso un poquito más</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=435" target="_blank" class="timestamp">[07:15]</a> Pero este año pues hemos buscado que el físico ya se pueda apretar un poco más, pero tampoco excesivamente. O sea, hay que buscar un ratio sabiendo en la categoría en la que estoy, que es súper heavy, ahora ya OP. Aquí la expansión no me la veo mal, la espalda obviamente es un grupo muscular que tengo que mejorar, pero por ejemplo aquí la expansión no me la veo mal, siendo claros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=485" target="_blank" class="timestamp">[08:05]</a> ahí es cuando cambian como digo al 124 con el otro chico y bueno a mí en el principio me dejan todo el rato en el mismo sitio</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=501" target="_blank" class="timestamp">[08:21]</a> Y en general, tío, tengo que estar contento. O sea, muchas veces la gente dice, éramos cuatro. A ver, es que la realidad es que gente que compita con más 102 kilos, no hay mucha gente. O sea, por ejemplo, en menos 90 eran 10. Y en menos 102 también, si no me equivoco, eran 10.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=521" target="_blank" class="timestamp">[08:41]</a> Este año en este campeonato éramos cuatro. Me acuerdo que me pasó en el Big Man, que también quedé segundo, éramos cuatro otra vez. O sea, quiero decir, no hay tanta, tanta gente que compita con más 102 kilos. Y si alguno que está en menos 102 está apurado, no le vale la pena pasarse a más 102 porque obviamente vas a competir con gente que está, pues que es grande. Entonces ahí tienes que valorar un poco todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=545" target="_blank" class="timestamp">[09:05]</a> pero bueno, se ha dado así el caso y éramos cuatro en Prágramos, diez otra cosa también que me hace gracia ah, te vas a Túnez pero que me estás contando o sea, quiero decir, he salido a competir tres veces fuera de España este es mi tercer año que llevo haciendo culturismo mi tercer año, o sea, mi cuarto año de competiciones pero mi tercer año, yo empecé a hacer culturismo en mayo de 2022</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=574" target="_blank" class="timestamp">[09:34]</a> Y, tío, en 2022 yo solamente hice regionales. En 2023 me acuerdo que hice un pro-qualifier, pero obviamente vi que tenía que mejorar mucho y le dije a Fede, tío, no veo que valga la pena salir compitiendo. Y el año pasado hice dos competiciones, hice Praga y luego hice el Big Man.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=594" target="_blank" class="timestamp">[09:54]</a> Este año ha sido el primer año que me he visto más competitivo y que a raíz de ganar el overall en el Amix, o sea, en la Copa Valencia, me lo he empezado a creer un poco más de decir eso. Pero realmente nunca me he obsesionado con el carnet. O sea, justamente ya sabéis que soy una persona que a mí me gusta el día a día, me gusta disfrutar y ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=615" target="_blank" class="timestamp">[10:15]</a> Y aquí puedes ver dos opciones. Tienes la opción de ser cabeza de ratón, ¿no ves? O cola de león. Yo no, quiero decir, sé que ahora empieza una etapa nueva, una etapa que es desde cero y que tengo muchísimo trabajo por delante. Obviamente yo voy a hacer lo que está en mi mano, independientemente de cómo hubiera quedado, hubiera estado haciendo exactamente lo mismo. Son las cosas como son.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=641" target="_blank" class="timestamp">[10:41]</a> Y ya está. O sea, no he buscado el campeonato ni nada, sino al revés. Decidimos irnos varios del equipo. Sabíamos que, evidente, también Túnez era una buena oportunidad. Básicamente porque también daban tres carnes profesionales. Y ya está. Pero si pensáis que Túnez es fácil, pues ir vosotros a Túnez y competir. ¿Sabes? Si me han dado carnes profesionales porque realmente lo merecía. Y ya está. No tiene más, tío. Eh...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=672" target="_blank" class="timestamp">[11:12]</a> para que os hagáis una idea, este está sudando a fuego, para que os hagáis una idea también, me acuerdo, o sea, Fitt Willi, por poner el ejemplo, Fitt Willi fue a competir en Túnez, no quedó ni entre los cinco primeros, Joseph, otro chido que compitió conmigo en la Copa Valencia, me acuerdo que en Hungría el año pasado quedó segundo, o sea, quedó segundo, el fin de pasado quedó primero en Hungría, estuvo a punto de ganar el overall, bueno, se batió ahí el overall,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=702" target="_blank" class="timestamp">[11:42]</a> y este allí cuando fue a túnez quedó tercero entonces bueno o sea soy consciente que siempre va a haber gente que quite mérito pero que yo no he hecho nada más que disfrutar que ir a praga competir que luego irme a túnez si no iba bien en túnez me iba a ir a copenhague de hecho la semana que viene a copenhague y luego va a competir en el pigman y si no me veía hostia pero tenía pensado digo mira</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=726" target="_blank" class="timestamp">[12:06]</a> Jordi, te está yendo bien, si te está yendo bien es por algo, vamos a mantenerlo y obviamente toca seguir evolucionando. Después de esto me ha descuadrado porque para nada estaban mis planes. O sea, puede ser que a raíz de Prado, como he dicho, ya me lo creía un poco más, pero no estaban mis planes. Así que... Así ha sido. Aquí está la entrega de premios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=756" target="_blank" class="timestamp">[12:36]</a> Y obviamente Túnez, lo dicho, al ganar tu categoría y más en mi caso siendo super heavy, joder, pues la verdad que tenías mucho adelantado. No tienen por qué dan tres carnets. Entonces tenías mucho adelantado. Las probabilidades eran muy altas. Con ganar tu categoría prácticamente lo tenías. Y aquí ya vamos al overal. Este chico, por ejemplo, aquí estamos ya, es menos 70, menos 80, menos 90, menos 102.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=785" target="_blank" class="timestamp">[13:05]</a> y más 102 y en este caso pues nos dejaron a los tres es lo más normal el de más 102 de 90 y soy sincero que tercero en el overall yo estuvo hablando y en ese aspecto está un poco alicaído vale en el sentido de que yo como porque me han dejado tercero bueno pues en este caso los dos estos dos están muy fuertes muy muy fuertes y</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=815" target="_blank" class="timestamp">[13:35]</a> joder el juez en este caso me pregunté por qué mi hijo soft y soft soy consciente que como ya he dicho no tengo esa esa dureza que podrían tener por ejemplo ellos y en este caso el juez apostó por más esa dureza y si apuestas más por esa dureza por esa simetría ellos todos van por delante de mí ya está igual otro juez hubiera apostado más por tamaño pero él decidió eso y ya está así que nada</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=843" target="_blank" class="timestamp">[14:03]</a> Obviamente competir con el de menos 70 es complejo y con el de menos 80, que también está bien. Pero obviamente se les ve más pequeños. Ya está, decidió eso y queda tercero y ya está. El resultado no cambia. Independientemente de que hubiera quedado tercero, segundo, primero, es exactamente lo mismo. Lo único que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=870" target="_blank" class="timestamp">[14:30]</a> Estos dos, como digo, estaban fuertes y este chico de menos 90 tenía un físico muy, muy bonito. Muy, muy bonito. Lo dicho, el juez ha aposto por eso y ya está. Yo acato sus normas. Y si os fijáis, estoy aquí y luego me van moviendo. Luego me van moviendo. Conforme termino, aquí ya me cambian. Después del seitriceps me cambian. Me pasan aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=904" target="_blank" class="timestamp">[15:04]</a> Estaba segundo, supuestamente aquí, bueno, no lo sé ya. Estaba segundo y después de esto me vuelvan a cambiar y me dejan tercero. Después de esto me cambian y me dejan tercero. Entonces, pues en principio primero, segundo y tercero. Y ya está. Pero lo que tiene la probabilidad, obviamente, ganando tu categoría,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=934" target="_blank" class="timestamp">[15:34]</a> es muy elevada, o sea, de ganar es muy, muy alta. Ya ha sido un poco todo, chicos. Ya haré, como digo, un resumen para mi canal principal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=950" target="_blank" class="timestamp">[15:50]</a> La experiencia ha sido muy chula. Tengo que dar las gracias obviamente a mi preparador, a Fede, se ha portado brutal. Soy una persona que muchas veces ve el vaso medio lleno, sea medio vacío en vez de medio lleno. En ese aspecto lo tengo que mejorar. Esto me sirve para tener un poquito más de confianza en mí mismo. Y ya está, tío. Haciendo, ves por ejemplo la dureza. Aquí podemos ver...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=978" target="_blank" class="timestamp">[16:18]</a> En el más muscular. Ellos, por ejemplo, de frente van muy duros. Estos chicos están muy fuertes y están muy simétricos y muy compensados. De arriba están muy duros, en cambio yo de arriba no llevo tanta dureza, fijando las rayas en el pectoral y todo. Bueno, lo que te digo es totalmente... Esto ya es el post-down. ¿Sabes? Y aquí realmente ya es cuando...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=1008" target="_blank" class="timestamp">[16:48]</a> Lo deciden. Y una vez me dicen mi número, pues en el fondo estoy contento, pero por otra parte no estoy contento porque, joder, le queda tercero en el overall. Pero no tiene que ser esa la mentalidad. Solo tengo que mejorar y decir, tío, me he hecho profesional, tío. Aquí, por ejemplo, se me ven muy bien las cosas como son. ¿Sabes? Y estos tres, como digo, están... Bueno, los otros dos chicos están muy, muy bien. Y tengo que tener más confianza en mí mismo y ya está. Ahora disfrutar, como digo, esta nueva etapa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=1039" target="_blank" class="timestamp">[17:19]</a> tercero y ya está que la situación en este caso no cambia absolutamente para nada básicamente porque independientemente de cómo hubiera quedado hubiera sido exactamente lo mismo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=1059" target="_blank" class="timestamp">[17:39]</a> Y lo he dicho, ahora tengo que valorar si seguir compitiendo, o sea, porque tenía pensado ir al pismar o no. Eso ya, como digo, tengo que valorarlo un poco bien. De momento esta semana estamos con la dieta base y a partir de ahí valorar. Sé que obviamente, pues, una vez ya pasas por profesionales, es una liga otro nivel. Y tengo que pensar un poco todo porque es que no sé hasta qué punto, si me interesa, si no me interesa. Que independientemente de que esté un año más trabajando, a pesar de que esté un poquito más preparado, si salgo el año que viene,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=1089" target="_blank" class="timestamp">[18:09]</a> Obviamente eso es otro nivel y yo sé a lo que voy porque es muy, muy complejo. Pero bueno, tengo que valorar un poco todo y a partir de ahí nos ponemos a pensar. Así que eso es todo, chicos. Mi experiencia, como digo, en Túnez. Estoy muy contento, tengo que estar muy contento. Gente también que me ha dicho al fin y al cabo también muchas veces ver comentarios y te quedas solamente con los comentarios un poco malos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=1118" target="_blank" class="timestamp">[18:38]</a> y ahora ahora ahora como que ahora si llevo tres años haciendo culturismo brother o sea quiero decir que haya casos de ciertas personas que en cuestión de año o un año se consiguen hacer profesionales no es lo habitual he conseguido algo que realmente muy poca gente lo puede conseguir y que mucha gente está luchando y que realmente no llegas a conseguirlo y que yo lo he conseguido sin</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=1143" target="_blank" class="timestamp">[19:03]</a> El tercer año haciendo culturismo. Voy a cumplir, como digo, este año 30 años. Tengo muchísimo margen por delante. Y lo más importante, voy a seguir disfrutando del día a día. Y a partir de ahí, que sea lo que Dios quiera. Pero bendito problema. O sea, bendito problema al hacerse profesional. Así que, una vez más, mil gracias a los que me habéis apoyado. Que sois muchos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=1166" target="_blank" class="timestamp">[19:26]</a> Y bueno, quien tenga una opinión diferente, pues al fin y al cabo la culpa no la tengo yo. Y también hay mucho envidioso y mucho frustrado. Pero yo recordad que al fin y al cabo hago lo que me gusta. Disfruto, como digo, en mi día a día. Y una vez más, como he dicho, es una consecuencia de lo que me gusta hacer en el día a día. Así que vamos a seguir poniéndonos fuertes. Vamos a seguir disfrutando. Y a ver lo que hay para el futuro. Así que eso es todo chicos. Espero que os haya gustado el vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=B3v3nmb8O98&t=1196" target="_blank" class="timestamp">[19:56]</a> Y a seguir trabajando y, como ya he dicho, a seguir disfrutando. Nos vemos en siguientes vídeos. Un saludo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 06/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
