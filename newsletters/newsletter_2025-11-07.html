@@ -1,0 +1,383 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 07/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">07/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-_h3yjyDr47M'>LLEGAMOS al ÚLTIMO CAMPEONATO *RUMANÍA PRO*</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-_h3yjyDr47M">
+            <h2>LLEGAMOS al ÚLTIMO CAMPEONATO *RUMANÍA PRO*</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 07/11/2025 14:04</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=_h3yjyDr47M" target="_blank">
+                    <img src="https://i.ytimg.com/vi/_h3yjyDr47M/hqdefault.jpg" alt="LLEGAMOS al ÚLTIMO CAMPEONATO *RUMANÍA PRO*" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta el viaje de un grupo de amigos culturistas desde Polonia hasta Rumanía, centrándose en su estricta preparación física y dieta. Muestran cómo mantienen su rutina de descarga de carbohidratos y entrenamiento a pesar de los desafíos del viaje. A lo largo del día, enfrentan estrés, cansancio y prisas, pero logran adaptarse y cumplir sus objetivos. Finalmente, llegan a Rumanía y descubren su Airbnb, que resulta ser una grata sorpresa.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Evaluación Física Post-Descarga <a href="https://www.youtube.com/watch?v=_h3yjyDr47M&amp;t=175" target="_blank">[02:55]</a></h3>
+
+<p>El grupo evalúa el físico de uno de los integrantes tras una intensa descarga de carbohidratos, destacando su buena forma a pesar de haber comido muy poco. Se subraya la importancia y el rigor de esta fase dietética en su preparación.</p>
+
+<h3>Adiós Polonia, ¡Hola Nueva Rutina! <a href="https://www.youtube.com/watch?v=_h3yjyDr47M&amp;t=338" target="_blank">[05:38]</a></h3>
+
+<p>Tras despedirse de Polonia, el equipo llega a un gimnasio con máquinas limitadas y planea rápidamente una rutina de hombro y bíceps. Muestran su capacidad de adaptación para seguir entrenando eficazmente bajo cualquier circunstancia.</p>
+
+<h3>Reflexiones Post-Polonia y Sueños Futuros <a href="https://www.youtube.com/watch?v=_h3yjyDr47M&amp;t=545" target="_blank">[09:05]</a></h3>
+
+<p>Los amigos comparten lo que más echarán de menos de Polonia, como la sauna y la convivencia. Conversan sobre sus planes futuros, incluyendo la posibilidad de compartir piso y el sueño de construir un gimnasio en casa, revelando sus aspiraciones.</p>
+
+<h3>La Aventura Aérea y la Llegada a Rumanía <a href="https://www.youtube.com/watch?v=_h3yjyDr47M&amp;t=703" target="_blank">[11:43]</a></h3>
+
+<p>Después de una apresurada carrera al aeropuerto y el último repostaje de carbohidratos, el grupo emprende un vuelo que se retrasa. Finalmente, tras un largo y agotador día de viaje, aterrizan en Rumanía, marcando el inicio de su nueva etapa.</p>
+
+<h3>El Misterioso Airbnb Rumano: De Calle Oscura a Lujo <a href="https://www.youtube.com/watch?v=_h3yjyDr47M&amp;t=795" target="_blank">[13:15]</a></h3>
+
+<p>El equipo llega a su Airbnb en Rumanía, cuyo exterior deteriorado genera cierta aprensión y sorpresa. Sin embargo, al entrar, se asombran gratamente al descubrir un apartamento espacioso, reformado y muy bien equipado con múltiples habitaciones.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=8" target="_blank" class="timestamp">[00:08]</a> Para que veáis lo que está haciendo mi descarga, son tres comidas. Hostia. Bienvenidos a Rumanía. Ojo. Bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=29" target="_blank" class="timestamp">[00:29]</a> Good morning in the morning. ¿Cómo estáis? Nosotros nos vamos hoy a Rumanía. Vamos a ver qué país es mejor. ¿Polonia, Rumanía o Praga? Creo que me voy a quedar con Praga, eh. Sin haber estado en Rumanía ya. Igual. Es peor. Ah, por favor. No, no. ¿Cómo es? Ponte aquí. No, dame casos. Aquí estoy mejor. He dicho cuánto pesado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=69" target="_blank" class="timestamp">[01:09]</a> Bienvenido. He despertado muy bajo. He bajado un kilo de ayer. Hoy va a ser tu peor físico, yo creo. Bueno, yo creo no. De esta piqui, el peor. Además tuviste ayer bastante estrés, ¿eh? Pues vaya, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=145" target="_blank" class="timestamp">[02:25]</a> Se te vea redondo. Se te vea redondo, sí. Lo único en las partes es que no están tan profundos. Pero el femoral, por ejemplo. No gires tanto la pierna, ya. Hacia adentro. Piernas. Muy bien. Es un muñeco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=175" target="_blank" class="timestamp">[02:55]</a> Pero tal, para ser el día que es, muy bien. Porque no está ni muy vacío. O sea, vacío. Vacío estará del glucógeno. Pero que no se le ve plano, que es lo importante. Ni sin bombeo. Ni sin bombeo. Y los formularios y el culo muy bien. Hay una comida. Una comida solo. Sí, hay comida. O sea, sigues descargando todo el día de hoy. Sí. Vale. Y se le ve el culo y los formularios muy bien. Que no es el día que menos pesa, que es el día donde se notará el cambio. Así que guay.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=205" target="_blank" class="timestamp">[03:25]</a> si no estoy tan descargado estoy comiendo nada y menos loco para que veáis lo que está siendo mi descarga estos son tres comidas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=220" target="_blank" class="timestamp">[03:40]</a> Me voy a tomar dos cremas de arroz y ya esto se da todo lo que voy a comer el resto del día. Este fruguel lo he metido aquí en bolsitas. Lo he metido en un tupper grande porque hoy viajamos a un tupper entero y como es una mierda de cantidad, cojo el tenorcito y me lo ocupo en todas las bolsitas. Pero bueno, la verdad es espectacular. Luego tengo comida congelada también y me tengo que llevar allí y se va descongelando en el camino. Y por cierto, me voy a hacer a prote. De hecho, yo me lo había tomado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=247" target="_blank" class="timestamp">[04:07]</a> para la siguiente comida preparada con vitamán Brico. Prote, crema de arroz y tenéis toda la web de mi Protein con creativa incluida. 45% descuento y 15% extra desde el link que tenéis ahí abajo, creo que yo llegado a la MP. Si vais, por favor, id desde el link, que es una pequeña comisión, yo os lo agradezco mucho. Y ahí tenéis Protein Finita, mes de la proteína, noviembre. Así que dadle caña a nuestros. Bueno, seguid recogiendo la casa y a entrenar. Nos vamos, chicos. Tenemos todo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=276" target="_blank" class="timestamp">[04:36]</a> Y voy a descargar. Me he dormido un rato. Nos vamos de Polonia, chavales. ¡Yesss! No quiero tampoco ser ganadoras. Las ganas que tengo de irme aquí. ¿Te ha gustado? Sí, me ha encantado. ¿Eh? Que se me olvida el abanico del Garfusa. Uy, la botella. ¿Qué dice Toni? Estoy dejando esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=312" target="_blank" class="timestamp">[05:12]</a> Tío, tío, tío, tío, tío. No sé. Dig yo. Que nos patrocine, si quieres que empuja el abanico al revés. Por favor. Vale. ¿Me escucho? Pero tiene una velada. ¿Qué vamos a hacer? Hombro y bíceps. Hombro y bíceps.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=338" target="_blank" class="timestamp">[05:38]</a> No hay ninguna máquina de elevaciones laterales, con lo cual podemos hacer la biomecánica o mancuernas. Pres, sí que hay varios preses en Tecnogym y de placas. Y de bíceps solo hay un cruz predicador en máquina, creo, Tecnogym también. Muy bien. Y metemos un bayesian aquí si quieres o…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=359" target="_blank" class="timestamp">[05:59]</a> me gusta. Tenemos tres de bíceps y tres de hombro. Yo me diría, tres de hombro y dos de bíceps. Maravilloso, vamos a ver. Hombro empezamos con las laterales, aquí unilaterales, pum pum pum pum pum. Aquí laterales, pres, posterior aquí, predicador y alguno más de bíceps. Y bayesian. Bayesian y así acabamos aquí, criamos esta estación solo con nosotros y acabamos con el predicador. ¿Para qué combinar a comentar? Vale, de hecho voy a dejar aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=402" target="_blank" class="timestamp">[06:42]</a> Voy a explicar un tip que a Toni se lo estaba explicando ahora y ya lo ha pillado, pero es una tontería. Cuando hacéis las mierdas estas de laterales científicas, que me encantan por cierto, creo que es mi ejercicio favorito, digo de mierda porque me hace gracia. Esto ya antes era como más crítico. Si además en vez de la polea, o sea el mosquetón, lo enganchéis de la tobillera aquí, lo enganchéis aquí, le hagáis todo esto de ron porque se choca más tarde. Ahora, ejemplo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=432" target="_blank" class="timestamp">[07:12]</a> Cuesta un poco de poner. Como que te tenéis que poner solo en un sentido. Entonces, ahora se choca aquí. Si no, se chocaría mucho antes, porque estarían así. Es un detallito, pero que sea otro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=466" target="_blank" class="timestamp">[07:46]</a> Joan tiene el agua medida. Estamos con la botella de la misma marca. No me gustaría beber de su agua porque la tiene toda al milímetro. Así que voy a quitarme la pegatina esta porque si me ve bebiendo de su agua, mal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=491" target="_blank" class="timestamp">[08:11]</a> Me pregunta Toni cómo vamos a trabajar la máquina sin acortamiento, en medio de estiramiento y le he dicho que vamos a hacer una serie progresiva. Vale. Para trabajar con los amigos. Es importante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=505" target="_blank" class="timestamp">[08:25]</a> No está mal esta mañana. Mira, esta es la que está en los hoteles. Yo he entrenado con estas en Portugal. Es como la típica de cada músculo que hay en el gym en los hoteles. Se hace lo que se puede con lo que se tiene. Nada, nos vamos de Polonia. Sin duda, lo que más voy a echar de menos es tener sauna en casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=534" target="_blank" class="timestamp">[08:54]</a> ¿Qué es lo que más vas a echar de menos de Polonia? Yo... ¿Qué te digo? ¿Puedo ser sincero o...? No, yo he sido sincero. ¿Qué has dicho? ¿Tenías a una en casa? Sí. ¿Eso vas a echar de menos? Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=545" target="_blank" class="timestamp">[09:05]</a> Yo lo que más voy a echar de menos es estar los cuatro en el salón. ¡Oh! No pasa nada, bro. Nos vamos a arrumar ya. Vamos a seguir estando los cuatro. Y luego… Yo no tengo casa. ¿Recordabas? Sí, sí, pero aún no tengo casa. Igual somos compañeros de piso un tiempo. ¿Cómo de piso? De casa. Vaya, o sea, vas a traer gimnasio en casa. Sí, tío. Lo has conseguido. Ignacio, gallinas… Sauna… Yo lo soñé.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=575" target="_blank" class="timestamp">[09:35]</a> Por algo se empieza. Hay que bajar con la maleta, hacer el Uber. Tú date la tela. Tío, ¿cómo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=604" target="_blank" class="timestamp">[10:04]</a> He hecho lo que he podido. Esto es mi poste. Última toma de hidratos del día. La verdad es que mis trecea comida ahí son a las 3 y pico de la tarde. Tampoco voy mal, mal. Pero bueno, nos vamos ya. A Rumanía. Let's go. La verdad es que ya... Bueno, aunque a todo el vuelo y todavía se me hace pesado, pero por ahora se me ha hecho relajado el día porque he dormido antes de salir de casa. O sea, lo hemos hecho bien. Hemos pedido como que nos retrasen la salida del Airbnb. Ha estado inteligente, la verdad. Porque ahora hemos podido descansar. Vamos a llegar a Rumanía. A Rumanía, entrar a Airbnb.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=637" target="_blank" class="timestamp">[10:37]</a> Un poquito de toma de transición en el aeropuerto. Claro tío. Otra cosa que está especialmente guay de Polonia, el tráfico. El tráfico. Vamos un poquito justos. Vamos bastante justos de tiempo. Cuidados con esta frase.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=666" target="_blank" class="timestamp">[11:06]</a> Hacer pausa, chavales. Es buena frase. Bueno, chicos. Tremendo manjar. Mucho mal. La verdad. Parece que vamos a pillar el vuelo. No he confiado. Al final sí. Está rico o queda por lo menos. Mucho mal. Nada. ¿Postar frío?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=703" target="_blank" class="timestamp">[11:43]</a> Bienvenidos a Rumanía. Llegamos a Rumanía. El vuelo de mi vida. Sí que largo, ¿eh? Madre. No, largo no. Es que llevábamos desde las 3 de la tarde que hemos salido para el aeropuerto. Total. Suicida, loco. Total, total. Me ha cambiado el área. ¿Ah, sí? Bueno, una más. Y el vuelo se ha retrasado a un orecito. Total. Bueno. Vámonos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=739" target="_blank" class="timestamp">[12:19]</a> Thank you very much. Thank you boss. Have a good night. No son muchas gracias porque tengo un diary que es andorrano porque está todo grafiteado. A ver, pero tanto, tanto tío. Ya, este es bastante exagerado. Es que mira la entrada, parece la entrada tío de... Chula la entrada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=766" target="_blank" class="timestamp">[12:46]</a> Hostia. Parece que estemos en el bronze. Tu pri, yes, third floor. Esto va a cierrar. Madre. Aparece un skate room, eh. Madre. La de Prager Finn diciéndote que no pasa nada. El B&B por fuera son muy malos, pero por dentro están guays. Sí, ¿no? Uy, perdona. Sí, te estoy diciendo que sí, Tito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=795" target="_blank" class="timestamp">[13:15]</a> Me da miedo. Entramos. ¡Ojo! Bueno. Bastante bonito, ¿eh? No está mal. ¿Cómo lo ves? Sí, no, está bien. ¿Está bien por aquí?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=826" target="_blank" class="timestamp">[13:46]</a> A ver, esto lo han reformado limpiecita de cara para hacerlo en Airbnb, pero... A ver, por fuera... Porque la puerta, la puerta está dejado, no me arrasa. Ah, bastante bien, eh. Esta es la principal. Sí, esta es la principal que va a tener el baño. Ahí para gozar, bien, eh. La hemos pillado mirando a DLD.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=853" target="_blank" class="timestamp">[14:13]</a> Que haya luz natural a posar. Eso es una locura, pero no es de coña. Hay tres. Un baño por aquí. Ya estamos en el apartamento. Vamos. Aquí hay otra habitación. A ver, ¿qué tal? Muy bien, tío. Está muy bien. Muy bien. Tamita aquí con su escritorio. Mañana mi colega Toni va a analizar las mejores luces para posar. Con un baño.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=885" target="_blank" class="timestamp">[14:45]</a> Una habitación por aquí, justo al lado del ponedor. ¿Y ahí hay otra habitación? Son cuatro habitaciones de matrimonio. Ah, aquí es otra, eh. Esta es la tuya. Ojo, eh. De puta madre. Eh… Bueno, me toca elegir a mí siempre, ¿vale? Por los años que llevo aquí. Pero de vez en cuando te lo dejo porque sé lo que es, ¿vale? Vale. Vamos, chicos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=914" target="_blank" class="timestamp">[15:14]</a> Realmente estoy súper cansado, pero no es tan tarde porque es más una hora. Aquí, o sea, realmente serían las 10 y 40. Pero claro, íbamos a llegar a las 8 y media aquí. Bueno, 9 si te pones, pero no hay ni idea de descarga. Voy a quitar esto para calentarlo. Espero os haya gustado el vídeo, chicos. No sé este vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=943" target="_blank" class="timestamp">[15:43]</a> La experiencia taxi tampoco ha sido mejor, la verdad. Pero espero de mejores, chicos. Vaya tele, tío. Y mañana... Se me ha hecho muy buena. Mañana meeting. Mañana meeting, pero vamos a ser la última hora, así que mañana espero estar relax todo el día. Me queda esto de agua y un litro, así que me van a beber esto ya.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_h3yjyDr47M&t=964" target="_blank" class="timestamp">[16:04]</a> congelada, que flipas, estaba congelada. Para el viaje y tal, le he congelado y está todavía congelado, se lo dejaba ahí fuera. Congelando pa ya, pero estoy congelado.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 07/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
