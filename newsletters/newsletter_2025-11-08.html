@@ -1,0 +1,386 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 08/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">08/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-oHKHVmX4fLA'>EL SHOW MÁS DIFÍCIL de MI VIDA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-oHKHVmX4fLA">
+            <h2>EL SHOW MÁS DIFÍCIL de MI VIDA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 08/11/2025 10:54</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=oHKHVmX4fLA" target="_blank">
+                    <img src="https://i.ytimg.com/vi/oHKHVmX4fLA/hqdefault.jpg" alt="EL SHOW MÁS DIFÍCIL de MI VIDA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video sigue a un youtuber y culturista en Bucarest, Rumanía, mientras se prepara para una competición de culturismo conocida como "Meeting Pro". Muestra su entrenamiento en un gimnasio tradicional, la promoción de una app de datos móviles y los trámites previos al evento. El creador comparte su experiencia, las expectativas de la competición y su encuentro con otros atletas.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Entrenamiento Old School en Bucarest <a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&amp;t=112" target="_blank">[01:52]</a></h3>
+
+<p>El youtuber llega a Bucarest y se dirige a un gimnasio "old school" para entrenar antes de la competición. Muestra las instalaciones con equipo ELEIKO de competición y realiza una sesión de levantamiento de pesas.</p>
+
+<h3>Datos Móviles para Viajeros: La Solución Seili <a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&amp;t=262" target="_blank">[04:22]</a></h3>
+
+<p>Tras un incidente con la luz, el creador presenta y explica la aplicación Seili para datos móviles en el extranjero. Destaca su facilidad de uso y la activación automática al aterrizar, ofreciendo un código de descuento para los espectadores.</p>
+
+<h3>El Ambiente Pre-Competición: Meeting Pro <a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&amp;t=477" target="_blank">[07:57]</a></h3>
+
+<p>El youtuber llega al lugar del "Meeting Pro" donde se realizará la competición. Muestra el área de backstage y la zona de posado, preparándose para los trámites previos al evento, como el pesaje, que describe como un "paseo".</p>
+
+<h3>Reflexiones y Preparación Final para el Gran Día <a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&amp;t=806" target="_blank">[13:26]</a></h3>
+
+<p>El creador continúa con las interacciones en el evento, mencionando la "época de Olympia" y sus planes de viaje. Reflexiona sobre la importancia de su estilo de vida como atleta y creador de contenido, preparándose mentalmente para el día de la competición.</p>
+
+<h3>Enfrentando la Realidad: Expectativas en la Competición <a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&amp;t=963" target="_blank">[16:03]</a></h3>
+
+<p>El youtuber detalla el formato de la competición y el proceso de pesaje, elogiando la organización. Habla de la inmensa dificultad de competir contra un "super top" como Andrew Jack, gestionando las expectativas de sus seguidores y siendo realista sobre sus posibilidades.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=3" target="_blank" class="timestamp">[00:03]</a> Sí, hay que dejarlo claro también para la gente a lo mejor que no entiende tanto. Es una persona que viene muy sobrada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=37" target="_blank" class="timestamp">[00:37]</a> Como van a todos chicos, estamos en un nuevo vídeo. Hoy creo que vamos al gimnasio más old school que he estado nunca. No sé si nos van a dejar grabar. Voy a intentarlo, la verdad. Me lo dejen grabar, pero no prometo nada. What eats up Romania. Estamos en Bucarest. Ha salido un día espectacular como podéis estar viendo. Al bombeíto. Hay que llevar la vacuna del tétanos, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=65" target="_blank" class="timestamp">[01:05]</a> Bueno chicos, estamos camino al gym Así que parece un poco la España de los años 50 Pero, tengo que deciros que lo que no es la España de los años 50 Es la oferta de MyProtein 45% de descuento, 15% extra Desde el link de abajo es el descuento más grande que hay Es el mes de la Protein, noviembre Aprovechadlo, llenad vuestras despensas de proteínas, chavales Vamos a ver qué tal Yo tengo intra Un pobreiz Vamos a ver hasta ayer</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=92" target="_blank" class="timestamp">[01:32]</a> Azulito, ¿eh? A mí me encanta la tumba. El azul es el mejor poboliz que hay, sin duda. ¿Tienes frío, tú? Está abrigada, gente. ¡Qué guapo! Joder, es cool, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=112" target="_blank" class="timestamp">[01:52]</a> Los ELEIKO calibrados. ¿Podemos empezar a entrenar? Sí. Ok. Gracias. No hay problema. Gracias. Hola. Banco de competición ELEIKO, chaval. Banco de competición ELEIKO. Discus calibrados ELEIKO. Flipas. Vamos a jarte, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=206" target="_blank" class="timestamp">[03:26]</a> Muy bien. Engancha pierna. Ahí, muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=247" target="_blank" class="timestamp">[04:07]</a> Hemos posado. Ha sido un poco raro. De hecho, estoy en esta habitación porque es la habitación de posar. Pero está lloviendo. Y se ha ido la luz. Y me ha jodido bastante porque le había dicho a Fran. Ahora tal antes de que se vaya la luz tal. He mirado a qué hora se iba la luz. He venido pero claro, está lloviendo. Me he quedado sin luz.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=262" target="_blank" class="timestamp">[04:22]</a> La verdad, y estoy configurando my phone Bueno, realmente lo configuré ayer, pero os quiero enseñar cómo lo configuro yo De hecho, si os fijáis, podéis estar viendo Seilic, ¿vale? La aplicación que tengo 5 GB en Rumanía ahora mismo Disponibles, pero me podéis ir a mis planes Podéis ver aquí, por ejemplo, lo que hemos estado haciendo Nuestra trayectoria Chequia, Polonia, Rumanía y demás, ¿vale? Pero, esto es todo un poco de históricos Pero es que además podemos aquí ir a nuevos planes, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=289" target="_blank" class="timestamp">[04:49]</a> Si nos vamos a nuevos planes, bueno, vamos a poner el contexto. Seili es una compañía móvil, ¿vale? Seili es una compañía que nos sirve en el extranjero. ¿A veces tenemos roaming en Europa? Sí, a veces tenemos roaming. Funciona muy mal en general. Así que con Seili tenemos la opción de que funcione bien. Además, una cosa importante es que lo podemos poner antes de volar. Tú lo pones antes de volar y simplemente cuando aterrizas se te activa el país. Esto es un punto muy, muy a favor. O sea, muy a favor porque tú aterrizas y ya tienes datos. Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=315" target="_blank" class="timestamp">[05:15]</a> ¿Qué podemos hacer básicamente? Muy, muy fácil. Tenéis el código JOAMPRADACE. Si lo queréis utilizar, os lo agradezco un montón. Tenéis un 15% de descuento y demás. Si, por ejemplo, países que nos salen, nos vamos a Reino Unido, como hemos estado estas semanas, y nos vamos al plan de 5 gigas, ¿vale? Le damos aquí a continuar y básicamente te da toda la explicación, el tiempo que lo tienes disponible. Es súper sencillo. O sea, tienes la aplicación de Seili, te metes aquí en datos, pones el cupón JOAMPRADACE.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=346" target="_blank" class="timestamp">[05:46]</a> Lo aplicas, ¿vale? 3, 2, 1 Ya lo tenemos Y seleccionas el método de pago Luego se te puede activar la recarga automática Puedes no activarla O lo que quieras Pero esto es súper sencillo de hacer Esto te salva de muchas cosas Nosotros somos creadores de contenido Nos dedicamos a subir cosas Tenemos que traer internet</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=362" target="_blank" class="timestamp">[06:02]</a> Y además no solo Internet, Internet que funcione. Luego tienes que los accesos sobre Servil&Beats, que siempre tienes que estar mirando las cosas. Así que bueno, esto nos viene muy bien. De hecho ahora tenemos que pedir el Uber para irnos al Meeting Pro y esto nos salva bastante, bastante la vida. Así que chicos, dicho queda, lo tenéis en la descripción por si queréis utilizarlo. Y ahora sí, nos vamos al Meeting Pro. Vamos para allá. Vámonos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=384" target="_blank" class="timestamp">[06:24]</a> Hoy sin música porque no es el día de la competición. Hoy solo limpieza. Hoy limpieza energética porque al final, ya sabéis, hay que limpiarse. Ya sabéis que las cosas a veces una...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=403" target="_blank" class="timestamp">[06:43]</a> No nos afecta eh. A ti que estás viendo este vídeo también es para ti. Toma. Limpiate. Respíralo, respíralo. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma. Toma.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=433" target="_blank" class="timestamp">[07:13]</a> No, porque está lleno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=477" target="_blank" class="timestamp">[07:57]</a> Nice to meet you. Hi. Now what happens is that there we have a small backstage, so we can only hold a couple of divisions there. That's why this is going to be a world-off place. It's going to be a post-out area. Do you know that our team is very good?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=504" target="_blank" class="timestamp">[08:24]</a> Se está muy bien, acabo de llegar con un súper petido. Gracias, Roberto. ¿Cómo estás? ¿Cómo estás? ¿Cómo estás? ¿Cómo estás? ¿Cómo estás? ¿Cómo estás? ¿Cómo estás? ¿Cómo estás? ¿Cómo estás?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=530" target="_blank" class="timestamp">[08:50]</a> Ahora, esto es como el trámite, ¿sabes? Después de esto, es cuando ya solo piensas en la competición. Esto es como el paseo. Muy bien, la verdad. Vamos a evitar. A ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=560" target="_blank" class="timestamp">[09:20]</a> Buenas tardes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=585" target="_blank" class="timestamp">[09:45]</a> Vamos a comer, que tengo una comida, me queda el litro de agua todavía. Y además dentro de 99 tengo que pasar el peso franc, así que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=616" target="_blank" class="timestamp">[10:16]</a> Está chiquito el Andrew Jack, ¿eh? Madre mía.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=645" target="_blank" class="timestamp">[10:45]</a> ¡Hola! ¡Muchas gracias! ¡Muchas gracias! ¡Muchas gracias!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=669" target="_blank" class="timestamp">[11:09]</a> ¿Puedes ponerlo a ti mismo? ¿Estás bien? ¡Hola! ¡Buenos días!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=701" target="_blank" class="timestamp">[11:41]</a> Gracias. Gracias. Gracias. Gracias. Gracias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=728" target="_blank" class="timestamp">[12:08]</a> Luego de dos años, esta es la época de Olympia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=742" target="_blank" class="timestamp">[12:22]</a> ¿Cómo estás? Muy bien. Muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=785" target="_blank" class="timestamp">[13:05]</a> ¡Suscríbete!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=806" target="_blank" class="timestamp">[13:26]</a> Para mí es muy importante que pueda vivir así. Upload videos, entrenar todos los días y tener mi propia vida. Buena genética.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=829" target="_blank" class="timestamp">[13:49]</a> ¿Tienes todo lo mejor para mañana? ¿Quieres verlo? Vamos a postar ahora, ahora. No con vosotros. Gracias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=854" target="_blank" class="timestamp">[14:14]</a> Eso hay que planificarse bien. Veamos normalmente los jueves los Serbian Bits. Nos volvemos a que seamos como los Serbian Bits hasta el jueves. Van a estar los viernes con los mitos. Y los vendidos para acabar el show, cada vez que me apunto al siguiente show, pues si pasaba. Sí, sí, claro. Nos lo va a dejar de apuntar porque sea la show del primero. Y encima he hecho dos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=880" target="_blank" class="timestamp">[14:40]</a> Es que eran dos días en semifinales. Es que eso mata eso. Eso es lo peor. El mejor en ese sentido es el de UK. Una noche y dos días seguidos. Meeting y pam pam. Eso es de puta madre. Aquí es por la mañana semifinales y por la tarde final, que también está bien. Ahora tengo que preguntar los horarios. Por la mañana semifinales. Open es la última. O sea que saldrá para las 12 y medio de la 1.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=903" target="_blank" class="timestamp">[15:03]</a> Y por la tele final. Tarde noche. Sí, ocho. O sea, para casa, cansada. Claro, claro. Sí, sí, sí. Pero todo el mismo día.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=934" target="_blank" class="timestamp">[15:34]</a> Bueno chicos, yo siempre digo pesaje. Meeting listo. Yo no me peso. Bueno, te pesas tres veces al día, pero aquí no. Exacto. ¿Cómo lo habéis visto todo? Muy bien. Bastante bien organizado. Sí. Rápido. Muy rápido. Ha sido muy rápido. Es cierto que muy rápido para los Open porque los clásicos ahora se tenían que pesar y tal. Pero eso siempre es así. Sí. Y los dos doce también. Ya. O sea, agradecido de que nos lo hagan así, que no nos tenemos que pesar, nos damos dos años y nos vayamos. Por cierto, Andrew, ya que eres muy grande.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=963" target="_blank" class="timestamp">[16:03]</a> Muy grande. Y hace me win, eh. Tiene más cabeza que tú. Por cierto, yo sé que el hype está genial y todo eso. Es imposible que gane ese tío. O sea, voy para hacerme la foto con él, de verdad. Lo digo con cariño. Es imposible. O sea, gracias por el intento de hype a la gente y todo lo que queráis. En serio. Sí, sí. Sí, hay que dejarlo claro también para la gente a lo mejor que no entiende tanto. Cero expectativas, por favor. O sea, es una persona que viene muy sobrada. Me dice un chico, a ver si sale tapado. Y le digo, ni tapado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=989" target="_blank" class="timestamp">[16:29]</a> Aunque salga tapado, aunque se torce al pie antes de subir y posease un poco de lado. Es un super top que está además cada año mejor y hay que saber en qué punto se está. Sí, sí. Impresidencia, impresidencia. Y no estamos ahí. Hombre, juntos estáis. Estoy en el número de antes que yo. Él es el 59 y yo en el 60. O sea, 159, 160. O sea, que van a salir... Quizá un doble dices tengo con él. ¿Verdad? Las comparativas estas. Las iniciales. Bueno chicos, espero que os haya gustado el vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=oHKHVmX4fLA&t=1017" target="_blank" class="timestamp">[16:57]</a> Esto se van a comprar, yo me voy a ir para arriba. Para ver Tony si agenda una barber para mañana. Aquí es pelete a lo valenciano. El degradado por aquí. El degradado al tinto y tal. Espero que os haya gustado el vídeo. Nos vemos mañana chicos. Chao, chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 08/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
