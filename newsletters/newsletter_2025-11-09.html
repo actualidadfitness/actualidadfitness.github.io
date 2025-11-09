@@ -1,0 +1,514 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 09/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">09/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-8PSPJ9aFrjo'>LLAMADA URGENTE a FRAN ESPÍN</a></li>
+<li><strong>Victor Valdivia</strong>: <a href='#video-2FQhRS-Ti1w'>JOAN PRADELLS DESTROZADO POR ANDREW JACKED | Prejudging Open romania pro</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-8PSPJ9aFrjo">
+            <h2>LLAMADA URGENTE a FRAN ESPÍN</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 09/11/2025 07:07</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo" target="_blank">
+                    <img src="https://i.ytimg.com/vi/8PSPJ9aFrjo/hqdefault.jpg" alt="LLAMADA URGENTE a FRAN ESPÍN" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video sigue a un culturista en su día previo a una competición, mostrando su meticulosa preparación que incluye un corte de pelo y una sesión intensiva de posing con su entrenador. Se discuten aspectos clave como la nutrición, el descanso, el seguimiento del peso y la estrategia de poses. El atleta comparte sus expectativas, su motivación para disfrutar y el desafío de mantener la forma en múltiples competiciones.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Preparativos Cruciales en la Barbería <a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&amp;t=30" target="_blank">[00:30]</a></h3>
+
+<p>El culturista se prepara en la barbería el día antes de la competición, resaltando la importancia del corte de pelo para su apariencia escénica. Expresa su preferencia por un formato de competición de un solo día para quitarse la presión rápidamente.</p>
+
+<h3>El Impacto del Descanso y la Alimentación <a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&amp;t=368" target="_blank">[06:08]</a></h3>
+
+<p>Después del corte de pelo y un café, el atleta se siente más activo. Se enfoca en el valor de un descanso profundo (habiendo dormido 10 horas y media) y una alimentación estratégica para optimizar su físico antes de la competencia.</p>
+
+<h3>Sesión Intensiva de Posing con el Coach <a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&amp;t=605" target="_blank">[10:05]</a></h3>
+
+<p>El entrenador Fran guía una detallada sesión de posing, corrigiendo cada movimiento, activación muscular y transiciones. Se enfatiza la importancia de la precisión en cada pose para maximizar el impacto visual en el escenario.</p>
+
+<h3>La Metodología Científica de la Puesta a Punto <a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&amp;t=914" target="_blank">[15:14]</a></h3>
+
+<p>El coach Fran revela la importancia del seguimiento de pesos y comidas como una guía inamovible para la preparación. Explica cómo esta data asegura una evolución constante y ayuda a replicar el éxito en múltiples competiciones.</p>
+
+<h3>Disfrutar y Competir con la Élite <a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&amp;t=1590" target="_blank">[26:30]</a></h3>
+
+<p>Joan comparte sus emociones finales, enfocándose en disfrutar la experiencia de competir sin presión y el honor de compartir escenario con atletas de la talla de Andrew Jacked. Reflexiona sobre el sacrificio de no entrenar a su ritmo habitual durante la temporada.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=8" target="_blank" class="timestamp">[00:08]</a> ¡Eso es! ¡Eso es! ¡Eso es! Porque hay pauses que a veces se te iban. Entonces, es muy sencillo. Haces la pose, metes el abdomen y contras el pectoral. Mejor que competir en dos días, sinceramente. Pero es cierto que hoy me encantaría poder competir hoy. Sinceramente, así ya te lo quitas todo de una. Hablando con Fran esta mañana, estábamos en plan semana o cuatro competiciones seguidas. Son muchas. Para un físico me refiero para aguantar. Bueno, a todos, chicos. Estamos en un nuevo vídeo. Día pre-competición. Estamos en la barbería.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=37" target="_blank" class="timestamp">[00:37]</a> Es importante verse bien, aunque mañana me va a tocar afeitarme otra vez porque la verdad que parece una persona mayor ya que me sale la barba a nivel increíble. Así que vamos para allá. Y empezamos a cortarnos el pelito. A ver si no te deja bien. A ver, le tengo que explicar como quiero. Suerte. Tony, ¿tú qué lo has dicho? Yo lo he enseñado a la foto. Es que tú eres muy rápido, tío. No, yo soy profeo. A él le ha hecho muchos destrozos. ¿Qué, Tony?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=65" target="_blank" class="timestamp">[01:05]</a> A mí me han hecho muchos destrozos. Me acabo de levantar. Necesitaba dormir. Estoy hecho un moco. Pero bueno. ¿Cuál es tu nombre, bro? Dragos. Dragos nos va a dejar clean. Clean, clean. No, el tío lo hace bien. A ver, va.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=90" target="_blank" class="timestamp">[01:30]</a> ¿Te ha cortado esto? ¿Eh? ¿Te ha cortado esto? Sí. Hoy es sábado, chicos. Es bastante raro. Bueno, bastante raro no. Yo creo que es lo normal, o no sabría decirlo si es lo normal, pero las competiciones, cuando tienen amateur, normalmente los sábados es el amateur, entonces los profesionales, pues...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=104" target="_blank" class="timestamp">[01:44]</a> Tienes el viernes el pesaje de manos y todo eso, o lo que sea, o el meeting, pero el sábado te quedas como vacío y el domingo ya compites. Mejor que competir en dos días, sinceramente, pero es cierto que hoy me encantaría poder competir hoy, sinceramente, así ya te lo quitas todo de una. Y mañana, en cambio, tengo que competir por la mañana y por la tarde. Para mí lo mejor fue lo de UK, fue llegar un día, meeting, día siguiente, sábado, por la tarde solo, a volar. En dos, tres horas, la competición, el pesaje en una hora y media. Para mí ese es el punto perfecto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=133" target="_blank" class="timestamp">[02:13]</a> A ver si no me estropea. Me da mucho miedo cortarme fuera de casa. Ya, a mí también, eh. Te da una desconfianza. The more little that you can. Pero sí que es cierto que creo que hace mucho competir con el pelo recién corto. Por lo menos los lados, sobre todo. Que se vea bien apañado el pelo. Entonces, bueno, irá un pelín de la parte de arriba, pero también lo principal es por los lados. Es que no quiero que se me quede más largo arriba, porque entonces luego...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=158" target="_blank" class="timestamp">[02:38]</a> Se ve el backstage, me pongo el acapucho, ya no sé si es algo como un pastel o nada. Cuanto más corto lo lleve, de arriba también me ayuda. Y luego decía, sudo y todo, es un viejo. De hecho, donde el mejor pan de buce fue en Praga, yo creo. Porque me ponía de lado así, como estaba sudado y tal. Cuando me había degradado bien, fue valenciano. Y de arriba me lo toqué en nada, perfecto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=187" target="_blank" class="timestamp">[03:07]</a> Bastante bien ¿no? Muy bien. Estoy reventado tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=208" target="_blank" class="timestamp">[03:28]</a> Vamos al supermercado. Un poquito ya más activos después de que nos corten el pelo. ¿Qué ha dicho? Pues activo y yo me pego nada. Mira que flipas, es la verdad. Me dice Tony, ¿por qué no estás estupear para competir? He dicho, brother, porque yo en el backstage estoy con la capucha puesta medio dormido chafándome todo el pelo y puedo salir con un pastelón ahí. De hecho, me habría gustado un poquito más bajita la parte de arriba, pero es que tampoco me fío de pedirle a alguien que me lo haga más bajito. Alguien con quien no me entiendo. Entonces, ni es fly.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=235" target="_blank" class="timestamp">[03:55]</a> Vamos a comprar unas cosas y a posar. ¿Quieres comprar algo? Pollo y tu dinero, por si acaso. A ver si hay pollo picado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=281" target="_blank" class="timestamp">[04:41]</a> He subido casi un kilo. A ver qué tal es posible. Voy bien la pierna.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=340" target="_blank" class="timestamp">[05:40]</a> Voy a enseñarte quién era yo en la barbería, ¿vale? Era el oso saliendo de la hibernación, literalmente. ¿Vale? Era este yo en la barbería. Ahora con un café se ve las cosas diferentes. Hemos visto posar a Johanna, ¿vale? Eso lleva dos comidas hoy. Le quedan unas cuatro más, ¿no? Entre cuatro y cinco. Pero soléis meter seis y quizá una última. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=368" target="_blank" class="timestamp">[06:08]</a> Todo el día para descansar, que ya no tenemos que hacer nada. Luego igual te das un masaje, ¿no? Sí. Que es menos que nada, o sea, aún más relajación y tal. La noche, que si duerme bien, Joan, eso le hace mucho en el físico. He dormido muy bien. Me he marcado la máscara 10 horas y media. De hecho, he desayunado, tenía el desayuno al lado y seguí durmiendo. Maravilloso. ¿Y Marta? Seguía y seguía y seguía. Marta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=394" target="_blank" class="timestamp">[06:34]</a> Seguía durmiendo. ¿A qué hora me acosté? Tuve un ataque de pánico de Marta a mi la noche. De que apagara conmigo. Es que yo tenía el radiador ahí pegado. Era un calor que me iba a morir ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=414" target="_blank" class="timestamp">[06:54]</a> ¿Sabes luego el frío que hacía? Y yo todo sudado. El frío que ha pasado. Bueno, estábamos hablando de culturismo. Que va muy bien la cosa. Hay tiempo para comer, hay tiempo para descansar, hay tiempo para seguir cargando. Que siga tirando el agua que le queda y que siga bombeando ahí. Y mañana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=434" target="_blank" class="timestamp">[07:14]</a> A disfrutar. Me apetece a disfrutar mañana. Me estoy motivando. Hoy he dormido bien y ya llevamos unos días malos. Hoy me he despertado bien y no sé qué. Me apetece competir. Me apetece relajarme, ¿sabes? Si yo tengo el fumar seco, ¿eh? Claro que sí. En la vida he visto el fumar yo así. Obvio que sí. No está mal. ¿Te falta...? Mira, en la...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=459" target="_blank" class="timestamp">[07:39]</a> La puso de espaldas. Se te nota el culo seco, ¿vale? En esta no, en concreto. No lo tiene estriado. ¿Eh? No lo tiene estriado. No, pero que le falta tirar una capilla de agua del culo. Pero lo tiene seco, se le nota. A que se le nota. Joder, están muy secos, eh. Mira los cortes así. Sí, sí. Y fíjate en el basto este, cómo se mueve. Y de frente me habéis dicho que si lo bombeo. Sí, sí. Y más que se va a bombear con todas las comidas. Y con el masaje y todo. ¡Uh!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=488" target="_blank" class="timestamp">[08:08]</a> No sé, ojalá. ¿Vas a salir en tu prime? No, no sé. A ver, ojalá, sinceramente. Si lo hablaba con Fran ayer y me decía, a ver, son muchas competir las que yo... Bueno, pues posen y hablar con Fran. Yo le voy a llamar, básicamente. Estaba comida 3. Voy con los años super, super calculados. 130 gramos de arroz, 200 de pollo, dos tortas de arroz. Ahora están siendo todas las semanas exactamente igual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=517" target="_blank" class="timestamp">[08:37]</a> Está yendo súper bien a nivel digestivo, así que no tocamos nada. A la hora ajustamos según como sea el horario de la competición y demás. Así que bueno, esta noche sí que he bajado de peso extremo. Ya se acomoda todo, la verdad. Soy un poco expectante, la verdad. Simplemente, como no sé verme mucho, tampoco hay espejos ni nada, yo estoy diciendo, oye, ¿cómo voy con respecto al peso de la semana pasada? Es decir, el pesaje 2...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=540" target="_blank" class="timestamp">[09:00]</a> El sábado está siendo el mismo. No, pues mira, vamos 200 gramos arriba, vamos 200 gramos abajo. Va bien. Vamos apretando, aparte de los vídeos. Pero es un buen indicador también para saber. Así que en eso estamos, chicos. No es que estén nerviosos, estoy... De hecho, antes he dicho, tengo ganas de disfrutar el atelismo otra vez. O sea, tengo ganas de bailar, ¿sabes? En ese sentido. O sea, que guay. De hecho, ya con esto, ya lo voy a descansar un poco y ya para afuera.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=568" target="_blank" class="timestamp">[09:28]</a> Hola Joan. Buenas Fran. ¿Qué tal? Muy bien. ¿Cómo vas? Bien. Me he dormido, pero ahora estoy durmiendo de flipas. Vale, guay, guay. Vale, ahí tienes buena iluminación. Aún así, hay peores. ¿Que antes? Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=586" target="_blank" class="timestamp">[09:46]</a> Sí, claro, sí puede ser. Al final… Ahí es por la tarde ya. Al final, la luz se va un poquito. Pero bueno, está bien. Muy bien las penas. Se ve la piel más fina, más granítico el tono muscular, más duro. Sí. ¿Vale? Venga, arranca con la posición relajado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=605" target="_blank" class="timestamp">[10:05]</a> Vale. Ahí aprieta el pecho. Siempre. Exacto. Siempre. Esa pose es así. Tal que así. ¿Sabes? Porque a veces te pasaba que te encogías un poquito hacia delante y perdías la conexión con el abdomen. O sea, con el lorsal. Pero esa pose es que hagas las patas, te haces caerme arriba y ya contras el pectoral. Vale. Vale, sigue. Perfil. Y ahora aprietas el glúteo intercostal. Muy bien. Perfecto. El glúteo intercostal siempre es el final. Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=633" target="_blank" class="timestamp">[10:33]</a> Venga, va. Repítela, repítela. La coges, la haces, apretas glúteo intercostal. Echáis. Eso es. Ya lo tienes. Sí, señor. Vale. Se me ha relajado. Vale. Atrás, atrás. Hazte más grande arriba, Joan. Ahí estás. Vale. Apretas glúteo femoral. Ahí estás. Echa patas un poquito más la espalda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=655" target="_blank" class="timestamp">[10:55]</a> Ahí está. Perfecto. Eso es. Vale, importante. Te haces arriba y tiras un poquito hacia atrás. Como que te sientas atrás. Vale. Vale. El otro perfil. Vacía del todo. Glúteo y femoral a la vez. Perdona, glúteo y diente costal. Muy bien. Perfecto. Pecho. Siguiente. Vale. Vale, perfecto. Esta posición la haces perfecta. No tienes ningún pelo. Vale. Haces una pequeña transición ahí, ¿no? Sí. Está bien. Está bien. Vale, señor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=685" target="_blank" class="timestamp">[11:25]</a> Queda el abdomen y lo hace. Sí, está chula, está chula. Queda diferente. Sí. Venga. Sí, pero como esa pose la controlo mucho. Sí, no, te queda chula, te queda bien, te queda bien. Vale, venga, dale caña. Abajo, muy bien. Grande arriba, mete el abdomen. Eso es, eso es. Eso es, porque hay poses que a veces se te iba. Entonces es muy sencillo. Haces la pose, metes el abdomen y controles el pectoral, tal que ahí. Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=712" target="_blank" class="timestamp">[11:52]</a> Cabe las piernas, subes arriba, pecho y abdomen adentro. Vale, venga. Side chest. Ahí, desde atrás, ya aprietas el glúteo, ¿vale? Vale. Y ahora aprieta intercostal un poquito. Ahí. Eso es, eso es. Eso es. Muy bien ahí. Es lo que te decía yo antes en los audios. Vale. Que cuando haces esa pose te queda muy bien cuando haces banda arriba, pero cuando contraes el intercostal se te vea mucho mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=741" target="_blank" class="timestamp">[12:21]</a> ¿Vale? Repítelo otra vez, que yo te lo vea. Repítelo. El side chest. Apelante y apriete en tu costado al final. Ahí estás. Perfecto, perfecto, perfecto. Ya te voy a hacer el vídeo. Ahí también me gusta más. Sí, ya te digo que cae mejor. Más dramático, ¿eh? Exacto, porque… Mira, y eso que aquí debajo no se ve tanto. Pero encima hacia arriba lo vas a notar más. Muy bien, muy bien. Muy bien, muy bien. Perfecto. Aquí no hay ningún pelo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=771" target="_blank" class="timestamp">[12:51]</a> Vale, la transición es muy buena. Rema. Muy bien. Vale, una cosa, Joan. Joan, una cosa antes de hacerlas. Repite la pose, pero en vez de hacerte hacia abajo, hazte hacia arriba y echa para atrás los hombros. O sea, cuando ves a remar, no remes encorvado. Rema con el pecho hacia arriba. A ver si vemos diferencias. Vale. Vale, vuelvo a coger la pose.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=796" target="_blank" class="timestamp">[13:16]</a> ¿Vale? Mejor, un peli mejor. Abre, abre, hazte grande arriba. Como si estuvieras haciendo de frente en la expansión dorsal. Ahí estás. Perfecto. Vale, el truco, para que no pierdes el dorsal en esa pose, que a veces te pasa que hay un dorsal que no lo terminas de sacarlo del todo, es imaginarte que estás posando de frente al juez la expansión dorsal. Y ya con eso expandes bien el dorsal. Vale. Vale, queda la de tríceps, ¿no? Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=824" target="_blank" class="timestamp">[13:44]</a> Escúcheos. Muy bien. Vacío del todo. He echado el todo. Más. Ahí. Vale, y ahora mete ya la pierna. Mete la pierna hacia delante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=835" target="_blank" class="timestamp">[13:55]</a> Y vacía del todo. Vale, no hace falta que te gires tanto al juez, sino que puedes girar un poquito más lateral la pose. Vale. Porque si miras tanto, es casi casi ya una pose de abdominal. O una singular más muscular. Entonces, es mejor coges la pose, echas bien el aire y luego metes la pierna estando un poquito ya, digamos, de perfil. Vale. Vale. Abdomen y pierna. Muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=863" target="_blank" class="timestamp">[14:23]</a> Eso es, vaciar así, muy bien. Vale, perfecto. Muy buena, muy buena. Mete intercostal, que también es bueno. Cuando hagas esa pose, mete intercostal. Mete la pata ahora. Ahora sí quieres meter la pata. Y ahora, eso es. A eso me refiero yo. Queda muy bonita la pose. Vale, más muscular. Bien, justo las patas. Muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=890" target="_blank" class="timestamp">[14:50]</a> Siéntate las patas, siéntate ahí. Vale, muy bien. No, esa está perfecta. Vale, perfecto. Nada, ten en cuenta un poquito lo que te he comentado, ¿vale? Sí. Con el tema de las… Son pequeñas tonterías, son pequeñas transiciones o pequeños movimientos, pero que al final vas a notar la diferencia a la hora de posar encima del cenario, porque al final vas a quedar más detalle. Vale. Vas a tener un poquito más de detalle muscular.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=914" target="_blank" class="timestamp">[15:14]</a> Sí, el 13 como es la hora. Vale, muy bien, muy bien. Vas muy bien. Ahora mismo, a ver, déjame que le eche un vistazo a los apuntes. Madre mía, el que vea ese exter puede flipar. Tengo aquí, tengo aquí. No solo en este, sino también.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=935" target="_blank" class="timestamp">[15:35]</a> Aquí tengo todos los pesos de las comidas, todo, porque al final es una pequeña guía para cuando no veo bien la imagen del físico. O sea, cuando no veo una buena calidad de imagen en el vídeo, me ayuda a saber que estoy... Sobre todo cuando hay muchas competiciones, por ejemplo ahora cuatro seguidas, ves si los pesos han sido a las mismas horas en todas las semanas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=959" target="_blank" class="timestamp">[15:59]</a> ¿Y tal? Y ya salía bien un físico y dice, vale, voy a intentar replicar esto. Claro. Y es lo que siempre te he estado diciendo en esas últimas competiciones. Vale, vas un poquito mejor, vas un poquito más, vas a salir con un kilito menos, con un kilito... Vale, vas a salir igual. Y no hemos fallado, porque básicamente hemos tenido una guía tanto física, pero no me fijo tanto en el físico, sí que cuando tienes una buena iluminación, por ejemplo, como ahora,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=979" target="_blank" class="timestamp">[16:19]</a> Claro, por eso mola, porque ahora que se va a ir la luz, ya no te envío vídeo con la comida 5, pero bueno, me ves ahora y tú ya sabes más o menos si la comida 5 es lo que hoy.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=993" target="_blank" class="timestamp">[16:33]</a> y tú no te ves bien, te vas a rayar. Y yo veo en el vídeo y digo, hostia, pues yo no te veo tan bien, porque la vibración es la misma. Entonces, hay una cosa que es inamovible y son los pesos. Sí, sí. ¿Sabes? Y como no hay variaciones exageradas en el peso, no es decir, que pierdes 4 kilos, ganas 5, 3, tal, sino que si tienes una línea más o menos progresiva en estos puntos, ya bastante evolutiva, o sea, se va viendo… varían muy poquitos gramos, kilo o máximo, entonces ya sabemos que estamos en orden correcto, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1020" target="_blank" class="timestamp">[17:00]</a> Así que nada, dale una cuenta a todas esas poses porque mañana tienes que hacerlo perfecto. La semana pasada lo hiciste muy bien, eh. Sí. Cuando estoy ahí me crezco bastante, eh. Sí, ya te he visto. Coges confianza, sorrides muchísimo, que eso está muy bien. Me crezco y me va saliendo todo al momento y me voy acordando de todo, ¿sabes? Te lo juro que antes de la pose no me estoy acordando en concreto de algo y mientras estoy posando de repente hago buf, el intercostal que me ha dicho Fran. Buf, el no sé qué. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1045" target="_blank" class="timestamp">[17:25]</a> Al final vas cogiendo mucha más confianza. Es lo bueno de competir más veces. Vas cogiendo confianza y te vas adaptando un poquito más. Incluso vas cogiendo más resistencia a la hora de posar. Es la parte positiva y vas te competiendo. Aparte, una cosa super guay es que por eso te lo he dicho antes. Aparte de la iluminación, menos mal que te he dicho. Prefieres que se vea esto más vacío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1064" target="_blank" class="timestamp">[17:44]</a> Porque es cierto, el día de la competición vamos siempre con el estómago súper vacío. Bueno, también el microlax, este, como sea, el supositor... Pero... A ver, tú de por sí ya lo haces. Lo que pasa es que eso lo hacemos para vaciarte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1079" target="_blank" class="timestamp">[17:59]</a> Es como que si de normal pozo cómodo ya estos días, ese día que tampoco comemos mucho, que no sé qué, pozo súper cómodo. Claro, claro. Claro, es así. El día de la competición es cuando realmente menos deberías de comer. ¿Por qué? Sí. A ver, está ganando un tío de 114 kilos. O sea, no es un tío de 100 kilos ni de 80. Entonces, tú tienes que comer bastante para poder mantener esa masa muscular, esa plenitud.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1100" target="_blank" class="timestamp">[18:20]</a> pero dentro de lo que es la carga intentamos que no sea excesivamente tensa en calorías para que puedas seguir haciendo tu vacuum y todo. Y suerte que tienes que reaccionar bastante bien porque hay gente que sí que tienes que bajarle mucho más los carbohidratos, quitarle toda la proteína y en tu caso, digamos, es tu punto fuerte. Sí, no, yo estoy súper cómodo, tío, de verdad, o sea…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1124" target="_blank" class="timestamp">[18:44]</a> Justamente en las comisiones es cuando más como he estado. De hecho, siempre he estado últimamente diciendo, yo tengo ardor, tengo no sé qué y tal. He empezado las comisiones y me ha ido todo. Sí, en las últimas dos semanas ya se ha reaccionado mucho mejor. Pero bueno, eso fue con el rebote, ya sabes que es lo que te comenté. Hacer un rebote tan fuerte es que no hay posibilidad de esos pequeños problemas. Sí, 100%.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1142" target="_blank" class="timestamp">[19:02]</a> Nada, super bien. Y además cada vez tengo más controlado todo lo que es la suplementación. Ahora como que ya, claro, me mandan las cosas y ya todo es más o menos igual. Ni tengo que estar mirando todo el rato el papel, ¿sabes? Como ha ido bien, más o menos todas las semanas se repite el patrón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1162" target="_blank" class="timestamp">[19:22]</a> de ir ajustando en función a tu evolución. Básicamente la base es la misma y vamos ajustando. ¿Vale? Por lo menos para estas competiciones, que luego para las siguientes o hay que hacer un cambio muy drástico en la puesta a punto o lo que sea, se podría ver. Pero bueno, realmente esto está funcionando bastante bien. Yo a semana y semana progresando sin perder plenitud. Y lógicamente tampoco perdiendo mucho masa muscular porque al final el peso que está sacando en estas últimas competiciones es igual a un kilo menos, un kilo medio menos que la primera. O sea, es que no ha cambiado mucho el peso, sino que lo que ha cambiado va a decir que no ha sido mucho.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1192" target="_blank" class="timestamp">[19:52]</a> la composición corporal si no es que no tocaría nada vamos el trigo si me mandas a hablar algo super raro te diría Fran de verdad lo que estamos haciendo es perfecto en ese sentido las cantidades todo te da la seguridad de que sabes que no puede salir mal si los cambios son los justos claro claro me siento todo bien ahora está funcionando así que nada tío guay gracias dale que haya en ese aspecto para mañana estar más mentalizado y nada hablamos luego</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1220" target="_blank" class="timestamp">[20:20]</a> Sí, sí, sí. Te digo, ¿vale? Te digo 9 años después de la comida 5. Perfecto. Muchas gracias, Fran. Un abrazo. Chao, chao. Bueno, chicos. Ahora toca comer y físico. ¿Cómo has visto tu marca? Bien. ¿Físico bien? Sí, físico y a punto de... Ya a punto de... A ver el mundo, si pudiera... A ver la espalda. Claro, femoral y culo. ¿Femoral y culo? Sí, y sobre todo también...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1248" target="_blank" class="timestamp">[20:48]</a> A ver, dentro de los calles es muy bueno, pero es cierto que llevo mucho trabajo de aprender a apretarlos. Los puso así para afuera y luego como que lo he roto yo mismo internamente. Aunque se quede quieto, yo he roto. Si puedo estar más libre para apretarlo un poco más. La tarea, por ejemplo, la semana pasada posee mucho rato. O sea, salí con las agujetas que flipas solo de correr. Lo que veas realmente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1274" target="_blank" class="timestamp">[21:14]</a> ¿Tú sientes alguna tensión en la espalda que te impide...? Normalmente cuando poso... No, no, estoy súper bien. Cuando poso, no. Yo tengo mucha falta. En ese sentido, da gusto. Yo lo único que me pasa es que cuando poso, traen muchos fósitos de espalda, si me han alzado media la espalda, si acabo bastante botón. Yo creo que me ha pasado todo. ¿Entonces tienes un problema de movilidad? Es muy móvil, ¿eh? Tiene mucha presididad y todo. Yo te diría que no. De todas maneras, podemos trabajar un poco, pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1305" target="_blank" class="timestamp">[21:45]</a> y quería saber qué teníamos que acentuar, dónde tengo que pasar más tiempo. Entonces el glúteo... A mí me da miedo dos cosas. Una, que me dejes marcas y no tener agujetas tampoco de lo que me hagas. Tampoco. O sea que sea trabajar profundo y tal, pero sin llegar a tenerlo. Pues no, profundo no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1325" target="_blank" class="timestamp">[22:05]</a> No, no, el pre-stage es justamente algo superficial para trabajar las fascias y no ir profundamente para no crear una inflamación para que no tengas esa retención de agua. Entonces eso no lo vamos a hacer. Y yo voy a trabajar con instrumentos también que no dejan marcas. Vale, y si me puedes también trabajar con lo que es la profundidad del vacío, sería genial. Vale. O sea, un poco la profundidad del vacío. ¿Sabes cómo me refiero? Sí, sí. Eso es fantástico. Porque al final...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1356" target="_blank" class="timestamp">[22:36]</a> Bueno, esa parte es bastante grave en mi caso. Juego bastante para la cintura que lo hacía. Vale, o sea que fue de genio. ¿Ok? ¿Tú me andas? Vamos a hacer un repaso a todo y yo voy a conociendo tu cuerpo. De todas maneras hay algunos sitios que voy a tocar y no voy a pasar mucho tiempo encima. Vale, luego ya pues lo vamos bajando y... Vale, haré mi trabajo. Genial. Lo que yo veo normalmente con Dani, con el chico este no pasaba, es que él había sido culturista. Entonces... Por eso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1388" target="_blank" class="timestamp">[23:08]</a> el día, exactamente lo que le decía. Le decía, pues mira, tengo un callo aquí por tal, sabes. Y le decía, vale, y tú voy a hacer esto. Otra vez, claro, eso es que, ¿cómo se roba con tus primeras manos? Y también competir. Saber justamente cómo, dónde se sienten las tensiones, que pierdes mucha agua. Hay muchas cosas en tener en cuenta que algunas personas no saben, no son</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1449" target="_blank" class="timestamp">[24:09]</a> Bueno, chicos, se acabó el día. Yo me iré a dormir prontito hoy porque, bueno, es lo que toca, tema de ingestiones, tema tal. Mañana, comito por la mañana y por la tarde. Tengo que despertar de pronto para empezar a cargar. Estoy bastante, no voy a decir nervioso, pero luego me lo paso bien. Pero lo que dije ayer, o sea, cero expectativas. Es lo único que le pido a la gente y, bueno, pido a vosotros también. En plan, le veo las cuentas y yo entiendo que la gente quiere hacer hype o tonterías, pero... Chicos, o sea, ojalá estar en un top 10 o algo así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1478" target="_blank" class="timestamp">[24:38]</a> y más expectativas que al principio, pasármelo bien y todo. ¿Han ido super bien las tres competiciones? Sí, genial. Esta puede ir fatal. De hecho, estaba hablando con Fran esta mañana, estábamos en plan, hermano, cuatro competiciones seguidas, son muchas, para un físico me refiero, para aguantar. Entonces, que lo que os digo, sonreír, pasármelo bien, además, es lo que os dije, a cambio a mi actitud de tarima, me lo estoy pasando bien, compitiendo, compitiendo, en plan...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1502" target="_blank" class="timestamp">[25:02]</a> En la propia competición. A ver, alcanza mucho luego volver a ir. Es decir, si es en dos días o si es por el año y por la tarde. Es porque es como pico de adrenalina. Bajada, pico de adrenalina. Recuperas el pico de adrenalina, lo recuperas. Pero te quedas muy plof. Entonces, estoy disfrutando compitiendo. Me parece lo más importante. Y lo que buscaba, sinceramente. Así que yo estoy contento con ese aspecto. Y quiero que mañana sea así. Para ir a disfrutar, van pasando este Marta. Que el escenario es bastante grande.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1530" target="_blank" class="timestamp">[25:30]</a> Que es importante saberlo porque en Praga al principio fue como, hostia, súper chocante. Y es importante saberlo. Sobre todo, yo lo único que quiero es cuando salgo localizar. ¿Dónde están estos? ¿Localizar dónde están los jueces? Y ya cuando tengo eso me siento como mucho más en ruta. De hecho, si puedo, poco ya conociendo esto que acabo de decir. Si puedo voy a asomarme un poco antes para intentar localizar por lo menos los jueces. Ya esto ya luego por los chillidos. Lo que pasa es que sinceramente en esta comisión creo que hay bastantes españoles.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1556" target="_blank" class="timestamp">[25:56]</a> hay bastante gente de España, es una competición muy grande, entonces es normal también que haya viajado gente, es un competente amateur también muy grande, hay más españoles compitiendo, en mi categoría también, que mola un montón, en otras categorías, entonces hay muchos más españoles, entonces muchas veces en Polonia, por ejemplo, yo esto lo he escuchado súper fácil porque localizaba al español enseguida, pero en Praga, por ejemplo, era más grande, pues me costó, y mañana me costará. Lo que sí que quiero ver es los jueces, ver a estos, para que me den las órdenes que me suelen dar, que suelen ser como...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1581" target="_blank" class="timestamp">[26:21]</a> piernas que las apriete y tal y normalmente me dicen como piernas ya, piernas ya, que es como feedback, feedback positivo, feedback, feedback positivo, es como eo eo o e, pues es un poco así, bueno lo he dicho chicas que cero presión, disfrutar, es el objetivo yo creo de mañana la verdad y también es algo bastante guay que en las semifinales salgo con Andrew Jacket por números, es decir, él es el 159 si no me equivoco porque están así los</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1611" target="_blank" class="timestamp">[26:51]</a> Dorsales asignados y yo soy de 160. Entonces, por cojones, me voy a hacer la foto con él. Y ese era un poco el objetivo. Poder competir con alguien tanto como el tercero de la Olimpia. Es una auténtica barbaridad. Realmente él ya está clasificado para la Olimpia. Entonces que esté aquí es una oportunidad para mí también para disfrutar de la competición. Es como un añadido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1634" target="_blank" class="timestamp">[27:14]</a> Un poco como lo de Praga, la verdad, fue como un regalo, porque todos estaban, yo creo, clasificados, o casi todos. Sí, todos. Bueno, salvo Keon, que no estaba clasificando Open, pero estaba clasificando 12, evidentemente. Fue una locura. O sea, Chris estaba clasificado. Martín, creo que no. Martín, creo que no, ahora que lo pienso. Puede que no, no lo sé. Samson estaba clasificado. Entonces, bueno, es un regalo. Así que, chicos, hoy ha sido un día bastante lineal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1659" target="_blank" class="timestamp">[27:39]</a> la verdad, se me hace rato de ganas también de poder entrenar normal, entonces estaba pensando también en el entrenamiento, sabes, en decir, vale, esta semana como me la distribuyo, esta semana que viene y tal, un poco así, porque, bueno, básicamente, yo no estoy entrenando, o sea, aunque me veáis que parece que esté entrenando, yo no estoy entrenando ni a un ritmo normal de días, ni a un ritmo normal de propio entrenamiento, ni a un ritmo de mejora, ni nada, está mi físico como congelado intentando no perder ganancias, eso es un poco tal, y a mí lo que más me gusta en general del culturismo y tal, y lo he dicho siempre, es real,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1690" target="_blank" class="timestamp">[28:10]</a> es entrenar entonces perder esa parte se hace durilla la verdad hoy es un día pero estoy bien pero sí que por ejemplo hoy los ánimos de aquí tampoco eran increíbles en plan que hay días que nos veis más high más low pues claro hoy pues lleva más ritmo normal no sé llevamos muchas semanas fuera pesan las semanas fuera así que nada eso de chicos todo mañana lo vamos a pasar bien estoy seguro vamos a disfrutar vamos a hacer nuestro ritual antes de salir con cicatrices</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1720" target="_blank" class="timestamp">[28:40]</a> Y vamos a disfrutar allí. Luego vendremos aquí a las semifinales. Si practicamos para las finales y iremos por la tarde. Ahora vendremos aquí a descansar, luego iremos por la tarde. A disfrutar, chicos. Así que espero que os haya gustado. Voy a decir una cosa. Si has llegado hasta aquí y no estás suscrito, me gustaría que te suscribieras. Me gustaría algún día llegar al medio millón. Es una puta locura, pero me gustaría llegar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=8PSPJ9aFrjo&t=1740" target="_blank" class="timestamp">[29:00]</a> Somos 440.000 o algo así, si no me equivoco. Así que, chicos, espero que les esté gustando. Nos vemos y suscribiros. Suscribiros. Suscribiros. Por favor. Suscribiros.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="video-section" id="video-2FQhRS-Ti1w">
+            <h2>JOAN PRADELLS DESTROZADO POR ANDREW JACKED | Prejudging Open romania pro</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Victor Valdivia</span>
+                <span class="date">Publicado: 09/11/2025 15:08</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w" target="_blank">
+                    <img src="https://i.ytimg.com/vi/2FQhRS-Ti1w/hqdefault.jpg" alt="JOAN PRADELLS DESTROZADO POR ANDREW JACKED | Prejudging Open romania pro" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video es un análisis en directo del prejudging del Romania Pro de culturismo, centrado en la categoría Men's Open. El presentador comenta con entusiasmo las poses y comparativas de los competidores, dedicando especial atención a Andrew Jacket y Joan. También comparte una anécdota personal sobre cómo el Mr. Olimpia le inspiró a emprender en el asesoramiento online y promociona formaciones de culturismo. La narrativa principal se enfoca en el impresionante físico de Jacket y su potencial para el Mr. Olimpia.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Inspiración del Mr. Olimpia y el Emprendimiento <a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&amp;t=22" target="_blank">[00:22]</a></h3>
+
+<p>El presentador comparte su conexión personal con el Mr. Olimpia, explicando cómo esta época impulsó su canal y el inicio de su negocio de asesoramiento online. Anima a los jóvenes a comenzar temprano en el sector, obteniendo titulaciones de Figeneration mientras construyen una audiencia en redes.</p>
+
+<h3>La Apoteosis de Andrew Jacket <a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&amp;t=275" target="_blank">[04:35]</a></h3>
+
+<p>El presentador reacciona con asombro a la aparición individual de Andrew Jacket, describiéndolo como "descomunal" y en su "mejor Andrew Jacket histórico". Destaca su increíble condición, cortes musculares y tríceps, sugiriendo que es un fuerte candidato para el Mr. Olimpia.</p>
+
+<h3>La Resiliencia de Joan Frente al Gigante <a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&amp;t=385" target="_blank">[06:25]</a></h3>
+
+<p>Tras la exhibición de Jacket, Joan sale al escenario para su individual. Aunque el presentador reconoce la diferencia de tamaño, elogia el físico de Joan, destacando sus cuádriceps y cintura. Estima que Joan tiene la segunda posición más que asegurada en la competición.</p>
+
+<h3>Jacket, el "Destrozo" del Escenario <a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&amp;t=703" target="_blank">[11:43]</a></h3>
+
+<p>Durante la primera llamada de comparativas, el comentarista se muestra fascinado por la presencia de Jacket, afirmando que está "destrozando el lobby" y que podría haber ganado el Mr. Olimpia. Destaca su inmensa estructura dorsal y lo compara con un "alien" por su tamaño y condición.</p>
+
+<h3>El Duelo Final: Joan vs. Jacket <a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&amp;t=900" target="_blank">[15:00]</a></h3>
+
+<p>El video llega a su clímax con el anticipado 1v1 entre Joan y Andrew Jacket. El presentador subraya la diferencia abismal en masa muscular y condición, proclamando que Jacket es una "montaña de músculo seco", un "jefe final" imbatible.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=0" target="_blank" class="timestamp">[00:00]</a> ¿Cómo? Le ha dicho que se vaya a matar. Le dice, ¿pero dónde vas? Retrocede unos pasitos que si no, no continuamos el evento. Madre mía, tú. Madre mía, tío. Es que al final, fíjate los frames. Fíjate lo que ocupa Jack en el escenario, lo que ocupa Joan. ¡Qué barbaridad! Joan sabía lo que iba y Jack la ha dado, la ha dado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=22" target="_blank" class="timestamp">[00:22]</a> Amigos, como bien sabéis, estamos con el Mr. Olimpia. Para mí una de las épocas más especiales del año. No porque sea el Mr. Olimpia, sino porque es una de las épocas en las que el canal más empezó a despuntar. Y yo con ello me puse con el asesoramiento online. Y esto al final hizo que pudiese conseguir mis primeros clientes, porque tenía cierta audiencia. Y al final conseguir mis primeros sueldos y dedicarme a esto. Que al final es una de las cosas que más os animo a que hagáis. Sobre todo los que seáis más jóvenes, comenzar pronto. Porque no os estoy contando algo que no haya hecho yo y que por lo tanto no os recomiende.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=52" target="_blank" class="timestamp">[00:52]</a> Pero es que al final, si os sacáis la titulación y mientras ese tiempo lo dedicáis a crecer en redes para tener potenciales clientes, que luego además Figeneration os va a dar salida en gimnasio, pues es que vais a poder el día de mañana vivir seguramente muy pero que muy bien. Entonces es al final lo que más os transmito. Así que los que queráis comenzar, ya sabéis que tenéis que empezar sacándoos la titulación oficial, ya sea el TASAP, también el certificado profesional, como es el CPE, todo eso lo podéis encontrar en Figeneration. Yo os dejo un link en la descripción con el dosier de 20 páginas de información. Los que ya tengáis muchas más ganas de saberos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=81" target="_blank" class="timestamp">[01:21]</a> Podéis incluso poner en contacto con Figeneration y que os resuelvan todo. Que yo al final, si es una cosa que tengo curiosidad, pues estaría informándome y trataría, pues al final, de vivir de lo que me gusta. Y además que lo podéis hacer desde casa 100% online, que eso al final siempre es un plus. Así que ya lo sabéis, no tiene mucha más historia. Como os digo, link en la descripción, bajaos el dosier. Y si os mola esto, dadle caña. Os dejo con el vídeo de hoy. ¡Vamos allá, chavales! ¡Cuidadito que estamos ya con el Open! ¡Joan sale al lado de Andrew Jacket!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=106" target="_blank" class="timestamp">[01:46]</a> Al final os he dicho que os iba a dejar la comparativa de cuatro, pero es que me la he saltado, tío. O sea, es que es lo que os digo. Es que me descuido, me voy un momento a, yo qué sé, ponerle la comida al perro y de repente... Ahora veremos, ahora sí que sí, chavales. Ya os digo que en el Open no nos vamos a perder nada. Vamos a ir a las individuales y primeras comparativas. A ver qué es lo que tenemos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=135" target="_blank" class="timestamp">[02:15]</a> Madre mía, tío. Madre mía, el gigante Jacket. Madre mía. ¡Qué barbaridad! ¡Qué barbaridad! Pero qué bien, Joan, cómo se le ve, ¿eh? O sea, es que no... O sea, queda un poco chiquito. O sea, las cosas como son, no vamos a mentirnos. Al final la tanqueta Jacket es demasiado tanqueta. O sea, tanqueta en el sentido no de que sea un armario, sino me refiero de lo grande que está. Y claro...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=164" target="_blank" class="timestamp">[02:44]</a> O sea, te quiero decir, tampoco se queda tan atrás. O sea, que es que Joan es... Está hecho un buen bicho ya, macho. Menudo cambio pegado, eh. Bueno, compañeros, yo creo que ya conectamos con las individuales. Porque la verdad es que estos pelones me la... Bueno, que me la han igual, básicamente. O sea, por no poner malas palabras. Bueno, compañeros, reenganchamos. Ya sí que sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=187" target="_blank" class="timestamp">[03:07]</a> Para ver al completo este Romanía Pro. Así que pónganse cómodos. Hemos visto al final un poquito de lo que ha sido el Preyajin de Menphysic. El de Classic. Y ahora vamos con el Men's Open Body Beating. Creo que han salido tres pelones. Qué barbaridad Andrew Jagge de chavales. O sea, yo cuando lo he visto al lado de Joan digo, no puede ser. O sea, qué maldito mostrenco. Es que daos cuenta que era más grande que Samson. ¿Sabes? Ahí en el Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=216" target="_blank" class="timestamp">[03:36]</a> Este tío la verdad que salió clásico, ¿no? No sé quién es el tipo, pero salió clásico. Inserciones asesinas, cuidadito ahí la de backdouble. Pero yo os digo una cosa, estos dos que han salido, a mí me dices que estamos en Classic Physique y no te voy a decir que no. O sea que no estoy entendiendo nada. Tengo entendido que esta es la última competición de Joan. O sea que digamos que aquí se va a plantar y buscará la clasificación el año que viene. La verdad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=246" target="_blank" class="timestamp">[04:06]</a> O sea, no sé qué decirte, ¿eh? Yo aprovecharía el tironaco que está teniendo, ¿no? De cómo está saliendo ahora y cómo tal. Y intentaría ya buscar un show para clasificar un último show. ¿Sabes lo que te digo? Porque este está claro que esto es impepinable. O sea, contra el Chaquetas, top 3 del mundo. O aparezco yo ahí o es que no hay manera, ¿sabes? ¡Ahí está! ¡Ahora sí, chavales! ¡El Chaquetas! ¡Ok! ¡Vamos a ver de lo que estamos hablando!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=275" target="_blank" class="timestamp">[04:35]</a> ¡Vamos a prestar atención! Si es que, tío, después de... Después del que ha salido, tío... Es que, claro, entra esto y dice... Pero vamos a ver... ¿Pero dónde estoy? ¡Madre mía, tío! ¡Madre mía! Fíjate los cortos en las piernas, ¿eh? ¡Oh! ¡Esto es el mejor Andrew Jacket histórico! Tío, el tríceps, ¿pero cómo popea de esa manera, tío? ¿Qué inyección lleva ahí? O sea... No quiero decir nada, o sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=306" target="_blank" class="timestamp">[05:06]</a> Vamos a ver, vamos a ver, cuidado, eh. Cuidado. Vamos a ver la condición en glúteos femorales porque parece que sí que llega. Pua, tío, súper bien la parte de arriba, eh. Y los glúteos sí que están más apretados. Cuidado este Jacket que ya no estamos hablando de este campeonato sino de cara al Mr. Olimpia. Cuidado este Andrew Jacket.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=335" target="_blank" class="timestamp">[05:35]</a> Que se ve absolutamente descomunal. Madre mía, tú. La expansión más larga de la historia. Qué vacilillas, tío. Cómo se la sabe, eh. Buah, el abdomen, tío. Nah, esto es demasiado, eh. Fíjate, los cortes esta vez sí que se ven un poquito más presentes. Tío, mira el abdomen. Mira el abdomen.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=363" target="_blank" class="timestamp">[06:03]</a> Súper metido para adentro, ¿eh? Cuidadito, cuidado, que carga más musculado. Nada más real, pero alguien debería enseñarle cómo se hace, ¿eh? Porque es que hace la de cuando tenía yo 14 años en el espejo de mi casa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=385" target="_blank" class="timestamp">[06:25]</a> Vamos allá, chavales. Joan después de Jacket. Vamos a ver si vemos algo que no desentone. Ok, vamos a ello. Vamos, Joan, chaval. Yo creo que tiene casi la segunda posición más que asegurada, ¿eh? Bien, bien. O sea, me parece que sí, que el cámara está acertando sin duda en los planos. Sí, creo que esa, no sé, la han asesinado o algo. Ah, vale. Claro, digo lo mismo. Lo mismo, justo ha entrado alguien y se la ha cargado porque... ¡Pum!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=417" target="_blank" class="timestamp">[06:57]</a> Ostras, ¿eh? ¿Cómo llega, tío, eh? ¿Cómo llega? Muy bien, ¿eh? Tú, pero es que flipas los desplazamientos en los cuádriceps, ¿eh? Para la cintura donde está. O sea, parece literalmente de mentira.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=450" target="_blank" class="timestamp">[07:30]</a> Sigo pensando que ese más musculado debería de girar la muñeca, eh. Para que no haya tanto hueco en la inserción del bíceps. Brutal, eh. Brutal. Muy, muy buen físico. Aunque sí que es cierto que nos hemos perdido las primeras. Porque pensábamos que había habido un golpe ahí al cámara. No sé, lo mismo ya te digo. Se estaba abriendo el batido de proteínas. Se ha dicho hostias.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=481" target="_blank" class="timestamp">[08:01]</a> Te quiero decir, justo sale Joan, macho, todos perfectos. Y Joan, ¿me sacas ahí el shot del Quinto Amfiteatro? Vamos a tener más que palabras estoy yo. Bueno, no sé si queda un llamado más. No sé, la verdad, están saliendo aquí, la verdad, múltiples open. No me esperaba tantos. Sobre todo, no me esperaba realmente tan bajo nivel. Porque es que lo que hemos visto, yo no sabía dónde estaba. Yo no sabía si estaba en Classic, en 2.12, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=508" target="_blank" class="timestamp">[08:28]</a> Ha tenido que llegar el Chaquetas a sentarnos. ¿Sabes? Es que este te digo lo mismo. Esto que es un 212. Es que me estoy perdiendo, la verdad. Hay ganas de ver uno al lado del otro. Hay ganas. Bueno, chavales. Vamos a seguir porque la verdad ha salido el pavo este. Que os he dicho en plan de broma que si era Belrush. Y la verdad es que llega con la gran condición iraní. O sea, no os digo nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=535" target="_blank" class="timestamp">[08:55]</a> A tira uno de oblicuo que he dicho, cuidado que esto tengo que dejarlo, porque al final luego en las comparativas no se aprecia, ¿sabes? Se aprecia más en las individuales, el físico de cada uno. Pero fíjate, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=557" target="_blank" class="timestamp">[09:17]</a> Tío, nos da la sensación de que... O sea, no sé si es iraní, pero posa como iraní y tiene condición de iraní, ¿sabes? ¿No estáis conmigo en esto? ¿No os da la sensación, tío? Es que ha hecho la WQ igual que Chopin. Mira, mira, ¿ves? No me digáis que no, tío. Es la esencia iraní en el escenario. No sé si es, ¿eh? Pero tiene bastante pinta, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=587" target="_blank" class="timestamp">[09:47]</a> ¿Os ha visto muchos vídeos de Chopin? Bueno, ahora sí que sí. Lo dejamos. Vamos con el primer llamado. ¡Vamos! ¡Allá, chavales! Primera llamada. Sin duda vamos a tener nuevamente al Chaquetas al lado de Joan. Así que ahora sí que sí, chavales. No se pierdan ni un solo instante. Viene lo que realmente estábamos esperando. Vamos allá.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=617" target="_blank" class="timestamp">[10:17]</a> Tengo también curiosidad por ver el resto de competidores. A ver qué es un poquito lo que se ha colado ahí en el mix. Ya os digo que el nivel de todo lo que he visto me ha parecido bastante bajito, ¿no? Madre mía, tío. Es que ya que tú lo ves ya de lejos y dices, pero qué criatura es esa, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=646" target="_blank" class="timestamp">[10:46]</a> Joan es brutal la estructura, eh. Pues que los dorsalacos de Jacket. Yo igualmente no sé si esta es la mejor pose de Ferro Last Spread de Jacket, eh. No sé si podría hacer unos ajustes. A lo mejor los brazos un poquito más para abajo. Fíjate dónde los tiene Joan, dónde los tiene Jacket. Es demasiado, eh. Es que Jacket es demasiado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=673" target="_blank" class="timestamp">[11:13]</a> Es que fíjate que Joan, tío, se ve bien cargado de arriba, pero es que llega al otro, tío. Y es una cosa realmente sorprendente de ver, ¿eh? Muy bien, es esa ICHES, ¿eh? O sea, ahí Joan se nota que es una de esas poses que se le ve muy competitivo. Vamos a ver de espaldas. Vamos a ver de espaldas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=703" target="_blank" class="timestamp">[11:43]</a> Vaya destrozo de lobby está haciendo el maldito jacket. Vaya destrozo de lobby. Es que ya no es que estuviésemos viendo un top 3. Es que estamos viendo un tío que podría haber ganado el Olympia este año sin ningún problema. De hecho es uno de los que la gente pintaba como que se lo llevaba.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=724" target="_blank" class="timestamp">[12:04]</a> O sea que hay mucha gente que está diciendo, no, es un top 3. Bueno, es un top 3 o... O depende de cómo lo veas, podría ser el campeón de la Olimpia. O sea, es que se está dando ni más ni menos contra... Contra lo máximo. O sea, es que... Ahí tenemos el más musculado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=749" target="_blank" class="timestamp">[12:29]</a> Tío, pues es que parece un alien, tronco. Pero tú lo ves, tío. Es que parece un... ¿Cómo? ¿Cómo? Le ha dicho que se vaya para atrás. Pero ¿dónde vas? ¿Dónde vas, chaval? Retrocede unos pasitos que si no, no continuamos el evento. Madre mía, tú. O sea, literalmente el padre del Romania Pro es Andrew Jacket.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=782" target="_blank" class="timestamp">[13:02]</a> Está por encima de la federación. Joan intentando hacerle la del pasito a Jack, ¿eh? Qué pícaro. Hay cosas que no cambian. Tío, es que es descomunal. O sea, aquí, chavales, ya os digo que no hay manera, tío. No hay manera. Es demasiado este tío. O sea, esto es una montaña de músculo seco que... Que es que no hay por dónde pillarlo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=809" target="_blank" class="timestamp">[13:29]</a> Yo la verdad es que ese plano lo veo totalmente innecesario. Pero bueno, al final ya sabemos que los de producción muchas veces dicen, no, vamos a meter aquí una cámara que ya te digo yo que va a quedar bien. Tengo un amigo, lo hace barato, él sabe. Y claro, te ponen aquí una cámara que tú dices, no sé. Además de una resolución dudosa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=833" target="_blank" class="timestamp">[13:53]</a> yo creo que al final yo creo que estaban en producción y dijeron a ver nos sobra esta ¿qué hacemos? mira vos pon ahí ahí en la escalera es que si os soy sincero es que no he mirado a ningún otro que no sea Joan y Jack o sea es como que quedan totalmente fuera gigante Jack o sea</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=860" target="_blank" class="timestamp">[14:20]</a> Ya os digo, ya fuera de este campeonato lo veo muy fuerte para el Mr. Olympia. O sea, veo que la condición es muy buena, veo que las cosas que tenía que mejorar lo está haciendo y con un año entero por delante pinta muy bien. Me parece ahora mismo el culturista más bestia de todos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=881" target="_blank" class="timestamp">[14:41]</a> O sea, si ahora mismo tú pones todos los top Olympia, yo creo que Jacket es sin duda el que más destaca. O sea, es que es enorme, tío. Es enorme.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=892" target="_blank" class="timestamp">[14:52]</a> Pues nada, chavales. Vamos a irnos al último llamado. Y con esto concluiríamos el Prejudging Open Romania Muscle Fest. Que espero que les esté gustando. Así que conectamos en tan solo un instante. Compañeros. Ni más ni menos que vamos a tener un 1v1 entre Joan y Andrew Jacket. Esto sí que no me lo esperaba. Vamos allá. Ahí lo tenemos. Cuidado que me están llamando. No sé. ¿Qué me dices? Me están llamando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=922" target="_blank" class="timestamp">[15:22]</a> Madre mía, tío. Es que al final, fíjate los frames. Fíjate lo que ocupa Jack en el escenario, lo que ocupa Joan. Y Joan, ni mucho menos, es un tío pequeño. O sea... ¡Qué barbaridad! Así... Es que mira cómo se le carga la espalda, tío. Es que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=947" target="_blank" class="timestamp">[15:47]</a> yo lo siento carnal pero hubo detonación importante aquí es el nodo donde al final Joan sabía lo que iba y Jacket le ha dado todo el lomo no sé cómo decírtelo mi rey pero aquí ha habido una detonada que no veas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=975" target="_blank" class="timestamp">[16:15]</a> Y es que repito. Top 3 del Olimpia. Bueno. Que podía haber sido un top 1. O sea, que se está dando contra... Contra el mayor bicho del culturismo. Se parte la m***, tío. Qué j***, Jackie. Ay, madre mía. Total espectáculo. Mira, otra vez. Otra vez. Otra vez.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=1006" target="_blank" class="timestamp">[16:46]</a> Dice, vete a tu sitio Madre mía, es que Jacket, tío, es una locura Fíjate las líneas en el cuádriceps, eh ¡Uy va! ¡Uy va, cuidadito! Se ha venido arriba Jacket Ha dicho, no, no, si está, la he visto que la hacen los demás Vamos a hacerla</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=2FQhRS-Ti1w&t=1038" target="_blank" class="timestamp">[17:18]</a> Tío, nos da la sensación de que Jacket está ahí como en plan... Soy ultra superior. O sea, es lo que os digo. Es como que es el jefe final, ¿no? Qué locura, tío. Qué clase de anime me acabo de poner. Increíble, señores. Nos vemos en las finales, como siempre. Espero que al final... Apoyen mucho estos vídeos que les traigo aquí siempre al toque. Bien asesino. Y nada, que nos vemos en finales. Espero que lo hayan disfrutado. Nos vemos en un ratito. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 09/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
