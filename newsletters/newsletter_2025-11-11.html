@@ -1,0 +1,447 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 11/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">11/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-Bq89Jevj7jw'>ASCENSO Y CAÍDA DE TOGI | el peor influencer fitness de la historia</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-Bq89Jevj7jw">
+            <h2>ASCENSO Y CAÍDA DE TOGI | el peor influencer fitness de la historia</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 11/11/2025 15:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=Bq89Jevj7jw" target="_blank">
+                    <img src="https://i.ytimg.com/vi/Bq89Jevj7jw/hqdefault.jpg" alt="ASCENSO Y CAÍDA DE TOGI | el peor influencer fitness de la historia" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este documental explora la controvertida figura de Toggy, un influencer fitness que transformó su imagen de natural a un promotor de anabolizantes y apuestas online. El video analiza su rápido ascenso, su estilo de vida desenfrenado y las graves consecuencias de sus decisiones, incluyendo problemas de salud y su influencia negativa en otros. Se cuestiona la ética de su contenido y el impacto que tiene en una generación de jóvenes. Finalmente, se reflexiona sobre la responsabilidad de los creadores en redes sociales y la búsqueda de atajos.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Ascenso y la Ambición de Ícaro <a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&amp;t=282" target="_blank">[04:42]</a></h3>
+
+<p>Shane Stouffer, conocido como Toggy, pasó de un chaval normal mostrando un estilo de vida fitness saludable a una figura influyente. A pesar de lucir un físico natural envidiable, su ambición desmedida lo llevó a una decisión irreversible, comparada con la historia de Ícaro.</p>
+
+<h3>El Polémico Salto al "Lado Oscuro" <a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&amp;t=301" target="_blank">[05:01]</a></h3>
+
+<p>En septiembre de 2023, Toggy publicó un video en TikTok inyectándose anabólicos, declarando que no sería un "falso natural". Este acto marcó el inicio de su vida de excesos y el abandono de la universidad para dedicarse a contenido en YouTube que mostraba su caótico estilo de vida, incluyendo el consumo explícito de sustancias.</p>
+
+<h3>Confesiones de un Estilo de Vida al Límite <a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&amp;t=618" target="_blank">[10:18]</a></h3>
+
+<p>Toggy reveló que generaba ingresos principalmente de las apuestas online, mostrando sus pérdidas de dinero sin pudor. Sus entrenamientos ahora daban menos información útil que sus explicaciones sobre esteroides, mientras su cuerpo mutaba rápidamente. El comentarista predice una vida corta debido a estos excesos.</p>
+
+<h3>"No Soy un Ejemplo para Nadie" <a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&amp;t=1092" target="_blank">[18:12]</a></h3>
+
+<p>En podcasts, Toggy fue interpelado sobre su responsabilidad como influencer al promover anabolizantes y apuestas. Su respuesta fue que él solo mostraba su vida y que la decisión de copiarlo era responsabilidad individual. Esta declaración mostró una clara falta de conciencia sobre su impacto en millones de jóvenes.</p>
+
+<h3>El "Virus" Togi Contagia a Alex Eubank <a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&amp;t=1203" target="_blank">[20:03]</a></h3>
+
+<p>Alex Eubank, un referente del fitness natural, dejó de serlo tras sus encuentros con Toggy. El comentarista sugiere que Alex fue atraído por el dinero y el "tirón" que Toggy obtenía, especialmente del lucrativo negocio del gambling. Se revela que los influencers de apuestas a menudo ganan un porcentaje de las pérdidas de sus seguidores.</p>
+
+<h3>El Colapso por Exceso y Sustancias <a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&amp;t=1729" target="_blank">[28:49]</a></h3>
+
+<p>La vida de excesos de Toggy culminó en un grave colapso de salud. Para editar un video durante casi 40 horas, ingirió dosis extremas de Adderall (cortado con metanfetamina). Su cuerpo convulsionó, siendo hospitalizado de urgencia en lo que él describió como el dolor más fuerte de su vida.</p>
+
+<h3>La Recaída y la Reflexión Final <a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&amp;t=1885" target="_blank">[31:25]</a></h3>
+
+<p>A pesar de la experiencia cercana a la muerte, Toggy recayó en menos de seis meses, retomando anabolizantes, apuestas y fiestas desenfrenadas. El documental cierra con una reflexión sobre si creadores con este estilo de vida, que muestran pero no venden sustancias, deberían ser baneados o si la responsabilidad recae en el individuo.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=0" target="_blank" class="timestamp">[00:00]</a> Toggy, el peor personaje fitness que ha existido por Palomo. Sobra decir que sigáis a Palomo, no lo sobra, no sobra decir. Hay que seguir a Palomo y os dejo el enlace en la descripción. Hace solo un año nadie lo conocía. Diez meses después es una de las figuras más influyentes de las redes sociales donde cuenta con millones de jóvenes seguidores que quieren ser como él. Empezó como un chaval cualquiera compartiendo una vida sana y su propio progreso físico, pero en poco tiempo descubrió</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=28" target="_blank" class="timestamp">[00:28]</a> que había una manera de volverse asquerosamente rico y famoso en cuestión de meses. El problema... Es que el gran problema de Togi, tío... O sea, no de Togi, de lo que Togi enseña y puede contagiar es que mediante el uso de química parece que lo puedes conseguir todo. O sea, eso es lo que te está diciendo el tipo, ¿vale? El tío ni entrena bien ni hace nada bien, ¿vale? Aparte que no solo usa química, digamos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=54" target="_blank" class="timestamp">[00:54]</a> de anabólica. Usa todo tipo de sustancias de ocio. Al tío le gusta todo. Y es muy goloso para la chavalería. Es muy goloso que salga con un coche caro, con un Lambo, que salga con relojes caros, mujeres, mucha pasta... Y eso es muy goloso para los jóvenes. Muy goloso. Bueno, para los jóvenes y para los que no son tan jóvenes, claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=77" target="_blank" class="timestamp">[01:17]</a> Pero es que, además, él está... O sea, si alguien sale como Togi... O sea, lo que tengo que decir es... Por la cara sale un español como Togi y lo funan. ¿Por qué? No sé si habéis fijado que alguien que haga gambling, alguien que haga contenido de apuestas, automáticamente en España van a por él.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=98" target="_blank" class="timestamp">[01:38]</a> De lo que es la gente, digo, ¿eh? Porque allí en Estados Unidos es otra cosa. O en Sudamérica, le da igual. Por eso digo, si sale un togi, ¿qué? Coja. Y hable de química indiscriminada. O sea, todo lo rato enseñe química, química, química. Luego que enseñe cómo juega y gana y pierde en el casino. Todas las locuras que hace. Yo creo que en España. No sé yo si saldría bien la jugada esa, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=123" target="_blank" class="timestamp">[02:03]</a> No lo sé. Os digo una cosa. Ya está tardando en salir un español así. Ya está tardando. Mucho. Estaba plagado de las peores decisiones que el ser humano puede llegar a escoger. Algunos lo llaman inspiración. Otros, el cáncer del fitness.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=139" target="_blank" class="timestamp">[02:19]</a> Este no será un documental sobre fitness, sino como la ambición desmedida del ser humano puede convertir a un simple chico en un monstruo, y algo peor, influenciar a toda una generación de jóvenes a copiar sus mismos pasos. Shane Stouffer, quien más tarde se daría a conocer como Togi, nació en el gigante estado de Colorado en Estados Unidos el 20 de julio de 2002, y por motivos extraños nunca ha querido dar a conocer como fue su infancia y primeros años.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=168" target="_blank" class="timestamp">[02:48]</a> Pero a pesar de la falta de información acerca de esta etapa, sí que se podía apreciar en algunos vídeos de un toggy muy joven que a pesar de ser bastante delgado, tenía una muy buena base genética. Algo que le podría servir de bastante ayuda. ¿Base genética? Era un chaval normal delgado. ¡Señores! ¡Shh! ¡Quieto parado ahí! ¡Escúchame! Vengo a enseñarte la mejor proteína del mercado, la hidrolizada paro de Proci de vainilla. Con 28% de pureza no lo encuentro en ningún lado. ¿Y sabes cómo te hace más efecto? Con mi podido de descuento Antonio G...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=198" target="_blank" class="timestamp">[03:18]</a> Si algún día decidía empezar a realizar entrenamiento de fuerza, y por cosas del destino, eso acabaría sucediendo. A mediados de 2022 y con apenas 20 años recién cumplidos, Sien decidió crearse una cuenta en la aplicación más popular de vídeos cortos y comenzar a publicar vídeos propios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=217" target="_blank" class="timestamp">[03:37]</a> En ellos Togi mostraba cómo estaba realizando un cambio físico, la forma en que se alimentaba, qué suplementos o dietas utilizaba y todo tipo de contenido fitness que también pudiera ayudar a otros jóvenes a mejorar sus físicos. De hecho en aquella época muchos de sus aún pocos seguidores se sentían súper motivados por el estilo de vida sano y disciplinado que Togi estaba llevando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=239" target="_blank" class="timestamp">[03:59]</a> Durante el final de ese 2022 y casi todo el 2023, Toggy continuó promulgando ese estilo saludable de vida a la par que mostraba su progreso físico. Con poco más de 20 minutos, Toggy lucía un increíble físico de forma 100% natural y para muchos jóvenes era el físico soñado para ellos mismos. Nadie le exigía que debía estar más grande.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=266" target="_blank" class="timestamp">[04:26]</a> Un fisicazo, la verdad. Un fisicazo. Y muscularmente. Pero a pesar de los mensajes de halago que estaba recibiendo, Shane decidiría tomar una decisión que le cambiaría la vida para siempre. Una decisión que ya no tenía vuelta atrás.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=282" target="_blank" class="timestamp">[04:42]</a> Hasta este momento todo había sido perfecto, pero algunos jóvenes nacen con el mismo defecto con el que nació Ícaro. Un joven griego al que su padre le fabricó unas alas de cera para poder escapar de una isla y que por culpa de su ambición por ver el sol de cerca, provocó que sus alas se derritieran y acabase muriendo ahogado en el mar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=301" target="_blank" class="timestamp">[05:01]</a> Y ese es el problema de Togi, que se iba a ir directo contra el sol tentando a miles de jóvenes a copiar lo mismo. El 1 de septiembre de 2023, y sin ningún tipo de pudor, Sian publicó en su cuenta de TikTok un vídeo en el que mostraba cómo claramente se inyectaba sustancias anabólicas dentro de su cuerpo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=321" target="_blank" class="timestamp">[05:21]</a> Además que es un tío que no le sienta nada bien, es un tío que ha aromatizado un montón de veces, que tiene ginecomastia, aunque ahí en esta foto no aparezca, que tiene mucho acné, o sea que no es un buen receptor, digamos, de química. En los últimos meses Togia había aumentado considerablemente su masa muscular...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=339" target="_blank" class="timestamp">[05:39]</a> Este vídeo marcaba un antes y un después en su vida y sobre todo mandaba un mensaje claro a todos sus seguidores. Él no iba a ser como esos falsos naturales que vivían engañando a su audiencia para luego estar inyectándose. Bueno, la mayoría de los influencers son falsos naturales. La mayoría. Hay gente que me pregunta en el gimnasio incluso. Oye Antonio, este tío es natural, ¿no? O este tío tú crees que es natural. Y yo, compadre, ¿en serio me lo estás preguntando? ¿De verdad?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=364" target="_blank" class="timestamp">[06:04]</a> Y no hablo de chavalines, ¿eh? De verdad, tienes lugar a duda. O sea, o tú tienes un ego. De verdad, si tú te crees que un tío de ciento y pico de kilos, seco, de 1.80, ¿es natural? Eso es, uno, o eres muy inocente, o dos, tienes el ego tan, tan alto que tú te crees que puede llegar a eso sin necesidad de usar nada. De verdad, ¿eh? Y yo creo que hay muchos que... O sea, son los dos bandos, ¿vale? Los de que se creen que ellos pueden llegar a una cosa increíble...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=393" target="_blank" class="timestamp">[06:33]</a> ¿Sabes? O sea, increíble sí, pero si mides un 80 a pesar de 110, sé que ya te digo yo que eso no va a pasar naturalmente hablando. Olvídate. ...a sus espaldas. El problema es que Togi tenía un plan preparado mucho más macabro que el simple hecho de ser un falso natural. A los pocos meses de empezar a utilizar anabolizantes, Togi ya estaba presumiendo de estar dos o tres veces más grande e igual de definido. Había pasado de ser un joven con un físico definido y atlético, pero 100% natural, mostrándose así...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=422" target="_blank" class="timestamp">[07:02]</a> Fisicazo, tío. Yo no sé qué necesidad tienes estando así. Como un gran ejemplo de constancia y dedicación diaria que al final... Ni Jeff ni Pares natural. Uf, no lo sé. Yo es que ya sabéis lo que os digo. Con la gente que mide 1,50, hermano, tengo muchos dudas, tío. ¿Vale? Es lo que me pasa. Con los chiquitines ahí fallo yo siempre, tío. Yo con los pequeñitos no... Luego mucha gente juega mucho con las luces y tal, pero claro, es que ese tío es enano. O sea, con todo el respeto al mundo de los enanos, vamos. Muy pequeño.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=450" target="_blank" class="timestamp">[07:30]</a> Muy muy pequeño. Cabo era lo que promovía en sus inicios a estar ya de camino a ser un Samsulek, un monstruo cada vez más grande, pero peor porque Togi había pasado de 0 a 200, de no consumir nada a estar inyectándose noche y día. Y es por motivos como este por los que al final de este documental acabaría sufriendo el peor episodio de toda su vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=475" target="_blank" class="timestamp">[07:55]</a> Que no fue por la química de anabólicos, fue por otra química. Tras unos cuantos meses de uso de sustancias, Togi decidió dar un paso adelante en su carrera como influencer, abriéndose a finales de 2023 un canal de YouTube. Y sobre todo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=490" target="_blank" class="timestamp">[08:10]</a> Tiene numerazos, ¿eh? Tiene numerazos el canal de este tipo. O sea, el tío genera un morbo increíble porque a la gente le encanta. Los números que tiene en YouTube, una mierda de edición, casi ni usa miniaturas. O sea, el tío es un máquina, ¿eh? O sea, números espectaculares. Otra decisión más que no tenía vuelta atrás. Abandonar para siempre la universidad para dedicarse plena...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=513" target="_blank" class="timestamp">[08:33]</a> Bueno, ya te digo, muy morboso, porque al final te enseña fajos de billetes, lujo, viajes, coches... Muy goloso era un tío así. ...amente a la creación de contenido en redes sociales. Togi ya tenía una buena base de seguidores a sus espaldas y creía firmemente en su macabro plan. Un plan que solo acababa de empezar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=534" target="_blank" class="timestamp">[08:54]</a> En su primer vídeo de su reciente estrenado canal de YouTube, Togi quiso mostrar a sus seguidores cómo era un día en su vida con 21 años tras abandonar la universidad, lo que estaría a punto de verse asustaría al peor de los monstruos. Togi se despertaba a la 1 y 40 del mediodía para enseñar a la cámara qué era lo que iba a desayunar mientras se disponía a medirse el azúcar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=557" target="_blank" class="timestamp">[09:17]</a> presión arterial. Mientras desayunaba un bol de cereales de dudosa calidad y rodeado de cosas por todos lados, Togi empezaba a hablar sin ningún tipo de pudor de todas las sustancias que nada más acabase de desayunar debía introducirse. Pero no solo hablar, sino que también mostraba en cámara cómo se iba introduciendo una tras otra todas las sustancias por distintas partes del cuerpo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=579" target="_blank" class="timestamp">[09:39]</a> Toy no se limitaba a recurrir al uso de las sustancias anabólicas. Quería contar cuáles estaba consumiendo y en qué cantidades. Esto es una locura.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=589" target="_blank" class="timestamp">[09:49]</a> detallando que la testosterona se le inyectaba en el hombro e incluso dándose el lujazo de recalcar la importancia de la higiene a la hora de realizarse estas inyecciones. Asimismo también empezó a contar a cámara cómo estaba generando ingresos, qué es lo que le iba a dar de comer y una de las justificaciones de por qué había abandonado la universidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=618" target="_blank" class="timestamp">[10:18]</a> Y de todas las formas en las que pudiera estar generando dinero, Togi había elegido una de las peores, las apuestas online. Shane decidió mostrar a cámara que incluso la noche anterior había perdido 300 dólares y que para el día de hoy debería relajarse con el gasto. Pero a pesar de eso, Togi quiso seguir mostrando cómo era su día a día en su nueva vida, por lo que lo siguiente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=642" target="_blank" class="timestamp">[10:42]</a> No, no, la verdad que lleva una vida, un poquito vida de GTA. ...era el entrenamiento, eso que en sus inicios lo había hecho conocido. Mostrando su entrenamiento de pecho, donde daba bastante menos información útil de la que había dado antes para el uso de los esteroides, Togi mostraba también cómo había transformado su cuerpo desde que empezó a recurrir a las sustancias anabólicas. Solo habían pasado unos meses desde que empezó a recurrir a estas sustancias, pero Togi ya se ve...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=669" target="_blank" class="timestamp">[11:09]</a> Tamaño que pilló y... Es otro rollo. Veía. Y luego además que era un tío que usaba mucha cantidad. Descomunal. Unos hombros gigantescos y redondos eran parte de un físico que había mutado por completo. Todas estas nuevas cosas que le estaban pasando... Antonio, siguiendo toda esa rutina, ¿hasta qué edad le pones de vida? Menos de los 30. Él ya... Él tuvo que parar. Él tuvo... No sé si lo sacara Palomo, pero él tuvo un montón de problemas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=693" target="_blank" class="timestamp">[11:33]</a> Muchísimos problemas. Derivados de la química y de otras cosas, pero de la química también. En la vida dejaban claro que ese chaval inocente que subía sus dietas y rutinas para aportar algo al mundo durante 2022 y 2023 ya no era la misma persona. Algo había cambiado en él. Tal vez la ambición de fama, de dinero o de tener un físico mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=712" target="_blank" class="timestamp">[11:52]</a> Este vídeo marcó un antes y un después en el mundo del fitness, pero sobre todo empezaría a darle sentido al título de este documental. Y también sería la confirmación de que Togi cada vez era menos Shane Stoffer y más sícaro. Al ver las reacciones de miles de seguidores suyos a este primer... ¿Y sus analíticas, amigos? ¿Las analíticas de este hombre? Eran las analíticas de un hombre de 70 años. Os lo digo en serio, son horribles.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=737" target="_blank" class="timestamp">[12:17]</a> En el primer video, muchos de ellos probablemente cegados por la admiración hacia Togi, agradecían que este mostrara públicamente su método de ingreso y las sustancias anabólicas que estaba introduciéndose en el cuerpo. Pero no solo eso, en vez de causar rechazo por sus locuras e ida de cabeza, a muchas personas Togi le parecía un joven súper entretenido y divertido. La cuestión era que parte de su entretenimiento parecía que iba a ser correr graves riesgos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=764" target="_blank" class="timestamp">[12:44]</a> tanto de salud como económicos. Y en este punto, el inicio de su fama, donde muchos influencers toman conciencia de que deben dar un buen ejemplo a sus seguidores, es donde Togi empezaría a diferenciarse del resto del mundo. La siguiente publicación...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=782" target="_blank" class="timestamp">[13:02]</a> Bueno, a ver, palomo, discrepo con tus palabras, ¿vale? Porque si la gente de Internet supiera lo que hacen la mayoría de influencers y la mayoría de influencer fitness... O sea, ya os digo yo que pocos, por no decir ningún influencer fitness relevante, tiene una vida saludable. Pero pocos, poquísimos. Ya os digo, vicios, vicios que nos van a enseñar, ¿vale? Básicos como, por ejemplo, fumar o beber...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=809" target="_blank" class="timestamp">[13:29]</a> Bastante. Tomar otro tipo de sustancia que no tiene nada que ver con la química anabólica. Tener unos hábitos raros, turbios. Mentalmente estar muy mal. De verdad. Y conozco a... Me parece que de España me quedan pocos influencers por conocer. Pocos relevantes, pocos. De fitness. Los conozco a todos. Y de verdad, os lo digo en serio. Aquí todos estamos como mierdas. Aquí todos estamos como mierdas. Quien más y quien menos está como una mierda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=838" target="_blank" class="timestamp">[13:58]</a> de Togi en su canal de YouTube e Instagram eran una combinación de presumir de su gran cambio físico gracias a los esteroides y de cómo era su nueva vida rodeada de locuras, apuestas y consumo descontrolado de esteroides. Cada vídeo nuevo de Togi era más loco que el anterior, vídeos de horas haciendo apuestas, otros saliendo de fiesta como un auténtico loco e incluso metiéndose en peleas nocturnas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=862" target="_blank" class="timestamp">[14:22]</a> ¿Veis lo que digo? Es el perfil... O sea, esto lo hubo un chaval de... El típico... ¿Os acordáis la época de Jersey Shore? Eso a los jóvenes, algunos ni lo conoceréis. La típica de gimnasio... ¿Era gimnasio? Rayos y lavandería, ¿no? Pues un poco eso. Gimnasio, fiesta y dinero. Gimnasio, fiesta, locura y dinero. Entonces, claro, eso es muy goloso. Es muy, muy goloso eso. Para la gente joven. Mucho. A la gente eso le flipa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=892" target="_blank" class="timestamp">[14:52]</a> ...de Togi mostraba cómo se hinchaba a beber alcohol y acababa destrozado a la mañana siguiente. También, y por si eso era poco, Sien empezó a hacer directos donde se iba con amigos a los casinos nocturnos a apostar miles de dólares. Eso sí, sin dejar de seguir enseñando su...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=910" target="_blank" class="timestamp">[15:10]</a> Tengo que decir, tío, y esto lo digo para la gente que me ve y que juega, no sé qué le veis. He jugado mucho a apuestas. He perdido siempre. Bingo, póker, ¿vale? La ruleta nunca me llamó. No digo que no haya jugado, pero nunca me llamó. Y de verdad que... O sea, estáis jugando a algo que, compis, vais a perder dinero. O sea, no me entra en la cabeza porque el póker, si es una timba de colegas que echáis 50 euros cada uno, pues está guapo. La verdad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=939" target="_blank" class="timestamp">[15:39]</a> Pero jugar para ganar dinero en la ruleta o estas cosas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=944" target="_blank" class="timestamp">[15:44]</a> De verdad que no lo entenderé nunca, tío. Mira que he jugado, ¿eh? Pero no lo entenderé. Yo a día de hoy, el otro día nos fuimos, no tengo que hablar aquí con quien me fui, pero con unos pocos, ¿vale? Que conocéis, muchos conocéis a los que me fui, yo creo que la mayoría. Y jugamos ahí tal un rato. Yo... Dijeron de poner todos un dinero y jugar. Yo sabía que ese dinero está perdido. O sea, yo no... Yo no tenía esa sensación de... Porque pienso que jugar es para perder. O sea, vas a perder.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=972" target="_blank" class="timestamp">[16:12]</a> Que si ganas, pues eso que te llega, pero vas a perder en la mayoría de las veces. No tiene sentido. Por supuesto, sobra decir que no juguéis, ¿vale? Porque vais a perder siempre. Seguía entreteniendo mucho a los jóvenes, los cuales elevaron la fama de Togi a nivel mundial, despertando ya definitivamente el interés de muchos creadores de contenido fitness como el mismísimo Greg Doucette, crítico de culturistas y falsos naturales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=997" target="_blank" class="timestamp">[16:37]</a> ¿Cómo le lamen el culo ahora al Greg Ducette? Un tío que criticaba un montón. ¿Le comen el culo ahora a este? ¡Fo! ¡No veas! ¿Cómo le lamen el orto, tú? ...todo mucho tiempo en tachar a Togi de ser un promocionador de sustancias anabólicas y un ejemplo nefasto para todos sus seguidores. En el momento destallido de la fama de Togi, la opinión sobre Shane se dividía en dos. Los que tenían curiosidad por saber más acerca de este joven...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1023" target="_blank" class="timestamp">[17:03]</a> Por averiguar cómo estaba logrando ganar tanto dinero y que además no veía ningún problema en que hiciese lo que quisiese...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1040" target="_blank" class="timestamp">[17:20]</a> Y los que veían a Togi como un peligro real para otros muchos jóvenes, que podrían verse... No sé, será que yo tengo un manojo de polla en la mano, la verdad, por mano. ...tentados a seguir sus pasos para lograr el éxito que él mismo estaba cosechando. Tras empezar a convertirse definitivamente en una de las caras más polémicas del fitness, Togi empezó a ser invitado a numerosos podcasts que tenían muchas preguntas que hacerles sobre su estilo de vida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1065" target="_blank" class="timestamp">[17:45]</a> A mí tengo que decir que es un tío, hay una cosa que me gusta de él y es su sinceridad. Eso es verdad que no puedo, me encanta. Porque en un mundo de mentira, del fitness, en un mundo que es tan de mentira, tengo que decir que eso me gusta mucho. Me gusta mucho. Todo lo demás no me gusta. Lo que promueve, su vida, lo que hace, no me gusta. Pero que sea un tío realista y que no mienta, me encanta. Sin filtros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1092" target="_blank" class="timestamp">[18:12]</a> Y ahí es donde Togi dejaría claro qué tipo de influencer fitness quería ser. En alguno de los podcasts donde Togi acudió fue preguntado por si era consciente de que estar promoviendo el uso de los anabólicos de una forma tan abierta y publicitar el uso de las apuestas online como método de ingresos podían ser un mal ejemplo para otros jóvenes. Togi quiso ser muy claro con este tema y lo dijo así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1117" target="_blank" class="timestamp">[18:37]</a> Yo no soy un ejemplo para nadie, yo solo muestro cómo vivo y si el que me ve quiere hacer lo mismo que yo, es bajo su propia responsabilidad. Estas declaraciones dejaban claro que Togi no había hecho ningún esfuerzo por entender lo que era ser una figura reconocida a nivel mundial y que pudiera causar admiración en millones de personas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1138" target="_blank" class="timestamp">[18:58]</a> jóvenes que podrían incluso relacionar el hecho de consumir anabólicos con lograr el éxito y personas con problemas económicos que podrían estar intentando seguir sus pasos haciendo apuestas arriesgadas durante horas viendo el éxito que Toy estaba teniendo para intentar salir de ese pozo en el que se encontraban.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1157" target="_blank" class="timestamp">[19:17]</a> Aún en este punto muchos seguían defendiendo a Togi como un chico que simplemente había llegado al mundo del fitness para hacer reír a millones de personas con su estilo de vida loco y salvaje, negando rotundamente que pudiera ser una mala influencia para miles de personas. Pero... ¡Claro que está mal! ¡Está mal Rubén! ¡Está mal! O sea, a mí me parece una locura. Punto una persona que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1178" target="_blank" class="timestamp">[19:38]</a> Pero luego te digo, si os veis sus vídeos, veis que el tío no está bien. Que el tío se ha comido el personaje a la persona. El tío no está bien. O sea, de verdad, miradlo. Aparte que la casa tiene más mierda. Es un tío que vive en la suciedad. Es un tío que, yo te digo, sus prioridades son una cosa de persona que no está cuerda. Que no está cuerda. Ni siquiera era pobre y que ni siquiera lo necesitaba.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1203" target="_blank" class="timestamp">[20:03]</a> porque ya lo tenía todo, acabaría convirtiéndose en la primera víctima de Togi confirmando lo que muchos no querían ver. Esa persona era Alex Seuban. A mediados de 2024, Togi empezó a relacionarse con uno de los mayores referentes en el fitness a este...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1221" target="_blank" class="timestamp">[20:21]</a> Otro. Otro que no es embustero, ¿sabes? El Alex este. Anda que no es embustero, mi padre. Otro que miente como nadie. De los últimos años, Alex Ewan. Alex se había hecho súper conocido por tener un físico soñado, armonioso, definido y con una estética que provocaba que muchas personas quisieran ser como él.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1240" target="_blank" class="timestamp">[20:40]</a> Era en pocas palabras el heredero natural de Jeff Seid y David Leite, los primeros grandes Aesthetic junto al difunto Cid. Alex a diferencia de otros influencers siempre se había mantenido como un chico natural y sano, promoviendo la buena vida y el entrenamiento físico.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1257" target="_blank" class="timestamp">[20:57]</a> Pero una realidad es una realidad, con lo que voy a decir, y es que en el punto de Alex, ¿vale? Tiene dos cosas. Una, se cree que va a ganar mucho más dinero si es más grande, si tiene más músculo, si está más seco. Dos, a él le costaba, dicho por él, de manera natural, mantenerse seco todo el año, le costaba muchísimo. Muchísimo. Y eso lo ha dicho él. ¿Vale? Entonces, ¿qué pasa? Que cuando ellos, cuando más venden, cuando más dinero le viene, es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1287" target="_blank" class="timestamp">[21:27]</a> Cuando más secos están, cuando más cortes tienen, cuando más visuales son. Y ese es el problema del ser natural. Que siendo natural, el pico de forma es muy poco tiempo mantenerte arriba. De manera no natural, puedes hacer lo que te dé la gana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1304" target="_blank" class="timestamp">[21:44]</a> Pero sus encuentros con Togi cambian Porque tenía un fisicazo el tío, o sea, tiene un fisicazo el tío Vían su vida para el resto de sus días Alex y Togi hicieron un par de vídeos juntos Entrenando y compartiendo tiempo Y muy poquito tiempo después El propio Alex publicó un vídeo en su canal de YouTube</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1322" target="_blank" class="timestamp">[22:02]</a> donde informaba a sus fans que a partir de ese momento dejaría de ser natural. No habían pasado ni un par de meses antes de que Togue infectara a Alex con la idea de pasarse al lado oscuro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1336" target="_blank" class="timestamp">[22:16]</a> Aquí, a ver, paramos, hermano. Al Alex no le ha convencido nadie. Lo que pasa es que el Alex este ha estado con todo lo que se codea con todos. Porque yo al Alex este lo descubrí con los hermanos Trembolona. Y él ve lo que ganan todos, el tirón que tienen todos, y él quiere tener ese tirón. Esa es la realidad, hermano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1356" target="_blank" class="timestamp">[22:36]</a> Y la gente, lógicamente, se echó encima de Alex. Y con razón. Alex tenía un fisicazo. Probablemente el físico que cualquier chaval querría tener. Ese chaval y hombre. Se que hace admirar a los hombres y atrae a las mujeres. Era innecesario dar ese paso. Y aún así Alex decidió darlo. En poco tiempo el físico de Alex mutó por completo. No dejó de verse estético. Pero ya no era ese referente para millones de jóvenes que querían. ¿Cómo que no, malo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1386" target="_blank" class="timestamp">[23:06]</a> Tener un buen físico sin tener que recurrir a los esteroides. Eso sí. Pero este tío ahora llama la atención el triple. Que no apoyo ningún tipo de consumo. Pero este tío llama mucho más la atención. Ahora, la verdad. Tomar a esta decisión no tenía que... Y no le cuesta nada mantener la forma física. Porque ahora con la testo elevada y tomando alguna hormona también. Este tío, aunque coma guarro, no engorda. Aunque coma sucio...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1413" target="_blank" class="timestamp">[23:33]</a> No retiene ningún tipo de grasa. ...que ser necesariamente culpa de Togi. Pero era inusualmente extraño que muy poco tiempo antes de tomar la decisión de dejar de ser natural, Alex estuviera juntando tanto con Shane, quien además de haberle podido influenciar sobre el uso de los anabolizantes, también le incitó a jugar a apuestas online. Este caso concreto, el...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1436" target="_blank" class="timestamp">[23:56]</a> A ver, esto de incitó a jugar a la apuesta online, yo voy a decir una cosa, ¿vale? No os habéis fijado, ya que Internet ya va teniendo tiempo, los influencers ya han pasado de la década, algunos incluso hasta van rozando la veintena como influencers, o sea, con dos décadas. ¿No habéis dado cuenta de muchos influencers que pierden el tirón en redes y se pasan al gambling?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1464" target="_blank" class="timestamp">[24:24]</a> o incluso no pierden directamente se pasan al gambling es que no tenéis ni idea muchos sí pero otros no la cantidad de dinero que mueve el gambling amigos no tenéis ni idea o sea estamos hablando de que haciendo un directito sencillo cinco veces a la semana pueden ganar el cuádruple de lo que ganaban como influencers pierdes público bueno pierdes a críos pierdes credibilidad</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1494" target="_blank" class="timestamp">[24:54]</a> Sí, sí. Pero yo os estoy diciendo lo que hay. A mí no me enlacéis con ello porque yo rechazo. Este mes, este mes, lo que llamamos de mes, y llevamos 10 días, habré rechazado como a 20. A mí no me metáis en esto. Lo digo por si alguno cree algo de que yo no. De apuestas. A lo que voy.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1514" target="_blank" class="timestamp">[25:14]</a> Mueven muchísimo dinero. Mueven muchísimo dinero. Entonces, no creáis que nadie le contagie, no. Simplemente le viene Togi y le coge Togi y le dice Alex, este mes he facturado 200.000. ¿Y tú?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1533" target="_blank" class="timestamp">[25:33]</a> referente de los más referentes de Estados Unidos en el fitness a nivel mundial, no solo Estados Unidos, pues gano 60 o 50. ¿Entiendes? Y estoy pasando un hambre y una cosa, pues coge y dice que tú ganas 200, pues yo lo voy a intentar también. Y se meten también. ¿Por qué? Porque la gente está... El dinero es muy goloso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1556" target="_blank" class="timestamp">[25:56]</a> El dinero es muy goloso. El dinero es muy goloso y por eso caen. No porque nadie les dice. No, no. De Alex, provoca terror porque demostraba que Togi no solo podía ser un cáncer, sino también un virus. Un virus capaz de contagiar a otras personas a cometer graves errores. Errores irreversibles. Yo es que no creo que nadie te pueda convencer de tomar química. Yo no lo creo. Yo creo que tú, cuando das el paso a tomar química, tú has pasado por un rumrum mental</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1585" target="_blank" class="timestamp">[26:25]</a> y por una serie de informaciones y de ver y de tal, basto. Y eso lo sabemos los que hemos usado la típica. Yo no creo que nadie te... No. Tú escuchas a todo el mundo, pero hasta que tú te decides, cuando tú te decides, es porque tú ya le has dado mil vueltas al asunto y ya por fin te decides. Pero no creo que nadie te convenza, ¿eh? Esto no es como... ¡Tómate una raya! O... ¡Fúmate un canelo conmigo! No es lo mismo. No es lo mismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1614" target="_blank" class="timestamp">[26:54]</a> Y si Togi había conseguido contagiar a alguien que ya era rico y famoso como Alex Eubank, ¿por qué no lo podría conseguir con millones de jóvenes con pocos recursos y ganas de ser exitosos? Pero llevar una vida al límite con un consumo excesivo de sustancias y bebidas y una adicción tremenda a ser millonario era cuestión de tiempo que explotase por algún lado. Y ese día llegaría menos de un año después de explotar...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1640" target="_blank" class="timestamp">[27:20]</a> Además que, tengo que decir que esto es un poquito cruel, ¿eh? Además del gambling, hay algunos contratos que tienen algunos que es un poco cruel, ¿vale? Porque...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1662" target="_blank" class="timestamp">[27:42]</a> Seguramente Togi esté jugando con dinero que no es suyo, dinero que le da el casino para jugar y hace como que está jugando muchísimo dinero y que tal y que cual. Bueno, el tema es que con su referido, ¿vale? Con su código, no sé qué, bueno, total.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1679" target="_blank" class="timestamp">[27:59]</a> Hay casinos que hacen contratos. Sí, sí, claro. No, no. A todos le dan dinero para jugar. Cuando tú ves a alguien jugando en internet, que sepas que no juegan con su dinero. Que juegan con el dinero del casino. No juegan con su dinero real. Pero es que el problema no viene aquí. A mí hay algo que me parece más turbio. Bastante más turbio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1700" target="_blank" class="timestamp">[28:20]</a> que el influencer gana un porcentaje de las pérdidas de la gente que use su código. Es loco eso. Eso a mí me parece cruel, pero cruel, ¿eh? Porque, claro, ahora el influencer tiene que jugar de dos formas. Te tengo que hacer ganar, porque si ganas vas a jugar más, pero a la vez te tengo que hacer perder, ¿sabes? Sí, sí, van a comisión. O sea, es una locura. Es una puta locura, hermano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1730" target="_blank" class="timestamp">[28:50]</a> perdía miles de dólares en directo, por lo que obligado por las exigencias de su canal, Toby se puso a editar un vídeo muy importante y estuvo haciéndolo durante muchísimas horas seguidas. Para poder mantenerse despierto y cumplir con las obligaciones de su canal, Toby decidió recurrir a un medicamento que principalmente se usa para tratar a las personas que sufren TDAH, el Aderol.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1753" target="_blank" class="timestamp">[29:13]</a> Un medicamento muy similar a este, el Concerta, que se usa principalmente para ayudar a las personas con trastorno por déficit de atención, como es mi caso, a ayudarnos a mantener muchas más horas seguidas la atención en alguna tarea concreta. Pero también... No solo tomo aterol. Si no me acuerdo mal, este tío tomaba queta o meta, ¿verdad? En un medicamento, el cual uno de sus mayores efectos secundarios y que yo personalmente sufro a diario, es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1782" target="_blank" class="timestamp">[29:42]</a> El insomnio, la dificultad para poder dormir. La diferencia entre Tobi y un joven como yo es que él usó el Aderol, que es aún más potente que el Concerta, en unas dosis exageradas y cortada con metanfetamina. Tobi ingirió a lo largo de esas casi 40 horas consecutivas en las que estuvo editando más de 30... Pero palo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1804" target="_blank" class="timestamp">[30:04]</a> Yo sé que a ti te gusta informar y que esa es la narrativa que ha contado Togi. 40 horas editando. Pero hermano, ¿qué estaba haciendo? ¿La película de Spielberg? Porque vi el vídeo y el vídeo es un truño. El vídeo original es un truño. Una edición de mierda. ¿Cómo se va a tirar 40 horas editando? Quien se crea eso está flipado. Esa es la excusa que puso. Este tío iba de todo. Iba de todo hasta arriba. 40 horas editando, por favor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1832" target="_blank" class="timestamp">[30:32]</a> cápsulas de 30 miligramos de Adderol y cuando los vídeos de este hombre se editan en media hora estaba cerca de las 40 horas de edición su cuerpo dijo basta y colapsó por completo cuando la ambulancia llegó a la casa de Togi este estaba convulsionando y literalmente sentía que su hora había llegado Togi fue inmediatamente trasladado al hospital donde rápidamente fue atendido</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1856" target="_blank" class="timestamp">[30:56]</a> y pudo ser salvado por los médicos. Este episodio fue sin dudas el final de una vida llena de excesos, tensiones y descontrol. El propio Togi reveló que el dolor que sintió aquel día fue 10 veces más fuerte que el dolor más fuerte que había sentido en toda su vida y que jamás volvería a hacer algo así. Este episodio supuso un antes y un después en la vida de Togi, quien decidió dejar de usar anabolizante. Con 23 años, ¿eh? 23 años tiene actualmente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1886" target="_blank" class="timestamp">[31:26]</a> para poder poner un poco de freno a esa vida de excesos y desenfrenos que estaba llevando. Pero el problema con las personas como Togi es que no pueden dejar de tener esa necesidad de ir hacia el sol. Cuando el dinero y el éxito dominan tus pensamientos, terminan tomando decisiones que... No, no, no, no, 23, 23.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1905" target="_blank" class="timestamp">[31:45]</a> muchos casos pueden ser más malas que buenas para tu propio futuro. A pesar de que este episodio estuvo a punto de mandar a Togui al cielo, este notador ni seis meses en reanudar... Pero que la culpa lo tienen las redes sociales para hacerse como suñar al pasta. Ya, pero Ramón, ¿qué te digo, tío? Yo nunca le echaré la culpa. Yo para mí, las redes sociales es una maravilla. Para mí es una maravilla. Yo nunca le echaré la culpa a las redes sociales. Se la echaré siempre a las personas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1932" target="_blank" class="timestamp">[32:12]</a> el uso de sustancias anabólicas. Continuó jugando durante muchas horas seguidas a las apuestas online y las fiestas eran un total desmadre en las que Togi acababa totalmente destruido de cuerpo y mente. Mantenía su faceta de influencer fitness grabándose también sus entrenamientos, pero de sus vídeos de casi dos horas de duración, estos entrenamientos no representaban más que el 5 o el 10%.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1955" target="_blank" class="timestamp">[32:35]</a> Y así ha continuado Togi hasta el día de hoy, manteniendo esa faceta de vida loca y completamente desenfrenada que parece que no es capaz de frenar, porque la mente de Togi no puede escapar de quien realmente quiere ser, el cáncer del fitness. La historia de Togi me sirve perfecta...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1974" target="_blank" class="timestamp">[32:54]</a> La verdad que es el personaje, el peor personaje del fitness, pero vamos, exagerado, con diferencia. Justamente para hacerte una pregunta final. ¿Qué tipo de persona quieres ser en esta vida? ¿Aquella que construye su camino con integridad o aquella que busca atajos a cualquier precio, aunque eso signifique destruirse a uno mismo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=1996" target="_blank" class="timestamp">[33:16]</a> Espero que te haya gustado este documental y que me dejes en comentarios si crees que este tipo de creadores deberían ser baneados de las redes sociales o bien dejarlos promocionar esteroides y apuestas libremente. Pero es que en verdad él no ha promocionado anabólicos, él nunca ha vendido. Entonces promocionarlo no es. Claro, promoción como tal no es porque no lo ha vendido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=2017" target="_blank" class="timestamp">[33:37]</a> Entonces, ha hablado y se la ha visto consumiendo y todo lo que tú quieras, pero no ha vendido. Yo, ya sabéis que a mí el tema de prohibir... A mí el tema de prohibir... Apología sí, pero a mí el tema de prohibir no va conmigo, tío. Nunca me ha gustado. Igual que tampoco va conmigo lo de... Venga, todo lo que está ilegal, que sea legal. No. Para mí prohibir no me gusta, tío. Yo creo que los sistemas esos de prohibir cosas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Bq89Jevj7jw&t=2044" target="_blank" class="timestamp">[34:04]</a> No me gusta. Prohibiría a los políticos ganar lo que ganan, por ejemplo. Eso sí que lo prohibiría. De dinero público. Pero eso parece que a la gente le da un poco igual. Entonces, a mí lo que haga un friki en sus redes sociales, oye, pues haya cada cual. No lo voy a criticar. Quiero decir, bueno, si lo critico, pues es lo que estoy haciendo. No lo voy a banear.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 11/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
