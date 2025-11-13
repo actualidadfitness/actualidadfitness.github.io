@@ -1,0 +1,353 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 13/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">13/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-GVGj6eco-AU'>EL DEGASTE QUE LLEVA JOAN PRADELLS NO ES NORMAL</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-GVGj6eco-AU">
+            <h2>EL DEGASTE QUE LLEVA JOAN PRADELLS NO ES NORMAL</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 13/11/2025 17:15</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=GVGj6eco-AU" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=GVGj6eco-AU" target="_blank">
+                    <img src="https://i.ytimg.com/vi/GVGj6eco-AU/hqdefault.jpg" alt="EL DEGASTE QUE LLEVA JOAN PRADELLS NO ES NORMAL" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video critica fuertemente la decisión de un competidor de culturismo de participar en el Arnold Classic de marzo, calificándola de un error grave. Se advierte sobre el brutal desgaste físico que el atleta ya acumula, incluso antes de una próxima competición en Japón. El presentador enfatiza que, a pesar del deterioro, el cuerpo está muy receptivo y necesita urgentemente un periodo de volumen. Se aconseja al atleta reevaluar sus ambiciones y ser más realista con su planificación.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Crítica a la Competencia de Marzo <a href="https://www.youtube.com/watch?v=GVGj6eco-AU&amp;t=4" target="_blank">[00:04]</a></h3>
+
+<p>El presentador expresa su fuerte desacuerdo con la decisión del atleta de participar en el Arnold Classic de marzo, calificándola de "cagada" y sugiriendo que es una mala estrategia.</p>
+
+<h3>Necesidad de Bajar Expectativas <a href="https://www.youtube.com/watch?v=GVGj6eco-AU&amp;t=11" target="_blank">[00:11]</a></h3>
+
+<p>Se aconseja al competidor "bajar la pelota al suelo", lo que implica ser más realista sobre sus ambiciones y la viabilidad de su calendario de competiciones.</p>
+
+<h3>Advertencia sobre Desgaste Físico <a href="https://www.youtube.com/watch?v=GVGj6eco-AU&amp;t=27" target="_blank">[00:27]</a></h3>
+
+<p>Se destaca el "desgaste bruto, brutal" que el cuerpo del atleta ya soporta debido a las preparaciones y competiciones intensas, un factor crítico para su salud y rendimiento.</p>
+
+<h3>Desestimando la Competición de Japón <a href="https://www.youtube.com/watch?v=GVGj6eco-AU&amp;t=39" target="_blank">[00:39]</a></h3>
+
+<p>El presentador minimiza la importancia de lo que ocurra en la próxima competición en Japón, indicando que el resultado no alterará su preocupación por el estado general del atleta.</p>
+
+<h3>El Cuerpo Pide Volumen <a href="https://www.youtube.com/watch?v=GVGj6eco-AU&amp;t=49" target="_blank">[00:49]</a></h3>
+
+<p>Se explica que, a pesar del deterioro físico actual, el cuerpo del atleta está en un estado "súper receptivo" y necesita un periodo de volumen de entrenamiento para su recuperación y desarrollo.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GVGj6eco-AU&t=0" target="_blank" class="timestamp">[00:00]</a> Quizá en este caso el objetivo no es tanto ir a por el Olimpia, que lo tengo por aquí. Mira, ir a por el Olimpia, aquí. Creo que se me ve ahí claro. ¿Estamos tontos? Ir al Arnold en marzo es una cagada como un castillo. Lo digo de verdad. Es un cagadón. Y yo creo que la pelota hay que empezar a bajarla un poco al suelo. No, no, no. Es un cagadón. Es un cagadón. Eso lo digo de corazón. Va a ir a Japón, que no es este fin de semana, creo que es el que viene, ¿no? Si no estoy perdido, ¿ok?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GVGj6eco-AU&t=27" target="_blank" class="timestamp">[00:27]</a> Ese cuerpo ya tiene un desgaste bruto, brutal el desgaste que lleva encima del cuerpo. Es loquísimo el desgaste que lleva ese físico. Imaginaos que en Japón… Mira, voy a descontar lo que pasa en Japón. Me da igual lo que pase en Japón. Me da igual. Voy a decir las dos cosas. Quitando ahora mismo Japón… No sé lo que pasará. Ahora mismo ¿qué pasa?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GVGj6eco-AU&t=46" target="_blank" class="timestamp">[00:46]</a> Todo esto que está alargando el cuerpo ahora va a estar súper receptivo. Va a haber un deterioro físico, que lo sepáis, pero ahora ese cuerpo necesita un volumen a gritos porque está muy receptivo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 13/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
