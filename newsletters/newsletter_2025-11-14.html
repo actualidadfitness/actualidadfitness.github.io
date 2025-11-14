@@ -1,0 +1,378 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 14/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">14/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Alex Sroka - Fitness & Culturismo</strong>: <a href='#video-VWPiiygazAs'>VISITO A MI MADRE EN POLONIA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-VWPiiygazAs">
+            <h2>VISITO A MI MADRE EN POLONIA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Alex Sroka - Fitness & Culturismo</span>
+                <span class="date">Publicado: 14/11/2025 14:23</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=VWPiiygazAs" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=VWPiiygazAs" target="_blank">
+                    <img src="https://i.ytimg.com/vi/VWPiiygazAs/hqdefault.jpg" alt="VISITO A MI MADRE EN POLONIA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este videoblog narra el viaje del presentador a Polonia, comenzando por las incidencias en el aeropuerto y el vuelo. Una vez en Cracovia, muestra su alojamiento y comparte el emotivo reencuentro con su madre. El video profundiza en una sincera reflexión personal sobre el arrepentimiento y la culpa ante la enfermedad de su madre. Finalmente, el youtuber expresa su profunda gratitud a la comunidad por su apoyo.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Aventura Polaca Comienza <a href="https://www.youtube.com/watch?v=VWPiiygazAs&amp;t=2" target="_blank">[00:02]</a></h3>
+
+<p>El presentador inicia su viaje a Polonia desde el aeropuerto de Barajas, explicando sus planes de visitar a su madre y explorar la posibilidad de mudarse allí el próximo año. También menciona su intención de investigar aspectos fiscales para el traslado y su impaciencia por la espera.</p>
+
+<h3>Atascos y Primeras Impresiones en Cracovia <a href="https://www.youtube.com/watch?v=VWPiiygazAs&amp;t=139" target="_blank">[02:19]</a></h3>
+
+<p>Tras un viaje con algunas complicaciones, el youtuber llega a su apartamento en Cracovia, notando los sorprendentes atascos de la ciudad. Hace un breve recorrido por su alojamiento, inspeccionando las habitaciones y el baño, y se prepara para visitar a su madre.</p>
+
+<h3>El Reencuentro que lo Compensa Todo <a href="https://www.youtube.com/watch?v=VWPiiygazAs&amp;t=233" target="_blank">[03:53]</a></h3>
+
+<p>El presentador reflexiona sobre el agotador viaje, concluyendo que ver a su madre hace que todo el esfuerzo valga la pena. Expresa el profundo valor emocional de este reencuentro familiar en Polonia, pese a lo desagradable de la travesía.</p>
+
+<h3>Un Peso en el Alma: Reflexiones sobre el Pasado <a href="https://www.youtube.com/watch?v=VWPiiygazAs&amp;t=402" target="_blank">[06:42]</a></h3>
+
+<p>El youtuber comparte una profunda y conmovedora reflexión sobre su arrepentimiento, deseando haber logrado éxito financiero antes. Expresa la posibilidad de haber ayudado a su madre a tener una vida mejor y evitar su enfermedad, debatiéndose con sentimientos de culpa.</p>
+
+<h3>Gratitud Sincera y el Apoyo de la Comunidad <a href="https://www.youtube.com/watch?v=VWPiiygazAs&amp;t=598" target="_blank">[09:58]</a></h3>
+
+<p>El presentador cierra el videoblog agradeciendo a su audiencia por el apoyo continuo, destacando que sus ingresos de patrocinadores son posibles gracias a ellos. Reconoce la importancia de su comunidad para su carrera y entorno, demostrando su aprecio con un gesto simbólico.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=2" target="_blank" class="timestamp">[00:02]</a> ¿Qué pasa, culturistas? ¿Qué tal estáis? Bueno, yo estoy muy bien. Y bueno, mi gente, en estos momentos me encuentro en el aeropuerto de Barajas, como podéis observar. Aquí estamos, esperando al avión, porque bueno, me pude una semanita a Polonia, ¿vale? Y voy a estar bloqueando un poquito por ahí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=25" target="_blank" class="timestamp">[00:25]</a> Básicamente voy para visitar a mi madre, que hace tiempo que no la veo y de paso para ver unas cuantas cositas sobre cómo trasladarme para vivir allí. Aunque bueno, eso está en proceso, aún no se sabe si es definitivo, pero es posible que el año que viene ya me marche. Así que hay que investigar un poquito, ya sabéis, con un asesor y tal, o mejor dicho, con un gestor a nivel fiscal y tal, cómo poder hacer todo el traslado de la mejor forma posible. Así que bueno, ya me estaré informando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=51" target="_blank" class="timestamp">[00:51]</a> seguramente también pues quede con mi colegon Nutribuldier si es que lo encuentro por ahí que el tío viaja más que yo que sé así que ya veremos si le pillo por ahí y obviamente también pues iré algún día al gym y haré un entrenamiento polaco como Dios manda así que nada ahora de momento gente voy a esperar un poco más a que bueno pues abran la puerta que también os digo he venido aquí un mazo de temprano en el sentido de que he llegado como dos horas antes sabes que sí que ya sé que eso es recomendable lo que pasa es que a ver si ya haces la facturación online pues no hace falta no</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=81" target="_blank" class="timestamp">[01:21]</a> Y encima, como ha habido poca cola en lo de la seguridad y tal, pues claro, llevo aquí como un mamón esperando mazo y es un puto coñazo. Pero bueno, es lo que hay. En fin, gente, nos vemos ya en Polonia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=98" target="_blank" class="timestamp">[01:38]</a> bueno gente ya estamos por aquí por suerte aún es de día aunque bueno si llega a ser diciembre ya sería de noche aquí en invierno se hace de noche a las 4 de la tarde pero bueno sea como sea mi gente el viaje ha ido regular porque bueno primero tenía una gorda al lado segundo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=113" target="_blank" class="timestamp">[01:53]</a> Había unas turbulencias de pelotas y tercero, antes de pasar por el control de seguridad, que esto no os lo he dicho antes, como llevo las tapas del filiplane, ¿vale? Pues básicamente me han pitado y me las he tenido que quitar y pasar descalzo. ¡Qué movida! Pero bueno, sea como sea, por fin estamos aquí y para mi sorpresa no hace tanto frío como pensaba. O sea, sí, pero no. En fin, vamos al apartamento, ¿vale? Y ya os seguiré comentando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=139" target="_blank" class="timestamp">[02:19]</a> Por fin, por fin he llegado al maldito apartamento. Había unos atascos que su puta madre, de verdad. Es que no tiene ni sentido el cómo se atasca esta ciudad. No sé por qué es, la verdad. Bueno, a ver, sí, porque hay muchos coches, evidentemente. Pero el caso está en que Sacracovia tiene atascos como Madrid o más, ¿vale? O sea, es una puta barbaridad. Lo digo en serio. Pero bueno, ya por fin estamos por aquí, como podéis observar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=164" target="_blank" class="timestamp">[02:44]</a> Y nada, como decía antes, me quedé por aquí una semanita, ¿vale? Vamos a inspeccionar qué tal está esto. Esto supongo que será el baño, posiblemente. Ah, no, no es el baño. Esto es mi habitación. A ver, bueno, ni tan mal. Está bien. Bueno, no me puedo quejar, la verdad. A ver, el baño será esto, entiendo. Ajá, efectivamente. A ver, ¿dónde está la luz aquí?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=192" target="_blank" class="timestamp">[03:12]</a> A coño, bro. Será esto de aquí, efectivamente. Bueno, pues no está mal. Preferiría una bañera y tal, ¿no? Ya que estamos, pero bueno, se entiende que lo hayan hecho así. Por un tema de eficiencia. Teniendo en cuenta que esto está en el centro de la ciudad, la verdad es que está bastante, bastante guay. Este sofá no está nada, pero que nada malo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=217" target="_blank" class="timestamp">[03:37]</a> Y nada, gente, ahora seguramente vaya a la Zopka, que es como el equivalente a un chino, solo que de por aquí, ¿no? Y luego ya iré a visitar a mi madre, que al fin y al cabo ella vive con mi tía. Y pues yo creo que, hombre, me dará tiempo de sobra. Al fin y al cabo, aunque sea de noche ya,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=233" target="_blank" class="timestamp">[03:53]</a> en verdad no es tarde, serán las 6 o algo así. Entonces, pues bueno, creo que sin problema. Sabéis que, gente, tengo que ser sincero con vosotros y es que aunque para mí viajar sea bastante desagradable, de verdad que por este momento merece la pena. O sea, en serio. Toda la paliza del avión y lo del Uber hasta el hotel y luego venir del hotel hasta aquí, bueno, apartamento, lo mereces totalmente para ver a mi madre. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=265" target="_blank" class="timestamp">[04:25]</a> sí, sí, sigo haciendo vídeos mamá los sigo haciendo los vídeos yo los hago porque no pasa nada mamá tengo el mejor trabajo del mundo, por Dios ¿a que sí?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=294" target="_blank" class="timestamp">[04:54]</a> No, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=337" target="_blank" class="timestamp">[05:37]</a> de vuelta en el hotel ahora que lo pienso, si el móvil está tan lejos se me escuchará bien vale, así un poco mejor más cerquita</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=347" target="_blank" class="timestamp">[05:47]</a> Ay, señores, de verdad, estaba ahí en casa de mi tía, con mi tía y con mi madre, que bueno, mi tía no ha salido en el vídeo porque no quiere, ¿vale? Y bueno, mi madre sí, pues porque sí, ¿por qué no? Así tengo un recuerdo de ella para el futuro. Y estaba hablando con las dos, aunque bueno, más con mi tía, claro, al final se puede comunicar mejor. Y eso, pero con mi madre también, y se alegra mucho de verme, y yo a ella.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=372" target="_blank" class="timestamp">[06:12]</a> y bueno pues hemos hablado de la vida en general y cosas así de como pues bueno me está yendo que le he comentado pues todo el tema de que me va pues estupendamente bien vale también ella me ha estado comentando un poco pues digamos su camino de la vida cosas que le han pasado no típica conversación como de viejos como quien dice pero con la familia en fin está bien luego también pues hemos hablado de una cosa que la verdad es que me apetece compartir también con vosotros</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=402" target="_blank" class="timestamp">[06:42]</a> Porque quiero saber vuestra opinión, ¿sabéis? Y es que yo pienso que si hubiese sido mejor, a lo mejor a mi madre no le hubiese pasado lo que le ha pasado, ¿sabéis? Es decir, si yo en vez de ganar lo que gano ahora lo ganase hace 10 años...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=422" target="_blank" class="timestamp">[07:02]</a> A lo mejor podría haber hecho algo para que mi madre no esté así, ¿sabéis? Un rollo darle una vida mejor o cosas así, ¿sabéis? Para que esté más tranquila, con más paz y cosas así. No aguantando al trompa de mi padre y cosas así. Y tener yo también la cabeza más centrada, ser más calmado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=440" target="_blank" class="timestamp">[07:20]</a> No tan revoltoso, no hacer el tonto, cosas así, ¿no? Que bueno, yo tampoco es que la haya liado de una forma espectacular. No es que me dedicase a apuñar a la gente en el cuello para robarle la cartera. Yo qué sé, ¿vale? No era mi estilo ese, ya sabéis. Pero sí que en verdad que, bueno, siempre he sido un poco revoltoso, ¿no? Entonces, eso mismo, ¿no? Si yo hubiese sido mejor y si hubiese sido más rápido, tío, con todo esto, a lo mejor podría haber hecho algo para...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=467" target="_blank" class="timestamp">[07:47]</a> para que, bueno, mi madre no acabase mal, ¿no? Que bueno, ahora por suerte está mejor, pero no sé. La verdad es que es algo que me da vueltas en la cabeza, ¿no? El pensar en ello. Que bueno, mi tía me ha dicho que no tiene nada que ver porque al final una enfermedad de estas, como la que tiene mi madre, si se manifiesta, pues se manifiesta y ya está, ¿sabes? No es que tenga nada que ver con que ganen más o menos, ¿no? Pero no sé, siempre tendré esa duda ahí, ¿no? De, tío, si hubiese sido mejor...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=496" target="_blank" class="timestamp">[08:16]</a> si hubiese sido mejor, tío, a lo mejor podíais haberlo evitado, ¿sabes? No sé, es como que me siento un poco culpable, ¿sabéis? No sé cómo lo veréis vosotros. Por eso os lo comento un poco, ¿no? Para que me deis un poquito, pues, la opinión en los comentarios. Qué sé yo. Pero, joder, pues, lo siento. Es que, no sé, no puede ser mejor. He tardado lo que he tardado. No he podido hacerlo antes. Lo siento, ¿vale? No sé. No se ha dado de otra forma. ¿Sabéis? Pero sí. Ojalá. O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=524" target="_blank" class="timestamp">[08:44]</a> Si hay algo que pudiese cambiar en mi vida, sería eso. Ojalá hubiese sido mejor antes, para poder ganar lo que gano ahora y de esa forma ayudar a mi familia antes. Porque al fin y al cabo, el cuándo haces las cosas, o sea, no es solo lo que haces, sino cuándo las haces, también es importante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=542" target="_blank" class="timestamp">[09:02]</a> La verdad es que eso puede marcar mucho la diferencia. De hecho, está la famosa frase del pez grande no se come al pequeño, sino que el pez rápido se come al pequeño. Que bueno, no tiene nada que ver con lo que estoy hablando ahora porque eso es como más rollo para vídeo de motivación financiera, ¿no? No sé, cosas de criptobro, ya sabéis. Pero un poco eso, ¿no? Así que es verdad que, tío, si hubiese sido mejor y hubiese sido más rápido,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=572" target="_blank" class="timestamp">[09:32]</a> A lo mejor la situación sería distinta. No sé. Bueno. En fin, gente, sea como sea, pues bueno, este sería el videoblog de hoy. Creo que ha sido bastante entretenido. Siento no haber sacado nada de entrenamiento, pero bueno, es que hoy, a ver, tampoco me daba la vida para más, ¿sabes? O sea, he hecho un montón de kilómetros en avión para venir aquí y he estado con mi familia y ya, ¿no? Y ya, claro, son las 10 ya, no voy a ir de ningún lado ahora, ¿sabes? Hacer nada, así que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=598" target="_blank" class="timestamp">[09:58]</a> un poco eso, ¿no? Pero bueno, en fin, gente, de verdad, muchísimas gracias a todos los que estéis aquí para apoyarme, a todos los que utilizáis, por supuesto, mis códigos para hacer todo esto posible, ya que sin vosotros no podría dedicarme a esto, las cosas como son, al final la mayor parte de mis ingresos provienen de los patrocinadores, ¿vale? Y obviamente, pues eso es posible porque, pues bueno, vosotros me apoyáis, ¿no? Al final pensad que cada vez que utilizáis mi código para cualquier movida, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=627" target="_blank" class="timestamp">[10:27]</a> pues eso no es solo apoyarme a mí como tal sino a mí y a todo mi entorno entonces claro al final pues el que las cosas estén como estén es por algo y ese algo sois vosotros básicamente así que gente muchas gracias y pues os hago un medio cocoro os haría el corazón entero pero no puedo porque</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=646" target="_blank" class="timestamp">[10:46]</a> La otra mano sujeta el móvil, claro Qué cosas, ¿eh? No, pero voy a hacerlo, ¿cómo era la mierda esta? Tío, lo que hacía el Rubius, el corazón japonés O coreano se llamaba, ¿no? ¿Cómo era? ¿Así? Creo que sí, ¿no? Algo así, no sé Es como que hacía esto y esto es como un corazón, ¿no? Porque es claro, como la parte de abajo del corazón Ni puta idea, tío, pero se supone Se supone que lo es, en fin No me enrollo más gente, que tampoco quiero que esto Quede demasiado triste, ni largo, ni cosa así</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=VWPiiygazAs&t=674" target="_blank" class="timestamp">[11:14]</a> Y bueno, ya nos veremos en los siguientes vídeos. ¡A cuidarse! ¡Chao!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 14/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
