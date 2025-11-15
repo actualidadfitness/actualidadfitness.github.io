@@ -1,0 +1,380 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 15/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">15/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-Mzb7BYYFZ34'>MI OPINIÓN SOBRE LOS TOROS</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-Mzb7BYYFZ34">
+            <h2>MI OPINIÓN SOBRE LOS TOROS</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 15/11/2025 11:08</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34" target="_blank">
+                    <img src="https://i.ytimg.com/vi/Mzb7BYYFZ34/hqdefault.jpg" alt="MI OPINIÓN SOBRE LOS TOROS" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video explora la relación del ser humano con la muerte de animales para consumo y deporte. El presentador defiende la tauromaquia como un ritual noble y profundamente español, a pesar de sus aspectos brutales, criticando fuertemente a sus detractores. Argumenta que la sociedad moderna se ha desnaturalizado al evitar el contacto directo con el sacrificio animal. Finalmente, invita a la reflexión sobre la hipocresía de consumir carne sin presenciar su origen.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Contacto Primordial con la Muerte Animal <a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&amp;t=28" target="_blank">[00:28]</a></h3>
+
+<p>El presentador sostiene que el ser humano se desvía de su camino al dejar de matar los animales que consume. Describe vívidamente el sacrificio de un cerdo, abogando porque todos deberían matar sus propios animales para vivir una realidad no desnaturalizada.</p>
+
+<h3>Defensa Apasionada: La Tauromaquia como Esencia Española <a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&amp;t=116" target="_blank">[01:56]</a></h3>
+
+<p>Se rechaza la idea de que matar un animal sea barbarie en el contexto de la tauromaquia, calificándola como la expresión "más pura" del ser humano. Se enfatiza la idiosincrasia estética y cultural profundamente española de las corridas de toros, a pesar de reconocer ciertos aspectos brutales.</p>
+
+<h3>La Nobleza del Toro y la Degradación del Espectáculo <a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&amp;t=133" target="_blank">[02:13]</a></h3>
+
+<p>El orador describe al toro de lidia como un animal increíblemente noble y combativo, comparándolo con un espartano. Critica cómo las corridas se han comercializado, lamentando prácticas como debilitar al toro con lanzas, las cuales considera "asquerosas" y contrarias a la nobleza original del ritual.</p>
+
+<h3>Confrontando la Cruda Realidad del Consumo de Carne <a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&amp;t=448" target="_blank">[07:28]</a></h3>
+
+<p>Se desafía a los consumidores de carne a presenciar cómo mueren los animales, argumentando que es hipócrita comerlos sin ver su sacrificio. El presentador describe gráficamente el proceso de matanza de corderos y pollos, instando a la audiencia a confrontar esta brutal realidad.</p>
+
+<h3>El Honor del Torero: Un Sacrificio Consecuente <a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&amp;t=583" target="_blank">[09:43]</a></h3>
+
+<p>El video defiende el honor y la valentía del torero, que acepta el riesgo de la muerte en la lucha con el toro. Se exalta la consecuencia y el coraje del torero ante las heridas, presentando su disposición a morir como una parte noble y esencial de este ritual ancestral.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=0" target="_blank" class="timestamp">[00:00]</a> En el momento que el ser humano, la sociedad, deja de matar el animal que se come, ya empieza a torcerse y ya se desvía el ser humano de su camino. Es decir, y así lo ves con los animales tan tontos. Y es que la gente debería volver otra vez a la práctica del cuidado del animal o asistir en comunidad. Venga, vamos, vamos a sacrificar los animales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=28" target="_blank" class="timestamp">[00:28]</a> Y coges al cerdo, que lo quiere, que es muy majo, que empatiza con el animal, pero bueno, toca. Martíaz en la cabeza. ¡Bimba! Que siempre ha hecho a los hombres por algo. Coge al animal, le cortas el cuello, lo levantas, lo desangras, ras, destripado, limpias todo, despiezado. Eso es... Y entonces estás viviendo la realidad. Todos deberíamos comer el animal matado por nuestras manos. Entonces ves la realidad. Y no estás desnaturalizado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=57" target="_blank" class="timestamp">[00:57]</a> A mí no me apasionan los toros. Entiendo los toleros y entiendo a los que no les gustan los toros. Pero no tolero, tío. Y no soporto esos ultra-antitaurinos radicales que encima se elegitean moralmente y se creen que son mejores personas y son unas gilipollas. ¡Ah! ¡Se muere el tolero! ¡Mira, mira! ¡Qué pena! Se muere y todo el mundo ¡Ah, bien! ¡Se ha muerto! ¡Hijo de puta! ¡Asesino! Esta gente es para cogerla y venga al gulag.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=86" target="_blank" class="timestamp">[01:26]</a> Estás en una granja, no va a salir mal. Pero lo que tú comes sale de tus manos. ¿Vale? Yo trabajé durante un tiempo al lado de un matadero y por olor que sale de ahí me volví a un tiempo vegetariano. Como pintor austriaco. Lo entiendo, es respetable. No puedo hacer observaciones con eso. Eso desafía a decirse a una persona. Gilera, sí. Era un tío. Fíjate cómo era. La peña se ponía ahí, me acuerdo, una anécdota. Están comiendo sopa de carne y el tío estaba al lado diciendo ¿Qué? ¿Te gusta la sopa de cadáver?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=116" target="_blank" class="timestamp">[01:56]</a> Yo no estoy de acuerdo con eso, pero bueno. Calumpi, los toros están feos. No es por necesidad, es por barbarie. No, no es barbarie. Es que no se ha entendido nada. No es barbarie. Es el ser humano más puro. O sea, matar a un animal no es barbarie. Eso sí, entiendo que digáis que es barbarie el sufrimiento. Bueno, eso sí, te lo compro, eso sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=133" target="_blank" class="timestamp">[02:13]</a> No lo comparto, pero lo puedo entender. Pero claro, el toro, que no soy... que no quiero defender automarquía, pero bueno, el toro es un animal súper noble. Es un animal que lo puedes tener como un gato aquí, como un perro. Es súper noble, ¿sabes? Es un animal, tío, que no te va a hacer nada malo. No es traicionero. Pero a veces es un animal que lo han cruzado de manera que tiene una actitud combativa. Es como un espartano. El toro dice, ah, ¿que quieres pelea? Pues te voy a pelear por un tubo, ¿no? Y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=162" target="_blank" class="timestamp">[02:42]</a> Y estoy de acuerdo que cuando, no sé cómo se dice, cuando está con el caballo la lanza y empiezan ahí, porque el caballo tiene tanta fuerza moral y mal luchando, que le meten la lanza ahí, la espalda, lo destrozan la espalda ahí para quitarle la fuerza al toro porque si es demasiado bien este para torear. Estoy de acuerdo, ¿eh? O sea, antes el toreo no se ha aficionado los toros, insisto, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=184" target="_blank" class="timestamp">[03:04]</a> Yo sé que antes el toro era una cosa más noble. Ahora se ha comercializado un negocio y el toro viene y empiezan ahí, taca, taca, taca, taca, que es asqueroso, es asqueroso, y venga, y venga, y el toro ya está, el animal está medio así, pero va a luchar hasta la muerte porque el animal así, que es un ejemplo de cómo tiene que ser el ser humano, el hombre, y está ahí diciendo, voy a luchar hasta la muerte, ¿no? Y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=207" target="_blank" class="timestamp">[03:27]</a> súper bestia y lo entiendo, ¿no? Y cuando atraes al toro y con las padas ahí y vomita sangre y se muere. Es bestia, es bestia. Es...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=216" target="_blank" class="timestamp">[03:36]</a> Pero hay una nobleza intrínseca que no tiene todos esos cobardes que critican al toreo por eso. Que es verdad que lo del rejoneo y todo eso, pues eso, gracias. Es que es verdad que dices, ¿dónde está la nobleza? El toro lo ha reventado para que el toreo haga así, clic, clic, clic. Pero está la nobleza del hombre contra el animal en un ritual que encima es profundamente bello en el sentido que tiene una idiosincrasia estética</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=245" target="_blank" class="timestamp">[04:05]</a> profundamente española que nace del alma española las ceremonias con la música que luego tiene un rollo después que no me gusta pero bueno reconozco que la orquesta de Copla anunciando musicalmente</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=257" target="_blank" class="timestamp">[04:17]</a> los vestidos. ¿Veis que tiene la idiosincrasia de un pueblo de unas peculiaridades propias que definen nuestro ser que no te lo puedes encontrar en otro lado? ¿Lo puedes ver? La toromaquía es lo más español que hay. Carlos III lo quiso prohibir. Y mira tú, no se lo puedo prohibir. Me pasa como es autoemil. Y dice, yo no soy aficionado al toreo, pero nada me da más asco que los ontitaurinos que se creen superiores a los demás. Eso es, tío. Eso es asiquieroso, tío. Sí, está claro que un mataero no es lo que yo decía, ¿no? Como dice el compañero</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=287" target="_blank" class="timestamp">[04:47]</a> el pródigo es una caja de montaje el fordismo llevado a la consuma de carne no es lo mismo que cazar animal que vas a comer exactamente bueno pero es complicado porque la caza es una lucha donde persigues al animal y lo matas y te lo comes y el animal de granja tú lo has criado</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=302" target="_blank" class="timestamp">[05:02]</a> Las dos mimitos ahí, las pasas con él y luego te la comes. Es una perspectiva de la degradación humana. La modernidad es más salvaje aún, más cruel. Yo igual, me da igual torreo para esa gente tomar tragos, es asqueroso. Se siente con una dignidad moral, una superioridad. Yo soy bueno, tú eres malo, te tapa por culo, me coño de mierda. Tapa rabos. No quiero sonar prepotente, lo siento. Ese tema me lo he estudiado con una profundidad bisal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=331" target="_blank" class="timestamp">[05:31]</a> No puedo hablar de eso porque, claro, está el tema como está. Y pago el tonto siempre, ¿sabes? No sé si me entiendes. ¿El minuto que critican el que matan al toro apoyan al senato de Charlie Kirk? Muchos sí. Es así, es así. La caza sí la veo muy noble. Mira. Hostia, Dios, a ser, es verdad. La caza, mira, la caza es un mundo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=351" target="_blank" class="timestamp">[05:51]</a> que, por desgracia, toque a la razón a los progres podemitas y Pablo Iglesias. Vaya conocido, vayas cazadores y, Dios mío, tío, el estereotipo de maltratado a animales sádico, tío. Te lo juro, ¿eh? Menudo mundo, tío. Menudo mundo. Mi padre se encargaba de matar a los cerdos de mis tíos, pero era incapaz de matar a los que él criaba. Pero se mataban igual. Ya. Es que no entiendo. No sé nada, Samu. Yo sé que el tío estaba ahí, me han dicho, y vi con el móvil las cámaras que entraban gente a su casa. Flipa, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=379" target="_blank" class="timestamp">[06:19]</a> Páratelo, tío. Hay muchos perros maltratados en el mundo de la caza. Sí, sí. Sí, sí, en el mundo de la caza la idea es buena y luego ves que tengas de inspecciones, tío. Es que es muy bestia. Ah, coño, Samu, que eras tú. Perdón, es verdad. Perdón, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=393" target="_blank" class="timestamp">[06:33]</a> Es verdad, sí. Es muy bestia lo de la caza. Es asqueroso. Yo conocí a un cazador que el tío tiene afición matar gatos con las copetas balines. Es asqueroso. Qué asco, tío. Es un mamá asqueroso. Es asqueroso. Y bueno, en el toreo yo creo que hay una nobleza. A diferencia de muchos cazadores, porque el cazar también puede ser noble. Vas ahí y no vas a disfrutar el animal. Vas simplemente a practicar la caza y tal, pero no a disfrutar matando. Ah, sí. Los galgos o los galqueros, que los cuelgan a alguien. Es asqueroso, ¿no? Es repugnante.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=422" target="_blank" class="timestamp">[07:02]</a> Si tienes que sacrificar al perro, pues meto el tiro en la cabeza y lo revienta y no se entera nada al perro. No me jodas. Sí, que empieza la otra palabra polar. Pues yo creo creer, quiero creer que existe la nobleza en el toreo donde el torero rinde tributo, aunque mucha gente no quiere entender, al toro le admira, sienta amor por él y le hace ese ritual primitivo de lucha y sacrificio. Igual que el granjero cuida al cerdo, lo cuida con cariño...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=448" target="_blank" class="timestamp">[07:28]</a> disfruta del animal, que tiene amor a la vaca y tal, y luego se lo come. Y yo, para no ser un hipóquita, si me como un cordero, me como un cochinillo, yo miro cómo sacrifican. Y lo miro. Y es horrible, sí, tío. Lo miro. Y entonces yo tengo que decidir si yo me tengo que comer esa carne. Pero es que tampoco me parece consecuente, no me parece ni ético, creo yo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=470" target="_blank" class="timestamp">[07:50]</a> Comerte cochinillo, pero no quiero ver cómo muere porque así, porque es asco, pero no como, ¿no? No, no. Mira cómo lo matan, ¿no? Y si no, pues no los comas. Son bebés animales, sí. ¿Están a comer bebés animales? Los depredadores siempre que atacan a los bebés. Y todos así, cogen los corderitos ahí, todos blanquitos, bonitos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=488" target="_blank" class="timestamp">[08:08]</a> Y va el tío, el granjero, acostumbrado, y coge los bichos ahí, los levanta, tiene un azuelo ahí, un gancho de estos, arriba en el techo, un montón colgados, atravesa el tendón de aquí, el tendón de la pata de atrás, lo atravesa, lo dejan ahí, empiezan a correr, con una puntilla, atravesa aquí la yugular,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=508" target="_blank" class="timestamp">[08:28]</a> Y hace el chorrillo. Y hacen así. Van corriendo. Pulecitos en el aire. Y entonces lo hacen así y se van durmiendo. Y mueren, ¿no? Claro, es que es lo lógico, ¿no? ¿Vas a comerte eso? Mira cómo es. ¿Lo has visto? ¿No quieres comer nunca más? Pues no los comas, tío. Es como la fábrica estadounidense de Kentucky Fried Chicken. ¿Cómo matan los pollos? Flipas, tío. Es una cadena de pollos pie a dos pies y pasan ahí... Todo pollo ahí vivo. Gallinas vivas ahí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=530" target="_blank" class="timestamp">[08:50]</a> Y hay como una pieza para guiar la cabeza y una sierra. Y todos han pasado el pollo y clic, clic, clic, clic, clic. Y van cerrando. Y van degollándose todos, ¿no? Lo que hay. Carambirubí. Yo he cazado con mi padre. Hay algo que te hace estar muy conectado con la naturaleza. Sí, sí. Es lo que somos. Pero está lleno de gente que paga para que le suelten perices crías en gallineros. Eso es puro sadismo. Así como el rey va a matar elefantes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=554" target="_blank" class="timestamp">[09:14]</a> Esto que lo hace ver el elefante con el calibre... Es un espectáculo grotesco, no sé. Y sí, sí, claro que somos en nuestro instinto cazar. Si a los hombres nos encanta jugar a Call of Duty, nos encanta el fracoteador ahí y ¡pá! Y headshot. Es puro instinto, tío. Que hagan lo mismo con el torero. No, hay que aceptar, y me parece bien. Cuando el torero muere... Si te alegras, que es basura como persona. Pero es... Es el honor...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=583" target="_blank" class="timestamp">[09:43]</a> Del torero. Es como yo lo veo. El honor del torero es ir ahí, hacerlo bien, pero si te pilla el toro y te revienta, no me alegro, pero oye, ole tú. Muy bien, tío. Es un tío valiente. Es consecuente. Claro que sí. Sabe de dónde va y lo acepta. Y acepta que el toro lo ha pillado y lo ha revientado. Claro que sí. Y no se compadece, no llora.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=600" target="_blank" class="timestamp">[10:00]</a> El hombre ese de las patinas, no sé cómo se llama, que lo pilló por aquí, le sale, mete cuerno y lo sacó por el ojo y se levantó con el ojo colgando, ¿os acordáis? Le metió el ojo todos para adentro, queda ciego, le metió el parche, le desgarró todo el nervio de la cara y todo quedó así y todo el mundo riendo. Pues el tipo voy a torear, porque...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=619" target="_blank" class="timestamp">[10:19]</a> Son las reglas. Es la lucha entre animal y hombre. Es noble. No es selección natural. No tiene nada que ver. Es un ritual de sacrificio. Es una lucha. Por eso... Bueno, el término lo siento. Me he olvidado. Cuando están con el caballo y picando al toro para que se cambie... Yo nunca he visto una correa de toros. He visto trozos y tal, pero nunca he visto una correa de toro. ¿Qué te decía? A mí eso que cojan al toro y lo revienten para acalmarlo, eso es asqueroso. Y eso no es nobleza. Nobleza es que el toro, el torero, es capaz de manejar ese animal que le...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=647" target="_blank" class="timestamp">[10:47]</a> que le has obligado a un desafío y el toro dice te voy a atacar porque me obligas, pero me voy a atacar. Es un animal increíble, tío. Gente, es tardísimo, tardísimo. Disfruto mucho con vosotros y el hecho de que hayan venido personas de la comunidad de Cruz Sequera aumenta un montón la calidad, que ya hay calidad, por supuesto, pero somos más y lo hace maravilloso y lo agradezco muchísimo. Cruz Sequera es, bueno, una ciudad muy importante en mi vida, me enriquece mucho y encima tengo la suerte que la...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Mzb7BYYFZ34&t=674" target="_blank" class="timestamp">[11:14]</a> me beneficio o me enriquece también su comunidad. Así que, gente, los de la comunidad de Cruzequera, que es la geopolítica, siempre, siempre os podéis identificar con los símbolos de los spenglerianos. Siempre podéis usar las banderas negras, los corazones, como seña de identidad. Y a mí me haría ilusión que digáis con los corazones como identificándoos que sois partes de él también. ¡Hasta mañana! ¡Adiós! ¡Buenas noches!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 15/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
