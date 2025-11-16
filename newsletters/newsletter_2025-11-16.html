@@ -1,0 +1,385 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 16/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">16/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>El Nota</strong>: <a href='#video-AVllXlF3v9M'>“IMPOSIBLE DE CREER 😱 La cintura MÁS PEQUEÑA y la estructura MÁS LOCA de Classic Physique”</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-AVllXlF3v9M">
+            <h2>“IMPOSIBLE DE CREER 😱 La cintura MÁS PEQUEÑA y la estructura MÁS LOCA de Classic Physique”</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: El Nota</span>
+                <span class="date">Publicado: 16/11/2025 09:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=AVllXlF3v9M" target="_blank">
+                    <img src="https://i.ytimg.com/vi/AVllXlF3v9M/hqdefault.jpg" alt="“IMPOSIBLE DE CREER 😱 La cintura MÁS PEQUEÑA y la estructura MÁS LOCA de Classic Physique”" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video analiza la evolución del culturismo, centrándose en el resurgimiento de la estética a través de la categoría Classic Physique. El presentador introduce al prometedor Piotr Wotowicz, un competidor con una estructura física única y una cintura excepcionalmente estrecha. Se realiza un análisis exhaustivo de sus fortalezas y debilidades, destacando su potencial para dominar el Mr. Olympia. El video concluye con la predicción de su ascenso al top 5, a pesar de pequeños detalles a pulir.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Era Dorada de Classic Physique: El Legado de Cebam <a href="https://www.youtube.com/watch?v=AVllXlF3v9M&amp;t=84" target="_blank">[01:24]</a></h3>
+
+<p>El video destaca el impacto de Chris Bumstead (Cebam) en la categoría Classic Physique, quien, con su estructura agraciada y consistencia, ganó seis Mr. Olympia. Su reinado estableció un nuevo estándar y más claridad en las puntuaciones, enfocándose en la estética y la proporción.</p>
+
+<h3>Piotr Wotowicz: La Aparición de un Fenómeno Polaco <a href="https://www.youtube.com/watch?v=AVllXlF3v9M&amp;t=157" target="_blank">[02:37]</a></h3>
+
+<p>Se presenta oficialmente a Piotr Wotowicz, apodado "el águila polaca" por su impresionante combinación de cintura estrecha y dorsales amplios. El video detalla su biografía, medidas y el camino que lo llevó a ganar el Europa Pro y clasificar para el Mr. Olympia, a pesar de previas lesiones.</p>
+
+<h3>Una Estructura "De Locos": Cintura Mínima y Piernas Brutales <a href="https://www.youtube.com/watch?v=AVllXlF3v9M&amp;t=232" target="_blank">[03:52]</a></h3>
+
+<p>Comienza el análisis visual del físico de Piotr, donde se resalta su cintura extremadamente pequeña que crea una ilusión visual única. Se elogian sus piernas, consideradas de las mejores en la categoría Classic, por su longitud, profundidad y estriaciones.</p>
+
+<h3>El Desafío de la Proporción: El "Efecto Campana" <a href="https://www.youtube.com/watch?v=AVllXlF3v9M&amp;t=286" target="_blank">[04:46]</a></h3>
+
+<p>El video aborda una peculiaridad del físico de Piotr: a pesar de su cintura diminuta, esta puede generar un "efecto campana" por el pronunciamiento de los oblicuos en algunas poses. Se discute cómo esta desproporción, aunque positiva, también presenta hándicaps estéticos.</p>
+
+<h3>Rumbo al Top 5: Potencial y Detalles a Pulir para el Olimpia <a href="https://www.youtube.com/watch?v=AVllXlF3v9M&amp;t=603" target="_blank">[10:03]</a></h3>
+
+<p>Se elogia la impresionante "pose de ballet" de Piotr y su expansión dorsal, pronosticando su ascenso al top 5 en el Mr. Olympia. No obstante, se señalan áreas de mejora como el posado y la visibilidad del glúteo medio, que, aunque mínimos, afectan la estética.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=0" target="_blank" class="timestamp">[00:00]</a> Sabemos que a lo largo de la historia del culturismo hemos visto estéticas maravillosas, sobre todo en la década de los 60 y 70. Más adelante, el culturismo ha evolucionado a otro tipo de físicos, pero en la actualidad, y se puede decir que hace relativamente poco,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=16" target="_blank" class="timestamp">[00:16]</a> hemos tenido un cambio de paradigma en el mundo del culturismo, de los físicos grandes, masivos y supercondicionados de la época de los 90 y los 2000 a otro tipo de culturismo dominado por la era de Phil Heath y Kai Greene, hasta nuestros tiempos donde el campeonato más representativo del culturismo como lo es el Mister Olimpia ha cambiado de mano en mano con físicos que todavía no han tenido la suficiente consistencia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=43" target="_blank" class="timestamp">[00:43]</a> Y este cambio que he comentado previamente vino dado por la incursión de nuevas categorías al mundo del culturismo, como fueron Men Physique y sobre todo Classic Physique. Y aquí, en esta categoría, a día de hoy es donde podremos disfrutar de los físicos más estéticos, más condicionados y quizás con mejor estructura para el culturismo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=67" target="_blank" class="timestamp">[01:07]</a> Al comienzo no se tenían del todo claras las directrices a seguir para las puntuaciones en esta categoría. Danny Hester fue el primer Mr. Olympia Classic, seguido de Breon Ansley, hasta que llegó Cebam y sí hubo otro punto de inflexión y más claridad a la hora de puntuar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=84" target="_blank" class="timestamp">[01:24]</a> Sobre todo teniendo muy en cuenta la estructura. Porque sí, Zeban Chris Bamsted fue seis veces seguidas Mr. Olimpia. Y con una estructura loquísima de ver y también bastante agraciada. Por no comentar su musculatura, su condición y su separación muscular. Bien merecidos esos Mr. Olimpia hasta que decidió retirarse. Y tomó su relevo Ramondino. Ramón Rocha Queiroz.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=110" target="_blank" class="timestamp">[01:50]</a> Pero claro, hay tantos candidatos y tan buenas genéticas al igual de tan buenas estructuras en esta categoría que aquí en tu casa, en el canal del Nota, vamos a disfrutar hoy de una de las estructuras más locas que hay a día de hoy en la categoría Classic.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=129" target="_blank" class="timestamp">[02:09]</a> y que tendremos muy en cuenta para posicionarlo dentro de poco en el Mister Olimpia porque este chico es evolución pura y una estructura de locos pero a pesar de la imagen y la sensación gráfica que tenemos a la hora de ver su físico el tamaño del músculo que tiene este chico y la condición es tremendamente buena por lo tanto vamos a comentar y vamos a analizar su físico para sacar muchas conclusiones</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=157" target="_blank" class="timestamp">[02:37]</a> Pero primero vamos a saber quién es este culturista llamado Piotr Wotowicz, nacido en Polonia. Y además le llaman el orgullo de Ravka, que es donde nació. Y creo que debido a su estructura tiene el seudónimo de el águila polaco, ya que tiene una cintura muy estrecha pero unos dorsales como alas tremendas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=178" target="_blank" class="timestamp">[02:58]</a> Colega, te tengo que decir una cosa, y es que las proteínas de chocolate de más músculos son la hostia. Cualquiera que pilles, están riquísimas. Y con mi código tienes un 10% de descuento en estas protes. Así que ya sabes, venga. Por lo que sabemos, mide 1,81, le va bien en las redes y lamentablemente ha tenido dos lesiones importantes. Una en el bíceps y otra en la columna, donde un disco vertebral estaba en muy mal estado y tuvo que operarse.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=206" target="_blank" class="timestamp">[03:26]</a> Comenzó a competir en el 2018 y se hizo pro en el 2021, pero cuando ha pegado el petardazo ha sido en el 2025, ganando el Europa Pro y teniendo su pase al Mister Olimpia. Luego ha competido recientemente en el Rumanía, donde estaba nuestro competidor Josema, y se le ha visto fenomenalmente bien, incluso por delante del puesto que ha quedado, que ha sido cuarto. Ahora también lo vamos a analizar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=232" target="_blank" class="timestamp">[03:52]</a> Vamos a comenzar con su físico. Ya estáis viendo que esto es una puñetera locura de estructura. Es una cintura tan pequeña, tan mínima, que da la sensación de que la cabeza se la han puesto ahí y que las extremidades también. Y es que sí, es que parece esa sensación. De hecho, cuando está haciendo ahí la pose de doble bíceps, se le acerca tanto al pecho que parece que tampoco tenga cuello.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=258" target="_blank" class="timestamp">[04:18]</a> y aparte las extremidades son muy buenas estamos viendo unas piernas brutales en la categoría classic de las mejores piernas que podemos ver porque además tiene un músculo largo pero lleno con una muy buena profundidad y estriaciones aparentes en el basto interno también en el glúteo este culturista desde luego lo que le espera es un futuro súper prometedor pero hay ciertas peculiaridades a tener en cuenta</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=286" target="_blank" class="timestamp">[04:46]</a> Una de ellas es que su cintura al ser tan pequeña también tiene ciertos problemas en algunas poses. Uno de los mayores hándicaps que tiene es que no se le pronuncie mucho el oblicuo. Fijaos qué absurdez, ¿no? Que alguien que tenga una cintura tan pequeña se preocupe por el oblicuo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=302" target="_blank" class="timestamp">[05:02]</a> Pero sí, en su caso sí Porque es tan pequeña Que como apriete en exceso O se la dé mucho hacia cada lado Puede sobresalir mucho el oblicuo Como podéis estar viendo Lo bueno es que no tiene un oblicuo muy grande Pero sí da esa sensación de cintura extraña Y efecto campana, por decirlo de alguna manera Creo que es una proporción tan bestia</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=323" target="_blank" class="timestamp">[05:23]</a> Pero en lo positivo que es desproporcionada. Es una incongruencia, lo sé. Pero simplemente lo tenéis que ver. Cuesta creer que tenga tanto tamaño este chico. Pero sí, también tiene algunos puntos negativos porque desde luego tiene muchísimos puntos positivos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=339" target="_blank" class="timestamp">[05:39]</a> Pero también tiene algunos que hace y provoca que quizás no se le vea del todo bien. Que es sobre todo la longitud de las piernas y el tronco. Tiene las piernas muy largas y el tronco también más corto. Lo que hace que no se vea un físico 100% proporcionado. Fijaos que la calidad muscular que tiene en todos los grupos musculares es súper completa. Tiene muy poquitos fallos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=366" target="_blank" class="timestamp">[06:06]</a> se puede decir que los brazos por delante tienen poca separación se le ve un poquito más tiernecitos pero aún así la calidad muscular la separación profundidad y densidad de este atleta es brutal y os voy a ser completamente sincero creo que este culturista es una amenaza brutal para estar en el top porque tiene esa estructura muy parecida a</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=389" target="_blank" class="timestamp">[06:29]</a> que por cierto si quieres que haga una comparación contra ni al darwin déjamelo en los comentarios y ya voy preparando un vídeo de ese pedazo de versus que yo creo que no va a tener desperdicio ninguno sé que la foto es de mala calidad pero lo único que me interesa que veáis es el tamaño que tiene al lado de josema y del otro búlgaro que también estaba hecho una bestia y si es que no se queda pequeño para nada incluso las piernas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=414" target="_blank" class="timestamp">[06:54]</a> Buf, se ven bastante bien. Si lo vemos en otra perspectiva, joder, es que bueno, sabemos que esta le favorece más a él que a Josema, pero que no se queda atrás en cuestión de tamaño y es alguien bastante completo. Lo único que por delante no tiene ese aspecto tan duro como que tiene Josema.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=432" target="_blank" class="timestamp">[07:12]</a> Bien, ahora vamos a analizar más detenidamente el físico de Piotr, porque así veremos sus virtudes y también sus fallos. Lo primero que tengo que decir a mí me sorprende muchísimo el gemelo que tiene. Impresionante. Y las piernas, como os he dicho, de lo mejor.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=448" target="_blank" class="timestamp">[07:28]</a> un detalle a tener en cuenta el glúteo va a ser un handicap a la larga y aparte también lo que os he dicho fijaos en esta forma de aquí porque también si se curva mucho esto hace una forma que no suele gustar ¿de acuerdo? por lo demás os digo es alguien alto con las extremidades muy largas y aparte curioso es que para tener esas extremidades los tobillos y las muñecas son anchotas o sea que es un tío anchote</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=478" target="_blank" class="timestamp">[07:58]</a> Pero otro detalle que en el escenario, lo que pasa es que los jueces no lo ven, nosotros sí, es que tiene un pie grande de cojones. O sea, es que es un piezote. Y claro, que tenga esta posición le hace como pose de ballet, por decirlo de alguna manera. Aquí, por ejemplo, en los perfiles que a mí me gusta mucho, tiene poses, joder macho, aquí el brazo no se le ve tan recto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=500" target="_blank" class="timestamp">[08:20]</a> El posing es un punto que tendría que mejorar. Y luego el pecho lo tiene bastante bien. Estáis viendo aquí este pecho. Y este no se le ve tan bien pero por temas de posing. Con los oblicuos bien señalados. ¿Qué pasa? Que aquí en el Mister Olimpia no estaba como en el Rumanía. En el Rumanía estaba mejor condicionado. Lo que pasa que no hay un vídeo de tanta calidad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=518" target="_blank" class="timestamp">[08:38]</a> Por eso estoy poniendo este, ¿no? Pero nos sirve completamente para saber ciertas cosas de su físico. Y como estáis viendo, es alguien, sobre todo lo que se puede decir, es completo. De frente, de perfil y ahora también veremos de espaldas. Mirad, aquí tenemos que comentar algunos detalles. Esto es lo que os he dicho antes. Esta parte de aquí. Esta parte de aquí a veces es un poquito extraña. Y el handicap que veremos en la espalda va a ser el lúteo medio. Porque este tío es culón. Tiene culo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=547" target="_blank" class="timestamp">[09:07]</a> La verdad. Y claro, el que se le señala aquí el glúto medio por delante le afea bastante la zona de la cintura. Luego, a pesar de tener muy buen pectoral, el que tenga esta línea tan recta y es por una caja torácica también estrecha, porque la caja torácica es estrecha...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=566" target="_blank" class="timestamp">[09:26]</a> da la sensación de que tiene menos músculo del que tiene. Pero, joder, yo lo veo y esto es denso, o sea, no se le ve colgado como a otros. Pero claro, el que sea tan recto parece que tiene menos de lo que verdaderamente tiene. Luego los brazos están bien, pero por ejemplo aquí en el doble bíceps sí se le ven menos profundidad, menos condición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=587" target="_blank" class="timestamp">[09:47]</a> Y como os he dicho, él le pasa lo mismo que a Joan y a otros que tiene, si os dais cuenta, esta costilla más baja y esta caja torácica que es más pequeñita de lo normal, con una apófisis y foides, que es esto, esto aquí, que sí es pronunciado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=603" target="_blank" class="timestamp">[10:03]</a> esta pose es increíble buenísima pose de Piotr que buena de verdad una de las mejores que hay en toda la línea Classic y yo os digo que este tío como sigue evolucionando se va a plantar en el top 5 pero ya</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=619" target="_blank" class="timestamp">[10:19]</a> Porque es que estáis viendo que es súper completo. Le hace falta un poquito más de calidad. Pero, joder, macho. Hombros perfectos. O sea, a pesar de que, bueno, que tenga ciertas asimetrías. Pero es que los hombros están bien, están limpios. O sea, no se le ve ahí aceitosos, ni tapados, ni nada. O sea, se le ve bien. El pectoral aquí, por ejemplo, muchísimo mejor que en el doble bíceps o en la pose clásica. La caja torácica aquí aguanta, pero la expansión dorsal. Es que es brutal. Y luego, lo que os he dicho antes. Esto de aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=649" target="_blank" class="timestamp">[10:49]</a> El glúteo por delante, ya se le ve el glúteo medio aquí y aquí. Y esto da la sensación de no ser tan estético. ¿Pero por qué me diréis? Por esto, sencillamente. Porque tú tienes aquí la cintura que termina aquí y luego la cadera aquí. O sea, te está haciendo ese efecto campana que os he dicho. Y esto no queda tan, tan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=670" target="_blank" class="timestamp">[11:10]</a> tan estético pero tremenda pose la de arnold una de las mejores poses de arnold que he visto que sólo le falta hacer cuatro tonterías para que sea genial pero la posición de la espalda y los brazos es muy buena falta las piernas y el brazo que este brazo lo tendría que cerrar un poquito más y quedaría una pose os digo perfecta</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=693" target="_blank" class="timestamp">[11:33]</a> Las piernas igual, colocadas de diferente manera. Y estamos viendo... Fijaros el lúteo medio. Aquí me diréis... Sí, puede ser fibrosis y no sé qué. Sí, no es probable porque ahí se aplica a todo el mundo. Al igual que en los hombros. Pero como os digo, los hombros aquí se le ve bastante limpio. Y una piel en general bastante limpia. Entonces estamos viendo un físico que no va a tardar mucho en posicionarse todavía más arriba. Lo que pasa que... Mirad aquí lo que os digo. ¡Qué pedazo de pie que tiene!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=723" target="_blank" class="timestamp">[12:03]</a> Tiene un pie, tío. Increíble. Aunque eso no lo ven los jueces, como insisto. Y aquí lo mismo, el efecto este que lo tiene que disimular un poquito. Ya está. Tanto el oblicuo que aquí lo disimula, pero el glúteo medio para mí le empeora. Me diréis, ¿eres un tiquismiquis? Pues sí, lo soy. De eso va este canal, de ser tiquismiquis.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=743" target="_blank" class="timestamp">[12:23]</a> en la mejor pose clásica estupendo excelente también muy buena pose y bueno salvo los detalles que hemos comentado ya anteriormente me parece brutal este chico fijaos si nos vamos a la espalda como os dije anteriormente el glúteo tiene demasiado glúteo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=AVllXlF3v9M&t=760" target="_blank" class="timestamp">[12:40]</a> Y tener una cadera ancha con un glúteo así y luego la cintura tan pequeña pronunciará más ese efecto campana del que estábamos hablando. Joder, vaya pedazo de cacho de trozo de gemelo que tiene Piotor, ¿eh? Increíble. Y si necesitas algo de suplementación deportiva, vete a másmusculo.com, pon mi código, el nota, que te hará un descuento. A mí me darán una comisión y me ayudarás, tío, a ganarme la vida.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 16/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
