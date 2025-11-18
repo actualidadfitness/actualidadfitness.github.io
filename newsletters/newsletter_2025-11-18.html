@@ -1,0 +1,375 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 18/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">18/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-_yAygQzCL5c'>COMPITO VS SHAUN CLARIDA... x2 OLYMPIA | ANALIZO los RIVALES de MI PRÓXIMA COMPETICIÓN</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-_yAygQzCL5c">
+            <h2>COMPITO VS SHAUN CLARIDA... x2 OLYMPIA | ANALIZO los RIVALES de MI PRÓXIMA COMPETICIÓN</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 18/11/2025 09:06</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=_yAygQzCL5c" target="_blank">
+                    <img src="https://i.ytimg.com/vi/_yAygQzCL5c/hqdefault.jpg" alt="COMPITO VS SHAUN CLARIDA... x2 OLYMPIA | ANALIZO los RIVALES de MI PRÓXIMA COMPETICIÓN" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta la preparación y las expectativas del presentador para la competición de culturismo "Japón Pro". A pesar de la tentación de unas vacaciones, decide competir, motivado por el disfrute del proceso. El speaker analiza el alto nivel de la competencia, destacando a campeones como Son Clarida y otros atletas impresionantes. Finalmente, comparte su enfoque mental y las áreas de mejora física que abordará post-competición.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Inesperado Retorno a la Tarima <a href="https://www.youtube.com/watch?v=_yAygQzCL5c&amp;t=0" target="_blank">[00:00]</a></h3>
+
+<p>El presentador anuncia su decisión de competir en el Japón Pro, a pesar de haber considerado finalizar la temporada. Explica que ya tenía los viajes organizados y se siente en una buena dinámica para extender su temporada de competición.</p>
+
+<h3>Un Mister Olympia en el Horizonte <a href="https://www.youtube.com/watch?v=_yAygQzCL5c&amp;t=160" target="_blank">[02:40]</a></h3>
+
+<p>Se revela que Son Clarida, dos veces campeón del Mister Olympia 212, competirá en la categoría Open en Japón. El presentador expresa su asombro y orgullo por la oportunidad de enfrentarse a un atleta de tal calibre.</p>
+
+<h3>Gigantes del Culturismo Internacional <a href="https://www.youtube.com/watch?v=_yAygQzCL5c&amp;t=213" target="_blank">[03:33]</a></h3>
+
+<p>El speaker menciona a otros competidores de élite como Mark Héctor (UK), James Hollingshead y Florian Antoine. Reconoce el físico imponente y la estética de estos atletas, anticipando una competición de altísimo nivel.</p>
+
+<h3>La Dureza del Japón Pro y la Motivación <a href="https://www.youtube.com/watch?v=_yAygQzCL5c&amp;t=362" target="_blank">[06:02]</a></h3>
+
+<p>Se describe la competición como extremadamente difícil, con 30 participantes, incluyendo fuertes competidores asiáticos. El presentador explica que su motivación principal para seguir compitiendo es que está disfrutando el proceso y no está sufriendo la preparación.</p>
+
+<h3>Estrategia y Mejoras Futuras <a href="https://www.youtube.com/watch?v=_yAygQzCL5c&amp;t=514" target="_blank">[08:34]</a></h3>
+
+<p>A pesar del respeto por el alto nivel de la competencia, el speaker se enfoca en disfrutar y sacar su mejor versión en tarima. Menciona planes para mejorar la espalda y los femorales en la post-temporada, siguiendo el feedback de los jueces.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=0" target="_blank" class="timestamp">[00:00]</a> Bueno a todos chicos, estamos en un nuevo vídeo. Ayer dije que iba a Japón Pro, ayer lo dije. Realmente voy a Japón Pro, yo os voy a ser totalmente sincero, totalmente honesto, porque no tenía sentido ir a Japón de vacaciones habiendo pillado todo para competir y al final solo ir de vacaciones por ser un vago y cerrar la temporada cuando realmente siento que he estado en temporada no me iba a costar tanto. O sea que esa es la realidad, yo ya tenía los viajes pillados</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=28" target="_blank" class="timestamp">[00:28]</a> Y dije, pues bueno, vamos para allá. O sea, ya está. O sea, tampoco hay mucho misterio. Vamos a hacerlo. Y tampoco cuesta tanto, ¿no? Porque estoy en dinámica, que me lo estoy pasando bien compitiendo y que no me cuesta tanto. ¿Qué pasa? Me da mucha pereza el vuelo. Me da mucha pereza el vuelo. Es la realidad. Pero lo bueno es que han salido las listas. Hermano, qué listas. Qué listas. O sea, ¿esto qué es?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=53" target="_blank" class="timestamp">[00:53]</a> Yo no me esperaba este nivel, eh. O sea, la verdad que me he pegado una temporada compitiendo contra mega... ¿Cómo contra campeones de la Olimpia? Que es una locura. Antes de nada, antes de decir esto, tengo que deciros que en PBS ha estado un 50% de descuento. Tenéis un 5% extra con el código JOANPBS. Han salido cosas nuevas guapísimas que, de hecho, no estoy usando porque me las quiero llevar a Japón. Básicamente las tengo todas encima. Hoy me voy a hacer la maleta, aunque nos vamos todavía dentro de dos días. Pero están espectaculares, chicos. O sea, me encantan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=81" target="_blank" class="timestamp">[01:21]</a> Os dejaré alguna foto de la web de cosas nuevas que han salido, alguna sudaderita, alguna camiseta. Muy bonito. O sea... Muy bonito. Cuando digo muy bonito, es muy bonito. O sea, si lo queréis ver, os lo dejo en el link de la descripción. Está especial. O sea, está especial todo lo que ha salido. Ahora sí, no quiero liaros más, chicos. Tengo aquí las listas. Las listas salen de madrugada, ¿vale? Entonces, han salido hace ocho horas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=105" target="_blank" class="timestamp">[01:45]</a> Me acabo de despertar, es por la mañana, de hecho voy a hacer el cardio. Me he tomado suplementación pre-cardio y ahora me subo al cardio, porque siempre tengo un margen de tiempo, entonces he tomado la suplementación y subirme al cardio. Así que... Hay mucha gente que me voy a comentar. Para empezar, de hecho, hay como 30 competidores, va a ser uno de los campeonatos con más participación. Hay muchísima gente de surcoreana, Japón... ¿China? China... Y demás, ¿vale? O sea, realmente hay más gente asiática</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=134" target="_blank" class="timestamp">[02:14]</a> que europeos, que es lo lógico, ¿no? Al final del país. Pero cosas que me llaman la atención, ¿vale? Yo voy a hablar de competidores que conozco y que me llaman la atención. Contra los que digo, qué orgullo competir. Porque la temporada creo que ha ido de eso, ha ido de qué orgullo competir contra esta gente, ¿vale? Entonces, Japón Pro, día 24, lunes, importante, lunes. Esto es una rayada, pero compito un lunes. Os voy a decir algunos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=160" target="_blank" class="timestamp">[02:40]</a> Tercer competidor, Son Clarida. Dos veces campeón del Ministerio Olimpia de 2-12. Son Clarida, chicos. Lo conocéis mucho porque Ángel se ha estado pegando con Son Clarida muchos años. Y va a estar en el Olimpia, o sea, va a estar en la competición, va a estar en el Japón Pro. No sé por qué, realmente, porque es la categoría Open, él es 2-12. Un poco como Keon la otra vez, que quedó cuarto y yo quedé quinto...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=183" target="_blank" class="timestamp">[03:03]</a> Y se les ven físicos espectaculares porque son así más pequeñitos, súper compactos y demás. Entonces va a estar Sonclarida, va a ser una locura de competición. Competir contra Sonclarida es un orgullo total. De hecho, esta semana hablé con él. Y ya luego como que los rumores están, le dije, vas a ir a Japón Pro. Y me dijo, algo así como que se ríe. Le dije, ok, que empiece la fiesta. Entonces yo ya suponía que iba a Japón Pro. Pero verlo así ha sido como, va de verdad. O sea, se me hace hasta raro que Sonclarida vaya al Japón Pro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=213" target="_blank" class="timestamp">[03:33]</a> Chicos, estamos hablando de un tío que tiene dos Mister Olimpias. O sea, va a ser un orgullo competir contra él. O sea, lo digo de corazón. Va a ser un orgullo. Después, Mark Héctor, de UK. Mark Héctor es un tío que llevo viendo un montón. Es un pedazo de bicho que te cagas. O sea, que te cagas. Tengo muchas ganas de verlo en persona, de conocerlo. Me hace ilusión.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=235" target="_blank" class="timestamp">[03:55]</a> Tío culturista de UK, es negro ahí, súper grande. Me hace ilusión, me hace bastante ilusión, sinceramente, competir contra él. No lo mega sigo como súper loco, pero es un tío que conozco y como que tengo ahí súper presente. Así que a ver qué tal se da la competición contra él, ¿vale? Después, James Hollingshead, poco que comentar contra él. No me acuerdo cómo quedó en la competición de UK, pero James Hollingshead es uno de los tíos que admiro, que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=263" target="_blank" class="timestamp">[04:23]</a> Pega duro, que es un tío grande de cojones. Y tengo poco que decir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=268" target="_blank" class="timestamp">[04:28]</a> de él, porque creo que ha competido ya dos o tres veces esta temporada. Ha ido bien contra él, pero es uno de esos físicos que lo ves en el backstage y asusta. Es que asusta. Es la puta realidad. Entonces, a ver qué tal. A ver qué tal, sinceramente, espero de corazón que sigan siendo los resultados también guays. Pero más allá de eso, yo al final, bueno, ahora os diré mi opinión sobre Japón, sobre lo que yo quiero disfrutar o sobre lo que yo quiero hacer en Japón. O sea, además lo tengo súper claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=297" target="_blank" class="timestamp">[04:57]</a> Después por aquí hay un montón de nombres que sinceramente no los conozco. Va también Artem, que Artem ha competido contra mí, es ruso, ha competido contra mí en todas las competiciones que yo he hecho. Ha estado él también. Después un tío francés que se llama Florian.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=315" target="_blank" class="timestamp">[05:15]</a> Florian Antoine iba a ir a China, también se cayó de China, tiene una estética espectacular y sinceramente creo que es uno de los que opta a ganar el campeonato. Es un tío muy muy bueno y que tiene una estética preciosa, así que ya veremos cómo sale porque es un tío duro de roer, además lo tengo clarísimo, que va a ser un tío que va a salir bonito, bonito, bonito, bonito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=341" target="_blank" class="timestamp">[05:41]</a> Y os diré un poco mi estrategia también de cara a Japón porque lo tengo bastante clara en ese aspecto, pero salir con gente así da un poco igual la estrategia que tengas porque realmente son gente muy top y sí puede ser la estrategia que quieras, pero la realidad es la realidad. Después por aquí yo a Pradesh, se lo conocemos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=362" target="_blank" class="timestamp">[06:02]</a> Y el resto de gente, os soy totalmente sinceros, no los conozco porque son chinos. Si no me equivoco, hay uno de estos chinos que es el que ganó el China Pro, que está súper fuerte. Los asiáticos en general suelen tener unas líneas y unos rasgos preciosos y va a ser complicado pegarse contra esa gente porque de verdad suelen tener unas líneas, unos cuadrices bonitos, cortados, formados. Así que ya veremos cómo serán las cosas. O sea, os soy totalmente honesto. Es dura esta competición.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=389" target="_blank" class="timestamp">[06:29]</a> La gente yo creo que muchas veces se piensa que no, como es en Japón, no como es en China. Tíos, hay 30 competidores que están peleándose por ganar. O sea, es la realidad. Todos los que van ahí quieren ganar. Yo, evidentemente, como todo el mundo quiere ganar, el que más opta a ganar de esta lista son Claridad, sin ninguna duda. Además, es un tío que le gusta competir en Open. Siempre Valor Limpia en 212 y demás. Está clasificado y todos los años, todas las temporadas, se pega unas cuantas competidores en 212. O sea, en Open.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=418" target="_blank" class="timestamp">[06:58]</a> Es curioso, no sé bien por qué, pero hace siempre un buen papel. O sea, hace unos años fue a Arnold Classic. Es jodido. Nosotros al final teníamos el viaje cogido a Japón.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=429" target="_blank" class="timestamp">[07:09]</a> Después de estas cuatro competiciones lo bien que han ido podría haber dicho, oye, cierro la temporada y nos vamos de vacaciones a Japón todos, donde lo pasamos de puta madre y a disfrutar. Pero sinceramente, cogimos también las fechas en función de esta competición. Además las cogimos en el sentido de decir, vale, llegamos, tres días, competimos y luego siete días de vacaciones. Entonces, digo tío, estoy bien, no me estoy muriendo de hambre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=453" target="_blank" class="timestamp">[07:33]</a> ¿Por qué no probar? ¿Por qué no probar? Y es que encima, además de eso, algo que me parece un añadido súper importante es que me lo estoy pasando bien compitiendo. Entonces, estoy disfrutando de ese momento de la tarima también. No me estoy muriendo aquí pasando hambre. Lo único que no me gusta aquí es cómo estoy entrenando actualmente. Esa es la realidad. Pero no estoy muriéndome pasando hambre. Entonces...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=474" target="_blank" class="timestamp">[07:54]</a> voy a disfrutar de eso, ¿por qué no? O sea, lo pienso así y digo, ¿por qué no voy a disfrutar de esto? ¿Por qué no voy a alargar todo lo que pueda las comisiones? Que esta es la última comisiones que puedo alargar, porque luego está el Big Man, pero no me da tiempo tampoco a apuntarme al Big Man, porque como está cae en un lunes, te puedes apuntar hasta los lunes una movida así. La verdad que la estuve mirando y todo y fue en plan, además que tengo los vuelos comprados para quedarnos de vacaciones allí, pero lo que quiero es quedarnos de vacaciones allí y disfrutarlo. Además, si no me equivoco,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=502" target="_blank" class="timestamp">[08:22]</a> También va Presti de vacaciones y me gustaría estar unos días de vacaciones con Presti. Pero bueno, creo que la temporada ha sido un indicador de que la temporada ha sido una pasada. Independientemente de cómo salga esta competición</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=514" target="_blank" class="timestamp">[08:34]</a> que me da mucho miedo y mucho respeto de cómo salga, soy totalmente honesto, no sé cómo va a salir, pero bueno, es lo que hay y es a lo que hemos venido también, a divertirnos, a sacar esa sonrisa en tarima, intentar sacar la cintura lo más pegadita posible, el abdomen lo más recogidito posible, sacar un buen doble dices arriba y ya en la postemporada habrá tiempo de, en esta zona, ponerme como un loco a mejorar la espalda y en la zona de abajo a mejorar los femorales, que sé que es lo que me toca y lo que me han pedido los jueces.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=542" target="_blank" class="timestamp">[09:02]</a> Luego, además, el juez que va a Japón es el mismo juez que me juzgó en Polonia. Tengo la boca súper seca, la verdad. Es el mismo juez. Y lo que me pidió es, tío, lo que tienes que hacer es mejorar la condición. Y estas semanas me he centrado mucho en mejorar la condición. Cada semana hemos salido un poquito más seco, un poquito más seco. Estas dos semanas, justamente, por cómo llevamos el control de los pesos y todo, estoy cada vez saliendo más seco, más retorcido, más seco, más retorcido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=_yAygQzCL5c&t=569" target="_blank" class="timestamp">[09:29]</a> Así que esa es la idea y eso es por lo que apostamos. Así que chicos, espero que os haya gustado el vídeo. Os quiero mucho. Os dejo en la descripción todos los descuentos de PBS. Está muy guapa la ropa. Me encantaría de verdad que pasaréis a verla. Vais a flipar. Y luego en MyProtein también hay descuentos muy, muy tochos. Es el mes de la prote. Así que si lo queréis aprovechar, dadle caña. Porque, bueno, yo creo que es el mes de cargar el almacén fuertemente. Así que chicos, espero que os haya gustado. Os mando un besito enorme y nos vemos en la próxima. Chao, chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 18/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
