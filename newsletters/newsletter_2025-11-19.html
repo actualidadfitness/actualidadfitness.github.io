@@ -1,0 +1,449 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 19/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">19/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John opina </strong>: <a href='#video-T5GJLnQEdRE'>TYLER OLIVEIRA SE INTEGRA EN LA INDIA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-T5GJLnQEdRE">
+            <h2>TYLER OLIVEIRA SE INTEGRA EN LA INDIA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John opina </span>
+                <span class="date">Publicado: 19/11/2025 10:34</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=T5GJLnQEdRE" target="_blank">
+                    <img src="https://i.ytimg.com/vi/T5GJLnQEdRE/hqdefault.jpg" alt="TYLER OLIVEIRA SE INTEGRA EN LA INDIA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video es una reacción a un festival hindú donde los aldeanos celebran Diwali lanzándose y untándose excremento de vaca, recogido durante meses. El presentador expresa su extremo disgusto y asco por la tradición, cuestionando la higiene y las creencias culturales. La grabación muestra al vlogger original documentando el evento y participando en la batalla de excrementos. El comentarista reflexiona sobre las implicaciones sanitarias y la percepción occidental.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Amenazas por Documentar una Tradición Sagrada <a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&amp;t=25" target="_blank">[00:25]</a></h3>
+
+<p>El presentador reacciona al video original, donde el creador recibió amenazas de muerte por filmar un festival indio. Se discute cómo la reputación de la India ha sido afectada y la gente se ofende ante la "verdad".</p>
+
+<h3>La Cotizada Mierda: Un Tesoro de Seis Meses <a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&amp;t=315" target="_blank">[05:15]</a></h3>
+
+<p>Se revela que el excremento de vaca es recogido y almacenado durante cinco o seis meses como un tesoro sagrado. El presentador lo compara irónicamente con el musgo ilegal en Cataluña, destacando el inusual valor cultural que se le da.</p>
+
+<h3>El Fecal Fiasco: Una Escala Sin Precedentes <a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&amp;t=532" target="_blank">[08:52]</a></h3>
+
+<p>El vlogger original muestra enormes pilas de excremento de vaca por toda la aldea, revelando la inmensa magnitud de la colección para el festival. El presentador reacciona con incredulidad y asco, observando incluso cómo se usa el estiércol para pintar casas.</p>
+
+<h3>Inmunidad Fecal: ¿La Caca Cura el Cáncer? <a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&amp;t=601" target="_blank">[10:01]</a></h3>
+
+<p>El presentador cuestiona cómo los participantes no se enferman, hipotetizando que están inmunizados. Menciona la creencia local de que el excremento de vaca es bueno para la salud y reduce el riesgo de cáncer.</p>
+
+<h3>El Invitado Americano al Poop Coliseum <a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&amp;t=1300" target="_blank">[21:40]</a></h3>
+
+<p>Tyler Oliveira, el vlogger original, se presenta emocionado tras viajar miles de millas para participar en el festival. Expresa su incredulidad por la realidad del evento y su disposición a celebrar y experimentar la "guerra de caca".</p>
+
+<h3>Batalla de Excrementos: Niños y Gladiadores <a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&amp;t=1414" target="_blank">[23:34]</a></h3>
+
+<p>El festival inicia con una batalla de excrementos protagonizada por niños, seguida de la preparación para la entrada de los hombres adultos, a quienes el presentador llama "gladiadores". Se describe el escenario como un "Poop Coliseum", anticipando la intensa confrontación.</p>
+
+<h3>El Olor Inexplicable y la Determinación <a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&amp;t=1875" target="_blank">[31:15]</a></h3>
+
+<p>Tras ser cubierto de excrementos y sentir náuseas, el participante Tyler se rinde momentáneamente, pidiendo agua, pero se niega a dejar que el "poop gane". El presentador enfatiza el olor insoportable y la resiliencia del vlogger para continuar.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=0" target="_blank" class="timestamp">[00:00]</a> Hostia, qué asco, tío. La fiesta de la caca, que cosa más India. ¡Ah! ¡Qué asco, tío! ¡Qué asco! ¡Qué asco! ¿Qué hindú es esto, tío? La reputación de India se ha ido al traste desde que empezaron a conectar la internet. Al final se infectó o no el Tyler contra la caca. No, son de vaca las cacas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=25" target="_blank" class="timestamp">[00:25]</a> Ay, sí, todas estas chavos que se iban a India porque eran espirituales ahí con todos los mojones. Es increíble que este video no dijera nada racista y sin embargo los indios se han enfadado. Sí, y el Tyler dijo que lo publicará igual el video, que lo ha publicado ya, como podéis ver, pero que recibió amenazas de muerte puntu. Todos los indios ahí poniéndose más marrones de lo que son. ¿Viste la noticia de un indio que estaba cagando en el balcón en la terraza de un hotel y se cayó para atrás? Y cayó...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=48" target="_blank" class="timestamp">[00:48]</a> Entiendo que ha caído en su mierda y cayó en su mierda y se mató. Le gusta, ¿no? Le gusta meter el ojete en sitios así pintorescos y los da un zurullo. Y encima son aliados de Israel. Israel tiene un aliado a su altura, la India, sí. Este video ha sido como una bomba nuclear a su inexistente reputación de los indios. Dios mío, y estos tienen bombas nucleares de los indios, imagínate. Es que da mucho asco, ¿eh, tío?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=76" target="_blank" class="timestamp">[01:16]</a> Son... Mucha mierda, dice. Hostia. Hay que ser... Hay que ser duro, eh. That's me at a poop throwing festival in India where the villagers spend six months collecting cow poop and celebrate the end of Diwali by throwing it at each other and rubbing it on theirs. Qué asco. I'm sinking. I'm sinking. I'm sinking. I'm gonna die today. Oh, oh, oh, oh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=105" target="_blank" class="timestamp">[01:45]</a> Ah, va quedando todo marro en el tío. Y la acusan de racismo, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=132" target="_blank" class="timestamp">[02:12]</a> Racismo, racismo. Sí, sí. Todo lo que sea decir la verdad. Todo lo que sea decir la verdad. Ah, racismo, ¿eh? Joder, macho. Ya sabemos quién nos protege, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=143" target="_blank" class="timestamp">[02:23]</a> Estaba doxed, harassed and threatened by tens of thousands of Indians who weren't happy with me filming this village's holiest tradition. It all started when I flew over 10,000 miles to South India, linked up with my translator Vivek and began our trek into the remote village of Gumatapura. Did this village still celebrate this strange tradition or is it merely a legend of the past?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=174" target="_blank" class="timestamp">[02:54]</a> Sí, hay tradiciones raras. Esto es como en... ¿Dónde era? ¿En Yokohama? Creo que es en Yokohama que hacen la fiesta del ciruelo en Japón. ¿Lo habéis visto? No voy a reaccionar porque es muy pornográfico, pero en Yokohama creo que era en Japón. Es la fiesta tradicional del ciruelo donde todo está lleno de ciruelos y de rabos y de esto. Me acuerdo que en el programa este El Informal del Florentino Fernández, ¿te acuerdas? El Informal, bueno, es que hace muchos años.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=204" target="_blank" class="timestamp">[03:24]</a> Y hicieron unos gags con eso, con la fiesta esa de los pollones ahí en Japón. Y a ver, te rías, ¿eh? Con la voz del florentino, pero claro, hubo polémica, hubo polémica, pero claro. Bueno, polémica antes, ¿no? Antes había polémicas, ahora... La gente está ya lo ha asimilado ya. Entonces ahí van las mujeres con los niños ahí a tocar ciruelos. Muy, muy bizarro, muy asqueroso. Y claro, los occidentales ahí, ¿qué es esto?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=233" target="_blank" class="timestamp">[03:53]</a> Bueno, aquí han puesto un montón de señales de que no es odio y no recimo ni nada, así que están preparados para verlo. On arrival, we were met with unmatched hospitality. Ok, we made it to Buma y Talapa. Oh, thank you very much. Ah, my friend, my friend, you're too nice to me. President, remember? President. Ah, tomorrow. President. Ok. Former, former president. Every home has some cattle. Ah, can we see?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=263" target="_blank" class="timestamp">[04:23]</a> Oh, aquí está la cotizada mierda. Es una tradición india, ¿no? Nosotros aquí en Cataluña buscamos musgo. Por cierto, que es ilegal, coge el musgo del bosque, ¿lo sabías? Hay traficantes de musgo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=290" target="_blank" class="timestamp">[04:50]</a> Yo he ido en secreto, bueno, estoy confesando un delito, he ido en secreto a coger musgo de bosque con un amigo ahí, con una espátula, y ahí, de policía, ahí cogiendo un poco de musgo y metiendo en el coche y a fondo, ¿sabes? Pero claro, si te pida poli, te meten un purazo. Traficantes del musgo, sí. Sí, con coger coral, sí. Pues bueno, pues aquí está, fíjate, lo guarda como un tesoro, ¿sabes? Caballero, caballero, ¿qué haces usted con el musgo? Sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=315" target="_blank" class="timestamp">[05:15]</a> La seprona no. Eso fue hace 20 años, así que mi delito ya ha prescrito, se dice. ¿Cuánto tiempo ha tardado para recoger toda esta ropa? Más de 5 o 6 meses. ¿5 o 6 meses? Todo esto. 6 meses de ropa. Entonces, a mitad del año, debes empezar la colección. Esto es pequeño. Esto es pequeño. Un poco aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=336" target="_blank" class="timestamp">[05:36]</a> Mira, aquí una fresca, un mojonazo fresco. Esto está bien cotizado. ¿Cómo le gusta? Hay una especie de conexión espiritual. No puedo decir las palabras que me denuncian por delito de guarrez. No sé cómo llamarlo. ¿Cómo les gusta? Igual se luchan con eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=365" target="_blank" class="timestamp">[06:05]</a> Le ha dicho que aprecie el olor. No puede apreciar el olor. Es gusto adquirido, veo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=371" target="_blank" class="timestamp">[06:11]</a> No te lo comas, tío. Claro, no coges cáncer comiendo caca. Joder, cómo le gusta la caca a esta gente, tío. How much do you eat daily? Can you show me? You don't have to do it, I just want to see how much. Just a small amount. No!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=401" target="_blank" class="timestamp">[06:41]</a> No, no quiero verlo. Demasiada inmersión cultural estoy teniendo, tío. No quiero, quiero... Quiero vivir en la edad media y no enterarme de nada. Qué asco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=417" target="_blank" class="timestamp">[06:57]</a> Voy a poner el chat. Voy a poner el chat solo para que se vea vuestro sufrimiento, tío. Qué asquerosidad, Dios mío. Es inmundo totalmente. Qué súper asco, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=442" target="_blank" class="timestamp">[07:22]</a> No, ya, ya. Yo imagino que no comes ahí. ¡Qué asco, tío!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=460" target="_blank" class="timestamp">[07:40]</a> Okay, scientifically it's good for you. Okay. Decreases risk of cancer. Okay, much less. Understood. This is a very rare and exclusive event. Only celebrated here. Can you explain where we're at? Because India is a very large nation. 1.45 billion people.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=480" target="_blank" class="timestamp">[08:00]</a> Aquí están las proveedoras de excrementos que están acá.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=510" target="_blank" class="timestamp">[08:30]</a> ¿Por qué? ¿Por qué? ¿Por qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=532" target="_blank" class="timestamp">[08:52]</a> After the locals confirmed I could participate in the festival tomorrow, I wanted to see the sheer scope of how much cow poop was collected for the festival, and I began to see piles upon piles of cow poop everywhere in the village. Cow dongs! Oh my god! Good god!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=548" target="_blank" class="timestamp">[09:08]</a> ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=571" target="_blank" class="timestamp">[09:31]</a> No puede ser verdad. Está pintando la casa con mierda. No puede ser real.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=601" target="_blank" class="timestamp">[10:01]</a> Ah, qué asco, tío. ¿Cómo no se mueren de asco y infecciones? Están inmunizados. Dios mío. Joder, si un día hay una guerra bacteriológica con caca, los indios ganan la guerra, tío. Joder, tío. Tienen devoción por la caca, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=628" target="_blank" class="timestamp">[10:28]</a> Una guerra contra la India se basa con jabón, ¿no? Atacar con bombas de jabón, como bien dice el compañero ahí. Ninjose. Y los matas, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=654" target="_blank" class="timestamp">[10:54]</a> ¡Ay, cállate! Y luego vas a un restaurante yendo a comer. ¡Cállate! ¡Ah! He's showing me the largest pile in the village right now. It's very nice, man. The whole village is very friendly. Hello. Happy Diwali. Tía, le tiras lejía... No puedo decirlo porque ya sabes lo que pasa. Le tiras lejía a uno y lo quemas, ¿no? Como si fuera un vampiro con el sol.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=681" target="_blank" class="timestamp">[11:21]</a> Oh, thank you, my friend. Thank you, thank you. Everyone here is extremely nice. I would recommend to come down here. The nicest village I've been to, maybe. Quantity of cow dung. And there's even more. Truly huge. This is a massive pile. Wow. Imagino a policía ahí vigilando la caca y un tío robando la ladrón. Ha robado caca. Everyone has their own stockpile. Okay, we have cow. We have this man who's just leading me somewhere. Even more cow dung. It just keeps coming. Simon, how will they move all the poop?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=711" target="_blank" class="timestamp">[11:51]</a> Joder, ¿qué tiene esta gente con la caca, de verdad? ¿Esto qué es? ¿Qué es? Tortas de estiércol de vaca. Para apellidos, contáctenos a este teléfono por WhatsApp o un correo electrónico. O sea... Es que estoy flipando, tío. O sea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=740" target="_blank" class="timestamp">[12:20]</a> Ah, qué asco. Voy a vomitar. Encima se coló marrón así, verdoso. Qué asco. No me digas que hacen galletas de caca. Ah, y encima el tío pone el WhatsApp para el encargo. Un globo. Un tío ahí con la mochilla repartiendo. Qué asco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=771" target="_blank" class="timestamp">[12:51]</a> sabes que empezar directo de momento empieza directo muerto de hambre porque he cenado pesando la comida como siempre y no me ha saciado y tenía hambre dio pero pero bueno ya va bien traes para la dieta voy a vomitar tío no quiero ver más estoy debilitado mi sistema inmunológico</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=798" target="_blank" class="timestamp">[13:18]</a> vale esto es la historia humanidad las guerras napoleónicas según según la india no indios contra occidentales jamón contra mierda</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=821" target="_blank" class="timestamp">[13:41]</a> ¡Ay! Y hacen petaros de caca. Joder, tío, qué obsesión de mío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=850" target="_blank" class="timestamp">[14:10]</a> A un indio de estos le das un chocolate, se lo come y dice, pero no es caca. ¿Qué es esto? Esto es chocolate, señor. No es caca, no me gusta. Bueno, son sus tradiciones, que lo respeto, pero claro, es que como occidental me estoy poniendo malo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=874" target="_blank" class="timestamp">[14:34]</a> Los indios tienen una cosa buena. No son racistas contra los occidentales. Eso hay que decirlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=904" target="_blank" class="timestamp">[15:04]</a> Porque te vas… El Dr. Cerezo se va al África subsahariana y con miedo siempre, ¿sabes? En siquiera te quieren linchar. Just look. All sorts of people coming in right now. Happy Diwali, happy Guadalba. What is this right here? Is this… Cowdog? No, this is just a fire. It smells very good. Yeah. Hello. But before our poop… La llama en la entrada pa' quemarte la falda, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=927" target="_blank" class="timestamp">[15:27]</a> Pues son religiosos, ¿eh? Hostia. Han bendecido la caca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=953" target="_blank" class="timestamp">[15:53]</a> Dios, los ingleses cuando invadieron la India deben flipar con los tirados que son, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=964" target="_blank" class="timestamp">[16:04]</a> Esto va a ser muy valioso en el poep war.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=991" target="_blank" class="timestamp">[16:31]</a> No dejan participar a las mujeres para que no queden esterilizadas, tener infecciones, claro, y luego se extinguen esta gente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1008" target="_blank" class="timestamp">[16:48]</a> En este caso, beneficio de ellos y su cleanliness. Ok, todo y todo en la calle hay poop. Este es un show de magnitudes nunca antes de haber visto. Un fecal fiasco de una escala nunca precedente. Estos son usados como máquinas de artillería. Imagina en el fáctores de World War II. Ok, este es un cabello que estábando un poco. Los jóvenes, creo que son excited.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1032" target="_blank" class="timestamp">[17:12]</a> Ah, piece by piece, continues to be produced. I mean, the production rate out here is astonishing. Oh, she has more dung. And keep in mind… Exactamente, Splatoon, Nintendo Switch, la cuarta parte la pueden hacer en la India. Estos marroncitos ahí, todos de mierdas. And she will not be throwing the poop, but it'll be essential. We're witnessing the poop supply chain, if you will.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1053" target="_blank" class="timestamp">[17:33]</a> Pensad que antes de la invención del automóvil las caras de Europa están llenas de caca de caballo. Ya no lo comíamos, joder.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1082" target="_blank" class="timestamp">[18:02]</a> Eso ya... No son tontos. Dice, no, no es verdad, no es verdad. Liendo Urbana. Conspiraciones. Ah, sí, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1112" target="_blank" class="timestamp">[18:32]</a> Ya, ya. Aquí en mi pueblo todo el mundo tiene frenadas de piel porque no se untan en caca por la mañana, ¿sabes? Hostia, vaya contraste más brutal, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1139" target="_blank" class="timestamp">[18:59]</a> Joder, vaya contraste más radical. Rubia, blanca y bien, ¿no? Pues están todos felices, ¿eh? ¡Qué fantasma! Y lo pondrán en Facebook, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1163" target="_blank" class="timestamp">[19:23]</a> Sí, estoy aquí con mi novia, ¿no? ¿Por qué no las mujeres no juegan con la pepa? Pueden ir al templo, hacer worship, hacer todo lo demás. Hacen culto, culto la caca.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1190" target="_blank" class="timestamp">[19:50]</a> Oh, gran mierda sagrada. Provénos de más mierda para que estemos purificados con mierda. Seguro que cuando nace un niño lo untan en mierda, ¿sabes? El bebé, hacen así. Hijo mío, purifícate. Y lo tiran al bebé ahí. Lo untan en un trullo de vaca con un gordo. Y luego lo sacan. Y bueno, entonces el niño si no se muere, es que es fuerte, ¿no? Digo yo. Es a lo mejor bendito, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1216" target="_blank" class="timestamp">[20:16]</a> He said, you men come and celebrate, the Lord said. You will be throwing the poop? Yes. And how many years have you celebrated Goraba? 15 years. Does it clear your skin? What does the cow poop do to your body?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1227" target="_blank" class="timestamp">[20:27]</a> ¿Y piensa que hay musulmanes en el sur de la India?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1252" target="_blank" class="timestamp">[20:52]</a> ...healing miracles throughout this festival. ...is a miracle, they say, because they don't get any skin disease. That means they're already getting... ...she has... ...a clip of this poop-throwing festival.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1270" target="_blank" class="timestamp">[21:10]</a> ... ... ... ... ... ... ... ...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1294" target="_blank" class="timestamp">[21:34]</a> Hey bro, I wanna fuck your sister man. I wanna put my dick inside on a sister's pussy. You wanna suck my dick? You motherfucker. Son of bitch. But of course, I'm son of bitch. I've gone through far too much shit to not upload this video. Tell me your full name.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1315" target="_blank" class="timestamp">[21:55]</a> Un minuto. ¿Qué haces? ¿Cómo te haces? ¿Dónde estás? ¿Dónde estás? ¿Dónde estás? ¿Dónde estás? Mi nombre es Tiler Oliveira. Estoy 25 años. He viajado cerca de 10,000 miles de Texas, U.S.A. Pensaba que era un mito, pensaba que era una leyenda. Pensaba que era una ficción. Y ahora aquí estoy con todos, listo para celebrar, listo para ver la poop fly, la smear, y celebrar un maravilloso, espero. Gracias por haberme, todos. ¡Holy shit! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos! ¡Vamos!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1344" target="_blank" class="timestamp">[22:24]</a> ¡Dios! ¡Espelipsis, tío! Están todos remotivaos, ¿eh? ¡Happy Kurama! Un evento increíble. Quiero dar un saludo a la ciudad. Ustedes son increíblemente hospitables. ¡Happy Diwali! Hostia, pobre japoneses que le están llevando cientos de miles de indios a Japón. Con lo limpios que son los japoneses, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1374" target="_blank" class="timestamp">[22:54]</a> Bájate. La pure japonesa que sale de casa a tirar la basura y lo peor que ve en la calle es un culo marrón ahí, soltando un mojonazo en la esquina de la calle. Dios te bendiga. Dios te bendiga. Dios te bendiga, India. Déjame comenzar el show. ¿Tienes que acercarse con el polvo? ¿Tienes que acercarse con el polvo?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1397" target="_blank" class="timestamp">[23:17]</a> Sí, sí, empieza a haber mucho que oculto la potente Japón. En el transporte público hay los indios poniendo los pies desnudos en los asientos. Y todo, sí, sí. The cow poop has been released. More poop. Mayday, mayday.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1414" target="_blank" class="timestamp">[23:34]</a> Pero antes de los adultos men batallan en una pila de poeta más grande que su imaginación es capaz de concebir, los niños primero tienen una batalla de su vida de su propio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1439" target="_blank" class="timestamp">[23:59]</a> Bueno, suerte que he quitado el chat de la pantalla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1471" target="_blank" class="timestamp">[24:31]</a> I'm going to get hit. I'm going to walk out of here covered in shit. Hey! Good people. Oh, that's perfect. Oh, no! Oh! I've been covered! I've been hit! I've been hit! Kids march to and from every house in the village, battling it out. Some were having fun, and some were not.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1510" target="_blank" class="timestamp">[25:10]</a> Dios mío, la cámara la ha metido en un cubo de plástico, ¿sabes? Para protegerse. Todo nublado, como empieza a llover. Oh, se va a convertir en la fiesta de la diarrea. ¡Qué asco! ¡Ah! ¡Ah, que no llueva, por favor! Dios mío, imagínate que se pone a diluviar ahí con todo eso. ¡Oh, qué asco, tío! Voy a morir. Imagínate que encima tropieza y te caes ahí y te hundes. Dios, voy a vomitar. En fin, vamos a seguir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1541" target="_blank" class="timestamp">[25:41]</a> Oh, estoy sufriendo un trauma, tío, me parece que no voy a recuperarme de esto. Tío, vamos a vomitar el tío. Oh, qué fuerte, tío. Está el tío tirando arcadas y punto de vomitar, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1576" target="_blank" class="timestamp">[26:16]</a> Y mientras los niños terminaron el peor, la preparación para los hombres de grado fueron casi completada. ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1604" target="_blank" class="timestamp">[26:44]</a> La India es el país del mundo con menor gasto de pañal, ¿cómo se dice renta por cápita? Por población, ¿verdad? El menor consumo de pañales del mundo por 100.000 habitantes. Luego le pregunté a Grok, a la inteligencia artificial. Así que tiene datos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1631" target="_blank" class="timestamp">[27:11]</a> Otro truco, eso es cuatro truco de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro de puro</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1660" target="_blank" class="timestamp">[27:40]</a> ¿Qué le hacen al burro? Dios, pobre burro. ¿Qué me estás diciendo, por favor? Un montis de mierda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1682" target="_blank" class="timestamp">[28:02]</a> Y finalmente, los gladiadores han entrado el Poop Coliseum. ¿Dónde están? USA, Texas. Ah, ah, ah. ¿Puedo ir? Sí. Ok, ok. Ah. The dogs are coming off. Will you be covered in poop by the end of this? Yeah, that's ok, thank you.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1700" target="_blank" class="timestamp">[28:20]</a> Mi amigo mío, también estoy nervioso. Time para la guerra, todos los que están en los estaciones. Ok, sí, están en la guerra. ¡Oh Dios mío! ¡Oh Dios mío! ¡Oh Dios mío! ¡Oh Dios mío! ¡Oh Dios mío! ¡Oh Dios mío! ¡Oh Dios mío!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1735" target="_blank" class="timestamp">[28:55]</a> Yo creo que el hombre está en modo túnel, está ahí pensando...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1758" target="_blank" class="timestamp">[29:18]</a> Dinero. Lo que voy a cobrar este vídeo. Me sacaré 100.000 euros. El trabajo, el trabajo, el trabajo y ya está así. Si no, es que es imposible aguantar esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1787" target="_blank" class="timestamp">[29:47]</a> ¡No! ¡Ah! ¡El cabello tiene mierda! ¡Queda todo marrón! ¡Ah, variento! ¡Oh, Dios mío! ¡Dios mío, este tío! ¡The smell in here is inexplicable!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1812" target="_blank" class="timestamp">[30:12]</a> El olor es inexplicable. Este, cuando se mete en la ducha, va a llorar de alegría y de lo que sea, no sé. ¡Ah, en toda la boca! Hijos de indios, ¿qué hacéis? Dios mío, este quebrateo hace momentos, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1835" target="_blank" class="timestamp">[30:35]</a> ¡Tengo que vomitar! ¡Qué asco, tío! Está rogando a Dios. ¡Oh, Dios mío! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh! ¡Oh!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1866" target="_blank" class="timestamp">[31:06]</a> ¡Papa, por favor!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1875" target="_blank" class="timestamp">[31:15]</a> Sí, agua. Agua. No apaga. Traza la mierda en la boca. I was defeated. What if what the Indians online had said about me was true? Was my immune system weak and was my mind even weaker? How could this be the thing that broke me? I had traveled over 10,000 miles for this day. Oh, it's okay. It's okay. It's okay. I'm good. Let's try it again. Let's try it again. And I couldn't let India down as their first participant from America. I refused to let the poop win.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1903" target="_blank" class="timestamp">[31:43]</a> Es más fuerte que la caca, tío. The Call of Shit, ¿no? Imaginaos un videojuego, tío. El tipo de Splatoon que se llama The Call of Shit. La llamada de la caca. Black Ops. Bueno, Black no. Brown. El Brown Ops. Qué asco, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1937" target="_blank" class="timestamp">[32:17]</a> Black Pops, sí, sí. Brown Pops. Hostia, es el placer de untarse mierda. No hay nada más que hacer ahí que untarse ahí y embadurnarse. ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡Ahh! ¡A</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1971" target="_blank" class="timestamp">[32:51]</a> Es un poco divertido, es muy divertido. Lo va a dejar inconsciente de un mierdazo en la cabeza de 20 kilos. Es bastante divertido, me gusta. Esto es una guerra completa.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=1999" target="_blank" class="timestamp">[33:19]</a> El shit of honor, ¿no? Dios. Dios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2027" target="_blank" class="timestamp">[33:47]</a> Dios, si da asco aquí, imagínate ahí, tío. Yo vomito, ¿eh? Dios mío. En vez de un gulag que te castiguen ahí 15 años en la India. No, envíame un gulag al ciclo polar al ártico, al desierto del Gobi. Esclavízame una mina.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2057" target="_blank" class="timestamp">[34:17]</a> Pero en Yakutsk, pero no me mandes a la India, por favor, te lo pido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2074" target="_blank" class="timestamp">[34:34]</a> ¡Ah! ¡Ah! ¡Ah! ¡Ah! ¡Ah! ¡Ah! ¡Ah!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2100" target="_blank" class="timestamp">[35:00]</a> Esto en la boca, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2128" target="_blank" class="timestamp">[35:28]</a> even with the hazmat suit and goggles, I had reached my limit. Guau, suerte que son buena gente, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2141" target="_blank" class="timestamp">[35:41]</a> Suerte que son buenos chavales todos y mira... Hostia, qué pedazo de dientes tiene el indio este de la Virgen. No sé cómo puede cerrar la boca. Bueno, que te decía. Suerte que no son buena gente. Porque... Sí, sí, los dientes. Siempre hace un caballo, tío. Joder. Es el hombre de caballo. Con lo que te estaba diciendo. Suerte que son buena gente. Porque si fueran cabrones... Vamos, lo entierren mierda. Pasaba bromas, ¿sabes? Empiezan a darle todos allá. Al blanco, al blanco. Al americano. Son buena gente, ¿eh? Son gente noble. Son sucios y huelen mal, pero hostia...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2169" target="_blank" class="timestamp">[36:09]</a> Porque si tienes mala leche, vamos, imagínate, sí, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2182" target="_blank" class="timestamp">[36:22]</a> Dios mío, agua India, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2210" target="_blank" class="timestamp">[36:50]</a> Le han hecho quitar esos zapatos, Blisnitz. Un tío le ha dicho... Y le ha quitado, se ha quitado los zapatos. Hostia, amigo, cuando estás conduciendo y pasas al lado del típico campo que han hecho abono y eso huele, tío. ¿Verdad? Cuando echan abono ahí de los animales en el campo. Y dice, qué peste. Imagínate estar ahí, tío, el olor. Y dice, auto mezclado con orina de vaca, tío. Porque...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2239" target="_blank" class="timestamp">[37:19]</a> No. No, no, no, no, no, no, no, no, no, no.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=T5GJLnQEdRE&t=2265" target="_blank" class="timestamp">[37:45]</a> Dios mío, tío. Ha sido lo más indio que estoy en mi vida. Ha sido muy duro, ¿eh? Joder, tengo ganas de sacar aire del estómago, tío.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 19/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
