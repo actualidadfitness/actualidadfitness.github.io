@@ -1,0 +1,385 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 21/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">21/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-6sPEukLAnmk'>Mi gente... ESTAMOS en JAPÓN</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-6sPEukLAnmk">
+            <h2>Mi gente... ESTAMOS en JAPÓN</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 21/11/2025 14:03</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=6sPEukLAnmk" target="_blank">
+                    <img src="https://i.ytimg.com/vi/6sPEukLAnmk/hqdefault.jpg" alt="Mi gente... ESTAMOS en JAPÓN" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video documenta la preparación y el largo viaje de los creadores a Japón, con una escala en China.
+Muestra los rituales de sauna, la ambivalencia sobre volar en Business Class y los retos de conectividad en el extranjero.
+También incluye el relato de una desagradable experiencia en clase turista y el uso de soluciones tecnológicas para el internet.
+Concluye con la escala en Pekín y la inminente llegada a Tokio para continuar con sus planes.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Preparativos y nerviosismo por el viaje largo <a href="https://www.youtube.com/watch?v=6sPEukLAnmk&amp;t=37" target="_blank">[00:37]</a></h3>
+
+<p>El orador comparte sus rutinas de sauna y su agotamiento, expresando nerviosismo por el inminente y largo vuelo a Japón con escala en China. Lamenta no haber gastado más en un mejor vuelo, reflejando una mezcla de anticipación y aprehensión.</p>
+
+<h3>La percepción del Business Class: ¿Lujo o despilfarro? <a href="https://www.youtube.com/watch?v=6sPEukLAnmk&amp;t=357" target="_blank">[05:57]</a></h3>
+
+<p>El presentador confiesa sus sentimientos encontrados sobre volar en Business Class, considerándolo un gasto innecesario y un "despilfarro" de dinero, aunque fue "obligado" o convencido. Su principal objetivo para el largo trayecto es dormir usando su máquina CPAP.</p>
+
+<h3>La impactante experiencia de Marta en clase turista <a href="https://www.youtube.com/watch?v=6sPEukLAnmk&amp;t=637" target="_blank">[10:37]</a></h3>
+
+<p>En contraste con la discusión anterior sobre Business Class, Marta narra su horrible experiencia en clase económica. Detalla un vuelo largo junto a un hombre con hábitos de higiene deficientes y otros pasajeros pasándole por encima, resaltando los desafíos del viaje económico.</p>
+
+<h3>Desafíos de conectividad en China y la solución Seili <a href="https://www.youtube.com/watch?v=6sPEukLAnmk&amp;t=748" target="_blank">[12:28]</a></h3>
+
+<p>Al llegar a China, los viajeros enfrentan restricciones de Wi-Fi. El orador describe la rápida compra de un plan de datos ilimitados de Seili, una compañía móvil que funciona como VPN, asegurando acceso a internet y comunicación para su viaje a Japón.</p>
+
+<h3>Última escala en Pekín y llegada inminente a Tokio <a href="https://www.youtube.com/watch?v=6sPEukLAnmk&amp;t=860" target="_blank">[14:20]</a></h3>
+
+<p>Tras descansar en una sala del aeropuerto de Pekín, la pareja se prepara para el último vuelo de 3.5 horas a Tokio. El orador comparte planes para el resto del viaje, incluyendo comunicarse con Fran y continuar su tratamiento de salud al llegar, marcando la culminación de sus viajes.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=11" target="_blank" class="timestamp">[00:11]</a> Importante, cuando hacéis la sauna y eso, hidrataros luego fuerte, fuerte, fuerte. Porque si no os vais a quedar pajaritos, chavales. Estoy reventado ayer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=37" target="_blank" class="timestamp">[00:37]</a> Tiene que haber quedado hablando con Fran hasta tarde. O no tarde, pero me quedé un rato hablando con Fran. Tuve la salud también como una hora. Me he dormido casi. Estoy súper nervioso. Nervioso por el viaje, no por la comisión. Tengo mucha pereza el viaje. Tengo mucho que con un vuelo tan largo. Hace seis meses.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=56" target="_blank" class="timestamp">[00:56]</a> Hay muchas colocuras tan largos. Encima, cuando pillamos con tiempo, pillamos un mal vuelo. Quería haberme gastado más dinero ahora. Ya quiero ir ahí, a ver si tienen business. Y con la cámara CDPAP nueva, puedo conectarme a intentar dormir. No aproveito nada. A ver cómo vas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=75" target="_blank" class="timestamp">[01:15]</a> Pues vamos, bien que caos. Nuevo drop, chavales. Espectacular, eh. Enseña el lado del pantalón. Está bonito, eh. Está muy bonito. Sabes que no quedan rayas ya, ¿no? ¿Ya no? No, hostia. A ver, no me sorprende tampoco. No, bro. Yo me metí la sudadera que ahora es. Las chanclas PBS. Nada, es que está especial. La sudadera está especial. Oh, de hecho yo me acuerdo cuando era esta hace un montón. Que te flipo, ¿te acuerdas?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=105" target="_blank" class="timestamp">[01:45]</a> Tal cual. Yo quiero hacer las fotos de salso de verdad. Pues ya no queda. Pues la voy a guardar como una reliquia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=154" target="_blank" class="timestamp">[02:34]</a> Me va a llevar un japonés, que es del tinte que no para de decirme. Llévate crema de arroz y tortas de arroz, que aquí no hay y tal. Uy, con las tortas de arroz. Me llaman todas las noches. Por la noche. Muy majo, eh, por cierto. Pero ya está. Ahí de la tarde, un poquito antes, chavales. Les estoy contando el agua, tengo ocho litros hoy.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=184" target="_blank" class="timestamp">[03:04]</a> Tengo que hacerlo muy poquito. A ver si me hubiera relajado porque estaba súper tenso del viaje. Por cierto, el borrón de PS te has catado. Hostia, qué guapo. No me había catado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=212" target="_blank" class="timestamp">[03:32]</a> Quiero decir que me he despertado más pronto, no he pensado meterla en la sauna, pero es que me deja súper de relax. ¿El agua ahí está fría o está caliente? Caliente, caliente. Hombre, bro, si está fría. A ver, esto lo que mola es, te metes fría y te metes en la sauna. Y ya luego, está bien ducha. Pero tío, no me estoy duchando en casa nunca, ¿sabes? Pero me ducho aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=243" target="_blank" class="timestamp">[04:03]</a> ¿Sabes lo que hace Marta? Meter al borno dentro de la sauna. ¿En serio? Porque esté calentito. Ahora dice calentito cuando salgas. Está todo loco. Importante, cuando hacéis la sauna y eso, hidrataros luego fuerte, fuerte, fuerte. Porque si no os vais a quedar pajaritos, chavales. Me hace mucha ilusión. Creo que la he usado todos los días desde que la tenemos. O sea, me está encantando. Brutal. O sea, son 15 minutos. 15, buah. Estos días justo va a nevar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=273" target="_blank" class="timestamp">[04:33]</a> Me encantaría meterme. Mientras está nevando. Mientras está nevando, tío. Está nevadísimo, eh. Ya ves, chaval. Pero que es nevadísimo. Vamos así. Aquí no se hace frío, así vamos a subir corriendo. A casa, a acabar de preparar todo. Bueno, ya lo tengo todo preparado. Tengo que meter las comidas en la mochila y empieza la fiesta. Vamos. Vamos a Japón, brother. Como niño. A mí me está malando un poco, la verdad.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=299" target="_blank" class="timestamp">[04:59]</a> A ver, yo es que pienso en el viaje y me muero, bro. Pero una vez estar allí vale la pena, tío. Seguro. 100%. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=326" target="_blank" class="timestamp">[05:26]</a> Vámonos. Vámonos a Tomás. Mola la maleta, ¿no? ¿Eh? No está guapa la maleta, ¿no? Está muy guapa, ¿eh, chaval? ¿No me harás una foto? Te miras el vídeo y sacas captura. Vale, bro. Pues apúntate esa para tus fotos. ¿Duchita?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=357" target="_blank" class="timestamp">[05:57]</a> Nunca queda de Tom Ford, tío. Vaya. ¿Tú no te duchas? Yo no me ducho. A mí no me gusta usar exceso colonia. Y no tengo ni idea y no me gastaría el dinero que valen estas cosas. Me gastaría en cualquier otra cosa, menos en esto. De hecho, me siento muy mal porque voy en business y me siento muy mal por el dinero que me gasto. Y están todos. Lo he hecho muy bien, lo tienes que hacer, vas a competir, estoy súper lejos. Y yo en plan, no, o sea, eso es tirar el dinero. Totalmente. Un poco, un poco. Pero bueno, estarás más cómodo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=384" target="_blank" class="timestamp">[06:24]</a> Me llevo la cepa pequeña, a ver si no la puedo ir a dormir. Seguro. Ya veremos. Estos dos, estos dos. Este. Ojo. Me llevo echando todos... Me llevo echando todos los... Estos, este perfume. A ver, este 104, pero en Andorra es más barato. Ya se los va. Ya se los sabe. No te creas. Bueno, mi gente. Probablemente, siguiente toma dentro de ese avión. Marta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=416" target="_blank" class="timestamp">[06:56]</a> ¿Algo que decir? Que ya está terminando la cola y nos tenemos que meter. Sí. Así que nos vamos para el avión que estará por ahí. Dos horitas ahí dentro, encerrados. Esperemos que se haga todo bien y otra vez a China. Es que no vamos a Japón, vamos a China y hay que esperar en China. O sea, es fuerte el tema. Estoy cansado ya. Estoy cansado. Por cierto, muy majo el chico del aeropuerto que me ha dejado pasar el agua y me ha dicho, ven dame, yo te la paso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=441" target="_blank" class="timestamp">[07:21]</a> He dicho, la tengo contada y me ha dicho, ya lo sé, mucha suerte. Está súper majo. A ver, para lo llevar. Ole, gracias. Nada. A rabiar de caliente, ¿no? Uy, cucharitas de madera y todo, ¿eh? En eso no habíamos pensado, aunque yo llevo, en verdad. Bueno, chicos, yo me quedo aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=468" target="_blank" class="timestamp">[07:48]</a> Ojo, eh. No está mal. Porque voy a competir. Me siento bastante mal, la verdad, quedándome en el puto business de mierda. Y no lo pagaría ante nada del mundo. O sea, me parece que no merece nada la pena. Pero me han obligado, la verdad. No, y yo también sí que lo he valorado de forma positiva. Así que... Me voy a quedar aquí hasta... ¿Cuándo? ¿Hasta dónde llegamos? A Pekín, ¿no? A Pekín. Once horas. Llegamos a Pekín. Así que nada, podéis bloquear vosotros por ahí. Yo voy a intentar dormir todo el vuelo. Ojo, eh. Hay una cepap que voy a enchufar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=498" target="_blank" class="timestamp">[08:18]</a> Me voy a intentar dormir todo el vuelo. Lo que os sigo va a ser increíble. Estoy sacando todas las comias que me quedan ahí todos. Me voy a acostumbrar ya al horario de Japón. No sé qué horario es, pero cuando llegue tengo que entrenar. No sé. Búscalo. Venga, bro. Chao. Chao. Estamos aquí ya. Sinceramente, no me parece que valga lo que vale esto. Y de broma. Lo único bueno, sinceramente,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=526" target="_blank" class="timestamp">[08:46]</a> Llevo la puta máscara puesta. Muchas gracias, me voy a dormir. Ya he hecho todas las comidas. Nos hemos mirado la hora que ir allí. Y voy a dormir. Bueno, que llevo la máscara aquí. Me hace un papelón. Así que voy a ver si me sobo todo lo que queda de viaje. Un poco más. O sea, sería una bendición. Ya veremos. No aproveito nada. Sinceramente, yo a estas cosas no aproveito nada. Para ir a dormir en un viaje entero sería lo imposible.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=554" target="_blank" class="timestamp">[09:14]</a> A ver, quita esta acción. Acá.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=582" target="_blank" class="timestamp">[09:42]</a> anda que no chaval como va que cabrón se la va a gozar venga chao bro descansa</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=613" target="_blank" class="timestamp">[10:13]</a> ¿Qué tal el vuelo? Bueno, ¿qué ha pasado? ¿Cuánto tiempo? Y si todo va bien, mucho tiempo más va a pasar hasta la siguiente vez que vengamos. 5 meses después. Estamos aquí y dijimos que no íbamos a volver nunca. No recordaba este olor, pero he llegado y lo he... No has contado nada en YouTube, ¿no? No he contado nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=637" target="_blank" class="timestamp">[10:37]</a> No lo he podido grabar. Bueno, ha estado bien igualmente. Yo le he dicho un recurso para que la gente se lo imagine. Cuéntalo, Marta, cuéntalo. Cojo y llego al asiento, 58K, o sea, donde las ratas, en la caja de cerías. 59. Bueno, es que me equivocaba al principio, además. Y llego y de repente un señor comiendo una mandarina, un señor mayor, un chino...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=658" target="_blank" class="timestamp">[10:58]</a> La mandarina que la veías por fuera. Sí, o sea, comien... O sea, además que son como comen. O sea, pero porque hacen... A ver, que no pasa nada, es cultura, ¿eh? Pero que comen, hacen mucho ruido comiendo y todo esto. Bueno, ya me he sentado al lado y el pavo de acá. Sí. Tenía que tener los huevos así de gordos. Y eso ya me molesta mucho porque, tío, estoy en medio, estoy así. Men's planning, ¿no se llama eso? No. Men's planning es cuando te intentan hacer sentir inferior con sus conocimientos, creo. ¿No? Ah.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=684" target="_blank" class="timestamp">[11:24]</a> ¿Y qué es lo de ponerte así que abierto? No lo sé. No sé si tiene término. Bueno, da igual. Creo, ¿eh? No lo sé. El caso. Que de repente hace el pavo. Es que... O sea, es escultura, ¿vale? Saca un papel y hace... Y echa un gapo como en la palma de la mano. Así de grande. Please. Please. Ha hecho así. Y yo, y yo. Y yo, no, no, no, no. Al lado ya, en plan. Y el pavo. Please, ¿qué? Bueno, es que no lo he entendido así en chino porque no sabe ni inglés tampoco.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=713" target="_blank" class="timestamp">[11:53]</a> Y la de mi lado me ha hecho como… En plan… Y le he dicho a esas zapatas, cámbiame ello, no puedo estar aquí. Y ha hecho bien porque vaya tema. O sea, ellos estaban al lado. Lo teníamos al lado y todo el vuelo escupiendo, tío. Y no se quería levantar, ¿eh? Para que pasaras. Ah, qué fuerte. Pero a mí las chicas… O sea, luego me han saltado al lado de dos chinas. En plan, entre medias de dos chinas. Me saltaban por encima, pero no me saltaban. O sea, como que se me sentaban encima y pasaban. O sea, para no…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=740" target="_blank" class="timestamp">[12:20]</a> Y yo, que me voy a levantar. Sí, para no molestarte. O sea, que me voy a levantar. Claro, pero no. Pero me estás molestando mucho más. Vale, son las 5 am. En España son las 11. Con lo cual estamos reventados a nivel de horario. Vamos a ver si dormimos, si nos encafetamos, si trabajamos. Estamos en China y tenemos Seili. Bendito porque Seili te hace de VPN. Seili es una compañía móvil, básicamente. Me voy a pillar los gigas máximos por los días que vamos a estar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=769" target="_blank" class="timestamp">[12:49]</a> Pero es que aquí en China, o sea, nosotros vamos a Japón, pero estamos en China ahora mismo. No podemos acceder con ninguna red Wi-Fi a ninguna parte. Así que me estoy pillando, ¿vale? Os lo voy a grabar aquí en pantalla. Hay diferentes planes. 10 gigas, 20 gigas, gigas ilimitados. 48 dólares, me voy a pillar ese sin ninguna duda. 15 días, ¿estamos 15 días, no? Sí. Vale, o sea, perdón, 15, perfecto. Vale. Continuar cargando para que veáis si es rápido, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=798" target="_blank" class="timestamp">[13:18]</a> 15 días a España, activar antes del 21. ¿Tienes cupón? Obviamente tengo cupón. ¿Qué es Joan? ¿Perdadéis? Así que chavales, tengo gilas invitados. Pedidme que comparte Internet a todos vosotros. Apple Pay. Comprar, pim pam pum. ¿Tarjeta de Internet Public? ¿Tarjeta de quién? Para que veáis lo rápido que es, sin líos. ¿Comprado? ¿Comprado? Tu pedido se ha realizado correctamente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=829" target="_blank" class="timestamp">[13:49]</a> Pim, pam, pum. Seili. Otra punta del mundo. Lo tenemos. Por fin puedo hablar con Fran. Por fin puedo hablar con Fran. Le he enviado un mensaje. No le llegaba. Así que, per plan, obteniendo tarjeta. Japón. Gigas ilimitados, chavales. Ilimitados. Mira. En España también me he pillado gigas, para que veáis. En Rumanía me sobraron gigas. Que hasta en España he pillado gigas. Uy, lo he ilimitado. Esto me renta mil. Así que ya sabéis, si queréis, Joan Pradesh lo tenéis por ahí abajo. Vale, estamos en China ahora mismo. En el aeropuerto de</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=860" target="_blank" class="timestamp">[14:20]</a> ¿Y qué aeropuerto estamos? El aeropuerto de Pekín. Y nos vamos a Tokio, Haneda, si no me equivoco. Mítico. Me hace mucha ilusión. Tres horas y media. Martes y yo nos hemos quedado dormidos en un lunch de esos que hay. Que hay una zona como de dormir. Y nos han llamado esto corriendo de venir, de ir, de ir. Y yo me quería pegar una ducha ahí, la verdad. Pero nos han sentado súper bien. Conseguí dormirme con una mini máscara. La verdad que espectacular. Y ahora, chicos, voy a hablar con Fran. Urgente, la verdad. Para ver qué hacemos con el peso y todo. Porque me arrepiento del vuelo. Tengo que decir que sigo con la faga puesta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=6sPEukLAnmk&t=890" target="_blank" class="timestamp">[14:50]</a> Tenemos el tratamiento de brazo al llegar a Tokio, así que vamos a darle. Voy a poner la comida de dos, también importante. La tengo aquí, así que empieza la aventura, chavales. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 21/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
