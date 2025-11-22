@@ -1,0 +1,378 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 22/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">22/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-Q_Mofyc7GRw'>PROHIBIDO TURISTAS en el GIMNASIO</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-Q_Mofyc7GRw">
+            <h2>PROHIBIDO TURISTAS en el GIMNASIO</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 22/11/2025 13:34</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw" target="_blank">
+                    <img src="https://i.ytimg.com/vi/Q_Mofyc7GRw/hqdefault.jpg" alt="PROHIBIDO TURISTAS en el GIMNASIO" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta la llegada de los creadores a Japón tras un extenuante viaje de 32 horas, mostrando sus primeras impresiones de la ciudad y el reencuentro con Marta. Afrontan el jet lag mientras intentan adaptarse a su Airbnb, organizar sus comidas y encontrar un lugar para entrenar. Experimentan dificultades con el acceso a gimnasios locales, lo que afecta temporalmente el ánimo del grupo, pero mantienen el optimismo. El video cierra con la expectativa de un mejor día y la preparación para sus futuras competiciones.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>¡Llegada a Japón y Sorpresa Inesperada! <a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&amp;t=130" target="_blank">[02:10]</a></h3>
+
+<p>Los creadores llegan a Japón después de un agotador viaje, compartiendo sus primeras impresiones de la ciudad. La sorpresa del día es la aparición de Marta, quien se une al grupo, inyectando energía y emoción al inicio de su aventura.</p>
+
+<h3>Explorando el Airbnb y Preparativos para la Carga <a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&amp;t=248" target="_blank">[04:08]</a></h3>
+
+<p>El equipo se instala en su Airbnb, mostrando las primeras impresiones del alojamiento y la comida. Destacan la importancia de la nutrición para sus entrenamientos, mientras uno de ellos comparte su primera experiencia con un inodoro japonés.</p>
+
+<h3>Ajustando Horarios y Descubriendo Más del Airbnb <a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&amp;t=365" target="_blank">[06:05]</a></h3>
+
+<p>Mientras se preparan para ir a entrenar, discuten la necesidad de adaptar sus horarios al nuevo huso horario. Se ofrece un recorrido más detallado por las habitaciones del Airbnb, mostrando las peculiaridades del espacio que será su hogar temporal.</p>
+
+<h3>Un Intento Fallido de Gimnasio y Entrenamiento Solitario <a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&amp;t=580" target="_blank">[09:40]</a></h3>
+
+<p>El grupo enfrenta problemas al intentar acceder a un gimnasio local, llegando incluso a un encuentro con la policía. A pesar de los contratiempos y la prohibición para turistas, uno de ellos logra entrenar brazos solo.</p>
+
+<h3>Ánimos en el "Sótano Menos Cinco" y Mirada al Mañana <a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&amp;t=703" target="_blank">[11:43]</a></h3>
+
+<p>Los creadores expresan su cansancio y los ánimos bajos debido al frío y las dificultades con el entrenamiento. Sin embargo, enfatizan la importancia de la resiliencia y la esperanza de que el día siguiente en Japón será mucho mejor.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=0" target="_blank" class="timestamp">[00:00]</a> Yo he entrado cuando salía un chico y estos estaban en otra puerta. Había como una recepción. Ya ha llegado la policía y les ha tirado. Recuerdan mucho a Nueva York que estoy. Ya ves. Hombre, está muy guapo, ¿eh? ¡Vamos! Es la realidad. No se puede pintar una caca de color de purpurina.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=43" target="_blank" class="timestamp">[00:43]</a> Bueno, a todos, chicos, estamos en Japón. No era así, ¿no? Mi gente, estamos en Japón. ¿Qué tal ha ido el vuelo? Teletransporte, la verdad. Hasta la comida, despierto. Son horas de vuelo, ¿eh? ¿Este último? No sé. Y le pasó un reportero a Fran en un baño ahí. Qué dicho, madre, era muy hermoso. Está bonito, ¿eh? ¿Te gusta? A ver, es que a ti te gusta abrazo. ¡Ja!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=69" target="_blank" class="timestamp">[01:09]</a> Nada, le digo de coña. Pero bueno, tenemos sorpresas y las sorpresas son que Marta debe estar. Marta tiene la tendencia, bastante tendencia, de irse sin internet por ahí. Porque ya tengo Seily, está todo configurado y tal, y Toni se lo está configurando ahora también. Pero os vais por ahí sin internet, que a veces digo, hermano, estamos por el mundo. Os la jugáis muchísimo. ¿Qué plan tenemos hoy, Toni? Brazo. Por cierto, decida a Toni en los comentarios que te queda muy bien la... Saliendo de la zona de confort, ¿eh? Negras.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=99" target="_blank" class="timestamp">[01:39]</a> Tengo que pedir más negras. A mí me gusta más las negras. Las otras como que pasan muy desapercibidas. Y los corazones no me acaban tanto. Pero bueno. Corazón muy... muy zona de confort salir, ¿eh? ¿El corazón? Empezar con corazón, pero bueno. Sí, y en la frente. A ver. A ver donde tenía el grano. Llevaba un pedazo de grano que alucinas. Oye, tengo muchas cosas que contar del viaje, ¿eh? O sea, lo de la cepa pequeñita.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=124" target="_blank" class="timestamp">[02:04]</a> Es una locura, ¿eh? ¿Cómo que me hayáis soldado a gastarme 2.000 euros en un billete en business, tío? Me damos muestros muertos, en verdad, ¿eh? Yo no he obligado a nadie. ¡Eh, está ahí! ¡Está ahí, Marta! ¡Marta! ¡Marta! ¿Y la sorpresa? Tenemos un invitado especial. Tenemos un invitado especial. ¿Dónde está? Bueno, gente, que estamos en Japón. Plan del día nos lo has dicho, ¿no? Entrar el brazo, adaptarnos al Airbnb, comprar comida.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=154" target="_blank" class="timestamp">[02:34]</a> Un poco más. Y descansa. Ponernos al día con el trabajo un poquito hoy. ¿Qué tal? Bien, ya he usado mi primer baño de Tokio. Me acaban de limpiar el ojete. Yo voy a ir a ese baño. Por cierto, hablando de eso… Cosas importantes ya. Hablando de eso… Mira si me gusta este tipo de limpieza, que me compré un accesorio para el piso. Ah, mira. ¿Aquí? No, mentemo. Bueno… Aquí. Aquí. ¿Cómo es que va a llegar para allí? Voy a ir al baño. Venga.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=185" target="_blank" class="timestamp">[03:05]</a> Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=199" target="_blank" class="timestamp">[03:19]</a> ¡Vamos! ¡Vamos! ¿Qué tal? ¿Encanzado? Me he ido a ducharme o así a tirar. ¡Hombre, chaval! ¿Qué tal? ¿Qué tal? ¿Todo bien? ¿Y tú? Aquí vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=218" target="_blank" class="timestamp">[03:38]</a> Muy cansados. Yo también, ¿eh? Estamos reventados. Sí, me he tomado ahí, me he dormido. Me he duchado. De loco. Que viene el domingo, Iván. ¿Vamos para allá? Vamos. Bueno, llegamos. Llegamos, llegamos. Por aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=248" target="_blank" class="timestamp">[04:08]</a> Todos con sus chanclas. Bueno. ¿Qué dice? ¡Oh, está guapo, eh! A ver, a ti te gustan todos. A ver, tenemos por aquí comida de figuel. ¡Uy! Arrocito, pollo y ternera para cargar. Fran ya va a pasar a la carga. Hay arrocera, claro. Me lo he pensado. Protein, torta de arroz que mi hijo Milo es que era imposible conseguir. Así que, a gritar mi neceser.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=277" target="_blank" class="timestamp">[04:37]</a> Ya está, ahí hago congelado el arroz, si yo flipo con arroz. Hay un aguante que flipas. ¡Hostia, hermano! Bueno. Madre mía, muy hermoso. Pequeñín, eh. Claro, pequeñín. Y esto es como de las casas grandes que había en Perkilar. ¡Hostia! Bueno, no hace falta más. Hay como una rejilla. Vale, vale. Dormiré así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=304" target="_blank" class="timestamp">[05:04]</a> Así que chicos, ahora sí, ha llegado el momento de irnos a entrenar a la sauna. Después de 30 horas de viaje. El metro está justo ahí delante. ¡Olé! Pues tú vas a entrenar, ¿no? Pues no lo sé. Debería. Me lo has juzgado. Qué guapo, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=334" target="_blank" class="timestamp">[05:34]</a> Está gracioso. Me recuerdan mucho a Nueva York esto. Ya ves. Hombre, está muy guapo, eh. Qué top. Es un tenedero. Qué bueno, tío. Esto sí, hermano, hay un tráfico. Ya, eh. Hemos tardado un montón en llegar aquí. No sé ni en qué zona estamos. O sea, la diría, pero no sé ni en qué zona estamos. Hostia, mira, ahí vemos la estación desde ahí. Hostia, mira. Brutal, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=365" target="_blank" class="timestamp">[06:05]</a> Así que chicos, vamos a dejar las cosas y a irnos a entrenar, que es lo que toca. Que además así nos viene perfecto para pillar los horarios ya de aquí. O sea, 6 de la tarde más o menos, entrenar, llegar aquí. Ahora tenemos que no dormirnos sobre todo hasta la noche. En ese sentido he tenido mucha suerte porque me he dormido todo el rato en los vuelos. O sea, adaptado a los horarios ya de aquí. Me he subido, he hecho las comidas rápidas y todo adaptado aquí y ya empecé a dormir. Vámonos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=402" target="_blank" class="timestamp">[06:42]</a> Esto ya ve la parte de arriba, bro. Lo primero y lo más importante. A ver. Buah. No. Que eso no se acomoda. Tiene mandito. Sí, eh. Buah. Se puede regular la posición, la potencia y tal. Vale. Tiene una habitación doble. Ojo. A ver. Vale, bueno. Bien. Me acabo para la tuya.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=427" target="_blank" class="timestamp">[07:07]</a> en el suelo parece la de Harry Potter debajo de la escalera hostia aquí mira todo el anime aquí fuera coñas yo creo que te puedes subir una una silla y que sea rollo despacho para editar aquí no es mala y aquí otra habitación ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=465" target="_blank" class="timestamp">[07:45]</a> y otro fotón verbenero. Ojo. Y aquí. Se escucha toda la calle. ¿Está cerrado? Ojo. Hay una escalera. Pero esto está puesto así para que no se abra. Así que vamos a respetar. Y nada vamos a salir. Vamos a respetar.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=495" target="_blank" class="timestamp">[08:15]</a> Nada, sí. Cierro. Listo. ¿Y esto qué? Hola. Ahí va. Esta sí. Teno. Esto es Zen. Modo Zen, eh. ¿Vamos a entrenar? Vamos a entrenar. Let's go.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=526" target="_blank" class="timestamp">[08:46]</a> Yo no he caído porque competir sí que compito en nada, eh. Compites en nada, tío. Andemos arriba, eh. Esto no es mitad semana ya. Mañana empiezo a cargar, chaval, a cargar. Cargar a mí me da la vida. Me va a pasar a carga y he dicho, oh. He dicho, ¿puedo cambiar esta comida por este? Y me he dicho, sí, tranqui. Le he dicho, para seguir durmiendo y me he dicho, mejor. Qué guay. Maravilloso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=560" target="_blank" class="timestamp">[09:20]</a> Thank you. Estaban muertos, eh. Bajo un sete, ahora, la verdad. ¿Qué? Bajo un sete. Hay que entrenar. Gracias a la manera que nos deje caos, del todo. Hay que cumplir. Gusta a casa, comer, subir un vídeo y dormir. Bueno, chicos, acabo de entrenar yo solo, básicamente, porque he ido por una puerta un poco rara.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=589" target="_blank" class="timestamp">[09:49]</a> porque no conseguimos entrar a un gimnasio, que era como un gimnasio normal. Y básicamente, yo he entrado cuando salía un chico y estos estaban en otra puerta, en el que había como una recepción. Ya ha llegado la policía y les ha tirado. O sea, tampoco hay mucho misterio, ¿no? No. O sea, no hemos hecho nada muy raro. De hecho, es que ya habíamos estado en un gimnasio antes. Parecía que íbamos a entrar tan normal, había sauna. Nos ha dicho que sois turistas. Y ellos hemos dicho, sí y tal. Dicho, no, no creemos turistas aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=619" target="_blank" class="timestamp">[10:19]</a> Total. Me quedo así como un poco... La primera experiencia del país es espectacular, la verdad. Estas cosas son tan pena, ¿eh? Porque muchas veces ya has confiado con un país total, te he emocionado. Y te lo joden un poco la experiencia así. Pero bueno, yo he conseguido entrenar brazos así rápido. De hecho, estaba hablando con Fran mientras. Que me ha dicho, si no te rayes, entreno mañana. Y ya, bueno, ya que estoy aquí dentro, pues entreno. Y mañana me ha dicho, haz el bombeo si quieres con las bandas elásticas. Pero lo puedo hacer. ¿Tú qué? ¿Cómo lo ves?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=648" target="_blank" class="timestamp">[10:48]</a> Ya, vamos a un gimnasio. Lo que pasa es que... ¿Y qué gimnasio? Es un gimnasio que no hace gente, ¿no? El problema es la hora, no el gimnasio. Muchas veces llegamos a los países a mediodía y parece que vayas bien de tiempo y no vas bien de tiempo. O sea, tienes que ir a comprar, que al final se han ido a Marta y Sara a comprar. Entonces nos vamos a venir aquí, son las nueve y pico de la noche ya. Accesas a Airbnb y todo. Pero bueno, que no hay que ir a la fiesta, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=675" target="_blank" class="timestamp">[11:15]</a> La fiesta está en el sótano menos 5. Oh, cabrón. Sí, sí. Salimos a las 5 de la mañana de ayer. Son las 2 de mediodía del día siguiente en España. 32 horas de viaje. Hemos venido aquí y no hemos podido entrenar. Hace un frío que pela. La realidad es que los ánimos están abajo. Hace frío. Lo que pasa es que acabas de salir de entrenar. Pero me he tenido que poner otra sudadera encima de esta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=703" target="_blank" class="timestamp">[11:43]</a> ¿Los ánimos dónde están, señores? En la menos cinco. Esa es la realidad. A partir de ahí vamos para arriba. No, no, pero están ahí. No vamos a decir, no, estamos bien. No, no. Están en la menos cinco. Vamos a viernes, compito el lunes, vamos para arriba ya. Sí, pero ¿dónde estamos? Hay que saber dónde está para ir para arriba. El mañana será otro día. Sí, sí. Ha salvado el entreno. Ahora vamos a ver si te puedes… Si nos podemos pegar la sauna.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=733" target="_blank" class="timestamp">[12:13]</a> A casa, a comer y a crecer. Y mañana a empezar la carne. Eso sí que es bueno. Eso sí que es bueno. Bueno, chicos. Espero que os haya gustado el vídeo. Estamos en Japón. Mañana será bueno. Va. Mañana será otro día. Todavía es el de los ánimos. Todavía es la realidad. No se puede pintar una caca de color de purpurina.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=761" target="_blank" class="timestamp">[12:41]</a> No pasa nada. El país va a molar y la ciudad también. Mañana con ocho horas dormidas y no 30 de viaje lo veremos diferente. Mis recientes son dos búsquedas de gimnasios y saunas. Y suscribíos, chavales. Qué gratis. Qué gratis. Y nos ayudáis mucho. Y nos ayudáis un montón y hay que buscar el medio millón de suscriptores y todo lo que se haya que decir. El corazón este y ya no sé ni cómo se aguanta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Q_Mofyc7GRw&t=791" target="_blank" class="timestamp">[13:11]</a> Lleva 32 horas, ¿eh? ¿Me lo pusiste en Andorra? Madre mía. Bueno, chicos, espero que os haya gustado el vídeo. Nos vemos mañana con más ánimos. Y aún así estoy animado. Y de verdad os lo digo que tengo muchas ganas de hacer la competición. Tengo muchas, muchas ganas de hacer la competición. Bueno, va. Chao. Chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 22/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
