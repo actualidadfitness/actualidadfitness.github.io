@@ -1,0 +1,382 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 23/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">23/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Strongman Tarrako</strong>: <a href='#video-wPAsonHpoGw'>CON MANCUERNAS DE 5KG NO ENTRENAS NI FUERZA NI NADA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-wPAsonHpoGw">
+            <h2>CON MANCUERNAS DE 5KG NO ENTRENAS NI FUERZA NI NADA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Strongman Tarrako</span>
+                <span class="date">Publicado: 23/11/2025 09:27</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=wPAsonHpoGw" target="_blank">
+                    <img src="https://i.ytimg.com/vi/wPAsonHpoGw/hqdefault.jpg" alt="CON MANCUERNAS DE 5KG NO ENTRENAS NI FUERZA NI NADA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video argumenta que para obtener los beneficios reales del entrenamiento de fuerza, es indispensable aplicar un esfuerzo mínimo y una progresión de cargas. El presentador critica a quienes asisten al gimnasio moviendo pesos insignificantes por años, creyendo que mejoran su salud. Destaca que esto no genera la musculatura ni la independencia funcional deseada. Concluye que sin esfuerzo y progresión, los supuestos beneficios del entrenamiento de fuerza se pierden.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Falsa Promesa de las Pesitas de 5 Kilos <a href="https://www.youtube.com/watch?v=wPAsonHpoGw&amp;t=39" target="_blank">[00:39]</a></h3>
+
+<p>El presentador aclara que, fuera del ámbito competitivo, el entrenamiento de fuerza requiere un mínimo esfuerzo para ser beneficioso. Critica la creencia de que cualquier movimiento en el gimnasio, por mínimo que sea, es útil para la salud o para construir una musculatura funcional.</p>
+
+<h3>El Mito de los 5 Kilos: Una Realidad Preocupante <a href="https://www.youtube.com/watch?v=wPAsonHpoGw&amp;t=195" target="_blank">[03:15]</a></h3>
+
+<p>Se critica a personas de 30 a 50 años que, a pesar de ir al gimnasio regularmente, usan pesos ridículamente bajos como mancuernas de 5 kilos o la barra olímpica sola para ejercicios básicos. Argumenta que esta falta de esfuerzo no aporta ningún beneficio real ni progresión.</p>
+
+<h3>¿Es Mejor que Nada? La Mínima Vitalidad <a href="https://www.youtube.com/watch?v=wPAsonHpoGw&amp;t=400" target="_blank">[06:40]</a></h3>
+
+<p>El video cuestiona si mover pesos insignificantes es realmente "mejor que nada", indicando que los beneficios para la salud se minimizan. Sostiene que una década de entrenamiento sin progresión de cargas no generará la vitalidad ni la capacidad de movimiento que el entrenamiento de fuerza promete.</p>
+
+<h3>Esforzarse es el Secreto: La Carga Cercana a tus Posibilidades <a href="https://www.youtube.com/watch?v=wPAsonHpoGw&amp;t=460" target="_blank">[07:40]</a></h3>
+
+<p>El presentador enfatiza que para obtener beneficios, la carga debe ser cercana a las posibilidades de cada uno, sin llegar necesariamente al fallo extremo. Insiste en la necesidad de un esfuerzo real y una progresión de cargas, incluso para objetivos de salud y autonomía.</p>
+
+<h3>Rompiendo el Autoengaño en el Gimnasio <a href="https://www.youtube.com/watch?v=wPAsonHpoGw&amp;t=580" target="_blank">[09:40]</a></h3>
+
+<p>Se aborda la tendencia al autoengaño en el gimnasio, donde muchos creen estar haciendo fuerza sin un esfuerzo real y sin progresión. El video concluye que solo al romper este patrón y aplicar un esfuerzo genuino y progresivo se pueden obtener los beneficios transformadores del entrenamiento de fuerza.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=9" target="_blank" class="timestamp">[00:09]</a> Buenas amigos y amigas, nos encontramos en nuestro canal de YouTube Strongman Tarraco y bueno, el título del vídeo será algo parecido a entrenar con las pesitas de 5 kilos, fuerza no sirve para nada. Y me explicaré antes de que se monte el basilisco habitual y todo el mundo se rasgue las vestiduras, ostras, es que no todo el mundo quiere ser Strongman y Powerlifter, ¿no? Menos mal, menos mal. Porque algo muy habitual es que cuando a una persona le dices, oye,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=39" target="_blank" class="timestamp">[00:39]</a> Un poquito de esfuerzo. Que yo que no quiero ser strongman, yo no quiero ser ni culturista, ni powerlista, ni aleta de fuerza. Es que tampoco puedes. Eso es lo primero. Hay que contextualizar que el único mensaje que quiero dar en este vídeo y algo que he explicado en otras redes sociales es que para obtener los beneficios del entrenamiento con cargas, es decir, del entrenamiento de fuerza, hay que hacer una mínima fuerza.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=67" target="_blank" class="timestamp">[01:07]</a> Y ya lo he dicho en otros lados, cualquier persona comprendida entre 2 y 200 años tiene que mover ciertos pesos para que eso sea beneficioso. Lógicamente, entiendo perfectamente que no todo el mundo quiere progresar la fuerza a sus límites humanos. Pero otra cosa muy distinta es creer que por acudir a un centro deportivo y empezar a mover máquinas y mancuernas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=96" target="_blank" class="timestamp">[01:36]</a> Al mínimo, eso será beneficioso. Y repito, hablo en este vídeo de salud. Perdón. De una persona que va al gimnasio con el afán de aprovechar esa importancia clave del entrenamiento de fuerza para generar una musculatura que a posteriori será la que nos sostendrá en el futuro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=126" target="_blank" class="timestamp">[02:06]</a> Es decir, que ese entrenamiento de fuerza sea capaz de cargar con nuestro cuerpo y nos haga mucho más independientes, personas útiles, móviles. Ese es el gran beneficio del entrenamiento de fuerza fuera del ámbito competitivo. Y yo, repito, entiendo que haya gente que no quiere ser ni strongman, ni powerlifter, ni... Bueno, no lo entiendo, pero lo respeto. Ni strongman, ni powerlifter, ni culturista, ni alterófilo, ni ningún tipo de atleta de fuerza...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=153" target="_blank" class="timestamp">[02:33]</a> ni ningún tipo de masa muscular exagerada, ni siquiera que quiera ser fuerte para sí mismo. Es decir, con un tema de superación personal. Lo entiendo. Pero es indispensable que entendáis que esa persona tiene que obtener una progresión, digamos, lógica. Y me encuentro con gente que no tiene una progresión lógica. Lógicamente, lo de los 2 a los 200 años...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=182" target="_blank" class="timestamp">[03:02]</a> Es una hipérbole. Dice ser un concepto que exagera para que llame la atención porque ha habido gente que me ha llegado a poner hombre a los dos años, hombre, es que... Es una exageración. Pero no puede ser que personas que lo veo diariamente con 35, 30, 40, 50 años que no es ninguna edad para no poder realizar nada estén haciendo presbancuernas con 5 kilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=210" target="_blank" class="timestamp">[03:30]</a> lo siento mucho, con las pesas de 5 no estás ayudando a tu cuerpo. Punto. Y no me puedo creer que haya personas que con años de entrenamiento hagan alterno con 2,5, 3 mancuernas con 5 kilos y un press de banca, la barra sola de 20 olímpica, no haya que buscarla vivir. No me lo creo. Son personas que no les gusta, que van porque les han dicho que</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=239" target="_blank" class="timestamp">[03:59]</a> que es algo positivo, pero que su nivel de esfuerzo es tan mínimo que son incapaces de progresar a nivel de fuerza. Si tú mueves pesos minúsculos, ínfimos, no tienes los beneficios, porque al final coger cosas, levantarte, tienes que hacer un mínimo en los ejercicios de pierna, en la sentadilla, un mínimo, aunque sea hack, aunque sea prensa,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=265" target="_blank" class="timestamp">[04:25]</a> aunque sea búlgara, aunque sea guiada. Hay ejercicios que con tu propio cuerpo en algunas cosas a nivel de salud te pueden servir. Como una búlgara. Que tú tengas movilidad o una persona mayor que simplemente hace como una sentadilla media como sentado en una silla. Que en el gimnasio se replica lógicamente como un banco. Entiendo que hay contextos de personas que empiezan muy mayores y lógicamente este vídeo no es para ellos. Yo estoy hablando de gente</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=294" target="_blank" class="timestamp">[04:54]</a> que se apunta al gimnasio con 20 y pico, con 30 y pico, con 40, con 50, me da igual. Una persona con 60 años puede hacer press mancuernas con 10 kilos en vez de 5 por mano. Debe poder después de un tiempo de entrenar. Pero es que lo que yo digo que es más casos más alucinantes es gente que lleva años, que es consciente de que entrena fuerza, se sabe la teoría y por qué lo hace,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=320" target="_blank" class="timestamp">[05:20]</a> Pues realmente, lo dicho, no tiene un afán ni competitivo, ni de superación personal, ni de estar más musculado. No lo tiene. Y él cree que está obteniendo un beneficio cuando está poniendo máquinas al mínimo y las mancuenas no coge más allá de 5 en ningún ejercicio. Yo he visto gente remar con 7,5. Tíos de 40 años. Remar con 7,5. Con 7,5 puedes remar con más ni madre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=348" target="_blank" class="timestamp">[05:48]</a> con 70 años y entrena ahora con mi hermana, entrenamiento de fuerza, pero vaya, no ha cogido una pesa en la vida. Con 7,5, una persona sana, normal, de 30, 40, 50 años, es no hacer nada. Y ahora saldrán los gurús de turno mejor que estar en el sofá. Depende. O sea, porque llega un momento que tu cuerpo ahí, bueno, mejor, sí, sí. Pero es que estamos en lo de siempre. Es como, ¿a qué le ha hecho esto? ¿A qué el peor? No, es que cuando hablamos,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=378" target="_blank" class="timestamp">[06:18]</a> de progresar, habrámos de sacar los beneficios de algo. Esta costumbre, tendencia a decir lo que es peor, sí, claro, es mucho peor tener todo tipo de vicios, no moverte del sofá y no andar ni para ir al lavabo. Que te traen un orinal. Sí, eso es peor. Lo cual no cambia el hecho que si una persona va al gimnasio y después de una década</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=406" target="_blank" class="timestamp">[06:46]</a> sigue remando con siete y medio porque no le ha pasado ni por la cabeza intentarlo con otra más, los beneficios quedan prácticamente al mínimo. No obtendrá los beneficios que cree. Ya no sé hasta qué punto, seguro que hay un estudio que dice que depende del punto exacto. Si el beneficio es de un 4 o de un 5, yo digo que esa persona no tendrá ese vigor, esa vitalidad, esa capacidad de moverse por sí mismo que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=435" target="_blank" class="timestamp">[07:15]</a> le presupone el entrenamiento de fuerza. ¿Por qué? Porque no está haciendo fuerza. Dicho de otra manera, para obtener los beneficios del entrenamiento de fuerza hay que hacer mínimamente fuerza. Y eso no significa remar con 120. Significa remar cercano a tus posibilidades. Que es otra vez el concepto de siempre. Igual que una persona para obtener un desarrollo muscular al máximo de sus posibilidades debe buscar el ritcero o el fallo, una persona</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=465" target="_blank" class="timestamp">[07:45]</a> 50 años que se apunte al gimnasio para intentar aprovechar los grandes beneficios que le han dicho que trae el entrenamiento de fuerza y de cargas, la carga tiene que existir al límite o no al límite, o cercano a sus posibilidades. Ya no digo límite, que la gente... Límite, no pein, no gain, cuidado, que no quiero ser culturista. Te lo dice, claro. Un 81, 50 años, 57 kilovatios. No quiero ser culturista en el reta de fuerza.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=498" target="_blank" class="timestamp">[08:18]</a> Me quedo más tranquilo. A partir de aquí, esa persona hay que hacerle entender que aunque no tenga ese objetivo, tiene que esforzarse. Y tiene que haber una progresión de cargas. No digo que haga press de vaca con 200 y sentaría con 300. Pero hay ejercicios. Quizás el que puede escoger una mancuerna más grande del gimnasio sería el remo mancuerna. No puede remar con menos de 10 kilos una persona sana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=528" target="_blank" class="timestamp">[08:48]</a> No puede. No puede porque no me puedo creer que no pueda más. Oye, y el que no pueda... Hablo de una persona sana. Porque hay gente que es capaz ahora de ponerme en comentarios que uno tuvo un accidente, se rompió el cúbito y el rayo, la muñeca, el hombro y las uñas y al cabo cuando volvió a rehabilitación lo hacía con dos. Sí. Hablo de conceptos normales. O sea, de personas normales. Luego ya, personas que están en rehabilitación, que salen de una enfermedad. Es otra historia. Evidentemente. Aún así...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=559" target="_blank" class="timestamp">[09:19]</a> Hasta en rehabilitación la gente llora. ¿Por qué? Porque le buscan los límites para recuperar el rango articular, por ejemplo, después de la lesión. Es que sin esfuerzo los beneficios de las cosas se minimizan por no decir que no existen. Entonces hay un momento que tú intentas decir, oye, tienes... No, no. Pero claro, como el ser humano, y es que actualmente es una pasada. Gente que me dice, pero esto hay que explicarlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=586" target="_blank" class="timestamp">[09:46]</a> No sabéis la gente que a nivel nutricional ni a nivel de entrenamiento, a nivel vital, te plantea dudas que dices, hostia, ¿en serio? ¿Estas alturas del partido estamos así? Y es porque la gente tiende a un autoengaño constante para sentirse bien consigo mismo. Entonces le dicen, oye, entrenamiento de fuerza, tres días por semana. Pues esa persona va dos al gimnasio, le dan una rutina base, hace la máquina de press de hombros con la primera placa, cuatro de diez. Puede hacer setenta y siete.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=615" target="_blank" class="timestamp">[10:15]</a> Pero aunque no quiera ser el puñetero Sabicas de hacer el récord de cilindro, que lo tiene Iron Bibi, por si acaso alguien lo pone. Para mí Sabicas, Bibi no bloquea. Pero dicho eso, aunque no quiera ser un portento de los preses de hombros, si lleva seis meses con la plaquita de 10 kilos, una polea, tres poleas que le restan, está haciendo pres de hombros a dos manos, ¿con cuánto? ¿Un kilo 750 gramos? Eso no sirve para nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=643" target="_blank" class="timestamp">[10:43]</a> Porque cuando vaya a buscar una botella de agua aquí le pesa más. Y así todos los ejemplos que queráis. Y lo veo diariamente. Y lo veo incluso con gente que quiere contratarme. Oye, enséñame un poco los ejercicios que haces. Y cuando le hablas un poco, pues quiero ganar masa muscular, obtener los beneficios de la fuerza, muy bien. Pásame los ejercicios. Y cuando ves el vídeo dices...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=671" target="_blank" class="timestamp">[11:11]</a> Este es el ejercicio. Ahora cojo una mancuerna. Yo he visto veces que el vídeo la mancuerna era tan pequeña que no la he visto. Y damos el remo mancuerna, concretamente, que es uno de los ejercicios que más me impacta. Cuando ves a un varón sano con 5, con 2,5, con 7,5, remando ahí a 8 repes. Hostia. Es mentira. Puedes más. A la siguiente repetición con 17,5.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=700" target="_blank" class="timestamp">[11:40]</a> ¡Ostras! Sí que puedo, pero me cuesta. ¿Te cuesta más? Con 17 y medio que con 2 y medio. Acabáramos. Y aquí, a trabajar. Es decir, muchas veces mi trabajo consta más de intentar convencer a la gente de que esto va a desforzarse, sea cual sea el objetivo, que realmente a veces de hacer la ejecución del ejercicio correctamente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=730" target="_blank" class="timestamp">[12:10]</a> La gente a nivel nutricional, a nivel de entrenamiento, tiene unos conceptos que bueno, yo voy y yo estoy moviendo, estoy haciendo fuerza, ¿no? No, no hace fuerza. La fuerza es una resistencia que tú tienes que intentar superar esa oposición de hierro y gravedad superándote constantemente. Mínimo. O al menos ponerte un límite que la sobrecarga progresiva no va a ser eterna y mucho menos si los objetivos son de salud, pero al menos...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=759" target="_blank" class="timestamp">[12:39]</a> si vas a estancarte o vas a estabilizarte, mejor dicho, que sean unos pesos que a ti ya te supongas un beneficio. Si yo ya remo con 20 kilitos, remo, si aguanté uno pues con 7,5-10, ya poco a poco el press mancuelas le pongo 15-17, empecé con 5-7,5 y ahí ya me voy manteniendo, un día saco una más, un día me encuentro mejor, pero bueno, a esa persona ya le ves un cambio postural,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=786" target="_blank" class="timestamp">[13:06]</a> le da un poquito más de hambre, porque esa es otra, uno de los beneficios es que ese entrenamiento te da un poquito más de hambre, si te nutres correctamente, poquito de proteína adecuada, nada, salvaje, 0,8, 1 por gramo por kilo de peso, y esa persona que no había ido nunca al gimnasio con 50 y pico de años, por ejemplo, 40 y pico, 30 y pico, 63, me da igual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=809" target="_blank" class="timestamp">[13:29]</a> hombre, qué mujer, y ya le ves otra postura, la espalda ya no va encorvado, se ve que los hombros se han tirado atrás porque el pectoral poco a poco, el pectoral mayor ha descubierto que existe. Es decir, y todas esas cosas son las que promueven un beneficio indiscutible del entrenamiento de fuerza y de cargas. Y de hacer un paseo por el parque, pero que pese más el pack de botellas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=837" target="_blank" class="timestamp">[13:57]</a> del Mercadona, de agua, de seis, de litro y medio, pese tres veces más que tu remo mancuerna, pues lo siento mucho, más sale a cuenta ir a comprar tú y no coger el carro. El que quiera entenderlo que lo entienda y el que no, no pasa nada. Pero los gimnasios y me llega gente constantemente con años de entrenamiento y a veces, muchas veces no hacen los ejercicios bien, pero es que encima hay poco recorrido</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=866" target="_blank" class="timestamp">[14:26]</a> Y el peso ni lo ves. No pasa nada. Te lo diré yo porque no te lo han dicho. No estás haciendo nada. Esto no puedes obtener beneficios del entrenamiento de fuerza porque esto no se entrena a fuerza. Esto es una coña marinera. No pasa nada. Con todo respeto. De hecho, la gente que ya acude a mí, yo ya le digo, perdona, no, no, he acudido para que me digas las cosas. Perfecto. Pero no te las han dicho que es el problema. Y mucha gente que aún es más gordo el problema se lo han dicho 15 millones de personas y no ha querido escuchar. Entonces, por favor,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=wPAsonHpoGw&t=896" target="_blank" class="timestamp">[14:56]</a> Para obtener los beneficios del entrenamiento de fuerza, hay que hacer un poquito de fuerza. ¿Sí? Un fuerte abrazo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 23/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
