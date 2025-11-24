@@ -1,0 +1,373 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 24/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">24/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-jnVMAvZpn1U'>*MEETING PRO JAPON* LISTO PARA LA GUERRA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-jnVMAvZpn1U">
+            <h2>*MEETING PRO JAPON* LISTO PARA LA GUERRA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 24/11/2025 02:02</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=jnVMAvZpn1U" target="_blank">
+                    <img src="https://i.ytimg.com/vi/jnVMAvZpn1U/hqdefault.jpg" alt="*MEETING PRO JAPON* LISTO PARA LA GUERRA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video documenta la experiencia del creador de contenido en un "Meeting Pro" en Japón, donde se prepara para una competición. A lo largo del metraje, comparte sus primeras impresiones sobre la magnitud del evento y el recinto, así como la eficiencia de la organización. Sin embargo, el creador revela estar lidiando con problemas personales que afectan su ánimo, restándole disfrute al viaje y la motivación para la competencia. A pesar de todo, expresa su deseo de poder disfrutar la experiencia, aunque con la desilusión de haber perdido el entusiasmo inicial.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Llegada al "Meeting Pro" y Primeras Inquietudes <a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&amp;t=58" target="_blank">[00:58]</a></h3>
+
+<p>El creador llega al evento "Meeting Pro" en Japón, expresando incertidumbre sobre la organización y el desarrollo de la competición. Menciona su deseo de que el proceso sea rápido y de poder grabar momentos clave.</p>
+
+<h3>Bienvenida Entusiasta en Japón <a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&amp;t=153" target="_blank">[02:33]</a></h3>
+
+<p>Un presentador da una efusiva bienvenida a los participantes, mostrando orgullo y sorpresa por la gran asistencia. Promete un gran espectáculo en Japón y asegura que todo transcurrirá puntualmente.</p>
+
+<h3>Impacto por la Magnitud del Lugar <a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&amp;t=301" target="_blank">[05:01]</a></h3>
+
+<p>El youtuber describe asombrado la inmensidad del lugar o del equipamiento, usando palabras como "gigante", "enorme" y "brutal". Esta primera impresión física del entorno lo deja completamente impactado.</p>
+
+<h3>Confesiones Personales y Ritmo Frenético del Evento <a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&amp;t=447" target="_blank">[07:27]</a></h3>
+
+<p>Ya en casa, el creador revela que ha tenido problemas personales que le impiden disfrutar de Japón, aunque destaca la increíble velocidad y eficiencia del meeting. Se siente disgustado, pero valora la organización rápida.</p>
+
+<h3>Desilusión y Pérdida de Ganas por la Competición <a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&amp;t=604" target="_blank">[10:04]</a></h3>
+
+<p>El youtuber confiesa haber perdido la ilusión por la competición a la que tantas ganas le tenía y, sorprendentemente, incluso por las vacaciones posteriores en Japón. Su estado de ánimo personal ha mermado su entusiasmo.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=0" target="_blank" class="timestamp">[00:00]</a> Es enorme. Es brutal. Y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=28" target="_blank" class="timestamp">[00:28]</a> ¡Fail! ¡Fail! ¡Fail!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=58" target="_blank" class="timestamp">[00:58]</a> Bueno chicos, muy buenas dos. Estamos ya en el Meeting Pro. Estamos aquí en el... Star Dawn. La verdad que no sé de organización. Llevamos aquí bastante rato. Me habían dicho que estuvimos antes. Pero bueno, hemos llegado aquí ahora. Vamos a ver qué tal el tema del Meeting. Supuestamente el Meeting Pro espero que sea bastante rápido y poder pirarnos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=80" target="_blank" class="timestamp">[01:20]</a> Rápida casa, que no sé ni qué vamos a hacer hoy, sinceramente. Pero bueno, a ver qué dorsal nos toca, a ver cómo van las cosas. No sé si hay competición amateur, si no hay, sí que sé que hay más categorías. Así que bueno, vamos a ver si nos dejan grabar también, que esto lo deseamos. A ver.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=106" target="_blank" class="timestamp">[01:46]</a> Ahora vamos a explicar cómo se va a hacer</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=147" target="_blank" class="timestamp">[02:27]</a> Gracias por ver el video.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=153" target="_blank" class="timestamp">[02:33]</a> ¿Cómo estás? Estamos muy orgullosos de tener ustedes aquí. ¿Cuáles son? Supongo que es 31. 31. ¡Wow! Estamos muy emocionados. Nunca esperamos que ustedes tengan tantas personas aquí. Pero va a ser un gran show. En Japón, todo lo demás va a pasar en el tiempo. Así que estará muy cómodo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=179" target="_blank" class="timestamp">[02:59]</a> Eso es lo que queremos. Así que cualquier cosa que hayan preocupado, decirle a todos estos chicos y nos acompañamos el mejor. Te deseamos todo el mejor. Gracias por venir.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=212" target="_blank" class="timestamp">[03:32]</a> 1, 2, 1</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=272" target="_blank" class="timestamp">[04:32]</a> Por supuesto, por supuesto, por supuesto. ¿Cómo te sientes? ¡Ya! ¡Muchas de conocerte y nos vemos mañana! ¡Muchas de suerte! ¡Muchas de suerte! ¡Muchas de suerte! ¡Muchas de suerte! ¡Muchas de suerte! ¡Muchas de suerte! ¡Muchas de suerte! ¡Muchas de suerte! ¡Muchas de suerte! ¡Muchas de suerte!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=301" target="_blank" class="timestamp">[05:01]</a> Me falta el slime. Ya tenemos el slime listo, bastante raro. Creo que hay que estar bastante, bastante pronto porque no me quieren dar capas como si no pasa una hora o dos seguida. No entiendo muy bien, la verdad, pero bueno. Voy a ver si veo el sol. Madre mía, no tienen todo para no manchar nada. Son gigantes, hermano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=331" target="_blank" class="timestamp">[05:31]</a> Pero, pero, pero, pero, pero, ¿dónde vas? Qué locura. Esto es imposible que lo lleguen. Qué locura. Es enorme. Thank you. Guau. Qué locura. Dios. Buah. Es enorme. Es muy grande. Es brutal. Estoy flipando. Madre de Dios. Madre de Dios, bro. Es el sumo más grande de competir. Buah.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=364" target="_blank" class="timestamp">[06:04]</a> Muy grande, ¿eh? Oh, muchas gracias. Eso es increíble. Muy, muy bonito. Felicidades. Adiós. Gracias. Gracias. Es brutal.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=388" target="_blank" class="timestamp">[06:28]</a> Es muy grande, tío. No sé si me da mal rollo que sea tan grande o... No te lo digo en serio. Estuviste en Praga, bro. Esto ya. Esto me va a agradecer en Praga. Ya. Juan. Y a... You. Y a... Pain. You have pain. For you. No. Thank you. Sorry, I got it. Juan. Y a... You have pain. For you. No. Thank you. Sorry, I got it. Juan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=417" target="_blank" class="timestamp">[06:57]</a> Realmente? Ah, eso es bueno. ¿Puedes ver? Ok, en Instagram. Eso es bueno, eso es bueno. Bienvenidos a tu amigo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=447" target="_blank" class="timestamp">[07:27]</a> Bueno chicos, estoy aquí en casa a última hora. Me estoy preparando todo para mañana. Literalmente hoy no he hecho nada. He estado con un ordenador, he estado con problemas personales, os diría directamente. Tampoco quiero leer deshonesto con vosotros ni nada, ni todo es bonito.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=475" target="_blank" class="timestamp">[07:55]</a> De hecho, yo estoy aquí como bastante disgustado en Japón, por ejemplo. También por temas personales, pero también porque no estoy disfrutando del sitio. Y yo soy totalmente honesto. Tampoco pasa absolutamente nada. Tengo que recalcar que el meeting ha sido una pasada a nivel de velocidad. Creo que ha sido el meeting más rápido que he estado, sin duda, en mi vida. Nos ha costado un poquito entrar. Como que no me había empezado, pero en cuanto me había empezado, el meeting ha durado un segundo, literalmente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=503" target="_blank" class="timestamp">[08:23]</a> Había gente muy top, tampoco he podido estar mucho, tampoco he estado en mis cabales mucho, vamos a decirlo así. Entonces, no sé bien cómo está el físico. Le he ido pasando revisiones a Fran, le he pasado otras revisiones a Fran. He estado durmiendo esta tarde también. Dentro del KB no voy a decir que he estado tranquilo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=522" target="_blank" class="timestamp">[08:42]</a> pero no sé lo que va a afectar al físico, no sé cómo me va a ver mejor o peor. Me da un poco igual, sinceramente. Hemos entrado al pabellón, es muy grande, me asusta bastante. Quiero intentar disfrutar. Si no disfruto, creo que independientemente de todo no va a ser un éxito. Así que ya veremos cómo sale, sinceramente, porque con el mood en el que estoy, no estoy para disfrutar como he estado disfrutando estas últimas semanas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=549" target="_blank" class="timestamp">[09:09]</a> Me da bastante rabia haber perdido la dinámica de competición que estábamos llevando estas semanas, porque me gustaba bastante el competir todos los fiendes. He sido parar y perder un poco el fuelle, perder un poco también las cosas de cómo verlas o cómo tal. Así que bueno, que es lo que hay. Tampoco me como mucho más el tarro ahora mismo ya. Ahora a día de hoy ya no me como el tarro. Llevo unas últimas 24 horas bastante malas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=576" target="_blank" class="timestamp">[09:36]</a> Y ya os digo, no por estar en Japón. Al final son cosas también personales, son cosas de cómo se gestiona todo por mi parte. Y nada chicos. No espero que os haya gustado el vídeo porque tampoco ha sido el díazo de la historia. Pero bueno, mañana veremos qué tal va la competición. Espero sinceramente que bien y no por el resultado, espero poder disfrutarla. La verdad, lo espero. Una competición con muchísimos atletas y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=604" target="_blank" class="timestamp">[10:04]</a> y que le tenía bastantes ganas. Y me da bastante pena haberle pedido bastantes ganas. De hecho vine aquí para quedarme en vacaciones luego y por ejemplo no tengo ganas de quedarme en vacaciones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=jnVMAvZpn1U&t=614" target="_blank" class="timestamp">[10:14]</a> Es la realidad y tengo ganas de conocer el país. Me da bastante pena en ese sentido. Pero bueno, es un poco... Es la realidad, ¿eh? No intento transmitir una cosa que no sea realidad o que... O decir, ah, qué guay esto y luego estar así. No, esto, tíos, es... Es lo que es. Así que, chicos, un besito muy grande y nos vemos en el jueves. Chao, chao.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 24/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
