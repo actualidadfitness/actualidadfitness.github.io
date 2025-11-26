@@ -1,0 +1,409 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 26/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">26/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Antonio Masmas</strong>: <a href='#video-H82so5Y3KSo'>EL GIGANTE RUSO QUE USA CANTIDADES SOBREHUMANAS DE QUÍMICA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-H82so5Y3KSo">
+            <h2>EL GIGANTE RUSO QUE USA CANTIDADES SOBREHUMANAS DE QUÍMICA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Antonio Masmas</span>
+                <span class="date">Publicado: 26/11/2025 15:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=H82so5Y3KSo" target="_blank">
+                    <img src="https://i.ytimg.com/vi/H82so5Y3KSo/hqdefault.jpg" alt="EL GIGANTE RUSO QUE USA CANTIDADES SOBREHUMANAS DE QUÍMICA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza la realidad del culturismo de élite a través del caso de Serguéi Danilov, revelando su impactante uso de esteroides y hormona de crecimiento. El presentador, conocido como Gorrino, critica la negación en la industria sobre el papel de estas sustancias para alcanzar físicos extremos. Se discuten los riesgos para la salud y se desmienten mitos sobre la posibilidad de lograr tales resultados de forma "natural".</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El lado oscuro de un físico de élite: Acromegalia y riesgos <a href="https://www.youtube.com/watch?v=H82so5Y3KSo&amp;t=174" target="_blank">[02:54]</a></h3>
+
+<p>El video introduce a Serguéi Danilov, destacando su pasado como jugador de hockey y su trayectoria en el culturismo hasta obtener la tarjeta PRO. Se abordan sus peculiares rasgos faciales, diagnosticados como acromegalia (crecimiento de mandíbula), y un infarto a los 18 años, señalando las graves consecuencias para la salud de su estilo de vida.</p>
+
+<h3>Revelando el "ciclo" de un Mr. Olympia: 3 gramos de química y 20 IU de GH <a href="https://www.youtube.com/watch?v=H82so5Y3KSo&amp;t=439" target="_blank">[07:19]</a></h3>
+
+<p>Durante un entrenamiento con Larry Wheels, Serguéi Danilov confiesa los detalles de su régimen de sustancias. Admite tomar 3 gramos de esteroides a la semana (testosterona, primobolan, masterón) y 20 unidades internacionales de hormona de crecimiento al día, además de consumir 7000 calorías diarias para mantener su físico extremo.</p>
+
+<h3>Desmontando el mito: Sin química, no hay físico extremo <a href="https://www.youtube.com/watch?v=H82so5Y3KSo&amp;t=735" target="_blank">[12:15]</a></h3>
+
+<p>El presentador arremete contra el culturista Jordi Benjure por negar la necesidad de anabólicos para alcanzar físicos de élite. Argumenta vehementemente que es imposible lograr el tamaño, la calidad muscular y el bajo porcentaje de grasa de figuras como Serguéi o Smaev sin un uso masivo de sustancias.</p>
+
+<h3>La verdad detrás de las hazañas imposibles: Cargas brutales y tendones de hierro <a href="https://www.youtube.com/watch?v=H82so5Y3KSo&amp;t=1020" target="_blank">[17:00]</a></h3>
+
+<p>El anfitrión cuestiona cómo culturistas como Smaev pueden realizar levantamientos de cargas extremas (como 300 kg en press banca varias veces a la semana) sin sufrir lesiones tendinosas severas. Insiste en que la capacidad de recuperación y resistencia a tales esfuerzos va más allá de los límites humanos sin el soporte de la química.</p>
+
+<h3>Evidencia irrefutable: Las manos anormales como señal de abuso de GH <a href="https://www.youtube.com/watch?v=H82so5Y3KSo&amp;t=1258" target="_blank">[20:58]</a></h3>
+
+<p>Para consolidar su argumento, el presentador muestra las manos desproporcionadamente grandes de Smaev como una prueba evidente del abuso de hormona de crecimiento. Explica que el crecimiento anómalo de las extremidades es un claro indicador del uso de dosis letales de esta sustancia.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=0" target="_blank" class="timestamp">[00:00]</a> Vais a flipar con esto que vamos a ver ahora, ¿ok? La mortal dosis de química que toma el mutante ruso Seyer Danilov. Vais a flipar con este vídeo de nuestro amigo Gorrino. Escalofriante dosis de chasca que toma mi compañero Serguéi te va a dejar flipando en este vídeo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=15" target="_blank" class="timestamp">[00:15]</a> Señores, el gorrino por fin está de vuelta después de unas semanas de poca actividad. Y sé que muchos me habéis estado echando de menos. Larry Williams entrenó hace poco con el famoso Smaev, pero es que ahora ha entrenado con el primo hermano, que no veas cómo está también. No, primo hermano lo sé, pero es su colega, son muy amigos, graban juntos el...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=34" target="_blank" class="timestamp">[00:34]</a> Es más, es con este, van a todos los lados juntos. ¿29 años? Parece que tiene 40, tú.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=58" target="_blank" class="timestamp">[00:58]</a> Un par de años más. Pero bueno, esto del envejecimiento prematuro en el culturismo es el pan de cada día. Antes de dedicarse al culturismo, Serguéi jugaba al hockey profesionalmente como portero, pero se ve que se lesionó el tío y tuvo que dejarlo. Su trayectoria en el culturismo comenzó a competir por el 2013 supuestamente y no fue hasta mayo de 2024 cuando consiguió la tarjeta PRO. Ya sabes, la tarjeta que te convierte en culturista profesional y te permite ir al Olimpia.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=86" target="_blank" class="timestamp">[01:26]</a> Este año se clasificó al Olimpia ganando el Francia Pro, y es en parte por eso también que el muchacho ha tenido un pequeño empujón a nivel mediático. Obviamente entrenar con Larry le da todavía más empujón, incluso más que ganar un pro show y clasificarse al Olimpia, y esto es así. A nivel mediático vale más una collab o con un youtuber de moda que ganar un pro show o competir en el Olimpia. ¿Cuántos culturistas habrá compitiendo en el Olimpia y muchos tienen muy poca fuerza mediática?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=114" target="_blank" class="timestamp">[01:54]</a> Dirás tú, Gorrino, ¿cuánto mide y cuánto pesa este tío? Este tío es grande. Según su biografía de Instagram, su altura es de 1,87. Tiene estómago muy alto. Y su peso de 145 kilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=129" target="_blank" class="timestamp">[02:09]</a> ¿Cómo? De 1,87 y su peso de 145 kilos. ¿Tanto? Casi puede presumir de que tiene las mismas stats que el gorrino. Fuera bromas, menudo animal. Un dato curioso es que alguna gente se cree que tiene algún tipo de discapacidad o algo así por el tipo de cara que tiene.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=147" target="_blank" class="timestamp">[02:27]</a> Tiene una cara muy rara, es como que no le corresponde con el cuerpo ni con... Tiene unas facciones muy pequeñas. Ojo, no quiero faltar el respeto ni nada. Simplemente he visto comentarios en algunos vídeos de gente diciendo que le pasa a este hombre. Y tengo entendido que no, que no le pasa nada. Simplemente es así, pero es una persona normal. Lo que sí sabrán algunos de mis fieles seguidores es que la mandíbula sí es verdad que le ha crecido y no es la que traía por defecto al nacer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=174" target="_blank" class="timestamp">[02:54]</a> Y eso es lo que llamamos acromegalia. Lo mismo que le ha pasado a Urs, vaya. Investigando sobre él me he dado cuenta de algo bastante alarmante. Y es que con 18 años supuestamente sufrió un infarto. También se habla de más cosas rollo que tiene problemas circulatorios. Que si se le rompió un vaso sanguíneo en la pierna o no sé qué hostias. Pero esto no te lo puedo confirmar y no sé si es 100% real. Lo que está claro que tener este físico conlleva problemas. Eso te lo puedo hacer en la gana.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=203" target="_blank" class="timestamp">[03:23]</a> La cantidad de masa muscular que tiene con el nivel de grasa que tiene es una locura. Segurar. El entrenamiento con Larry Wills ha sido un entrenamiento de esos que te vas con tus panas y te tiras tres horas entrenando. Cuando tú solo entrenando realmente estarías una hora y media o algo así. Pero como te la pasas cascando, pues se te pasa el tiempo volando. Y eso es lo que ha pasado aquí. Pero curiosamente podemos rescatar conversaciones muy interesantes.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=231" target="_blank" class="timestamp">[03:51]</a> especialmente para aquellos que se interesan por el tema de los esteroides. En mi caso, a pesar de ser natural, me parecen curiosos estos temas. Bueno, como ves, aquí empiezan con unas aperturas como primer ejercicio de la sesión. Después del mutante va Larry mientras está haciendo la serie completo silencio, los otros dos mirando.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=250" target="_blank" class="timestamp">[04:10]</a> De hecho, este muchacho de azul es como amigo del mutante y como que le financia los viajes o algo así, tengo entendido, para que tanto él como Smaev también puedan viajar y hacer colaboraciones y eso. Después de un rato, Larry suelta la bomba con una pregunta tremenda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=265" target="_blank" class="timestamp">[04:25]</a> ¿Crees que la gente no crece porque no come suficiente o porque no se pincha suficiente? Joder, Larry, directo y conciso, ¿eh? Respuesta de Sergey. Los esteroides. Le dice Larry, vale, ¿y qué pasaría si tomaras tan solo 3.000 calorías? Me quedo en la mierda. Por lo que explica, tiene que comer al menos 7.000 calorías para mantener su físico y...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=286" target="_blank" class="timestamp">[04:46]</a> Bueno, ya os digo que un 87 no mide, porque Larry Wills no llega a un 85, ¿vale? No palmar músculo. Tú fíjate qué barbaridad, chaval. Imagínate el gasto en comida que tiene este señor. Si es que no renta, señores. No renta hacer volumen. Te quedas tieso de dinero. Nada, que mientras Larry sigue haciendo preguntas...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=303" target="_blank" class="timestamp">[05:03]</a> Ha dicho que come 7000 calorías. Mi compa Sergey le tira endemoniadamente. Pero tranquilos, que esto es el warm up todavía. Larry le empieza a tirar otra vez y Sergey le dice que más lento, chiquillo. La siguiente pregunta de Larry fue que cuáles son las marcas de Sergey, refiriéndose a sus récords, claro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=321" target="_blank" class="timestamp">[05:21]</a> Y resulta que no ha probado su 1RM desde los 19 años, que fue cuando levantó pesando 85 kilos nada más, 320 kilos en sentadilla, 320 en peso muerto, 230 en press banca. Yo solo me creo lo que veo. Yo me creo lo que veo. Preguntó por la medida de sus brazos, ya que como ves...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=343" target="_blank" class="timestamp">[05:43]</a> 80 y pico quiero levantar eso, me parece una locura, eh. Ven bastante tochos. 60 centímetros le miden con bombeo. Sí, sí, yo quiero una pregunta. La dosis, la dosis. Bombeo no se sabe. Nada, cuando por fin habían terminado con el primer ejercicio, Sergey se quitó la otra camiseta que tenía. Se puso a posar incluso un poco. Y ojo con los abdominales, eh. No va nada mal el tío. Con el doble bíceps dejó a Larry congelado. Y lo que más le gusta a Sergey, presumir de sus pies.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=371" target="_blank" class="timestamp">[06:11]</a> Vaya fe moral lleva. Piernas que la verdad también las lleva bien. Algunos seguramente os preguntaréis si este señor tiene potencial en el Olimpia. Ya que como está clasificado para 2026 pues alguna gente se lo preguntará. Y honestamente no tiene del todo mala estructura. Pero creo que quizás le puede faltar condición en algunas partes. Al menos en el posing con Larry en las piernas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=393" target="_blank" class="timestamp">[06:33]</a> Hostia, cabrón, pero está fuera ahora, ¿no? Le falta bastante detalle. Pero espérate, cabrón. Obviamente, aquí Serguéi no está en punto de competición, pero bueno, yo como que no lo termino de ver aún para estar en el top 10 de Open. A lo mejor con unas ba... Yo creo que sí baja de peso. Señores, quieto parao ahí. Escúchame, vengo a enseñarte la mejor proteína del mercado, la hidronizada fuera de profis de vainilla. Con 28% de pureza, no lo encuentro en ningún lado. ¿Y sabes cómo te hace más efecto? Con mi código de descuento Antonio G...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=424" target="_blank" class="timestamp">[07:04]</a> Se pusieron calientes. Larry empezó a profundizar mucho más en lo que toma ser gay. Ya sabes. Lo que se inyecta en el cuerpo. La primera cuestión fue que cuál es el ciclo de ser gay cuando está en preparación. Es decir, ahora que se prepara para...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=439" target="_blank" class="timestamp">[07:19]</a> Ah, lo va a decir. Lo limpia, ¿cuánto toma? La respuesta de Sergey, 3 gramos en total a la semana. El colega le dice, ¿quieres saber exactamente lo que toma? Sergey dice, 1 gramo de testosterona, 1,5 de primovolán y 500 de propionato de masterón. Estúpido. 3 gramos. ¿Y hormona? 3 gramos, ¿eh? Para los amantes de la aguja y el...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=466" target="_blank" class="timestamp">[07:46]</a> Trigamos bastante. Un jeringa es ahora mismo un festival que un tío así de grande y relativamente mediático esté revelando estos datos es brutal. No, brutal, no, está diciendo la verdad. Y le dice, ¿y cómo que no tomas trembolona en vez de primo o algo así? Dice él, porque no tengo tantos efectos secundarios.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=484" target="_blank" class="timestamp">[08:04]</a> Hombre, es que la Trembo tiene la familia de ser una sustancia potente de cojones. De repente, Sergui también dice que toma 20 unidades internacionales de hormona al día. Para el que no sepa cómo va esto de las unidades inter... 20. 20 es bastante. ...unidades internacionales sencillamente es... O sea, hay gente que toma... Bueno, depende del nivel, ¿no? Pero...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=510" target="_blank" class="timestamp">[08:30]</a> 20 es bastante, bastante, bastante. Una forma de medir la chasca, ya que como no siempre tiene la misma potencia por miligramo, ya que hay diferentes marcas. Yo he conocido muchísima gente, bueno el propio Pedro RS dice que toma 3 unidades al día. Y concentraciones y todo eso, pues en el mundo este oscuro de los culturetas se usa la unidad o unidad internacional para entenderse.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=531" target="_blank" class="timestamp">[08:51]</a> Dirás, gorrino, 20 al día es mucho. Es una cantidad extrema para una persona. Molaría compararlo con lo que tomaran otros open. Pero claro, no todo el mundo es como ser gay, que se la pela todo y dice lo que toma. Larry, por otro lado, también revela lo que usa. Dice que no está usando hormona de crecimiento. Solo testo y anabar. En fin, cositas buenas pa' tu cuerpo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=554" target="_blank" class="timestamp">[09:14]</a> Macarena, lo que sí es verdad que Larry se queda loco por esto que dijo Serguéi de 20 unidades al día, ya que la somatropina, que es la hormona... 20 son muchas, ¿eh? ...sintética creada en laboratorios no es precisamente barata. Dice que en Estados Unidos eso le costaría al mes 3.000 pavos. Pero al parecer en Rusia, según dice Serguéi, tiene patrocinadores y le sale mucho más bar...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=577" target="_blank" class="timestamp">[09:37]</a> Barato. Patrocinadores de química. De hecho, tan barato que más que barato es gratis. La pregunta es, ¿cómo que le sale gratis tanta chasca? Imagino que porque hará algún tipo de publicidad de ese patrocinador que le da todo gratis, ¿no? Y aquí ya entramos en cosas que, bueno, ya sabéis que no comparto. No debería normalizarse hacer publicidad de cosas así. En los países del este está muy normalizado el tema de la química.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=604" target="_blank" class="timestamp">[10:04]</a> Pero mucho, mucho, mucho, mucho. Pero lo más fuerte viene ahora. A ver. Una vez hizo el experimento. He used 100 hormones every day for a week. ¿Cómo? ¿No le decir 100 unidades al día durante una semana? He used 100 hormones every day for a week. Oh, wait. I must have heard that incorrectly. 100 IU every day.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=633" target="_blank" class="timestamp">[10:33]</a> Yo tengo que deciros que yo no he conocido a nadie que tome 20 unidades. No sé lo que harán los pros. Pero me parece que lo dejo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=660" target="_blank" class="timestamp">[11:00]</a> Este tío está loco. Que, por cierto, tiene sentido que tome 20 unidades. Vale.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=666" target="_blank" class="timestamp">[11:06]</a> Porque al tomar más hormona y la cantidad de química que toma, puede sintetizar esa cantidad de comida de comer 7.000 calorías u 8.000 calorías todos los días. Porque lo normal de comer 7.000, 8.000 calorías es que te pongas gordo, te tapes, no tengas ese porcentaje graso. Por lo tanto, la hormona y la testo hace que puedas tener ese tamaño y puedas comer esa comida y mantenerse así. Porque tienes un nivel de...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=692" target="_blank" class="timestamp">[11:32]</a> Pues eso, de masa muscular que te permite poder consumir esa comida. 100 al día durante una semana. Larry le dice que cómo es posible que siga vivo. Yo lo que no entiendo es cómo les da por experimentar con cantidades así. No le tienen ningún respeto a los...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=708" target="_blank" class="timestamp">[11:48]</a> básicamente el tío ha jugado a la ruleta rusa y nunca mejor dicho porque imagínate que por lo que sea su cuerpo reacciona mal a toda la que le estaba metiendo que dentro de lo que cabe no es tan porque simplemente era hormona de crecimiento pero no sé me parece un escándalo lo que hace alguna gente cada uno sabrá si le merece la pena o no llevar a cabo este tipo de prácticas pero</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=730" target="_blank" class="timestamp">[12:10]</a> Pero mi consejo, como siempre, será que os mantengáis alejados de estas cosas. Es una salvajada. Que por cierto, voy a aprovechar para contestar a Jordi Benjure. Ya que no sé si... Mira, no me lo quiero tomar a mal, ¿vale? Porque yo me tomo todo esto como risa, jiji, jaja, juju. Pero hay gente que parece que la tiene tomada con intentar dejarme a mí como si fuera un subnormal. Que eso es subnormal, pero no todo el rato. Vale, escuchemos. Yo dije que este hombre tiene... Bueno, escuchadlo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=759" target="_blank" class="timestamp">[12:39]</a> Que para no asimilar 8.000, de 8 a 10.000 calorías diarias, sin poner de gordo, es porque tiene una cantidad de hormonas de crecimiento en ese cuerpo que no es... Sí, los 153 kilos que pesa no tienen nada que ver. Realmente está así y puede permitirse comer tanto sin un ventaja de grasa tan elevado por la cantidad de masa muscular que tiene.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=778" target="_blank" class="timestamp">[12:58]</a> Claro, porque la cantidad de masa muscular que tiene, sin la hormona y los gramajes de testo que lleva en el cuerpo, pesaría 153 kilos. ¿Sí, Jordi? ¿Por qué no lo haces tú, Jordi?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=793" target="_blank" class="timestamp">[13:13]</a> ¿Para qué tomar...? No, porque digo yo, porque tú tampoco tomas nada, que no, Jordi. O sea, que tú también tomas. Quiero decir, si se puede pesar 150 kilos con este físico, como el de Ismael, ¿por qué no lo haces tú, Jordi? Porque no se puede. Porque no se puede. De verdad. Algunos culturistas queréis hacer negar la mayor, no sé por qué haces esta gilipollez, porque lo que estás haciendo es una puta gilipollez. Intentan dejarme mal, como que yo soy un retrasado, que a veces lo soy, pero en este caso...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=820" target="_blank" class="timestamp">[13:40]</a> No. Tú no puedes pesar 153 kilos con este porcentaje graso comiendo 10.000 calorías al día sin hincharte anabólicos. No puedes. ¿Vale? Y has querido hacer como que no, esto es porque él come de esta manera y tiene tanta masa muscular y al tener tanta masa muscular pues gasta más calorías y por eso se lo puede permitir. Ya claro, pero es que la base de tener esa masa muscular sin toda la droga que toma no puede tenerla.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=847" target="_blank" class="timestamp">[14:07]</a> ¿Vale? Es que de verdad, siempre es lo mismo. Y no es la primera vez que va a hacer esto, Jordi. Mira que no es un tío que me cae mal, pero parece que siempre intenta como... Parece que lleva tiempo intentando dejarme como si fuera un retrasado. ¿Vale? Y me da mucho coraje ya. Creo que ya vamos a empezar a calmarla. Vamos a bajarla un poquito porque entonces ya... No.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=867" target="_blank" class="timestamp">[14:27]</a> ¡No, qué da! ¡Qué va, hombre! Porque este que es íntimo, del que acabamos de ver íntimo, van a todos los sitios juntos, ¿vale? ¡Claro! SMAEF pues va con 500 de texto y 3 unidades de hormona. ¡Es que tócate la p***, compadre! Y lo peor es que él lo sabe, Jordi, tío. Lo peor es que él lo sabe, ¿sabes? Eso es lo peor. Lo peor es que él lo sabe, que el SMAEF irá con otros 3 o 4 de texto, con otras 20 unidades de hormona y de insulina saber en su momento, ¿sabes?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=895" target="_blank" class="timestamp">[14:55]</a> Y esto es lo que me da coraje, que a mí me quieran hacer retrasado cuando saben de sobra la realidad del mundillo este. ¡Vamos! ¡Compis, es que tócate! ¡Es que manda cojones, tío! ¡Es que manda cojones, macho! ¡Vamos! ¡Es que ahora el MAEF pesa 150 kilos! ¡50 kilos porque sí! ¡Porque sí, pesa sí! ¡Nada, porque sí! ¡Vamos a ver, por favor! Conforme hay más masa muscular, más puedes comer. Porque para mantener ese físico, la masa muscular, como digo, requiere de más energía. Lógico. Si no hubiese...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=924" target="_blank" class="timestamp">[15:24]</a> Joder, que el 99%, por no decir el 100% de la gente se enchufa a lo que se enchufa a este hombre. Nunca la vida se va a poner como este hombre.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=935" target="_blank" class="timestamp">[15:35]</a> Pero vamos a ver, vamos a ver. ¿Acabas de contradecirte tú solo, entonces? No. Acaba de contradecirse solo. Quiero decir, si nadie lo puede hacer y él sí lo puede hacer es porque algo están haciendo. Aparte de la genética, ¿no? Digo yo. Digo yo. No sé. Llámame loco. Algo están haciendo, ¿no? Claro. Acabó de ver al ruso. Íntimo. Que son como hermanos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=958" target="_blank" class="timestamp">[15:58]</a> Y es muy sencillo. Porque van con una cantidad de mierda encima. Espectacular. Ya está. Que sí, que tú, Manolito, probablemente, aunque hagas lo mismo que Esmaez, no te pongas como él. Pero para ponerte como Esmaez, hay que hacer lo que hace Esmaez. Ya está. Es que es increíble. Cómo negar la mayor, hermano. A mí me entienden. Es que me sorprende muchísimo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=980" target="_blank" class="timestamp">[16:20]</a> A mí no me suena. A mí sí me suena. Básicamente por el rango de repetición en general. Está yendo a 25 repeticiones. ¿Y con los 300 kilos en banca cuántas repeticiones hace? Dime. Porque hace banca... Es que le he visto hacer banca 3 veces a la semana. Con unas cargas brutales. ¿Me vas a decir tú a mí que un humano con...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=997" target="_blank" class="timestamp">[16:37]</a> serie de 220, 230, 240, 250, aunque haga 10, 12, 15. Esos tendones no se resienten. A ver qué es un humano, no es una máquina. Parece mentira porque tú eres preparador y sabes cómo va esto. Las cargas son las cargas. Aunque tú tengas muy buena resistencia a la carga, llega un momento que petas. Y es que es un tío que te tira 300 de banca nada más que le sacas una cámara.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1019" target="_blank" class="timestamp">[16:59]</a> Es que es tal cual. Es que las progresiones y el esmaef se las pasa por el culo. Porque es que no llevo siguiendo mucho tiempo. Aunque haya subido vídeos de él hace 3 meses, llevo siguiendo esmaef mucho tiempo. Y literal, aparece una cámara y el tío te tira 300. ¿Sabes lo que quiero decir? Saca la cámara, ¡pum! 300 kilos en banca. Es que no. No es que haga un vídeo una vez. No, no. Hay como 20 vídeos de él tirando 300 en banca. Hombre, por favor. 300 en banca, ¿sabes? Entonces a nivel tendinoso articular se sufre mucho menos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1048" target="_blank" class="timestamp">[17:28]</a> Se sufre mucho menos si a nivel de... Claro, aquí tiene razón lo que quiere decir. El tema de bíceps, tríceps, todo lo que hizo el otro día, tiene razón. Si eso no se lo voy a quitar. Aquí tiene razón, por supuesto que tiene razón. Hay mucha menos tensión. El tendón se regenera mejor, todo mejor. No hay tanto desgaste.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1066" target="_blank" class="timestamp">[17:46]</a> Pero la banca. Cuéntame lo de la banca. Cuéntame lo de los tendones del bíceps con la pulseada. Claro que me impresiona un tío que le aguante los tendones para las salvajadas que hace. Porque está continuamente haciendo salvajadas. Mira, amigos, levantarte en dominadas a partir de 150 kilos es una puta locura. Pero es que no es dominadas. Es que el tío con una mano se hace repeticiones en dominadas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1092" target="_blank" class="timestamp">[18:12]</a> Eso a nivel tendinoso es una locura. Jordi, compi, me caes de puta madre, pero es que cada vez que puede me intenta hacer el clip para dejarme como un retrasado. Y aquí saben, igual que yo, que tú no te puedes poner con este tamaño, ¿vale? Si no te lo permite la sustancia, ponerte con este tamaño y esta calidad, y este porcentaje graso que tiene, coño. Me da coraje, tío, de verdad. Tía, mira que el tío me cae de puta madre. Mira que yo entiendo el negocio y hazme lo que tú quieras, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1119" target="_blank" class="timestamp">[18:39]</a> Claro, pero es que se lo ponen en los comentarios. Y claro, los 153 kilos de masa muscular, ¿de dónde han salido? Obviamente que es un gordo genético, pero va hasta arriba, no lo siguiente. Claro, hostia, 10.000 calorías al día, los 153 kilos sí que tienen algo que ver, pero algo más tiene que pasar. Y tú que has pesado, 140 lo sabes perfectamente. Es que este es el problema, compadre. Es que es querer dejarme a mí como gilipollas de gratis. Y yo callo, últimamente me callo de todo el mundo. Me callo, me callo, me callo. Pero ya vale, locos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1147" target="_blank" class="timestamp">[19:07]</a> Que es que sabéis lo mismo que yo. O sea, quiero decir, en este mundillo, en esto... O sea, que sabéis lo que hay. Que manda cojones. Es que ahora resulta que los culturistas son pros tomando en un TRT. Es que cualquier día lo van a decir alguno. No, no, yo me he hecho pros en TRT. Da la mierda. O sea, es que manda huevos, compi. Manda cojones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1167" target="_blank" class="timestamp">[19:27]</a> Siempre la misma historia, siempre la misma tontería, compadre. Es como... Ah, da igual. Como se calla, pues venga, vamos a darle palo. Vamos a darle palo al tonto. Venga, que se calla, que se calla. Pues no, ya vale. Ya, cortadla un poco, hermano. Cortadla. Que toquéis la polla. Ya, ya, ya. Hacéis enfadar, tío. Y te lo juro que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1184" target="_blank" class="timestamp">[19:44]</a> que es un tío, lo repito, me cae de puta madre, pero veo el vídeo y digo, hostia, tío, ¿sabes? Hostia, tío, ya vale, loco, que no me parece bien. O sea, no es que no me parezca bien, perdón. Dilo todo, dilo todo, ¿sabes? Eso es lo que quiero decir. Dilo todo. No, no, nada más que eso es, dilo todo. Di, di que, oye, que este tío está así, puede comer esta cantidad con el porcentaje graso que tiene,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1208" target="_blank" class="timestamp">[20:08]</a> porque tiene mucha masa muscular y por lo tanto en su cuerpo le demanda esto. Ahora bien, para poder tener esa cantidad de masa muscular y asimilar la comida mejor y todo esto, tiene mucho que ver la química. Ya está. Es que no es otra cosa, ¿sabes? Me da rabia, compadre. Me da mucha rabia, ostia. Intentad ponelo como Esmael. Intentad ponelo como Jordi, no como Esmael.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1231" target="_blank" class="timestamp">[20:31]</a> Como Jordi. A ver qué os pasa. Os vais a comer una mierda la mayoría. No quiero quitarle mérito al trabajo, a la disciplina, al entreno, a la... Todo, claro que sí. Pero y con todo y con eso hay gente que tiene un límite que no puede pasar de ahí. Pero es que los límites de Esmaez... Esmaez ha pasado los límites humanos de hace ya mucho tiempo. Mucho tiempo. Y luego además que Esmaez, compi, el canteo de Esmaez de que es un tío que abusa de la hormona y no que tome agua</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1258" target="_blank" class="timestamp">[20:58]</a> abusa de la hormona, os lo voy a enseñar aquí ahora mismo, ¿vale? Que todos lo sabéis. Esto es un claro factor. Cuando tú haces entrenos específicos de manos, tu mano crece, pero no crece como a este. Ahora bien, si vas con unas dosis letales de hormona como va este,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1275" target="_blank" class="timestamp">[21:15]</a> Las manos también te crecen. ¿Vale? Es así. Es así. Las manos de este hombre no son humanas. Son cosas anormales. ¿Vale? A ver si enseña la puta mano. Son anormales las manos de este hombre. Y eso es así. El puño que tiene a amar todo. Eso es una cosa que te canta. Que eres un tío que toma muchísima hormona de crecimiento. Aparte de hacer ejercicio de mano. Que amo. De verdad que negarla mayor, compadre. Así, uff.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=H82so5Y3KSo&t=1299" target="_blank" class="timestamp">[21:39]</a> No, lo siento, a lo mejor se me está yendo un poco la pinza, me lo tomo demasiado a pecho. Pero es que ya llevo tiempo callando, tío. Joder, macho. Cuanto más light estoy de mi vida, que ahora no me meto con nadie, no digo nada a nadie, estoy calmado. Digo, míralos. Están todos escupiendo bilis a por mí. Es increíble. Se pongo paredes que se aprovechan. No, ya vale, loco.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 26/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
