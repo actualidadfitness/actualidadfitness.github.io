@@ -1,0 +1,399 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 28/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">28/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>alvarobernalalejandre</strong>: <a href='#video-GoTXjWHnbuo'>Charla cuñados con Alix: postureo fitness, Van der Poel al running, ruedas de 32...</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-GoTXjWHnbuo">
+            <h2>Charla cuñados con Alix: postureo fitness, Van der Poel al running, ruedas de 32...</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: alvarobernalalejandre</span>
+                <span class="date">Publicado: 28/11/2025 12:13</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=GoTXjWHnbuo" target="_blank">
+                    <img src="https://i.ytimg.com/vi/GoTXjWHnbuo/hqdefault.jpg" alt="Charla cuñados con Alix: postureo fitness, Van der Poel al running, ruedas de 32..." loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video analiza las nuevas tendencias en el running, como las carreras con desnivel favorable que permiten marcas más rápidas, generando un debate sobre la validez de estas marcas personales. Se critica la "infantilización" del deporte por el postureo en redes sociales y la influencia de las zapatillas de carbono. También se discute la importancia de la genética en el rendimiento deportivo de élite y los retos del ciclocross.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>El Fenómeno de las Carreras con Desnivel <a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&amp;t=70" target="_blank">[01:10]</a></h3>
+
+<p>El video introduce las nuevas tendencias en el running, como las "Zara Speedrun" con desnivel favorable. Estas permiten a los corredores registrar tiempos significativamente más rápidos, lo que genera dudas sobre la autenticidad de las "marcas personales".</p>
+
+<h3>El Postureo y la Infantilización en el Deporte <a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&amp;t=180" target="_blank">[03:00]</a></h3>
+
+<p>Los ponentes critican la creciente "infantilización" de los deportistas y el impacto del "postureo" en redes sociales. Se debate la obsesión por presumir de marcas y premios en carreras populares, diluyendo el verdadero espíritu de la competición.</p>
+
+<h3>El Debate sobre las Zapatillas de Carbono <a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&amp;t=286" target="_blank">[04:46]</a></h3>
+
+<p>Se analiza cómo las zapatillas modernas con placas de carbono y suelas gruesas influyen drásticamente en el rendimiento, especialmente en bajada. Esto provoca un debate sobre su regulación, el riesgo de lesiones por el cambio en la zancada y si alteran la equidad deportiva.</p>
+
+<h3>Genética vs. Entrenamiento en la Élite Deportiva <a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&amp;t=457" target="_blank">[07:37]</a></h3>
+
+<p>La discusión se centra en la relevancia de la genética y el "motor" fisiológico en el deporte de alto rendimiento. Se argumenta que existen límites innatos que el entrenamiento no puede superar, criticando un "mundo infantilizado" que niega esta realidad.</p>
+
+<h3>La Exigencia y Belleza del Ciclocross <a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&amp;t=725" target="_blank">[12:05]</a></h3>
+
+<p>El video explora el ciclocross, destacando su naturaleza espectacular y agonística, con circuitos cada vez más técnicos y complicados. Se elogia la coordinación, equilibrio y capacidad de respuesta que requiere este deporte.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=0" target="_blank" class="timestamp">[00:00]</a> Y ahora vamos a comentar los retos y las marcas personales en la carrera a pie o el running. Oye, hay gente que dice, yo es que quiero bajar de tanto y ahora me decías que se ha puesto de moda hacer carreras con desnivel favorable para mejorar tiempo. Se ha puesto de moda en Madrid. Claro, en Barcelona, Valencia, Sevilla no lo puedes hacer, claro. Madrid, como sabéis los que vivís en Madrid, pues claro, tiene la zona del río a 600 y poco y la zona...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=28" target="_blank" class="timestamp">[00:28]</a> Por encima de 700, claro, ahora ya las carreras que molan, como dirían, son las que lo petan. Y, bueno, es que no engañan a nadie. Perdón, que has dicho petar. Ahora sabes que hay que decir, me puto flipa. Ah, sí, sí. O sea, yo... Sí, sí, es verdad. Bueno, es caño, pero también decíamos de la butin y nuestra juventud de la butin.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=50" target="_blank" class="timestamp">[00:50]</a> Chachi, Chachi Piruli, Davutten, no sé qué decirme. A mí me da una vergüenza ajena las expresiones de nuestra época. La época, hostia, dices ya, con perdón de los... Davutten, no sé qué. Mola mazo. Mola mazo ya es... Es ya más intermedio. Nos pilló también. Pero ahora sí, lo puto flipo. Me puto flipo. Me puto gusta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=70" target="_blank" class="timestamp">[01:10]</a> ¿Por qué a la gente le flipa hacer esas carreras? Primero se corren más deprisa y tienes que correr más, pero digo que la que está ahora de moda esta semana pasada, la Zara Speedrun, es que ellos mismos lo llaman así, el Speedrun, el nombre en inglés, claro. La Zara Speedrun, y la gente hace esos tiempos,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=91" target="_blank" class="timestamp">[01:31]</a> entre uno, dos, tres minutos más rápido de lo habitual porque según tu nivel, claro, si eres alguien ya que están rozando los 30 minutos no bajas tres minutos, bajas uno a lo mejor pero está la de las aficiones</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=107" target="_blank" class="timestamp">[01:47]</a> que eso es otro de los temas los motivos de las carreras ya no es la carrera de Canillejas la carrera del barrio de Fuencarral la carrera de Bajada Onda la del Pinar de Navarra ya todas son por un motivo por las enfermedades raras por no sé qué por los accidentes de coches no me parece ya ya por la norte contra sur el derbi de las aficiones Atleti y Madrid y ahora está Speedrun que bueno empieza claro en zona de Plaza Castilla acaba en el río 120 130 metros de desnivel positivo y pues claro</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=135" target="_blank" class="timestamp">[02:15]</a> Y es lo que le gusta a la gente para decir, no, voy a ver si bajo de 40 ya. Pues que en un 40 ya no, o sea, en un 40 ya no lo vas a hacer, pero bueno. Coño, y en un maratón, tú tienes que decir en qué maratón lo has hecho. La gente no dice, tengo tal marca en maratón, tendrás que decirme dónde, ¿no? Claro, claro, pero que, bueno, lo único que hay que hacer es, primero, dar la enhorabuena a los...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=153" target="_blank" class="timestamp">[02:33]</a> y a los organizadores porque son los que se llenan es que para la Zara Speed Run yo sé de gente que ha venido de fuera de Madrid a hacerla y gente también que no es habitual pues eso de otros deportes del ciclismo ahora que ya a lo mejor acabó la temporada de la gente de sus rutas con los club se la han preparado en mes y pico de gente de pues yo qué sé del pádel del gimnasio que dicen bueno es que en esta voy a volar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=172" target="_blank" class="timestamp">[02:52]</a> Y bueno, si te crees que esa es tu marca de 10.000 y la gente marca personal, marca personal, marca personal no. ¿Tú crees que, y esto seguro que nos afecta la perspectiva de nuestra edad y de nuestras vivencias, ¿crees que ahora mismo somos más infantiles y menos críticos con nosotros mismos?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=190" target="_blank" class="timestamp">[03:10]</a> Bueno, es que hay más gente que hace este deporte y cualquier otro deporte de resistencia o de una resistencia, decíamos lo del Jairos o el pádel o el golf o el esquí, lo que sea. Entonces, bueno, pues al haber más tipo de gente, pues ya sabrá que son más infantilizados, más de postureo, más que van rotando de deporte según modas o sus amigos o sus familiares o por seguir a, yo qué sé, pero bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=214" target="_blank" class="timestamp">[03:34]</a> que sí que más postureo más fantasmeo y luego el tema de las redes sociales porque todo el mundo presumiendo en su Instagram o en donde sea de su marca de su premio de también todas estas carreras que yo de siempre bueno también he sido parte como participante y muchas veces premiado y como y como</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=232" target="_blank" class="timestamp">[03:52]</a> ...locutor y todo esto... ...que sean demasiados premios... ...digo si al final una carrera popular... ...o de vicio o lo que sea... ...si es popular, no es un campeonato... ...pues todo el mundo va a pagar una inscripción... ...le das su camiseta, sus bolsas... ...se queda su medallita y ya está... ...una clasificación... ...pero tantas categorías, tantos premios... ...pero al final es lo que la gente también quiere presumir... ...de que ha ganado tal, ha ganado cual, el puesto...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=253" target="_blank" class="timestamp">[04:13]</a> Y lo mismo con la marca, ¿no? Si la gente piensa que ha hecho eso, ha bajado de 50 o de 40 o de 35, cuando no lo va a volver a hacer en su vida o en otra carrera, pues bueno. Pero oye, también son problemas del primer mundo, ¿no? Sí, efectivamente. Yo que soy un cuñado pata negra, estoy seguro que si a mí me pilla esto con 30 años...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=274" target="_blank" class="timestamp">[04:34]</a> Con la capacidad que tengo para ser gilipollas, yo sé que hubiera estado haciendo esto.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=286" target="_blank" class="timestamp">[04:46]</a> Encima las zapatillas actuales, que es lo que hay, es que las zapamuellos, o sea, las zapatillas que tienen tanto las mediasuelas de casi 4 o 5 centímetros de alto y la placa carbono, es que encima en bajada ayudan más que en llano en subida. Es que es un resorte, una ballesta. A mí me da gente que ha participado en esta carrera, que como último kilómetro ya por Madrid-Río, ya es llano.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=304" target="_blank" class="timestamp">[05:04]</a> del 7 al 8 y del 8 al 9 eran los de más pendiente y dice que el último kilómetro les parecía cuesta arriba porque del 7 al 9 gente que a lo mejor iba a 3.15 pasó a estar a 3.5 o 3.00 pelado y gente que a lo mejor iba a 4 pasó a estar a 3.40 y dice el último kilómetro parecía cuesta arriba digo, cuesta arriba no porque es el río Manzanares no era cuesta arriba pero la sensación que les daba encima el hecho de las zapatillas que embajada</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=331" target="_blank" class="timestamp">[05:31]</a> favorecen incluso más que en llano con la placa de carbono está en paralelo a la moda de estas carreras que se hacen esos tiempos espectaculares que bueno si te crees que es tu marca personal bueno claro de eso no vas a poder correr esas carreras porque en otras vas a hacer bastante más minutos yo tengo una opinión crítica con ese tipo de calzado porque tú no puedes ir a la carrera sin haberlo dominado el calzado claro</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=355" target="_blank" class="timestamp">[05:55]</a> Y tampoco puedes estar entrenando lo suficiente con el cazado, en concreto, con esa suela, porque de verdad hay una predisposición a la lesión en persona no entrenada. Hay que cambiar la manera de correr y todo, claro. Es que de repente estás haciendo una zancada más larga de la que tú conoces. Y cuando ya tu zancada es suficientemente larga, cuando vas a tu ritmo de umbral...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=373" target="_blank" class="timestamp">[06:13]</a> es como de repente empezar a correr un 2% para abajo. O sea, que te puedes generar una lesión y estar tan flipado como... Te duelen sitios que por la amplitud mayor de zancada, pues zona de los isquios, que no el isquio, que los isquios son tres, y todas esas cosas. Mira que yo soy...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=391" target="_blank" class="timestamp">[06:31]</a> anti-UCI, prohibiciones y cosas de esas, pero creo que lo de las zapatillas, sencillamente... Ya hay un límite, hay un límite para las carreras oficiales de altura y eso, pero para la venta y el uso es el progreso. Sí, es así.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=404" target="_blank" class="timestamp">[06:44]</a> Bueno, es como dices, es que vas a negar las ruedas de perfil o las ruedas de unos compuestos que son más rápidos que otros, aunque es más rico de pinchazo, pues no. Sí, ahí he estado cuñado a nivel Dios, pero sí por lo menos ser conscientes de que si no te has adaptado a esa zapatilla, pues al final vas a ir más rápido y te puedes hacer daño. Por cierto, en la media maratón, ganador de giro.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=431" target="_blank" class="timestamp">[07:11]</a> ¿Cuánto hizo? 2.21, ¿no? Ah, no, no, Dumoulin dices. Sí, de Dumoulin. No, Dumoulin petó. En la de Ámsterdam no iba para hacer 2.20 o algo así. Claro, exacto. Pero reventó, hizo como una 9, 1.10 y luego se fue a 2.30. Claro. Que claro, 2.30 para alguien como él no es nada. Y menos aún con las zapatillas actuales. Pero claro, salió a arriesgar, ¿no? No, pero fíjate cómo se demuestra, ahora lo comentamos lo de Van Der Poel, cómo el tema del motor es determinante. Hombre...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=457" target="_blank" class="timestamp">[07:37]</a> El que no quiere hablar... Que si llueve te mojas. No, no, no, pero es que hay mucha gente que sigue con la dinámica de que la genética mejor, o sea, tú no puedes hacer 2.30 para abajo si no tienes de fábrica una buena genética. Me puedo creer que te puedas volver en la barrera de las tres horas, pero es que hay una diferencia enorme. No, pero ahí no hay debate, por eso Van Der Poel el otro día que hizo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=478" target="_blank" class="timestamp">[07:58]</a> ...un entrenamiento 33 y pico en 10 kilómetros... ...pero es que eso para él... ...es que claro, Vanderpool tiene el motor de los que hacen 26 o 27 minutos... ...de hecho creo que de pulsaciones dio 167... ...cuando él debe estar en máximas a 190... ...hay un australiano que en el ciclismo ha sido nadie...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=493" target="_blank" class="timestamp">[08:13]</a> de equipos hasta en equipos buenos pero era de carreras serie C y en equipos menores y ahora se ha dedicado solo a correr aunque de chaval sí que corría más que de ciclismo y está haciendo marcas de élite mundial ahora o sea uno a uno en medio maratón cuando haga maratón hará dos seis dos siete Jimmy Whelan que vive mucho en Barcelona pues lo mismo bueno es que le ves correr los vídeos y es la perfección de zancada</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=517" target="_blank" class="timestamp">[08:37]</a> Claro, es que correr, ya lo hemos dicho el otro día, es que hay deportes, por ejemplo, los que yo he estado más en trialón, trialón puedes decir la natación, a lo mejor la técnica es un 60-70%, en bici puede ser corriendo o la técnica puede ser un 30 o un 40%, estoy tirando a la piscina, nunca me lo he dicho, al barro este.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=534" target="_blank" class="timestamp">[08:54]</a> Y en bici la técnica va a ser un 10 como mucho. Tampoco hay mucha diferencia. En pedalear bien en llano en bici de carretera, cualquiera con el motor lo... Muy mal lo tienes que hacer para que la técnica te pare. Claro, por eso estás viendo que hay gente que viene de otros deportes, ya sea correr, ya sea los futbolistas, que digo yo que son los mejores deportistas del mundo.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=553" target="_blank" class="timestamp">[09:13]</a> Y más ahora. Se ponen a montar en bici y van como tiros. Pero tú me dices, es que lo de la genética es obvio. Obvio para los que más o menos nos hemos preocupado por conocer el tema. Pero es que en el mundo infantilizado se le está diciendo a la gente. Vaya a pasar a nosotros. Tapas de carbono. Que en el mundo infantilizado en el que estamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=576" target="_blank" class="timestamp">[09:36]</a> Tú le dices a un tío que no tiene genética para bajar de 2.40 en el maratón y vamos, y es que te cancelan. No, hombre, pero yo no lo veo mal. Tendrá mérito. O sea, es decir, joder, si lo consigues... No, pero que no lo va a hacer, que no lo va a hacer. O sea, que un tío que tenga con 20 años entrenado un V2 de 45 no lo va a hacer. Claro, es que el otro día salió la noticia que luego hay que... Que todos sabemos que según la máquina donde te midas y el protocolo puede haber variaciones de hasta, a lo mejor, 5 puntos del V2 Max.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=602" target="_blank" class="timestamp">[10:02]</a> Pogacar es que tiene un 96 joder, pues me está diciendo que no tiene tanto mérito lo que hace, casi tiene un 96 sus rivales tienen un 80 y tantos que ya es mucho, pues diciendo es que si Pogacar tuviese un 78, 80, 82, tira lo que hace es, tiene mucho más mérito es que tiene un 96, sabe que él puede abrir gas cuando quiera, que no la van a seguir y que luego por intentar seguir le han reventado y que va a mantener la diferencia, que es como está ganando últimamente las carreras, tiene 10 minutos locos</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=630" target="_blank" class="timestamp">[10:30]</a> Y luego ya mantiene la diferencia. Lo mantiene, claro. Esa es la cosa. Que bueno, de hecho, es polémico, pero lo hacía Armstrong en la primera o segunda semana. Sí, sentenciaba. Se iba cuatro minutos y ya se quedaba. Para mí es un personaje fascinante con su época de mafia. No, bueno, pero a mí la época que fue mafioso amenazó a los que eso no confesaba, pero luego ya cuando salió del armario, ¿cómo se suele decir? A ver, fascinante cómo es su vida, su...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=657" target="_blank" class="timestamp">[10:57]</a> Los altibajos que ha tenido y lo que cuenta también de todo. Fíjate que hemos empezado hablando por esto y terminamos en esto, pero yo creo que no tenían que haberle quitado los tours o simplemente haber profundizado en la investigación porque es que huelga a decir que era generalizado. Claro, era generalizado, pero bueno, nos estamos yendo a otro tema. ¿Y lo de Van Der Poel?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=682" target="_blank" class="timestamp">[11:22]</a> ¿Tú crees que es algo más de marketing o simplemente es que son tan notorios que cualquier cosa que hagan se publicita?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=699" target="_blank" class="timestamp">[11:39]</a> Y influencer también, y bien relacionado con España. Bueno, su mujer es española y tiene ya un hijo. Que resulta que, bueno, están todos los días juntos allí en Alicante y él corre también Freddy. Y salen a correr y ya está. Sí, le sirve también para su marca, no marca deportiva, sino marca personal, salir y ya está. Bueno, y no olvidemos que en el ciclocross cada vez...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=725" target="_blank" class="timestamp">[12:05]</a> que también te quería preguntar. Hoy es muy rando en esto, pero si os gusta el deporte, pues todo esto más o menos os sonará, ¿no? Pero en el ciclocross yo creo que cada vez que están intentando complicar más los circuitos, como pasó con la Copa del Mundo de Mountain Bike, que cada vez era todo más rocambolesco, o sea, hasta el punto que hay que ser ya...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=741" target="_blank" class="timestamp">[12:21]</a> Casi un tío bueno en descenso, ¿no? En el ciclocross. ¿No tienes la sensación que están metiendo mucha más arena? Bueno, pero la meten en sitios donde no hay, a lo mejor, de por sí. Pero la última carrera que he comentado, se iban a toda mecha, menos los tablones o los escalones. Pero es un deporte espectacular y agónico. De hecho, a mí me recuerda mucho al esquí de fondo en cuanto a lo agónico que es. Una hora, una hora y cinco, diez...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=766" target="_blank" class="timestamp">[12:46]</a> y lo hablamos el otro día yo disfruto más cuando no está Van Ayer y Van Der Poel ni Pico que cuando hay 10-12 personas que pueden ganar</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=776" target="_blank" class="timestamp">[12:56]</a> Y tenemos uno muy bueno, pero aquí en España, que somos cuñados nivel Dios, no valoramos que haya un tío... Bueno, lo valoramos los del mundillo. Es que realmente hay muchos deportes y muchas cosas. Felipe Or, dices, el mundillo está muy valorado. Y en el extranjero, en Bélgica, donde él pasa toda la temporada de otoño-invierno, está muy valorado. Yo es que cuando escucho comentaristas en inglés, lo tienen considerado. Pero es como cuando hacíamos aquí de fondo, en España, pues es que no tenemos capacidad de competir con ellos, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=804" target="_blank" class="timestamp">[13:24]</a> Pero es que es un deporte fascinante. A mí me gusta mucho. Yo, si pudiera, lo que me queda de vida, yo querría poder hacer ciclocross. Pero no hay. De hecho, sí es que me lo intento inventar. Me intento buscar trozos de carretera con tal. Yo ciclocross de manera activa, competitiva. Ayer, que hice el recorrido de una carrera de gravel tres cantos alrededores por las pistas del que andáis en el segunda y las del A1 y todo eso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=824" target="_blank" class="timestamp">[13:44]</a> iba disfrutándolo así apretaba a veces yo carrera de gravel no me veo porque es muy peligroso es muy peligroso porque llega un sitio que vas por aquí y de repente pista ancha vas muy bien y se estrecha hay roderas hay dos piedras y no lo ves y no cabe y solo cabe uno y vas de cinco yo carrera de gravel</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=844" target="_blank" class="timestamp">[14:04]</a> igual que he dicho nunca digas con las éticas pero en un ciclo de montaña de larga distancia y tienes tus extensiones tu manillar ancho tu postura tus ruedas gordísimas pero un ciclo cross popular que evidentemente no vas a estar en la salida el riesgo de lesión es bajo las caídas son poco lesivas es muy exigente coordinación a tope esa reacción mucha gente no sabe lo que es pedalear por césped</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=876" target="_blank" class="timestamp">[14:36]</a> Hace poco vi una comparativa que decían que si vas dando 300 vatios en el llano y al lado vas por un terreno como este, tienes que dar 400. Yo me atrevo a decir que en FESPEP es exagerado. Estaba en Córdoba con mi primo lejano, pero sobre todo amigo Eusebio.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=893" target="_blank" class="timestamp">[14:53]</a> Íbamos por la zona entre los olivares y era imposible, claro, porque había llovido mucho la semana anterior y parecía que estaba seco, ¿no? En cuanto pasabas por encima rompías la capa y hubo un momento de carretera y pista que nos tuvimos que meter por la carretera y de vez en cuando entrábamos en la pista a ver si podíamos entrar y a los 100 metros tenías que salir porque ya empezabas con el barro y es que no avanzabas. No avanzabas, no avanzabas. Pues si alguien tiene la oportunidad de probar en césped, en una zona a la que esté permitido, un césped que te encuentras en el campo...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=921" target="_blank" class="timestamp">[15:21]</a> ...lo que trabajas... ...la coordinación... ...por eso me gusta mucho el ciclocross... ...porque tienes que tener tal propiocepción... ...tal equilibrio, tal capacidad de respuesta... ...has visto cuando se quedan frenados en mitad de la subida... ...tienen que bajarse la bici... ...yo entre mi cadera fracturada... ...y nunca del todo recuperada... ...por menos la apertura... ...y de por sí yo ya era un tronco... ...quita, quita, yo no podría... ...pues yo si un día me animo... ...simplemente hacer los circuitos... ...y darme cuenta...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=949" target="_blank" class="timestamp">[15:49]</a> El mérito que tiene el ciclocross. Bueno, ¿qué más contamos en este? No, lo decías de las bicis de las ruedas de 32, que es un tema que yo no lo veo. O sea, yo, para empezar, he visto muy pocas. O sea, yo me acuerdo, siempre me acordé del primer día que vi una de 29, que fue subiendo por una de las sendas que sube al puerto de Cotos desde abajo, desde la zona de los pinares de Balsain.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=969" target="_blank" class="timestamp">[16:09]</a> que das justo a la curva de la estación, y un tío con una bici 29, una de 29... Es que se hacía grande, ¿verdad? Se hacía gigante. Y ya la primera vez que empecé a ver unas cuantas, y ya la primera vez que probé una, dije, joder, esto es tremendo. Pero claro, la bici 29, la gente le llama 29, pero el tamaño de la llanta es el mismo que la de carretera, que es 28. Claro, claro, exacto. Lo que pasa es que se llama 29 porque da mucha más circunferencia por el balón del demático. Pero realmente no es 29 la llanta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=992" target="_blank" class="timestamp">[16:32]</a> pero ya pasar a 30 y ya de por sí las de 29 también por el tamaño del neumático ya en el maletero del coche en el trastero en los ascensores en los ascensores las escaleras todo todo este es un armato este yo lo de 32 pero claro con la de 29 al menos aprovechas muchos de los neumáticos las cámaras aunque ahora ya se vaya sin cámaras otra de la terminología que dijimos el tubeless que es lo contrario aprovechas las cámaras aprovechas muchas muchas cosas</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=1019" target="_blank" class="timestamp">[16:59]</a> Los piñones, todo. Es que la gente no se da cuenta. Cuando pone rueda 32 hay que volver a cambiar los desarrollos. El desarrollo cambia y hay que volver a cambiar el plato o las coronas para tener el equivalente. Entonces yo no le veo sentido a un micronicho para algo que no tenga gente muy concreta. Sí, pero no se puede polarizar porque tienes que cambiar el...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=GoTXjWHnbuo&t=1044" target="_blank" class="timestamp">[17:24]</a> El mercado cambiarlo. Yo supongo que los fabricantes intentarán probarlo en Copa del Mundo y no descarto que haya, como hace ya tantos años, que depende del circuito, llevan una configuración. Ahora hay que decir que llevan un setup diferente. Para uso de ventas y eso, incluso en competición tampoco lo veo yo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 28/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
