@@ -1,0 +1,399 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 30/11/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">30/11/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>Joan Pradells</strong>: <a href='#video-Pvhvs9Qra6I'>PRIMER DÍA de PIERNA POST COMPETICIÓN</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-Pvhvs9Qra6I">
+            <h2>PRIMER DÍA de PIERNA POST COMPETICIÓN</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: Joan Pradells</span>
+                <span class="date">Publicado: 30/11/2025 08:00</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I" target="_blank">
+                    <img src="https://i.ytimg.com/vi/Pvhvs9Qra6I/hqdefault.jpg" alt="PRIMER DÍA de PIERNA POST COMPETICIÓN" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>El video documenta la experiencia de un grupo de amigos visitando un gimnasio "old school" en Japón, enfrentando desafíos culturales para grabar. Muestra su fascinación por las máquinas retro y su estrategia para obtener permiso de filmación. También comparten impresiones sobre la comida japonesa y exploran el barrio de Akihabara, ofreciendo una visión de su aventura de viaje y entrenamiento.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>Desafíos para Grabar en Japón <a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&amp;t=194" target="_blank">[03:14]</a></h3>
+
+<p>El presentador expresa su escepticismo sobre poder grabar en el gimnasio debido a las estrictas costumbres japonesas. Menciona la prohibición de tatuajes y fotos en ciertos lugares, lo que complica el uso de cámaras profesionales.</p>
+
+<h3>Explorando el Gimnasio Old School <a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&amp;t=393" target="_blank">[06:33]</a></h3>
+
+<p>Tras conseguir entrar, el equipo muestra su asombro ante el gimnasio de estilo "old school". Destacan las máquinas retro únicas y el equipamiento, como barras de golf y béisbol, que les permiten una experiencia de entrenamiento diferente.</p>
+
+<h3>Primera Impresión y Plan de Entrenamiento <a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&amp;t=643" target="_blank">[10:43]</a></h3>
+
+<p>El presentador elogia el gimnasio, calificándolo de "brutal" e "increíble", y discute el plan de entrenamiento para piernas. También bromean sobre una explicación pendiente de cómo consiguieron permiso para grabar.</p>
+
+<h3>El Secreto para Grabar en el Gimnasio <a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&amp;t=1116" target="_blank">[18:36]</a></h3>
+
+<p>Finalmente, revelan cómo obtuvieron permiso para filmar: el presentador se hizo pasar por un competidor de Japón Pro y Eric por su fotógrafo. La estrategia funcionó tan bien que el dueño incluso les pidió una foto.</p>
+
+<h3>Exploración Post-Entrenamiento y Curiosidades <a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&amp;t=1218" target="_blank">[20:18]</a></h3>
+
+<p>Después del gimnasio, el equipo explora el barrio de Akihabara, conocido por el manga y los videojuegos. Comentan la peculiaridad de los escaparates con comida de plástico y una curiosidad sobre la fama de Shin-chan en España.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=4" target="_blank" class="timestamp">[00:04]</a> ¿Qué? ¿Qué? Que te ponen esto en plástico. Para que vean lo que es. Está guapo, ¿eh? Esta es la que tenemos en casa, la morada. Pero esta es más nueva, la nuestra de cable. Esta es más nueva. Pero es maravilloso. Están muy calientes, tío. Están a 90 grados, tío. Yo estoy de igual. Si alguien tiene esta en su casa o conoce a alguien, se la comprobaré.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=34" target="_blank" class="timestamp">[00:34]</a> ¿Qué toca? ¿El Bernabéu? Hoy sí, tenemos comida con el tito Florent. ¿El Florent? Sí. Yo lo hago tú haciendo en el Bernabéu. Exacto, en el palco. Te voy a soldar uno. Madre mía, la vida pirata, ¿eh? Si me llegara a decir a mi que iba a ir así. Hace unos años me quedo loco. Viendo al Papa ahí en la tele que hay. Está el Papa. No sé si se ve el Papa. No sé si se va a ver en la cámara.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=63" target="_blank" class="timestamp">[01:03]</a> Ah, hostia, no se ve, cabrón. Sale. También hay que decir que es increíble. Se me dice hace dos años que iba a estar yendo a un gimnasio old school de la hostia. Así. Que no sé si vamos a poder grabar el vídeo realmente. Tú no confías, ¿eh? No, la verdad que no. Me he puesto hasta la sudadera esta que me dieron aquí en Rumanía. Hostia, ¿podrías haberte puesto la de Tokio? Estamos en Japón. Ah, ¿podrías haberte puesto la de Japón? Es esta, ¿no?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=88" target="_blank" class="timestamp">[01:28]</a> Sí, es Japón. Me extraña bien que hay una trayectoria de rumbadía y estamos en Japón, ¿sabes? A saber dónde está esa. Yo nunca pongo las cosas que me dan. ¿Tú qué opinas? Mira, hay una cosa. ¿Qué suelda las te pones, Joan? No sé, porque estabas en noviembre, tío. ¿Y a qué te refieres? Ah, no la ha pillado. Ah, vale. Ah, vale. That's why. That's why. No, pero está toda la vuelta, el 50% de PBS, si lo queréis aprovechar. Todo es todo. Está esta gorra.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=119" target="_blank" class="timestamp">[01:59]</a> No, sí que hay algunas sudaderas, pero es verdad que la obsesiva, la que solemos llevar, se ha agotado y es la más pedida. Es la más pedida, sin duda. El caso que está todo, todo, todo muy rebajado. Y en MyProtein también. Muy rebajado, es muy rebajado.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=135" target="_blank" class="timestamp">[02:15]</a> O sea, mola mucho. Es el mes. Es el puto mes. Es la realidad. Es el mes del año y si te dedicas a esto también lo sabes. Es el mes donde más rebajas hay. Yo si fuera externo sabiéndolo, yo todo lo que fuera, por ejemplo, proteína, ¿no? Que se te acabe y se te consume y lo usas durante todo el año, lo compraría todo. En realidad, 53 kilos. ¿Te enseño esto? Esto te va a quedar rojo. Mira un chico. Máquina, ¿eh? A este chico le he llevado yo muchísimo tiempo. Ya ha llegado el pedido.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=164" target="_blank" class="timestamp">[02:44]</a> ¿Eso son mochilas? Esos son mochilas, bro. ¿Cuántas hay? 21. 21 mochilas, brother. No, 26. 26 mochilas. ¿Y para qué las usa? ¿Las revende o qué? No, me ha dicho que su padre, que se dedica a orientación, las utilizan para ir al monte. Y que son la polla y tal. Qué guapa. Y las utilizan, mola mucho. Bueno, yo que estaba diciendo, tío, que me habéis cortado. Tío, con tanta CTA y tanta venta, tío. Sois los magos desde el marketing, tío. Estamos en Japón, tíos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=194" target="_blank" class="timestamp">[03:14]</a> Ah, vale, Eric, pues no lo pongas, tío. Vale, esa parte la corto, ¿vale, bro? No, no confío en que vayamos a poder grabar en el gimnasio ese. No confío, o sea, en Japón es muy raro, no pasa nada, muy raro, no lo digo muy raro conforme a nosotros, no digo que sean raros.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=210" target="_blank" class="timestamp">[03:30]</a> Tienen costumbres muy raras. Los tatuajes también me quedé muy pillado, por ejemplo. No se pueden llevar tatuajes, no se puede usar las zapatillas en ciertos sitios. Ni hacerte fotos. Ni hacerte fotos. Entonces, claro, apareces con una cámara profesional y dicen, venga, va. Crack, ¿dónde vas? Así que no confío. Pero todo el día pasado por un gimnasio y estaba guapísimo. Dije, guay, yo quiero entrenar en ese gimnasio. Le dije, mira, vamos a intentar grabar. Si no, nos disfrutamos entrenando y ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=239" target="_blank" class="timestamp">[03:59]</a> Y yo me voy a hacer turismo por ahí. Y Eric se va a gastos pagados. Sí, para la parte… La tarjeta de empresa. Sí, claro. ¿Raid the public? Es una quijabara. Además, o sea que es la zona del manga, de cartas Pokémon y tal. Ah, y tú te vas a ir por ahí ahora. Yo ahí ya fui.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=264" target="_blank" class="timestamp">[04:24]</a> Y voy a comprar cuatro cosas que vi, que quiero llevar de souvenirs y tal. Y luego yo quiero ir a Shibuya. Tú ya estuviste. Sí, yo fui. ¿Qué tal? ¿Lo viste? Bueno, y la zona de ayer. Yo un día, si queréis, os hago un vídeo de mi experiencia en Papo, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=283" target="_blank" class="timestamp">[04:43]</a> Y quiero ir a la zona que estuvimos ayer, que nos moló mucho, Eric. Estaba muy guapa, todos los alrededores, las tiendas de lujo y todo. Tiendas de lujo, tiendas de ropa muy top. Tiendas de segunda mano, carísimas, eh. Guau, ese es mi paraíso, bro. Te vas a comprar la chaqueta de Ferrari, tú. Depende cuánto. Eric, desde que está aquí currando, nos dice, guau, yo quiero que me seguís a invertir y tal, no sé qué.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=305" target="_blank" class="timestamp">[05:05]</a> Y todo lo que luego quiere es lo contrario a lo que nosotros le podemos decir. Es en plan... No, vengo, me he ido a darme un masaje. Nos miramos tú y yo un día en el paro de... Este, ¿no te has ido a darme un masaje? A veces es una inversión en mí, bro. En rendimiento. Lo que tú quieras. Lo que tú quieras. Bueno, es que no sé qué estábamos diciendo. Lo que has visitado tú. Ah, vale. ¿Qué te parece a ti...? Japón, que mejor para otro vídeo. Eso es para otro vídeo estático, yo lo veo, ¿no? Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=336" target="_blank" class="timestamp">[05:36]</a> Mi experiencia en Japón. Prefiero hacerlo una vez pase la frontera del país, ¿vale, chicos? Por lo que sea. Tiene muy buena pinta. Tiene buena pinta, ¿eh? Hemos empezado a entrar al gimnasio y hay esto. Aquí con paros de golf y de béisbol. Nos han dejado. Voy a ser totalmente sincero. Bueno, ¿lo cuento todo? Sí. Si sale bien. Vale, va. Si no quedamos con gilipollas. Bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=365" target="_blank" class="timestamp">[06:05]</a> Vale, cuéntanos luego cómo hemos entrado. Lo cuento luego cómo hemos conseguido grabar. El caso es que hemos entrado. Estamos dentro. A ver si conseguimos entrenar. Hay sauna, que me he puesto muy contento. Y esta sala, que no se ve muy bien. Gimnasia, porque tiene potros y tal. Sí. Un poco mixta, ¿no? Vamos para allá, vamos a ver. Gimnasia, de verdad que tiene muy buena pinta.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=393" target="_blank" class="timestamp">[06:33]</a> Y todo super OG. Está cerca del apartamento. Es que es muy OG, eh. Muy, muy OG. Ahí está. Está guapo, ¿no? Muy guapo. Está flipando. Muy, muy guapo. Sí, eh. O sea, esta fila de aquí… Allá… Mira. Esta es la que teníamos en casa, la morada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=418" target="_blank" class="timestamp">[06:58]</a> Pero estas más nuevas, las nuestras de cable. Estas más nuevas. Pero es una locura. Tienen una flex aquí. Tienen más además. Luego, ese remoto tiene que ir bien. Ah, además no por gas. No por gas, seguro por gas. Esto no se regula. Este es guapo, chaval. De loco, ¿no? ¡Hala! ¿Qué? ¿Qué?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=448" target="_blank" class="timestamp">[07:28]</a> ¿Lo regulas con los pies? Pues sí, aquí. Pero no sé muy bien. No. Ah, vale. Y lo que suena es el tren por arriba. O sea, mola el concepto pero no sé yo muy bien cómo funciona. Ya. Pero bro, esta. Si alguien tiene esta en su casa o conoce a alguien</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=477" target="_blank" class="timestamp">[07:57]</a> Se la compro, ¿vale? Esto es flex, esto es muy raro de ver. Esto es muy raro de ver. Hostia, está guapo, ¿eh? Sí, esto es muy raro de ver. Tienen cosas muy chulas. Tienen bancos abdominales también, zantibes. ¡Epa! Tienen caria... Está muy bueno.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=506" target="_blank" class="timestamp">[08:26]</a> Recuerda la intensidad. ¡Hala! ¡Hala y puedes tirar! ¿Qué? ¿Has visto esto? ¡Qué locura! Es un calor. Y lo mismo. Con este botón, regulas la presión, aquí le bajas y le subes. Mira. Mira desde aquí. A ver. ¿Le puedes subir la presión? Hostia. Hostia, espérate.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=536" target="_blank" class="timestamp">[08:56]</a> Todo eso es un bloque de aire comprimido para estas máquinas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=560" target="_blank" class="timestamp">[09:20]</a> Esto no lo había visto en mi vida. A ver qué más hay. Esto me parece una locura. Esto me parece de finisher de espalda. Esto me parece una locura. Yo quiero probar esto. Yo quiero probar esto. Qué locura. Y aparte me puedes poner el peso que quieras, ¿no? Y después tenemos esta última zona. Hay más multipowers, no sé, cristales. Qué old school. Mira los cunturones.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=592" target="_blank" class="timestamp">[09:52]</a> Es un cruce de pecho. De abajo y de arriba. Más trastito, pero… Mirad mancuernas. Estas también regulables. ¡Hala! Pues… a darle. Tiene mucho rollo. Me gusta mucho. Es muy old school y los colores me flipan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=620" target="_blank" class="timestamp">[10:20]</a> Es un remualdo un poco. ¿Sabes lo que va a hacer? Sí, sí, lo colocas aquí. ¿Hala? Un jalón, ¿no? Vale, va. Voy a ser sinceros ahora.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=643" target="_blank" class="timestamp">[10:43]</a> ¿Qué te ha gustado? Me parece brutal. No, no, me parece brutal. Cien por cien, ¿eh? O sea, me parece, este gimnasio es increíble. O sea, ¿qué quiero que te puedes poner? Mega fuerte. ¿Qué vamos a hacer? Otra cosa. ¿No? Crack. Crack. Yo, es lo que hemos estado hablando. No me quiero poner malo. Quiero entrenar. Me parece muy importante entrenar. Y quiero no ponerme malo. Adiós.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=662" target="_blank" class="timestamp">[11:02]</a> ¿Tú qué dirías hacer? Un poquito lo de siempre ya del estado, ¿no? Extensión. Prensa. Femoral. Femoral. Ah, ahí está. Ahí está, ahí está. Ahí está, ahí está. Ahí los dos. Extensión, femoral. Aductor. Y hipsdrast o abductor. Y ya está. Con cabecita. Con cabecita, con cabecita. Y... Sí, la prensa esta yo creo que es mejor, sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=689" target="_blank" class="timestamp">[11:29]</a> Esa prensa tiene buena pinta. Es una autilus, eh. Es una mala prensa. Me gustaría hacer los dominales. A mí también. ¿Quieres decirlo? Pues echas tu abs y hago sauna. Y gemelo. Y saunas. Te lo he dicho a Drede. Te lo he dicho a Drede. Mucho menos la sauna, tío. A ti te voy a volver a casa ya. Por cierto, para ser 100 % transparentes con tus seguidores, estamos mucho con el meme del chino-argentino este.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=719" target="_blank" class="timestamp">[11:59]</a> Que dice… Entonces, si hacemos eso, no es por racismo, es por ese chino. Exacto. Por si se cuela alguno. Yo es que no me entero de la mitad de cosas. Es un chaval que le pasa a Toni que nos hace mucha gracia. Por cierto, por cierto, Eric. Dime. Mira que me han dado. Hemos dicho que si sale bien esto, luego contamos cómo hemos conseguido entrar con la cámara, ¿vale? Si sale bien. De momento va bien. ¿Quieres que lo salga? Sí, me gustaría.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=749" target="_blank" class="timestamp">[12:29]</a> que nada que broma, que nada que broma. Pero vamos a hacer la prensa de último, va a estar bien calentitos, el cuádiceps, la extensión del femoral y el deductor calentito. Y hacer el cuádiceps y luego germelos si quieres. ¿Quieres hacer tú el filtro? No lo he visto. Pero por si quieres. Si no, la máquina es dual. Es que no sé si es dual esta, eh.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=773" target="_blank" class="timestamp">[12:53]</a> La de adductor. Ah, la metemos al principio. Es dual o al principio. Es que no lo sé si es dual. Vale, pues yo empezaría por esa, de hecho. Si no empezamos por el femoral. Vamos. Vamos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=803" target="_blank" class="timestamp">[13:23]</a> Estábamos ahí en la máquina de antes, la Hamtractors, probablemente una de las máquinas más famosas en la historia. No hace la última serie. Y dice Eric, una máquina de estas, ¿cuánto puede costar? Y le digo, ocho mil o así. Y me dice, se parece un montón a la que tienes en casa. Y dice, es la misma. Y le digo, brother, es la misma. La mía es una generación antigua. Más antigua, pero es la misma máquina. Es espectacular, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=832" target="_blank" class="timestamp">[13:52]</a> Por cierto, va muy bien. El dueño le ha visto la manopla, Joan. Mira lo sucia que está. No le ha sorprendido eso. Le ha sorprendido lo grande que era la mano. Le ha dicho… ¡Oh! ¡Qué grande! Qué ganas tengo de contarnos por qué estamos pudiendo grabar. Espero que acabe el video. Lo explicamos tranquilamente luego mientras abrimos las cartas de Pokémon. Me da saluda. Me da saluda porque hay saluda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=908" target="_blank" class="timestamp">[15:08]</a> Tengo a Antonio en el fondo. Ahí, dándole. Y yo decir que mis 10 es este gimnasio. Mis 10. O sea, a Eric le han dejado el pase de fotógrafo. Ahora fuera os cuento bien por qué. Hemos hostigado un poco de triple. Tiene sauna. Ahora vamos a darnos una sauna. Todo máquinas retro. Guapísimo. La gente maja. De vez en cuando va a pasar el metro que parece que se vaya a desplomar esto. Está guapísimo, tío. Me encanta. Mañana queremos subir aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=935" target="_blank" class="timestamp">[15:35]</a> y por fin también un poco de buena experiencia en ese sentido. Vamos a ver si no te da razón ahora que llegas. Claro que no. Bueno, vamos a darnos una salda.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=959" target="_blank" class="timestamp">[15:59]</a> Let's go, sauna. Importante, importante. Hidratarse mucho antes de la sauna. En exceso. Y yo necesito siempre entrar mojado, si no me mata la sauna. ¿Sí, eh? ¿Eres de esos? Sí. A mí me gusta ducharme después. No, yo también. Pero si entro seco, no aguanto nada. No aguanto. No me gusta romper a sudar en seco. Me gusta romper a sudar en húmedo. ¿Cómo te voy a duchar, David? Me gusta en seco. Yo necesito ducharme, si no me voy a duchar nada.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=999" target="_blank" class="timestamp">[16:39]</a> Así que chicos, voy a probarlo hoy. Muchos días. Muchos días sin sauna. Dos. Vamos para el sauna. Venga. Con fría. Con lo que haya. Está muy bien la sauna. Sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1014" target="_blank" class="timestamp">[16:54]</a> Así... ¿Has dejado aquí unas muñequeras? Para que se le seque. Pero están mirando, eh. Eso igual es una alarma. Están muy calientes, tío. Están dando 20 grados, tío, las saunas allí. No estoy de igual. Pues no se nota casi. Pero... Sí, porque te has duchado, cabrón. Pero no hay un timer o algo aquí. Mira, bro, para que te hagas una idea...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1037" target="_blank" class="timestamp">[17:17]</a> Sony 51. Para que tengas una idea en 10 minutos sales, ¿vale? Vale, pero cuenta, empieza a contar. Bueno, chavales, los dejo ahí, ¿vale? Vale. ¿Cuántos estaréis, más o menos? 15.000, ¿no? Si voy a 10, mojarnos 10. Bueno, sí, por ahí. 20 minutos, pues sí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1061" target="_blank" class="timestamp">[17:41]</a> ¡Perfecto, boludos! ¡Venga! ¡Arigato! ¡Tutla baja! ¡Tutla baja! ¡Pero hace el gimnasio, tío! ¡Qué alegría, tío! ¡Japón! La verdad es que la sauna es muy bien. Me gusta mucho. Cuando te puedes tumbar en una sauna, a mí me encanta. Me gana. Esa sauna me gana. Estamos aquí comiendo con el Antoñet. Que, por cierto, Antoñet ha descubierto lo que es una arrocera. Opinión.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1090" target="_blank" class="timestamp">[18:10]</a> Muy buena si comes arroz. Es que yo no como arroz. Ni pretendo comer arroz. Ya, pero si has un arroz era así, comerías arroz. No. ¿Por? Solo va a ser tubérculos y pan de masa madre. Es que esto es una pelea perdida, chicos. Yo tengo por aquí pollito de Fübel con sal japonés.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1116" target="_blank" class="timestamp">[18:36]</a> la ciudad de las montañas del Fuji la verdad que espectacular el gimnasio espectacular vamos a ser sinceros no nos hemos parado ni mucho menos nos hemos pagado evidentemente pero es muy complicado grabar aquí de hecho como que pone como que no se puede grabar y les hemos dicho mira he estado compitiendo en el Japón Pro este fin de semana tal he venido a Dre de Corazudera hasta que no me había puesto que es la del Japón Pro y le he dicho era por si me quería hacer unas fotos aquí y este chico es mi fotógrafo</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1146" target="_blank" class="timestamp">[19:06]</a> y si nos dejaba y si demás y la verdad que es súper bien y luego el dueño ahora me ha pedido una foto o sea que muy muy bien todo y les hemos dicho probemos mañana vale y me han dicho venid cuando queráis o sea que ha sido como súper bien súper guapo el gimnasio la peña en Instagram también está flipando con el gimnasio y ha salido todo perfecto la verdad que también aquí en Japón nos hacía falta un poco que no saliera bien</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1169" target="_blank" class="timestamp">[19:29]</a> Con los zapatos. Pasaportes. Yo para taparme los tatuajes. Le han dado como un pase de filmer. Sí, lo hubo enseñado antes. Así que nos vamos a comer esto y nos vamos a hacer unas cosillas y nos vamos a dar una vuelta por aquí, por el barrio, que no sé ni dónde estamos, sinceramente. Solo sé que hay un tren encima. Aquí, Javara. Ah, eso es lo del manga, ¿no? Sí, lo habéis dicho. Qué guapo. Para que le guste.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1197" target="_blank" class="timestamp">[19:57]</a> Si venís a Tokio, sé que no es lo normal, pero tenéis este gimnasio que es una auténtica pasada. Some place. Some place. Ah, sí, eso es mejor. Some place.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1208" target="_blank" class="timestamp">[20:08]</a> Sample y Jimmy. Muy guapo, os digo en serio. Vamos a ver si pillamos el Uber. Vamos para allá y… Y vemos. Estamos en la zona que nos ha dicho Tony de manga. Sí. En plan Pokémon y toda esta. ¿Aquí te muero el manga? A mí no. Es que nunca he conseguido, tío. ¿Sabes lo que me dijo Marta? En plan… Dato curioso. Dato curioso de viaje, totalmente atópico en mí. Pero… Dato curioso.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1232" target="_blank" class="timestamp">[20:32]</a> Me dijo que Shin-chan es muy famoso en España, pero que aquí no había sido tan famoso. ¿No? No. Porque aquí era como un niño un poco así rebelde y tal. Y la traducción que hicieron al español era como muy desfasada. Era muy española. Claro. Y que por eso, que mariconche y tal, no sé qué, que por eso se hizo tan famosa. Hostia. Sí, Felipe. Está lleno de restaurantes aquí, ¿eh? Ya, tío. Hostia. Me encanta mirar en Japón que te ponen esto en plástico. Tal cual, todos en muestra. Para que veas lo que es.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1262" target="_blank" class="timestamp">[21:02]</a> Está guapo, ¿eh? El que hace esto se forra. Sí, tío, me lo voy a apuntar si para sumarte aquí de mí. Hombre, la calle está guapa. Mucho… Hay muchísimos restaurantes. Sí. Yo te estoy flipando. Mira, masajes. ¡Ojo! ¡Uy! Ojo. Si es que me gusta a mí. Que nos echamos un masaje.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1290" target="_blank" class="timestamp">[21:30]</a> Bueno, chicos, no encontramos nada. Nos vamos a ir para casa. Suficiente por hoy. Oye, pues este sí te lleva... Ojo, ¿eh? Me hace gracia porque te digo que tiene más pinta con platos de plástico. Ya. Sabes por lo que veo en platos de plástico. Pero bueno, chicos, nos vamos a ir para casa. Eric tiene que currar bastante, tiene que comer. Yo tengo bastante curro. Ahora se está despertando la gente en España. O sea que a mí ahora he hecho un tipo de curro. Ahora he bebido otro tipo de curro. Tengo reuniones y demás. Así que...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=Pvhvs9Qra6I&t=1317" target="_blank" class="timestamp">[21:57]</a> Sin más dilación. Espero que os haya gustado el vídeo. Un besito muy grande y nos vemos en la próxima. Chao. Suscríbete.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 30/11/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
