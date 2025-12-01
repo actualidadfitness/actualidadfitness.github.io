@@ -1,0 +1,404 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Resumen de Videos de YouTube - 01/12/2025</title>
+        <style>
+            :root {
+                --primary-color: #ff0000;
+                --secondary-color: #333;
+                --background-color: #f9f9f9;
+                --card-background: #ffffff;
+                --text-color: #333;
+                --link-color: #0066cc;
+                --border-color: #ddd;
+                --timestamp-color: #666;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+            }
+            
+            .date {
+                font-size: 1.2em;
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+            }
+            
+            .video-list {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .video-list li {
+                margin-left: 1.5em;
+            }
+                        
+            .video-list h2 {
+                margin-bottom: 15px;
+                color: var(--secondary-color);
+            }
+            
+            .video-list ul {
+                list-style-type: none;
+            }
+            
+            .video-list li {
+                margin-bottom: 10px;
+            }
+            
+            .video-list a {
+                color: var(--link-color);
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            .video-list a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
+            }
+            
+            .video-section {
+                background-color: var(--card-background);
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            .video-section h2 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            .video-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            .video-thumbnail {
+                margin-bottom: 20px;
+            }
+            
+            .video-thumbnail img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                transition: transform 0.3s;
+            }
+            
+            .video-thumbnail img:hover {
+                transform: scale(1.02);
+            }
+            
+            /* Markdown content styles */
+            .markdown-content {
+                padding: 15px;
+            }
+            
+            .markdown-content h1, 
+            .markdown-content h2, 
+            .markdown-content h3 {
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                color: var(--secondary-color);
+            }
+            
+            .markdown-content p {
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content ul, 
+            .markdown-content ol {
+                margin-left: 2em;
+                margin-bottom: 1em;
+            }
+            
+            .markdown-content strong {
+                color: var(--secondary-color);
+            }
+            
+            /* Transcription styles */
+            .transcription-paragraph {
+                margin-bottom: 1em;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+            
+            .timestamp {
+                color: var(--timestamp-color);
+                font-family: monospace;
+                margin-right: 10px;
+                text-decoration: none;
+                background-color: #eee;
+                padding: 2px 5px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            
+            .timestamp:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* Collapsible styles */
+            .collapsible-container {
+                margin-bottom: 15px;
+            }
+            
+            .collapsible {
+                background-color: var(--primary-color);
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 16px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            
+            .collapsible:hover {
+                background-color: #cc0000;
+            }
+            
+            .collapsible:after {
+                content: "+";
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "-";
+            }
+            
+            .content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: var(--card-background);
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 4px 4px;
+            }
+            
+            .summary-content, .transcription-content {
+                padding: 15px;
+                white-space: pre-line;
+            }
+            
+            footer {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+                
+                .video-meta {
+                    flex-direction: column;
+                }
+                
+                .video-meta span {
+                    margin-bottom: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Resumen de Videos de YouTube</h1>
+                <div class="date">01/12/2025</div>
+            </header>
+            
+            <div class="video-list">
+                <h2>Lista de Videos</h2>
+                <ol>
+                    <li><strong>John_MH</strong>: <a href='#video-d8NXBC-fxAA'>PEDRO EL SINCERO SE SINCERA</a></li>
+                </ol>
+            </div>
+            
+            
+        <div class="video-section" id="video-d8NXBC-fxAA">
+            <h2>PEDRO EL SINCERO SE SINCERA</h2>
+            <div class="video-meta">
+                <span class="channel">Canal: John_MH</span>
+                <span class="date">Publicado: 01/12/2025 11:22</span>
+                <span class="video-link"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA" target="_blank">Ver en YouTube</a></span>
+            </div>
+            <div class="video-thumbnail">
+                <a href="https://www.youtube.com/watch?v=d8NXBC-fxAA" target="_blank">
+                    <img src="https://i.ytimg.com/vi/d8NXBC-fxAA/hqdefault.jpg" alt="PEDRO EL SINCERO SE SINCERA" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Resumen</button>
+                <div class="content">
+                    <div class="summary-content markdown-content">
+                        <h2>Resumen General</h2>
+
+<p>Este video es una crítica mordaz al mundo del culturismo, centrándose en el cambio físico de Pedro y sus decisiones.
+El narrador cuestiona la sinceridad de los bodybuilders respecto al uso de sustancias y su impacto en la salud.
+Se debate la visión distorsionada de los preparadores físicos y la importancia de adaptar el entrenamiento.
+Finalmente, se enfatiza la simplicidad de la pérdida de peso y una concepción del deporte más saludable.</p>
+
+<h2>Momentos Clave</h2>
+
+<h3>La Impactante Transformación de Pedro <a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&amp;t=1" target="_blank">[00:01]</a></h3>
+
+<p>El narrador reacciona con repulsión a la apariencia facial alterada de Pedro, criticando su aspecto "raro" y la falta de cohesión estética. También se mofa de sus afirmaciones pasadas sobre el uso de química y su incursión en OnlyFans.</p>
+
+<h3>La Sinceridad en el Fitness: Un Mito <a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&amp;t=336" target="_blank">[05:36]</a></h3>
+
+<p>Se cuestiona fuertemente la autenticidad de Pedro, quien se proclama "el más sincero del fitness". El narrador sugiere que su decisión de dejar la química es obligada por problemas de salud y no por conciencia propia.</p>
+
+<h3>Un Adiós a las Sustancias para Pedro <a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&amp;t=613" target="_blank">[10:13]</a></h3>
+
+<p>Pedro anuncia su decisión de dejar el uso recreativo de sustancias anabólicas debido a su edad y el deseo de mejorar su salud. Planea hacer analíticas y regular su testosterona con TRT, documentando su proceso.</p>
+
+<h3>Culturistas como Entrenadores: ¿Una Visión Sesgada? <a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&amp;t=786" target="_blank">[13:06]</a></h3>
+
+<p>El narrador critica la visión alterada de los culturistas sobre los físicos y los entrenamientos, especialmente al asesorar a personas naturales. Destaca la necesidad de entrenadores que entiendan y se adapten a perfiles no culturistas, como en el caso de Ibai.</p>
+
+<h3>La Sencillez de la Transformación: Más Allá de los Mitos <a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&amp;t=1060" target="_blank">[17:40]</a></h3>
+
+<p>Se resalta cómo una persona sedentaria puede perder una cantidad significativa de peso simplemente eliminando ultraprocesados y aumentando la actividad física. El video concluye diferenciando la salud del "mundo de las drogas" asociado al culturismo.</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-container">
+                <button class="collapsible">Ver Transcripción Completa</button>
+                <div class="content">
+                    <div class="transcription-content">
+                        <div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1" target="_blank" class="timestamp">[00:01]</a> Hostia. ¿Qué se ha hecho en la cara, Pedro? Hostia, qué mal rollo, tío. ¿Qué se ha hecho en la cara? Guau, ahora sí que parece un chapero, ¿eh? Pues yo no soy chapero anabólico, ¿no? Porque lo deja. Entonces el chapero a secas. Bueno, pues el chapero a secas. Yo no soy chapero anabólico. Será el chapero serestrogénico, ¿no? Tío, vaya pinta, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=28" target="_blank" class="timestamp">[00:28]</a> Qué rechazo. Estén dos días se ponen peluques y se ponen tetas, ¿eh? Voy a subir más de 400 vídeos que llevo subido a mi canal de YouTube. Hoy os quiero anunciar una cosita, ¿vale? Algunos ya lo sabréis porque me seguiréis por redes sociales. Hostia, vaya cara de pato se le ha quedado. Los labios de arriba ahí, así. Tanto por Instagram como TikTok y demás, y ahí ya lo he contado. Pero quiero hacerlo y hablarlo tranquilamente por aquí mientras entrenamos. Hoy me toca espalda. Vamos a hacer espalda. Primer ejercicio. Un pulver al...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=59" target="_blank" class="timestamp">[00:59]</a> Lo bueno es que se ha plastificado toda la cara como una muñeca, pero la piel aquí la tiene vieja, ¿sabes? Roja, corrugada. Estilo Dorian, que así era como me enseñaba a mí a entrenar y desde que lo estoy haciendo hace unas 3 o 4 semanas me encanta, ¿vale? Vamos a hacer aquí un pullover, luego iremos viendo los ejercicios que siguen y vamos hablando mientras entrenamos. Los que hayáis visto mi entrenamiento que hice con Dorian, me metió este ejercicio y me reventó en él. ¡Oh! Apretando. ¡Oh!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=90" target="_blank" class="timestamp">[01:30]</a> coge la barra y cuando baja le mete una reventada así con toda la rabia. 54 años, o sea que ya han pasado 12 años. 12 años intentando mejorar, intentando construir un físico que uno tenía en mente, aunque la verdad, si os soy sincero,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=118" target="_blank" class="timestamp">[01:58]</a> Nunca pensé que podía llegar a tener el físico. Qué mal rollo que te venga el tío este con esta cara. Imagínate que eres un niño y te viene el tío, niño, bonito. Y esa cara de plástico así con esa cara que tiene. Y dirías, Dios mío, qué tío más raro, ¿no? O sea, es un señor viejo, pero con la cara de bebé, pero con rasgos de viejo, ¿no? Es más raro, tío. Lo que tengo parece que suena algo así, pero cuando uno empieza nunca es capaz de verse...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=146" target="_blank" class="timestamp">[02:26]</a> ¿Hasta dónde puede llegar? Yo no me imaginaba poder llegar a lo que estoy. ¿Me hubiera gustado llegar a más? Claro que sí, a todo el mundo. A todo el mundo le sigue gustando el poder evolucionar y cuando vea a la gente que es muy superior a uno mismo, pues le gustaría parecerse a ellos. Pero yo la verdad que estoy contento. Contento con lo que he conseguido, contento al haber empezado tarde y contento de cómo me encuentro. Y como uno ya va teniendo una edad...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=172" target="_blank" class="timestamp">[02:52]</a> Pues hay que ir replanteándose muchas cosas, ¿vale? Venga, vamos a por esta serie dura. A mi objetivo, a construir ese físico que siempre tenía yo en mente.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=182" target="_blank" class="timestamp">[03:02]</a> He ido aprendiendo, cometiendo muchísimos errores, muchísimos, muchísimos errores, que si yo ahora volviera a empezar de cero, desde el principio, cambiaría muchas cosas, que hice mal. Pero bueno, de los errores aprende. Y la verdad que no me arrepiento de nada, como me dice mucha gente. Bueno, ¿tú te arrepientes de haber utilizado química? No. ¿Por qué? Porque ha sido algo que yo he decidido, algo que yo ya con una edad avanzada he querido hacer.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=206" target="_blank" class="timestamp">[03:26]</a> He asumido las consecuencias. No me ha ido nada mal. A mí me ha cambiado la vida así como suena, ¿vale? Gracias a ello me he podido dedicar a lo que me dedico actualmente, a ganarme la vida como me la gano actualmente. Probaste con OnlyFans. Colocaste tantos vídeos y fotos que luego se filtraron y corrieron por todos lados. Y luego cerraste como... Son OnlyFans. Menuda estafa, tío. Luego se dan cuenta que sacan al mes 100 eurillos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=235" target="_blank" class="timestamp">[03:55]</a> Y lo cierran. Sí, qué asco, sí. Y lo... Hostia, qué asco, tío. Y lo cierran porque ven que es una estafa. Es una estafa, ¿no? Te prometen el oro y el moro, pero te quedas con nada. Y esta es la realidad. Pero claro, el material se ha filtrado, todo el mundo lo tiene. Él dice dos mil a mes. ¿Qué te va a decir? Esta es la trampa. Ya por orgullo, aunque te prostituyes y vendes tu dignidad y tu dignidad sexual...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=262" target="_blank" class="timestamp">[04:22]</a> Pues entonces dice, bueno, es que me saco unos 2.000 euritos, ¿no? Para justificar, porque va a decir que sacaba de 100 eurillos. 200 como mucho. Exactamente, para cuatro abuelos homos anglosajones. Quiere decir, oh my God, Pedro. Pedro, you are so horny. Imagínate. Gracias, hombre, por la donación. En una pajilla. 200 eur, ¿eh? Imagínate haciendo directos ahí, porque se ve que puede hacer directos en Lonnie. El tía ahí...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=292" target="_blank" class="timestamp">[04:52]</a> Este tiene escrúpulos, ¿sabes? Por dinero. Hasta que dijo, joder, está con la mierda. Lo dejó, supongo. Por ese aspecto tengo que estar contento. Ahora, uno ya es consciente de que uno tiene una edad y de que hay que ir cambiando cosas. Bueno, vamos a meter kilos aquí.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=309" target="_blank" class="timestamp">[05:09]</a> es lo que más le desgasta la competición. Gracias a Dios, a día de hoy, yo me encuentro bien de salud. En las últimas analíticas, en la última ecografía que le hice al corazón, que eso es algo que yo miro todos los años. Y el utilizar química trae muchos riesgos, muchos riesgos de salud, que muchas veces, aunque nos veamos bien, pues quién sabe a largo plazo lo que nos puede suceder, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=336" target="_blank" class="timestamp">[05:36]</a> Última serie, pesada, al fallo y con ganas. Aunque seamos viejos, hay que seguir dándole caña. Este es el más sincero del fitness que dicen, ¿no? Este no dice la verdad ni a cura. Ni a médico menos. Es que esta gente, tío. Estos embusteros. Y me hace gracia que la gente... Es que el Pedro es muy sincero. Me dice la verdad. ¿Tú qué sabes, tío?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=362" target="_blank" class="timestamp">[06:02]</a> ¿Qué te vas a creer de un chapero que se ha recachuto la cara y ha quedado una cosa rara aquí, tío? Es un señor mayor abuelo con cara aquí de filtro de Instagram, tío. Ay, qué simpático es, tío. Qué simpático es. Y este por dinero, vamos, este es un listo. ¿Por qué os pensáis que dice he dejado la química porque tengo una edad, hay que utilizar la cabeza, no hay que arriesgar...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=388" target="_blank" class="timestamp">[06:28]</a> Porque te ha hecho el médico que dejes la química ya. Lo dejaste hace dos años ya, ¿os acordáis? Hizo un vídeo que dejaste la química, ¿os acordáis? Duró dos semanas sin química el tío. Y el médico le habrá dicho, pues quieres dejar ya de meterte mandanga, desgraciado. Que tienes el perfil lipídico de la sangre por la nube siempre. Y yo que sé, que más síntomas le habrán detectado. Y tienes esto y lo otro. Tío, que te vas a quedar... Que me vas a llegar a viejo, desgraciado. Y le habrán dicho, prueba una TRT a ver si...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=417" target="_blank" class="timestamp">[06:57]</a> te regulas. Porque cuando tienes problemas de salud, a veces te quitan la testosterona toda. Y TRT, te quedas a cero. Eso es bestia, ¿eh? Cuando te jode la salud, a veces, no soy médico, ya lo sé, pero yo he escuchado varias veces, te quitan todo. Y dice, TRT, no, no, TRT no, nada, cero. Imagínate. Y está aquí el tío soltándole su discursito de hombre con cabeza. Si tú eres un adicto a la química total.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=446" target="_blank" class="timestamp">[07:26]</a> Y al dinero, a dos cosas. Pero si queremos estar bien, el procedimiento es el mismo. Hay que seguir dándole caña a esto. Pedro, qué sincero eres, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=460" target="_blank" class="timestamp">[07:40]</a> Qué gracioso eres. Qué auténtico eres, Pedro. Vámonos a por otro ejercicio. Vámonos, vámonos a por el tercer ejercicio, ¿vale? Ya llevamos dos. Fíjate, se está quedando voz de abuelo. ¿Viste que hace así con los dientes? Así con usted dentro de la postilla. No sé por qué. Vámonos. Vamos a hacer otro ejercicio, ¿eh? Estoy en mayoría. Vamos a hacer ahora aquí un remo. Este remo también en una máquina Nautilus. Me encanta. Un remo así inclinado. Vamos a hacer tres series.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=487" target="_blank" class="timestamp">[08:07]</a> Venga, abuelo, que te has puesto esa cara de muñeca, de muñeco de plástico y te has quedado más raro, ¿eh? Ya no hay series de aproximación ni de leches. Entre ocho o diez repeticiones, ir tirando todo lo que podamos. Todos los que tengáis que hacer pedidos en procis. No, la recuperación. Bueno, sí, te recuperarás antes. Pero... Se da cada cara ya rígida, ¿eh? ¡Pedro!</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=513" target="_blank" class="timestamp">[08:33]</a> Este rico chuta que te has metido en la cara, te has dejado la cara como un muñeco, ¿eh? Te cuesta reír, ¿eh, Pedro? Mira, la fuerza. ¿Y tú el texto baja que haces? No, que no tienes texto. Estos cultistas que se han reventado y le quitan la TRT temporalmente. Te gana cero.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=528" target="_blank" class="timestamp">[08:48]</a> Muchas veces es algo que lo tenemos aquí en la cabeza. Que tú simplemente por utilizar algo de química ya te piensas que eres más fuerte y ya eres capaz de entrenar más fuerte. Es un efecto placebo que mucha gente tiene. Y cuando lo dejan, dice yo ya he dejado la química, la he dejado la semana pasada, ya noto menos fuerza. ¿Qué coño vas a notar menos fuerza? ¿Sabes? Aquí está todo. Pero si es verdad, utilizar sustancias te da más fuerza. Vamos a por la última.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=554" target="_blank" class="timestamp">[09:14]</a> Es el campechano, ¿eh? Es campechano, es el Pedro, ¿eh? Las orillas de química, ¿os acordáis del tío que entrevisté? Que le metió una renta buena. No veas cómo rajaba el tío de él, ¿eh? Uf. Como he hecho tres, ¿no? Para trabajar las palas, ¿vale? Pero hoy vamos a darle caña al remo con barra. No me gusta nada tirar de impulso y no aprovechar para clavar arriba, tío. El remo para esto es maravilloso, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=584" target="_blank" class="timestamp">[09:44]</a> Ahora os cuento. Porque… Toma aire cada palabra. Claro, te está entrenando normal, tío. Ya llegó el momento. Es una mierda. Mejor decir espalda, tío. Me pido una reventada ahí que me queda la espalda anestesiada. De decir lo que vamos a hacer, ¿vale? Me quito el cinturón. Ya son muchos años utilizando sustancias. Ya son muchos años jugando con todo esto. Y ya uno tiene una edad…</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=613" target="_blank" class="timestamp">[10:13]</a> Y yo creo que ya ha llegado el momento de dejar de utilizar sustancias para uso recreativo, para uso de mejorar estéticamente, de ganar masa muscular, de competición y demás. Ya ahora que me encuentro bien, que no tengo ningún problema, gracias a Dios, pues dándole vueltas a la cabeza, está acabando el año, el año que viene va a ser 54, perdonad si no puedo hablar bien, pero después de los ejercicios cuesta recuperar el aire. Y ya pensando, ya es hora de bajar el ritmo, ¿vale?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=643" target="_blank" class="timestamp">[10:43]</a> ...y voy a hacer analítica... ...lo voy a ir subiendo todo para que la gente lo vea... ...porque luego si no te critican por todos lados y te dicen... ...que es mentira todo lo que estás haciendo... ...voy a hacer analítica para que veáis cómo estoy... ...y ir bajando a un nivel... ...de TRT de una persona normal y corriente... ...que esté la testosterona en rango... ...y para eso... ...vos haré las analíticas pertinentes... ...para que todos lo veáis... ...voy a ir contando todo... ...cómo me siento... ...a ver cómo voy bajando... ...de masa muscular...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=672" target="_blank" class="timestamp">[11:12]</a> Habrá que ir comiendo bien, entrenando bien, haciendo todas las cosas lo mejor posible para perder lo mínimo. Aunque perder se va a perder, ¿vale? A ver cómo afecta a nivel psicológico también, que eso es muy importante. Y ya lo iréis viendo y lo iré contando todo por aquí, ¿vale? Bueno, vamos a por el último ejercicio, hacer bíceps. Y con cinco ejercicios hemos acabado el entreno de hoy. Y otra cosa, los entrenos también los tendré que mirar a ver de qué manera porque la recupero. Para la edad que tiene de cuerpo muy bien.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=702" target="_blank" class="timestamp">[11:42]</a> Pero este no va a ser lo mismo. Los hago para poder entrenar y recuperar bien. Los ansias de sangre ya no se recuperan. Pero ¿cómo va a estar bien el tío este si tiene unos hombros así de grandes? ¿Tú qué con 54 tacos tienes que tener los hombros que pasan dos pelotas enormes? Tú tienes la visión deformada de lo que es un físico sano y que está fuerte, ¿eh? Madre mía, tío. Estás como una chota, tío. Mira, vamos a ver a Moisevena 20. ¿Cómo va a estar bien el tío ese? Es que es una tontería, es verdad, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=732" target="_blank" class="timestamp">[12:12]</a> Este tiene 39 años o 40 años tiene este. Esto, esto es un cuerpo que está bien y más pasada. Fíjate, pues esto, el glúteo, las piernas que tiene, los muros que tiene este tío. Este tío es una bestia y encima es un atleta multidisciplinar, hace de todo, fíjate. Y sale el pedo de rese. Está muy bien para su edad. Un muñeco así, con hombros así, que le parecen dos bolas gigantes del abuso de los andrógenos que tiene. Fíjate.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=760" target="_blank" class="timestamp">[12:40]</a> ¿Qué tal la gente no sé qué que deja la química? Porque de estar ya por dentro al límite, un tío que es adicto a la química dice, está muy bien. ¿Qué dices? Es que de verdad, esto está bien. Y el tío, el tío está hecho una bestia. ¿Qué pasa? No te lo muestra, no hace poses. Pero aquí se ve un pedazo de trices que flipas. Mira el brazo que tiene el pavo este, mira los cuádices. Ojo el tío este, pero claro, es que no es culturista.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=786" target="_blank" class="timestamp">[13:06]</a> Claro, no se chuza. Los que os chuzáis tenéis la visión alterada de lo que es un físico musculado y estoy acostumbrado a ver tío así. Estoy entrando de choca así. Claro, ¿qué pasa con los culturistas que hacen asesorías? Exceptuando cracks como forte que tienen toda la vida y tienen una visión muy amplia, son muy inteligentes, etc. Y tienen una visión realmente amplia, en general...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=814" target="_blank" class="timestamp">[13:34]</a> Los culturistas que hacen asesorías, que entrenan gente, muchos me dicen, no, es que no me gusta hacer chuzado, me gusta hacer gente natural. Y yo pienso por dentro, sin decirle. Pero no podéis, porque sois culturistas y tenéis la mente de culturista. Y no entendéis que un tío de 40 tacos tiene 40 tacos, que tiene hijos, que tiene trabajo. Y le pasáis pautas de entreno de culturista. Entonces, mucha gente...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=841" target="_blank" class="timestamp">[14:01]</a> pues tiene que contratar gente así, gente que no sea culturista, porque tienen... Bueno, o el forte, porque tiene 60 años, tiene una visión amplia y va 20 años adelgazando besos. Y bueno, suerte que el forte es así, que tiene esta visión pragmática y adaptativa a las circunstancias, porque si no, claro, yo ya lo hubiera dejado, porque yo no entreno como culturista. ¿Me explico? Yo tengo más perfil.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=870" target="_blank" class="timestamp">[14:30]</a> sedentario random que de culturista, ¿no lo entendéis? Pero hablo con gente y me dice, tío, es que mi entrenador se enfada, ya, porque es culturista. No entiende que tú no eres culturista. A ti, le decía uno, tú, tú tienes que mandarte, lo que yo mando cuando gente me pregunta para que le haga el entreno, digo, tres días, te revienta, o sea, haces el entreno mínimo, te revienta, eso sí, las seis que haces, la tienes que hacer a muerte, con técnica, pero a muerte,</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=899" target="_blank" class="timestamp">[14:59]</a> Y te piras, tío. Y haces tres días. Y vas ahí con ganas de más. Porque como te pauten cinco días de entreno, machacándote con un montón de series, es que te vas a quemar. Porque no tienes tiempo. Además, no tienes perfil tampoco de eso. Y para contratar según qué culturistas, que hay muchos, mejor contrata a Moy, contrata...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=925" target="_blank" class="timestamp">[15:25]</a> al entrenador del Ibai. Ah, no me acuerdo cómo se llama el chico este de Barcelona. El Álvaro Bernal Alejandre. Bueno, fuerte. Fuerte es especialista también, aparte de culturistas de competir, de obesos. A mí la dieta de Fuerte me flipa. Fíjate tú, lo que más me mola, al entrenador me encanta, pero a mí la dieta, tío. La dieta es clave. He perdido 10 kilos en un mes. Flipa, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=949" target="_blank" class="timestamp">[15:49]</a> Alucina, ¿eh? Sin tomar nada, ¿eh? Cuidado, ¿eh? Sin tomar nada, ¿eh? El Valen Corominas, cojones, este. Chico este. Que está tirando huevazos, ¿eh? Está hasta con el Ibai. Ahí está. Esta gente tiene una paciencia. Se adaptan. No tienen entidad de culturista.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=968" target="_blank" class="timestamp">[16:08]</a> Y entienden un tío como Ibai. Y ha sido años, ¿eh? Para conseguir que Ibai cogiera adherencia. Pero esos son los buenos entrenadores. El Ibai ha tomado el cabrón. Ja, ja, ja, ja. El Ocenpik es una trampa que no ayuda a nada y no ayuda a tener adherencia a la dieta, ¿eh? Os engañáis, ¿eh? Os engañáis. La gente que se piensa que el Ocenpik te quita la obesidad, te la quita con tiempo y luego caes el doble gordo, ¿eh? No montéis películas.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=998" target="_blank" class="timestamp">[16:38]</a> Bueno, quita masa muscular. Dejas de comer. Claro que quita masa muscular. No es que te quite el músculo. Es que dejas de comer. Es que la gente proyecta. Le quiere quitar méritos a un tío que ha tenido unos huevos tremendos. Porque lo repitió mil veces. Es un tío que estaba muy desmoralizado, pero mucho. Y lo consiguió. Hay gente que se ríe. Porque yo, Pau, te entreno. Si es que es muy sencillo. Es un apoyo emocional-psicológico. Una constancia. La técnica, que para eso te lo puedo decir bien...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1027" target="_blank" class="timestamp">[17:07]</a> Y ayudarte a centros cortos. Punto. Yo no hago gente de nivel alto. O sea, efectivamente hago randoms que no tengo juegos de entrenar. Ya está. Tan sencillo eso. Y lo agradecen. No soy pretencioso, ¿eh? Sé lo que soy, ¿eh? Tranquilos. No voy a sustituir ningún profesional del entreno. Por supuesto. Por eso tampoco me publicito, ¿eh? Lo habéis visto que no me publicito. Está ahí quien quiera y yo lo llevo. A mi manera. Punto. Pero ya sé que soy lo que soy, ¿eh?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1053" target="_blank" class="timestamp">[17:33]</a> Y voy a bajar mucho peso en poco tiempo. Hay medicación de por medio. Pregúntale al cerezo y verás. No. Vamos a ver. Un tío que es sedentario total. Que come como un cerdo a toneladas. Solo que se quite los ultraprocesados. Los carbohidratos a toneladas. Y los dulces. Y se empieza a mover. Se quita 20 kilos de nada. ¿Lo entendéis? Los kilos vuelan.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1080" target="_blank" class="timestamp">[18:00]</a> Solo que vaya a caminar cada día. Dos horas. Andar. Andar. Pam, pam, pam, pam, pam, pam, pam. Y comer limpio, tío. Comer limpio. Comer carne, verduras, ensaladas, calabací y no sé qué. Y ya está, tío. Claro, es que para llegar a ser así gordo como está Ibai. Tío, y llegó a estar así. Hay una foto con su abuela que ya está sentado. Y es espantoso, tío. Los pesos son de 93 kilos. Y la dieta la estoy haciendo como el culo. Eso tengo que decir aforte.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1107" target="_blank" class="timestamp">[18:27]</a> La dieta, o sea, como limpio, pero el carbohidrato no lo estoy pesando, bueno, no como burras, pero no hago la dieta de fuerte. Y aún así, muy lento voy bajando. Pero fuerte es que el cabrón... Es decir, mira, te hace la revisión cada dos semanas. Te pauta la dieta y la entreno. A las dos semanas, el tío te dice el carbohidrato no lo estás haciendo como la dieta, ¿no? Yo no. ¿Vale? Porque ya tienes que haber bajado a tantos kilos.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1136" target="_blank" class="timestamp">[18:56]</a> Tío, qué cabrón. ¿Pero he perdido kilos? No, no, pero es que no... Pero se nota que no... Tú, tu peso hoy tenía que ser de tanto. Y hostia... Por lo que digo, que el tío tiene el ojo entrenado que flipas, ¿eh? Me sorprende, me sorprende mucho eso. Y por suerte, tío, no tiene el dogmatismo de otros culturistas preparadores que dicen hostia, tío. Que no entienden que el... Hay los que pasan de todo, que está así todo automatizado...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1161" target="_blank" class="timestamp">[19:21]</a> Y luego están los otros que son dogmáticos, ¿no? Y unos entrenos. Pues lo que decía, esto es un físico que dice, joder, destacable. Y encima el tío tiene... Pero fíjate los pedazos cuádrices del tío este, ¿eh? Lo que pasa es que él no hace posturas, no te hace poses de culturista, no te lo enseña. Menuda bestia, tío. Y te hace de todo encima, en el entreno, ¿eh? Peso muerto. Press banca. Creo que hacía...</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1188" target="_blank" class="timestamp">[19:48]</a> 120 kilos, 10 expediciones, compras banca. Mira qué pedazo de tristes tiene el pavo, tío. Con 40 tacos, ¿eh? Buenos gemelos. Mira qué brazaco tiene, ¿eh? Un tío que las pesas es un entrenador secundario suyo. Que te coja la bici y se mete unos tutes de bicicleta. Y Cioma, vaya técnica estricta que tiene, ¿eh? Un tío que no es del mundo del culturismo. Vaya brazaco, tío.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1217" target="_blank" class="timestamp">[20:17]</a> Hostia, vaya pedazo. Tiene genética de trizo. Tiene largo, ¿eh? Este tío le da las pesas. Hostia, no me digas. Yo pensaba que era cocinero, ¿sabes? Pues claro que no es lo físico, tío. Es que también... Tiene las obviedades, tío. Pero que no es un tema principal. Que este tío corre, le da la bicicleta a carretera, hace una burrada... Hace de todo. Tiene un fondo que flipas el tío este. ¿No entiendes? No, no entiende, ¿no? Es igual.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1247" target="_blank" class="timestamp">[20:47]</a> No, es que me da rabia, ¿no? Porque es que el culturismo es muy endogámico a nivel de ideas y tal. Y lo que dices tú, cuando ves una chuzada tú, sale el PDRS. Tiene un buen físico por 54 años. ¿Qué buen físico? ¿Qué dices? Está reventado el pavo ese. ¿Tú te dices? ¿Buen físico es esto? Va, frontales, tío. Son duras frontales.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1268" target="_blank" class="timestamp">[21:08]</a> Claro, le pregunté para hacer una entrevista y lo explicó muy bien, ¿eh? Muy amable, es un tío que siempre te dedica a tiempo. Dice, a ver, ¿cómo fue? Más o menos algo así como decir, es que el mundo del culturismo es que es... Lo puedo imaginar, ¿eh? Seguro que los que viven el culturismo le dirán, bueno, a mí no le están hablando de química, seguro. Y el tío debe flipar. ¿Pero tú tomas algo? ¿Tomas no sé qué? ¿Haces TRT? Y claro, de un tío que no es del culturismo, ni el fitness que está en su mundo, te debe flipar, ¿eh? Cuando le pregunta TRT, ¿pero cómo tiene TRT?</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1297" target="_blank" class="timestamp">[21:37]</a> Otros se llaman, tú tienes cuerpo chuzado, estás grande, cuánto pesas, no sé qué, cuánto haces de PR, no sé cuál. Tú te chuzas, tú te tomas algo. Y el tío, digo yo, no sé, estoy especulando, debe notar una diferencia de su mundo al mundo de la gente de las pesas y lo entiendo, lo entiendo. Claro, su concepción del deporte es pura salud, tío. Y el mundo del culturalismo, la concepción del deporte, lo que es el deporte culturalismo es para drogarse, ya está.</div>
+<div class="transcription-paragraph"><a href="https://www.youtube.com/watch?v=d8NXBC-fxAA&t=1327" target="_blank" class="timestamp">[22:07]</a> Bueno, él ya ha tomado la decisión. Cuando las hormonas bajen lo que es su límite de resistencia en el entreno y note que el tío se hunde al desgaste físico, ya ha tomado la decisión. Ya verá qué quiere hacer o no. En fin, gente, estoy cansado. Me voy a la cama, ¿vale? Nos vemos mañana. Mañana con Carlos, se supone. Hasta mañana. Adiós.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <footer>
+                <p>Generado automáticamente el 01/12/2025</p>
+            </footer>
+        </div>
+        
+        <script>
+            // JavaScript for collapsible sections
+            document.addEventListener('DOMContentLoaded', function() {
+                var coll = document.getElementsByClassName("collapsible");
+                
+                for (var i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
